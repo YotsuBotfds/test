@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'; img-src 'self' data:;">
+  <title>Achievements - Zero to Hero Survival Compendium</title>
+  <link rel="manifest" href="../manifest.json">
+  <link rel="icon" href="../favicon.ico">
+  <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+  <link rel="stylesheet" href="../css/main.css">
+  <style>
+    .achievements-page-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    .achievements-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .achievements-header h1 {
+      color: var(--accent);
+      font-size: 2.4rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .achievements-header p {
+      color: var(--muted);
+      font-size: 1.1rem;
+      margin-bottom: 0;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--accent);
+      text-decoration: none;
+      margin-bottom: 1.5rem;
+      padding: 0.5rem 1rem;
+      border: 1px solid var(--accent);
+      border-radius: 6px;
+      transition: all 0.2s;
+    }
+
+    .back-link:hover {
+      background: rgba(212, 165, 116, 0.1);
+    }
+
+    /* Statistics Section */
+    .achievements-stats {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 2rem;
+      margin-bottom: 3rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
+    }
+
+    .stat-card {
+      text-align: center;
+      padding: 1.5rem;
+      background: var(--card);
+      border-radius: 8px;
+      border: 1px solid var(--border);
+    }
+
+    .stat-icon {
+      font-size: 2.5rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .stat-value {
+      color: var(--accent);
+      font-size: 2.2rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-label {
+      color: var(--muted);
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* Progress Overview */
+    .progress-overview {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 2rem;
+      margin-bottom: 3rem;
+    }
+
+    .progress-overview h2 {
+      color: var(--accent);
+      font-size: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .overview-item {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      padding: 1rem;
+      background: var(--card);
+      border-radius: 8px;
+      margin-bottom: 1rem;
+    }
+
+    .overview-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .overview-icon {
+      font-size: 2rem;
+      flex-shrink: 0;
+    }
+
+    .overview-info {
+      flex: 1;
+    }
+
+    .overview-title {
+      color: var(--text);
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+    }
+
+    .overview-progress-bar {
+      background: var(--border);
+      height: 12px;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .overview-progress-fill {
+      background: linear-gradient(90deg, var(--accent2), var(--accent));
+      height: 100%;
+      transition: width 0.3s ease;
+      border-radius: 6px;
+    }
+
+    /* Achievements Grid */
+    .achievements-categories {
+      margin-bottom: 3rem;
+    }
+
+    .category-section {
+      margin-bottom: 2.5rem;
+    }
+
+    .category-title {
+      color: var(--accent);
+      font-size: 1.3rem;
+      margin-bottom: 1rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 2px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .category-icon {
+      font-size: 1.5rem;
+    }
+
+    .achievements-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .achievement-card {
+      background: var(--surface);
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      text-align: center;
+      transition: all 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .achievement-card:hover {
+      border-color: var(--accent);
+      box-shadow: 0 4px 12px rgba(212, 165, 116, 0.15);
+      transform: translateY(-2px);
+    }
+
+    .achievement-card.unlocked {
+      background: rgba(83, 216, 168, 0.05);
+      border-color: var(--accent2);
+    }
+
+    .achievement-card.locked {
+      opacity: 0.6;
+    }
+
+    .achievement-icon {
+      font-size: 3rem;
+      margin-bottom: 0.75rem;
+      display: block;
+      transition: transform 0.2s;
+    }
+
+    .achievement-card.unlocked .achievement-icon {
+      animation: bounce 0.6s ease;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .achievement-name {
+      color: var(--text);
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .achievement-card.unlocked .achievement-name {
+      color: var(--accent2);
+    }
+
+    .achievement-desc {
+      color: var(--muted);
+      font-size: 0.85rem;
+      line-height: 1.4;
+      margin-bottom: 0.75rem;
+    }
+
+    .achievement-meta {
+      font-size: 0.8rem;
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .achievement-progress {
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .progress-bar {
+      background: var(--border);
+      height: 8px;
+      border-radius: 4px;
+      overflow: hidden;
+      margin-bottom: 0.5rem;
+    }
+
+    .progress-fill {
+      background: linear-gradient(90deg, var(--accent2), var(--accent));
+      height: 100%;
+      transition: width 0.3s ease;
+    }
+
+    .progress-text {
+      color: var(--muted);
+      font-size: 0.75rem;
+      text-align: center;
+    }
+
+    .unlock-time {
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-top: 0.5rem;
+    }
+
+    /* Share Button */
+    .share-section {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 2rem;
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .share-section h2 {
+      color: var(--accent);
+      margin-bottom: 1rem;
+    }
+
+    .share-buttons {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .share-btn {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      cursor: pointer;
+      padding: 0.75rem 1.5rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .share-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: rgba(212, 165, 116, 0.05);
+    }
+
+    .copy-toast {
+      position: fixed;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--accent2);
+      color: white;
+      padding: 1rem 1.5rem;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      z-index: 1000;
+      animation: slideUp 0.3s ease;
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateX(-50%) translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+      }
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .achievements-page-container {
+        padding: 1rem;
+      }
+
+      .achievements-header h1 {
+        font-size: 1.8rem;
+      }
+
+      .achievements-stats {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+
+      .achievements-grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 1rem;
+      }
+
+      .achievement-card {
+        padding: 1rem;
+      }
+
+      .achievement-icon {
+        font-size: 2.5rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .achievement-name {
+        font-size: 0.95rem;
+      }
+
+      .share-buttons {
+        flex-direction: column;
+      }
+
+      .share-btn {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <div class="top-bar" role="banner">
+    <div class="top-bar-left">
+      <a href="../index.html" class="back-link">← Back to Guides</a>
+    </div>
+    <div class="top-bar-right">
+      <button id="theme-toggle" aria-label="Toggle dark/light theme">☀️</button>
+    </div>
+  </div>
+
+  <main id="main-content" role="main" class="achievements-page-container">
+    <div class="achievements-header">
+      <h1>🏆 Your Achievements</h1>
+      <p>Track your learning progress and unlock badges as you explore the compendium</p>
+    </div>
+
+    <!-- Statistics Section -->
+    <div class="achievements-stats">
+      <div class="stat-card">
+        <div class="stat-icon">📚</div>
+        <div class="stat-value" id="stat-guides-read">0</div>
+        <div class="stat-label">Guides Read</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon">🗺️</div>
+        <div class="stat-value" id="stat-categories">0</div>
+        <div class="stat-label">Categories Explored</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon">🔥</div>
+        <div class="stat-value" id="stat-streak">0</div>
+        <div class="stat-label">Current Streak (Days)</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon">🏆</div>
+        <div class="stat-value" id="stat-achievements">0</div>
+        <div class="stat-label">Achievements Unlocked</div>
+      </div>
+    </div>
+
+    <!-- Progress Overview -->
+    <div class="progress-overview">
+      <h2>📊 Reading Progress</h2>
+      <div class="overview-item">
+        <div class="overview-icon">📖</div>
+        <div class="overview-info">
+          <div class="overview-title">Guides Read</div>
+          <div class="overview-progress-bar">
+            <div class="overview-progress-fill" id="guides-progress-fill" style="width: 0%"></div>
+          </div>
+          <div style="color: var(--muted); font-size: 0.8rem; margin-top: 0.25rem;">
+            <span id="guides-progress-text">0 / 0</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="overview-item">
+        <div class="overview-icon">📝</div>
+        <div class="overview-info">
+          <div class="overview-title">Notes Written</div>
+          <div class="overview-progress-bar">
+            <div class="overview-progress-fill" id="notes-progress-fill" style="width: 0%"></div>
+          </div>
+          <div style="color: var(--muted); font-size: 0.8rem; margin-top: 0.25rem;">
+            <span id="notes-progress-text">0 guides</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Share Section -->
+    <div class="share-section">
+      <h2>📤 Share Your Progress</h2>
+      <div class="share-buttons">
+        <button class="share-btn" onclick="shareToClipboard()">
+          <span>📋</span> Copy to Clipboard
+        </button>
+      </div>
+    </div>
+
+    <!-- Achievements Grid -->
+    <div class="achievements-categories" id="achievements-container"></div>
+  </main>
+
+  <footer role="contentinfo" class="footer">
+    Minnesota Offline Survival Compendium v3.0 — Stone Age to Information Age<br>
+    185 guides • 520+ SVG diagrams • Fully offline • Zero dependencies<br>
+    <small>All diagrams rendered as inline SVG. Open <code>index.html</code> in any browser. No internet required.</small>
+  </footer>
+
+  <button id="back-to-top" aria-label="Back to top" title="Scroll to top">↑</button>
+
+  <script type="module">
+    import * as achievements from '../js/achievements.js';
+    import * as storage from '../js/storage.js';
+
+    // Initialize page
+    function initAchievementsPage() {
+      const progress = storage.getProgress();
+      const unlocked = storage.getAchievements();
+      const cards = document.querySelectorAll('[data-guide]');
+
+      // Count stats
+      const guidesRead = Object.values(progress).filter(p => p.completed).length;
+      const totalGuides = Object.keys(progress).length;
+      const notesCount = Object.values(progress).filter(p => !!storage.getNotes(p.guideId)).length;
+
+      // Categories
+      const categories = new Set();
+      cards.forEach(card => {
+        const tags = (card.getAttribute('data-tags') || '').split(' ');
+        const guideId = card.getAttribute('data-guide');
+        if (progress[guideId]?.completed) {
+          tags.forEach(tag => {
+            if (tag) categories.add(tag);
+          });
+        }
+      });
+
+      // Update stats
+      document.getElementById('stat-guides-read').textContent = guidesRead;
+      document.getElementById('stat-categories').textContent = categories.size;
+      document.getElementById('stat-streak').textContent = achievements.getCurrentStreak();
+      document.getElementById('stat-achievements').textContent = Object.keys(unlocked).length;
+
+      // Update progress bars
+      const guidesPercent = totalGuides > 0 ? (guidesRead / totalGuides) * 100 : 0;
+      document.getElementById('guides-progress-fill').style.width = guidesPercent + '%';
+      document.getElementById('guides-progress-text').textContent = \`\${guidesRead} / \${totalGuides}\`;
+      document.getElementById('notes-progress-text').textContent = \`\${notesCount} guides\`;
+
+      // Render achievements
+      renderAchievements(unlocked);
+
+      // Theme toggle
+      document.getElementById('theme-toggle').addEventListener('click', toggleTheme);
+
+      // Back to top
+      const backBtn = document.getElementById('back-to-top');
+      window.addEventListener('scroll', () => {
+        backBtn.style.display = window.scrollY > 300 ? 'block' : 'none';
+      });
+      backBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+    }
+
+    function renderAchievements(unlocked) {
+      const achDefs = achievements.getAchievementDefs();
+      const container = document.getElementById('achievements-container');
+      container.innerHTML = '';
+
+      // Group by category
+      const categories = {
+        'milestone': { title: 'Reading Milestones', icon: '📚' },
+        'category': { title: 'Category Masters', icon: '🎓' },
+        'special': { title: 'Special Achievements', icon: '⭐' },
+        'content': { title: 'Content Creator', icon: '📝' }
+      };
+
+      Object.entries(categories).forEach(([catKey, catInfo]) => {
+        const achsInCat = Object.entries(achDefs).filter(([id, def]) => def.category === catKey);
+        if (achsInCat.length === 0) return;
+
+        const section = document.createElement('div');
+        section.className = 'category-section';
+
+        const title = document.createElement('div');
+        title.className = 'category-title';
+        title.innerHTML = \`<span class="category-icon">\${catInfo.icon}</span><span>\${catInfo.title}</span>\`;
+        section.appendChild(title);
+
+        const grid = document.createElement('div');
+        grid.className = 'achievements-grid';
+
+        achsInCat.forEach(([id, def]) => {
+          const card = document.createElement('div');
+          card.className = 'achievement-card';
+          if (unlocked[id]) {
+            card.classList.add('unlocked');
+          } else {
+            card.classList.add('locked');
+          }
+
+          const progress = getAchievementProgress(id);
+          let progressHTML = '';
+          if (progress && progress.current < progress.target) {
+            const percent = (progress.current / progress.target) * 100;
+            progressHTML = \`
+              <div class="achievement-progress">
+                <div class="progress-bar">
+                  <div class="progress-fill" style="width: \${percent}%"></div>
+                </div>
+                <div class="progress-text">\${progress.current}/\${progress.target}</div>
+              </div>
+            \`;
+          }
+
+          let unlockedHTML = '';
+          if (unlocked[id]) {
+            const date = new Date(unlocked[id].unlockedAt);
+            unlockedHTML = \`<div class="unlock-time">Unlocked \${date.toLocaleDateString()}</div>\`;
+          }
+
+          card.innerHTML = \`
+            <span class="achievement-icon">\${def.icon}</span>
+            <div class="achievement-name">\${def.name}</div>
+            <div class="achievement-desc">\${def.desc}</div>
+            \${progressHTML}
+            \${unlockedHTML}
+          \`;
+          grid.appendChild(card);
+        });
+
+        section.appendChild(grid);
+        container.appendChild(section);
+      });
+    }
+
+    function getAchievementProgress(achievementId) {
+      const progress = storage.getProgress();
+      let current = 0;
+      let target = 0;
+
+      const completedCount = Object.values(progress).filter(p => p.completed).length;
+
+      switch (achievementId) {
+        case 'student':
+          return { current: completedCount, target: 10 };
+        case 'student-25':
+          return { current: completedCount, target: 25 };
+        case 'student-75':
+          return { current: completedCount, target: 75 };
+        case 'student-150':
+          return { current: completedCount, target: 150 };
+        case 'scholar':
+          return { current: completedCount, target: 50 };
+        case 'master':
+          return { current: completedCount, target: 100 };
+        default:
+          return null;
+      }
+    }
+
+    function toggleTheme() {
+      const current = storage.getTheme();
+      const newTheme = current === 'dark' ? 'light' : 'dark';
+      storage.setTheme(newTheme);
+      document.documentElement.setAttribute('data-theme', newTheme);
+      document.getElementById('theme-toggle').textContent = newTheme === 'dark' ? '☀️' : '🌙';
+    }
+
+    window.shareToClipboard = function() {
+      const progress = storage.getProgress();
+      const unlocked = storage.getAchievements();
+      const guidesRead = Object.values(progress).filter(p => p.completed).length;
+      const totalGuides = Object.keys(progress).length;
+      const streak = achievements.getCurrentStreak();
+
+      const text = \`I've unlocked \${Object.keys(unlocked).length} achievements in the Zero to Hero Survival Compendium! 🏆
+📚 Read: \${guidesRead}/\${totalGuides} guides
+🔥 Current Streak: \${streak} days
+Check out the compendium: https://example.com\`;
+
+      navigator.clipboard.writeText(text).then(() => {
+        showCopyToast();
+      }).catch(() => {
+        alert('Failed to copy to clipboard');
+      });
+    };
+
+    function showCopyToast() {
+      const toast = document.createElement('div');
+      toast.className = 'copy-toast';
+      toast.textContent = '✓ Copied to clipboard!';
+      document.body.appendChild(toast);
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        setTimeout(() => toast.remove(), 300);
+      }, 3000);
+    }
+
+    // Initialize
+    initAchievementsPage();
+  </script>
+</body>
+</html>

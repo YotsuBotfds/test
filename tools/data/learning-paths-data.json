@@ -1,0 +1,336 @@
+[
+  {
+    "title": "Solo Wilderness",
+    "description": "For a single person surviving independently in wilderness",
+    "nodes": [
+      {
+        "skill": "",
+        "days": "",
+        "link": ""
+      },
+      {
+        "skill": "",
+        "days": "",
+        "link": ""
+      },
+      {
+        "skill": "",
+        "days": "",
+        "link": ""
+      },
+      {
+        "skill": "",
+        "days": "",
+        "link": ""
+      },
+      {
+        "skill": "",
+        "days": "",
+        "link": ""
+      },
+      {
+        "skill": "",
+        "days": "",
+        "link": ""
+      },
+      {
+        "skill": "",
+        "days": "",
+        "link": ""
+      },
+      {
+        "skill": "",
+        "days": "",
+        "link": ""
+      },
+      {
+        "skill": "",
+        "days": "",
+        "link": ""
+      }
+    ],
+    "duration": "29 Days",
+    "skills_count": "9 Skills",
+    "difficulty": ""
+  },
+  {
+    "title": "Coastal Survival",
+    "description": "For survival near ocean with access to marine resources",
+    "nodes": [
+      {
+        "skill": "",
+        "days": "",
+        "link": ""
+      },
+      {
+        "skill": "",
+        "days": "",
+        "link": ""
+      },
+      {
+        "skill": "",
+        "days": "",
+        "link": ""
+      },
+      {
+        "skill": "",
+        "days": "",
+        "link": ""
+      },
+      {
+        "skill": "",
+        "days": "",
+        "link": ""
+      },
+      {
+        "skill": "",
+        "days": "",
+        "link": ""
+      },
+      {
+        "skill": "",
+        "days": "",
+        "link": ""
+      },
+      {
+        "skill": "",
+        "days": "",
+        "link": ""
+      },
+      {
+        "skill": "",
+        "days": "",
+        "link": ""
+      }
+    ],
+    "duration": "24 Days",
+    "skills_count": "9 Skills",
+    "difficulty": ""
+  },
+  {
+    "title": "Mountain Homestead",
+    "description": "For establishing a sustainable mountain settlement",
+    "nodes": [
+      {
+        "skill": "",
+        "days": "",
+        "link": ""
+      },
+      {
+        "skill": "",
+        "days": "",
+        "link": ""
+      },
+      {
+        "skill": "",
+        "days": "",
+        "link": ""
+      },
+      {
+        "skill": "",
+        "days": "",
+        "link": ""
+      },
+      {
+        "skill": "",
+        "days": "",
+        "link": ""
+      },
+      {
+        "skill": "",
+        "days": "",
+        "link": ""
+      },
+      {
+        "skill": "",
+        "days": "",
+        "link": ""
+      },
+      {
+        "skill": "",
+        "days": "",
+        "link": ""
+      },
+      {
+        "skill": "",
+        "days": "",
+        "link": ""
+      }
+    ],
+    "duration": "33 Days",
+    "skills_count": "9 Skills",
+    "difficulty": ""
+  },
+  {
+    "title": "Group Colony",
+    "description": "For 8-12 people establishing organized community",
+    "nodes": [
+      {
+        "skill": "",
+        "days": "",
+        "link": ""
+      },
+      {
+        "skill": "",
+        "days": "",
+        "link": ""
+      },
+      {
+        "skill": "",
+        "days": "",
+        "link": ""
+      },
+      {
+        "skill": "",
+        "days": "",
+        "link": ""
+      },
+      {
+        "skill": "",
+        "days": "",
+        "link": ""
+      },
+      {
+        "skill": "",
+        "days": "",
+        "link": ""
+      },
+      {
+        "skill": "",
+        "days": "",
+        "link": ""
+      },
+      {
+        "skill": "",
+        "days": "",
+        "link": ""
+      },
+      {
+        "skill": "",
+        "days": "",
+        "link": ""
+      },
+      {
+        "skill": "",
+        "days": "",
+        "link": ""
+      }
+    ],
+    "duration": "29 Days",
+    "skills_count": "10 Skills",
+    "difficulty": ""
+  },
+  {
+    "title": "Post-Urban Salvage",
+    "description": "For rebuilding from salvaged urban materials",
+    "nodes": [
+      {
+        "skill": "",
+        "days": "",
+        "link": ""
+      },
+      {
+        "skill": "",
+        "days": "",
+        "link": ""
+      },
+      {
+        "skill": "",
+        "days": "",
+        "link": ""
+      },
+      {
+        "skill": "",
+        "days": "",
+        "link": ""
+      },
+      {
+        "skill": "",
+        "days": "",
+        "link": ""
+      },
+      {
+        "skill": "",
+        "days": "",
+        "link": ""
+      },
+      {
+        "skill": "",
+        "days": "",
+        "link": ""
+      },
+      {
+        "skill": "",
+        "days": "",
+        "link": ""
+      },
+      {
+        "skill": "",
+        "days": "",
+        "link": ""
+      },
+      {
+        "skill": "",
+        "days": "",
+        "link": ""
+      }
+    ],
+    "duration": "29 Days",
+    "skills_count": "10 Skills",
+    "difficulty": ""
+  },
+  {
+    "title": "Family with Children",
+    "description": "For family group with young children and care needs",
+    "nodes": [
+      {
+        "skill": "",
+        "days": "",
+        "link": ""
+      },
+      {
+        "skill": "",
+        "days": "",
+        "link": ""
+      },
+      {
+        "skill": "",
+        "days": "",
+        "link": ""
+      },
+      {
+        "skill": "",
+        "days": "",
+        "link": ""
+      },
+      {
+        "skill": "",
+        "days": "",
+        "link": ""
+      },
+      {
+        "skill": "",
+        "days": "",
+        "link": ""
+      },
+      {
+        "skill": "",
+        "days": "",
+        "link": ""
+      },
+      {
+        "skill": "",
+        "days": "",
+        "link": ""
+      },
+      {
+        "skill": "",
+        "days": "",
+        "link": ""
+      }
+    ],
+    "duration": "27 Days",
+    "skills_count": "9 Skills",
+    "difficulty": ""
+  }
+]

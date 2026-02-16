@@ -1,0 +1,579 @@
+{
+  "source": "salvage_variants_master.xlsx",
+  "converted": "2026-02-15T06:05:32.480379",
+  "sheets": {
+    "Quick Reference": {
+      "headers": [
+        "SALVAGE PRIORITY GUIDE - QUICK REFERENCE",
+        "",
+        "",
+        ""
+      ],
+      "rows": [
+        {
+          "SALVAGE PRIORITY GUIDE - QUICK REFERENCE": null,
+          "": null
+        },
+        {
+          "SALVAGE PRIORITY GUIDE - QUICK REFERENCE": "=== FIRST 24 HOURS: ABSOLUTE PRIORITIES ===",
+          "": null
+        },
+        {
+          "SALVAGE PRIORITY GUIDE - QUICK REFERENCE": "Priority",
+          "": "Where to Find"
+        },
+        {
+          "SALVAGE PRIORITY GUIDE - QUICK REFERENCE": "1",
+          "": "Anywhere - bottles, jugs, buckets"
+        },
+        {
+          "SALVAGE PRIORITY GUIDE - QUICK REFERENCE": "2",
+          "": "Stores, homes, vehicles, gas stations"
+        },
+        {
+          "SALVAGE PRIORITY GUIDE - QUICK REFERENCE": "3",
+          "": "Kitchens, garages, hardware stores"
+        },
+        {
+          "SALVAGE PRIORITY GUIDE - QUICK REFERENCE": "4",
+          "": "Hardware stores, camping, construction"
+        },
+        {
+          "SALVAGE PRIORITY GUIDE - QUICK REFERENCE": "5",
+          "": "Everywhere - even shoelaces count"
+        },
+        {
+          "SALVAGE PRIORITY GUIDE - QUICK REFERENCE": null,
+          "": null
+        },
+        {
+          "SALVAGE PRIORITY GUIDE - QUICK REFERENCE": "=== FIRST WEEK: BUILD FOUNDATION ===",
+          "": null
+        },
+        {
+          "SALVAGE PRIORITY GUIDE - QUICK REFERENCE": "Priority",
+          "": "Where to Find"
+        },
+        {
+          "SALVAGE PRIORITY GUIDE - QUICK REFERENCE": "6",
+          "": "Kitchens, garages, restaurants"
+        },
+        {
+          "SALVAGE PRIORITY GUIDE - QUICK REFERENCE": "7",
+          "": "Garages, hardware stores, sheds"
+        },
+        {
+          "SALVAGE PRIORITY GUIDE - QUICK REFERENCE": "8",
+          "": "Plumbing sections, construction sites"
+        },
+        {
+          "SALVAGE PRIORITY GUIDE - QUICK REFERENCE": "9",
+          "": "Bicycles, carts, appliances"
+        },
+        {
+          "SALVAGE PRIORITY GUIDE - QUICK REFERENCE": "10",
+          "": null
+        },
+        {
+          "SALVAGE PRIORITY GUIDE - QUICK REFERENCE": null,
+          "": null
+        },
+        {
+          "SALVAGE PRIORITY GUIDE - QUICK REFERENCE": "=== FIRST MONTH: ESTABLISH SYSTEMS ===",
+          "": null
+        },
+        {
+          "SALVAGE PRIORITY GUIDE - QUICK REFERENCE": "Priority",
+          "": "Where to Find"
+        },
+        {
+          "SALVAGE PRIORITY GUIDE - QUICK REFERENCE": "11",
+          "": "Grills, camping, RVs"
+        },
+        {
+          "SALVAGE PRIORITY GUIDE - QUICK REFERENCE": "12",
+          "": "Any spinning machinery"
+        },
+        {
+          "SALVAGE PRIORITY GUIDE - QUICK REFERENCE": "13",
+          "": "Appliances, vehicles, construction"
+        },
+        {
+          "SALVAGE PRIORITY GUIDE - QUICK REFERENCE": "14",
+          "": null
+        },
+        {
+          "SALVAGE PRIORITY GUIDE - QUICK REFERENCE": "15",
+          "": "Hardware, construction sites"
+        },
+        {
+          "SALVAGE PRIORITY GUIDE - QUICK REFERENCE": null,
+          "": null
+        },
+        {
+          "SALVAGE PRIORITY GUIDE - QUICK REFERENCE": "=== GENERAL PRINCIPLES ===",
+          "": null
+        },
+        {
+          "SALVAGE PRIORITY GUIDE - QUICK REFERENCE": null,
+          "": null
+        },
+        {
+          "SALVAGE PRIORITY GUIDE - QUICK REFERENCE": null,
+          "": null
+        },
+        {
+          "SALVAGE PRIORITY GUIDE - QUICK REFERENCE": null,
+          "": null
+        },
+        {
+          "SALVAGE PRIORITY GUIDE - QUICK REFERENCE": null,
+          "": null
+        },
+        {
+          "SALVAGE PRIORITY GUIDE - QUICK REFERENCE": null,
+          "": null
+        },
+        {
+          "SALVAGE PRIORITY GUIDE - QUICK REFERENCE": null,
+          "": null
+        },
+        {
+          "SALVAGE PRIORITY GUIDE - QUICK REFERENCE": null,
+          "": null
+        },
+        {
+          "SALVAGE PRIORITY GUIDE - QUICK REFERENCE": "=== DO NOT WASTE TIME MAKING THESE ===",
+          "": null
+        },
+        {
+          "SALVAGE PRIORITY GUIDE - QUICK REFERENCE": null,
+          "": "Use Instead"
+        },
+        {
+          "SALVAGE PRIORITY GUIDE - QUICK REFERENCE": null,
+          "": "Any modern rope, paracord, wire"
+        },
+        {
+          "SALVAGE PRIORITY GUIDE - QUICK REFERENCE": null,
+          "": "Metal knives, axes, saws"
+        },
+        {
+          "SALVAGE PRIORITY GUIDE - QUICK REFERENCE": null,
+          "": "Plastic buckets, metal containers"
+        },
+        {
+          "SALVAGE PRIORITY GUIDE - QUICK REFERENCE": null,
+          "": "Bags, boxes, bins (everywhere)"
+        },
+        {
+          "SALVAGE PRIORITY GUIDE - QUICK REFERENCE": null,
+          "": "Lighters, matches (store thousands)"
+        }
+      ],
+      "rowCount": 40
+    },
+    "Master Skills": {
+      "headers": [
+        "CIVILIZATION TECH TREE - SALVAGE & TRANSITION GUIDE",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "rows": [
+        {
+          "CIVILIZATION TECH TREE - SALVAGE & TRANSITION GUIDE": null,
+          "": null
+        },
+        {
+          "CIVILIZATION TECH TREE - SALVAGE & TRANSITION GUIDE": "Skill Name",
+          "": "Notes"
+        },
+        {
+          "CIVILIZATION TECH TREE - SALVAGE & TRANSITION GUIDE": "Fire Control",
+          "": "Modern ignition eliminates 90% of difficulty"
+        },
+        {
+          "CIVILIZATION TECH TREE - SALVAGE & TRANSITION GUIDE": "Watershed Mapping",
+          "": "GPS dramatically speeds mapping"
+        },
+        {
+          "CIVILIZATION TECH TREE - SALVAGE & TRANSITION GUIDE": "Bloomery Iron",
+          "": "Electric blower is game-changer"
+        },
+        {
+          "CIVILIZATION TECH TREE - SALVAGE & TRANSITION GUIDE": "Water Wheel Basics",
+          "": "Modern bearings eliminate friction losses"
+        },
+        {
+          "CIVILIZATION TECH TREE - SALVAGE & TRANSITION GUIDE": "Pottery Basics",
+          "": "Wheel optional but helpful"
+        },
+        {
+          "CIVILIZATION TECH TREE - SALVAGE & TRANSITION GUIDE": "Glassmaking",
+          "": "Salvaged glass melts easier than raw sand"
+        },
+        {
+          "CIVILIZATION TECH TREE - SALVAGE & TRANSITION GUIDE": "Agriculture Fundamentals",
+          "": "Metal tools vastly easier than wood/stone"
+        },
+        {
+          "CIVILIZATION TECH TREE - SALVAGE & TRANSITION GUIDE": "Charcoal Production",
+          "": "Metal drum method much cleaner"
+        },
+        {
+          "CIVILIZATION TECH TREE - SALVAGE & TRANSITION GUIDE": "Rope & Cordage",
+          "": "No need to make rope with salvage available"
+        },
+        {
+          "CIVILIZATION TECH TREE - SALVAGE & TRANSITION GUIDE": "Seed Banking",
+          "": "Modern containers prevent moisture/pest damage"
+        },
+        {
+          "CIVILIZATION TECH TREE - SALVAGE & TRANSITION GUIDE": "Soil Preparation",
+          "": "Metal tools transform back-breaking work"
+        },
+        {
+          "CIVILIZATION TECH TREE - SALVAGE & TRANSITION GUIDE": "Crop Rotation",
+          "": "Simple record-keeping vastly improves tracking"
+        },
+        {
+          "CIVILIZATION TECH TREE - SALVAGE & TRANSITION GUIDE": "Irrigation",
+          "": "Modern irrigation is civilization-transforming"
+        },
+        {
+          "CIVILIZATION TECH TREE - SALVAGE & TRANSITION GUIDE": "Precision Manufacturing",
+          "": "Measurement tools enable industrial revolution"
+        },
+        {
+          "CIVILIZATION TECH TREE - SALVAGE & TRANSITION GUIDE": "Electromagnetism",
+          "": "Salvaged electrical components accelerate learning"
+        },
+        {
+          "CIVILIZATION TECH TREE - SALVAGE & TRANSITION GUIDE": "Steam Engine",
+          "": "Modern parts dramatically improve reliability"
+        },
+        {
+          "CIVILIZATION TECH TREE - SALVAGE & TRANSITION GUIDE": "Generator Construction",
+          "": "Car alternator can be converted to generator"
+        },
+        {
+          "CIVILIZATION TECH TREE - SALVAGE & TRANSITION GUIDE": "Blast Furnace",
+          "": "Electric blower enables consistent temperature"
+        },
+        {
+          "CIVILIZATION TECH TREE - SALVAGE & TRANSITION GUIDE": "Blacksmithing",
+          "": "Metal anvil and tools vastly improve quality"
+        },
+        {
+          "CIVILIZATION TECH TREE - SALVAGE & TRANSITION GUIDE": "Basic Woodworking",
+          "": "Metal woodworking tools are 10-20x faster"
+        },
+        {
+          "CIVILIZATION TECH TREE - SALVAGE & TRANSITION GUIDE": "Kiln Engineering",
+          "": "Temperature control crucial for quality"
+        },
+        {
+          "CIVILIZATION TECH TREE - SALVAGE & TRANSITION GUIDE": "Paper Manufacturing",
+          "": "Blender speeds pulp processing dramatically"
+        },
+        {
+          "CIVILIZATION TECH TREE - SALVAGE & TRANSITION GUIDE": "Soap Making",
+          "": "Commercial lye more consistent than wood ash"
+        },
+        {
+          "CIVILIZATION TECH TREE - SALVAGE & TRANSITION GUIDE": "Water Filtration",
+          "": "Plastic containers prevent leaks and contamination"
+        },
+        {
+          "CIVILIZATION TECH TREE - SALVAGE & TRANSITION GUIDE": "Animal Husbandry",
+          "": "Modern fencing prevents losses to predators"
+        },
+        {
+          "CIVILIZATION TECH TREE - SALVAGE & TRANSITION GUIDE": "Food Preservation",
+          "": "Canning dramatically extends storage life"
+        },
+        {
+          "CIVILIZATION TECH TREE - SALVAGE & TRANSITION GUIDE": "Grain Milling",
+          "": "Mechanical mills save hours of grinding"
+        },
+        {
+          "CIVILIZATION TECH TREE - SALVAGE & TRANSITION GUIDE": "Textiles/Spinning",
+          "": "Salvaged fabric usually better than making from scratch"
+        },
+        {
+          "CIVILIZATION TECH TREE - SALVAGE & TRANSITION GUIDE": "Basic Shelter",
+          "": "Tarp shelter built in minutes vs hours for debris hut"
+        },
+        {
+          "CIVILIZATION TECH TREE - SALVAGE & TRANSITION GUIDE": "Trapping & Snares",
+          "": "Wire snares more reliable than cordage"
+        }
+      ],
+      "rowCount": 32
+    },
+    "Climate & Terrain": {
+      "headers": [
+        "CLIMATE & TERRAIN ADAPTATIONS",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "rows": [
+        {
+          "CLIMATE & TERRAIN ADAPTATIONS": null,
+          "": null
+        },
+        {
+          "CLIMATE & TERRAIN ADAPTATIONS": "Skill",
+          "": "Plains"
+        },
+        {
+          "CLIMATE & TERRAIN ADAPTATIONS": "Watershed Mapping",
+          "": "Groundwater wells primary, few surface sources, wind-powered pumps useful"
+        },
+        {
+          "CLIMATE & TERRAIN ADAPTATIONS": "Fire Control",
+          "": "Grass/dung primary fuels, minimal wood, wind breaks essential"
+        },
+        {
+          "CLIMATE & TERRAIN ADAPTATIONS": "Agriculture",
+          "": "Wind protection, irrigation critical, deep-rooted crops, soil conservation"
+        },
+        {
+          "CLIMATE & TERRAIN ADAPTATIONS": "Shelter Construction",
+          "": "Sod/earth construction, wind resistance, minimal wood, root cellars"
+        },
+        {
+          "CLIMATE & TERRAIN ADAPTATIONS": "Pottery/Ceramics",
+          "": "Abundant clay often available, wind-dry works well"
+        },
+        {
+          "CLIMATE & TERRAIN ADAPTATIONS": "Metallurgy",
+          "": "Limited fuel - prioritize salvage over smelting"
+        }
+      ],
+      "rowCount": 8
+    },
+    "Transition Paths": {
+      "headers": [
+        "EFFICIENT TRANSITION PATHS: PRIMITIVE → MODERN",
+        "",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "rows": [
+        {
+          "EFFICIENT TRANSITION PATHS: PRIMITIVE → MODERN": null,
+          "": null
+        },
+        {
+          "EFFICIENT TRANSITION PATHS: PRIMITIVE → MODERN": "Domain",
+          "": "Notes"
+        },
+        {
+          "EFFICIENT TRANSITION PATHS: PRIMITIVE → MODERN": "Fire & Heat",
+          "": "Always maintain primitive skills as backup"
+        },
+        {
+          "EFFICIENT TRANSITION PATHS: PRIMITIVE → MODERN": "Water Systems",
+          "": "Gravity systems work without power"
+        },
+        {
+          "EFFICIENT TRANSITION PATHS: PRIMITIVE → MODERN": "Metal Working",
+          "": "Salvage tools before smelting"
+        },
+        {
+          "EFFICIENT TRANSITION PATHS: PRIMITIVE → MODERN": "Agriculture",
+          "": "Small-scale can sustain community"
+        },
+        {
+          "EFFICIENT TRANSITION PATHS: PRIMITIVE → MODERN": "Power Generation",
+          "": "Water power more reliable than solar in most climates"
+        },
+        {
+          "EFFICIENT TRANSITION PATHS: PRIMITIVE → MODERN": "Shelter",
+          "": "Salvaged tarps immediate game-changer"
+        },
+        {
+          "EFFICIENT TRANSITION PATHS: PRIMITIVE → MODERN": "Food Preservation",
+          "": "Traditional methods still valuable"
+        },
+        {
+          "EFFICIENT TRANSITION PATHS: PRIMITIVE → MODERN": "Tool Making",
+          "": "Modified salvaged tools often better than handmade"
+        },
+        {
+          "EFFICIENT TRANSITION PATHS: PRIMITIVE → MODERN": "Textiles",
+          "": "Vast salvage available makes production unnecessary"
+        },
+        {
+          "EFFICIENT TRANSITION PATHS: PRIMITIVE → MODERN": "Transportation",
+          "": "Bicycles incredibly valuable"
+        }
+      ],
+      "rowCount": 12
+    },
+    "Material Substitutions": {
+      "headers": [
+        "MATERIAL SUBSTITUTIONS: SALVAGE REPLACEMENTS",
+        "",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "rows": [
+        {
+          "MATERIAL SUBSTITUTIONS: SALVAGE REPLACEMENTS": null,
+          "": null
+        },
+        {
+          "MATERIAL SUBSTITUTIONS: SALVAGE REPLACEMENTS": "Traditional Material",
+          "": "Notes"
+        },
+        {
+          "MATERIAL SUBSTITUTIONS: SALVAGE REPLACEMENTS": "Twisted plant fiber rope",
+          "": "No reason to make rope when salvage available"
+        },
+        {
+          "MATERIAL SUBSTITUTIONS: SALVAGE REPLACEMENTS": "Stone/bone tools",
+          "": "First priority salvage item"
+        },
+        {
+          "MATERIAL SUBSTITUTIONS: SALVAGE REPLACEMENTS": "Clay containers",
+          "": "Plastic buckets are incredibly versatile"
+        },
+        {
+          "MATERIAL SUBSTITUTIONS: SALVAGE REPLACEMENTS": "Woven plant baskets",
+          "": "Abundant everywhere"
+        },
+        {
+          "MATERIAL SUBSTITUTIONS: SALVAGE REPLACEMENTS": "Hand-carved wood wheels",
+          "": "Ball bearings are revolutionary"
+        },
+        {
+          "MATERIAL SUBSTITUTIONS: SALVAGE REPLACEMENTS": "Stone bearings",
+          "": "Enables efficient power transmission"
+        },
+        {
+          "MATERIAL SUBSTITUTIONS: SALVAGE REPLACEMENTS": "Charcoal/wood fuel",
+          "": "Temperature control vastly easier"
+        },
+        {
+          "MATERIAL SUBSTITUTIONS: SALVAGE REPLACEMENTS": "Hand-carved wooden pipes",
+          "": "PVC pipe is civilization-changing technology"
+        },
+        {
+          "MATERIAL SUBSTITUTIONS: SALVAGE REPLACEMENTS": "Animal hide/plant fiber",
+          "": "Tarps especially valuable for shelter"
+        },
+        {
+          "MATERIAL SUBSTITUTIONS: SALVAGE REPLACEMENTS": "Stone grinding wheels",
+          "": "Sandpaper alone is huge upgrade"
+        },
+        {
+          "MATERIAL SUBSTITUTIONS: SALVAGE REPLACEMENTS": "Natural tinder",
+          "": "Eliminate hours of frustration"
+        },
+        {
+          "MATERIAL SUBSTITUTIONS: SALVAGE REPLACEMENTS": "Leather strips",
+          "": "Duct tape solves countless problems"
+        },
+        {
+          "MATERIAL SUBSTITUTIONS: SALVAGE REPLACEMENTS": "Hand-chipped stone blades",
+          "": "Incredible edge retention"
+        },
+        {
+          "MATERIAL SUBSTITUTIONS: SALVAGE REPLACEMENTS": "Clay/stone crucibles",
+          "": "Steel cans surprisingly effective"
+        },
+        {
+          "MATERIAL SUBSTITUTIONS: SALVAGE REPLACEMENTS": "Wooden handles",
+          "": "Easy to find and adapt"
+        }
+      ],
+      "rowCount": 17
+    },
+    "Scenarios": {
+      "headers": [
+        "SCENARIO-SPECIFIC STRATEGIES",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "rows": [
+        {
+          "SCENARIO-SPECIFIC STRATEGIES": null,
+          "": null
+        },
+        {
+          "SCENARIO-SPECIFIC STRATEGIES": "Scenario",
+          "": "Notes"
+        },
+        {
+          "SCENARIO-SPECIFIC STRATEGIES": "Total Collapse (EMP/Nuclear)",
+          "": "Manual tools, mechanical systems, water power all viable"
+        },
+        {
+          "SCENARIO-SPECIFIC STRATEGIES": "Pandemic Depopulation",
+          "": "Could maintain modern life for years with salvage"
+        },
+        {
+          "SCENARIO-SPECIFIC STRATEGIES": "Island/Remote Stranded",
+          "": "Traditional skills essential, salvage used very carefully"
+        },
+        {
+          "SCENARIO-SPECIFIC STRATEGIES": "Economic Collapse",
+          "": "Society intact but economy failed"
+        },
+        {
+          "SCENARIO-SPECIFIC STRATEGIES": "Gradual Decline",
+          "": "Time to prepare properly"
+        },
+        {
+          "SCENARIO-SPECIFIC STRATEGIES": "Wilderness Survival",
+          "": "Baseline scenario the tech tree assumes"
+        },
+        {
+          "SCENARIO-SPECIFIC STRATEGIES": "Post-War Ruins",
+          "": "Unexploded ordnance, structural hazards"
+        },
+        {
+          "SCENARIO-SPECIFIC STRATEGIES": "Mars/Space Colony",
+          "": "Cannot use traditional earth materials"
+        },
+        {
+          "SCENARIO-SPECIFIC STRATEGIES": "Zombie Apocalypse",
+          "": "Stealth approach to salvage"
+        },
+        {
+          "SCENARIO-SPECIFIC STRATEGIES": "Climate Catastrophe",
+          "": "Traditional knowledge of new climate essential"
+        }
+      ],
+      "rowCount": 12
+    }
+  },
+  "sheetCount": 6
+}

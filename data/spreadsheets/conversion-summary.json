@@ -1,0 +1,60 @@
+{
+  "timestamp": "2026-02-15T06:05:32.354787",
+  "totalFiles": 9,
+  "files": [
+    {
+      "source": "climate-terrain-guide.xlsx",
+      "output": "climate-terrain-guide.json",
+      "sheets": 11,
+      "rows": 249
+    },
+    {
+      "source": "failure-troubleshooting.xlsx",
+      "output": "failure-troubleshooting.json",
+      "sheets": 10,
+      "rows": 162
+    },
+    {
+      "source": "materials-checklists.xlsx",
+      "output": "materials-checklists.json",
+      "sheets": 10,
+      "rows": 226
+    },
+    {
+      "source": "resource-database.xlsx",
+      "output": "resource-database.json",
+      "sheets": 8,
+      "rows": 156
+    },
+    {
+      "source": "salvage_variants_master.xlsx",
+      "output": "salvage_variants_master.json",
+      "sheets": 6,
+      "rows": 121
+    },
+    {
+      "source": "scenario-plans.xlsx",
+      "output": "scenario-plans.json",
+      "sheets": 6,
+      "rows": 423
+    },
+    {
+      "source": "seasonal-calendar.xlsx",
+      "output": "seasonal-calendar.json",
+      "sheets": 7,
+      "rows": 80
+    },
+    {
+      "source": "threat-risk-matrix.xlsx",
+      "output": "threat-risk-matrix.json",
+      "sheets": 4,
+      "rows": 112
+    },
+    {
+      "source": "trade-barter-guide.xlsx",
+      "output": "trade-barter-guide.json",
+      "sheets": 4,
+      "rows": 160
+    }
+  ]
+}

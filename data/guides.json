@@ -1,0 +1,4380 @@
+[
+  {
+    "id": "SUR-04",
+    "title": "Navigation & Mapping",
+    "category": "survival",
+    "tags": [
+      "essential"
+    ],
+    "description": "Navigate without instruments using celestial navigation, map reading, and natural sign interpretation to find your way in wilderness.",
+    "icon": "🧭",
+    "file": "guides/sur-04-navigation-mapping.html",
+    "url": "guides/sur-04-navigation-mapping.html",
+    "difficulty": "intermediate",
+    "readingTime": 9,
+    "wordCount": 1650,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "FOD-05",
+    "title": "Food Foraging",
+    "category": "survival",
+    "tags": [
+      "essential"
+    ],
+    "description": "Identify, ethically harvest, and prepare wild plants, mushrooms, and insects as nutritious supplements to your survival diet.",
+    "icon": "🍄",
+    "file": "guides/fod-05-food-foraging.html",
+    "url": "guides/fod-05-food-foraging.html",
+    "difficulty": "beginner",
+    "readingTime": 12,
+    "wordCount": 2336,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0",
+    "relatedSpreadsheet": "seasonal-calendar.json"
+  },
+  {
+    "id": "GD-023",
+    "title": "Survival Basics & First 72 Hours",
+    "category": "survival",
+    "tags": [
+      "critical"
+    ],
+    "description": "Shelter building, fire starting, water finding, signaling, priorities of survival, psychology of crisis, and immediate action plans.",
+    "icon": "🔥",
+    "file": "guides/survival-basics.html",
+    "url": "guides/survival-basics.html",
+    "difficulty": "beginner",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0",
+    "relatedSpreadsheet": "scenario-plans.json"
+  },
+  {
+    "id": "GD-024",
+    "title": "Winter Survival Systems",
+    "category": "survival",
+    "tags": [
+      "critical"
+    ],
+    "description": "Staying alive in -40°F Minnesota winters. Layered clothing, snow shelters, hypothermia treatment, fire in snow, and vehicle survival.",
+    "icon": "❄️",
+    "file": "guides/winter-survival-systems.html",
+    "url": "guides/winter-survival-systems.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0",
+    "relatedSpreadsheet": "climate-terrain-guide.json"
+  },
+  {
+    "id": "GD-025",
+    "title": "Foraging, Hunting & Fishing",
+    "category": "survival",
+    "tags": [
+      "critical"
+    ],
+    "description": "Wild edible plants, trapping, snaring, bow hunting, fishing techniques, insect eating, and game processing.",
+    "icon": "🏹",
+    "file": "guides/foraging-hunting.html",
+    "url": "guides/foraging-hunting.html",
+    "difficulty": "beginner",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0",
+    "relatedSpreadsheet": "climate-terrain-guide.json"
+  },
+  {
+    "id": "GD-026",
+    "title": "Weather & Geology",
+    "category": "survival",
+    "tags": [
+      "important"
+    ],
+    "description": "Weather forecasting without instruments, cloud identification, natural disaster prep, soil science, and seasonal patterns.",
+    "icon": "🌦️",
+    "file": "guides/weather-geology.html",
+    "url": "guides/weather-geology.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0",
+    "relatedSpreadsheet": "climate-terrain-guide.json"
+  },
+  {
+    "id": "GD-027",
+    "title": "Primitive Technology & Stone Age",
+    "category": "survival",
+    "tags": [
+      "critical"
+    ],
+    "description": "Flint knapping, fire by friction, stone tools, bone tools, clay vessels, cordage, shelter from raw materials, and paleolithic skills.",
+    "icon": "🪨",
+    "file": "guides/primitive-technology.html",
+    "url": "guides/primitive-technology.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0",
+    "relatedSpreadsheet": "climate-terrain-guide.json"
+  },
+  {
+    "id": "GD-028",
+    "title": "Animal Tracking & Wilderness Signs",
+    "category": "survival",
+    "tags": [
+      "important"
+    ],
+    "description": "Track identification, scat analysis, gait patterns, trail reading, bird language, predator signs, and wilderness awareness.",
+    "icon": "🐾",
+    "file": "guides/animal-tracking.html",
+    "url": "guides/animal-tracking.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0",
+    "relatedSpreadsheet": "climate-terrain-guide.json"
+  },
+  {
+    "id": "GD-029",
+    "title": "Disaster Triage & MCI",
+    "category": "survival",
+    "tags": [
+      "critical"
+    ],
+    "description": "START/JumpSTART triage systems, mass casualty incident management, field hospital setup, and resource allocation.",
+    "icon": "🏥",
+    "file": "guides/disaster-triage.html",
+    "url": "guides/disaster-triage.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0",
+    "relatedSpreadsheet": "climate-terrain-guide.json"
+  },
+  {
+    "id": "GD-030",
+    "title": "Search & Rescue Operations",
+    "category": "tools",
+    "tags": [
+      "critical"
+    ],
+    "description": "Grid search patterns, rope rescue, water/avalanche rescue, wilderness tracking, and evacuation methods.",
+    "icon": "🔍",
+    "file": "guides/search-rescue.html",
+    "url": "guides/search-rescue.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0",
+    "prerequisites": [
+      "GD-232"
+    ],
+    "relatedSpreadsheet": "climate-terrain-guide.json"
+  },
+  {
+    "id": "GD-031",
+    "title": "Fire Suppression & Wildland Fire",
+    "category": "survival",
+    "tags": [
+      "critical"
+    ],
+    "description": "Fire behavior, wildland/structural firefighting, firebreaks, pumps, controlled burns, and community response.",
+    "icon": "🔥",
+    "file": "guides/fire-suppression.html",
+    "url": "guides/fire-suppression.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0",
+    "relatedSpreadsheet": "climate-terrain-guide.json"
+  },
+  {
+    "id": "GD-032",
+    "title": "Medical & Survival Medicine",
+    "category": "medical",
+    "tags": [
+      "critical"
+    ],
+    "description": "First aid, wound care, field surgery, common illness treatment, vital signs, medication references, and emergency protocols.",
+    "icon": "🏥",
+    "file": "guides/medical-reference.html",
+    "url": "guides/medical-reference.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0",
+    "prerequisites": [
+      "GD-232"
+    ],
+    "relatedSpreadsheet": "resource-database.json"
+  },
+  {
+    "id": "GD-033",
+    "title": "Dentistry & Midwifery",
+    "category": "medical",
+    "tags": [
+      "critical"
+    ],
+    "description": "Dental care without dentists, tooth extraction, filling cavities, childbirth, midwifery, neonatal care, and women's health.",
+    "icon": "🦷",
+    "file": "guides/dentistry-midwifery.html",
+    "url": "guides/dentistry-midwifery.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0",
+    "relatedSpreadsheet": "resource-database.json"
+  },
+  {
+    "id": "GD-034",
+    "title": "Herbalism & Medicinal Plants",
+    "category": "medical",
+    "tags": [
+      "critical"
+    ],
+    "description": "20 essential medicinal plants, preparation methods, dosage, growing a medicine garden, herbal first aid, and pharmacopeia.",
+    "icon": "🌿",
+    "file": "guides/herbalism.html",
+    "url": "guides/herbalism.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0",
+    "relatedSpreadsheet": "salvage_variants_master.json"
+  },
+  {
+    "id": "GD-035",
+    "title": "Water Purification",
+    "category": "survival",
+    "tags": [
+      "critical"
+    ],
+    "description": "Boiling, filtration, chemical treatment, solar disinfection, well construction, rainwater harvesting, and water testing.",
+    "icon": "💧",
+    "file": "guides/water-purification.html",
+    "url": "guides/water-purification.html",
+    "difficulty": "beginner",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0",
+    "prerequisites": [
+      "SUR-01"
+    ],
+    "relatedSpreadsheet": "salvage_variants_master.json"
+  },
+  {
+    "id": "GD-036",
+    "title": "Sanitation & Public Health",
+    "category": "survival",
+    "tags": [
+      "critical"
+    ],
+    "description": "Sewage systems, waste management, disease prevention, quarantine protocols, hygiene, and epidemic response.",
+    "icon": "🚿",
+    "file": "guides/sanitation.html",
+    "url": "guides/sanitation.html",
+    "difficulty": "beginner",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0",
+    "relatedSpreadsheet": "threat-risk-matrix.json"
+  },
+  {
+    "id": "GD-037",
+    "title": "Veterinary Medicine",
+    "category": "medical",
+    "tags": [
+      "important"
+    ],
+    "description": "Animal diagnosis, treatment protocols, surgery, parasites, infectious diseases, preventive care, and livestock health management.",
+    "icon": "🐾",
+    "file": "guides/veterinary.html",
+    "url": "guides/veterinary.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0",
+    "prerequisites": [
+      "GD-232"
+    ],
+    "relatedSpreadsheet": "threat-risk-matrix.json"
+  },
+  {
+    "id": "GD-038",
+    "title": "Optics & Vision Care",
+    "category": "medical",
+    "tags": [
+      "practical"
+    ],
+    "description": "Lens grinding, eyeglass making, eye testing, vision correction, optical instruments, and ocular health without modern medicine.",
+    "icon": "👓",
+    "file": "guides/optics-vision.html",
+    "url": "guides/optics-vision.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0",
+    "relatedSpreadsheet": "trade-barter-guide.json"
+  },
+  {
+    "id": "GD-039",
+    "title": "Field Surgery & Emergency Procedures",
+    "category": "medical",
+    "tags": [
+      "critical"
+    ],
+    "description": "Wound debridement, suturing, fracture reduction, amputation protocols, anesthesia, surgical instruments, and sterile technique.",
+    "icon": "🩺",
+    "file": "guides/surgery-field.html",
+    "url": "guides/surgery-field.html",
+    "difficulty": "advanced",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0",
+    "prerequisites": [
+      "GD-232"
+    ]
+  },
+  {
+    "id": "GD-040",
+    "title": "Herbal Antibiotics & Natural Medicine",
+    "category": "medical",
+    "tags": [
+      "critical"
+    ],
+    "description": "Antimicrobial plants, preparation methods, dosing protocols, infection treatment without pharmaceuticals, and natural antiseptics.",
+    "icon": "🌱",
+    "file": "guides/herbal-antibiotics.html",
+    "url": "guides/herbal-antibiotics.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0",
+    "relatedSpreadsheet": "scenario-plans.json"
+  },
+  {
+    "id": "GD-041",
+    "title": "Midwifery & Childbirth",
+    "category": "medical",
+    "tags": [
+      "critical"
+    ],
+    "description": "Prenatal care, labor stages, delivery techniques, postpartum care, newborn assessment, complications, and breastfeeding support.",
+    "icon": "👶",
+    "file": "guides/midwifery.html",
+    "url": "guides/midwifery.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-042",
+    "title": "Prosthetics & Adaptive Technology",
+    "category": "medical",
+    "tags": [
+      "important"
+    ],
+    "description": "Limb prosthetics, mobility aids, assistive devices, wheelchair construction, hearing aids, and rehabilitation techniques.",
+    "icon": "🦿",
+    "file": "guides/prosthetics-adaptive.html",
+    "url": "guides/prosthetics-adaptive.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-043",
+    "title": "Mental Health & Counseling",
+    "category": "medical",
+    "tags": [
+      "important"
+    ],
+    "description": "Crisis counseling, trauma processing, grief support, addiction recovery, community mental health, and psychological first aid.",
+    "icon": "💚",
+    "file": "guides/mental-health-counseling.html",
+    "url": "guides/mental-health-counseling.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-044",
+    "title": "Vaccine Production & Immunization",
+    "category": "medical",
+    "tags": [
+      "critical"
+    ],
+    "description": "Cowpox cultivation for smallpox immunity, tetanus antitoxin, rabies prevention, vaccination schedules, and community immunization programs.",
+    "icon": "💉",
+    "file": "guides/vaccine-production.html",
+    "url": "guides/vaccine-production.html",
+    "difficulty": "advanced",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-045",
+    "title": "Pharmaceutical Production",
+    "category": "medical",
+    "tags": [
+      "critical"
+    ],
+    "description": "Aspirin from willow bark, penicillin cultivation, quinine extraction, morphine, atropine, digitalis — dosage and quality control.",
+    "icon": "💊",
+    "file": "guides/pharmaceutical-production.html",
+    "url": "guides/pharmaceutical-production.html",
+    "difficulty": "advanced",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-046",
+    "title": "Blood Medicine & Transfusion",
+    "category": "medical",
+    "tags": [
+      "critical"
+    ],
+    "description": "Field blood typing (ABO/Rh), emergency transfusion protocols, blood storage, IV fluid preparation, and hemorrhage management.",
+    "icon": "🩸",
+    "file": "guides/blood-medicine.html",
+    "url": "guides/blood-medicine.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0",
+    "relatedSpreadsheet": "scenario-plans.json"
+  },
+  {
+    "id": "GD-047",
+    "title": "Emergency Dental Procedures",
+    "category": "medical",
+    "tags": [
+      "critical"
+    ],
+    "description": "Tooth extraction, temporary fillings, abscess drainage, local anesthesia nerve blocks, dental tool improvisation, and preventive care.",
+    "icon": "🦷",
+    "file": "guides/emergency-dental.html",
+    "url": "guides/emergency-dental.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-048",
+    "title": "Parasitology & Tropical Diseases",
+    "category": "medical",
+    "tags": [
+      "critical"
+    ],
+    "description": "Malaria, intestinal parasites, tropical fevers, vector control, and water-borne disease management",
+    "icon": "🦠",
+    "file": "guides/parasitology-tropical.html",
+    "url": "guides/parasitology-tropical.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-049",
+    "title": "Orthopedics & Fracture Management",
+    "category": "medical",
+    "tags": [
+      "critical"
+    ],
+    "description": "Fracture identification, splinting, traction, cast making, joint injuries, and spinal precautions",
+    "icon": "🦴",
+    "file": "guides/orthopedics-fractures.html",
+    "url": "guides/orthopedics-fractures.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-050",
+    "title": "Anesthesia & Pain Management",
+    "category": "medical",
+    "tags": [
+      "critical"
+    ],
+    "description": "Local anesthesia, herbal sedatives, nerve blocks, non-pharmacological pain control techniques",
+    "icon": "💉",
+    "file": "guides/anesthesia-pain.html",
+    "url": "guides/anesthesia-pain.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-051",
+    "title": "Obstetric Emergencies",
+    "category": "medical",
+    "tags": [
+      "critical"
+    ],
+    "description": "Breech delivery, shoulder dystocia, postpartum hemorrhage, eclampsia, emergency C-section, neonatal resuscitation",
+    "icon": "👩‍⚕️",
+    "file": "guides/obstetric-emergencies.html",
+    "url": "guides/obstetric-emergencies.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-052",
+    "title": "Burn Treatment & Management",
+    "category": "medical",
+    "tags": [
+      "critical"
+    ],
+    "description": "Burn classification, Rule of Nines, Parkland formula fluid resuscitation, escharotomy, skin grafting, and rehabilitation.",
+    "icon": "🩹",
+    "file": "guides/burn-treatment.html",
+    "url": "guides/burn-treatment.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-053",
+    "title": "Infectious Disease Management",
+    "category": "medical",
+    "tags": [
+      "critical"
+    ],
+    "description": "Isolation protocols, epidemic response, contact tracing, quarantine, vector control, and antibiotic stewardship.",
+    "icon": "🦠",
+    "file": "guides/infectious-disease.html",
+    "url": "guides/infectious-disease.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-054",
+    "title": "Toxicology & Poison Management",
+    "category": "medical",
+    "tags": [
+      "critical"
+    ],
+    "description": "Poison identification, antidotes, toxidromes, activated charcoal, venomous animals, and decontamination.",
+    "icon": "☠️",
+    "file": "guides/toxicology.html",
+    "url": "guides/toxicology.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-055",
+    "title": "Restorative Dentistry",
+    "category": "medical",
+    "tags": [
+      "important"
+    ],
+    "description": "Temporary/permanent fillings, extraction mechanics, nerve blocks, abscess drainage, and improvised dental tools.",
+    "icon": "🦷",
+    "file": "guides/dentistry-restorative.html",
+    "url": "guides/dentistry-restorative.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-056",
+    "title": "Pharmacy Compounding",
+    "category": "medical",
+    "tags": [
+      "essential"
+    ],
+    "description": "Making pills, capsules, ointments, tinctures, suppositories, dosage calculations, and shelf-life extension.",
+    "icon": "💊",
+    "file": "guides/pharmacy-compounding.html",
+    "url": "guides/pharmacy-compounding.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-057",
+    "title": "Zoonotic Disease Control",
+    "category": "medical",
+    "tags": [
+      "important"
+    ],
+    "description": "Animal-to-human disease transmission, quarantine, carcass disposal, slaughterhouse hygiene, and PPE protocols.",
+    "icon": "🐄",
+    "file": "guides/zoonotic-disease.html",
+    "url": "guides/zoonotic-disease.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-058",
+    "title": "Field Anesthesia & Pain Management",
+    "category": "medical",
+    "tags": [
+      "critical"
+    ],
+    "description": "Historical anesthetic methods, nerve blocks, herbal analgesics, patient monitoring, and non-chemical pain management for field surgery.",
+    "icon": "⚗️",
+    "file": "guides/ether-chloroform-synthesis.html",
+    "url": "guides/ether-chloroform-synthesis.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0",
+    "prerequisites": [
+      "GD-232"
+    ]
+  },
+  {
+    "id": "GD-059",
+    "title": "Insulin Extraction & Purification",
+    "category": "medical",
+    "tags": [
+      "critical"
+    ],
+    "description": "Banting-Best historical method for diabetic life support. Animal pancreas sourcing, acid-alcohol extraction, potency testing, cold storage.",
+    "icon": "💉",
+    "file": "guides/insulin-extraction.html",
+    "url": "guides/insulin-extraction.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-060",
+    "title": "Suture Material Production",
+    "category": "medical",
+    "tags": [
+      "essential"
+    ],
+    "description": "Making surgical thread from catgut, silk, and cotton. Needle manufacture, sterilization protocols, and wound closure alternatives.",
+    "icon": "🧵",
+    "file": "guides/suture-material-production.html",
+    "url": "guides/suture-material-production.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-061",
+    "title": "Dental Prosthetics & Denture Making",
+    "category": "medical",
+    "tags": [
+      "essential"
+    ],
+    "description": "Impression taking, stone models, vulcanite & acrylic denture bases, tooth fabrication, fitting, and adhesive formulation.",
+    "icon": "🦷",
+    "file": "guides/dental-prosthetics.html",
+    "url": "guides/dental-prosthetics.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-062",
+    "title": "Vision Correction & Field Optometry",
+    "category": "medical",
+    "tags": [
+      "essential"
+    ],
+    "description": "Lens grinding, eye testing, frame manufacturing, diopter calculations, and magnifying glass construction.",
+    "icon": "👓",
+    "file": "guides/vision-correction-optometry.html",
+    "url": "guides/vision-correction-optometry.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-063",
+    "title": "Feminine Hygiene Manufacturing",
+    "category": "medical",
+    "tags": [
+      "essential"
+    ],
+    "description": "Reusable cloth pads, menstrual cup molding, sanitization protocols, emergency alternatives, and menstrual health education.",
+    "icon": "🩺",
+    "file": "guides/feminine-hygiene-production.html",
+    "url": "guides/feminine-hygiene-production.html",
+    "difficulty": "beginner",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-064",
+    "title": "Agriculture & Gardening",
+    "category": "agriculture",
+    "tags": [
+      "essential"
+    ],
+    "description": "Seed saving, crop rotation, companion planting, soil management, composting, pest control, and seasonal planning.",
+    "icon": "🌾",
+    "file": "guides/agriculture.html",
+    "url": "guides/agriculture.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0",
+    "prerequisites": [
+      "FOD-03"
+    ],
+    "relatedSpreadsheet": "scenario-plans.json"
+  },
+  {
+    "id": "GD-065",
+    "title": "Food Preservation",
+    "category": "agriculture",
+    "tags": [
+      "essential"
+    ],
+    "description": "Canning, smoking, drying, salting, fermentation, root cellaring, and long-term food storage techniques.",
+    "icon": "🫙",
+    "file": "guides/food-preservation.html",
+    "url": "guides/food-preservation.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-066",
+    "title": "Fermentation & Baking",
+    "category": "agriculture",
+    "tags": [
+      "practical"
+    ],
+    "description": "Sourdough, breadmaking, vinegar, alcohol production, yogurt, cheese, sauerkraut, and fermented beverages.",
+    "icon": "🍞",
+    "file": "guides/fermentation-baking.html",
+    "url": "guides/fermentation-baking.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-067",
+    "title": "Animal Husbandry & Veterinary",
+    "category": "agriculture",
+    "tags": [
+      "essential"
+    ],
+    "description": "Livestock care, breeding, poultry, beekeeping, draft animals, veterinary first aid, and pasture management.",
+    "icon": "🐄",
+    "file": "guides/animal-husbandry.html",
+    "url": "guides/animal-husbandry.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0",
+    "prerequisites": [
+      "FOD-03"
+    ]
+  },
+  {
+    "id": "GD-068",
+    "title": "Aquaculture & Fish Farming",
+    "category": "agriculture",
+    "tags": [
+      "essential"
+    ],
+    "description": "Pond construction, fish species selection, feeding, breeding, aquaponics, harvesting, and shellfish farming.",
+    "icon": "🐟",
+    "file": "guides/aquaculture.html",
+    "url": "guides/aquaculture.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0",
+    "prerequisites": [
+      "FOD-03"
+    ]
+  },
+  {
+    "id": "GD-069",
+    "title": "Forestry & Timber Management",
+    "category": "agriculture",
+    "tags": [
+      "essential"
+    ],
+    "description": "Tree ID, sustainable harvesting, coppicing, felling technique, lumber processing, seasoning, and forest management plans.",
+    "icon": "🌲",
+    "file": "guides/forestry.html",
+    "url": "guides/forestry.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-070",
+    "title": "Beekeeping & Apiculture",
+    "category": "agriculture",
+    "tags": [
+      "essential"
+    ],
+    "description": "Hive construction, bee biology, honey harvesting, pollination, swarm management, disease prevention, and apiary logistics.",
+    "icon": "🐝",
+    "file": "guides/beekeeping.html",
+    "url": "guides/beekeeping.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-071",
+    "title": "Dairy Processing",
+    "category": "agriculture",
+    "tags": [
+      "essential"
+    ],
+    "description": "Milk production, butter making, cheese production, yogurt, cream separation, storage, and dairy herd management.",
+    "icon": "🥛",
+    "file": "guides/dairy-processing.html",
+    "url": "guides/dairy-processing.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-072",
+    "title": "Wine, Brewing & Distillation",
+    "category": "agriculture",
+    "tags": [
+      "practical"
+    ],
+    "description": "Wine fermentation, beer brewing, spirits distillation, fermentation control, equipment, aging, and quality assessment.",
+    "icon": "🍷",
+    "file": "guides/wine-brewing.html",
+    "url": "guides/wine-brewing.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-073",
+    "title": "Mushroom Cultivation",
+    "category": "agriculture",
+    "tags": [
+      "practical"
+    ],
+    "description": "Mushroom species selection, growing conditions, substrate preparation, fruiting, harvesting, and cultivation techniques.",
+    "icon": "🍄",
+    "file": "guides/mushroom-cultivation.html",
+    "url": "guides/mushroom-cultivation.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-074",
+    "title": "Irrigation & Water Management",
+    "category": "agriculture",
+    "tags": [
+      "essential"
+    ],
+    "description": "Irrigation systems, water distribution, canal construction, soil moisture management, and sustainable water usage.",
+    "icon": "💧",
+    "file": "guides/irrigation-water.html",
+    "url": "guides/irrigation-water.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-075",
+    "title": "Butchering & Meat Processing",
+    "category": "agriculture",
+    "tags": [
+      "practical"
+    ],
+    "description": "Animal slaughter, meat cutting, butchery techniques, preservation, offal uses, and food safety protocols.",
+    "icon": "🥩",
+    "file": "guides/butchering.html",
+    "url": "guides/butchering.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-076",
+    "title": "Salt Production",
+    "category": "agriculture",
+    "tags": [
+      "practical"
+    ],
+    "description": "Salt evaporation, brine processing, mineral extraction, salt applications, preservation, and industrial uses.",
+    "icon": "🧂",
+    "file": "guides/salt-production.html",
+    "url": "guides/salt-production.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-077",
+    "title": "Tobacco, Coffee & Tea",
+    "category": "agriculture",
+    "tags": [
+      "practical"
+    ],
+    "description": "Tobacco cultivation and curing, coffee roasting, tea processing, stimulant crops, and fermentation techniques.",
+    "icon": "🚬",
+    "file": "guides/tobacco-stimulants.html",
+    "url": "guides/tobacco-stimulants.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-078",
+    "title": "Pest Control & IPM",
+    "category": "agriculture",
+    "tags": [
+      "essential"
+    ],
+    "description": "Integrated pest management, natural pesticides, crop protection, beneficial insects, and sustainable farming practices.",
+    "icon": "🪲",
+    "file": "guides/pest-control.html",
+    "url": "guides/pest-control.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-079",
+    "title": "Refrigeration & Cooling",
+    "category": "agriculture",
+    "tags": [
+      "practical"
+    ],
+    "description": "Ice production, evaporative cooling, ice houses, root cellaring alternatives, and thermal management systems.",
+    "icon": "❄️",
+    "file": "guides/refrigeration-cooling.html",
+    "url": "guides/refrigeration-cooling.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-080",
+    "title": "Grain Milling & Processing",
+    "category": "agriculture",
+    "tags": [
+      "essential"
+    ],
+    "description": "Millstone dressing, flour production, grain cleaning, sifting, hand mills, water-powered mills, and grain storage.",
+    "icon": "🌾",
+    "file": "guides/grain-milling.html",
+    "url": "guides/grain-milling.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-081",
+    "title": "Oil Pressing & Extraction",
+    "category": "agriculture",
+    "tags": [
+      "practical"
+    ],
+    "description": "Seed pressing, olive oil production, animal fats, oil filtration, press construction, and oil-based products.",
+    "icon": "🫒",
+    "file": "guides/oil-pressing.html",
+    "url": "guides/oil-pressing.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0",
+    "prerequisites": [
+      "FOD-03"
+    ]
+  },
+  {
+    "id": "GD-082",
+    "title": "Sugar & Sweeteners",
+    "category": "agriculture",
+    "tags": [
+      "practical"
+    ],
+    "description": "Sugar cane processing, beet sugar, maple syrup, honey, sorghum syrup, and natural sweetener extraction methods.",
+    "icon": "🍯",
+    "file": "guides/sugar-sweeteners.html",
+    "url": "guides/sugar-sweeteners.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-083",
+    "title": "Vinegar & Fermented Condiments",
+    "category": "agriculture",
+    "tags": [
+      "practical"
+    ],
+    "description": "Vinegar production, fermented sauces, pickled preserves, mother cultures, and condiment recipes from scratch.",
+    "icon": "🫙",
+    "file": "guides/vinegar-ferments.html",
+    "url": "guides/vinegar-ferments.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-084",
+    "title": "Spices & Seasonings",
+    "category": "agriculture",
+    "tags": [
+      "practical"
+    ],
+    "description": "Growing spice plants, drying, grinding, blending, salt curing, herb gardens, and flavor extraction techniques.",
+    "icon": "🌶️",
+    "file": "guides/spices-seasonings.html",
+    "url": "guides/spices-seasonings.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-085",
+    "title": "Greenhouses & Cold Frames",
+    "category": "agriculture",
+    "tags": [
+      "essential"
+    ],
+    "description": "Greenhouse construction, cold frame design, season extension, temperature control, glazing, and protected cultivation.",
+    "icon": "🏡",
+    "file": "guides/greenhouse-coldframe.html",
+    "url": "guides/greenhouse-coldframe.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-086",
+    "title": "Seed Vault & Genetic Preservation",
+    "category": "agriculture",
+    "tags": [
+      "critical"
+    ],
+    "description": "Seed saving techniques, viability testing, long-term storage, genetic diversity, seed banks, and crop preservation strategies.",
+    "icon": "🌰",
+    "file": "guides/seed-vault.html",
+    "url": "guides/seed-vault.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0",
+    "prerequisites": [
+      "FOD-03"
+    ]
+  },
+  {
+    "id": "GD-088",
+    "title": "Indoor & Hydroponic Farming",
+    "category": "agriculture",
+    "tags": [
+      "essential"
+    ],
+    "description": "Hydroponics (DWC, NFT, Kratky), aeroponics, aquaponics at scale, vertical farming, lighting, and nutrients.",
+    "icon": "🌱",
+    "file": "guides/indoor-farming.html",
+    "url": "guides/indoor-farming.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-089",
+    "title": "Food Rationing & Nutrition",
+    "category": "agriculture",
+    "tags": [
+      "essential"
+    ],
+    "description": "Calorie budgeting, nutrient optimization, rationing systems, deficiency disease prevention, and supply duration.",
+    "icon": "📊",
+    "file": "guides/food-rationing.html",
+    "url": "guides/food-rationing.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-090",
+    "title": "Insect Farming & Protein",
+    "category": "agriculture",
+    "tags": [
+      "practical"
+    ],
+    "description": "Cricket, mealworm, and black soldier fly farming. Feed conversion, harvesting, processing, and nutritional profiles.",
+    "icon": "🦗",
+    "file": "guides/insect-farming.html",
+    "url": "guides/insect-farming.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-091",
+    "title": "Veterinary Obstetrics",
+    "category": "agriculture",
+    "tags": [
+      "essential"
+    ],
+    "description": "Livestock dystocia, malpresentation correction, field C-sections, colostrum management, and neonatal resuscitation.",
+    "icon": "🐮",
+    "file": "guides/veterinary-obstetrics.html",
+    "url": "guides/veterinary-obstetrics.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-092",
+    "title": "Veterinary Parasitology",
+    "category": "agriculture",
+    "tags": [
+      "essential"
+    ],
+    "description": "McMaster fecal egg counts, FAMACHA scoring, dewormer classes, pasture rotation, and dip tank construction.",
+    "icon": "🔬",
+    "file": "guides/veterinary-parasitology.html",
+    "url": "guides/veterinary-parasitology.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-093",
+    "title": "Hoof Care & Farriery",
+    "category": "agriculture",
+    "tags": [
+      "essential"
+    ],
+    "description": "Hoof anatomy, trimming, hot/cold shoeing, laminitis treatment, corrective shoeing, and forging farrier tools.",
+    "icon": "🐴",
+    "file": "guides/hoof-care-farriery.html",
+    "url": "guides/hoof-care-farriery.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0",
+    "prerequisites": [
+      "CRA-01"
+    ]
+  },
+  {
+    "id": "GD-094",
+    "title": "Construction & Carpentry",
+    "category": "building",
+    "tags": [
+      "essential"
+    ],
+    "description": "Joinery, timber framing, earthen building, roofing, foundations, tool use, and structural engineering basics.",
+    "icon": "🏗️",
+    "file": "guides/construction.html",
+    "url": "guides/construction.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-095",
+    "title": "Engineering & Repair",
+    "category": "building",
+    "tags": [
+      "essential"
+    ],
+    "description": "Mechanical systems, electrical wiring, plumbing, small engine repair, welding basics, and troubleshooting.",
+    "icon": "🔧",
+    "file": "guides/engineering-repair.html",
+    "url": "guides/engineering-repair.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0",
+    "prerequisites": [
+      "GD-160"
+    ],
+    "relatedSpreadsheet": "failure-troubleshooting.json"
+  },
+  {
+    "id": "GD-096",
+    "title": "Energy Systems",
+    "category": "building",
+    "tags": [
+      "rebuild"
+    ],
+    "description": "Water wheels, windmills, steam engines, micro-hydro, wood gasification, biogas, and power generation from scratch.",
+    "icon": "⚡",
+    "file": "guides/energy-systems.html",
+    "url": "guides/energy-systems.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-097",
+    "title": "Transportation & Infrastructure",
+    "category": "transportation",
+    "tags": [
+      "essential"
+    ],
+    "description": "Carts, wagons, boats, sailing, road building, bridges, canals, pack saddles, and bicycle mechanics.",
+    "icon": "⛵",
+    "file": "guides/transportation.html",
+    "url": "guides/transportation.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0",
+    "prerequisites": [
+      "CON-02"
+    ]
+  },
+  {
+    "id": "GD-098",
+    "title": "Well Drilling & Water Access",
+    "category": "building",
+    "tags": [
+      "essential"
+    ],
+    "description": "Well location, drilling methods, pumps, spring development, groundwater assessment, maintenance, and water testing.",
+    "icon": "💧",
+    "file": "guides/well-drilling.html",
+    "url": "guides/well-drilling.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0",
+    "prerequisites": [
+      "SUR-01"
+    ]
+  },
+  {
+    "id": "GD-099",
+    "title": "Machine Tools & Workshop",
+    "category": "building",
+    "tags": [
+      "practical"
+    ],
+    "description": "Lathe construction, milling, tool grinding, jigs and fixtures, precision measurement, workshop layout, and tool maintenance.",
+    "icon": "🛠️",
+    "file": "guides/machine-tools.html",
+    "url": "guides/machine-tools.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0",
+    "prerequisites": [
+      "CRA-01"
+    ]
+  },
+  {
+    "id": "GD-100",
+    "title": "Boat Building & Watercraft",
+    "category": "transportation",
+    "tags": [
+      "practical"
+    ],
+    "description": "Hull design, boat construction, sailing vessels, small craft, caulking, rigging, and launching procedures.",
+    "icon": "⛴️",
+    "file": "guides/shipbuilding-boats.html",
+    "url": "guides/shipbuilding-boats.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-101",
+    "title": "Draft Animals & Working Livestock",
+    "category": "transportation",
+    "tags": [
+      "essential"
+    ],
+    "description": "Horse training, oxen, mules, harness making, pack animal care, working techniques, and transportation logistics.",
+    "icon": "🐴",
+    "file": "guides/draft-animals.html",
+    "url": "guides/draft-animals.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-102",
+    "title": "Steam Engines & Power Generation",
+    "category": "building",
+    "tags": [
+      "rebuild"
+    ],
+    "description": "Steam engine design, boiler construction, thermodynamics, power transmission, pump design, and industrial applications.",
+    "icon": "🚂",
+    "file": "guides/steam-engines.html",
+    "url": "guides/steam-engines.html",
+    "difficulty": "advanced",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-103",
+    "title": "Pottery & Ceramics",
+    "category": "crafts",
+    "tags": [
+      "practical"
+    ],
+    "description": "Clay preparation, hand throwing, kiln construction, glazing techniques, firing methods, and ceramic products.",
+    "icon": "🏺",
+    "file": "guides/pottery-ceramics.html",
+    "url": "guides/pottery-ceramics.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-104",
+    "title": "Lime, Cement & Mortar",
+    "category": "building",
+    "tags": [
+      "essential"
+    ],
+    "description": "Lime production, cement manufacturing, mortar composition, concrete mixing, and binding materials from scratch.",
+    "icon": "🧱",
+    "file": "guides/lime-cement.html",
+    "url": "guides/lime-cement.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-105",
+    "title": "Plumbing & Water Systems",
+    "category": "building",
+    "tags": [
+      "essential"
+    ],
+    "description": "Pipe materials, water distribution networks, drainage systems, leakage prevention, and hydraulic infrastructure.",
+    "icon": "🛠️",
+    "file": "guides/plumbing-pipes.html",
+    "url": "guides/plumbing-pipes.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0",
+    "prerequisites": [
+      "SUR-01",
+      "CON-02"
+    ]
+  },
+  {
+    "id": "GD-106",
+    "title": "Insulation & Weatherproofing",
+    "category": "building",
+    "tags": [
+      "practical"
+    ],
+    "description": "Insulation materials, weatherproofing techniques, thermal efficiency, moisture barriers, and climate control methods.",
+    "icon": "🪟",
+    "file": "guides/insulation-weatherproofing.html",
+    "url": "guides/insulation-weatherproofing.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0",
+    "relatedSpreadsheet": "climate-terrain-guide.json"
+  },
+  {
+    "id": "GD-107",
+    "title": "Woodcarving & Furniture",
+    "category": "crafts",
+    "tags": [
+      "practical"
+    ],
+    "description": "Hand carving techniques, furniture design, joinery, finishes, wood selection, and decorative woodworking.",
+    "icon": "🪵",
+    "file": "guides/woodcarving-furniture.html",
+    "url": "guides/woodcarving-furniture.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-108",
+    "title": "Solar Technology",
+    "category": "building",
+    "tags": [
+      "rebuild"
+    ],
+    "description": "Solar heating, solar cooking, photovoltaic principles, thermal storage, and solar-powered systems from basic to advanced.",
+    "icon": "☀️",
+    "file": "guides/solar-technology.html",
+    "url": "guides/solar-technology.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-109",
+    "title": "Natural Building Materials",
+    "category": "building",
+    "tags": [
+      "essential"
+    ],
+    "description": "Cob, adobe, rammed earth, straw bale, wattle-and-daub, earthen floors, natural plasters, and green building techniques.",
+    "icon": "🧱",
+    "file": "guides/natural-building.html",
+    "url": "guides/natural-building.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0",
+    "relatedSpreadsheet": "materials-checklists.json"
+  },
+  {
+    "id": "GD-110",
+    "title": "Bridges, Dams & Infrastructure",
+    "category": "building",
+    "tags": [
+      "rebuild"
+    ],
+    "description": "Bridge types, dam construction, retaining walls, aqueducts, structural engineering, load calculations, and water management.",
+    "icon": "🌉",
+    "file": "guides/bridges-dams.html",
+    "url": "guides/bridges-dams.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0",
+    "prerequisites": [
+      "CON-02"
+    ]
+  },
+  {
+    "id": "GD-111",
+    "title": "Road Building & Paving",
+    "category": "building",
+    "tags": [
+      "essential"
+    ],
+    "description": "Road grading, gravel preparation, drainage, macadam technique, cobblestone, and transportation route planning.",
+    "icon": "🛤️",
+    "file": "guides/road-building.html",
+    "url": "guides/road-building.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0",
+    "prerequisites": [
+      "CON-02"
+    ],
+    "relatedSpreadsheet": "scenario-plans.json"
+  },
+  {
+    "id": "GD-112",
+    "title": "Thatching & Roofing",
+    "category": "building",
+    "tags": [
+      "practical"
+    ],
+    "description": "Thatch materials, ridge work, shingle making, slate roofing, waterproofing, roof framing, and long-lasting roof systems.",
+    "icon": "🏠",
+    "file": "guides/thatching-roofing.html",
+    "url": "guides/thatching-roofing.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-113",
+    "title": "Water Mills & Windmills",
+    "category": "power-generation",
+    "tags": [
+      "rebuild"
+    ],
+    "description": "Waterwheel design, windmill construction, power transmission, gearing, millwright skills, and renewable mechanical power.",
+    "icon": "🌊",
+    "file": "guides/water-mills-windmills.html",
+    "url": "guides/water-mills-windmills.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-114",
+    "title": "Small Engines & Mechanical Power",
+    "category": "building",
+    "tags": [
+      "rebuild"
+    ],
+    "description": "Internal combustion basics, gas engine repair, diesel fundamentals, fuel systems, ignition, and engine rebuilding.",
+    "icon": "⚙️",
+    "file": "guides/small-engines.html",
+    "url": "guides/small-engines.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0",
+    "prerequisites": [
+      "CON-02"
+    ]
+  },
+  {
+    "id": "GD-115",
+    "title": "Bicycle Construction & Repair",
+    "category": "transportation",
+    "tags": [
+      "practical"
+    ],
+    "description": "Frame building, wheel truing, chain drives, gear ratios, tire repair, and bicycle-powered tools and transport.",
+    "icon": "🚲",
+    "file": "guides/bicycle-construction.html",
+    "url": "guides/bicycle-construction.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0",
+    "relatedSpreadsheet": "materials-checklists.json"
+  },
+  {
+    "id": "GD-116",
+    "title": "Hydroelectric Power",
+    "category": "power-generation",
+    "tags": [
+      "rebuild"
+    ],
+    "description": "Turbine types (Pelton, Francis, Kaplan), penstock design, micro/pico-hydro, waterwheels, and generator selection.",
+    "icon": "💧",
+    "file": "guides/hydroelectric.html",
+    "url": "guides/hydroelectric.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0",
+    "prerequisites": [
+      "GD-160"
+    ]
+  },
+  {
+    "id": "GD-117",
+    "title": "Sewage Treatment Systems",
+    "category": "building",
+    "tags": [
+      "essential"
+    ],
+    "description": "Constructed wetlands, biogas digesters, composting toilets, septic systems, greywater treatment, and effluent testing.",
+    "icon": "🚰",
+    "file": "guides/sewage-treatment.html",
+    "url": "guides/sewage-treatment.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-118",
+    "title": "Power Distribution & Micro-Grids",
+    "category": "power-generation",
+    "tags": [
+      "rebuild"
+    ],
+    "description": "AC/DC distribution, transformers, conductor sizing, switchgear, grounding, metering, and micro-grid design.",
+    "icon": "⚡",
+    "file": "guides/power-distribution.html",
+    "url": "guides/power-distribution.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-119",
+    "title": "Steel Making",
+    "category": "crafts",
+    "tags": [
+      "rebuild"
+    ],
+    "description": "Bloomery/blast furnace, wrought vs cast iron, crucible steel, Bessemer process, heat treatment, and alloy selection.",
+    "icon": "⚙️",
+    "file": "guides/steel-making.html",
+    "url": "guides/steel-making.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0",
+    "prerequisites": [
+      "CRA-01",
+      "GD-225"
+    ]
+  },
+  {
+    "id": "GD-120",
+    "title": "Metalworking & Blacksmithing",
+    "category": "metalworking",
+    "tags": [
+      "practical"
+    ],
+    "description": "Forge construction, basic metallurgy, tool making, heat treating, casting, and essential smithing techniques.",
+    "icon": "⚒️",
+    "file": "guides/metalworking.html",
+    "url": "guides/metalworking.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0",
+    "prerequisites": [
+      "CRA-01"
+    ]
+  },
+  {
+    "id": "GD-121",
+    "title": "Textiles & Fiber Arts",
+    "category": "crafts",
+    "tags": [
+      "practical"
+    ],
+    "description": "Spinning, weaving, knitting, natural dyes, fiber processing, loom construction, and clothing repair.",
+    "icon": "🧵",
+    "file": "guides/textiles.html",
+    "url": "guides/textiles.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0",
+    "prerequisites": [
+      "CRA-03"
+    ]
+  },
+  {
+    "id": "GD-122",
+    "title": "Homestead Chemistry",
+    "category": "agriculture",
+    "tags": [
+      "practical"
+    ],
+    "description": "Soap making, candle making, cleaning products, tanning & leatherwork, natural adhesives, and basic chemistry.",
+    "icon": "🧪",
+    "file": "guides/homestead-chemistry.html",
+    "url": "guides/homestead-chemistry.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-123",
+    "title": "Glass, Optics & Ceramics",
+    "category": "crafts",
+    "tags": [
+      "rebuild"
+    ],
+    "description": "Glassmaking from sand, lens grinding, kiln construction, pottery, brickmaking, glazing, and optical instruments.",
+    "icon": "🏺",
+    "file": "guides/glass-ceramics.html",
+    "url": "guides/glass-ceramics.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-124",
+    "title": "Knots, Rope & Rigging",
+    "category": "survival",
+    "tags": [
+      "practical"
+    ],
+    "description": "Essential knots, rope making, splicing, block and tackle, rigging systems, lashing, and net making.",
+    "icon": "🪢",
+    "file": "guides/knots-rigging.html",
+    "url": "guides/knots-rigging.html",
+    "difficulty": "beginner",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-125",
+    "title": "Papermaking & Printing",
+    "category": "crafts",
+    "tags": [
+      "rebuild"
+    ],
+    "description": "Fiber pulp papermaking, ink formulation, movable type, bookbinding, record keeping, and printing presses.",
+    "icon": "📜",
+    "file": "guides/papermaking.html",
+    "url": "guides/papermaking.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-126",
+    "title": "Leather Tanning & Leatherworking",
+    "category": "crafts",
+    "tags": [
+      "practical"
+    ],
+    "description": "Hide preparation, tanning methods, vegetable tanning, leather working, tool making, armor, and finished products.",
+    "icon": "🧥",
+    "file": "guides/leather-tanning.html",
+    "url": "guides/leather-tanning.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-127",
+    "title": "Shoemaking & Footwear",
+    "category": "crafts",
+    "tags": [
+      "practical"
+    ],
+    "description": "Shoe patterns, leather working, sole attachment, sizing, repair, insoles, and lasting techniques.",
+    "icon": "👞",
+    "file": "guides/shoemaking.html",
+    "url": "guides/shoemaking.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-128",
+    "title": "Basketry, Cordage & Fiber Crafts",
+    "category": "crafts",
+    "tags": [
+      "practical"
+    ],
+    "description": "Basket weaving, rope making, cordage from natural fibers, net making, and fiber craft techniques.",
+    "icon": "🧺",
+    "file": "guides/basketry-cordage.html",
+    "url": "guides/basketry-cordage.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0",
+    "prerequisites": [
+      "CRA-03"
+    ]
+  },
+  {
+    "id": "GD-129",
+    "title": "Soap & Candle Making",
+    "category": "crafts",
+    "tags": [
+      "practical"
+    ],
+    "description": "Lye production, soap making methods, candle wax sources, wick making, and lighting production.",
+    "icon": "🕯️",
+    "file": "guides/soap-candles.html",
+    "url": "guides/soap-candles.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-130",
+    "title": "Dyeing, Pigments & Paint",
+    "category": "crafts",
+    "tags": [
+      "practical"
+    ],
+    "description": "Natural dye extraction, pigment production, paint formulation, color chemistry, and dyeing techniques.",
+    "icon": "🎨",
+    "file": "guides/dyeing-pigments.html",
+    "url": "guides/dyeing-pigments.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-131",
+    "title": "Charcoal & Fuels",
+    "category": "crafts",
+    "tags": [
+      "essential"
+    ],
+    "description": "Charcoal production, coal making, fuel sources, biomass energy, biochar, and energy storage methods.",
+    "icon": "🔥",
+    "file": "guides/charcoal-fuels.html",
+    "url": "guides/charcoal-fuels.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-132",
+    "title": "Foundry & Metal Casting",
+    "category": "crafts",
+    "tags": [
+      "rebuild"
+    ],
+    "description": "Furnace construction, mold making, sand casting, lost-wax process, alloy formulation, and casting defect analysis.",
+    "icon": "🔥",
+    "file": "guides/foundry-casting.html",
+    "url": "guides/foundry-casting.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-133",
+    "title": "Gunsmithing & Firearms",
+    "category": "defense",
+    "tags": [
+      "important"
+    ],
+    "description": "Barrel making, lock mechanisms, stock fitting, ammunition, maintenance, repair, and blackpowder firearms construction.",
+    "icon": "🔧",
+    "file": "guides/gunsmithing.html",
+    "url": "guides/gunsmithing.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0",
+    "prerequisites": [
+      "CRA-07"
+    ]
+  },
+  {
+    "id": "GD-134",
+    "title": "Rubber & Latex Processing",
+    "category": "crafts",
+    "tags": [
+      "rebuild"
+    ],
+    "description": "Latex harvesting, vulcanization, rubber products, seals, gaskets, tubing, waterproofing, and synthetic alternatives.",
+    "icon": "🌳",
+    "file": "guides/rubber-latex.html",
+    "url": "guides/rubber-latex.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-135",
+    "title": "Glue & Adhesives",
+    "category": "crafts",
+    "tags": [
+      "practical"
+    ],
+    "description": "Hide glue, casein, plant-based adhesives, waterproof formulations, epoxy alternatives, and bonding techniques.",
+    "icon": "🧴",
+    "file": "guides/glue-adhesives.html",
+    "url": "guides/glue-adhesives.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-136",
+    "title": "Printing Press & Typography",
+    "category": "crafts",
+    "tags": [
+      "rebuild"
+    ],
+    "description": "Movable type casting, press construction, ink formulation, typesetting, bookbinding integration, and mass printing.",
+    "icon": "🖨️",
+    "file": "guides/printing-press.html",
+    "url": "guides/printing-press.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-137",
+    "title": "Waterproofing Textiles",
+    "category": "crafts",
+    "tags": [
+      "practical"
+    ],
+    "description": "Oilskin, waxed fabric, rubberized cloth, tar/pitch treatment, seam sealing, and leather waterproofing methods.",
+    "icon": "🧥",
+    "file": "guides/waterproofing-textiles.html",
+    "url": "guides/waterproofing-textiles.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-138",
+    "title": "Rubber & Vulcanization",
+    "category": "crafts",
+    "tags": [
+      "rebuild"
+    ],
+    "description": "Natural rubber processing, sulfur vulcanization, tire reclaiming, gasket/seal making, and rubber-metal bonding.",
+    "icon": "♻️",
+    "file": "guides/rubber-vulcanization.html",
+    "url": "guides/rubber-vulcanization.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-139",
+    "title": "Ham Radio & Communications",
+    "category": "communications",
+    "tags": [
+      "important"
+    ],
+    "description": "Radio operation, frequency references, antenna building, Morse code, emergency comms protocols, and radio repair.",
+    "icon": "📡",
+    "file": "guides/ham-radio.html",
+    "url": "guides/ham-radio.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0",
+    "prerequisites": [
+      "GD-232"
+    ]
+  },
+  {
+    "id": "GD-140",
+    "title": "Navigation & Timekeeping",
+    "category": "communications",
+    "tags": [
+      "important"
+    ],
+    "description": "Celestial navigation, compass making, map reading, cartography, sundials, water clocks, and surveying.",
+    "icon": "🧭",
+    "file": "guides/navigation.html",
+    "url": "guides/navigation.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0",
+    "prerequisites": [
+      "SUR-04"
+    ]
+  },
+  {
+    "id": "GD-141",
+    "title": "Astronomy & Calendar Systems",
+    "category": "communications",
+    "tags": [
+      "rebuild"
+    ],
+    "description": "Star maps, constellations, solar/lunar calendars, eclipse prediction, planet identification, and building instruments.",
+    "icon": "🌌",
+    "file": "guides/astronomy-calendar.html",
+    "url": "guides/astronomy-calendar.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0",
+    "prerequisites": [
+      "SUR-04"
+    ]
+  },
+  {
+    "id": "GD-142",
+    "title": "Signals & Communication",
+    "category": "communications",
+    "tags": [
+      "important"
+    ],
+    "description": "Signal systems, visual signaling, message transmission, telephone principles, and long-distance communication methods.",
+    "icon": "📞",
+    "file": "guides/signals-communication.html",
+    "url": "guides/signals-communication.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-143",
+    "title": "Technical Drawing & Drafting",
+    "category": "communications",
+    "tags": [
+      "rebuild"
+    ],
+    "description": "Technical drawing standards, blueprints, CAD principles, architectural drafting, and engineering documentation.",
+    "icon": "📐",
+    "file": "guides/mechanical-drawing.html",
+    "url": "guides/mechanical-drawing.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-144",
+    "title": "Photography & Documentation",
+    "category": "communications",
+    "tags": [
+      "practical"
+    ],
+    "description": "Camera construction, film processing, light principles, optics, chemical photography, and visual documentation.",
+    "icon": "📷",
+    "file": "guides/photography-documentation.html",
+    "url": "guides/photography-documentation.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-145",
+    "title": "Flight, Balloons & Kites",
+    "category": "communications",
+    "tags": [
+      "practical"
+    ],
+    "description": "Hot air balloons, kite making, aerodynamics, lighter-than-air principles, and experimental flight systems.",
+    "icon": "🎈",
+    "file": "guides/flight-balloons.html",
+    "url": "guides/flight-balloons.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-146",
+    "title": "Telegraph & Telephone",
+    "category": "communications",
+    "tags": [
+      "rebuild"
+    ],
+    "description": "Telegraph construction, Morse code systems, telephone principles, switchboard design, wire networks, and long-distance comms.",
+    "icon": "📡",
+    "file": "guides/telegraph-telephone.html",
+    "url": "guides/telegraph-telephone.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-147",
+    "title": "Cryptography & Codes",
+    "category": "communications",
+    "tags": [
+      "important"
+    ],
+    "description": "Cipher systems, code books, one-time pads, steganography, secure communications, and intelligence tradecraft.",
+    "icon": "🔐",
+    "file": "guides/cryptography-codes.html",
+    "url": "guides/cryptography-codes.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-148",
+    "title": "Cartography & Mapmaking",
+    "category": "communications",
+    "tags": [
+      "important"
+    ],
+    "description": "Surveying, triangulation, map projection, terrain mapping, nautical charts, and geographic information systems from scratch.",
+    "icon": "🗺️",
+    "file": "guides/cartography-mapmaking.html",
+    "url": "guides/cartography-mapmaking.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-149",
+    "title": "Telecommunications",
+    "category": "communications",
+    "tags": [
+      "rebuild"
+    ],
+    "description": "Mesh networks, optical signaling, relay stations, antenna theory, encryption, and community network planning.",
+    "icon": "📡",
+    "file": "guides/telecommunications.html",
+    "url": "guides/telecommunications.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0",
+    "relatedSpreadsheet": "scenario-plans.json"
+  },
+  {
+    "id": "GD-150",
+    "title": "Weapons & Defense",
+    "category": "defense",
+    "tags": [
+      "important"
+    ],
+    "description": "Bow making, crossbows, fortification, perimeter security, hunting weapons, traps, community defense, and conflict de-escalation.",
+    "icon": "🛡️",
+    "file": "guides/weapons-defense.html",
+    "url": "guides/weapons-defense.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0",
+    "prerequisites": [
+      "CON-01"
+    ]
+  },
+  {
+    "id": "GD-151",
+    "title": "NBC Defense & Fallout Protection",
+    "category": "defense",
+    "tags": [
+      "important"
+    ],
+    "description": "Nuclear, biological, and chemical hazards, fallout shelter design, radiation protection, decontamination, and survival protocols.",
+    "icon": "☢️",
+    "file": "guides/nbc-defense.html",
+    "url": "guides/nbc-defense.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-152",
+    "title": "Black Powder & Blasting",
+    "category": "defense",
+    "tags": [
+      "important"
+    ],
+    "description": "Black powder production, formulation, safety protocols, blasting techniques, mining explosives, and demolition procedures.",
+    "icon": "💥",
+    "file": "guides/blackpowder-blasting.html",
+    "url": "guides/blackpowder-blasting.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-153",
+    "title": "Archery & Crossbows",
+    "category": "defense",
+    "tags": [
+      "important"
+    ],
+    "description": "Bow and arrow construction, crossbow design, ammunition, accuracy training, maintenance, and hunting applications.",
+    "icon": "🏹",
+    "file": "guides/archery-crossbows.html",
+    "url": "guides/archery-crossbows.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-154",
+    "title": "Trapping & Snares",
+    "category": "survival",
+    "tags": [
+      "important"
+    ],
+    "description": "Trap design, snare construction, animal behavior, baiting, trap placement, ethics, and harvest techniques.",
+    "icon": "🪤",
+    "file": "guides/trapping-snares.html",
+    "url": "guides/trapping-snares.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-155",
+    "title": "Working Dogs & Animals",
+    "category": "defense",
+    "tags": [
+      "essential"
+    ],
+    "description": "Dog training, herding, protection, working livestock, animal behavior, and domesticated animal partnerships.",
+    "icon": "🐕",
+    "file": "guides/dogs-working-animals.html",
+    "url": "guides/dogs-working-animals.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-156",
+    "title": "Martial Arts & Self-Defense",
+    "category": "defense",
+    "tags": [
+      "important"
+    ],
+    "description": "Unarmed combat, improvised weapons, defensive techniques, training programs, de-escalation, and personal protection.",
+    "icon": "🥋",
+    "file": "guides/martial-arts-defense.html",
+    "url": "guides/martial-arts-defense.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-157",
+    "title": "Physics & Simple Machines",
+    "category": "sciences",
+    "tags": [
+      "rebuild"
+    ],
+    "description": "Levers, pulleys, gears, inclined planes, hydraulics, pneumatics, mechanical advantage, and fundamental forces.",
+    "icon": "⚙️",
+    "file": "guides/physics-machines.html",
+    "url": "guides/physics-machines.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0",
+    "prerequisites": [
+      "CON-02"
+    ]
+  },
+  {
+    "id": "GD-158",
+    "title": "Chemistry from Scratch",
+    "category": "chemistry",
+    "tags": [
+      "rebuild"
+    ],
+    "description": "Elements, compounds, reactions, acids & bases, making key chemicals, periodic table, and industrial chemistry basics.",
+    "icon": "⚛️",
+    "file": "guides/chemistry-fundamentals.html",
+    "url": "guides/chemistry-fundamentals.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-159",
+    "title": "Mathematics & Measurement",
+    "category": "sciences",
+    "tags": [
+      "rebuild"
+    ],
+    "description": "Arithmetic, geometry, trigonometry, measurement systems, surveying, estimation, and practical calculation methods.",
+    "icon": "📐",
+    "file": "guides/mathematics.html",
+    "url": "guides/mathematics.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-160",
+    "title": "Electricity & Magnetism",
+    "category": "sciences",
+    "tags": [
+      "rebuild"
+    ],
+    "description": "Batteries from scratch, generators, motors, circuits, telegraph, transformers, and basic electronics.",
+    "icon": "🔋",
+    "file": "guides/electricity.html",
+    "url": "guides/electricity.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-161",
+    "title": "Mining & Materials Processing",
+    "category": "sciences",
+    "tags": [
+      "rebuild"
+    ],
+    "description": "Ore identification, smelting, refining, charcoal production, alloys, cement & concrete, and raw material sourcing.",
+    "icon": "⛏️",
+    "file": "guides/mining-materials.html",
+    "url": "guides/mining-materials.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-162",
+    "title": "Advanced Materials & Industrial Chemistry",
+    "category": "sciences",
+    "tags": [
+      "rebuild"
+    ],
+    "description": "Rubber, plastics, petroleum refining, refrigeration, advanced alloys, industrial processes, and synthetic materials.",
+    "icon": "🔬",
+    "file": "guides/advanced-materials.html",
+    "url": "guides/advanced-materials.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-163",
+    "title": "Computing & Logic",
+    "category": "sciences",
+    "tags": [
+      "rebuild"
+    ],
+    "description": "Binary math, logic gates, mechanical computing, transistors, programming concepts, and the path to digital technology.",
+    "icon": "💻",
+    "file": "guides/computing-logic.html",
+    "url": "guides/computing-logic.html",
+    "difficulty": "advanced",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-164",
+    "title": "Clockmaking & Precision Mechanics",
+    "category": "sciences",
+    "tags": [
+      "rebuild"
+    ],
+    "description": "Clock design, gear cutting, escapements, pendulums, timekeeping, mechanical watches, and precision instruments.",
+    "icon": "⏰",
+    "file": "guides/clockmaking-precision.html",
+    "url": "guides/clockmaking-precision.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-167",
+    "title": "Sulfuric Acid Production",
+    "category": "chemistry",
+    "tags": [
+      "rebuild"
+    ],
+    "description": "The \"king of chemicals\" — lead chamber and contact processes, V₂O₅ catalyst, safety protocols, and industrial applications.",
+    "icon": "⚗️",
+    "file": "guides/sulfuric-acid.html",
+    "url": "guides/sulfuric-acid.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-168",
+    "title": "Nitrogen Fixation & Fertilizer",
+    "category": "chemistry",
+    "tags": [
+      "rebuild"
+    ],
+    "description": "Haber-Bosch ammonia synthesis, Ostwald process for nitric acid, biological fixation, and alternative nitrogen sources.",
+    "icon": "🌱",
+    "file": "guides/nitrogen-fixation.html",
+    "url": "guides/nitrogen-fixation.html",
+    "difficulty": "advanced",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-169",
+    "title": "Petroleum Refining",
+    "category": "chemistry",
+    "tags": [
+      "rebuild"
+    ],
+    "description": "Fractional distillation, product fractions (gasoline, kerosene, diesel), cracking, lubricants, and biofuel alternatives.",
+    "icon": "🛢️",
+    "file": "guides/petroleum-refining.html",
+    "url": "guides/petroleum-refining.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-170",
+    "title": "Plastic Production",
+    "category": "crafts",
+    "tags": [
+      "rebuild"
+    ],
+    "description": "Bakelite synthesis, celluloid, casein plastic, polymer chemistry, molding techniques, and bioplastics from starch.",
+    "icon": "🧫",
+    "file": "guides/plastic-production.html",
+    "url": "guides/plastic-production.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-171",
+    "title": "Precision Measurement Standards",
+    "category": "crafts",
+    "tags": [
+      "rebuild"
+    ],
+    "description": "Reference standards, vernier calipers, micrometers, thermometers, barometers, and calibration from first principles.",
+    "icon": "📏",
+    "file": "guides/precision-measurement.html",
+    "url": "guides/precision-measurement.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-172",
+    "title": "Bearing Manufacturing",
+    "category": "crafts",
+    "tags": [
+      "rebuild"
+    ],
+    "description": "Ball bearings, journal bearings, bronze alloys, lubrication theory, fitting tolerances, and failure mode analysis.",
+    "icon": "⚙️",
+    "file": "guides/bearing-manufacturing.html",
+    "url": "guides/bearing-manufacturing.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-173",
+    "title": "Wire Drawing & Cable Production",
+    "category": "crafts",
+    "tags": [
+      "rebuild"
+    ],
+    "description": "Draw plate construction, wire drawing techniques, insulation, cable making, and specialized wire production",
+    "icon": "🔧",
+    "file": "guides/wire-drawing.html",
+    "url": "guides/wire-drawing.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-174",
+    "title": "Magnet Production",
+    "category": "sciences",
+    "tags": [
+      "rebuild"
+    ],
+    "description": "Natural magnets, magnetization methods, electromagnets, compass construction, motors and generators",
+    "icon": "🧲",
+    "file": "guides/magnet-production.html",
+    "url": "guides/magnet-production.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-175",
+    "title": "Spring Manufacturing",
+    "category": "crafts",
+    "tags": [
+      "rebuild"
+    ],
+    "description": "Coil springs, leaf springs, clock springs, spring steel identification, heat treatment, design calculations",
+    "icon": "🔩",
+    "file": "guides/spring-manufacturing.html",
+    "url": "guides/spring-manufacturing.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0",
+    "prerequisites": [
+      "CRA-01",
+      "GD-225"
+    ]
+  },
+  {
+    "id": "GD-176",
+    "title": "Vacuum Technology",
+    "category": "sciences",
+    "tags": [
+      "rebuild"
+    ],
+    "description": "Hand vacuum pumps, mercury barometers, vacuum distillation, vacuum tubes, sealing techniques",
+    "icon": "⚡",
+    "file": "guides/vacuum-technology.html",
+    "url": "guides/vacuum-technology.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-177",
+    "title": "Lens Grinding & Optics",
+    "category": "sciences",
+    "tags": [
+      "rebuild"
+    ],
+    "description": "Optical fundamentals, grinding compounds, lens polishing, telescope and microscope construction, spectacles",
+    "icon": "🔬",
+    "file": "guides/lens-grinding.html",
+    "url": "guides/lens-grinding.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0",
+    "prerequisites": [
+      "CON-02"
+    ]
+  },
+  {
+    "id": "GD-178",
+    "title": "Alkali & Soda Production",
+    "category": "chemistry",
+    "tags": [
+      "rebuild"
+    ],
+    "description": "Potash, lime kilns, LeBlanc/Solvay processes, caustic soda, waterglass, and industrial applications.",
+    "icon": "⚗️",
+    "file": "guides/alkali-production.html",
+    "url": "guides/alkali-production.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-179",
+    "title": "Solvents & Distillation",
+    "category": "chemistry",
+    "tags": [
+      "rebuild"
+    ],
+    "description": "Turpentine, ethanol, methanol, acetone, ether production. Fractional distillation, safety, and solvent recovery.",
+    "icon": "🧪",
+    "file": "guides/solvents-distillation.html",
+    "url": "guides/solvents-distillation.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-180",
+    "title": "Chlorine & Bleach Production",
+    "category": "chemistry",
+    "tags": [
+      "rebuild"
+    ],
+    "description": "Chloralkali electrolysis, sodium/calcium hypochlorite, water treatment dosing, and safety protocols.",
+    "icon": "🧴",
+    "file": "guides/chlorine-bleach-production.html",
+    "url": "guides/chlorine-bleach-production.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-181",
+    "title": "Scrap Metal Identification",
+    "category": "salvage",
+    "tags": [
+      "rebuild"
+    ],
+    "description": "Spark testing, magnetic testing, density, chemical spot tests, hazardous material avoidance, and sorting.",
+    "icon": "🔩",
+    "file": "guides/scrap-metal-identification.html",
+    "url": "guides/scrap-metal-identification.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-183",
+    "title": "Alternator Repurposing",
+    "category": "salvage",
+    "tags": [
+      "rebuild"
+    ],
+    "description": "Converting car alternators to wind/hydro generators, arc welders, and battery chargers.",
+    "icon": "🔋",
+    "file": "guides/automotive-alternator-repurposing.html",
+    "url": "guides/automotive-alternator-repurposing.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-184",
+    "title": "Ink & Pigment Chemistry",
+    "category": "crafts",
+    "tags": [
+      "rebuild"
+    ],
+    "description": "Iron gall ink, carbon black, Prussian blue, natural pigments, binders, grinding, and printing ink formulation.",
+    "icon": "🎨",
+    "file": "guides/ink-pigment-chemistry.html",
+    "url": "guides/ink-pigment-chemistry.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-185",
+    "title": "Acetylene & Carbide Production",
+    "category": "chemistry",
+    "tags": [
+      "essential"
+    ],
+    "description": "Calcium carbide synthesis, portable acetylene lamps, welding/cutting torch setup. EXTREME RISK — comprehensive safety protocols.",
+    "icon": "🔥",
+    "file": "guides/acetylene-carbide-production.html",
+    "url": "guides/acetylene-carbide-production.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-186",
+    "title": "Electrolysis & Chloralkali Process",
+    "category": "chemistry",
+    "tags": [
+      "essential"
+    ],
+    "description": "Brine electrolysis for NaOH, hydrogen, and chlorine. Mercury/diaphragm/membrane cells. Unlocks bleach, PVC, pharmaceuticals.",
+    "icon": "⚡",
+    "file": "guides/electrolysis-chloralkali.html",
+    "url": "guides/electrolysis-chloralkali.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-187",
+    "title": "Ammonia Synthesis (Simplified)",
+    "category": "chemistry",
+    "tags": [
+      "essential"
+    ],
+    "description": "Small-scale Haber-Bosch process. Hydrogen from electrolysis, nitrogen from air, catalyst preparation. Critical for fertilizer.",
+    "icon": "⚗️",
+    "file": "guides/ammonia-synthesis-simplified.html",
+    "url": "guides/ammonia-synthesis-simplified.html",
+    "difficulty": "advanced",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-188",
+    "title": "Wood Distillation & Pyrolysis",
+    "category": "chemistry",
+    "tags": [
+      "essential"
+    ],
+    "description": "Extracting methanol, acetone, tar, and charcoal from wood. Retort construction, product separation, wood gas for engines.",
+    "icon": "🪵",
+    "file": "guides/wood-distillation.html",
+    "url": "guides/wood-distillation.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-189",
+    "title": "Governance & Community",
+    "category": "society",
+    "tags": [
+      "rebuild"
+    ],
+    "description": "Community organization, leadership, trade & barter, currency, law, conflict resolution, and rebuilding institutions.",
+    "icon": "🏛️",
+    "file": "guides/governance.html",
+    "url": "guides/governance.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0",
+    "relatedSpreadsheet": "trade-barter-guide.json"
+  },
+  {
+    "id": "GD-190",
+    "title": "Education & Knowledge Transfer",
+    "category": "society",
+    "tags": [
+      "rebuild"
+    ],
+    "description": "Teaching methods, literacy programs, apprenticeship systems, curriculum design, libraries, and preserving knowledge.",
+    "icon": "📚",
+    "file": "guides/education-teaching.html",
+    "url": "guides/education-teaching.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-191",
+    "title": "Entertainment & Culture",
+    "category": "society",
+    "tags": [
+      "human"
+    ],
+    "description": "Musical instruments, games, sports, storytelling, theater, art, poetry, puzzles, and maintaining morale.",
+    "icon": "🎵",
+    "file": "guides/entertainment.html",
+    "url": "guides/entertainment.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-192",
+    "title": "Psychology & Group Dynamics",
+    "category": "society",
+    "tags": [
+      "human"
+    ],
+    "description": "Crisis psychology, grief, trauma, leadership, motivation, conflict resolution, group decision-making, and mental resilience.",
+    "icon": "🧠",
+    "file": "guides/psychology-morale.html",
+    "url": "guides/psychology-morale.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-193",
+    "title": "Bookbinding, Printing & Knowledge Preservation",
+    "category": "crafts",
+    "tags": [
+      "rebuild"
+    ],
+    "description": "Book binding techniques, printing presses, ink production, manuscript preservation, library organization, and record keeping.",
+    "icon": "📕",
+    "file": "guides/bookbinding-printing.html",
+    "url": "guides/bookbinding-printing.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-194",
+    "title": "Economics & Trade",
+    "category": "society",
+    "tags": [
+      "rebuild"
+    ],
+    "description": "Currency systems, markets, trade routes, pricing, accounting, taxation, and economic organization.",
+    "icon": "💰",
+    "file": "guides/economics-trade.html",
+    "url": "guides/economics-trade.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-195",
+    "title": "Home Management",
+    "category": "society",
+    "tags": [
+      "essential"
+    ],
+    "description": "Household organization, resource management, budgeting, cleaning, cooking, family health, and domestic planning.",
+    "icon": "🏠",
+    "file": "guides/home-management.html",
+    "url": "guides/home-management.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0",
+    "relatedSpreadsheet": "scenario-plans.json"
+  },
+  {
+    "id": "GD-196",
+    "title": "Records & Archives",
+    "category": "society",
+    "tags": [
+      "rebuild"
+    ],
+    "description": "Record keeping, document preservation, archival standards, indexing, cataloging, and information management systems.",
+    "icon": "🗂️",
+    "file": "guides/archival-records.html",
+    "url": "guides/archival-records.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-197",
+    "title": "Justice & Legal Systems",
+    "category": "society",
+    "tags": [
+      "rebuild"
+    ],
+    "description": "Common law, dispute resolution, community courts, contracts, property rights, criminal justice, and constitutional foundations.",
+    "icon": "⚖️",
+    "file": "guides/justice-law.html",
+    "url": "guides/justice-law.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-198",
+    "title": "Music Theory & Instruments",
+    "category": "society",
+    "tags": [
+      "human"
+    ],
+    "description": "Scales, harmony, rhythm, instrument building, notation, vocal training, ensemble performance, and music education.",
+    "icon": "🎵",
+    "file": "guides/music-theory.html",
+    "url": "guides/music-theory.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-199",
+    "title": "Philosophy & Ethics",
+    "category": "society",
+    "tags": [
+      "human"
+    ],
+    "description": "Moral frameworks, ethical reasoning, philosophical traditions, critical thinking, logic, and applied ethics for community life.",
+    "icon": "📖",
+    "file": "guides/philosophy-ethics.html",
+    "url": "guides/philosophy-ethics.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-200",
+    "title": "Storytelling & Theater",
+    "category": "society",
+    "tags": [
+      "human"
+    ],
+    "description": "Oral tradition, narrative craft, puppetry, stage design, playwriting, community theater, and performance arts.",
+    "icon": "🎭",
+    "file": "guides/storytelling-theater.html",
+    "url": "guides/storytelling-theater.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-201",
+    "title": "Community Organizing & Leadership",
+    "category": "society",
+    "tags": [
+      "rebuild"
+    ],
+    "description": "Community building, democratic process, volunteer coordination, mutual aid, resource sharing, and grassroots governance.",
+    "icon": "🤝",
+    "file": "guides/community-organizing.html",
+    "url": "guides/community-organizing.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-203",
+    "title": "Psychological Resilience",
+    "category": "medical",
+    "tags": [
+      "human"
+    ],
+    "description": "Crisis psychology, CISD protocol, conflict de-escalation, PTSD management, morale, and community rituals.",
+    "icon": "🧠",
+    "file": "guides/psychological-resilience.html",
+    "url": "guides/psychological-resilience.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-205",
+    "title": "Postal Service & Communication Networks",
+    "category": "resource-management",
+    "tags": [
+      "rebuild"
+    ],
+    "description": "Relay runner systems, horse mail routes, dead drops, addressing standards, message encryption, and emergency signaling.",
+    "icon": "📬",
+    "file": "guides/postal-service-establishment.html",
+    "url": "guides/postal-service-establishment.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-206",
+    "title": "Double-Entry Bookkeeping",
+    "category": "resource-management",
+    "tags": [
+      "rebuild"
+    ],
+    "description": "Ledger setup, debits & credits, journal entries, trial balance, financial statements, and barter economy accounting.",
+    "icon": "📊",
+    "file": "guides/double-entry-bookkeeping.html",
+    "url": "guides/double-entry-bookkeeping.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0",
+    "relatedSpreadsheet": "trade-barter-guide.json"
+  },
+  {
+    "id": "GD-207",
+    "title": "Library Science & Classification",
+    "category": "society",
+    "tags": [
+      "rebuild"
+    ],
+    "description": "Dewey Decimal system, card catalogs, book repair & preservation, lending systems, and oral knowledge preservation.",
+    "icon": "📚",
+    "file": "guides/library-classification.html",
+    "url": "guides/library-classification.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-208",
+    "title": "Census & Vital Records",
+    "category": "society",
+    "tags": [
+      "rebuild"
+    ],
+    "description": "Birth/death certificates, population tracking, household surveys, skill registries, health records, and property documentation.",
+    "icon": "📋",
+    "file": "guides/census-vital-records.html",
+    "url": "guides/census-vital-records.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-209",
+    "title": "Skill Testing & Certification",
+    "category": "society",
+    "tags": [
+      "rebuild"
+    ],
+    "description": "Medical competency exams, engineering certification, trade testing, apprenticeship standards, and credential fraud prevention.",
+    "icon": "📝",
+    "file": "guides/standardized-skill-testing.html",
+    "url": "guides/standardized-skill-testing.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-210",
+    "title": "PCB Component Salvage",
+    "category": "sciences",
+    "tags": [
+      "essential"
+    ],
+    "description": "Desoldering capacitors, MOSFETs, voltage regulators. Component testing, precious metal recovery, and building circuits from salvage.",
+    "icon": "🔧",
+    "file": "guides/pcb-component-salvage.html",
+    "url": "guides/pcb-component-salvage.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-211",
+    "title": "Battery Restoration & Reconditioning",
+    "category": "sciences",
+    "tags": [
+      "essential"
+    ],
+    "description": "Lead-acid desulfation, electrolyte replacement, NiCd reconditioning, building batteries from scratch, and cold-weather optimization.",
+    "icon": "🔋",
+    "file": "guides/battery-restoration.html",
+    "url": "guides/battery-restoration.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-212",
+    "title": "Plastic Remolding & Recycling",
+    "category": "crafts",
+    "tags": [
+      "essential"
+    ],
+    "description": "Plastic identification (resin codes), HDPE/PP processing, DIY shredder & injection molder construction, and mold making.",
+    "icon": "♻️",
+    "file": "guides/plastic-remolding-systems.html",
+    "url": "guides/plastic-remolding-systems.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-213",
+    "title": "Tire Recycling & Repurposing",
+    "category": "crafts",
+    "tags": [
+      "essential"
+    ],
+    "description": "Cutting sandal soles, making buckets, roofing shingles, rubber gaskets, earthship walls, and vulcanized repair patches.",
+    "icon": "🔄",
+    "file": "guides/tire-recycling.html",
+    "url": "guides/tire-recycling.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-214",
+    "title": "Snowshoe Manufacturing",
+    "category": "survival",
+    "tags": [
+      "essential"
+    ],
+    "description": "Traditional wood frame & rawhide construction, PVC pipe alternative, binding systems, sizing tables, and walking technique.",
+    "icon": "🎿",
+    "file": "guides/snowshoe-manufacturing.html",
+    "url": "guides/snowshoe-manufacturing.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-215",
+    "title": "Precision Measurement Tools",
+    "category": "crafts",
+    "tags": [
+      "essential"
+    ],
+    "description": "THE bottleneck for industrial civilization. Surface plates, calipers, micrometers, gauge blocks, and calibration. Unlocks all advanced manufacturing.",
+    "icon": "📏",
+    "file": "guides/precision-measurement-tools.html",
+    "url": "guides/precision-measurement-tools.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-216",
+    "title": "Technology Roadmap",
+    "category": "sciences",
+    "tags": [
+      "essential"
+    ],
+    "description": "The master plan: what to build and in what order, from stone tools to electricity, organized by era with dependencies mapped.",
+    "icon": "🗺️",
+    "file": "guides/technology-roadmap.html",
+    "url": "guides/technology-roadmap.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0",
+    "prerequisites": [
+      "GD-160"
+    ]
+  },
+  {
+    "id": "GD-217",
+    "title": "Reading Order — Zero to Current",
+    "category": "tools",
+    "tags": [
+      "essential"
+    ],
+    "description": "Phased action plan: what to read and do first, from day zero through electrification. The walkthrough for rebuilding.",
+    "icon": "📖",
+    "file": "guides/reading-order.html",
+    "url": "guides/reading-order.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-219",
+    "title": "Full-Text Search",
+    "category": "tools",
+    "tags": [
+      "essential"
+    ],
+    "description": "Search all 170,000+ lines across every guide. Find any topic, recipe, measurement, or procedure instantly.",
+    "icon": "🔍",
+    "file": "guides/search.html",
+    "url": "guides/search.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-220",
+    "title": "Abrasives Manufacturing",
+    "category": "reference",
+    "tags": [
+      "practical"
+    ],
+    "description": "Creating grinding, polishing, and honing materials for tool maintenance and precision work",
+    "icon": "🔨",
+    "file": "guides/abrasives-manufacturing.html",
+    "url": "guides/abrasives-manufacturing.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-221",
+    "title": "Oral Anatomy",
+    "category": "medical",
+    "tags": [
+      "critical"
+    ],
+    "description": "Understanding tooth structure, jaw biomechanics, and oral pathologies for survival dentistry",
+    "icon": "🦷",
+    "file": "guides/anatomy-oral.html",
+    "url": "guides/anatomy-oral.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-222",
+    "title": "Battery Construction",
+    "category": "reference",
+    "tags": [
+      "practical"
+    ],
+    "description": "Build electrical power from chemical reactions - lead-acid, voltaic piles, and zinc-copper cells for off-grid electricity",
+    "icon": "🔋",
+    "file": "guides/batteries.html",
+    "url": "guides/batteries.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0",
+    "prerequisites": [
+      "GD-160"
+    ]
+  },
+  {
+    "id": "GD-223",
+    "title": "Biogas Production",
+    "category": "chemistry",
+    "tags": [
+      "rebuild"
+    ],
+    "description": "Generate methane and carbon dioxide through anaerobic digestion of organic waste - renewable fuel for cooking, heating, and electricity",
+    "icon": "⚗️",
+    "file": "guides/biogas-production.html",
+    "url": "guides/biogas-production.html",
+    "difficulty": "advanced",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0",
+    "prerequisites": [
+      "GD-160"
+    ]
+  },
+  {
+    "id": "GD-224",
+    "title": "Blacksmithing",
+    "category": "metalworking",
+    "tags": [
+      "rebuild"
+    ],
+    "description": "Forge construction, temperature management, step-by-step forging techniques, tool manufacturing, heat treatment, and safety",
+    "icon": "⚒️",
+    "file": "guides/blacksmithing.html",
+    "url": "guides/blacksmithing.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0",
+    "prerequisites": [
+      "CRA-01"
+    ]
+  },
+  {
+    "id": "GD-225",
+    "title": "Bloomery Furnace Construction",
+    "category": "metalworking",
+    "tags": [
+      "rebuild"
+    ],
+    "description": "Build functional iron-smelting furnace from clay and stone - time-tested design for iron bloom production and metallurgical fundamentals",
+    "icon": "🔥",
+    "file": "guides/bloomery-furnace.html",
+    "url": "guides/bloomery-furnace.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0",
+    "prerequisites": [
+      "CON-02"
+    ]
+  },
+  {
+    "id": "GD-226",
+    "title": "Bone Tools",
+    "category": "crafts",
+    "tags": [
+      "critical"
+    ],
+    "description": "Master bone tool crafting: material selection, shaping techniques, hafting methods, and production of awls, needles, scrapers, points, and speciali...",
+    "icon": "🦴",
+    "file": "guides/bone-tools.html",
+    "url": "guides/bone-tools.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-227",
+    "title": "Chemical Safety",
+    "category": "chemistry",
+    "tags": [
+      "practical"
+    ],
+    "description": "Essential protocols for handling, storing, and responding to hazardous materials - preventing accidents and chemical injury",
+    "icon": "⚠️",
+    "file": "guides/chemical-safety.html",
+    "url": "guides/chemical-safety.html",
+    "difficulty": "advanced",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-228",
+    "title": "Cultural Practices & Community Cohesion",
+    "category": "reference",
+    "tags": [
+      "practical"
+    ],
+    "description": "Building shared meaning, ritual, and identity in post-collapse communities",
+    "icon": "🤝",
+    "file": "guides/cultural-practices-cohesion.html",
+    "url": "guides/cultural-practices-cohesion.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-229",
+    "title": "Power Generation",
+    "category": "power-generation",
+    "tags": [
+      "rebuild"
+    ],
+    "description": "Generators, alternators, dynamos, wind turbines, micro-hydro systems, and voltage regulation for off-grid power",
+    "icon": "⚡",
+    "file": "guides/electrical-generation.html",
+    "url": "guides/electrical-generation.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-230",
+    "title": "Electric Motors",
+    "category": "power-generation",
+    "tags": [
+      "rebuild"
+    ],
+    "description": "Understanding and constructing AC, DC, universal, and stepper motors for power generation and mechanical work",
+    "icon": "🔌",
+    "file": "guides/electrical-motors.html",
+    "url": "guides/electrical-motors.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0",
+    "prerequisites": [
+      "GD-160"
+    ]
+  },
+  {
+    "id": "GD-231",
+    "title": "Electrical Wiring",
+    "category": "power-generation",
+    "tags": [
+      "rebuild"
+    ],
+    "description": "Wire sizing, circuit design, fuse and breaker selection, grounding, junction boxes, outlet wiring, and electrical safety codes",
+    "icon": "🔧",
+    "file": "guides/electrical-wiring.html",
+    "url": "guides/electrical-wiring.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0",
+    "prerequisites": [
+      "GD-160"
+    ]
+  },
+  {
+    "id": "GD-232",
+    "title": "First Aid and Emergency Response",
+    "category": "medical",
+    "tags": [
+      "critical"
+    ],
+    "description": "Comprehensive life-saving techniques for acute injuries and sudden illnesses in resource-limited environments",
+    "icon": "🚨",
+    "file": "guides/first-aid.html",
+    "url": "guides/first-aid.html",
+    "difficulty": "beginner",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-233",
+    "title": "Black Powder Production",
+    "category": "metalworking",
+    "tags": [
+      "rebuild"
+    ],
+    "description": "Complete guide to saltpeter extraction, charcoal preparation, and black powder manufacture in survival situations",
+    "icon": "💥",
+    "file": "guides/gunpowder.html",
+    "url": "guides/gunpowder.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-234",
+    "title": "Heat Management",
+    "category": "chemistry",
+    "tags": [
+      "rebuild"
+    ],
+    "description": "Master passive heating/cooling, thermal mass, insulation, fire safety, and prevent heat-related injuries during survival situations",
+    "icon": "🔥",
+    "file": "guides/heat-management.html",
+    "url": "guides/heat-management.html",
+    "difficulty": "advanced",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-235",
+    "title": "Infection Control",
+    "category": "medical",
+    "tags": [
+      "critical"
+    ],
+    "description": "Practical protocols for preventing disease transmission and maintaining asepsis in resource-limited survival environments",
+    "icon": "🧼",
+    "file": "guides/infection-control.html",
+    "url": "guides/infection-control.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-236",
+    "title": "Internal Combustion Engines",
+    "category": "transportation",
+    "tags": [
+      "rebuild"
+    ],
+    "description": "4-stroke and 2-stroke cycles, fuel systems, ignition, timing, lubrication, troubleshooting, and alternative fuels",
+    "icon": "⚙️",
+    "file": "guides/internal-combustion.html",
+    "url": "guides/internal-combustion.html",
+    "difficulty": "advanced",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-237",
+    "title": "Knowledge Preservation & Transmission",
+    "category": "society",
+    "tags": [
+      "human"
+    ],
+    "description": "Off-Grid Civilization Compendium",
+    "icon": "📚",
+    "file": "guides/knowledge-preservation.html",
+    "url": "guides/knowledge-preservation.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-238",
+    "title": "Marine Biology & Ocean Resources",
+    "category": "sciences",
+    "tags": [
+      "important"
+    ],
+    "description": "Essential survival knowledge for post-collapse resilience.",
+    "icon": "🌊",
+    "file": "guides/marine-biology-ocean.html",
+    "url": "guides/marine-biology-ocean.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-239",
+    "title": "Essential Medications",
+    "category": "medical",
+    "tags": [
+      "critical"
+    ],
+    "description": "Drug selection, dosing, administration, interactions, and storage for survival medical practice",
+    "icon": "💊",
+    "file": "guides/medications.html",
+    "url": "guides/medications.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-240",
+    "title": "Metallurgy Fundamentals",
+    "category": "metalworking",
+    "tags": [
+      "rebuild"
+    ],
+    "description": "Understanding metal physics and chemistry - crystal structure, phase diagrams, heat treatment, alloying, and material testing for tools and structures",
+    "icon": "⚙️",
+    "file": "guides/metallurgy-basics.html",
+    "url": "guides/metallurgy-basics.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0",
+    "prerequisites": [
+      "CON-02"
+    ]
+  },
+  {
+    "id": "GD-242",
+    "title": "Mortuary Science & Death Care",
+    "category": "specialized",
+    "tags": [
+      "important"
+    ],
+    "description": "Respectful, sanitary preparation of human remains in post-collapse society",
+    "icon": "⚱️",
+    "file": "guides/mortuary-science.html",
+    "url": "guides/mortuary-science.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-243",
+    "title": "Nutrition Science & Deficiency Diseases",
+    "category": "specialized",
+    "tags": [
+      "important"
+    ],
+    "description": "Off-Grid Civilization Compendium",
+    "icon": "🍎",
+    "file": "guides/nutrition-deficiency-diseases.html",
+    "url": "guides/nutrition-deficiency-diseases.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-244",
+    "title": "Survival Orthodontics",
+    "category": "specialized",
+    "tags": [
+      "critical"
+    ],
+    "description": "Emergency management of orthodontic appliances, wire breakage, bracket failure, and pain management in resource-limited environments",
+    "icon": "🦷",
+    "file": "guides/orthodontics-survival.html",
+    "url": "guides/orthodontics-survival.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-245",
+    "title": "Plant Breeding & Seed Saving",
+    "category": "agriculture",
+    "tags": [
+      "essential"
+    ],
+    "description": "Advanced genetics and techniques for crop improvement across generations",
+    "icon": "🌱",
+    "file": "guides/plant-breeding-seed-saving.html",
+    "url": "guides/plant-breeding-seed-saving.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0",
+    "prerequisites": [
+      "FOD-03"
+    ]
+  },
+  {
+    "id": "GD-246",
+    "title": "Pressure Vessels",
+    "category": "chemistry",
+    "tags": [
+      "rebuild"
+    ],
+    "description": "Design and construct safe pressure vessels - steam boilers, gas accumulators, autoclaves - with proper materials, safety factors, and valve systems",
+    "icon": "🫖",
+    "file": "guides/pressure-vessels.html",
+    "url": "guides/pressure-vessels.html",
+    "difficulty": "advanced",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-248",
+    "title": "Seal & Gasket Manufacturing",
+    "category": "reference",
+    "tags": [
+      "practical"
+    ],
+    "description": "Creating and maintaining seals for industrial systems",
+    "icon": "🔩",
+    "file": "guides/seals-gaskets.html",
+    "url": "guides/seals-gaskets.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-249",
+    "title": "Soil Science & Land Remediation",
+    "category": "agriculture",
+    "tags": [
+      "essential"
+    ],
+    "description": "Building fertile ground for civilization reconstruction",
+    "icon": "🌍",
+    "file": "guides/soil-science-remediation.html",
+    "url": "guides/soil-science-remediation.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-250",
+    "title": "Sterilization Methods",
+    "category": "medical",
+    "tags": [
+      "critical"
+    ],
+    "description": "Techniques for achieving sterility in medical instruments and supplies in resource-limited and field environments",
+    "icon": "🧪",
+    "file": "guides/sterilization-methods.html",
+    "url": "guides/sterilization-methods.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-251",
+    "title": "Stone Tool Making",
+    "category": "crafts",
+    "tags": [
+      "critical"
+    ],
+    "description": "Master flintknapping and stone tool production: stone selection, flaking techniques, grinding methods, edge types, hafting, and manufacture of cutt...",
+    "icon": "🪨",
+    "file": "guides/stone-tools.html",
+    "url": "guides/stone-tools.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-252",
+    "title": "Storage & Material Management",
+    "category": "resource-management",
+    "tags": [
+      "practical"
+    ],
+    "description": "Preserving food, fuel, chemicals, ammunition, and other critical materials safely and effectively",
+    "icon": "📦",
+    "file": "guides/storage-management.html",
+    "url": "guides/storage-management.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-253",
+    "title": "Thermal Energy Storage",
+    "category": "chemistry",
+    "tags": [
+      "rebuild"
+    ],
+    "description": "Capturing, storing, and using heat for off-grid living",
+    "icon": "🌡️",
+    "file": "guides/thermal-energy-storage.html",
+    "url": "guides/thermal-energy-storage.html",
+    "difficulty": "advanced",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-254",
+    "title": "Transistors & Semiconductors",
+    "category": "power-generation",
+    "tags": [
+      "rebuild"
+    ],
+    "description": "Crystal radios, diode construction, transistor basics, amplifier circuits, simple logic gates, and component salvage techniques",
+    "icon": "🔌",
+    "file": "guides/transistors.html",
+    "url": "guides/transistors.html",
+    "difficulty": "advanced",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-255",
+    "title": "Vehicle Conversion",
+    "category": "transportation",
+    "tags": [
+      "rebuild"
+    ],
+    "description": "Engine swaps, fuel conversion (gasoline to wood gas, biodiesel, alcohol), and electric conversion basics",
+    "icon": "🚗",
+    "file": "guides/vehicle-conversion.html",
+    "url": "guides/vehicle-conversion.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0",
+    "prerequisites": [
+      "GD-160"
+    ]
+  },
+  {
+    "id": "WAT-01",
+    "title": "Desalination Systems",
+    "category": "survival",
+    "tags": [
+      "water",
+      "desalination",
+      "coastal",
+      "purification",
+      "new"
+    ],
+    "description": "Methods for converting saltwater and brackish water to drinkable freshwater using solar, fire, and improvised systems.",
+    "icon": "☔",
+    "file": "guides/desalination-systems.html",
+    "url": "guides/desalination-systems.html",
+    "difficulty": "intermediate",
+    "readingTime": 12,
+    "wordCount": 2400,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "MED-37",
+    "title": "Elder Care & Geriatric Medicine",
+    "category": "medical",
+    "tags": [
+      "medical",
+      "elderly",
+      "geriatric",
+      "aging",
+      "chronic-conditions",
+      "new"
+    ],
+    "description": "Caring for elderly community members without modern medical infrastructure, including chronic condition management, mobility, cognitive decline, and end-of-life care.",
+    "icon": "👴",
+    "file": "guides/elder-care.html",
+    "url": "guides/elder-care.html",
+    "difficulty": "intermediate",
+    "readingTime": 15,
+    "wordCount": 3000,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "SOC-18",
+    "title": "Apprenticeship Systems & Mentorship",
+    "category": "society",
+    "tags": [
+      "education",
+      "apprenticeship",
+      "mentorship",
+      "skills",
+      "training",
+      "knowledge-transfer",
+      "new"
+    ],
+    "description": "Designing and managing formal apprenticeship programs for systematic knowledge transfer, skill development, and workforce planning.",
+    "icon": "👨‍🏫",
+    "file": "guides/apprenticeship-systems.html",
+    "url": "guides/apprenticeship-systems.html",
+    "difficulty": "beginner",
+    "readingTime": 14,
+    "wordCount": 2800,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "COM-12",
+    "title": "Visual Communication & Sign Language",
+    "category": "communications",
+    "tags": [
+      "communication",
+      "sign-language",
+      "deaf",
+      "visual-signals",
+      "tactical",
+      "new"
+    ],
+    "description": "Basic sign language systems, tactical hand signals, and visual communication methods for deaf accommodation and silent operations.",
+    "icon": "🤟",
+    "file": "guides/sign-language-communication.html",
+    "url": "guides/sign-language-communication.html",
+    "difficulty": "beginner",
+    "readingTime": 13,
+    "wordCount": 2600,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "COM-13",
+    "title": "Pigeon Keeping & Messenger Birds",
+    "category": "communications",
+    "tags": [
+      "communication",
+      "pigeons",
+      "messenger",
+      "homing",
+      "birds",
+      "animal-husbandry",
+      "new"
+    ],
+    "description": "Breeding, training, and operating homing pigeons as a reliable long-distance communication system without electricity or infrastructure.",
+    "icon": "🐦",
+    "file": "guides/pigeon-keeping-messenger.html",
+    "url": "guides/pigeon-keeping-messenger.html",
+    "difficulty": "intermediate",
+    "readingTime": 15,
+    "wordCount": 3000,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "AGR-34",
+    "title": "Falconry & Raptor Husbandry",
+    "category": "agriculture",
+    "tags": [
+      "hunting",
+      "falconry",
+      "raptors",
+      "birds-of-prey",
+      "food-procurement",
+      "new"
+    ],
+    "description": "Trapping, training, and hunting with birds of prey for food procurement and pest control.",
+    "icon": "🦅",
+    "file": "guides/falconry-raptors.html",
+    "url": "guides/falconry-raptors.html",
+    "difficulty": "advanced",
+    "readingTime": 16,
+    "wordCount": 3200,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "DEF-08",
+    "title": "Intelligence, Scouting & Reconnaissance",
+    "category": "defense",
+    "tags": [
+      "defense",
+      "scouting",
+      "reconnaissance",
+      "intelligence",
+      "security",
+      "patrol",
+      "new"
+    ],
+    "description": "Systematic observation, patrol methods, threat assessment, and intelligence gathering for community security.",
+    "icon": "🔍",
+    "file": "guides/intelligence-scouting.html",
+    "url": "guides/intelligence-scouting.html",
+    "difficulty": "intermediate",
+    "readingTime": 14,
+    "wordCount": 2800,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "SUR-06",
+    "title": "Desert Survival & Arid Environment Living",
+    "category": "survival",
+    "tags": [
+      "survival",
+      "desert",
+      "arid",
+      "heat",
+      "water",
+      "navigation",
+      "new"
+    ],
+    "description": "Surviving and establishing long-term habitation in desert and arid environments, including water discipline, heat management, shelter, and desert agriculture.",
+    "icon": "🏜️",
+    "file": "guides/desert-survival.html",
+    "url": "guides/desert-survival.html",
+    "difficulty": "advanced",
+    "readingTime": 18,
+    "wordCount": 3600,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "SUR-07",
+    "title": "High-Altitude Living & Mountain Adaptation",
+    "category": "survival",
+    "tags": [
+      "survival",
+      "altitude",
+      "mountain",
+      "acclimatization",
+      "cold",
+      "terrain",
+      "new"
+    ],
+    "description": "Adapting to life above 2,500 meters: acclimatization, altitude sickness prevention, high-altitude agriculture, and mountain construction techniques.",
+    "icon": "⛰️",
+    "file": "guides/high-altitude-living.html",
+    "url": "guides/high-altitude-living.html",
+    "difficulty": "advanced",
+    "readingTime": 16,
+    "wordCount": 3200,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "MED-38",
+    "title": "Pediatric Psychological First Aid",
+    "category": "medical",
+    "tags": [
+      "medical",
+      "psychology",
+      "children",
+      "trauma",
+      "mental-health",
+      "pediatric",
+      "new"
+    ],
+    "description": "Specialized psychological support for children affected by disaster and displacement, including age-appropriate interventions, play therapy, and routine restoration.",
+    "icon": "🧒",
+    "file": "guides/disaster-psychology-children.html",
+    "url": "guides/disaster-psychology-children.html",
+    "difficulty": "intermediate",
+    "readingTime": 14,
+    "wordCount": 2800,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-257",
+    "title": "Rural Scavenging: Location-by-Location Guide",
+    "category": "salvage",
+    "tags": [
+      "new",
+      "essential",
+      "rebuild"
+    ],
+    "description": "Rural salvage strategy covering farms, feed stores, sawmills, hunting/sporting goods, community buildings, grain elevators, rural power infrastructure, waterways, and abandoned mines.",
+    "icon": "♻️",
+    "file": "guides/rural-scavenging-guide.html",
+    "url": "guides/rural-scavenging-guide.html",
+    "difficulty": "intermediate",
+    "readingTime": 25,
+    "wordCount": 5000,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0",
+    "prerequisites": [
+      "GD-181"
+    ]
+  },
+  {
+    "id": "GD-258",
+    "title": "Salvage-to-Skill Progression Shortcuts",
+    "category": "salvage",
+    "tags": [
+      "new",
+      "essential",
+      "critical"
+    ],
+    "description": "Maps found items to skill-tree shortcuts. If you find X, you can skip Y weeks of primitive manufacturing. Priority tiers, environment-specific versions, and degradation timelines.",
+    "icon": "♻️",
+    "file": "guides/salvage-progression-shortcuts.html",
+    "url": "guides/salvage-progression-shortcuts.html",
+    "difficulty": "beginner",
+    "readingTime": 15,
+    "wordCount": 3000,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-259",
+    "title": "Building Materials Salvage & Recovery",
+    "category": "salvage",
+    "tags": [
+      "new",
+      "rebuild"
+    ],
+    "description": "Lumber recovery, brick reclamation, roofing materials, window glass, insulation, doors, and fixtures. Bridges the gap between shelter/construction guides and salvage.",
+    "icon": "♻️",
+    "file": "guides/building-materials-salvage.html",
+    "url": "guides/building-materials-salvage.html",
+    "difficulty": "intermediate",
+    "readingTime": 18,
+    "wordCount": 3600,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0",
+    "prerequisites": [
+      "GD-256"
+    ]
+  },
+  {
+    "id": "GD-260",
+    "title": "Food Salvage & Shelf Life Assessment",
+    "category": "salvage",
+    "tags": [
+      "new",
+      "essential",
+      "critical"
+    ],
+    "description": "Evaluating salvaged food safety: canned goods shelf life, dry goods viability, frozen food timelines, MRE identification, pet food as emergency calories, supplements and vitamins.",
+    "icon": "♻️",
+    "file": "guides/food-salvage-shelf-life.html",
+    "url": "guides/food-salvage-shelf-life.html",
+    "difficulty": "beginner",
+    "readingTime": 14,
+    "wordCount": 2800,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-261",
+    "title": "Time-Decay Priority Framework",
+    "category": "salvage",
+    "tags": [
+      "new",
+      "essential"
+    ],
+    "description": "What degrades and when. Expands the existing salvage priority system into a full guide with degradation timelines from days to decades.",
+    "icon": "♻️",
+    "file": "guides/salvage-time-decay-priorities.html",
+    "url": "guides/salvage-time-decay-priorities.html",
+    "difficulty": "beginner",
+    "readingTime": 12,
+    "wordCount": 2400,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-262",
+    "title": "Chemical & Fuel Salvage Safety",
+    "category": "salvage",
+    "tags": [
+      "new",
+      "rebuild"
+    ],
+    "description": "Safe siphoning, storage, and identification of salvaged fuels and chemicals. Cleaning products, paints, solvents, lubricants, fertilizers.",
+    "icon": "♻️",
+    "file": "guides/chemical-fuel-salvage.html",
+    "url": "guides/chemical-fuel-salvage.html",
+    "difficulty": "advanced",
+    "readingTime": 16,
+    "wordCount": 3200,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-263",
+    "title": "Textile & Fabric Salvage",
+    "category": "salvage",
+    "tags": [
+      "new"
+    ],
+    "description": "Clothing recovery, upholstery, cordage from fabric, natural fiber ID, leather salvage from shoes/belts/furniture.",
+    "icon": "♻️",
+    "file": "guides/textile-fabric-salvage.html",
+    "url": "guides/textile-fabric-salvage.html",
+    "difficulty": "beginner",
+    "readingTime": 12,
+    "wordCount": 2400,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-264",
+    "title": "Tool Restoration from Salvage",
+    "category": "salvage",
+    "tags": [
+      "new",
+      "rebuild"
+    ],
+    "description": "Evaluating and restoring salvaged hand tools. Rust removal, handle replacement, sharpening, power tool motor assessment, improvised tools from scrap.",
+    "icon": "♻️",
+    "file": "guides/tool-restoration-salvage.html",
+    "url": "guides/tool-restoration-salvage.html",
+    "difficulty": "intermediate",
+    "readingTime": 15,
+    "wordCount": 3000,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0",
+    "prerequisites": [
+      "GD-181"
+    ]
+  },
+  {
+    "id": "GD-265",
+    "title": "Plastics, Rubber & Glass Identification",
+    "category": "salvage",
+    "tags": [
+      "new"
+    ],
+    "description": "Plastic type identification by recycling number, heat-formable vs toxic plastics, rubber salvage, glass cutting and reuse, optical glass recovery.",
+    "icon": "♻️",
+    "file": "guides/plastics-rubber-glass-salvage.html",
+    "url": "guides/plastics-rubber-glass-salvage.html",
+    "difficulty": "beginner",
+    "readingTime": 13,
+    "wordCount": 2600,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-266",
+    "title": "Scavenging Logistics & Team Operations",
+    "category": "salvage",
+    "tags": [
+      "new"
+    ],
+    "description": "Cart/sled construction, staging areas, site mapping and cataloging, team coordination, weight estimation, communication protocols.",
+    "icon": "♻️",
+    "file": "guides/scavenging-logistics-team-ops.html",
+    "url": "guides/scavenging-logistics-team-ops.html",
+    "difficulty": "intermediate",
+    "readingTime": 14,
+    "wordCount": 2800,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0",
+    "prerequisites": [
+      "GD-256"
+    ]
+  },
+  {
+    "id": "GD-267",
+    "title": "Structural Safety for Building Entry",
+    "category": "salvage",
+    "tags": [
+      "new",
+      "critical"
+    ],
+    "description": "Load-bearing wall identification, collapse risk assessment, hazmat avoidance (asbestos, lead, gas leaks), safe entry and exit protocols.",
+    "icon": "♻️",
+    "file": "guides/structural-safety-building-entry.html",
+    "url": "guides/structural-safety-building-entry.html",
+    "difficulty": "intermediate",
+    "readingTime": 12,
+    "wordCount": 2400,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "IDX-01",
+    "title": "Off-Grid Preparedness Compendium",
+    "category": "tools",
+    "tags": [],
+    "description": "Index and navigation hub for the survival guide collection.",
+    "icon": "📑",
+    "file": "guides/index.html",
+    "url": "guides/index.html",
+    "difficulty": "intermediate",
+    "readingTime": 16,
+    "wordCount": 3186,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-268",
+    "title": "Public Health Systems & Epidemiology",
+    "category": "medical",
+    "tags": [
+      "critical",
+      "new",
+      "human"
+    ],
+    "description": "Establishing community-level public health infrastructure from disease surveillance and outbreak detection to vaccination logistics and sanitation inspection.",
+    "icon": "🏥",
+    "file": "guides/public-health-epidemiology.html",
+    "url": "guides/public-health-epidemiology.html",
+    "difficulty": "advanced",
+    "readingTime": 21,
+    "wordCount": 4200,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-270",
+    "title": "Community Water Distribution Systems",
+    "category": "building",
+    "tags": [
+      "critical",
+      "new",
+      "rebuild"
+    ],
+    "description": "Engineering guide for gravity-fed water distribution, water tower construction, pipe selection, distribution networks, and greywater reuse systems.",
+    "icon": "🔨",
+    "file": "guides/water-distribution-systems.html",
+    "url": "guides/water-distribution-systems.html",
+    "difficulty": "advanced",
+    "readingTime": 21,
+    "wordCount": 4200,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-271",
+    "title": "Conflict Resolution & Inter-Community Diplomacy",
+    "category": "society",
+    "tags": [
+      "critical",
+      "new",
+      "human"
+    ],
+    "description": "Practical frameworks for inter-community negotiation, resource-sharing agreements, trade route protection, conflict mediation, and refugee management.",
+    "icon": "🏛️",
+    "file": "guides/conflict-resolution-diplomacy.html",
+    "url": "guides/conflict-resolution-diplomacy.html",
+    "difficulty": "advanced",
+    "readingTime": 23,
+    "wordCount": 4500,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-273",
+    "title": "Fiber to Fabric Pipeline",
+    "category": "crafts",
+    "tags": [
+      "new",
+      "rebuild",
+      "essential"
+    ],
+    "description": "Unified pipeline from growing fiber crops through retting, spinning, weaving, cutting, and sewing into garments with yield calculations.",
+    "icon": "⚒️",
+    "file": "guides/fiber-to-fabric-pipeline.html",
+    "url": "guides/fiber-to-fabric-pipeline.html",
+    "difficulty": "advanced",
+    "readingTime": 17,
+    "wordCount": 3300,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-274",
+    "title": "Labor Organization & Large-Scale Projects",
+    "category": "society",
+    "tags": [
+      "new",
+      "rebuild"
+    ],
+    "description": "Work crew organization, task scheduling without clocks, fair labor rotation, project estimation in person-hours, and incentive structures.",
+    "icon": "🏛️",
+    "file": "guides/labor-organization.html",
+    "url": "guides/labor-organization.html",
+    "difficulty": "intermediate",
+    "readingTime": 15,
+    "wordCount": 3000,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-275",
+    "title": "Mechanical Advantage in Construction",
+    "category": "building",
+    "tags": [
+      "new",
+      "rebuild"
+    ],
+    "description": "Practical crane/derrick construction, block-and-tackle rigging, A-frame lifting, log rolling, earthen ramps, and scaffold design.",
+    "icon": "🔨",
+    "file": "guides/mechanical-advantage-construction.html",
+    "url": "guides/mechanical-advantage-construction.html",
+    "difficulty": "intermediate",
+    "readingTime": 15,
+    "wordCount": 3000,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-281",
+    "title": "Non-Ferrous Metalworking",
+    "category": "metalworking",
+    "tags": [
+      "new",
+      "technology",
+      "rebuild"
+    ],
+    "description": "Copper smelting, bronze and brass alloying, lead casting, tin extraction, aluminum recovery, soldering, brazing, and non-ferrous heat treatment.",
+    "icon": "⚒️",
+    "file": "guides/non-ferrous-metalworking.html",
+    "url": "guides/non-ferrous-metalworking.html",
+    "difficulty": "advanced",
+    "readingTime": 15,
+    "wordCount": 2900,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-282",
+    "title": "Surveying & Land Management",
+    "category": "sciences",
+    "tags": [
+      "new",
+      "rebuild"
+    ],
+    "description": "Chain/tape surveying, transit improvisation, elevation measurement, contour mapping, property boundaries, and cut-and-fill calculations.",
+    "icon": "🔬",
+    "file": "guides/surveying-land-management.html",
+    "url": "guides/surveying-land-management.html",
+    "difficulty": "intermediate",
+    "readingTime": 15,
+    "wordCount": 3000,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  }
+]

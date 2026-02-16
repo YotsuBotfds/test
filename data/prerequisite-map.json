@@ -1,0 +1,460 @@
+{
+  "dependencies": {
+    "GD-030": {
+      "requires": [
+        "GD-232"
+      ],
+      "title": "Search & Rescue Operations",
+      "icon": "\ud83d\udd0d"
+    },
+    "GD-032": {
+      "requires": [
+        "GD-232"
+      ],
+      "title": "Medical & Survival Medicine",
+      "icon": "\ud83c\udfe5"
+    },
+    "GD-037": {
+      "requires": [
+        "GD-232"
+      ],
+      "title": "Veterinary Medicine",
+      "icon": "\ud83d\udc3e"
+    },
+    "GD-039": {
+      "requires": [
+        "GD-232"
+      ],
+      "title": "Field Surgery & Emergency Procedures",
+      "icon": "\ud83e\ude7a"
+    },
+    "GD-058": {
+      "requires": [
+        "GD-232"
+      ],
+      "title": "Field Anesthesia & Pain Management",
+      "icon": "\u2697\ufe0f"
+    },
+    "GD-095": {
+      "requires": [
+        "GD-160"
+      ],
+      "title": "Engineering & Repair",
+      "icon": "\ud83d\udd27"
+    },
+    "GD-116": {
+      "requires": [
+        "GD-160"
+      ],
+      "title": "Hydroelectric Power",
+      "icon": "\ud83d\udca7"
+    },
+    "GD-119": {
+      "requires": [
+        "GD-225"
+      ],
+      "title": "Steel Making",
+      "icon": "\u2699\ufe0f"
+    },
+    "GD-139": {
+      "requires": [
+        "GD-232"
+      ],
+      "title": "Ham Radio & Communications",
+      "icon": "\ud83d\udce1"
+    },
+    "GD-140": {
+      "requires": [
+        "SUR-04"
+      ],
+      "title": "Navigation & Timekeeping",
+      "icon": "\ud83e\udded"
+    },
+    "GD-141": {
+      "requires": [
+        "SUR-04"
+      ],
+      "title": "Astronomy & Calendar Systems",
+      "icon": "\ud83c\udf0c"
+    },
+    "GD-175": {
+      "requires": [
+        "GD-225"
+      ],
+      "title": "Spring Manufacturing",
+      "icon": "\ud83d\udd29"
+    },
+    "GD-182": {
+      "requires": [
+        "GD-230"
+      ],
+      "title": "Electric Motor Rewinding",
+      "icon": "\ud83d\udd0c"
+    },
+    "GD-216": {
+      "requires": [
+        "GD-160"
+      ],
+      "title": "Technology Roadmap",
+      "icon": "\ud83d\uddfa\ufe0f"
+    },
+    "GD-222": {
+      "requires": [
+        "GD-160"
+      ],
+      "title": "Battery Construction",
+      "icon": "\ud83d\udd0b"
+    },
+    "GD-223": {
+      "requires": [
+        "GD-160"
+      ],
+      "title": "Biogas Production",
+      "icon": "\u2697\ufe0f"
+    },
+    "GD-230": {
+      "requires": [
+        "GD-160"
+      ],
+      "title": "Electric Motors",
+      "icon": "\ud83d\udd0c"
+    },
+    "GD-231": {
+      "requires": [
+        "GD-160"
+      ],
+      "title": "Electrical Wiring",
+      "icon": "\ud83d\udd27"
+    },
+    "GD-247": {
+      "requires": [
+        "GD-232"
+      ],
+      "title": "Railroad Construction & Operation",
+      "icon": "\ud83d\ude82"
+    },
+    "GD-255": {
+      "requires": [
+        "GD-160"
+      ],
+      "title": "Vehicle Conversion",
+      "icon": "\ud83d\ude97"
+    }
+  },
+  "unlocks": {
+    "GD-232": [
+      {
+        "id": "GD-030",
+        "title": "Search & Rescue Operations",
+        "icon": "\ud83d\udd0d"
+      },
+      {
+        "id": "GD-032",
+        "title": "Medical & Survival Medicine",
+        "icon": "\ud83c\udfe5"
+      },
+      {
+        "id": "GD-037",
+        "title": "Veterinary Medicine",
+        "icon": "\ud83d\udc3e"
+      },
+      {
+        "id": "GD-039",
+        "title": "Field Surgery & Emergency Procedures",
+        "icon": "\ud83e\ude7a"
+      },
+      {
+        "id": "GD-058",
+        "title": "Field Anesthesia & Pain Management",
+        "icon": "\u2697\ufe0f"
+      },
+      {
+        "id": "GD-139",
+        "title": "Ham Radio & Communications",
+        "icon": "\ud83d\udce1"
+      },
+      {
+        "id": "GD-247",
+        "title": "Railroad Construction & Operation",
+        "icon": "\ud83d\ude82"
+      }
+    ],
+    "GD-160": [
+      {
+        "id": "GD-095",
+        "title": "Engineering & Repair",
+        "icon": "\ud83d\udd27"
+      },
+      {
+        "id": "GD-116",
+        "title": "Hydroelectric Power",
+        "icon": "\ud83d\udca7"
+      },
+      {
+        "id": "GD-216",
+        "title": "Technology Roadmap",
+        "icon": "\ud83d\uddfa\ufe0f"
+      },
+      {
+        "id": "GD-222",
+        "title": "Battery Construction",
+        "icon": "\ud83d\udd0b"
+      },
+      {
+        "id": "GD-223",
+        "title": "Biogas Production",
+        "icon": "\u2697\ufe0f"
+      },
+      {
+        "id": "GD-230",
+        "title": "Electric Motors",
+        "icon": "\ud83d\udd0c"
+      },
+      {
+        "id": "GD-231",
+        "title": "Electrical Wiring",
+        "icon": "\ud83d\udd27"
+      },
+      {
+        "id": "GD-255",
+        "title": "Vehicle Conversion",
+        "icon": "\ud83d\ude97"
+      }
+    ],
+    "GD-225": [
+      {
+        "id": "GD-119",
+        "title": "Steel Making",
+        "icon": "\u2699\ufe0f"
+      },
+      {
+        "id": "GD-175",
+        "title": "Spring Manufacturing",
+        "icon": "\ud83d\udd29"
+      }
+    ],
+    "SUR-04": [
+      {
+        "id": "GD-140",
+        "title": "Navigation & Timekeeping",
+        "icon": "\ud83e\udded"
+      },
+      {
+        "id": "GD-141",
+        "title": "Astronomy & Calendar Systems",
+        "icon": "\ud83c\udf0c"
+      }
+    ],
+    "GD-230": [
+      {
+        "id": "GD-182",
+        "title": "Electric Motor Rewinding",
+        "icon": "\ud83d\udd0c"
+      }
+    ]
+  },
+  "chains": {
+    "FOD-05": {
+      "depth": 1,
+      "chain": [
+        "FOD-05",
+        "SUR-03"
+      ]
+    },
+    "SUR-01": {
+      "depth": 2,
+      "chain": [
+        "SUR-01",
+        "SUR-05",
+        "CRA-04"
+      ]
+    },
+    "FOD-02": {
+      "depth": 1,
+      "chain": [
+        "FOD-02",
+        "FOD-01"
+      ]
+    },
+    "FOD-03": {
+      "depth": 1,
+      "chain": [
+        "FOD-03",
+        "FOD-04"
+      ]
+    },
+    "CON-01": {
+      "depth": 3,
+      "chain": [
+        "CON-01",
+        "CON-02",
+        "GD-225",
+        "GD-119"
+      ]
+    },
+    "CON-02": {
+      "depth": 2,
+      "chain": [
+        "CON-02",
+        "GD-225",
+        "GD-119"
+      ]
+    },
+    "SUR-02": {
+      "depth": 3,
+      "chain": [
+        "SUR-02",
+        "CRA-01",
+        "CRA-07",
+        "GD-133"
+      ]
+    },
+    "CON-03": {
+      "depth": 1,
+      "chain": [
+        "CON-03",
+        "CRA-02"
+      ]
+    },
+    "SUR-05": {
+      "depth": 1,
+      "chain": [
+        "SUR-05",
+        "CRA-04"
+      ]
+    },
+    "CRA-03": {
+      "depth": 1,
+      "chain": [
+        "CRA-03",
+        "CRA-05"
+      ]
+    },
+    "GD-232": {
+      "depth": 1,
+      "chain": [
+        "GD-232",
+        "CRA-06"
+      ]
+    },
+    "CRA-01": {
+      "depth": 2,
+      "chain": [
+        "CRA-01",
+        "CRA-07",
+        "GD-133"
+      ]
+    },
+    "GD-160": {
+      "depth": 2,
+      "chain": [
+        "GD-160",
+        "GD-230",
+        "GD-182"
+      ]
+    },
+    "GD-225": {
+      "depth": 1,
+      "chain": [
+        "GD-225",
+        "GD-119"
+      ]
+    },
+    "CRA-07": {
+      "depth": 1,
+      "chain": [
+        "CRA-07",
+        "GD-133"
+      ]
+    },
+    "SUR-04": {
+      "depth": 1,
+      "chain": [
+        "SUR-04",
+        "GD-140"
+      ]
+    },
+    "GD-230": {
+      "depth": 1,
+      "chain": [
+        "GD-230",
+        "GD-182"
+      ]
+    }
+  },
+  "gatewayGuides": [
+    {
+      "id": "GD-232",
+      "title": "First Aid and Emergency Response",
+      "icon": "\ud83d\udea8",
+      "unlocksCount": 8
+    },
+    {
+      "id": "GD-160",
+      "title": "Electricity & Magnetism",
+      "icon": "\ud83d\udd0b",
+      "unlocksCount": 8
+    },
+    {
+      "id": "GD-225",
+      "title": "Bloomery Furnace Construction",
+      "icon": "\ud83d\udd25",
+      "unlocksCount": 2
+    },
+    {
+      "id": "SUR-04",
+      "title": "Navigation & Mapping",
+      "icon": "\ud83e\udded",
+      "unlocksCount": 2
+    },
+    {
+      "id": "FOD-05",
+      "title": "Food Foraging",
+      "icon": "\ud83c\udf44",
+      "unlocksCount": 1
+    },
+    {
+      "id": "GD-230",
+      "title": "Electric Motors",
+      "icon": "\ud83d\udd0c",
+      "unlocksCount": 1
+    }
+  ],
+  "entryPoints": [
+    {
+      "id": "GD-160",
+      "title": "Electricity & Magnetism",
+      "icon": "\ud83d\udd0b",
+      "category": "sciences",
+      "unlocksCount": 8
+    },
+    {
+      "id": "GD-232",
+      "title": "First Aid and Emergency Response",
+      "icon": "\ud83d\udea8",
+      "category": "medical",
+      "unlocksCount": 8
+    },
+    {
+      "id": "SUR-04",
+      "title": "Navigation & Mapping",
+      "icon": "\ud83e\udded",
+      "category": "survival",
+      "unlocksCount": 2
+    },
+    {
+      "id": "FOD-05",
+      "title": "Food Foraging",
+      "icon": "\ud83c\udf44",
+      "category": "survival",
+      "unlocksCount": 1
+    }
+  ],
+  "metadata": {
+    "totalGuides": 266,
+    "guidesWithPrerequisites": 57,
+    "guidesAsGateways": 17,
+    "entryPointCount": 11,
+    "generatedAt": "2026-02-16T04:11:40.147Z"
+  }
+}

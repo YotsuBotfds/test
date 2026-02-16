@@ -1,0 +1,163 @@
+================================================================================
+STRUCTURED METADATA ENRICHMENT REPORT
+Generated: 2026-02-15
+================================================================================
+
+TASK SUMMARY
+============
+
+Completed structured metadata enrichment for all guides in the survival-app 
+project. Ensured consistent metadata fields across 256 guide entries and added 
+metadata comment blocks to 256 HTML guide files.
+
+PHASE 1: GUIDES.JSON ENRICHMENT
+===============================
+
+Script: scripts/enrich-metadata.js
+Status: COMPLETED
+
+Actions Performed:
+  - Read guides.json (256 guides)
+  - Enriched all entries with missing fields
+  - Added new metadata fields: lastUpdated, version
+  - Standardized field ordering
+
+Fields Ensured for All Guides:
+  ✓ id (auto-generated for 234 guides missing IDs)
+  ✓ title (already present)
+  ✓ category (filled in based on filename/tags for entries missing it)
+  ✓ tags (ensured array format)
+  ✓ description (already present)
+  ✓ icon (already present)
+  ✓ file (mapped from url field or inferred)
+  ✓ difficulty (already present from Phase 4.4)
+  ✓ readingTime (already present from Phase 4.3)
+  ✓ lastUpdated (set to 2026-02-15 for all)
+  ✓ version (set to 1.0 for all)
+
+Results:
+  - Total guides processed: 256
+  - Guides with generated IDs: 234
+    Pattern: GD-024 through GD-256 (for guides indices 23-254)
+  - All guides now have standardized metadata structure
+
+PHASE 2: HTML METADATA COMMENTS
+================================
+
+Script: scripts/add-metadata-to-html.js
+Status: COMPLETED
+
+Actions Performed:
+  - Scanned guides directory for HTML files (262 found)
+  - Added metadata comment block after DOCTYPE for each guide
+  - Comment format: <!-- Guide: {title} | Category: {category} | 
+                           Difficulty: {difficulty} | Reading Time: {readingTime}min -->
+
+Example:
+  <!DOCTYPE html>
+  <!-- Guide: Water Purification | Category: zth-modules | Difficulty: beginner | Reading Time: 7min -->
+  <html lang=en>...
+
+Results:
+  - Files updated with metadata comments: 256
+  - Files skipped (not in guides.json): 6
+    * advanced-tool-crafting.html
+    * fire-building-techniques.html
+    * medicinal-plants-guide.html
+    * test-guide.html
+    * water-filtration-systems.html
+    * water-purification-methods.html
+
+METADATA STRUCTURE
+==================
+
+Each guide now contains:
+
+{
+  "id": "SUR-01",                    // Unique identifier
+  "title": "Water Purification",     // Display title
+  "category": "zth-modules",         // Topic category
+  "tags": ["start-here"],            // Array of topic tags
+  "description": "...",              // Full description
+  "icon": "💧",                      // Visual icon emoji
+  "file": "guides/...",              // HTML file path
+  "url": "guides/...",               // URL reference (legacy)
+  "difficulty": "beginner",          // Skill level: beginner/intermediate/advanced
+  "readingTime": 7,                  // Estimated minutes to read
+  "wordCount": 1348,                 // Total words in guide (where available)
+  "lastUpdated": "2026-02-15",       // Update date
+  "version": "1.0"                   // Metadata version
+}
+
+FIELD DESCRIPTIONS
+==================
+
+id              : Unique identifier for the guide
+title           : Human-readable guide title
+category        : Main topic category for organizing guides
+tags            : Array of searchable keywords and topics
+description     : Extended description of guide content
+icon            : Single emoji representing the guide visually
+file            : Path to HTML file relative to guides directory
+url             : Legacy field preserved for compatibility
+difficulty      : Skill level required (beginner/intermediate/advanced)
+readingTime     : Estimated reading time in minutes
+wordCount       : Total word count of guide (optional)
+lastUpdated     : ISO date of last update
+version         : Metadata version for tracking schema changes
+
+VALIDATION RESULTS
+==================
+
+All 256 guides verified for:
+  ✓ ID field presence
+  ✓ Title field presence
+  ✓ Category field presence
+  ✓ Tags as array
+  ✓ Description field presence
+  ✓ Icon field presence
+  ✓ File/URL field presence
+  ✓ Difficulty specification
+  ✓ Reading time specification
+  ✓ lastUpdated date (2026-02-15)
+  ✓ Version number (1.0)
+
+Issues Identified:
+  - 6 HTML files not referenced in guides.json (not updated)
+  - These files may be test, temporary, or alternate versions
+
+FILES GENERATED
+================
+
+scripts/enrich-metadata.js
+  - Main enrichment script using Node.js fs module
+  - Reads guides.json, enriches metadata, writes back
+  - Includes field validation and auto-generation of IDs
+  - Sorts fields in consistent order
+
+scripts/add-metadata-to-html.js
+  - HTML metadata comment insertion script
+  - Parses DOCTYPE, inserts comment block
+  - Skips files that already have metadata
+  - Maps guides.json entries to HTML files
+
+RECOMMENDATIONS
+================
+
+1. Consider adding validation schema for guides.json
+2. The 6 orphaned HTML files should be reviewed:
+   - Either add to guides.json
+   - Or remove if test/obsolete
+3. Implement automated validation in CI/CD pipeline
+4. Consider adding update timestamp to HTML comments
+5. Tags field could be indexed for full-text search
+
+TECHNICAL NOTES
+================
+
+- Scripts use only Node.js built-in modules (fs, path)
+- JSON parsing/generation handles UTF-8 correctly
+- Metadata comments added at optimal position (after DOCTYPE)
+- Field ordering provides consistent diffs for version control
+- All 256 guides maintain backward compatibility
+

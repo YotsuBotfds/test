@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Survival Glossary - Zero to Hero Survival Compendium</title>
+  <link rel="stylesheet" href="../css/main.css">
+  <style>
+    .glossary-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    .glossary-header {
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+
+    .glossary-header h1 {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+      color: var(--accent);
+    }
+
+    .glossary-header p {
+      font-size: 1.1rem;
+      color: var(--muted);
+    }
+
+    /* Search Bar */
+    .search-section {
+      margin-bottom: 2rem;
+      position: relative;
+    }
+
+    .search-box {
+      width: 100%;
+      padding: 12px 16px;
+      font-size: 1rem;
+      border: 2px solid var(--border);
+      border-radius: 8px;
+      background-color: var(--surface);
+      color: var(--text);
+      transition: all 0.3s ease;
+    }
+
+    .search-box:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(212, 165, 116, 0.1);
+    }
+
+    .search-box::placeholder {
+      color: var(--muted);
+    }
+
+    .search-results-count {
+      font-size: 0.9rem;
+      color: var(--muted);
+      margin-top: 0.5rem;
+      min-height: 1.2rem;
+    }
+
+    /* Alphabet Filter */
+    .alphabet-filter {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 2rem;
+      padding: 1rem;
+      background-color: var(--surface);
+      border-radius: 8px;
+      justify-content: center;
+    }
+
+    .letter-btn {
+      padding: 0.5rem 0.75rem;
+      min-width: 2.5rem;
+      text-align: center;
+      background-color: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--text);
+      cursor: pointer;
+      font-weight: 500;
+      transition: all 0.2s ease;
+      font-size: 0.9rem;
+    }
+
+    .letter-btn:hover {
+      background-color: var(--accent2);
+      border-color: var(--accent);
+      color: var(--bg);
+    }
+
+    .letter-btn.active {
+      background-color: var(--accent);
+      color: var(--bg);
+      border-color: var(--accent);
+    }
+
+    .letter-btn.disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .letter-btn.disabled:hover {
+      background-color: var(--card);
+      border-color: var(--border);
+      color: var(--text);
+    }
+
+    /* Glossary Content */
+    .glossary-content {
+      display: grid;
+      gap: 2rem;
+    }
+
+    .glossary-section {
+      margin-bottom: 2rem;
+    }
+
+    .section-letter {
+      font-size: 2rem;
+      font-weight: bold;
+      color: var(--accent);
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid var(--border);
+    }
+
+    .glossary-entry {
+      margin-bottom: 1.5rem;
+      padding: 1rem;
+      background-color: var(--surface);
+      border-left: 4px solid var(--accent2);
+      border-radius: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .glossary-entry:hover {
+      background-color: var(--card);
+      border-left-color: var(--accent);
+      transform: translateX(4px);
+    }
+
+    .glossary-term {
+      font-size: 1.1rem;
+      font-weight: bold;
+      color: var(--accent);
+      margin-bottom: 0.5rem;
+      word-break: break-word;
+    }
+
+    .glossary-definition {
+      color: var(--text);
+      margin-bottom: 0.75rem;
+      line-height: 1.5;
+      font-size: 0.95rem;
+    }
+
+    .glossary-sources {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      font-size: 0.85rem;
+    }
+
+    .source-label {
+      color: var(--muted);
+      font-weight: 500;
+      margin-right: 0.5rem;
+    }
+
+    .source-link {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      background-color: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      color: var(--accent);
+      text-decoration: none;
+      transition: all 0.2s ease;
+      font-size: 0.8rem;
+    }
+
+    .source-link:hover {
+      background-color: var(--accent);
+      color: var(--bg);
+      border-color: var(--accent);
+    }
+
+    /* Empty State */
+    .no-results {
+      text-align: center;
+      padding: 3rem 1rem;
+      color: var(--muted);
+    }
+
+    .no-results p {
+      font-size: 1.1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    /* Back to Top */
+    .back-to-top {
+      display: inline-block;
+      padding: 0.75rem 1.5rem;
+      background-color: var(--accent);
+      color: var(--bg);
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: all 0.2s ease;
+      margin-top: 1rem;
+    }
+
+    .back-to-top:hover {
+      background-color: var(--accent2);
+      transform: translateY(-2px);
+    }
+
+    .back-to-top.hidden {
+      display: none;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .glossary-container {
+        padding: 1rem;
+      }
+
+      .glossary-header h1 {
+        font-size: 1.8rem;
+      }
+
+      .alphabet-filter {
+        gap: 0.25rem;
+      }
+
+      .letter-btn {
+        padding: 0.4rem 0.6rem;
+        min-width: 2rem;
+        font-size: 0.8rem;
+      }
+
+      .glossary-entry {
+        padding: 0.75rem;
+      }
+
+      .glossary-definition {
+        font-size: 0.9rem;
+      }
+    }
+
+    /* Loading State */
+    .loading {
+      text-align: center;
+      padding: 2rem;
+      color: var(--muted);
+    }
+
+    .loading::after {
+      content: '';
+      animation: dots 1.5s steps(4, end) infinite;
+    }
+
+    @keyframes dots {
+      0%, 20% { content: ''; }
+      40% { content: '.'; }
+      60% { content: '..'; }
+      80%, 100% { content: '...'; }
+    }
+  </style>
+</head>
+<body>
+  <div style="background-color:#2d2416;padding:12px 20px;border-bottom:1px solid #5a4a3a;">
+      <a href="../index.html" style="color:#d4a574;text-decoration:none;font-size:0.95em;">← Back to Guides</a>
+  </div>
+  <main role="main">
+    <div class="glossary-container">
+      <header class="glossary-header">
+        <h1>Survival Glossary</h1>
+        <p>Complete technical reference for survival concepts, tools, and techniques</p>
+      </header>
+
+      <!-- Search Section -->
+      <div class="search-section">
+        <input
+          type="text"
+          id="searchBox"
+          class="search-box"
+          placeholder="Search glossary terms... (e.g., 'shelter', 'fire', 'water')"
+          aria-label="Search glossary"
+        >
+        <div class="search-results-count" id="resultsCount"></div>
+      </div>
+
+      <!-- Alphabet Filter -->
+      <div class="alphabet-filter" role="navigation" aria-label="Filter by letter">
+        <button class="letter-btn active" data-letter="all" aria-label="Show all terms">All</button>
+        <!-- A-Z buttons will be generated by JavaScript -->
+      </div>
+
+      <!-- Glossary Content -->
+      <div class="glossary-content" id="glossaryContent" role="region" aria-live="polite" aria-label="Glossary entries">
+        <div class="loading">Loading glossary...</div>
+      </div>
+
+      <!-- Back to Top -->
+      <button class="back-to-top hidden" id="backToTop" aria-label="Back to top">
+        ↑ Back to Top
+      </button>
+    </div>
+  </main>
+
+  <script>
+    // Glossary data will be loaded here
+    const glossaryData = {
+      metadata: {
+        created: "2026-02-15T06:22:29.041Z",
+        totalTerms: 250,
+        version: "1.0"
+      },
+      glossary: {}
+    };
+
+    // Guide ID mapping for friendly names
+    const guideNames = {
+      'survival-basics': 'First 72 Hours',
+      'first-aid': 'First Aid',
+      'water-purification': 'Water Purification',
+      'fire-suppression': 'Fire Suppression',
+      'agriculture': 'Agriculture',
+      'blacksmithing': 'Blacksmithing',
+      'electricity': 'Electricity',
+      'construction': 'Construction',
+      'medical-reference': 'Medical Reference',
+      'food-preservation': 'Food Preservation'
+    };
+
+    /**
+     * Load glossary data
+     */
+    async function loadGlossary() {
+      try {
+        const response = await fetch('../data/glossary.json');
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+        const data = await response.json();
+        Object.assign(glossaryData, data);
+        initializeGlossary();
+      } catch (error) {
+        console.error('Error loading glossary:', error);
+        document.getElementById('glossaryContent').innerHTML =
+          '<div class="no-results"><p>Error loading glossary. Please try again later.</p></div>';
+      }
+    }
+
+    /**
+     * Get friendly guide name
+     */
+    function getGuideName(guideId) {
+      if (guideNames[guideId]) return guideNames[guideId];
+      // Convert kebab-case to Title Case
+      return guideId.split('-').map(word =>
+        word.charAt(0).toUpperCase() + word.slice(1)
+      ).join(' ');
+    }
+
+    /**
+     * Render glossary entries
+     */
+    function renderGlossary(entries) {
+      const content = document.getElementById('glossaryContent');
+
+      if (entries.length === 0) {
+        content.innerHTML = '<div class="no-results"><p>No terms found. Try a different search.</p></div>';
+        return;
+      }
+
+      // Group by first letter
+      const grouped = {};
+      entries.forEach(([term, data]) => {
+        const letter = term.charAt(0).toUpperCase();
+        if (!grouped[letter]) grouped[letter] = [];
+        grouped[letter].push([term, data]);
+      });
+
+      // Sort letters and render
+      let html = '';
+      Object.keys(grouped).sort().forEach(letter => {
+        html += `<div class="glossary-section" id="section-${letter}">`;
+        html += `<div class="section-letter">${letter}</div>`;
+
+        grouped[letter].forEach(([term, data]) => {
+          const sources = (data.sources || []).slice(0, 3)
+            .map(id => `<a href="../guides/${id}.html" class="source-link" title="Go to ${getGuideName(id)}">${getGuideName(id)}</a>`)
+            .join('');
+
+          const searchTerm = document.getElementById('searchBox').value.trim();
+          let termHtml = escapeHtml(term);
+          let defHtml = escapeHtml(data.definition || 'No definition available');
+
+          if (searchTerm.length > 0) {
+            const escaped = searchTerm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+            const re = new RegExp(`(${escaped})`, 'gi');
+            termHtml = termHtml.replace(re, '<mark style="background:#d4a574;color:#1a2e1a;padding:1px 3px;border-radius:2px;">$1</mark>');
+            defHtml = defHtml.replace(re, '<mark style="background:#d4a574;color:#1a2e1a;padding:1px 3px;border-radius:2px;">$1</mark>');
+          }
+
+          html += `
+            <div class="glossary-entry">
+              <div class="glossary-term">${termHtml}</div>
+              <div class="glossary-definition">${defHtml}</div>
+              ${sources ? `<div class="glossary-sources"><span class="source-label">Related:</span>${sources}</div>` : ''}
+            </div>
+          `;
+        });
+
+        html += '</div>';
+      });
+
+      content.innerHTML = html;
+      updateResultsCount(entries.length);
+    }
+
+    /**
+     * Escape HTML special characters
+     */
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    /**
+     * Update results count
+     */
+    function updateResultsCount(count) {
+      const counter = document.getElementById('resultsCount');
+      if (count > 0) {
+        counter.textContent = `${count} term${count !== 1 ? 's' : ''} found`;
+      } else {
+        counter.textContent = '';
+      }
+    }
+
+    /**
+     * Filter glossary
+     */
+    function filterGlossary() {
+      const searchTerm = document.getElementById('searchBox').value.toLowerCase();
+      const letter = document.querySelector('.letter-btn.active')?.getAttribute('data-letter') || 'all';
+
+      const entries = Object.entries(glossaryData.glossary).filter(([term, data]) => {
+        const matchesSearch = term.toLowerCase().includes(searchTerm) ||
+                            (data.definition || '').toLowerCase().includes(searchTerm);
+        const matchesLetter = letter === 'all' || term.charAt(0).toUpperCase() === letter;
+        return matchesSearch && matchesLetter;
+      });
+
+      renderGlossary(entries);
+    }
+
+    /**
+     * Initialize glossary UI
+     */
+    function initializeGlossary() {
+      // Create alphabet buttons
+      const filterDiv = document.querySelector('.alphabet-filter');
+      for (let i = 65; i <= 90; i++) {
+        const letter = String.fromCharCode(i);
+        const btn = document.createElement('button');
+        btn.className = 'letter-btn';
+        btn.textContent = letter;
+        btn.setAttribute('data-letter', letter);
+        btn.setAttribute('aria-label', `Filter by letter ${letter}`);
+
+        // Disable buttons for letters with no terms
+        const hasTerms = Object.keys(glossaryData.glossary).some(term =>
+          term.charAt(0).toUpperCase() === letter
+        );
+        if (!hasTerms) {
+          btn.classList.add('disabled');
+        }
+
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.letter-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          filterGlossary();
+          // Scroll to section
+          const section = document.getElementById(`section-${letter}`);
+          if (section) section.scrollIntoView({ behavior: 'smooth' });
+        });
+
+        filterDiv.appendChild(btn);
+      }
+
+      // Setup search
+      document.getElementById('searchBox').addEventListener('input', filterGlossary);
+
+      // Setup back to top
+      const backToTop = document.getElementById('backToTop');
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 300) {
+          backToTop.classList.remove('hidden');
+        } else {
+          backToTop.classList.add('hidden');
+        }
+      });
+
+      backToTop.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+
+      // Initial render
+      filterGlossary();
+    }
+
+    // Load glossary on page load
+    document.addEventListener('DOMContentLoaded', loadGlossary);
+  </script>
+</body>
+</html>

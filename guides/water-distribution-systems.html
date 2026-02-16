@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<!-- Guide SEO: Community Water Distribution Systems | Category: building | Difficulty: advanced | Updated: 2026-02-15 -->
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Community Water Distribution Systems - Zero to Hero Survival Compendium</title>
+<link rel="stylesheet" href="css/shared.css">
+<meta name="description" content="Engineering guide for gravity-fed water distribution, water tower construction, pipe selection, distribution networks, and greywater reuse systems."><link rel="canonical" href="https://zerotoherohero.com/guides/water-distribution-systems.html"><meta property="og:title" content="Community Water Distribution Systems"><meta property="og:description" content="Engineering guide for gravity-fed water distribution, water tower construction, pipe selection, distribution networks, and greywater reuse systems."><meta property="og:type" content="article"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://zerotoherohero.com/"},{"@type":"ListItem","position":2,"name":"Guides","item":"https://zerotoherohero.com/guides/"},{"@type":"ListItem","position":3,"name":"Community Water Distribution Systems","item":"https://zerotoherohero.com/guides/water-distribution-systems.html"}]}</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Community Water Distribution Systems","description":"Engineering guide for gravity-fed water distribution, water tower construction, pipe selection, distribution networks, and greywater reuse systems.","dateModified":"2026-02-15","author":{"@type":"Organization","name":"Zero to Hero Compendium"}}</script></head>
+<body>
+<main role="main">
+<div class="container">
+<nav class="breadcrumb" role="navigation" aria-label="Breadcrumb">
+<a href="index.html">Home</a> › <strong>Community Water Distribution Systems</strong>
+</nav>
+
+<header>
+<h1>Community Water Distribution Systems</h1>
+<p>Engineering and constructing gravity-fed and pressurized water distribution networks for post-collapse communities. Learn to design, build, and maintain systems that reliably serve hundreds or thousands of people using salvaged materials and minimal power input.</p>
+<div class="metadata">
+<span class="guide-id">GD-270</span>
+<span class="category">Building</span>
+<span class="difficulty">Advanced</span>
+</div>
+</header>
+
+<nav class="toc" role="navigation" aria-label="Table of contents">
+<h2>Contents</h2>
+<ol>
+<li><a href="#section-1">Gravity-Fed Water Distribution Design</a></li>
+<li><a href="#section-2">Water Tower Construction & Sizing</a></li>
+<li><a href="#section-3">Pipe Material Selection & Joining</a></li>
+<li><a href="#section-4">Distribution Network Layout</a></li>
+<li><a href="#section-5">Community Water Point Design</a></li>
+<li><a href="#section-6">Water System Maintenance & Repair</a></li>
+<li><a href="#section-7">Greywater Separation & Reuse Systems</a></li>
+</ol>
+</nav>
+
+<section id="section-1">
+<h2>1. Gravity-Fed Water Distribution Design</h2>
+
+<p>Gravity-fed systems represent the most reliable post-collapse water distribution method, requiring no electricity and minimal maintenance. They operate on a simple principle: water flows downhill, and the elevation difference creates pressure. Understanding the physics is essential for designing systems that deliver adequate water volume and pressure to all users.</p>
+
+<h3>Elevation and Head Pressure</h3>
+
+<p>Water pressure is created by the weight of water above any given point. This is expressed as "head"—the vertical distance water must fall. The relationship between elevation and pressure is direct and predictable:</p>
+
+<div class="info-box formula">
+<h4>Pressure-Head Relationship</h4>
+<p><strong>P = ρgh</strong></p>
+<ul>
+<li><strong>P</strong> = Pressure (Pascals or PSI)</li>
+<li><strong>ρ</strong> = Water density (1000 kg/m³ or 62.4 lb/ft³)</li>
+<li><strong>g</strong> = Gravitational acceleration (9.81 m/s² or 32.2 ft/s²)</li>
+<li><strong>h</strong> = Vertical height difference (meters or feet)</li>
+</ul>
+<p><strong>Practical conversion:</strong> 1 meter of head = 0.0981 bar = 1.42 PSI</p>
+<p><strong>Or:</strong> 1 foot of head = 0.433 PSI</p>
+<p>For quick field calculation: <strong>1 meter of elevation = ~10 kiloPascals (kPa) or ~1.4 PSI</strong></p>
+</div>
+
+<p>For a community water system, aim for 20-60 PSI (1.4-4.1 bar) at distribution points. This provides adequate pressure for filling buckets and containers without creating excessive wear on salvaged pipes. At higher elevations or with longer distribution runs, you may need elevated storage to maintain minimum pressures at the furthest points.</p>
+
+<h3>Flow Rate Calculations</h3>
+
+<p>The volume of water flowing through a system depends on pipe diameter, pressure, pipe friction, and the nature of the terrain. For gravity-fed systems without pumping, flow rate is determined by available head and friction losses.</p>
+
+<div class="info-box formula">
+<h4>Darcy-Weisbach Equation (Pressure Loss in Pipes)</h4>
+<p><strong>hf = f × (L/D) × (v²/2g)</strong></p>
+<ul>
+<li><strong>hf</strong> = Head loss (meters)</li>
+<li><strong>f</strong> = Friction factor (0.02-0.04 for typical pipes)</li>
+<li><strong>L</strong> = Pipe length (meters)</li>
+<li><strong>D</strong> = Pipe diameter (meters)</li>
+<li><strong>v</strong> = Flow velocity (m/s)</li>
+<li><strong>g</strong> = 9.81 m/s²</li>
+</ul>
+<p><strong>Simplified rule of thumb:</strong> Each 100 meters of 2-inch (50mm) pipe loses ~2-3 meters of head for typical flow rates. Larger pipes lose less pressure.</p>
+</div>
+
+<p>To estimate whether your system will work, use this practical approach:</p>
+
+<ol>
+<li><strong>Determine available head:</strong> Measure or estimate the elevation difference between your water source and the lowest distribution point.</li>
+<li><strong>Estimate friction losses:</strong> Use the simplified rule above based on pipe diameter and length.</li>
+<li><strong>Calculate net pressure:</strong> Available head minus friction losses equals pressure available at the outlet.</li>
+<li><strong>Check adequacy:</strong> If net pressure is 5-10 PSI (0.35-0.7 bar), the system works. If less, increase pipe diameter or elevation difference.</li>
+</ol>
+
+<h3>System Layout Principles</h3>
+
+<p>The simplest gravity-fed system has this layout:</p>
+
+<ol>
+<li><strong>Water source:</strong> Spring, elevated reservoir, or collection tank at high elevation</li>
+<li><strong>Primary line:</strong> Main pipe running downhill from source to community</li>
+<li><strong>Secondary distribution:</strong> Branch pipes from main line to individual taps or public water points</li>
+<li><strong>Outlet:</strong> Public taps, community cisterns, or household connections</li>
+</ol>
+
+<p>Critical design considerations:</p>
+
+<ul>
+<li><strong>Avoid low points:</strong> Pipes that dip and rise again create air pockets that block flow. Route pipes along slopes without reversing elevation.</li>
+<li><strong>Air release valves:</strong> At high points in the system, install air release valves (simple tee with ball valve) to expel trapped air.</li>
+<li><strong>Drainage:</strong> At the lowest point, install a drain valve to flush the system of sediment or allow emergency drainage.</li>
+<li><strong>Redundancy:</strong> If possible, create two separate lines from the source so one can be maintained while the other supplies water.</li>
+</ul>
+
+</section>
+
+<section id="section-2">
+<h2>2. Water Tower Construction & Sizing</h2>
+
+<p>Elevated water storage creates head pressure without relying on natural topography. A properly designed water tower ensures reliable supply even when demand fluctuates and provides head pressure for gravity distribution to all users. Water towers are among the most important infrastructure pieces in a community system.</p>
+
+<h3>Sizing: Storage Capacity</h3>
+
+<p>Storage volume must account for daily demand variations and emergency reserves. A community water system requires 24-48 hours of stored water to handle peak usage periods and provide buffer for maintenance.</p>
+
+<div class="info-box formula">
+<h4>Daily Water Requirement Calculation</h4>
+<p><strong>Daily requirement = Population × Daily per capita use × Safety factor</strong></p>
+<ul>
+<li><strong>Population:</strong> Number of community members served</li>
+<li><strong>Daily per capita use:</strong> 20-40 liters/person/day (subsistence living); 50-100 liters/person/day (comfortable); 150+ liters/person/day (developed world)</li>
+<li><strong>Safety factor:</strong> 1.5-2.0 (accounts for peak usage and emergencies)</li>
+</ul>
+<p><strong>Example:</strong> 500-person community at 50 liters/person/day with 1.5x factor = 500 × 50 × 1.5 = 37,500 liters (37.5 cubic meters)</p>
+<p><strong>Tower sizing rule:</strong> 1.5x daily requirement for typical systems; 2.0x for areas with highly variable demand or limited source reliability</p>
+</div>
+
+<p>For a 500-person community, a 50-60 cubic meter (13,000-16,000 gallon) tank is appropriate.</p>
+
+<h3>Tower Height and Pressure</h3>
+
+<p>The height of the water surface above the distribution network determines system pressure. Using the pressure-head relationship:</p>
+
+<div class="info-box formula">
+<h4>Required Tower Height</h4>
+<p><strong>h = P / (ρg)</strong></p>
+<p>Or simply: <strong>height (meters) ≈ desired pressure (PSI) / 1.4</strong></p>
+<ul>
+<li>For 30 PSI (typical requirement): height ≈ 21 meters (70 feet)</li>
+<li>For 20 PSI (minimal): height ≈ 14 meters (46 feet)</li>
+<li>For 40 PSI (more robust): height ≈ 28 meters (92 feet)</li>
+</ul>
+</div>
+
+<p>In practice, towers 15-25 meters (50-80 feet) tall suit most post-collapse communities. The tower supports must reach from ground level to the tank base, then the tank itself adds another 3-5 meters.</p>
+
+<h3>Tower Structure Design</h3>
+
+<p>Post-collapse communities will typically construct towers from:</p>
+
+<ul>
+<li><strong>Steel framework:</strong> Salvaged I-beams or angle iron, bolted together</li>
+<li><strong>Wooden lattice:</strong> Hardwood timber (oak, cedar) in triangular bracing—requires professional engineering</li>
+<li><strong>Stone/brick columns:</strong> Four reinforced concrete or stone legs with diagonal bracing</li>
+<li><strong>Steel cable tension:</strong> Cables running from tank support to ground anchors (economical but requires precise engineering)</li>
+</ul>
+
+<p>Structural design must account for:</p>
+
+<ul>
+<li><strong>Load:</strong> Tank weight + water weight (a 50 cubic meter tank weighs ~550 metric tons when full)</li>
+<li><strong>Wind loads:</strong> In windy locations, wind pressure on the tower can be significant</li>
+<li><strong>Seismic considerations:</strong> In active earthquake zones, design must prevent tank rupture from side-to-side movement</li>
+<li><strong>Settling:</strong> Foundation must be on stable ground with adequate footings to prevent differential settling</li>
+</ul>
+
+<p>Foundation depth rule: Dig to below frost line (1-2 meters in most climates) or to bedrock. Use a reinforced concrete pad at least 30cm thick spread across all support points.</p>
+
+<h3>Tank Material Selection</h3>
+
+<table class="comparison-table">
+<thead>
+<tr>
+<th>Material</th>
+<th>Advantages</th>
+<th>Disadvantages</th>
+<th>Lifespan</th>
+<th>Post-Collapse Viability</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Concrete (cast or reinforced)</td>
+<td>Durable, strong, monolithic, long-lasting</td>
+<td>Requires skilled concrete work, cracking prone, difficult to modify</td>
+<td>40-60 years</td>
+<td>High—if access to cement and rebar</td>
+</tr>
+<tr>
+<td>Steel (riveted or welded)</td>
+<td>Salvageable from existing structures, repairable, tolerates impact</td>
+<td>Requires welding/riveting skills, rust prevention critical, heavy</td>
+<td>20-40 years (with maintenance)</td>
+<td>High—salvaged materials widely available</td>
+</tr>
+<tr>
+<td>Wooden staves (traditional)</td>
+<td>Fully renewable, repairable, low-tech construction</td>
+<td>Requires tight cooperage skills, wood rot prevention critical, regular maintenance</td>
+<td>10-25 years</td>
+<td>Moderate—requires skilled woodworkers</td>
+</tr>
+<tr>
+<td>Masonry/brick (rendered)</td>
+<td>Uses local materials, monolithic structure</td>
+<td>Difficult to make watertight, heavy, slow construction</td>
+<td>30-50 years</td>
+<td>Moderate—requires skilled masons</td>
+</tr>
+<tr>
+<td>Salvaged plastic (large containers)</td>
+<td>Lightweight, watertight, readily available</td>
+<td>UV degradation, capacity limits (rarely >10,000L individual tanks), multiple tanks needed</td>
+<td>5-15 years</td>
+<td>Low—temporary solution only</td>
+</tr>
+</tbody>
+</table>
+
+<p>For long-term community systems, steel or reinforced concrete are the best choices. Both are repairable and can be maintained indefinitely with proper care.</p>
+
+</section>
+
+<section id="section-3">
+<h2>3. Pipe Material Selection & Joining</h2>
+
+<p>Piping is the circulatory system of any water distribution network. Material choice affects cost, durability, water quality, and maintainability. In post-collapse scenarios, you'll likely work with mixed salvaged materials and may need to improvise joining methods.</p>
+
+<h3>Pipe Material Comparison</h3>
+
+<table class="comparison-table">
+<thead>
+<tr>
+<th>Material</th>
+<th>Diameter Range</th>
+<th>Durability</th>
+<th>Water Quality</th>
+<th>Salvageability</th>
+<th>Joining Method</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PVC/plastic (modern)</td>
+<td>13-300mm+</td>
+<td>20-40 years</td>
+<td>Good (no leaching if UV-protected)</td>
+<td>High (abundant salvage)</td>
+<td>Solvent cement, friction fittings</td>
+</tr>
+<tr>
+<td>Metal (steel/galvanized)</td>
+<td>10-500mm+</td>
+<td>30-50 years</td>
+<td>Excellent</td>
+<td>High (buildings, vehicles, infrastructure)</td>
+<td>Threaded, welded, compression</td>
+</tr>
+<tr>
+<td>Copper</td>
+<td>10-100mm</td>
+<td>40-80+ years</td>
+<td>Excellent</td>
+<td>Moderate (valuable, already recycled)</td>
+<td>Soldered, compression, flare</td>
+</tr>
+<tr>
+<td>Bamboo (split/hollowed)</td>
+<td>25-75mm</td>
+<td>5-15 years</td>
+<td>Good (natural, biodegradable)</td>
+<td>High (renewable, fast-growing)</td>
+<td>Binding, banding, internal sleeves</td>
+</tr>
+<tr>
+<td>Clay/ceramic (large)</td>
+<td>50-300mm</td>
+<td>50-100+ years</td>
+<td>Excellent</td>
+<td>Low (requires skilled potters)</td>
+<td>Tarred rope, clay compression seals</td>
+</tr>
+<tr>
+<td>Wood (hollowed logs)</td>
+<td>50-300mm+</td>
+<td>10-30 years</td>
+<td>Good (depends on wood type)</td>
+<td>Moderate (requires large timber)</td>
+<td>Rope binding, internal sealing</td>
+</tr>
+<tr>
+<td>Concrete (poured/cast pipe)</td>
+<td>100-500mm+</td>
+<td>40-60 years</td>
+<td>Good (slight pH increase)</td>
+<td>Low (difficult to move or join)</td>
+<td>Lap joint with tarred cloth, compression rings</td>
+</tr>
+</tbody>
+</table>
+
+<h3>Salvaged PVC/Metal Pipe Joining</h3>
+
+<p>For salvaged modern pipes, several joining techniques work in low-tech environments:</p>
+
+<p><strong>Threaded connections (metal pipes):</strong> The most common salvage method. Requires correct pipe thread tape (PTFE/Teflon tape) wrapped 5-7 times around male threads in clockwise direction. Seal with tightening; avoid over-tightening which cracks fittings.</p>
+
+<p><strong>Compression fittings:</strong> Metal sleeves compressed by nuts create water-tight seals. Work on copper and some steel pipes. Reusable, reversible, require only wrenches. Prone to slow leaks if not properly tightened.</p>
+
+<p><strong>Friction/slip fittings (PVC):</strong> Two pipes pushed together with minimal resistance. Only works if pieces are clean and precise diameter. Unreliable for pressurized systems but adequate for low-pressure gravity feed.</p>
+
+<p><strong>Solvent cement (PVC):</strong> If you have access to PVC cement, it creates permanent, strong bonds. Apply to both pipe and fitting, push together, hold for 30 seconds. Cures in 24 hours. Very reliable.</p>
+
+<p><strong>Wrap and seal (any pipe):</strong> For emergency repairs: wrap the joint with tarred cloth or cloth strips soaked in waterproof sealant (natural tar, or modern silicone sealant if available). This is temporary but can last months or years.</p>
+
+<h3>Bamboo Piping Construction</h3>
+
+<p>Bamboo is an excellent post-collapse material: renewable, fast-growing, easy to work, and creates surprisingly durable pipes. A mature bamboo culm (hollow segment) is already nature's perfect pipe.</p>
+
+<p><strong>Preparation:</strong></p>
+<ol>
+<li>Select 3-5 year old bamboo culms (check by tapping—mature bamboo sounds hollow and deep)</li>
+<li>Cut between nodes, leaving 2-3cm of solid bamboo above the bottom joint (this creates a floor)</li>
+<li>Carefully punch or drill out the internal membranes using a long wooden rod or drill</li>
+<li>Season in shade for 4-6 weeks to prevent checking and cracking</li>
+<li>Coat interior with natural sealant (boiled linseed oil, tar, or natural resin) to prevent leaching and rot</li>
+</ol>
+
+<p><strong>Joining bamboo sections:</strong></p>
+
+<ol>
+<li><strong>Tapered overlap:</strong> Shave one end of a bamboo culm to a slight taper (1-2 degrees), push into the next culm which is enlarged slightly. Wrap tightly with rope or binding.</li>
+<li><strong>External socket:</strong> Create a socket from a larger bamboo culm, insert the smaller pipe end. Seal gap with clay or natural sealant and binding.</li>
+<li><strong>Rope and clay seal:</strong> Overlap pipes 15-20cm, wrap with tarred rope in spiral pattern, seal with clay or waterproof sealant.</li>
+<li><strong>Metal or wooden collar:</strong> Use a section of pipe (metal or wood) that fits over the joint, seal gap with clay and rope, and clamp or bolt.</li>
+</ol>
+
+<p>Bamboo pipes require maintenance: inspect annually for cracks or leaks, and reseal as needed. Lifespan is 10-15 years in dry climates, 5-10 years in wet climates.</p>
+
+<h3>Clay/Ceramic Piping</h3>
+
+<p>Traditional terra cotta pipe, still made in some places, is extremely durable. Large-diameter clay pipes can be manufactured locally if skilled potters are available.</p>
+
+<p><strong>Joining clay pipes:</strong> Pipes are pushed into tapered sockets. The gap is sealed with tarred rope or cloth (tar-impregnated fabric in spiral wrapping), then covered with a clay or cement mortar cap.</p>
+
+<p><strong>Advantages:</strong> Lasts 50-100+ years, immune to rust and rot, can be made from local materials, creates high-quality drinking water, completely recyclable.</p>
+
+<p><strong>Disadvantages:</strong> Requires skilled potters, heavy (difficult to transport), fragile (cracks easily if dropped), manufacturing is slow and labor-intensive.</p>
+
+<h3>Wooden Pipe Construction</h3>
+
+<p>Hollow wooden logs create functional pipes for gravity-fed systems. Douglas fir, cedar, oak, and other decay-resistant hardwoods are best.</p>
+
+<p><strong>Process:</strong></p>
+<ol>
+<li>Select straight logs 300-500mm diameter, 3-4 meters long</li>
+<li>Drill or bore out the interior longitudinally (labor-intensive but traditional)</li>
+<li>Carve matching joints at each end</li>
+<li>Treat interior with natural sealant (boiled linseed oil or tar)</li>
+<li>Join with tapered overlaps and rope binding</li>
+</ol>
+
+<p>Wooden pipes are labor-intensive but extremely durable in climates with moderate moisture. Cedar pipes can last 30+ years. Cost is the time investment in boring.</p>
+
+</section>
+
+<section id="section-4">
+<h2>4. Distribution Network Layout</h2>
+
+<p>The network distribution layout determines how efficiently water reaches all users and how easily it can be maintained and expanded. A well-designed system balances simplicity, reliability, and even pressure distribution.</p>
+
+<h3>Main Line Design</h3>
+
+<p>The primary transmission line carries water from source to the community. It should:</p>
+
+<ul>
+<li><strong>Follow natural terrain:</strong> Avoid unnecessary elevation changes; run along hillsides when possible</li>
+<li><strong>Use maximum practical diameter:</strong> Larger pipes (75-100mm for towns) reduce friction losses and future bottlenecks</li>
+<li><strong>Include regular drain points:</strong> Every 500-1000 meters, install a ball valve near the ground for system flushing</li>
+<li><strong>Include air relief points:</strong> At every high point, install a ball valve tee pointing upward to release trapped air</li>
+<li><strong>Slope continuously:</strong> Never create a valley in the line that traps water; slope everything downhill</li>
+<li><strong>Use shallow burial:</strong> Bury 60-90cm deep to prevent freezing (in cold climates) and protect from surface damage, but not deeper (easier repair)</li>
+</ul>
+
+<h3>Secondary Distribution and Branch Lines</h3>
+
+<p>Branch lines split from the main to serve different neighborhoods or sections of the community. Rules:</p>
+
+<ul>
+<li><strong>Progressive diameter reduction:</strong> Main line might be 100mm, primary branches 50-75mm, secondary branches 25-50mm, household connections 13-25mm</li>
+<li><strong>Grid vs. tree layout:</strong> A simple "tree" layout (main line with branches, no loops) is easier to maintain; a grid (lines that loop back and interconnect) provides backup if one section fails</li>
+<li><strong>Valve placement:</strong> Install isolation valves every 200-300 meters so individual sections can be drained for repair without shutting down the whole system</li>
+<li><strong>Pressure reduction:</strong> If the system has excessive pressure (>50 PSI), install pressure-reducing valves on branch lines to prevent burst damage</li>
+</ul>
+
+<h3>Valve Placement Strategy</h3>
+
+<div class="info-box warning">
+<h4>Critical Valve Safety</h4>
+<p>Proper valve placement prevents catastrophic failures and allows safe maintenance:</p>
+<ul>
+<li>Install a master isolation valve immediately below the water tower or main source</li>
+<li>Install isolation valves on all branch lines at their point of departure from the main</li>
+<li>Install check valves in any location where water could siphon backward (e.g., if a branch dips below the main line)</li>
+<li>Install pressure relief valves if peak pressures exceed 60 PSI (some salvaged pipes can't handle this)</li>
+<li>Clearly mark all valves and maintain a map showing open/closed positions</li>
+</ul>
+</div>
+
+<p><strong>Valve types for post-collapse systems:</strong></p>
+
+<ul>
+<li><strong>Ball valves:</strong> Quarter-turn on/off valves. Reliable, long-lasting, low maintenance. Standard choice.</li>
+<li><strong>Gate valves:</strong> More delicate, prone to sticking if not used regularly. Avoid if possible.</li>
+<li><strong>Check valves:</strong> Allow flow one direction only. Essential to prevent backflow and siphoning.</li>
+<li><strong>Pressure relief:</strong> Opens if pressure exceeds threshold, releasing water. Protects pipes from burst.</li>
+</ul>
+
+<h3>Pressure Management</h3>
+
+<p>Variable demand creates pressure fluctuations. A pressure tank (pressurized air chamber) smooths these variations:</p>
+
+<div class="info-box formula">
+<h4>Hydropneumatic Tank Sizing</h4>
+<p><strong>V = (Q × t × 2) / (P1 - P2)</strong></p>
+<ul>
+<li><strong>V</strong> = Tank volume (liters)</li>
+<li><strong>Q</strong> = Flow rate (liters/minute)</li>
+<li><strong>t</strong> = Time interval between pump cycles (minutes)</li>
+<li><strong>P1</strong> = Maximum operating pressure (bar)</li>
+<li><strong>P2</strong> = Minimum operating pressure (bar)</li>
+</ul>
+<p>For a gravity system without pump: use a small pressurized tank (100-200 liters) at the lowest point of distribution to cushion pressure swings and reduce surge damage.</p>
+</div>
+
+<p>Without powered pumping, pressure tanks are optional but useful. They extend pipe life by reducing water hammer (sudden pressure spikes) when taps are turned off suddenly.</p>
+
+</section>
+
+<section id="section-5">
+<h2>5. Community Water Point Design</h2>
+
+<p>Public water points are where citizens access water. They're the interface between the distribution system and end users. Proper design ensures hygiene, fair access, and system sustainability.</p>
+
+<h3>Basic Standpipe Design</h3>
+
+<p>The simplest water point is a standpipe: a vertical pipe with a tap (faucet) and drainage below. Principles:</p>
+
+<ul>
+<li><strong>Height:</strong> Install the tap 1.2-1.5 meters above ground for comfortable water collection</li>
+<li><strong>Outlet taps:</strong> Use ball valves with nipple outlets (short threaded piece) that allow containers to be filled without overflow splashing</li>
+<li><strong>Drainage:</strong> Below the tap, install a basin or trough to catch overflow and direct it away from the water point</li>
+<li><strong>Base protection:</strong> Pave the area around the tap with concrete, stone, or compacted gravel to prevent mud and contamination</li>
+<li><strong>Stability:</strong> Guy-wire or brace the standpipe to prevent tipping if struck or during windy conditions</li>
+</ul>
+
+<h3>Protected Tap Design (with Basin)</h3>
+
+<p>A small concrete or stone structure protects the tap from animals and improves usability:</p>
+
+<div class="info-box">
+<h4>Basic Tap House Structure</h4>
+<p><strong>Materials:</strong> Stone, brick, or concrete block walls with simple roof</p>
+<p><strong>Dimensions:</strong> 1.5m × 1.5m footprint, 2m height</p>
+<p><strong>Components:</strong></p>
+<ul>
+<li>Multiple taps (2-4) on one wall for queue management</li>
+<li>Concrete basin floor sloping to drain, sized for splashing</li>
+<li>Roof to protect water from rain contamination and provide shade</li>
+<li>Open design (no doors) for air circulation and visibility</li>
+<li>Drain system below floor directing water away (gravel drain field or connected to greywater reuse system)</li>
+</ul>
+</div>
+
+<h3>Metering and Usage Control</h3>
+
+<p>To prevent waste and ensure fair distribution during water scarcity, limit usage at public taps:</p>
+
+<ul>
+<li><strong>Time-sharing:</strong> Assign time slots to different households (e.g., one hour per day per family)</li>
+<li><strong>Throttled taps:</strong> Install regulators that limit flow to a set amount (5-10 liters/minute) to discourage wastefulness</li>
+<li><strong>Volume meters:</strong> Mechanical water meters track household consumption. Install at individual household connections if they exist.</li>
+<li><strong>Rationing system:</strong> Each person gets a fixed daily allowance. Tickets or tokens can be used to control access during shortage.</li>
+</ul>
+
+<h3>Maintenance Access</h3>
+
+<p>Every water point requires maintenance valve access:</p>
+
+<ul>
+<li><strong>Isolation valve:</strong> Placed between the main distribution line and the tap, allowing the tap to be serviced without shutting down the system</li>
+<li><strong>Drain valve:</strong> At the lowest point of the tap assembly, allows draining for winter freeze protection or repairs</li>
+<li><strong>Cleanout access:</strong> A removable fitting or cap allows clearing blockages in the pipe</li>
+</ul>
+
+<h3>Contamination Prevention</h3>
+
+<div class="info-box warning">
+<h4>Hygiene at Water Points</h4>
+<p>Public taps are frequent contamination sources. Minimize risk:</p>
+<ul>
+<li>Keep the tap outlet clear of the basin—don't allow containers to submerge the outlet</li>
+<li>Keep surfaces clean; install a brush and scrub brush at each point for daily cleaning</li>
+<li>Maintain drainage systems to prevent standing water near the tap</li>
+<li>Train community members in correct collection: don't let filled containers touch the ground before transport</li>
+<li>If possible, install a small settling basin or sediment filter before the tap to remove particles</li>
+<li>Monitor and test water regularly (if any laboratory capability exists) for contamination</li>
+</ul>
+</div>
+
+</section>
+
+<section id="section-6">
+<h2>6. Water System Maintenance & Repair</h2>
+
+<p>Water distribution systems require regular maintenance to prevent failures and maintain water quality. In post-collapse scenarios with no commercial supply chain, maintenance is the difference between functioning systems and degraded infrastructure.</p>
+
+<h3>Routine Maintenance Schedule</h3>
+
+<table class="comparison-table">
+<thead>
+<tr>
+<th>Task</th>
+<th>Frequency</th>
+<th>Purpose</th>
+<th>Labor Requirement</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Visual inspection of main line</td>
+<td>Monthly</td>
+<td>Spot wet areas, seepage, erosion indicating leaks</td>
+<td>Low (walking the line)</td>
+</tr>
+<tr>
+<td>System flush (open drain valves)</td>
+<td>Quarterly</td>
+<td>Remove accumulated sediment and maintain water quality</td>
+<td>Low (open/close valves)</td>
+</tr>
+<tr>
+<td>Valve operation check</td>
+<td>Quarterly</td>
+<td>Ensure all valves open/close smoothly and don't stick</td>
+<td>Low (exercise all valves)</td>
+</tr>
+<tr>
+<td>Air valve cleaning</td>
+<td>Quarterly</td>
+<td>Remove mineral deposits; ensure air can escape</td>
+<td>Low (open valve, rinse)</td>
+</tr>
+<tr>
+<td>Water quality observation</td>
+<td>Weekly</td>
+<td>Note color, odor, clarity; detect contamination early</td>
+<td>Minimal</td>
+</tr>
+<tr>
+<td>Pressure tank maintenance</td>
+<td>Semi-annual</td>
+<td>Check air charge (if equipped), inspect for corrosion</td>
+<td>Moderate (may need draining)</td>
+</tr>
+<tr>
+<td>Vegetation clearing around line</td>
+<td>Annual</td>
+<td>Prevent root intrusion, maintain access for repairs</td>
+<td>Moderate (clearing)</td>
+</tr>
+<tr>
+<td>Joint inspection (visual)</td>
+<td>Annual</td>
+<td>Check for rust, corrosion, joint separation</td>
+<td>Low (visual only)</td>
+</tr>
+<tr>
+<td>Winter freeze protection check</td>
+<td>Annual (fall)</td>
+<td>Ensure buried pipes are adequately insulated</td>
+<td>Low (inspection)</td>
+</tr>
+</tbody>
+</table>
+
+<h3>Leak Detection</h3>
+
+<p>Leaks waste water and indicate system failures. Detection methods:</p>
+
+<p><strong>Visual inspection:</strong> Walk the entire line looking for wet patches in soil, erosion channels, or standing water. Most common leak locations are at joints and on hillsides where roots penetrate.</p>
+
+<p><strong>Flow metering:</strong> If you have a master meter at the source, measure water coming out. If more water is being taken than is being used at taps, there's a leak. Eliminate large branch sections by closing isolation valves to narrow down the leak location.</p>
+
+<p><strong>Listening:</strong> Place your ear near pipes or use a simple stethoscope. A hissing or gurgling sound indicates a leak. This works best at night when usage is low and background noise is minimal.</p>
+
+<p><strong>Ground conductivity:</strong> Some water escapes creates wet soil patterns. Dig small test holes in suspect areas to check moisture. Compare dry sections to suspected leak areas.</p>
+
+<h3>Pipe Repair Techniques</h3>
+
+<p><strong>Small puncture holes (< 5mm):</strong></p>
+<ol>
+<li>Turn off water by closing isolation valves on either side of the leak</li>
+<li>Drain the section by opening the drain valve</li>
+<li>Dry the area thoroughly with cloth</li>
+<li>Wrap the hole tightly with waterproof tape (modern repair tape or cloth dipped in sealant)</li>
+<li>For long-term repair, wrap with rubber patch (bicycle inner tube works) and secure with hose clamps over the top</li>
+</ol>
+
+<p><strong>Leaking joints:</strong></p>
+<ol>
+<li>If a threaded connection is weeping: attempt tightening with a wrench (quarter-turn only—too much risks cracking)</li>
+<li>If tightening fails, drain the section and apply PTFE tape to the male thread, then re-thread and tighten</li>
+<li>For compression fittings, try tightening the nut. If that fails, drain, remove fitting, reinsert ferrule (small ring inside), and retighten</li>
+<li>For soldered or welded joints: external patching is your only option (wrap and sealant)—proper repair requires brazier/welder</li>
+</ol>
+
+<p><strong>Large ruptures or breaks:</strong></p>
+
+<div class="info-box warning">
+<h4>Major Pipe Failure Response</h4>
+<p>A broken section requires replacement:</p>
+<ol>
+<li>Close isolation valves on both sides of the break</li>
+<li>Drain the section completely</li>
+<li>Excavate around the break to clear 50cm on each side</li>
+<li>Measure and cut out the damaged section</li>
+<li>Install a new section using spliced joints: overlap method with rope/sealant, or use a salvaged coupling if diameter matches</li>
+<li>Flush the system and check for leaks before reopening to full usage</li>
+<li>If no single replacement piece exists, use multiple smaller pieces joined together</li>
+</ol>
+</div>
+
+<h3>Filter Maintenance</h3>
+
+<p>If your system includes intake filters (essential to prevent sediment clogging):</p>
+
+<ul>
+<li><strong>Check pressure drop:</strong> Clean filters when pressure loss across the filter exceeds 0.5 bar (7 PSI)</li>
+<li><strong>Backflushing:</strong> For sand filters, reverse water flow to flush trapped sediment. Do this quarterly or as needed</li>
+<li><strong>Media replacement:</strong> Sand or gravel media eventually becomes too fine or clogged. Replace every 2-3 years depending on water source</li>
+<li><strong>Cleaning procedure:</strong> Turn off inlet valve, open drain, flush with clean water through the drain valve until clear water runs out</li>
+</ul>
+
+<h3>Seasonal Considerations</h3>
+
+<p><strong>Winter (cold climates):</strong></p>
+<ul>
+<li>Ensure adequate burial depth (below frost line) or insulation for above-ground pipes</li>
+<li>Drain sections of pipe that aren't in use to prevent freezing and rupture</li>
+<li>Keep water flowing slowly through the line (even a slow trickle prevents freezing)</li>
+<li>Protect exposed taps and connections with insulation or heat</li>
+</ul>
+
+<p><strong>Summer (hot, dry climates):</strong></p>
+<ul>
+<li>Monitor for increased leakage (ground shrinkage can open joints)</li>
+<li>Protect exposed PVC or plastic pipes from UV damage with paint or wrapping</li>
+<li>Watch for water temperature rise in above-ground sections; warmer water can affect some uses</li>
+<li>Increase flushing frequency if sediment settles in low spots</li>
+</ul>
+
+<p><strong>Rainy season:</strong></p>
+<ul>
+<li>Inspect for root intrusion (roots seek out water pressure leaks)</li>
+<li>Check drainage around tap houses to prevent water pooling</li>
+<li>Look for washouts or erosion along the pipeline route</li>
+</ul>
+
+</section>
+
+<section id="section-7">
+<h2>7. Greywater Separation & Reuse Systems</h2>
+
+<p>Greywater—lightly used water from washing, bathing, and cleaning—represents 50-80% of household wastewater. Separating and reusing greywater dramatically reduces system load and extends available freshwater for drinking and cooking. This is essential in water-scarce communities.</p>
+
+<h3>Greywater Sources and Characteristics</h3>
+
+<table class="comparison-table">
+<thead>
+<tr>
+<th>Source</th>
+<th>Volume</th>
+<th>Contamination Level</th>
+<th>Reuse Suitability</th>
+<th>Treatment Required</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Shower/bath water</td>
+<td>High</td>
+<td>Low to moderate</td>
+<td>Garden, landscape irrigation</td>
+<td>Simple straining</td>
+</tr>
+<tr>
+<td>Sink washing water</td>
+<td>Moderate</td>
+<td>Moderate</td>
+<td>Garden, landscape irrigation</td>
+<td>Straining, settling</td>
+</tr>
+<tr>
+<td>Washing machine water</td>
+<td>High</td>
+<td>High (detergent)</td>
+<td>Landscape only (not vegetables)</td>
+<td>Settling, sand filter</td>
+</tr>
+<tr>
+<td>Dishwashing water</td>
+<td>Low</td>
+<td>Moderate to high (grease, food particles)</td>
+<td>Compost toilet only (if any reuse)</td>
+<td>Not reused (composted)</td>
+</tr>
+<tr>
+<td>Floor/cleaning water</td>
+<td>Variable</td>
+<td>High (chemicals, dirt)</td>
+<td>Dust control only</td>
+<td>Advanced treatment or not reused</td>
+</tr>
+</tbody>
+</table>
+
+<p><strong>Never mix greywater with blackwater (sewage).</strong> This contaminates the entire stream and makes treatment impossible. Blackwater requires separate handling via composting toilets or septic systems.</p>
+
+<h3>Simple Greywater System Design</h3>
+
+<p>The simplest approach separates greywater at the source and routes it directly to beneficial use:</p>
+
+<div class="info-box">
+<h4>Basic Household Greywater System</h4>
+<p><strong>For a household of 5, producing ~200L/day of greywater:</strong></p>
+<ol>
+<li><strong>Separation:</strong> Install a separate drain line from shower/bath. Keep sink separate if it contains high-grease dishwashing water; keep laundry water separate if heavily detergent-laden.</li>
+<li><strong>First-use storage:</strong> A 100-200L basin collects shower/bath water daily. Simple floating filter removes large particles (hair, soap residue).</li>
+<li><strong>Settling tank:</strong> Water sits 2-4 hours allowing particles to sink. Outlet is at mid-height, drawing clear water while sediment settles.</li>
+<li><strong>Outlet:</strong> Direct to landscape irrigation via gravity (if elevation allows) or surface application. Never above-ground unless fully contained.</li>
+<li><strong>Overflow:</strong> Excess drains to ground via mulch basin or, in wet climates, to conventional wastewater treatment.</li>
+</ol>
+</div>
+
+<h3>Treatment and Filtration</h3>
+
+<p>Simple greywater from shower/bath needs minimal treatment. More contaminated sources (washing machine, kitchen) need filtration:</p>
+
+<p><strong>Straining stage:</strong> Install a 2mm mesh strainer to catch hair, soap particles, and visible debris. Clean daily or as needed.</p>
+
+<p><strong>Settling tank:</strong> A basin where water sits 2-4 hours. Particles settle to the bottom; oils rise to the surface. Outlet is from the middle clean zone. A 200L tank for household scale suffices.</p>
+
+<p><strong>Sand filter (for dirtier sources):</strong></p>
+
+<div class="info-box">
+<h4>DIY Sand Filter Construction</h4>
+<p><strong>For washing machine or kitchen greywater:</strong></p>
+<ul>
+<li><strong>Container:</strong> A barrel or plastic tub, minimum 50L capacity</li>
+<li><strong>Layers (bottom to top):</strong>
+<ul>
+<li>Drainage layer: gravel or stones (5cm)</li>
+<li>Sand layer: coarse sand (10-15cm)</li>
+<li>Sand layer: fine sand (10-15cm)</li>
+<li>Gravel layer: small gravel as filter guard (5cm)</li>
+</ul>
+</li>
+<li><strong>Flow:</strong> Water enters top, flows through sand, exits through drain at bottom</li>
+<li><strong>Maintenance:</strong> When flow slows (20% reduction), backflush by pouring clean water in from the bottom drain valve, or replace the top gravel layer</li>
+<li><strong>Sand replacement:</strong> Every 2-3 years if heavily used</li>
+</ul>
+</div>
+
+<h3>Irrigation Methods</h3>
+
+<p>Greywater must be applied directly to soil, not stored for later use (disease risk). Methods:</p>
+
+<p><strong>Subsurface drip irrigation:</strong> Perforated pipes buried 10-15cm deep deliver water directly to plant root zones. Most efficient (90% reaches plants); avoids splash-back and smell. Requires well-designed distribution lines.</p>
+
+<p><strong>Mulch basins:</strong> Simple pit around a tree or shrub, lined with mulch, where grey water is poured directly onto soil. Easy to implement but less efficient and can smell if saturated.</p>
+
+<p><strong>Surface stream/swale:</strong> Shallow channel directing water across gardens and landscape. Water infiltrates as it flows. Lower cost, visible feedback, but more evaporation.</p>
+
+<p><strong>Constructed wetland:</strong> For larger communities, a planted wetland basin acts as final treatment and polishing. Water-loving plants (reeds, cattails) naturally treat greywater while providing wildlife habitat. Requires >1m² per person daily flow.</p>
+
+<h3>Health and Safety Considerations</h3>
+
+<div class="info-box warning">
+<h4>Critical Greywater Safety Rules</h4>
+<ul>
+<li><strong>Never drink or cook with greywater.</strong> Use only for landscape/irrigation.</li>
+<li><strong>Keep separate from drinking water.</strong> Cross-connection creates health catastrophe. Use different colored pipes or clear signage.</li>
+<li><strong>Never irrigate vegetables grown close to ground:</strong> Greywater may contain pathogens. Use for ornamental plants, tree/shrub irrigation, or distant field crops.</li>
+<li><strong>Limit use to immediate application:</strong> Don't store greywater longer than 24 hours (disease risk). Apply same day it's generated.</li>
+<li><strong>Monitor for discoloration or odor:</strong> Dark color or foul smell indicates contamination. Stop using immediately and drain the system.</li>
+<li><strong>Test locally if possible:</strong> If any laboratory capability exists, test greywater periodically for pathogen presence. At minimum, observe for cloudiness or discoloration.</li>
+<li><strong>Inform community members:</strong> Everyone must understand greywater is not potable. Mark all greywater taps, pipes, and points with clear signage.</li>
+</ul>
+</div>
+
+<h3>Community-Scale Greywater Systems</h3>
+
+<p>For larger communities, consolidated greywater systems achieve efficiency through scale:</p>
+
+<ol>
+<li><strong>Collection network:</strong> Separate grey water lines from all households feed into a central treatment facility</li>
+<li><strong>Treatment plant:</strong> A larger settling/filtration/polishing facility handles 100-1000 cubic meters per day</li>
+<li><strong>Reuse network:</strong> Treated water irrigates community gardens, parks, and landscaping via a separate distribution system</li>
+<li><strong>Overflow:</strong> Excess during wet season flows to constructed wetlands or natural discharge points</li>
+</ol>
+
+<p>Community-scale systems require dedicated water management personnel and regular testing. Benefits are substantial: 50% reduction in freshwater demand and creation of additional irrigation water for food production.</p>
+
+<h3>Maintenance and Failure Prevention</h3>
+
+<ul>
+<li><strong>Sediment traps:</strong> Install sediment basins at lowest points in grey water lines; clean out accumulated sediment monthly</li>
+<li><strong>Filter replacement:</strong> Monitor sand and gravel filters regularly. Replace media when flow reduces significantly.</li>
+<li><strong>Seasonal care:</strong> In freezing climates, drain exposed greywater lines before winter. In very hot climates, cover storage to minimize algae growth.</li>
+<li><strong>Odor control:</strong> If the system becomes smelly, indicates stagnation. Increase flow rates or turn over stored water more frequently.</li>
+<li><strong>Pest management:</strong> Open water basins attract mosquitoes. Add a thin layer of mineral oil (biodegradable types) or install mesh screens over storage.</li>
+</ul>
+
+</section>
+
+<div class="related" role="navigation" aria-label="Related guides">
+<h3>Related Guides</h3>
+<ul>
+<li><a href="sur-01-water-purification.html">Water Purification Methods</a> — Treating collected water to drinking standards</li>
+<li><a href="construction.html">Construction Basics</a> — Foundation and structural design principles</li>
+<li><a href="sanitation.html">Sanitation Systems</a> — Blackwater treatment and waste management</li>
+</ul>
+</div>
+
+<footer>
+<p>Zero to Hero Survival Compendium — Offline Reference</p>
+</footer>
+
+</div>
+</main>
+
+<script src="../shared/theme-sync.js"></script>
+<script src="js/shared.js"></script>
+
+</body>
+</html>

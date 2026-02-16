@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<!-- Guide SEO: Full-Text Search | Category: tools | Difficulty: intermediate | Updated: 2026-02-15 -->
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search - Offline Compendium</title>
+    <link rel="stylesheet" href="css/shared.css">
+    <style>
+        .search-container {
+            position: relative;
+            margin-bottom: 30px;
+        }
+        .search-box {
+            width: 100%;
+            padding: 15px 20px;
+            font-size: 16px;
+            background-color: var(--surface);
+            color: var(--text);
+            border: 2px solid var(--card);
+            border-radius: 6px;
+            transition: border-color 0.3s;
+        }
+        .search-box:focus {
+            outline: 0;
+            border-color: var(--accent);
+            box-shadow: 0 0 10px rgba(233, 69, 96, 0.3);
+        }
+        .search-info {
+            margin-top: 10px;
+            font-size: 13px;
+            color: rgba(238, 238, 238, 0.7);
+        }
+        .results {
+            display: grid;
+            gap: 15px;
+        }
+        .result-item {
+            background-color: var(--surface);
+            border-left: 4px solid var(--accent);
+            padding: 20px;
+            border-radius: 4px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .result-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 12px rgba(233, 69, 96, 0.2);
+        }
+        .result-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--accent2);
+            margin-bottom: 8px;
+        }
+        .result-title a {
+            color: var(--accent2);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .result-title a:hover {
+            color: var(--accent);
+        }
+        .result-meta {
+            font-size: 12px;
+            color: rgba(238, 238, 238, 0.6);
+            margin-bottom: 12px;
+        }
+        .highlight {
+            background-color: var(--accent);
+            color: white;
+            padding: 2px 4px;
+            border-radius: 2px;
+            font-weight: 600;
+        }
+        .no-results {
+            text-align: center;
+            padding: 40px 20px;
+            color: rgba(238, 238, 238, 0.6);
+            font-size: 16px;
+        }
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: rgba(238, 238, 238, 0.5);
+        }
+        .empty-state p {
+            margin: 10px 0;
+            font-size: 15px;
+        }
+        .search-stats {
+            margin-bottom: 20px;
+            padding: 12px;
+            background-color: rgba(233, 69, 96, 0.1);
+            border-radius: 4px;
+            font-size: 13px;
+            color: rgba(238, 238, 238, 0.7);
+            border-left: 4px solid var(--accent);
+        }
+    </style>
+<meta name="description" content="Search all 170,000+ lines across every guide. Find any topic, recipe, measurement, or procedure instantly."><link rel="canonical" href="https://zerotoherohero.com/guides/search.html"><meta property="og:title" content="Full-Text Search"><meta property="og:description" content="Search all 170,000+ lines across every guide. Find any topic, recipe, measurement, or procedure instantly."><meta property="og:type" content="article"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://zerotoherohero.com/"},{"@type":"ListItem","position":2,"name":"Guides","item":"https://zerotoherohero.com/guides/"},{"@type":"ListItem","position":3,"name":"Full-Text Search","item":"https://zerotoherohero.com/guides/search.html"}]}</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Full-Text Search","description":"Search all 170,000+ lines across every guide. Find any topic, recipe, measurement, or procedure instantly.","dateModified":"2026-02-15","author":{"@type":"Organization","name":"Zero to Hero Compendium"}}</script></head>
+<body>
+<main role="main">
+<div class="container">
+    <header>
+        <div>
+            <h1>Search Compendium</h1>
+            <p class="search-info">Press <kbd>/</kbd> to focus search • Full-text search powered by compiled index</p>
+        </div>
+        <a href="../index.html" class="back-link">Back to Index</a>
+    </header>
+
+    <div class="search-container">
+        <input
+            type="text"
+            id="searchBox"
+            class="search-box"
+            placeholder="Search for topics, skills, techniques..."
+            aria-label="Search compendium">
+    </div>
+
+    <div id="resultsContainer"></div>
+</div>
+</main>
+
+<script src="../shared/theme-sync.js"></script>
+
+<script>
+let searchIndex = null;
+let guidesList = [];
+
+document.addEventListener('DOMContentLoaded', async () => {
+    try {
+        const response = await fetch('../data/search-index.json');
+        const indexData = await response.json();
+        searchIndex = indexData.i;
+        guidesList = indexData.gl;
+        console.log(`Loaded search index: ${Object.keys(searchIndex).length} terms, ${guidesList.length} guides`);
+        setupSearchUI();
+    } catch (error) {
+        console.error('Failed to load search index:', error);
+        document.getElementById('resultsContainer').innerHTML =
+            '<div class="no-results">Error loading search index. Please try again later.</div>';
+    }
+});
+
+function setupSearchUI() {
+    const searchBox = document.getElementById('searchBox');
+    document.addEventListener('keydown', (e) => {
+        if (e.key === '/' && document.activeElement !== searchBox) {
+            e.preventDefault();
+            searchBox.focus();
+        }
+    });
+    searchBox.addEventListener('input', (e) => {
+        const query = e.target.value.trim();
+        if (query.length === 0) {
+            showEmptyState();
+        } else if (query.length < 2) {
+            document.getElementById('resultsContainer').innerHTML = '<div class="no-results">Type at least 2 characters</div>';
+        } else {
+            performSearch(query);
+        }
+    });
+    showEmptyState();
+}
+
+function performSearch(query) {
+    const resultsContainer = document.getElementById('resultsContainer');
+    const searchTerms = tokenize(query);
+
+    if (searchTerms.length === 0) {
+        resultsContainer.innerHTML = '<div class="no-results">No valid search terms found</div>';
+        return;
+    }
+
+    const guideScores = {};
+    searchTerms.forEach(term => {
+        // Exact match first
+        if (searchIndex[term]) {
+            const parts = searchIndex[term].split(',');
+            for (let i = 0; i < parts.length; i += 2) {
+                const idx = parseInt(parts[i]);
+                const freq = parseInt(parts[i + 1]);
+                if (!guideScores[idx]) guideScores[idx] = { freq: 0, termCount: 0 };
+                guideScores[idx].freq += freq;
+                guideScores[idx].termCount++;
+            }
+        }
+        // Prefix matching: if no exact match or short term, try prefix
+        if (!searchIndex[term] || term.length <= 4) {
+            Object.keys(searchIndex).forEach(key => {
+                if (key !== term && key.startsWith(term) && key.length <= term.length + 4) {
+                    const parts = searchIndex[key].split(',');
+                    for (let i = 0; i < parts.length; i += 2) {
+                        const idx = parseInt(parts[i]);
+                        const freq = Math.ceil(parseInt(parts[i + 1]) * 0.5); // Half weight for prefix
+                        if (!guideScores[idx]) guideScores[idx] = { freq: 0, termCount: 0 };
+                        guideScores[idx].freq += freq;
+                        guideScores[idx].termCount += 0.5;
+                    }
+                }
+            });
+        }
+    });
+
+    const results = Object.entries(guideScores)
+        .map(([idx, data]) => ({
+            idx: parseInt(idx),
+            title: guidesList[parseInt(idx)],
+            file: `./${guidesList[parseInt(idx)]}.html`,
+            frequency: data.freq,
+            matchedTerms: data.termCount,
+            score: data.freq + (data.termCount * 10)
+        }))
+        .sort((a, b) => b.score - a.score)
+        .slice(0, 50);
+
+    if (results.length === 0) {
+        resultsContainer.innerHTML = `<div class="no-results">No results found for "${escapeHtml(query)}"</div>`;
+        return;
+    }
+
+    let html = `<div class="search-stats">Found <strong>${results.length}</strong> guide${results.length !== 1 ? 's' : ''} with <strong>${searchTerms.length}</strong> term${searchTerms.length !== 1 ? 's' : ''}</div>`;
+    html += '<div class="results">';
+
+    results.forEach(result => {
+        html += `
+            <div class="result-item">
+                <div class="result-title">
+                    <a href="${escapeHtml(result.file)}" title="Open ${escapeHtml(result.title)}">
+                        ${highlightTerms(result.title, searchTerms)}
+                    </a>
+                </div>
+                <div class="result-meta">
+                    ${result.matchedTerms} term${result.matchedTerms !== 1 ? 's' : ''} • ${result.frequency} occurrence${result.frequency !== 1 ? 's' : ''}
+                </div>
+            </div>
+        `;
+    });
+
+    html += '</div>';
+    resultsContainer.innerHTML = html;
+}
+
+function tokenize(text) {
+    const stopWords = new Set([
+        'the', 'a', 'an', 'and', 'or', 'but', 'in', 'on', 'at', 'to', 'for',
+        'of', 'with', 'by', 'from', 'is', 'are', 'was', 'were', 'be', 'been',
+        'being', 'have', 'has', 'had', 'do', 'does', 'did', 'will', 'would'
+    ]);
+    return text
+        .toLowerCase()
+        .split(/\s+/)
+        .map(word => word.replace(/[^\w-]/g, ''))
+        .filter(word => word.length > 2 && !stopWords.has(word) && !/^\d+$/.test(word));
+}
+
+function highlightTerms(text, terms) {
+    let result = escapeHtml(text);
+    terms.forEach(term => {
+        const regex = new RegExp(`\\b(${escapeRegex(term)})\\b`, 'gi');
+        result = result.replace(regex, '<span class="highlight">$1</span>');
+    });
+    return result;
+}
+
+function escapeHtml(text) {
+    const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
+    return text.replace(/[&<>"']/g, m => map[m]);
+}
+
+function escapeRegex(text) {
+    return text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+function showEmptyState() {
+    document.getElementById('resultsContainer').innerHTML = `
+        <div class="empty-state">
+            <p>Start typing to search the compendium</p>
+            <p style="font-size: 12px; color: rgba(238, 238, 238, 0.4); margin-top: 15px;">
+                Full-text search across ${guidesList.length} guides
+            </p>
+        </div>
+    `;
+}
+</script>
+</body>
+</html>

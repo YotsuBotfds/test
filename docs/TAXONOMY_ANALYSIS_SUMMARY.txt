@@ -1,0 +1,250 @@
+TAXONOMY RECONCILIATION ANALYSIS - EXECUTIVE SUMMARY
+================================================================================
+
+Analysis Date: February 15, 2026
+Project: Zero to Hero Survival Compendium
+Report Location: /sessions/sweet-great-darwin/mnt/survival-app/docs/TAXONOMY_REPORT.md
+
+QUICK FACTS
+================================================================================
+
+Total Guides Analyzed:              261
+Total Categories Found:             23 (across all sources)
+Total Unique Tags:                  16
+Categories with Proper Assignments: 15
+Categories Empty/Missing:           1 (197 guides)
+
+KEY METRICS
+================================================================================
+
+Source: guides.json
+  - 15 categories defined
+  - 8 unique tags
+  - 261 total guides
+  - Category Coverage: 64 guides assigned (24.5%), 197 unassigned (75.5%)
+
+Source: index.html
+  - 8 compound data-tag values
+  - Includes tags not in guides.json: "new", "technology"
+  - Multiple tags combined into single string values
+
+Source: skills_data.json & skills_merged.json
+  - 8 categories (identical structure in both files)
+  - Title Case naming convention
+  - No tag information
+
+Source: tools/ directory
+  - 6 interactive tools
+  - No categorization metadata found
+
+CRITICAL ISSUES (Must Address)
+================================================================================
+
+ISSUE 1: Missing Categories [CRITICAL - IMPACT: HIGH]
+  What: 197 guides (75.5%) have empty category field
+  Where: guides.json "category" field is blank string
+  Why: Incomplete data entry or schema mismatch
+  Fix: Assign all guides to appropriate categories using new taxonomy
+  Effort: 12-16 hours
+  
+ISSUE 2: Compound Tags in HTML [HIGH - IMPACT: MEDIUM]
+  What: Data-tags are comma-separated strings instead of arrays
+  Examples: "rebuild, new", "critical, medical, new"
+  Problem: Cannot filter by individual tags in HTML
+  Fix: Change to JSON array format: ["rebuild", "new"]
+  Effort: 4-8 hours (code updates + testing)
+  
+ISSUE 3: Multiple Category Systems [HIGH - IMPACT: MEDIUM]
+  What: guides.json and skills*.json use different category names
+  Conflict: "metalworking" vs "Metallurgy", "power-generation" vs "Energy & Power"
+  Problem: Unclear which is source of truth
+  Fix: Consolidate to single taxonomy, map others to it
+  Effort: 4-6 hours (analysis + mapping + update)
+
+MEDIUM PRIORITY ISSUES
+================================================================================
+
+ISSUE 4: Undocumented Tag Expansion
+  Tags in HTML but not guides.json: "new", "technology"
+  Suggests automatic transformation during HTML generation
+  Fix: Document the transformation process
+  
+ISSUE 5: Naming Inconsistencies
+  Mixed conventions: kebab-case, lowercase, Title Case
+  Examples: zth-modules, agriculture, Manufacturing
+  Fix: Standardize to UPPERCASE_SNAKE_CASE for consistency
+  
+ISSUE 6: Orphaned Tool Data
+  Category "tools" contains file paths instead of guide IDs
+  Fix: Create proper tools-manifest.json or restructure
+  
+ISSUE 7: Single-Use Tags
+  "human new" appears only once
+  Suggests experimental/incomplete tagging
+  Fix: Review and remove orphaned tags
+
+TAG BREAKDOWN BY FREQUENCY
+================================================================================
+
+High Priority Tags (>20 uses):
+  rebuild:    75 guides (28.7%) - Civilization rebuilding scenarios
+  essential:  50 guides (19.1%) - Core survival fundamentals
+  practical:  40 guides (15.3%) - Immediately actionable
+  critical:   39 guides (14.9%) - Life-or-death knowledge
+  start-here: 22 guides (8.4%)  - Entry point (zth-modules only)
+  important:  22 guides (8.4%)  - Should know, valuable
+
+Medium Priority Tags (5-20 uses):
+  human:      7 guides  (2.7%)  - Human factors, culture
+
+Low Priority Tags (<5 uses):
+  tools:      6 guides  (2.3%)  - Interactive utilities
+  new:        76+ (HTML only)   - Recently added content
+  technology: 5 (HTML only)     - Technical/specialized content
+
+PROPOSED SOLUTION: UNIFIED TAXONOMY
+================================================================================
+
+7 Primary Domain Categories:
+  1. SURVIVAL_BASICS         - Immediate, life-critical skills
+  2. FOOD_SYSTEMS            - Production and preservation
+  3. CRAFTS_PRODUCTION       - Material transformation and tools
+  4. ADVANCED_SYSTEMS        - Technology and infrastructure
+  5. FOUNDATIONAL_KNOWLEDGE  - Science and understanding
+  6. SOCIETY_CULTURE         - Human and community aspects
+  7. TOOLS_UTILITIES         - Interactive and reference materials
+
+5-Tier Tag System:
+  Tier 1 - Priority:  CRITICAL, ESSENTIAL, IMPORTANT, PRACTICAL
+  Tier 2 - Context:   IMMEDIATE, REBUILD, ADVANCED
+  Tier 3 - Quality:   COMPLETE, DRAFT, REFERENCE
+  Tier 4 - Status:    NEW, UPDATED, STABLE
+  Tier 5 - Type:      INTERACTIVE, REFERENCE, TUTORIAL, ADVANCED
+
+IMPLEMENTATION ROADMAP
+================================================================================
+
+PHASE 1 (Immediate - Week 1): Data Quality
+  [ ] Assign categories to all 197 guides
+  [ ] Normalize category names to UPPERCASE_SNAKE_CASE
+  [ ] Validate all assignments
+  [ ] Estimated: 12-16 hours
+
+PHASE 2 (Short-term - Week 2-3): Standardization
+  [ ] Fix HTML data-tags format (strings -> arrays)
+  [ ] Update JavaScript filtering logic
+  [ ] Reconcile skills*.json with guides.json
+  [ ] Document tag semantics
+  [ ] Estimated: 8-12 hours
+
+PHASE 3 (Medium-term - Month 1): Documentation & Tools
+  [ ] Create TAXONOMY.md specification
+  [ ] Add JSON schema validation
+  [ ] Implement pre-commit hooks
+  [ ] Create quality dashboard
+  [ ] Estimated: 12-20 hours
+
+Total Effort: 32-48 hours of implementation
+
+RECOMMENDATIONS FOR ACTION
+================================================================================
+
+IMMEDIATE (Next Week):
+  1. Review TAXONOMY_REPORT.md with team
+  2. Approve proposed unified taxonomy structure
+  3. Begin category assignment for empty guides
+  4. Schedule HTML/JavaScript refactoring
+
+SHORT-TERM (Next 2-3 Weeks):
+  1. Implement all Phase 1 and 2 changes
+  2. Create mapping document between old and new taxonomies
+  3. Test filtering and search functionality
+  4. Update any integrations or external tools
+
+LONG-TERM (Next Month):
+  1. Implement validation systems
+  2. Create comprehensive taxonomy documentation
+  3. Establish content quality standards
+  4. Monitor ongoing compliance with taxonomy
+
+DELIVERABLE FILES
+================================================================================
+
+Main Report:
+  /sessions/sweet-great-darwin/mnt/survival-app/docs/TAXONOMY_REPORT.md
+  
+Supporting Analysis:
+  /tmp/taxonomy_data.json (machine-readable extraction results)
+  /tmp/extract_taxonomy.py (reusable analysis script)
+  /sessions/sweet-great-darwin/mnt/survival-app/docs/TAXONOMY_ANALYSIS_SUMMARY.txt (this file)
+
+REPORT CONTENTS
+================================================================================
+
+The full TAXONOMY_REPORT.md contains:
+
+1. Executive Summary
+   - Key findings and critical issues
+   
+2. Categories Analysis (Section 1)
+   - Detailed breakdown of all 15 categories
+   - Distribution analysis
+   - Issues and quality problems
+   
+3. Tags Analysis (Section 2)
+   - Frequency distribution
+   - Inconsistencies
+   - Proposed tag hierarchy
+   
+4. Data-Tags in HTML (Section 3)
+   - Comparison between sources
+   - Implementation problems
+   - Suggested fixes
+   
+5. Tools Analysis (Section 4)
+   - Current state
+   - Missing data
+   
+6. JSON Files Analysis (Section 5)
+   - skills_data.json structure
+   - Duplicate category systems
+   
+7. Inconsistencies Summary (Section 6)
+   - Critical issues table
+   - Minor issues
+   
+8. Proposed Unified Taxonomy (Section 7)
+   - Complete category structure
+   - Tag hierarchy
+   - Migration path
+   
+9. Category Assignments (Section 8)
+   - High-level mapping strategy
+   - Domain-based organization
+   
+10. Recommendations (Section 9)
+    - Immediate, short-term, long-term actions
+    
+11. Appendix (Section 10-11)
+    - Complete data listings
+    - Detailed breakdowns
+    - Conclusion
+
+NEXT STEPS
+================================================================================
+
+1. Read and review TAXONOMY_REPORT.md
+2. Schedule stakeholder discussion
+3. Approve proposed unified taxonomy
+4. Create implementation task list
+5. Assign team members to Phase 1
+6. Begin data quality improvements
+
+For detailed information, analysis, and implementation guidance, 
+please refer to the complete TAXONOMY_REPORT.md file.
+
+================================================================================
+Report prepared by automated taxonomy audit system
+Method: Programmatic extraction with manual validation
+Status: Complete and ready for implementation
+================================================================================

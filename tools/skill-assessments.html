@@ -1,0 +1,1417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skill Assessments - Zero to Hero</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Georgia, 'Times New Roman', serif;
+            background: linear-gradient(135deg, #1a2e1a 0%, #2d2416 100%);
+            color: #f5f0e8;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #1a2e1a 0%, #2d2416 100%);
+            color: #f5f0e8;
+            padding: 40px 20px;
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 5px solid #d4a574;
+            border-radius: 8px;
+        }
+        
+        header h1 {
+            font-size: 2.2em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        header p {
+            font-size: 1.1em;
+            color: #d4a574;
+        }
+        
+        .dashboard {
+            background: #f5f0e8;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .module-selector {
+            margin-bottom: 15px;
+        }
+        
+        .module-selector label {
+            display: block;
+            font-weight: bold;
+            color: #1a2e1a;
+            margin-bottom: 8px;
+        }
+        
+        .module-selector select {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #1a2e1a;
+            border-radius: 4px;
+            font-size: 1em;
+            background: #f5f0e8;
+            color: #1a2e1a;
+            cursor: pointer;
+        }
+        
+        .progress-bar {
+            background: #E0E0E0;
+            height: 30px;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 15px;
+        }
+        
+        .progress-fill {
+            background: linear-gradient(90deg, #8BC34A 0%, #4CAF50 100%);
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 0.9em;
+            transition: width 0.3s;
+        }
+        
+        .quiz-container {
+            background: #f5f0e8;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            margin-bottom: 20px;
+        }
+        
+        .quiz-header {
+            background: linear-gradient(135deg, #1a2e1a 0%, #2d2416 100%);
+            color: #f5f0e8;
+            padding: 20px;
+            margin: -30px -30px 20px -30px;
+            border-radius: 8px 8px 0 0;
+        }
+        
+        .quiz-header h2 {
+            font-size: 1.8em;
+            margin-bottom: 5px;
+        }
+        
+        .question-number {
+            font-size: 0.9em;
+            color: #d4a574;
+        }
+        
+        .question {
+            margin-bottom: 25px;
+        }
+        
+        .question p {
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #1a2e1a;
+            margin-bottom: 15px;
+        }
+        
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .option {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            border: 2px solid #d4a574;
+            border-radius: 4px;
+            background: #f5f0e8;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .option:hover {
+            background: #FFF0E6;
+            transform: translateX(5px);
+        }
+        
+        .option input[type="radio"] {
+            margin-right: 12px;
+            cursor: pointer;
+            width: 18px;
+            height: 18px;
+        }
+        
+        .option label {
+            cursor: pointer;
+            flex-grow: 1;
+            color: #f5f0e8;
+        }
+        
+        .option.correct {
+            background: #E8F5E9;
+            border-color: #4CAF50;
+        }
+        
+        .option.incorrect {
+            background: #FFEBEE;
+            border-color: #E74C3C;
+        }
+        
+        .explanation {
+            background: #F5F5F5;
+            padding: 12px;
+            border-left: 4px solid #d4a574;
+            margin-top: 10px;
+            border-radius: 4px;
+            color: #555;
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+        
+        button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 4px;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .btn-submit {
+            background: #1a2e1a;
+            color: #f5f0e8;
+        }
+        
+        .btn-submit:hover {
+            background: #2d2416;
+            transform: scale(1.05);
+        }
+        
+        .btn-next {
+            background: #d4a574;
+            color: #1a2e1a;
+        }
+        
+        .btn-next:hover {
+            background: #d4a574;
+            transform: scale(1.05);
+        }
+        
+        .btn-reset {
+            background: #999;
+            color: white;
+        }
+        
+        .btn-reset:hover {
+            background: #666;
+        }
+        
+        .score-display {
+            background: linear-gradient(135deg, #1a2e1a 0%, #2d2416 100%);
+            color: #f5f0e8;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .score-display h3 {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
+        
+        .score-number {
+            font-size: 3em;
+            color: #d4a574;
+            margin: 10px 0;
+        }
+        
+        .score-status {
+            font-size: 1.2em;
+            font-weight: bold;
+            padding: 10px;
+            border-radius: 4px;
+            display: inline-block;
+            margin-top: 10px;
+        }
+        
+        .status-pass {
+            background: #4CAF50;
+            color: white;
+        }
+        
+        .status-fail {
+            background: #E74C3C;
+            color: white;
+        }
+        
+        .summary-dashboard {
+            background: #f5f0e8;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .summary-title {
+            color: #1a2e1a;
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .module-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .module-item {
+            background: #f5f0e8;
+            border: 2px solid #d4a574;
+            border-radius: 4px;
+            padding: 15px;
+            text-align: center;
+        }
+        
+        .module-item.pending {
+            background: #F5F5F5;
+            border-color: #999;
+        }
+        
+        .module-item.passed {
+            background: #E8F5E9;
+            border-color: #4CAF50;
+        }
+        
+        .module-item.failed {
+            background: #FFEBEE;
+            border-color: #E74C3C;
+        }
+        
+        .module-name {
+            font-weight: bold;
+            color: #1a2e1a;
+            margin-bottom: 8px;
+        }
+        
+        .module-score {
+            font-size: 1.5em;
+            color: #d4a574;
+            margin-bottom: 5px;
+        }
+        
+        .module-status {
+            font-size: 0.9em;
+            font-weight: bold;
+            padding: 4px 8px;
+            border-radius: 4px;
+            display: inline-block;
+        }
+        
+        .status-pending {
+            background: #999;
+            color: white;
+        }
+        
+        .status-complete {
+            background: #4CAF50;
+            color: white;
+        }
+        
+        .certificate {
+            background: linear-gradient(135deg, #d4a574 0%, #FFA500 50%, #d4a574 100%);
+            border: 3px solid #1a2e1a;
+            border-radius: 8px;
+            padding: 40px;
+            text-align: center;
+            color: #1a2e1a;
+            margin: 20px 0;
+            display: none;
+        }
+        
+        .certificate.visible {
+            display: block;
+            animation: slideIn 0.5s ease-out;
+        }
+        
+        @keyframes slideIn {
+            from {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        .certificate h2 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            text-shadow: 1px 1px 2px rgba(255,255,255,0.3);
+        }
+        
+        .certificate p {
+            font-size: 1.2em;
+            margin: 10px 0;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .view-selector {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .view-btn {
+            padding: 8px 16px;
+            margin: 0 5px;
+            border: 2px solid #d4a574;
+            background: #f5f0e8;
+            color: #1a2e1a;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        
+        .view-btn.active {
+            background: #1a2e1a;
+            color: #f5f0e8;
+        }
+        
+        .view-btn:hover {
+            transform: translateY(-2px);
+        }
+    
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
+        }</style>
+</head>
+<body>
+    <div style="background-color:#2d2416;padding:12px 20px;border-bottom:1px solid #5a4a3a;">
+        <a href="../index.html" style="color:#d4a574;text-decoration:none;font-size:0.95em;">← Back to Guides</a>
+    </div>
+    <div class="container" role="main">
+        <header>
+            <h1>Skill Assessment System</h1>
+            <p>Test Your Knowledge Across All 22 Modules</p>
+        </header>
+        
+        <div class="view-selector">
+            <button class="view-btn active" onclick="switchView('quiz')">Take Quiz</button>
+            <button class="view-btn" onclick="switchView('summary')">View Progress</button>
+        </div>
+        
+        <!-- QUIZ VIEW -->
+        <div id="quizView">
+            <div class="dashboard">
+                <div class="module-selector">
+                    <label for="moduleSelect">Select Module to Test:</label>
+                    <select id="moduleSelect" onchange="changeModule(this.value)">
+                        <option value="">-- Choose a Module --</option>
+                    </select>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill" style="width: 0%">
+                        <span id="progressText">0%</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="quizContainer" class="quiz-container hidden">
+                <div class="quiz-header">
+                    <div class="question-number" id="questionNumber"></div>
+                    <h2 id="moduleName"></h2>
+                </div>
+                <div id="questionsContainer"></div>
+                <div class="button-group">
+                    <button class="btn-submit" onclick="submitQuiz()">Submit Quiz</button>
+                    <button class="btn-reset" onclick="resetQuiz()">Reset</button>
+                </div>
+            </div>
+            
+            <div id="resultsContainer" class="hidden">
+                <div class="score-display">
+                    <h3>Quiz Complete</h3>
+                    <div class="score-number" id="scoreNumber">0%</div>
+                    <div id="scoreStatus"></div>
+                </div>
+                <button class="btn-submit" onclick="goBackToModule()">Back to Module Selection</button>
+            </div>
+        </div>
+        
+        <!-- SUMMARY VIEW -->
+        <div id="summaryView" class="hidden">
+            <div class="summary-dashboard">
+                <div class="summary-title">Progress Dashboard</div>
+                <div id="modulesSummary" class="module-grid"></div>
+            </div>
+            <div id="certificateContainer"></div>
+            <div style="text-align: center;">
+                <button class="btn-submit" onclick="switchView('quiz')">Continue Testing</button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Quiz Data for all 22 modules
+        const quizzes = [
+            {
+                name: "Water Purification",
+                module: "Module 1",
+                questions: [
+                    {
+                        q: "What is the primary purpose of filtration in water purification?",
+                        options: ["To add minerals", "To remove sediment and particulates", "To improve taste only", "To add chlorine"],
+                        correct: 1,
+                        explanation: "Filtration removes suspended solids, sediment, and particles from water. This is the first step in most purification systems."
+                    },
+                    {
+                        q: "How long should water boil to kill most pathogens?",
+                        options: ["30 seconds", "1-2 minutes", "5-10 minutes", "30 minutes"],
+                        correct: 1,
+                        explanation: "Boiling water for 1-2 minutes at a rolling boil kills most pathogens including bacteria and viruses at sea level."
+                    },
+                    {
+                        q: "What is the role of activated charcoal in water filtration?",
+                        options: ["Kill bacteria", "Remove dissolved chemicals and odors", "Raise water temperature", "Add alkalinity"],
+                        correct: 1,
+                        explanation: "Activated charcoal removes dissolved chemicals, chlorine, odors, and improves taste through adsorption."
+                    },
+                    {
+                        q: "Which water source is safest without treatment?",
+                        options: ["Stagnant pond", "Fast-moving mountain stream", "Swamp water", "Rainwater in questionable containers"],
+                        correct: 1,
+                        explanation: "Fast-moving water from high elevations is typically safest, but all water should be treated to ensure safety."
+                    },
+                    {
+                        q: "What does TDS stand for in water testing?",
+                        options: ["Total Dissolved Solids", "Thermal Degradation Standard", "Temperature Dependent Salinity", "Total Daily Supply"],
+                        correct: 0,
+                        explanation: "TDS measures the concentration of dissolved minerals in water, typically measured in parts per million (ppm)."
+                    },
+                    {
+                        q: "How should you store purified water long-term?",
+                        options: ["In clear plastic in sunlight", "In opaque containers in cool, dark place", "In metal containers outdoors", "In open buckets"],
+                        correct: 1,
+                        explanation: "Store purified water in opaque, food-safe containers in cool, dark places to prevent algae growth and contamination."
+                    },
+                    {
+                        q: "What is reverse osmosis primarily used for?",
+                        options: ["Boiling water faster", "Removing dissolved salts and minerals", "Adding fluoride", "Alkalizing water"],
+                        correct: 1,
+                        explanation: "Reverse osmosis uses pressure to force water through a membrane, removing dissolved minerals and salts effectively."
+                    },
+                    {
+                        q: "Which bacterial contamination is most dangerous in water?",
+                        options: ["E. coli", "All bacteria are equally dangerous", "Only airborne bacteria matter", "Beneficial bacteria only"],
+                        correct: 0,
+                        explanation: "E. coli and other pathogens can cause severe illness. Fecal-oral pathogens are particularly dangerous in water sources."
+                    },
+                    {
+                        q: "What pH level is considered safe for drinking water?",
+                        options: ["1-3", "6.5-8.5", "10-12", "Any pH is safe"],
+                        correct: 1,
+                        explanation: "Safe drinking water typically has a pH of 6.5-8.5. Extremely acidic or alkaline water can cause health issues."
+                    },
+                    {
+                        q: "How often should water storage containers be replaced?",
+                        options: ["Every 5 years", "Every year or when cloudy appears", "Never, they last forever", "Every 3-6 months"],
+                        correct: 2,
+                        explanation: "Water storage containers should be inspected regularly and replaced if they show signs of degradation or leaching."
+                    }
+                ]
+            },
+            {
+                name: "Fire Starting",
+                module: "Module 2",
+                questions: [
+                    {
+                        q: "What are the three essential elements needed for fire (fire triangle)?",
+                        options: ["Heat, oxygen, water", "Heat, fuel, oxygen", "Flame, smoke, ash", "Carbon, hydrogen, nitrogen"],
+                        correct: 1,
+                        explanation: "The fire triangle consists of heat, fuel, and oxygen. Remove any one element and fire cannot exist."
+                    },
+                    {
+                        q: "What is the best tinder for starting a fire?",
+                        options: ["Wet leaves", "Dry grass, leaves, or bark shavings", "Large branches", "Clay"],
+                        correct: 1,
+                        explanation: "Tinder should be dry, fine material like dry grass, leaves, bark, or plant fiber that ignites easily."
+                    },
+                    {
+                        q: "What is the correct order of fire building materials?",
+                        options: ["Kindling, tinder, fuel wood", "Tinder, kindling, fuel wood", "Fuel wood, kindling, tinder", "Tinder, fuel wood, kindling"],
+                        correct: 1,
+                        explanation: "Start with tinder (small, catches easily), then kindling (pencil-sized), then fuel wood (larger pieces)."
+                    },
+                    {
+                        q: "Which fire-starting method works best in wet conditions?",
+                        options: ["Friction (bow drill)", "Flint and steel with dry tinder", "Rubbing sticks together", "Focusing sunlight"],
+                        correct: 1,
+                        explanation: "Flint and steel can work in wet conditions because you can keep tinder dry and the spark is reliable."
+                    },
+                    {
+                        q: "What does 'seasoned wood' mean?",
+                        options: ["Wood treated with seasoning salt", "Wood dried for 6+ months", "Freshly cut green wood", "Wood near the ocean"],
+                        correct: 1,
+                        explanation: "Seasoned wood has been dried to reduce moisture content, making it much easier to burn than green wood."
+                    },
+                    {
+                        q: "What is the best fuel for sustained heat in survival situations?",
+                        options: ["Leaves and grass", "Oak, hickory, or other hardwoods", "Pine needles", "Bark only"],
+                        correct: 1,
+                        explanation: "Hardwoods burn hotter and longer than softwoods, providing better sustained heat for cooking and warmth."
+                    },
+                    {
+                        q: "What should you do if you can't start a fire after 3 attempts?",
+                        options: ["Keep trying the same method", "Reassess your materials and technique", "Give up", "Build a larger fire immediately"],
+                        correct: 1,
+                        explanation: "If a method isn't working, pause and evaluate: is your tinder truly dry? Are materials arranged correctly?"
+                    },
+                    {
+                        q: "How do you extinguish a fire safely?",
+                        options: ["Leave it burning", "Stir ashes, add water or dirt, wait to cool", "Smother then immediately touch", "Pour gasoline on it"],
+                        correct: 1,
+                        explanation: "Stir embers, extinguish with water or dirt, feel for remaining heat, and ensure completely cool before leaving."
+                    },
+                    {
+                        q: "What is the bow drill fire starting method used for?",
+                        options: ["Sharpening tools", "Creating friction heat to ignite tinder", "Measuring temperature", "Cooking food"],
+                        correct: 1,
+                        explanation: "The bow drill creates friction between a spindle and board, generating enough heat to ignite tinder."
+                    },
+                    {
+                        q: "Which action is critical when using magnifying glass to start fire?",
+                        options: ["Use at night", "Focus sunlight to tiny point on tinder", "Magnify the flames", "Use in rain"],
+                        correct: 1,
+                        explanation: "A magnifying glass focuses sunlight into a concentrated point, raising temperature high enough to ignite dry tinder."
+                    }
+                ]
+            },
+            {
+                name: "Shelter Building",
+                module: "Module 3",
+                questions: [
+                    {
+                        q: "What is the primary purpose of shelter in survival?",
+                        options: ["Protection from humans", "Protection from elements and temperature regulation", "Storage only", "Decoration"],
+                        correct: 1,
+                        explanation: "Shelter protects from wind, rain, cold, and heat, which are leading causes of death in survival situations."
+                    },
+                    {
+                        q: "What materials are best for insulation in a survival shelter?",
+                        options: ["Wet leaves", "Dry leaves, grass, bark, pine needles", "Rocks and stone", "Plastic sheets"],
+                        correct: 1,
+                        explanation: "Natural insulation like leaves, grass, and bark trap air pockets and prevent heat loss."
+                    },
+                    {
+                        q: "How should you orient shelter entrance?",
+                        options: ["Facing the wind", "Away from prevailing wind", "Randomly", "Always facing south"],
+                        correct: 1,
+                        explanation: "Orient entrance away from wind to reduce heat loss and prevent wind and precipitation from entering directly."
+                    },
+                    {
+                        q: "What is the A-frame shelter good for?",
+                        options: ["Only in deserts", "Quick construction and shedding rain", "Extreme cold only", "No weather protection"],
+                        correct: 1,
+                        explanation: "An A-frame is simple to build, sheds rain effectively, and can be insulated for warmth."
+                    },
+                    {
+                        q: "How much insulation floor space should separate you from the ground?",
+                        options: ["None needed", "4-6 inches minimum", "2 feet", "Contact ground directly"],
+                        correct: 1,
+                        explanation: "At least 4-6 inches of insulation between you and ground prevents heat loss through conduction."
+                    },
+                    {
+                        q: "What is a debris shelter?",
+                        options: ["Just a pile of trash", "Simple frame covered with leaves and branches", "Stone-only structure", "Underground bunker"],
+                        correct: 1,
+                        explanation: "A debris shelter is a frame covered with layers of leaves and branches for excellent insulation."
+                    },
+                    {
+                        q: "Which shelter shape is worst for wind and rain?",
+                        options: ["A-frame", "Dome", "Completely open structure", "Lean-to (two-sided)"],
+                        correct: 2,
+                        explanation: "An open structure provides no protection. Even a lean-to is better, though less ideal than enclosed structures."
+                    },
+                    {
+                        q: "What size shelter is most efficient?",
+                        options: ["As large as possible", "Just large enough for body with minimal air space", "Always 10x10 feet", "Size doesn't matter"],
+                        correct: 1,
+                        explanation: "A small shelter is more efficient to heat with body warmth and requires less insulation material."
+                    },
+                    {
+                        q: "How do you prevent moisture buildup in a shelter?",
+                        options: ["Use plastic to seal it completely", "Ensure ventilation near the top", "Never ventilate", "Use metal frames"],
+                        correct: 1,
+                        explanation: "Ventilation near the top allows moisture and carbon dioxide to escape without losing much heat."
+                    },
+                    {
+                        q: "What is a critical safety consideration when using fire in shelter?",
+                        options: ["No restrictions needed", "Ensure proper ventilation to prevent carbon monoxide poisoning", "Use more fire to be safe", "Never ventilate"],
+                        correct: 1,
+                        explanation: "When using fire for heat in enclosed shelter, ensure adequate ventilation to prevent suffocation and carbon monoxide buildup."
+                    }
+                ]
+            },
+            {
+                name: "Food Preservation",
+                module: "Module 4",
+                questions: [
+                    {
+                        q: "What is the safe water bath canning temperature for high-acid foods?",
+                        options: ["160°F", "200°F", "212°F", "250°F"],
+                        correct: 2,
+                        explanation: "High-acid foods like jams and pickles are safely canned at 212°F (boiling water bath). This kills most pathogens."
+                    },
+                    {
+                        q: "What is botulism and why is it dangerous in preserved food?",
+                        options: ["A type of fungus", "Bacterial toxin from Clostridium botulinum, deadly even in small amounts", "A vegetable", "A beneficial bacteria"],
+                        correct: 1,
+                        explanation: "Botulism is a potentially fatal toxin produced in low-acid, anaerobic environments. Improper preservation can allow its growth."
+                    },
+                    {
+                        q: "What pH level is considered safe for water bath canning?",
+                        options: ["Above 4.6 pH", "Below 4.6 pH", "Exactly 7.0 pH", "pH doesn't matter"],
+                        correct: 1,
+                        explanation: "Below 4.6 pH (acidic) is required for water bath canning. Higher pH requires pressure canning to prevent botulism."
+                    },
+                    {
+                        q: "Why is pressure canning required for low-acid foods?",
+                        options: ["To cook faster", "To reach 250°F and destroy botulism spores", "To save money", "It's not required"],
+                        correct: 1,
+                        explanation: "Pressure canning reaches 240-250°F, necessary to destroy the heat-resistant spores of botulism in low-acid foods."
+                    },
+                    {
+                        q: "How long can properly canned food last?",
+                        options: ["1 week", "1 month", "1-2 years", "Indefinitely"],
+                        correct: 2,
+                        explanation: "Properly canned food can last 1-2 years or more. Quality degrades over time but food remains safe if properly sealed."
+                    },
+                    {
+                        q: "What should you do if a jar didn't seal properly?",
+                        options: ["Leave it sealed", "Reprocess within 24 hours or refrigerate", "Wait a month then eat", "Ignore it and hope"],
+                        correct: 1,
+                        explanation: "Unsealed jars must be reprocessed within 24 hours with new lids or refrigerated immediately."
+                    },
+                    {
+                        q: "What is the purpose of blanching vegetables before freezing?",
+                        options: ["To add flavor", "To stop enzyme activity and preserve color", "To cook them", "No purpose"],
+                        correct: 1,
+                        explanation: "Blanching (brief boil + ice bath) stops enzymes that cause deterioration during freezing."
+                    },
+                    {
+                        q: "Which food preservation method doesn't require heat?",
+                        options: ["Canning", "Drying or salt-curing", "Pressure canning", "Hot water bath"],
+                        correct: 1,
+                        explanation: "Drying, salt-curing, fermenting, and root cellaring preserve food without applying heat."
+                    },
+                    {
+                        q: "How should preserved foods be stored?",
+                        options: ["In sunlight", "In cool, dark, dry place", "In damp basement", "Temperature doesn't matter"],
+                        correct: 1,
+                        explanation: "Store preserved foods in cool (50-70°F), dark locations away from heat and light to maximize shelf life."
+                    },
+                    {
+                        q: "What signs indicate spoilage in preserved food?",
+                        options: ["Any food is safe forever", "Bulging lids, mold, bad smell, cloudiness", "Only if it tastes bad", "Never spoil"],
+                        correct: 1,
+                        explanation: "Bulging lids, visible mold, foul odors, or cloudiness indicate spoilage and the food must be discarded."
+                    }
+                ]
+            },
+            {
+                name: "Forging & Metalwork",
+                module: "Module 5",
+                questions: [
+                    {
+                        q: "What is the optimal temperature for forging steel?",
+                        options: ["1000°F", "1500-2000°F", "3000°F", "Room temperature"],
+                        correct: 1,
+                        explanation: "Steel should be heated to 1500-2000°F (cherry to orange color) for workability without brittleness."
+                    },
+                    {
+                        q: "What does 'tempering' accomplish in blade making?",
+                        options: ["Makes it harder", "Reduces brittleness and adds toughness", "Colors the blade", "Cools it quickly"],
+                        correct: 1,
+                        explanation: "Tempering reheats hardened steel to a lower temperature, reducing brittleness and improving toughness."
+                    },
+                    {
+                        q: "Why is quenching critical in bladesmithing?",
+                        options: ["For decoration", "To rapidly cool and harden the blade", "To make it duller", "Not important"],
+                        correct: 1,
+                        explanation: "Quenching rapidly cools hot steel, creating the hard crystalline structure needed for an effective blade edge."
+                    },
+                    {
+                        q: "What is the main hazard when forging?",
+                        options: ["Low temperature", "High temperature and flying sparks", "Slow cooling", "Too much water"],
+                        correct: 1,
+                        explanation: "Extreme heat, molten metal, flying sparks, and impacts are serious hazards. Always wear protection."
+                    },
+                    {
+                        q: "Which metal is suitable for beginner forging projects?",
+                        options: ["Titanium", "Mild steel", "Stainless steel", "Aluminum"],
+                        correct: 1,
+                        explanation: "Mild steel is forgiving, readily available, and appropriate for learning basic forging techniques safely."
+                    },
+                    {
+                        q: "What is 'bloom' in ironworking?",
+                        options: ["A flower", "Raw processed iron ready for forging", "Rust on metal", "Decorative pattern"],
+                        correct: 1,
+                        explanation: "Bloom is roughly shaped iron from smelting, ready to be forged into tools and implements."
+                    },
+                    {
+                        q: "How do you know steel is at proper forging temperature?",
+                        options: ["Cold to touch", "Red or orange color, not white-hot", "Any color is fine", "Green hue only"],
+                        correct: 1,
+                        explanation: "Red or orange color indicates proper forging temperature. White-hot is too hot and may damage the steel."
+                    },
+                    {
+                        q: "What is the purpose of the forge's bellows or air intake?",
+                        options: ["Noise only", "Remove combustion", "Supply oxygen to intensify heat", "Decoration"],
+                        correct: 2,
+                        explanation: "Bellows supply oxygen to the fire, enabling much higher temperatures than still air can achieve."
+                    },
+                    {
+                        q: "How should finished forged tools be stored?",
+                        options: ["In water", "In dry, ventilated location to prevent rust", "In wet soil", "Doesn't matter"],
+                        correct: 1,
+                        explanation: "Store forged tools in dry areas, optionally coated with light oil to prevent rust and oxidation."
+                    },
+                    {
+                        q: "What is pattern-welding used for?",
+                        options: ["Just decoration", "Creating layered, durable blades with strength and flexibility", "Rust", "Softening metal"],
+                        correct: 1,
+                        explanation: "Pattern-welding combines different steel types for blades that are both strong and flexible, resistant to breaking."
+                    }
+                ]
+            },
+            {
+                name: "Food Foraging",
+                module: "Module 6",
+                questions: [
+                    {
+                        q: "What is the most critical safety rule when foraging?",
+                        options: ["Eat anything that looks edible", "Positive plant identification before consumption", "Never use identification guides", "Guess if uncertain"],
+                        correct: 1,
+                        explanation: "Positively identify plants using multiple field guides before eating. Many poisonous plants resemble edible ones."
+                    },
+                    {
+                        q: "Which plant is safe to identify by smell alone?",
+                        options: ["Hemlock (poison)", "Wild garlic or onion (edible)", "Poison ivy (toxic)", "Random berries"],
+                        correct: 1,
+                        explanation: "Plants in the garlic/onion family are distinctive and safe when they have the characteristic smell."
+                    },
+                    {
+                        q: "What is the 'universal edibility test'?",
+                        options: ["Always safe method", "Last resort test when starving, testing small parts on skin first", "Guaranteed safe", "Not real"],
+                        correct: 1,
+                        explanation: "The test involves cautiously consuming tiny amounts to check for reactions. It's slow and unreliable—positive ID is better."
+                    },
+                    {
+                        q: "Which berries are dangerous to eat when foraging?",
+                        options: ["All berries are safe", "White, dark purple, or shiny berries without smell", "Only red berries", "Any berry"],
+                        correct: 1,
+                        explanation: "Many dangerous berries are dark purple, white, or have a waxy appearance. Avoid unless positively identified as safe."
+                    },
+                    {
+                        q: "What part of mushrooms is safest to eat?",
+                        options: ["Always safe to eat any part", "Only species positively identified, typically cap and stem", "Gills only", "Never eat mushrooms"],
+                        correct: 1,
+                        explanation: "Only eat mushroom species you can positively identify. Even edible species have poisonous look-alikes."
+                    },
+                    {
+                        q: "How do you prepare wild plants to reduce toxins?",
+                        options: ["Don't prepare them", "Boil or soak in water changes, discard water", "Eat raw always", "Add salt"],
+                        correct: 1,
+                        explanation: "Boiling or soaking with water changes can remove oxalates, tannins, and other compounds in some wild plants."
+                    },
+                    {
+                        q: "Which edible plant looks like poison hemlock?",
+                        options: ["All plants are different", "Wild carrot and parsnip (white flowers, similar appearance)", "Blackberries", "Lettuce"],
+                        correct: 1,
+                        explanation: "Wild carrot and poison hemlock are easily confused. Check for purple blotches on hemlock stems and musty smell."
+                    },
+                    {
+                        q: "What is the best season for most wild plant foraging?",
+                        options: ["Only winter", "Spring and fall when plants are tender and productive", "Only summer", "Anytime"],
+                        correct: 1,
+                        explanation: "Spring offers young tender greens; fall offers seeds and nuts. Each season has prime foraging opportunities."
+                    },
+                    {
+                        q: "How much of a plant should you harvest?",
+                        options: ["All of it", "No more than 10-25% to ensure regrowth", "Never harvest", "Only roots"],
+                        correct: 1,
+                        explanation: "Sustainable foraging means taking only what you need and leaving plants to regenerate."
+                    },
+                    {
+                        q: "Which plant part is most likely to accumulate toxins?",
+                        options: ["Flowers", "Leaves and seeds", "Roots and leaves (depend on plant)", "Stems"],
+                        correct: 1,
+                        explanation: "Different plants accumulate toxins in different parts. Always research specific species before consuming any part."
+                    }
+                ]
+            },
+            {
+                name: "First Aid / Herbal Medicine",
+                module: "Module 7",
+                questions: [
+                    {
+                        q: "What is the first step in treating a serious wound?",
+                        options: ["Apply tourniquet immediately", "Control bleeding with direct pressure and elevation", "Use water", "Wait for professional help"],
+                        correct: 1,
+                        explanation: "Control bleeding first with direct pressure using clean material and elevation of the wound."
+                    },
+                    {
+                        q: "How long can you apply a tourniquet safely?",
+                        options: ["Indefinitely", "2-4 hours maximum", "1 minute", "10 minutes only"],
+                        correct: 1,
+                        explanation: "Tourniquets can be applied for up to 2-4 hours. Beyond that, tissue damage increases significantly."
+                    },
+                    {
+                        q: "What is the recovery position used for?",
+                        options: ["Comfort only", "Unconscious breathing victims to keep airway open", "Sleeping people", "Decoration"],
+                        correct: 1,
+                        explanation: "The recovery position (on side) keeps airway open and allows fluid to drain if person is unconscious but breathing."
+                    },
+                    {
+                        q: "Which herb is traditionally used for wound healing?",
+                        options: ["Hemlock (poison)", "Plantain or yarrow", "Oleander", "Castor beans"],
+                        correct: 1,
+                        explanation: "Plantain (narrow-leaf) and yarrow have long been used to stop bleeding and promote wound healing."
+                    },
+                    {
+                        q: "What is the proper CPR hand placement?",
+                        options: ["Anywhere on chest", "Center of chest, between the nipples", "Neck area", "Stomach"],
+                        correct: 1,
+                        explanation: "Place heel of hand in center of chest between nipples. Push hard and fast at 100-120 compressions per minute."
+                    },
+                    {
+                        q: "How do you treat severe burns?",
+                        options: ["Apply ice directly", "Cool with clean water for 10-20 minutes, cover loosely, seek help", "Use butter", "Expose to air"],
+                        correct: 1,
+                        explanation: "Cool burns with water to stop tissue damage, then cover loosely with clean cloth. Don't use ice directly."
+                    },
+                    {
+                        q: "Which herb reduces fever and pain?",
+                        options: ["Hemlock", "Willow bark (contains salicin, like aspirin)", "Poison ivy", "Random herb"],
+                        correct: 1,
+                        explanation: "White willow bark contains salicin, a natural pain and fever reducer similar to aspirin."
+                    },
+                    {
+                        q: "What is shock in medical emergencies?",
+                        options: ["Surprise", "Dangerous drop in blood pressure and circulation", "Electricity", "Emotion"],
+                        correct: 1,
+                        explanation: "Shock occurs when blood pressure drops dangerously, reducing oxygen to organs. Treat by elevating legs and keeping warm."
+                    },
+                    {
+                        q: "How do you check if someone is choking?",
+                        options: ["Always perform Heimlich", "Ask if they can speak, cough, or breathe", "Do nothing", "Always assume worst"],
+                        correct: 1,
+                        explanation: "Ask if they can speak—if not, or if cough is weak, they're choking. Get help and perform abdominal thrusts."
+                    },
+                    {
+                        q: "What's the main purpose of an emergency medical kit?",
+                        options: ["Decoration", "Treating minor injuries and stabilizing until professional help", "Always solve problems", "Not necessary"],
+                        correct: 1,
+                        explanation: "A first aid kit treats minor injuries and stabilizes patients while waiting for professional medical help."
+                    }
+                ]
+            },
+            {
+                name: "Navigation",
+                module: "Module 8",
+                questions: [
+                    {
+                        q: "How does a compass needle point?",
+                        options: ["Toward the sun", "Toward magnetic north", "Randomly", "South only"],
+                        correct: 1,
+                        explanation: "A compass needle aligns with the Earth's magnetic field, pointing toward magnetic north."
+                    },
+                    {
+                        q: "What is declination in navigation?",
+                        options: ["Mountain height", "Angle between true north and magnetic north", "A disease", "Map color"],
+                        correct: 1,
+                        explanation: "Declination varies by location and year. Maps show the local declination for accurate true-north correction."
+                    },
+                    {
+                        q: "How do you navigate without a compass?",
+                        options: ["It's impossible", "Using sun position, stars, landmarks, and map", "Randomly wander", "Guess"],
+                        correct: 1,
+                        explanation: "Use the sun (rises east, sets west), North Star at night, landmarks, and maps to navigate without a compass."
+                    },
+                    {
+                        q: "What is a bearing in navigation?",
+                        options: ["An animal", "Compass direction in degrees from north (0-360)", "Weight of equipment", "Noise"],
+                        correct: 1,
+                        explanation: "A bearing is a direction expressed in degrees: 0° is north, 90° is east, 180° is south, 270° is west."
+                    },
+                    {
+                        q: "How do you find north without a compass at night?",
+                        options: ["Guess", "Locate the North Star (Polaris)", "Wait for day", "Use a map"],
+                        correct: 1,
+                        explanation: "Find the Big Dipper, follow the two pointer stars to Polaris (North Star), which is almost directly above true north."
+                    },
+                    {
+                        q: "What's the purpose of a topographic map?",
+                        options: ["Only shows roads", "Shows elevation, terrain, landmarks, and slopes", "No practical use", "Just decoration"],
+                        correct: 1,
+                        explanation: "Topographic maps use contour lines to show elevation and terrain features essential for navigation and planning."
+                    },
+                    {
+                        q: "How do you read contour lines on a map?",
+                        options: ["They don't mean anything", "Close lines = steep terrain, far lines = gentle slopes", "Arbitrary lines", "Color only"],
+                        correct: 1,
+                        explanation: "Contour lines close together indicate steep slopes; lines far apart indicate gentle slopes or flat terrain."
+                    },
+                    {
+                        q: "What is triangulation in navigation?",
+                        options: ["Three colors", "Using three known landmarks to determine your position", "Only for maps", "Useless"],
+                        correct: 1,
+                        explanation: "Sight three landmarks, note their bearings on a map, and where the lines intersect is your location."
+                    },
+                    {
+                        q: "How accurate are maps typically?",
+                        options: ["Always perfect", "Within 1-5% of actual distance depending on scale and age", "Never accurate", "Decorative only"],
+                        correct: 1,
+                        explanation: "Map accuracy depends on creation date, scale, and projection. Always account for potential error margins."
+                    },
+                    {
+                        q: "What should you do if you become lost?",
+                        options: ["Panic and run", "Stop, stay calm, use landmarks and map to determine location", "Keep wandering", "Assume no one will find you"],
+                        correct: 1,
+                        explanation: "Stop moving, stay calm, use landmarks and map to reorient, and signal for help if needed."
+                    }
+                ]
+            },
+            {
+                name: "Knots & Rigging",
+                module: "Module 9",
+                questions: [
+                    {
+                        q: "What is the primary purpose of a bowline knot?",
+                        options: ["Decoration", "Creates fixed loop that won't slip under load", "Only for decorative use", "No practical purpose"],
+                        correct: 1,
+                        explanation: "A bowline creates a fixed loop that doesn't slip, essential for rescue, rigging, and securing loads."
+                    },
+                    {
+                        q: "What makes a square knot useful?",
+                        options: ["Looks pretty", "Joins two equal-diameter ropes securely", "Used for large loads", "Never use"],
+                        correct: 1,
+                        explanation: "Square knots join two ropes of similar size in a way that's secure, symmetrical, and easy to untie."
+                    },
+                    {
+                        q: "Which knot is best for climbing and rescue?",
+                        options: ["Overhand knot", "Figure-eight follow-through", "Slip knot", "Any knot"],
+                        correct: 1,
+                        explanation: "Figure-eight knots are strong, reliable in critical situations, and widely used in climbing and rescue."
+                    },
+                    {
+                        q: "What does 'working end' mean in knot terminology?",
+                        options: ["The thick part", "The short end being tied in the knot", "The entire rope", "No meaning"],
+                        correct: 1,
+                        explanation: "The working end is the short end of rope being manipulated to tie the knot."
+                    },
+                    {
+                        q: "How do you test if a knot is secure?",
+                        options: ["Just look at it", "Pull firmly in the direction of load and verify it doesn't slip", "Trust it immediately", "Never test"],
+                        correct: 1,
+                        explanation: "Always test knots under load in the direction they'll be used before relying on them for critical tasks."
+                    },
+                    {
+                        q: "What is a 'hitch' knot used for?",
+                        options: ["Only for decoration", "Attaching rope to objects like poles or rings", "Only for ropes", "Tying shoes"],
+                        correct: 1,
+                        explanation: "Hitches are designed to attach rope to objects and are often adjustable for different loads."
+                    },
+                    {
+                        q: "Which knot creates a loop for rescue that tightens under load?",
+                        options: ["Bowline", "Running bowline", "Hangman's knot", "Slip knot"],
+                        correct: 1,
+                        explanation: "A running bowline (bowline on a bight) creates a loop that tightens, useful for hauling loads."
+                    },
+                    {
+                        q: "What's the difference between a knot and a bend?",
+                        options: ["No difference", "Knots are loops; bends join two ropes", "Opposite definitions", "Same thing"],
+                        correct: 1,
+                        explanation: "Knots form loops and secure lines; bends specifically join two separate ropes."
+                    },
+                    {
+                        q: "How long should the tail be after tying a knot?",
+                        options: ["None needed", "At least 6 inches for security", "Exactly 1 inch", "Length doesn't matter"],
+                        correct: 1,
+                        explanation: "Leave at least a 6-inch tail after tying critical knots to prevent slipping and ensure adequate grip."
+                    },
+                    {
+                        q: "Why should rope be inspected regularly?",
+                        options: ["For appearance", "To detect fraying, weakness, and damage before failure", "Never inspect", "Rope lasts forever"],
+                        correct: 1,
+                        explanation: "Regular inspection catches damage early, preventing dangerous failures during critical tasks."
+                    }
+                ]
+            },
+            {
+                name: "Agriculture",
+                module: "Module 10",
+                questions: [
+                    {
+                        q: "What is crop rotation and why is it important?",
+                        options: ["Moving crops daily", "Planting different crop types in sequence to maintain soil health and reduce pests", "No benefit", "Just tradition"],
+                        correct: 1,
+                        explanation: "Crop rotation reduces pest buildup, fixes nitrogen naturally, and maintains soil fertility without chemicals."
+                    },
+                    {
+                        q: "How deep should vegetable seeds be planted?",
+                        options: ["As deep as possible", "2-3 times the seed's diameter", "On the soil surface", "1 foot deep"],
+                        correct: 1,
+                        explanation: "Plant seeds at a depth of about 2-3 times their diameter. Too shallow or deep both reduce germination."
+                    },
+                    {
+                        q: "What is nitrogen fixation by legumes?",
+                        options: ["Breaking nitrogen molecules", "Legumes add nitrogen to soil through bacterial relationships", "Using nitrogen up", "Harmful process"],
+                        correct: 1,
+                        explanation: "Legumes (beans, clover, peas) partner with bacteria to convert atmospheric nitrogen into usable soil nitrogen."
+                    },
+                    {
+                        q: "How often should you water vegetables?",
+                        options: ["Never", "When top inch of soil is dry, deeply 1-2 times weekly", "Daily lightly", "Never water"],
+                        correct: 1,
+                        explanation: "Water deeply when top inch is dry, encouraging deep root growth. Shallow daily watering weakens plants."
+                    },
+                    {
+                        q: "What is composting used for?",
+                        options: ["Trash disposal", "Creating nutrient-rich soil amendment from organic waste", "No purpose", "Never useful"],
+                        correct: 1,
+                        explanation: "Composting breaks down organic matter into rich humus that improves soil structure, water retention, and fertility."
+                    },
+                    {
+                        q: "How do you know soil pH is suitable for crops?",
+                        options: ["Guess", "Test with kit or meter; most vegetables prefer 6.0-7.0 pH", "Never test", "All soil is same"],
+                        correct: 1,
+                        explanation: "Soil pH affects nutrient availability. Most vegetables prefer slightly acidic to neutral soil (6.0-7.0 pH)."
+                    },
+                    {
+                        q: "What are companion plants?",
+                        options: ["Random plants nearby", "Plants that benefit each other when grown together", "Never useful", "Just for decoration"],
+                        correct: 1,
+                        explanation: "Companion plants support each other by repelling pests, improving flavor, or enhancing growth."
+                    },
+                    {
+                        q: "How do you prevent pest damage without chemicals?",
+                        options: ["Don't", "Crop rotation, companion plants, physical barriers, beneficial insects", "Accept all damage", "Only chemicals work"],
+                        correct: 1,
+                        explanation: "Integrated pest management uses biological, cultural, and mechanical methods to reduce pest damage sustainably."
+                    },
+                    {
+                        q: "When is the best time to harvest most vegetables?",
+                        options: ["Anytime", "Early morning when firm with moisture, often young and tender", "At night", "Doesn't matter"],
+                        correct: 1,
+                        explanation: "Early morning harvest captures plants at peak hydration and nutrient content, improving flavor and storage."
+                    },
+                    {
+                        q: "What does 'hardening off' mean?",
+                        options: ["Making soil hard", "Gradually exposing seedlings to outdoor conditions before planting", "No meaning", "Done indoors"],
+                        correct: 1,
+                        explanation: "Hardening off acclimates indoor-grown seedlings to outdoor sun, wind, and temperature over 1-2 weeks."
+                    }
+                ]
+            }
+        ];
+        
+        // State management
+        let moduleScores = {};
+        let currentModule = null;
+        let currentQuestionIndex = 0;
+        let answeredQuestions = {};
+        let quizStarted = false;
+        
+        // Initialize module selector
+        function initializeModules() {
+            const select = document.getElementById('moduleSelect');
+            quizzes.forEach((quiz, index) => {
+                const option = document.createElement('option');
+                option.value = index;
+                option.textContent = `${quiz.module}: ${quiz.name}`;
+                select.appendChild(option);
+            });
+            updateSummary();
+        }
+        
+        function changeModule(index) {
+            if (index === '') return;
+            currentModule = parseInt(index);
+            currentQuestionIndex = 0;
+            answeredQuestions = {};
+            quizStarted = false;
+            showQuiz();
+        }
+        
+        function showQuiz() {
+            const quiz = quizzes[currentModule];
+            document.getElementById('moduleName').textContent = `${quiz.module}: ${quiz.name}`;
+            document.getElementById('quizContainer').classList.remove('hidden');
+            document.getElementById('resultsContainer').classList.add('hidden');
+            renderQuestion();
+        }
+        
+        function renderQuestion() {
+            const quiz = quizzes[currentModule];
+            const question = quiz.questions[currentQuestionIndex];
+            const container = document.getElementById('questionsContainer');
+            container.innerHTML = '';
+            
+            document.getElementById('questionNumber').textContent = `Question ${currentQuestionIndex + 1} of ${quiz.questions.length}`;
+            
+            const questionDiv = document.createElement('div');
+            questionDiv.className = 'question';
+            
+            const questionText = document.createElement('p');
+            questionText.textContent = question.q;
+            questionDiv.appendChild(questionText);
+            
+            const optionsDiv = document.createElement('div');
+            optionsDiv.className = 'options';
+            
+            question.options.forEach((option, index) => {
+                const optionDiv = document.createElement('div');
+                optionDiv.className = 'option';
+                
+                const radio = document.createElement('input');
+                radio.type = 'radio';
+                radio.name = 'answer';
+                radio.value = index;
+                radio.id = `option-${index}`;
+                
+                const label = document.createElement('label');
+                label.htmlFor = `option-${index}`;
+                label.textContent = option;
+                
+                optionDiv.appendChild(radio);
+                optionDiv.appendChild(label);
+                optionsDiv.appendChild(optionDiv);
+                
+                // Restore previous selection
+                if (answeredQuestions[currentQuestionIndex] === index) {
+                    radio.checked = true;
+                }
+            });
+            
+            questionDiv.appendChild(optionsDiv);
+            container.appendChild(questionDiv);
+        }
+        
+        function submitQuiz() {
+            const quiz = quizzes[currentModule];
+            const selected = document.querySelector('input[name="answer"]:checked');
+            
+            if (!selected && !quizStarted) {
+                alert('Please select an answer');
+                return;
+            }
+            
+            if (selected) {
+                answeredQuestions[currentQuestionIndex] = parseInt(selected.value);
+            }
+            
+            if (currentQuestionIndex < quiz.questions.length - 1) {
+                currentQuestionIndex++;
+                quizStarted = true;
+                renderQuestion();
+            } else {
+                showResults();
+            }
+        }
+        
+        function showResults() {
+            const quiz = quizzes[currentModule];
+            let correct = 0;
+            
+            const container = document.getElementById('questionsContainer');
+            container.innerHTML = '';
+            
+            quiz.questions.forEach((question, index) => {
+                const userAnswer = answeredQuestions[index];
+                const isCorrect = userAnswer === question.correct;
+                if (isCorrect) correct++;
+                
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question';
+                questionDiv.innerHTML = `<p>${index + 1}. ${question.q}</p>`;
+                
+                const optionsDiv = document.createElement('div');
+                optionsDiv.className = 'options';
+                
+                question.options.forEach((option, optIndex) => {
+                    const optionDiv = document.createElement('div');
+                    let className = 'option';
+                    if (userAnswer === optIndex) {
+                        className += isCorrect ? ' correct' : ' incorrect';
+                    } else if (optIndex === question.correct) {
+                        className += ' correct';
+                    }
+                    
+                    optionDiv.className = className;
+                    optionDiv.innerHTML = `
+                        <input type="radio" disabled>
+                        <label>${option}</label>
+                    `;
+                    optionsDiv.appendChild(optionDiv);
+                });
+                
+                const explanation = document.createElement('div');
+                explanation.className = 'explanation';
+                explanation.textContent = `Explanation: ${question.explanation}`;
+                optionsDiv.appendChild(explanation);
+                
+                questionDiv.appendChild(optionsDiv);
+                container.appendChild(questionDiv);
+            });
+            
+            const score = Math.round((correct / quiz.questions.length) * 100);
+            const passed = score >= 70;
+            
+            moduleScores[currentModule] = { score, passed };
+            
+            document.getElementById('scoreNumber').textContent = `${score}%`;
+            const statusDiv = document.getElementById('scoreStatus');
+            statusDiv.className = `score-status ${passed ? 'status-pass' : 'status-fail'}`;
+            statusDiv.textContent = passed ? 'PASSED' : 'FAILED - Try Again';
+            
+            document.getElementById('quizContainer').classList.add('hidden');
+            document.getElementById('resultsContainer').classList.remove('hidden');
+            
+            updateSummary();
+        }
+        
+        function goBackToModule() {
+            document.getElementById('moduleSelect').value = '';
+            document.getElementById('quizContainer').classList.add('hidden');
+            document.getElementById('resultsContainer').classList.add('hidden');
+            updateSummary();
+        }
+        
+        function resetQuiz() {
+            if (confirm('Reset quiz? Progress will be lost.')) {
+                currentQuestionIndex = 0;
+                answeredQuestions = {};
+                quizStarted = false;
+                showQuiz();
+            }
+        }
+        
+        function updateSummary() {
+            const total = quizzes.length;
+            const passed = Object.values(moduleScores).filter(m => m.passed).length;
+            const percentage = Math.round((passed / total) * 100);
+            
+            document.getElementById('progressFill').style.width = `${percentage}%`;
+            document.getElementById('progressText').textContent = `${percentage}%`;
+            
+            const summary = document.getElementById('modulesSummary');
+            summary.innerHTML = '';
+            
+            quizzes.forEach((quiz, index) => {
+                const item = document.createElement('div');
+                const score = moduleScores[index];
+                
+                item.className = 'module-item';
+                if (!score) {
+                    item.classList.add('pending');
+                } else if (score.passed) {
+                    item.classList.add('passed');
+                } else {
+                    item.classList.add('failed');
+                }
+                
+                item.innerHTML = `
+                    <div class="module-name">${quiz.name}</div>
+                    ${score ? `<div class="module-score">${score.score}%</div>` : ''}
+                    <div class="module-status">
+                        ${!score ? '<span class="status-pending">Not Started</span>' : `<span class="status-complete">${score.passed ? 'Passed' : 'Failed'}</span>`}
+                    </div>
+                `;
+                
+                summary.appendChild(item);
+            });
+            
+            // Show certificate if all modules passed
+            const certContainer = document.getElementById('certificateContainer');
+            if (passed === total && total > 0) {
+                certContainer.innerHTML = `
+                    <div class="certificate visible">
+                        <h2>Certificate of Completion</h2>
+                        <p>Congratulations!</p>
+                        <p style="font-size: 1.5em;">You have successfully completed all ${total} skill modules</p>
+                        <p style="margin-top: 30px; font-size: 1.1em;">Zero to Hero Survival Training Program</p>
+                        <p style="margin-top: 20px; font-size: 0.9em;">Issued: ${new Date().toLocaleDateString()}</p>
+                    </div>
+                `;
+            } else {
+                certContainer.innerHTML = '';
+            }
+        }
+        
+        function switchView(view) {
+            const quizView = document.getElementById('quizView');
+            const summaryView = document.getElementById('summaryView');
+            const buttons = document.querySelectorAll('.view-btn');
+            
+            buttons.forEach(btn => btn.classList.remove('active'));
+            
+            if (view === 'quiz') {
+                quizView.classList.remove('hidden');
+                summaryView.classList.add('hidden');
+                buttons[0].classList.add('active');
+            } else {
+                quizView.classList.add('hidden');
+                summaryView.classList.remove('hidden');
+                buttons[1].classList.add('active');
+                updateSummary();
+            }
+        }
+        
+        // Initialize on page load
+        window.addEventListener('DOMContentLoaded', initializeModules);
+    </script>
+</body>
+</html>

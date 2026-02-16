@@ -1,0 +1,1713 @@
+{
+  "version": "3.0",
+  "schemaVersion": "3.0",
+  "generatedDate": "2026-02-14",
+  "idFormat": "XXX-##",
+  "categoryPrefixes": {
+    "SUR": "Survival Basics",
+    "FOD": "Food Systems",
+    "CON": "Construction",
+    "CRA": "Crafting & Manufacturing",
+    "COM": "Community & Planning"
+  },
+  "modules": {
+    "SUR-01": {
+      "id": "SUR-01",
+      "name": "Water Purification",
+      "category": "Survival Basics",
+      "difficulty": "Beginner",
+      "activeHours": {
+        "min": 8,
+        "max": 12
+      },
+      "passiveDays": {
+        "min": 0,
+        "max": 0
+      },
+      "timeEstimate": "8-12 hours",
+      "hazardLevel": 2,
+      "hazards": [
+        "Waterborne illness",
+        "Chemical burns (bleach)"
+      ],
+      "seasons": [
+        "Any"
+      ],
+      "seasonNotes": "Can be practiced year-round",
+      "keySkills": [
+        "Boiling",
+        "Chemical treatment",
+        "Filtration design"
+      ],
+      "materials": [
+        "Water source",
+        "Pot",
+        "Fire",
+        "Cloth",
+        "Bleach or iodine"
+      ],
+      "description": "Learn methods to purify water for safe drinking",
+      "prerequisites": [],
+      "resources": {
+        "materialsChecklist": "spreadsheets/materials-checklists.xlsx#SUR-01-water-purification",
+        "failureGuide": "spreadsheets/failure-troubleshooting.xlsx#SUR-01-water-purification",
+        "quickRefCard": "tools/quick-reference-cards.html#SUR-01-water-purification"
+      },
+      "quizAvailable": true,
+      "unlocks": [
+        "COM-01",
+        "FOD-05",
+        "SUR-03",
+        "SUR-05"
+      ]
+    },
+    "SUR-02": {
+      "id": "SUR-02",
+      "name": "Fire Starting",
+      "category": "Survival Basics",
+      "difficulty": "Beginner",
+      "activeHours": {
+        "min": 10,
+        "max": 16
+      },
+      "passiveDays": {
+        "min": 0,
+        "max": 0
+      },
+      "timeEstimate": "10-16 hours",
+      "hazardLevel": 3,
+      "hazards": [
+        "Burns",
+        "Smoke inhalation",
+        "Wildfire risk"
+      ],
+      "seasons": [
+        "Any"
+      ],
+      "seasonNotes": "Practice year-round with controlled conditions",
+      "keySkills": [
+        "Friction fire",
+        "Flint and steel",
+        "Tinder preparation"
+      ],
+      "materials": [
+        "Dry wood",
+        "Tinder",
+        "Flint",
+        "Steel striker",
+        "Matches or lighter"
+      ],
+      "description": "Master multiple methods of fire initiation without modern tools",
+      "prerequisites": [],
+      "resources": {
+        "materialsChecklist": "spreadsheets/materials-checklists.xlsx#SUR-02-fire-starting",
+        "failureGuide": "spreadsheets/failure-troubleshooting.xlsx#SUR-02-fire-starting",
+        "quickRefCard": "tools/quick-reference-cards.html#SUR-02-fire-starting"
+      },
+      "quizAvailable": true,
+      "unlocks": [
+        "CON-01",
+        "CRA-01",
+        "CRA-02",
+        "CRA-04",
+        "FOD-01"
+      ]
+    },
+    "CON-01": {
+      "id": "CON-01",
+      "name": "Shelter Building",
+      "category": "Construction",
+      "difficulty": "Beginner",
+      "activeHours": {
+        "min": 20,
+        "max": 40
+      },
+      "passiveDays": {
+        "min": 1,
+        "max": 3
+      },
+      "timeEstimate": "20-40 hours active + 1-3 days curing/settling",
+      "hazardLevel": 2,
+      "hazards": [
+        "Falling debris",
+        "Crush injury",
+        "Tool injuries"
+      ],
+      "seasons": [
+        "Spring",
+        "Summer",
+        "Fall"
+      ],
+      "seasonNotes": "Best in warm weather; avoid winter for outdoor building",
+      "keySkills": [
+        "Structure design",
+        "Material selection",
+        "Tool safety"
+      ],
+      "materials": [
+        "Wood logs",
+        "Branches",
+        "Vines",
+        "Bark",
+        "Tools"
+      ],
+      "description": "Build emergency and long-term shelters from natural materials",
+      "prerequisites": [
+        "SUR-02"
+      ],
+      "resources": {
+        "materialsChecklist": "spreadsheets/materials-checklists.xlsx#CON-01-shelter-building",
+        "failureGuide": "spreadsheets/failure-troubleshooting.xlsx#CON-01-shelter-building",
+        "visualDiagram": "tools/visual-diagrams.html#CON-01-shelter-designs",
+        "quickRefCard": "tools/quick-reference-cards.html#CON-01-shelter-building"
+      },
+      "quizAvailable": true,
+      "unlocks": [
+        "CON-02",
+        "CON-03",
+        "FOD-04"
+      ]
+    },
+    "FOD-01": {
+      "id": "FOD-01",
+      "name": "Food Preservation",
+      "category": "Food Systems",
+      "difficulty": "Intermediate",
+      "activeHours": {
+        "min": 15,
+        "max": 25
+      },
+      "passiveDays": {
+        "min": 7,
+        "max": 42
+      },
+      "timeEstimate": "15-25 hours active + 7-42 days passive (curing/fermentation)",
+      "hazardLevel": 3,
+      "hazards": [
+        "Botulism",
+        "Burns",
+        "Smoke inhalation"
+      ],
+      "seasons": [
+        "Summer",
+        "Fall"
+      ],
+      "seasonNotes": "Peak season for harvests and preservation",
+      "keySkills": [
+        "Canning",
+        "Fermentation",
+        "Smoking",
+        "Root cellar storage"
+      ],
+      "materials": [
+        "Food source",
+        "Salt",
+        "Spices",
+        "Jars",
+        "Fire"
+      ],
+      "description": "Preserve food through canning, fermentation, smoking, and storage",
+      "prerequisites": [
+        "SUR-02",
+        "FOD-03"
+      ],
+      "resources": {
+        "materialsChecklist": "spreadsheets/materials-checklists.xlsx#FOD-01-food-preservation",
+        "failureGuide": "spreadsheets/failure-troubleshooting.xlsx#FOD-01-food-preservation",
+        "quickRefCard": "tools/quick-reference-cards.html#FOD-01-food-preservation"
+      },
+      "quizAvailable": true,
+      "unlocks": [
+        "COM-01"
+      ]
+    },
+    "CRA-01": {
+      "id": "CRA-01",
+      "name": "Forging & Metalwork",
+      "category": "Crafting & Manufacturing",
+      "difficulty": "Advanced",
+      "activeHours": {
+        "min": 40,
+        "max": 80
+      },
+      "passiveDays": {
+        "min": 0,
+        "max": 0
+      },
+      "timeEstimate": "40-80 hours",
+      "hazardLevel": 5,
+      "hazards": [
+        "Severe burns",
+        "Toxic fumes",
+        "Eye injury",
+        "Crush injury",
+        "Metal splash"
+      ],
+      "seasons": [
+        "Any"
+      ],
+      "seasonNotes": "Can be practiced year-round with proper ventilation",
+      "keySkills": [
+        "Anvil work",
+        "Hammer techniques",
+        "Temperature control",
+        "Tool tempering"
+      ],
+      "materials": [
+        "Iron ore",
+        "Fuel",
+        "Anvil",
+        "Hammers",
+        "Tongs",
+        "Quenching fluid"
+      ],
+      "description": "Create tools and metal goods through traditional forging techniques",
+      "prerequisites": [
+        "SUR-02"
+      ],
+      "resources": {
+        "materialsChecklist": "spreadsheets/materials-checklists.xlsx#CRA-01-forging-metalwork",
+        "failureGuide": "spreadsheets/failure-troubleshooting.xlsx#CRA-01-forging-metalwork",
+        "visualDiagram": "tools/visual-diagrams.html#CRA-01-forge-setup",
+        "quickRefCard": "tools/quick-reference-cards.html#CRA-01-forging-metalwork"
+      },
+      "quizAvailable": true,
+      "unlocks": [
+        "CRA-07"
+      ]
+    },
+    "CRA-02": {
+      "id": "CRA-02",
+      "name": "Pottery & Ceramics",
+      "category": "Crafting & Manufacturing",
+      "difficulty": "Intermediate",
+      "activeHours": {
+        "min": 20,
+        "max": 30
+      },
+      "passiveDays": {
+        "min": 3,
+        "max": 7
+      },
+      "timeEstimate": "20-30 hours active + 3-7 days drying/firing",
+      "hazardLevel": 3,
+      "hazards": [
+        "Burns",
+        "Kiln explosion",
+        "Silica dust"
+      ],
+      "seasons": [
+        "Spring",
+        "Summer",
+        "Fall"
+      ],
+      "seasonNotes": "Avoid winter due to drying time in cold weather",
+      "keySkills": [
+        "Wheel throwing",
+        "Hand-building",
+        "Glazing",
+        "Kiln operation"
+      ],
+      "materials": [
+        "Clay",
+        "Water",
+        "Glazes",
+        "Kiln",
+        "Potter's tools"
+      ],
+      "description": "Create functional and artistic pottery through hand and wheel techniques",
+      "prerequisites": [
+        "SUR-02"
+      ],
+      "resources": {
+        "materialsChecklist": "spreadsheets/materials-checklists.xlsx#CRA-02-pottery-ceramics",
+        "failureGuide": "spreadsheets/failure-troubleshooting.xlsx#CRA-02-pottery-ceramics",
+        "visualDiagram": "tools/visual-diagrams.html#CRA-02-pottery-techniques",
+        "quickRefCard": "tools/quick-reference-cards.html#CRA-02-pottery-ceramics"
+      },
+      "quizAvailable": true,
+      "unlocks": [
+        "CON-03"
+      ]
+    },
+    "FOD-02": {
+      "id": "FOD-02",
+      "name": "Trapping & Hunting",
+      "category": "Food Systems",
+      "difficulty": "Intermediate",
+      "activeHours": {
+        "min": 20,
+        "max": 30
+      },
+      "passiveDays": {
+        "min": 0,
+        "max": 0
+      },
+      "timeEstimate": "20-30 hours",
+      "hazardLevel": 3,
+      "hazards": [
+        "Animal bites",
+        "Cuts",
+        "Infection",
+        "Tool injuries"
+      ],
+      "seasons": [
+        "Fall",
+        "Winter",
+        "Spring"
+      ],
+      "seasonNotes": "Peak hunting season in fall and winter",
+      "keySkills": [
+        "Trap construction",
+        "Animal tracking",
+        "Dressing game",
+        "Preservation"
+      ],
+      "materials": [
+        "Wood",
+        "Cordage",
+        "Weapons",
+        "Traps",
+        "Knives"
+      ],
+      "description": "Learn to catch and process wild animals for food",
+      "prerequisites": [
+        "CRA-06",
+        "FOD-05"
+      ],
+      "resources": {
+        "materialsChecklist": "spreadsheets/materials-checklists.xlsx#FOD-02-trapping-hunting",
+        "failureGuide": "spreadsheets/failure-troubleshooting.xlsx#FOD-02-trapping-hunting",
+        "quickRefCard": "tools/quick-reference-cards.html#FOD-02-trapping-hunting"
+      },
+      "quizAvailable": true,
+      "unlocks": []
+    },
+    "SUR-03": {
+      "id": "SUR-03",
+      "name": "Herbal Medicine",
+      "category": "Survival Basics",
+      "difficulty": "Intermediate",
+      "activeHours": {
+        "min": 15,
+        "max": 25
+      },
+      "passiveDays": {
+        "min": 14,
+        "max": 30
+      },
+      "timeEstimate": "15-25 hours active + 14-30 days drying/extraction",
+      "hazardLevel": 3,
+      "hazards": [
+        "Misidentification (poisoning)",
+        "Allergic reaction",
+        "Drug interaction"
+      ],
+      "seasons": [
+        "Spring",
+        "Summer",
+        "Fall"
+      ],
+      "seasonNotes": "Harvest and preparation in growing seasons",
+      "keySkills": [
+        "Plant identification",
+        "Extraction methods",
+        "Dosing",
+        "Safety protocols"
+      ],
+      "materials": [
+        "Medicinal plants",
+        "Drying racks",
+        "Alcohol",
+        "Containers",
+        "Labels"
+      ],
+      "description": "Identify and prepare medicinal herbs for first aid and wellness",
+      "prerequisites": [
+        "FOD-05",
+        "SUR-01"
+      ],
+      "resources": {
+        "materialsChecklist": "spreadsheets/materials-checklists.xlsx#SUR-03-herbal-medicine",
+        "failureGuide": "spreadsheets/failure-troubleshooting.xlsx#SUR-03-herbal-medicine",
+        "quickRefCard": "tools/quick-reference-cards.html#SUR-03-herbal-medicine"
+      },
+      "quizAvailable": true,
+      "unlocks": []
+    },
+    "FOD-03": {
+      "id": "FOD-03",
+      "name": "Agriculture Basics",
+      "category": "Food Systems",
+      "difficulty": "Beginner",
+      "activeHours": {
+        "min": 15,
+        "max": 20
+      },
+      "passiveDays": {
+        "min": 60,
+        "max": 120
+      },
+      "timeEstimate": "15-20 hours active + 60-120 days growing",
+      "hazardLevel": 1,
+      "hazards": [
+        "Tool injuries",
+        "Sun exposure"
+      ],
+      "seasons": [
+        "Spring",
+        "Summer"
+      ],
+      "seasonNotes": "Primary growing season for most crops",
+      "keySkills": [
+        "Soil preparation",
+        "Planting",
+        "Watering",
+        "Pest management"
+      ],
+      "materials": [
+        "Seeds",
+        "Soil",
+        "Water",
+        "Tools",
+        "Compost"
+      ],
+      "description": "Grow basic crops and understand soil health fundamentals",
+      "prerequisites": [],
+      "resources": {
+        "materialsChecklist": "spreadsheets/materials-checklists.xlsx#FOD-03-agriculture-basics",
+        "failureGuide": "spreadsheets/failure-troubleshooting.xlsx#FOD-03-agriculture-basics",
+        "quickRefCard": "tools/quick-reference-cards.html#FOD-03-agriculture-basics"
+      },
+      "quizAvailable": true,
+      "unlocks": [
+        "COM-01",
+        "FOD-01",
+        "FOD-04",
+        "FOD-05"
+      ]
+    },
+    "CRA-03": {
+      "id": "CRA-03",
+      "name": "Cordage & Textiles",
+      "category": "Crafting & Manufacturing",
+      "difficulty": "Beginner",
+      "activeHours": {
+        "min": 12,
+        "max": 18
+      },
+      "passiveDays": {
+        "min": 3,
+        "max": 7
+      },
+      "timeEstimate": "12-18 hours active + 3-7 days drying",
+      "hazardLevel": 1,
+      "hazards": [
+        "Blisters",
+        "Repetitive strain"
+      ],
+      "seasons": [
+        "Any"
+      ],
+      "seasonNotes": "Year-round activity with proper technique",
+      "keySkills": [
+        "Fiber preparation",
+        "Spinning",
+        "Twisting",
+        "Plying"
+      ],
+      "materials": [
+        "Plant fibers",
+        "Wood spindle",
+        "Distaff",
+        "Hands"
+      ],
+      "description": "Create rope and cordage from plant fibers",
+      "prerequisites": [],
+      "resources": {
+        "materialsChecklist": "spreadsheets/materials-checklists.xlsx#CRA-03-cordage-textiles",
+        "failureGuide": "spreadsheets/failure-troubleshooting.xlsx#CRA-03-cordage-textiles",
+        "quickRefCard": "tools/quick-reference-cards.html#CRA-03-cordage-textiles"
+      },
+      "quizAvailable": true,
+      "unlocks": [
+        "CRA-05"
+      ]
+    },
+    "CRA-04": {
+      "id": "CRA-04",
+      "name": "Soap Making",
+      "category": "Crafting & Manufacturing",
+      "difficulty": "Intermediate",
+      "activeHours": {
+        "min": 8,
+        "max": 12
+      },
+      "passiveDays": {
+        "min": 28,
+        "max": 42
+      },
+      "timeEstimate": "8-12 hours active + 28-42 days curing",
+      "hazardLevel": 4,
+      "hazards": [
+        "Chemical burns (lye)",
+        "Toxic fumes",
+        "Skin irritation"
+      ],
+      "seasons": [
+        "Any"
+      ],
+      "seasonNotes": "Year-round practice with proper ventilation",
+      "keySkills": [
+        "Lye extraction",
+        "Oil measurement",
+        "Temperature control",
+        "Curing"
+      ],
+      "materials": [
+        "Wood ash",
+        "Water",
+        "Fat/oils",
+        "Containers",
+        "Safety equipment"
+      ],
+      "description": "Make soap from rendered fats and wood ash lye",
+      "prerequisites": [
+        "SUR-02",
+        "SUR-05"
+      ],
+      "resources": {
+        "materialsChecklist": "spreadsheets/materials-checklists.xlsx#CRA-04-soap-making",
+        "failureGuide": "spreadsheets/failure-troubleshooting.xlsx#CRA-04-soap-making",
+        "visualDiagram": "tools/visual-diagrams.html#CRA-04-soap-process",
+        "quickRefCard": "tools/quick-reference-cards.html#CRA-04-soap-making"
+      },
+      "quizAvailable": true,
+      "unlocks": []
+    },
+    "CON-02": {
+      "id": "CON-02",
+      "name": "Carpentry & Woodworking",
+      "category": "Construction",
+      "difficulty": "Intermediate",
+      "activeHours": {
+        "min": 30,
+        "max": 50
+      },
+      "passiveDays": {
+        "min": 0,
+        "max": 0
+      },
+      "timeEstimate": "30-50 hours",
+      "hazardLevel": 3,
+      "hazards": [
+        "Cuts",
+        "Splinters",
+        "Falling timber",
+        "Tool injuries"
+      ],
+      "seasons": [
+        "Any"
+      ],
+      "seasonNotes": "Year-round with proper workshop conditions",
+      "keySkills": [
+        "Joinery",
+        "Hand tool use",
+        "Finishing",
+        "Design"
+      ],
+      "materials": [
+        "Wood",
+        "Nails",
+        "Tools",
+        "Finishes"
+      ],
+      "description": "Create furniture and wooden structures using traditional techniques",
+      "prerequisites": [
+        "CON-01"
+      ],
+      "resources": {
+        "materialsChecklist": "spreadsheets/materials-checklists.xlsx#CON-02-carpentry-woodworking",
+        "failureGuide": "spreadsheets/failure-troubleshooting.xlsx#CON-02-carpentry-woodworking",
+        "visualDiagram": "tools/visual-diagrams.html#CON-02-joinery-techniques",
+        "quickRefCard": "tools/quick-reference-cards.html#CON-02-carpentry-woodworking"
+      },
+      "quizAvailable": true,
+      "unlocks": [
+        "CON-04"
+      ]
+    },
+    "FOD-04": {
+      "id": "FOD-04",
+      "name": "Animal Husbandry",
+      "category": "Food Systems",
+      "difficulty": "Intermediate",
+      "activeHours": {
+        "min": 20,
+        "max": 30
+      },
+      "passiveDays": {
+        "min": 30,
+        "max": 90
+      },
+      "timeEstimate": "20-30 hours active + 30-90 days ongoing care",
+      "hazardLevel": 2,
+      "hazards": [
+        "Animal bites/kicks",
+        "Zoonotic disease",
+        "Allergic reaction"
+      ],
+      "seasons": [
+        "Spring",
+        "Summer"
+      ],
+      "seasonNotes": "Best for starting animals in spring",
+      "keySkills": [
+        "Animal care",
+        "Breeding",
+        "Housing design",
+        "Health management"
+      ],
+      "materials": [
+        "Animals",
+        "Feed",
+        "Shelter materials",
+        "Tools"
+      ],
+      "description": "Raise livestock and poultry for food, fiber, and labor",
+      "prerequisites": [
+        "FOD-03",
+        "CON-01"
+      ],
+      "resources": {
+        "materialsChecklist": "spreadsheets/materials-checklists.xlsx#FOD-04-animal-husbandry",
+        "failureGuide": "spreadsheets/failure-troubleshooting.xlsx#FOD-04-animal-husbandry",
+        "visualDiagram": "tools/visual-diagrams.html#FOD-04-animal-housing",
+        "quickRefCard": "tools/quick-reference-cards.html#FOD-04-animal-husbandry"
+      },
+      "quizAvailable": true,
+      "unlocks": []
+    },
+    "SUR-04": {
+      "id": "SUR-04",
+      "name": "Navigation & Mapping",
+      "category": "Survival Basics",
+      "difficulty": "Beginner",
+      "activeHours": {
+        "min": 10,
+        "max": 15
+      },
+      "passiveDays": {
+        "min": 0,
+        "max": 0
+      },
+      "timeEstimate": "10-15 hours",
+      "hazardLevel": 1,
+      "hazards": [
+        "Getting lost",
+        "Exposure"
+      ],
+      "seasons": [
+        "Any"
+      ],
+      "seasonNotes": "Year-round learning with seasonal practice variations",
+      "keySkills": [
+        "Map reading",
+        "Compass use",
+        "Wayfinding",
+        "Route planning"
+      ],
+      "materials": [
+        "Maps",
+        "Compass",
+        "Markers",
+        "Paper"
+      ],
+      "description": "Navigate using maps, compass, and natural landmarks",
+      "prerequisites": [],
+      "resources": {
+        "materialsChecklist": "spreadsheets/materials-checklists.xlsx#SUR-04-navigation-mapping",
+        "failureGuide": "spreadsheets/failure-troubleshooting.xlsx#SUR-04-navigation-mapping",
+        "visualDiagram": "tools/visual-diagrams.html#SUR-04-map-symbols",
+        "quickRefCard": "tools/quick-reference-cards.html#SUR-04-navigation-mapping"
+      },
+      "quizAvailable": true,
+      "unlocks": []
+    },
+    "CRA-05": {
+      "id": "CRA-05",
+      "name": "Weaving & Textiles",
+      "category": "Crafting & Manufacturing",
+      "difficulty": "Intermediate",
+      "activeHours": {
+        "min": 25,
+        "max": 40
+      },
+      "passiveDays": {
+        "min": 3,
+        "max": 7
+      },
+      "timeEstimate": "25-40 hours active + 3-7 days drying",
+      "hazardLevel": 1,
+      "hazards": [
+        "Repetitive strain",
+        "Dye irritation"
+      ],
+      "seasons": [
+        "Any"
+      ],
+      "seasonNotes": "Year-round with proper workspace",
+      "keySkills": [
+        "Loom setup",
+        "Pattern weaving",
+        "Dyeing",
+        "Finishing"
+      ],
+      "materials": [
+        "Yarn",
+        "Loom",
+        "Dyes",
+        "Finish materials"
+      ],
+      "description": "Weave cloth on various looms for clothing and household goods",
+      "prerequisites": [
+        "CRA-03"
+      ],
+      "resources": {
+        "materialsChecklist": "spreadsheets/materials-checklists.xlsx#CRA-05-weaving-textiles",
+        "failureGuide": "spreadsheets/failure-troubleshooting.xlsx#CRA-05-weaving-textiles",
+        "visualDiagram": "tools/visual-diagrams.html#CRA-05-loom-setup",
+        "quickRefCard": "tools/quick-reference-cards.html#CRA-05-weaving-textiles"
+      },
+      "quizAvailable": true,
+      "unlocks": []
+    },
+    "CON-03": {
+      "id": "CON-03",
+      "name": "Clay & Earthworks",
+      "category": "Construction",
+      "difficulty": "Intermediate",
+      "activeHours": {
+        "min": 25,
+        "max": 40
+      },
+      "passiveDays": {
+        "min": 7,
+        "max": 21
+      },
+      "timeEstimate": "25-40 hours active + 7-21 days drying/curing",
+      "hazardLevel": 2,
+      "hazards": [
+        "Back strain",
+        "Silica dust",
+        "Collapse risk"
+      ],
+      "seasons": [
+        "Spring",
+        "Summer",
+        "Fall"
+      ],
+      "seasonNotes": "Avoid winter for curing; spring/summer ideal",
+      "keySkills": [
+        "Adobe making",
+        "Earthbag construction",
+        "Cob building",
+        "Finishing"
+      ],
+      "materials": [
+        "Clay",
+        "Straw",
+        "Sand",
+        "Water",
+        "Tools"
+      ],
+      "description": "Build structures and components using clay-based earthen materials",
+      "prerequisites": [
+        "CON-01",
+        "CRA-02"
+      ],
+      "resources": {
+        "materialsChecklist": "spreadsheets/materials-checklists.xlsx#CON-03-clay-earthworks",
+        "failureGuide": "spreadsheets/failure-troubleshooting.xlsx#CON-03-clay-earthworks",
+        "visualDiagram": "tools/visual-diagrams.html#CON-03-earthen-construction",
+        "quickRefCard": "tools/quick-reference-cards.html#CON-03-clay-earthworks"
+      },
+      "quizAvailable": true,
+      "unlocks": []
+    },
+    "CRA-06": {
+      "id": "CRA-06",
+      "name": "Knots & Rigging",
+      "category": "Crafting & Manufacturing",
+      "difficulty": "Beginner",
+      "activeHours": {
+        "min": 8,
+        "max": 12
+      },
+      "passiveDays": {
+        "min": 0,
+        "max": 0
+      },
+      "timeEstimate": "8-12 hours",
+      "hazardLevel": 2,
+      "hazards": [
+        "Rope burns",
+        "Load failure",
+        "Falls"
+      ],
+      "seasons": [
+        "Any"
+      ],
+      "seasonNotes": "Year-round learning activity",
+      "keySkills": [
+        "Knot types",
+        "Rope handling",
+        "Load calculation",
+        "Safety"
+      ],
+      "materials": [
+        "Various cordage",
+        "Test fixtures",
+        "Reference guides"
+      ],
+      "description": "Master knots and rigging techniques for securing loads",
+      "prerequisites": [],
+      "resources": {
+        "materialsChecklist": "spreadsheets/materials-checklists.xlsx#CRA-06-knots-rigging",
+        "failureGuide": "spreadsheets/failure-troubleshooting.xlsx#CRA-06-knots-rigging",
+        "visualDiagram": "tools/visual-diagrams.html#CRA-06-knot-diagrams",
+        "quickRefCard": "tools/quick-reference-cards.html#CRA-06-knots-rigging"
+      },
+      "quizAvailable": true,
+      "unlocks": [
+        "CON-04",
+        "CRA-07",
+        "FOD-02"
+      ]
+    },
+    "CRA-07": {
+      "id": "CRA-07",
+      "name": "Primitive Weapons",
+      "category": "Crafting & Manufacturing",
+      "difficulty": "Advanced",
+      "activeHours": {
+        "min": 25,
+        "max": 40
+      },
+      "passiveDays": {
+        "min": 3,
+        "max": 7
+      },
+      "timeEstimate": "25-40 hours active + 3-7 days curing/hardening",
+      "hazardLevel": 4,
+      "hazards": [
+        "Cuts",
+        "Projectile injury",
+        "Eye injury",
+        "Flintknapping shards"
+      ],
+      "seasons": [
+        "Any"
+      ],
+      "seasonNotes": "Year-round with proper safety precautions",
+      "keySkills": [
+        "Flintknapping",
+        "Woodworking",
+        "Hafting",
+        "Testing"
+      ],
+      "materials": [
+        "Flint",
+        "Wood",
+        "Stone",
+        "Sinew",
+        "Adhesives"
+      ],
+      "description": "Craft weapons such as bows, arrows, spears, and atlatls",
+      "prerequisites": [
+        "CRA-01",
+        "CRA-06"
+      ],
+      "resources": {
+        "materialsChecklist": "spreadsheets/materials-checklists.xlsx#CRA-07-primitive-weapons",
+        "failureGuide": "spreadsheets/failure-troubleshooting.xlsx#CRA-07-primitive-weapons",
+        "visualDiagram": "tools/visual-diagrams.html#CRA-07-weapon-designs",
+        "quickRefCard": "tools/quick-reference-cards.html#CRA-07-primitive-weapons"
+      },
+      "quizAvailable": true,
+      "unlocks": []
+    },
+    "FOD-05": {
+      "id": "FOD-05",
+      "name": "Food Foraging",
+      "category": "Food Systems",
+      "difficulty": "Intermediate",
+      "activeHours": {
+        "min": 15,
+        "max": 25
+      },
+      "passiveDays": {
+        "min": 0,
+        "max": 0
+      },
+      "timeEstimate": "15-25 hours",
+      "hazardLevel": 4,
+      "hazards": [
+        "Poisoning (misidentification)",
+        "Allergic reaction",
+        "Animal encounter"
+      ],
+      "seasons": [
+        "Spring",
+        "Summer",
+        "Fall"
+      ],
+      "seasonNotes": "Best during growing and harvest seasons",
+      "keySkills": [
+        "Plant identification",
+        "Seasonal knowledge",
+        "Sustainable harvesting"
+      ],
+      "materials": [
+        "Field guides",
+        "Collection bags",
+        "Knife",
+        "Maps"
+      ],
+      "description": "Identify and safely harvest wild edible plants",
+      "prerequisites": [
+        "SUR-01",
+        "FOD-03"
+      ],
+      "resources": {
+        "materialsChecklist": "spreadsheets/materials-checklists.xlsx#FOD-05-food-foraging",
+        "failureGuide": "spreadsheets/failure-troubleshooting.xlsx#FOD-05-food-foraging",
+        "visualDiagram": "tools/visual-diagrams.html#FOD-05-edible-plants",
+        "quickRefCard": "tools/quick-reference-cards.html#FOD-05-food-foraging"
+      },
+      "quizAvailable": true,
+      "unlocks": [
+        "FOD-02",
+        "SUR-03"
+      ]
+    },
+    "SUR-05": {
+      "id": "SUR-05",
+      "name": "Sanitation & Hygiene",
+      "category": "Survival Basics",
+      "difficulty": "Beginner",
+      "activeHours": {
+        "min": 6,
+        "max": 10
+      },
+      "passiveDays": {
+        "min": 0,
+        "max": 0
+      },
+      "timeEstimate": "6-10 hours",
+      "hazardLevel": 2,
+      "hazards": [
+        "Pathogen exposure",
+        "Chemical burns (lye in cleaning)"
+      ],
+      "seasons": [
+        "Any"
+      ],
+      "seasonNotes": "Critical year-round practice",
+      "keySkills": [
+        "Waste management",
+        "Water use",
+        "Disease prevention",
+        "Composting"
+      ],
+      "materials": [
+        "Water",
+        "Soap",
+        "Tools",
+        "Containers",
+        "Compost materials"
+      ],
+      "description": "Maintain hygiene and sanitation without modern infrastructure",
+      "prerequisites": [
+        "SUR-01"
+      ],
+      "resources": {
+        "materialsChecklist": "spreadsheets/materials-checklists.xlsx#SUR-05-sanitation-hygiene",
+        "failureGuide": "spreadsheets/failure-troubleshooting.xlsx#SUR-05-sanitation-hygiene",
+        "quickRefCard": "tools/quick-reference-cards.html#SUR-05-sanitation-hygiene"
+      },
+      "quizAvailable": true,
+      "unlocks": [
+        "COM-01",
+        "CRA-04"
+      ]
+    },
+    "CON-04": {
+      "id": "CON-04",
+      "name": "Energy Systems",
+      "category": "Construction",
+      "difficulty": "Advanced",
+      "activeHours": {
+        "min": 40,
+        "max": 60
+      },
+      "passiveDays": {
+        "min": 0,
+        "max": 0
+      },
+      "timeEstimate": "40-60 hours",
+      "hazardLevel": 4,
+      "hazards": [
+        "Electrocution",
+        "Falls",
+        "Drowning (hydro)",
+        "Mechanical injury"
+      ],
+      "seasons": [
+        "Any"
+      ],
+      "seasonNotes": "Year-round with water availability considerations",
+      "keySkills": [
+        "Hydraulics",
+        "Water wheels",
+        "Generator building",
+        "Mechanical advantage"
+      ],
+      "materials": [
+        "Water source",
+        "Wood",
+        "Metal parts",
+        "Bearings",
+        "Generator components"
+      ],
+      "description": "Build sustainable energy systems including water wheels and simple generators",
+      "prerequisites": [
+        "CON-02",
+        "CRA-06"
+      ],
+      "resources": {
+        "materialsChecklist": "spreadsheets/materials-checklists.xlsx#CON-04-energy-systems",
+        "failureGuide": "spreadsheets/failure-troubleshooting.xlsx#CON-04-energy-systems",
+        "visualDiagram": "tools/visual-diagrams.html#CON-04-energy-systems",
+        "quickRefCard": "tools/quick-reference-cards.html#CON-04-energy-systems"
+      },
+      "quizAvailable": true,
+      "unlocks": []
+    },
+    "COM-01": {
+      "id": "COM-01",
+      "name": "Community Governance",
+      "category": "Community & Planning",
+      "difficulty": "Advanced",
+      "activeHours": {
+        "min": 20,
+        "max": 30
+      },
+      "passiveDays": {
+        "min": 0,
+        "max": 0
+      },
+      "timeEstimate": "20-30 hours",
+      "hazardLevel": 1,
+      "hazards": [
+        "Conflict",
+        "Psychological stress"
+      ],
+      "seasons": [
+        "Any"
+      ],
+      "seasonNotes": "Year-round leadership and planning",
+      "keySkills": [
+        "Decision-making",
+        "Conflict resolution",
+        "Planning",
+        "Documentation"
+      ],
+      "materials": [
+        "Meeting space",
+        "Recording materials",
+        "Documentation templates"
+      ],
+      "description": "Establish governance systems and decision-making frameworks for communities",
+      "prerequisites": [
+        "SUR-01",
+        "FOD-03",
+        "FOD-01",
+        "SUR-05"
+      ],
+      "resources": {
+        "materialsChecklist": "spreadsheets/materials-checklists.xlsx#COM-01-community-governance",
+        "failureGuide": "spreadsheets/failure-troubleshooting.xlsx#COM-01-community-governance",
+        "quickRefCard": "tools/quick-reference-cards.html#COM-01-community-governance"
+      },
+      "quizAvailable": true,
+      "unlocks": []
+    },
+    "FOD-06": {
+      "id": "FOD-06",
+      "name": "Marine Biology & Ocean Resources",
+      "category": "Food Systems",
+      "difficulty": "Advanced",
+      "activeHours": {
+        "min": 20,
+        "max": 30
+      },
+      "passiveDays": {
+        "min": 0,
+        "max": 0
+      },
+      "timeEstimate": "20-30 hours",
+      "hazardLevel": 4,
+      "hazards": [
+        "Drowning",
+        "Hypothermia",
+        "Paralytic shellfish poisoning",
+        "Rip currents"
+      ],
+      "seasons": [
+        "Spring",
+        "Summer",
+        "Fall"
+      ],
+      "seasonNotes": "Avoid winter ocean foraging in cold climates; watch for red tide in warm months",
+      "keySkills": [
+        "Tidal zone foraging",
+        "Seaweed identification",
+        "Shore fishing",
+        "Fish preservation"
+      ],
+      "materials": [
+        "Nets",
+        "Hooks",
+        "Drying racks",
+        "Salt",
+        "Rope",
+        "Cutting tools"
+      ],
+      "description": "Harvesting food and materials from ocean environments including seaweed, shellfish, and shore fishing",
+      "prerequisites": [
+        "FOD-02",
+        "FOD-01"
+      ],
+      "resources": {},
+      "quizAvailable": false,
+      "unlocks": []
+    },
+    "COM-02": {
+      "id": "COM-02",
+      "name": "Mortuary Science & Death Care",
+      "category": "Community & Planning",
+      "difficulty": "Beginner",
+      "activeHours": {
+        "min": 6,
+        "max": 10
+      },
+      "passiveDays": {
+        "min": 0,
+        "max": 0
+      },
+      "timeEstimate": "6-10 hours",
+      "hazardLevel": 3,
+      "hazards": [
+        "Infectious disease exposure",
+        "Psychological stress"
+      ],
+      "seasons": [
+        "Any"
+      ],
+      "seasonNotes": "Must be practiced year-round; urgency increases in warm weather",
+      "keySkills": [
+        "Body preparation",
+        "Burial procedures",
+        "Infection control",
+        "Grief support"
+      ],
+      "materials": [
+        "Gloves",
+        "Cloth wrappings",
+        "Digging tools",
+        "Lime",
+        "Water",
+        "Soap"
+      ],
+      "description": "Hygienic and respectful handling of the dead, burial practices, and community grief support",
+      "prerequisites": [
+        "SUR-05"
+      ],
+      "resources": {},
+      "quizAvailable": false,
+      "unlocks": []
+    },
+    "CON-05": {
+      "id": "CON-05",
+      "name": "Thermal Energy Storage",
+      "category": "Construction",
+      "difficulty": "Intermediate",
+      "activeHours": {
+        "min": 15,
+        "max": 25
+      },
+      "passiveDays": {
+        "min": 2,
+        "max": 7
+      },
+      "timeEstimate": "15-25 hours active + 2-7 days passive",
+      "hazardLevel": 3,
+      "hazards": [
+        "Burns",
+        "Carbon monoxide from heated bed systems",
+        "Structural collapse"
+      ],
+      "seasons": [
+        "Any"
+      ],
+      "seasonNotes": "Best built before winter; solar systems best installed in summer",
+      "keySkills": [
+        "Rock bed construction",
+        "Water tank insulation",
+        "Haybox cooking",
+        "Trombe walls"
+      ],
+      "materials": [
+        "Rock/stone",
+        "Insulation materials",
+        "Water containers",
+        "Glass/glazing",
+        "Masonry"
+      ],
+      "description": "Storing thermal energy using rock beds, water tanks, heated floors, and passive solar design",
+      "prerequisites": [
+        "CON-01",
+        "CON-04"
+      ],
+      "resources": {},
+      "quizAvailable": false,
+      "unlocks": []
+    },
+    "CRA-08": {
+      "id": "CRA-08",
+      "name": "Seal & Gasket Manufacturing",
+      "category": "Crafting & Manufacturing",
+      "difficulty": "Advanced",
+      "activeHours": {
+        "min": 12,
+        "max": 20
+      },
+      "passiveDays": {
+        "min": 1,
+        "max": 3
+      },
+      "timeEstimate": "12-20 hours active + 1-3 days passive",
+      "hazardLevel": 2,
+      "hazards": [
+        "Pressure vessel failure",
+        "Chemical exposure from sealants"
+      ],
+      "seasons": [
+        "Any"
+      ],
+      "seasonNotes": "Can be practiced year-round",
+      "keySkills": [
+        "Leather gasket cutting",
+        "Rubber forming",
+        "Metal gasket annealing",
+        "Packing stuffing boxes"
+      ],
+      "materials": [
+        "Leather",
+        "Cork",
+        "Rubber",
+        "Soft metals (copper, lead)",
+        "Fiber/rope",
+        "Sealant compounds"
+      ],
+      "description": "Manufacturing seals, gaskets, and packing for pressurized and fluid systems",
+      "prerequisites": [
+        "CRA-01"
+      ],
+      "resources": {},
+      "quizAvailable": false,
+      "unlocks": []
+    },
+    "SUR-06": {
+      "id": "SUR-06",
+      "name": "Nutrition Science & Deficiency Diseases",
+      "category": "Survival Basics",
+      "difficulty": "Beginner",
+      "activeHours": {
+        "min": 8,
+        "max": 12
+      },
+      "passiveDays": {
+        "min": 0,
+        "max": 0
+      },
+      "timeEstimate": "8-12 hours",
+      "hazardLevel": 1,
+      "hazards": [
+        "Refeeding syndrome if treating malnourished individuals"
+      ],
+      "seasons": [
+        "Any"
+      ],
+      "seasonNotes": "Critical knowledge year-round; deficiencies most likely in late winter/early spring",
+      "keySkills": [
+        "Deficiency diagnosis",
+        "Nutritional planning",
+        "Seasonal food strategies"
+      ],
+      "materials": [
+        "Food sources",
+        "Reference materials"
+      ],
+      "description": "Diagnosing and treating nutritional deficiency diseases including scurvy, pellagra, beriberi, and rickets",
+      "prerequisites": [
+        "SUR-03"
+      ],
+      "resources": {},
+      "quizAvailable": false,
+      "unlocks": []
+    },
+    "CRA-09": {
+      "id": "CRA-09",
+      "name": "Abrasives Manufacturing",
+      "category": "Crafting & Manufacturing",
+      "difficulty": "Advanced",
+      "activeHours": {
+        "min": 15,
+        "max": 25
+      },
+      "passiveDays": {
+        "min": 1,
+        "max": 3
+      },
+      "timeEstimate": "15-25 hours active + 1-3 days passive",
+      "hazardLevel": 3,
+      "hazards": [
+        "Silicosis from dust inhalation",
+        "Grinding wheel burst",
+        "Eye injuries"
+      ],
+      "seasons": [
+        "Any"
+      ],
+      "seasonNotes": "Can be practiced year-round; wet grinding preferred",
+      "keySkills": [
+        "Grindstone shaping",
+        "Sandpaper making",
+        "Polishing compound preparation",
+        "Lapping"
+      ],
+      "materials": [
+        "Sandstone",
+        "Garnet",
+        "Emery",
+        "Clay binder",
+        "Hide glue",
+        "Cloth/paper backing"
+      ],
+      "description": "Making grinding wheels, sandpaper, polishing compounds, and sharpening systems from natural materials",
+      "prerequisites": [
+        "CRA-01"
+      ],
+      "resources": {},
+      "quizAvailable": false,
+      "unlocks": []
+    },
+    "FOD-07": {
+      "id": "FOD-07",
+      "name": "Soil Science & Land Remediation",
+      "category": "Food Systems",
+      "difficulty": "Intermediate",
+      "activeHours": {
+        "min": 12,
+        "max": 20
+      },
+      "passiveDays": {
+        "min": 30,
+        "max": 365
+      },
+      "timeEstimate": "12-20 hours active + months of observation",
+      "hazardLevel": 2,
+      "hazards": [
+        "Contaminated soil exposure",
+        "Chemical hazards in remediation"
+      ],
+      "seasons": [
+        "Spring",
+        "Summer",
+        "Fall"
+      ],
+      "seasonNotes": "Soil testing best in spring; erosion control structures built before rainy season",
+      "keySkills": [
+        "Soil testing",
+        "Erosion control",
+        "Composting",
+        "Land reclamation",
+        "Crop rotation"
+      ],
+      "materials": [
+        "Digging tools",
+        "Water",
+        "Glass jar",
+        "Organic matter",
+        "Seeds for cover crops"
+      ],
+      "description": "Understanding soil types, testing fertility, controlling erosion, and reclaiming degraded land",
+      "prerequisites": [
+        "FOD-03"
+      ],
+      "resources": {},
+      "quizAvailable": false,
+      "unlocks": []
+    },
+    "FOD-08": {
+      "id": "FOD-08",
+      "name": "Plant Breeding & Seed Saving",
+      "category": "Food Systems",
+      "difficulty": "Advanced",
+      "activeHours": {
+        "min": 15,
+        "max": 25
+      },
+      "passiveDays": {
+        "min": 90,
+        "max": 365
+      },
+      "timeEstimate": "15-25 hours active + multiple growing seasons",
+      "hazardLevel": 1,
+      "hazards": [
+        "Crop failure from failed crosses",
+        "Genetic bottleneck from small populations"
+      ],
+      "seasons": [
+        "Spring",
+        "Summer",
+        "Fall"
+      ],
+      "seasonNotes": "Crosses made during flowering; seed saving at harvest; multi-year commitment",
+      "keySkills": [
+        "Selective breeding",
+        "Hand pollination",
+        "Seed processing",
+        "Genetic diversity management"
+      ],
+      "materials": [
+        "Seeds",
+        "Isolation bags",
+        "Labels",
+        "Field notebook",
+        "Drying racks",
+        "Storage containers"
+      ],
+      "description": "Improving crops through selective breeding, hybridization, and maintaining genetic diversity",
+      "prerequisites": [
+        "FOD-03"
+      ],
+      "resources": {},
+      "quizAvailable": false,
+      "unlocks": []
+    },
+    "COM-03": {
+      "id": "COM-03",
+      "name": "Cultural Practices & Community Cohesion",
+      "category": "Community & Planning",
+      "difficulty": "Beginner",
+      "activeHours": {
+        "min": 8,
+        "max": 15
+      },
+      "passiveDays": {
+        "min": 0,
+        "max": 0
+      },
+      "timeEstimate": "8-15 hours",
+      "hazardLevel": 1,
+      "hazards": [
+        "Cult dynamics if misapplied"
+      ],
+      "seasons": [
+        "Any"
+      ],
+      "seasonNotes": "Seasonal celebrations should align with agricultural calendar",
+      "keySkills": [
+        "Ceremony design",
+        "Conflict resolution",
+        "Storytelling",
+        "Community building"
+      ],
+      "materials": [
+        "Minimal \u2014 adaptable to available resources"
+      ],
+      "description": "Building community identity through ritual, celebration, storytelling, and shared cultural practices",
+      "prerequisites": [
+        "COM-01"
+      ],
+      "resources": {},
+      "quizAvailable": false,
+      "unlocks": []
+    },
+    "COM-04": {
+      "id": "COM-04",
+      "name": "Knowledge Preservation & Transmission",
+      "category": "Community & Planning",
+      "difficulty": "Intermediate",
+      "activeHours": {
+        "min": 15,
+        "max": 25
+      },
+      "passiveDays": {
+        "min": 0,
+        "max": 0
+      },
+      "timeEstimate": "15-25 hours",
+      "hazardLevel": 1,
+      "hazards": [
+        "Knowledge loss from inadequate systems"
+      ],
+      "seasons": [
+        "Any"
+      ],
+      "seasonNotes": "Recopying and inventory best during winter months when field work is light",
+      "keySkills": [
+        "Scriptorial copying",
+        "Error correction",
+        "Archive management",
+        "Oral tradition",
+        "Teaching"
+      ],
+      "materials": [
+        "Writing materials",
+        "Ink",
+        "Paper/parchment",
+        "Binding materials",
+        "Storage containers"
+      ],
+      "description": "Preserving and transmitting knowledge across generations through writing, copying, oral tradition, and libraries",
+      "prerequisites": [
+        "COM-01"
+      ],
+      "resources": {},
+      "quizAvailable": false,
+      "unlocks": []
+    }
+  },
+  "endGoals": [
+    {
+      "id": "EG-01",
+      "name": "Self-Sufficient Homestead",
+      "description": "Achieve complete homestead independence with food, water, shelter, and energy",
+      "requiredModules": [
+        "SUR-01",
+        "SUR-02",
+        "SUR-05",
+        "FOD-03",
+        "FOD-01",
+        "FOD-04",
+        "CON-01",
+        "CON-02",
+        "CON-04"
+      ]
+    },
+    {
+      "id": "EG-02",
+      "name": "Community Leader",
+      "description": "Develop skills to lead and organize communities effectively",
+      "requiredModules": [
+        "COM-01",
+        "SUR-01",
+        "FOD-03",
+        "FOD-01",
+        "SUR-05",
+        "CON-02"
+      ]
+    },
+    {
+      "id": "EG-03",
+      "name": "Master Craftsperson",
+      "description": "Master multiple crafting and manufacturing disciplines",
+      "requiredModules": [
+        "CRA-01",
+        "CRA-02",
+        "CRA-03",
+        "CRA-04",
+        "CRA-05",
+        "CRA-06",
+        "CRA-07"
+      ]
+    },
+    {
+      "id": "EG-04",
+      "name": "Complete Armorer",
+      "description": "Develop expert metalworking and weapons manufacturing skills",
+      "requiredModules": [
+        "CRA-01",
+        "CRA-06",
+        "CRA-07",
+        "CON-02"
+      ]
+    },
+    {
+      "id": "EG-05",
+      "name": "Full Food Sovereignty",
+      "description": "Complete mastery of all food production and preservation methods",
+      "requiredModules": [
+        "FOD-01",
+        "FOD-02",
+        "FOD-03",
+        "FOD-04",
+        "FOD-05",
+        "SUR-01"
+      ]
+    },
+    {
+      "id": "EG-06",
+      "name": "Steam Engine",
+      "description": "Master engineering for power generation and mechanical systems",
+      "requiredModules": [
+        "CON-04",
+        "CON-02",
+        "CRA-01",
+        "CRA-06"
+      ]
+    },
+    {
+      "id": "EG-07",
+      "name": "Complete Medical Practice",
+      "description": "Develop comprehensive healing and medical knowledge",
+      "requiredModules": [
+        "SUR-03",
+        "SUR-01",
+        "FOD-05",
+        "SUR-05"
+      ]
+    },
+    {
+      "id": "EG-08",
+      "name": "Textile Workshop",
+      "description": "Master fiber arts from production to finished goods",
+      "requiredModules": [
+        "CRA-03",
+        "CRA-05",
+        "CRA-02",
+        "CON-02"
+      ]
+    },
+    {
+      "id": "EG-09",
+      "name": "Full Metalwork Shop",
+      "description": "Complete metalworking and tool manufacturing capability",
+      "requiredModules": [
+        "CRA-01",
+        "CRA-06",
+        "CON-02",
+        "SUR-02"
+      ]
+    }
+  ],
+  "metadata": {
+    "totalModules": 32,
+    "totalCategories": 5,
+    "totalEndGoals": 9
+  }
+}

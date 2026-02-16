@@ -1,0 +1,137 @@
+{
+  "Fire Starting": {
+    "traditional": "Friction fire (hand drill, bow drill), fire lay preparation, natural tinders",
+    "salvage": "Lighter/matches for ignition, metal containers for charcoal, temperature gauges",
+    "time_savings": 80,
+    "difficulty_reduction": "High",
+    "salvage_priority": "Critical",
+    "best_salvage_items": [
+      "Lighters",
+      "matches",
+      "metal buckets",
+      "thermometers"
+    ],
+    "notes": "Modern ignition eliminates 90% of difficulty",
+    "skillId": "SUR-02"
+  },
+  "Watershed Mapping": {
+    "traditional": "Walk entire area, observe water flow, mark springs/streams with stakes",
+    "salvage": "GPS device, topographic maps, elevation apps, satellite imagery",
+    "time_savings": 70,
+    "difficulty_reduction": "Medium",
+    "salvage_priority": "High",
+    "best_salvage_items": [
+      "GPS",
+      "phone with maps",
+      "paper topo maps",
+      "compass"
+    ],
+    "notes": "GPS dramatically speeds mapping"
+  },
+  "Bloomery Iron": {
+    "traditional": "Build bloomery furnace from clay/stone, manual bellows, charcoal fuel",
+    "salvage": "Metal barrel for furnace, electric blower, infrared thermometer, pre-made charcoal",
+    "time_savings": 60,
+    "difficulty_reduction": "Very High",
+    "salvage_priority": "Critical",
+    "best_salvage_items": [
+      "Metal drums",
+      "leaf blower",
+      "car battery + fan",
+      "thermometer"
+    ],
+    "notes": "Electric blower is game-changer"
+  },
+  "Water Wheel Basics": {
+    "traditional": "Hand-carved wooden wheel, stone bearings, hand-dug millrace",
+    "salvage": "Salvaged wheel/pulley, ball bearings, PVC/metal pipes for millrace",
+    "time_savings": 75,
+    "difficulty_reduction": "Very High",
+    "salvage_priority": "High",
+    "best_salvage_items": [
+      "Bicycle wheels",
+      "car pulleys",
+      "bearings",
+      "PVC pipe"
+    ],
+    "notes": "Modern bearings eliminate friction losses"
+  },
+  "Pottery Basics": {
+    "traditional": "Hand-build with local clay, pit fire or primitive kiln",
+    "salvage": "Potter's wheel (salvaged), electric kiln or propane burner, ceramic supplies",
+    "time_savings": 50,
+    "difficulty_reduction": "High",
+    "salvage_priority": "Medium",
+    "best_salvage_items": [
+      "Old pottery wheel",
+      "propane torch",
+      "metal buckets"
+    ],
+    "notes": "Wheel optional but helpful"
+  },
+  "Glassmaking": {
+    "traditional": "Build kiln from scratch, collect/refine silica sand, wood/charcoal fuel",
+    "salvage": "Propane burner, salvaged glass for melting, purchased silica, pyrometer",
+    "time_savings": 65,
+    "difficulty_reduction": "Very High",
+    "salvage_priority": "Medium",
+    "best_salvage_items": [
+      "Propane torch",
+      "broken glass",
+      "fire bricks"
+    ],
+    "notes": "Salvaged glass melts easier than raw sand"
+  },
+  "Agriculture Fundamentals": {
+    "traditional": "Hand tools (sticks, stone hoes), natural fertilizer, manual irrigation",
+    "salvage": "Metal tools (shovels, hoes), plastic piping, PVC irrigation, garden hose",
+    "time_savings": 50,
+    "difficulty_reduction": "Medium",
+    "salvage_priority": "Medium",
+    "best_salvage_items": [
+      "Garden tools",
+      "hoses",
+      "PVC",
+      "buckets"
+    ],
+    "notes": "Metal tools vastly easier than wood/stone"
+  },
+  "Charcoal Production": {
+    "traditional": "Dig pit, stack wood, cover with earth, monitor for days",
+    "salvage": "Metal drum with vents, temperature control, faster burn cycle",
+    "time_savings": 40,
+    "difficulty_reduction": "Medium",
+    "salvage_priority": "High",
+    "best_salvage_items": [
+      "Metal 55-gallon drums",
+      "metal pipe for vents"
+    ],
+    "notes": "Metal drum method much cleaner"
+  },
+  "Rope & Cordage": {
+    "traditional": "Hand-twist plant fibers (bark, grass, vines)",
+    "salvage": "Salvaged rope, paracord, wire rope, nylon line",
+    "time_savings": 90,
+    "difficulty_reduction": "High",
+    "salvage_priority": "Low",
+    "best_salvage_items": [
+      "Any modern rope",
+      "fishing line",
+      "wire"
+    ],
+    "notes": "No need to make rope with salvage available"
+  },
+  "Seed Banking": {
+    "traditional": "Hand-select seeds, clay pots for storage, cool dry cave/cellar",
+    "salvage": "Plastic containers, silica gel packets, freezer, vacuum sealer",
+    "time_savings": 30,
+    "difficulty_reduction": "Low",
+    "salvage_priority": "Medium",
+    "best_salvage_items": [
+      "Plastic containers",
+      "ziplock bags",
+      "mason jars"
+    ],
+    "notes": "Modern containers prevent moisture/pest damage"
+  }
+}

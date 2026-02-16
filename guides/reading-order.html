@@ -1,0 +1,1450 @@
+<!DOCTYPE html>
+<!-- Guide SEO: Reading Order — Zero to Current | Category: tools | Difficulty: intermediate | Updated: 2026-02-15 -->
+
+<html lang="en">
+<head>
+ <meta charset="utf-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Reading Order — Complete Survival Guide Roadmap</title>
+ <link rel="stylesheet" href="css/shared.css">
+ <style>
+ /* Main layout */
+ .reading-order-container {
+ max-width: 1400px;
+ margin: 0 auto;
+ padding: 0 1rem;
+ }
+ /* Header controls */
+ .reading-order-header {
+ background: var(--surface);
+ border: 1px solid var(--border);
+ border-radius: 8px;
+ padding: 2rem;
+ margin-bottom: 2rem;
+ }
+ .header-stats {
+ display: flex;
+ gap: 2rem;
+ margin-bottom: 1.5rem;
+ flex-wrap: wrap;
+ align-items: center;
+ }
+ .stat-box {
+ background: var(--card);
+ padding: 1rem 1.5rem;
+ border-radius: 6px;
+ border-left: 4px solid var(--accent);
+ }
+ .stat-number {
+ font-size: 1.8rem;
+ font-weight: bold;
+ color: var(--accent);
+ }
+ .stat-label {
+ color: var(--muted);
+ font-size: 0.9rem;
+ text-transform: uppercase;
+ letter-spacing: 0.5px;
+ }
+ .header-controls {
+ display: flex;
+ gap: 1rem;
+ flex-wrap: wrap;
+ margin-bottom: 1.5rem;
+ }
+ .control-btn {
+ padding: 0.75rem 1.5rem;
+ background: var(--accent);
+ color: var(--bg);
+ border: none;
+ border-radius: 6px;
+ cursor: pointer;
+ font-weight: 500;
+ transition: all 0.3s ease;
+ font-size: 0.95rem;
+ }
+ .control-btn:hover {
+ background: var(--accent2);
+ transform: translateY(-2px);
+ }
+ .control-btn.secondary {
+ background: var(--card);
+ color: var(--text);
+ border: 1px solid var(--border);
+ }
+ .control-btn.secondary:hover {
+ background: var(--surface);
+ border-color: var(--accent);
+ }
+ .filter-toggle {
+ display: flex;
+ gap: 0.5rem;
+ align-items: center;
+ }
+ .filter-toggle label {
+ display: flex;
+ align-items: center;
+ gap: 0.5rem;
+ cursor: pointer;
+ color: var(--text);
+ font-size: 0.95rem;
+ }
+ .filter-toggle input {
+ cursor: pointer;
+ }
+ /* Timeline visualization */
+ .phase-timeline {
+ display: grid;
+ grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+ gap: 1rem;
+ margin-bottom: 2rem;
+ }
+ .timeline-phase-bar {
+ background: var(--card);
+ border: 2px solid var(--border);
+ border-radius: 8px;
+ padding: 1rem;
+ text-align: center;
+ cursor: pointer;
+ transition: all 0.3s ease;
+ }
+ .timeline-phase-bar:hover {
+ border-color: var(--accent);
+ transform: translateY(-4px);
+ }
+ .timeline-phase-bar.completed {
+ border-color: var(--accent2);
+ background: rgba(83, 216, 168, 0.1);
+ }
+ .timeline-phase-number {
+ font-size: 2rem;
+ font-weight: bold;
+ color: var(--accent);
+ margin-bottom: 0.5rem;
+ }
+ .timeline-phase-name {
+ font-size: 0.9rem;
+ font-weight: 600;
+ margin-bottom: 0.5rem;
+ color: var(--text);
+ }
+ .timeline-phase-progress {
+ height: 6px;
+ background: var(--border);
+ border-radius: 3px;
+ overflow: hidden;
+ margin-top: 0.75rem;
+ }
+ .timeline-phase-progress-fill {
+ height: 100%;
+ background: var(--accent2);
+ width: 0%;
+ transition: width 0.3s ease;
+ }
+ /* Phases container */
+ .phases-container {
+ display: grid;
+ gap: 2rem;
+ margin-bottom: 3rem;
+ }
+ .phase {
+ background: var(--surface);
+ border: 2px solid var(--border);
+ border-radius: 10px;
+ overflow: hidden;
+ transition: all 0.3s ease;
+ }
+ .phase.collapsed .phase-content {
+ display: none;
+ }
+ .phase:hover {
+ border-color: var(--accent);
+ }
+ /* Phase header (clickable to collapse) */
+ .phase-header {
+ background: var(--card);
+ padding: 1.5rem 2rem;
+ cursor: pointer;
+ display: flex;
+ align-items: center;
+ justify-content: space-between;
+ gap: 1.5rem;
+ transition: all 0.3s ease;
+ user-select: none;
+ }
+ .phase-header:hover {
+ background: rgba(233, 69, 96, 0.1);
+ }
+ .phase-header-left {
+ display: flex;
+ align-items: center;
+ gap: 1.5rem;
+ flex: 1;
+ }
+ .phase-number {
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ width: 70px;
+ height: 70px;
+ border-radius: 50%;
+ background: var(--accent);
+ color: var(--bg);
+ font-size: 2rem;
+ font-weight: bold;
+ flex-shrink: 0;
+ }
+ .phase-info h2 {
+ font-size: 1.5rem;
+ color: var(--accent2);
+ margin: 0 0 0.3rem 0;
+ }
+ .phase-timeframe {
+ color: var(--muted);
+ font-size: 0.95rem;
+ margin: 0;
+ }
+ .phase-goal {
+ color: var(--text);
+ font-size: 0.9rem;
+ line-height: 1.4;
+ max-width: 500px;
+ }
+ .phase-header-right {
+ display: flex;
+ align-items: center;
+ gap: 1rem;
+ flex-shrink: 0;
+ }
+ .phase-completion {
+ text-align: right;
+ min-width: 80px;
+ }
+ .completion-percent {
+ font-size: 1.3rem;
+ font-weight: bold;
+ color: var(--accent2);
+ }
+ .completion-label {
+ font-size: 0.8rem;
+ color: var(--muted);
+ text-transform: uppercase;
+ letter-spacing: 0.5px;
+ }
+ .collapse-icon {
+ font-size: 1.5rem;
+ transition: transform 0.3s ease;
+ color: var(--muted);
+ }
+ .phase.collapsed .collapse-icon {
+ transform: rotate(-90deg);
+ }
+ /* Phase content */
+ .phase-content {
+ padding: 2rem;
+ }
+ .phase-goal-box {
+ background: rgba(83, 216, 168, 0.1);
+ border-left: 4px solid var(--accent2);
+ padding: 1.5rem;
+ border-radius: 6px;
+ margin-bottom: 2rem;
+ line-height: 1.6;
+ }
+ .phase-goal-box strong {
+ color: var(--accent2);
+ }
+ /* Tier sections - collapsible */
+ .tier-section {
+ margin-bottom: 1.5rem;
+ }
+ .tier-collapsed .tier-content {
+ display: none;
+ }
+ .tier-header {
+ display: flex;
+ align-items: center;
+ gap: 1rem;
+ padding: 0.75rem 1rem;
+ border-bottom: 2px solid var(--border);
+ cursor: pointer;
+ user-select: none;
+ border-radius: 6px 6px 0 0;
+ transition: background 0.2s;
+ }
+ .tier-header:hover {
+ background: rgba(212, 165, 116, 0.08);
+ }
+ .tier-chevron {
+ font-size: 0.9rem;
+ color: var(--muted);
+ transition: transform 0.2s;
+ flex-shrink: 0;
+ }
+ .tier-section:not(.tier-collapsed) .tier-chevron {
+ transform: rotate(90deg);
+ }
+ .tier-progress {
+ font-size: 0.85rem;
+ font-weight: 600;
+ color: var(--accent2);
+ margin-left: auto;
+ }
+ .tier-label {
+ font-size: 1.1rem;
+ font-weight: 600;
+ text-transform: uppercase;
+ letter-spacing: 1px;
+ margin: 0;
+ }
+ .tier-count {
+ background: var(--card);
+ padding: 0.3rem 0.8rem;
+ border-radius: 20px;
+ font-size: 0.85rem;
+ color: var(--muted);
+ margin-left: auto;
+ }
+ .tier-essential .tier-label {
+ color: var(--accent);
+ }
+ .tier-essential .tier-header {
+ border-bottom-color: var(--accent);
+ }
+ .tier-recommended .tier-label {
+ color: var(--accent2);
+ }
+ .tier-recommended .tier-header {
+ border-bottom-color: var(--accent2);
+ }
+ .tier-supplementary .tier-label {
+ color: var(--muted);
+ }
+ .tier-supplementary .tier-header {
+ border-bottom-color: var(--border);
+ border-bottom-style: dotted;
+ }
+ /* Guide list */
+ .guide-list {
+ display: grid;
+ gap: 1rem;
+ }
+ .guide-item {
+ display: flex;
+ align-items: flex-start;
+ gap: 1rem;
+ padding: 1.25rem;
+ background: var(--card);
+ border-radius: 6px;
+ border-left: 3px solid var(--border);
+ transition: all 0.3s ease;
+ }
+ .tier-essential .guide-item {
+ border-left-color: var(--accent);
+ }
+ .tier-recommended .guide-item {
+ border-left-color: var(--accent2);
+ }
+ .tier-supplementary .guide-item {
+ border-left-color: var(--muted);
+ opacity: 0.85;
+ }
+ .guide-item:hover {
+ background: rgba(233, 69, 96, 0.05);
+ transform: translateX(4px);
+ }
+ .guide-item.read {
+ opacity: 0.6;
+ }
+ .guide-item.read .guide-link {
+ text-decoration: line-through;
+ color: var(--muted);
+ }
+ .guide-checkbox {
+ flex-shrink: 0;
+ margin-top: 0.25rem;
+ width: 20px;
+ height: 20px;
+ cursor: pointer;
+ accent-color: var(--accent2);
+ }
+ .guide-content {
+ flex: 1;
+ }
+ .guide-link {
+ color: var(--accent);
+ text-decoration: none;
+ font-weight: 500;
+ transition: color 0.2s ease;
+ }
+ .guide-link:hover {
+ color: var(--accent2);
+ text-decoration: underline;
+ }
+ .guide-description {
+ color: var(--muted);
+ font-size: 0.9rem;
+ margin-top: 0.3rem;
+ line-height: 1.4;
+ }
+ .guide-meta {
+ display: flex;
+ gap: 1.5rem;
+ margin-top: 0.5rem;
+ font-size: 0.85rem;
+ color: var(--muted);
+ }
+ .difficulty-dots {
+ display: inline-flex;
+ gap: 0.2rem;
+ }
+ .dot {
+ display: inline-block;
+ width: 6px;
+ height: 6px;
+ border-radius: 50%;
+ background: var(--muted);
+ }
+ .dot.filled {
+ background: var(--accent);
+ }
+ .read-time {
+ display: flex;
+ align-items: center;
+ gap: 0.3rem;
+ }
+ /* Critical actions */
+ .critical-actions {
+ background: rgba(233, 69, 96, 0.1);
+ border: 1px solid var(--accent);
+ border-radius: 6px;
+ padding: 1.5rem;
+ margin-bottom: 2rem;
+ }
+ .critical-actions h4 {
+ color: var(--accent);
+ margin-top: 0;
+ text-transform: uppercase;
+ letter-spacing: 0.5px;
+ font-size: 0.95rem;
+ }
+ .critical-actions ul {
+ margin: 1rem 0 0 1.5rem;
+ }
+ .critical-actions li {
+ color: var(--text);
+ margin-bottom: 0.75rem;
+ line-height: 1.5;
+ }
+ .critical-actions strong {
+ color: var(--accent2);
+ }
+ /* Phase summary */
+ .phase-summary {
+ background: var(--card);
+ padding: 1.5rem;
+ border-radius: 6px;
+ border-left: 4px solid var(--accent2);
+ margin-bottom: 1.5rem;
+ }
+ .phase-summary strong {
+ color: var(--accent2);
+ display: block;
+ margin-bottom: 0.75rem;
+ }
+ .phase-summary p {
+ margin: 0;
+ color: var(--text);
+ line-height: 1.6;
+ }
+ /* Responsive */
+ @media (max-width: 768px) {
+ .phase-header {
+ flex-direction: column;
+ align-items: flex-start;
+ padding: 1rem 1.5rem;
+ }
+ .phase-header-left {
+ width: 100%;
+ }
+ .phase-number {
+ width: 60px;
+ height: 60px;
+ font-size: 1.5rem;
+ }
+ .phase-info h2 {
+ font-size: 1.2rem;
+ }
+ .phase-header-right {
+ width: 100%;
+ justify-content: space-between;
+ }
+ .header-stats {
+ flex-direction: column;
+ gap: 1rem;
+ }
+ .stat-box {
+ width: 100%;
+ }
+ .guide-item {
+ flex-direction: column;
+ gap: 0.75rem;
+ }
+ .guide-meta {
+ flex-wrap: wrap;
+ }
+ .phase-timeline {
+ grid-template-columns: repeat(2, 1fr);
+ }
+ }
+ @media (max-width: 500px) {
+ .phase-content {
+ padding: 1rem;
+ }
+ .guide-item {
+ padding: 0.75rem;
+ }
+ .phase-timeline {
+ grid-template-columns: 1fr;
+ }
+ .header-controls {
+ flex-direction: column;
+ }
+ .control-btn {
+ width: 100%;
+ }
+ }
+ /* Hide read guides when filter is on */
+ .filter-unread .guide-item.read {
+ display: none;
+ }
+ /* Summary sections */
+ .phase-summary-section {
+ margin-top: 2rem;
+ padding-top: 2rem;
+ border-top: 2px solid var(--border);
+ }
+ .phase-summary-section h4 {
+ color: var(--accent2);
+ text-transform: uppercase;
+ letter-spacing: 0.5px;
+ font-size: 0.95rem;
+ margin-bottom: 1rem;
+ }
+ .phase-summary-section ul {
+ margin-left: 1.5rem;
+ color: var(--text);
+ line-height: 1.6;
+ }
+ .phase-summary-section li {
+ margin-bottom: 0.5rem;
+ }
+ </style>
+<meta name="description" content="Phased action plan: what to read and do first, from day zero through electrification. The walkthrough for rebuilding."><link rel="canonical" href="https://zerotoherohero.com/guides/reading-order.html"><meta property="og:title" content="Reading Order — Zero to Current"><meta property="og:description" content="Phased action plan: what to read and do first, from day zero through electrification. The walkthrough for rebuilding."><meta property="og:type" content="article"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://zerotoherohero.com/"},{"@type":"ListItem","position":2,"name":"Guides","item":"https://zerotoherohero.com/guides/"},{"@type":"ListItem","position":3,"name":"Reading Order — Zero to Current","item":"https://zerotoherohero.com/guides/reading-order.html"}]}</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Reading Order — Zero to Current","description":"Phased action plan: what to read and do first, from day zero through electrification. The walkthrough for rebuilding.","dateModified":"2026-02-15","author":{"@type":"Organization","name":"Zero to Hero Compendium"}}</script></head>
+<body id="main-content">
+ <main role="main">
+ <a class="skip-link" href="#main-content">Skip to main content</a>
+ <a class="back-link" href="../index.html" aria-label="Back to guide list">← Back to Compendium Index</a>
+ <header>
+ <h1>Reading Order</h1>
+ <div class="top-controls">
+ <button class="theme-toggle" aria-label="Toggle dark/light theme" id="theme-toggle" title="Toggle dark/light mode">☀️</button>
+ </div>
+ <p style="color: var(--muted); font-size: 1.1rem; margin-bottom: 1rem;">
+ Complete Roadmap: All 252 Guides Organized into 6 Phases
+ </p>
+ </header>
+ <div class="reading-order-container">
+ <div class="reading-order-header">
+ <div class="header-stats">
+ <div class="stat-box">
+ <div class="stat-number" id="total-completion">0%</div>
+ <div class="stat-label">Overall Progress</div>
+ </div>
+ <div class="stat-box">
+ <div class="stat-number" id="guides-read">0</div>
+ <div class="stat-label">Guides Read</div>
+ </div>
+ <div class="stat-box">
+ <div class="stat-number" id="guides-remaining">252</div>
+ <div class="stat-label">Remaining</div>
+ </div>
+ </div>
+ <div class="header-controls">
+ <button class="control-btn" id="jump-to-current">↓ Jump to Current Phase</button>
+ <button class="control-btn secondary" id="toggle-all-phases">Expand/Collapse All</button>
+ <label class="control-btn secondary filter-toggle">
+ <input type="checkbox" id="filter-unread">
+ <span>Show Unread Only</span>
+ </label>
+ </div>
+ </div>
+ <div class="phase-timeline" id="phase-timeline">
+ </div>
+ <div class="phases-container" id="phases-container">
+ </div>
+ </div>
+ <footer style="text-align: center; padding: 2rem; color: var(--muted); font-size: 0.9rem;">
+ <p>This reading order provides a structured path through all 252 survival guides. Progress is saved locally in your browser. Adapt phases based on your local conditions, resources, and group capabilities.</p>
+ <p><a href="quick-reference.html" style="color: var(--accent); text-decoration: none;">Quick Reference Guide</a> | <a href="search.html" style="color: var(--accent); text-decoration: none;">Search Compendium</a></p>
+ </footer>
+ </main>
+ <script>
+ // Phase data structure with all 252 guides
+ const phasesData = [
+ {
+ number: 0,
+ name: "The First 72 Hours",
+ timeframe: "Days 0-3",
+ goal: "Don't die. Establish immediate shelter, fire, water, and basic medical assessment. Stabilize any injuries and account for all group members.",
+ summary: "By the end of this phase, you should have basic shelter, fire, water access, and a clear assessment of injuries and resources in your immediate area.",
+ tiers: {
+ essential: [
+ { file: "survival-basics.html", title: "Survival Basics", desc: "Core priorities, survival hierarchy, mindset", difficulty: 2 },
+ { file: "first-aid.html", title: "First Aid", desc: "Immediate wound care, CPR, shock prevention", difficulty: 3 },
+ { file: "water-purification.html", title: "Water Purification", desc: "Boiling, chemical methods, basic treatment", difficulty: 2 },
+ { file: "sur-01-water-purification.html", title: "Water Purification (Extended)", desc: "Deep dive into water treatment systems", difficulty: 3 },
+ { file: "sur-02-fire-starting.html", title: "Fire Starting", desc: "Methods, materials, safety, maintenance", difficulty: 2 },
+ { file: "navigation.html", title: "Navigation", desc: "Direction finding, landmarks, orientation", difficulty: 2 },
+ { file: "weather-geology.html", title: "Weather & Geology", desc: "Reading weather, shelter site selection", difficulty: 2 },
+ { file: "disaster-triage.html", title: "Disaster Triage", desc: "Mass casualty assessment, prioritization", difficulty: 4 }
+ ],
+ recommended: [
+ { file: "search-rescue.html", title: "Search & Rescue", desc: "Getting found, signal methods, rescue psychology", difficulty: 3 },
+ { file: "psychological-resilience.html", title: "Psychological Resilience", desc: "Trauma response, stress management, survival mindset", difficulty: 2 },
+ { file: "food-rationing.html", title: "Food Rationing", desc: "Stretching supplies, calorie management, basics", difficulty: 1 },
+ { file: "primitive-technology.html", title: "Primitive Technology", desc: "Basic tool making, simple machines", difficulty: 2 },
+ { file: "bone-tools.html", title: "Bone Tools", desc: "Making tools from bone, needles, hooks", difficulty: 2 },
+ { file: "stone-tools.html", title: "Stone Tools", desc: "Flint knapping, basic cutting tools", difficulty: 2 },
+ { file: "winter-survival-systems.html", title: "Winter Survival Systems", desc: "Cold weather shelter, insulation, heat management", difficulty: 3 }
+ ],
+ supplementary: [
+ { file: "sur-04-navigation-mapping.html", title: "Navigation & Mapping", desc: "Map reading, creating maps, advanced techniques", difficulty: 3 },
+ { file: "nbc-defense.html", title: "NBC Defense", desc: "Nuclear, biological, chemical protection basics", difficulty: 3 },
+ { file: "fire-suppression.html", title: "Fire Suppression", desc: "Wildfire safety, fire control basics", difficulty: 2 },
+ { file: "heat-management.html", title: "Heat Management", desc: "Hypothermia, heat exhaustion, thermal regulation", difficulty: 2 }
+ ]
+ }
+ },
+ {
+ number: 1,
+ name: "Stabilization",
+ timeframe: "Weeks 1-4",
+ goal: "Establish sustainable camp routines with sanitation, food production, security, and role assignments. Begin reconnaissance for permanent settlement.",
+ summary: "By the end of this phase, your camp should feel established with regular patterns, designated roles, sanitation systems, and a scouted location for Phase 2 settlement.",
+ tiers: {
+ essential: [
+ { file: "foraging-hunting.html", title: "Foraging & Hunting", desc: "Food sources, plants, game identification, basic preservation", difficulty: 3 },
+ { file: "fod-02-trapping-hunting.html", title: "Trapping & Hunting (Extended)", desc: "Trap construction, hunting techniques, game processing", difficulty: 3 },
+ { file: "fod-05-food-foraging.html", title: "Food Foraging (Extended)", desc: "Plant identification, seasonal harvesting, edibility testing", difficulty: 3 },
+ { file: "sanitation.html", title: "Sanitation", desc: "Waste disposal, latrine systems, disease prevention", difficulty: 2 },
+ { file: "sur-05-sanitation-hygiene.html", title: "Sanitation & Hygiene (Extended)", desc: "Advanced waste management, hygiene practices", difficulty: 2 },
+ { file: "knots-rigging.html", title: "Knots & Rigging", desc: "Essential knots, lashing, tool securing", difficulty: 2 },
+ { file: "cra-06-knot-tying-rigging.html", title: "Knot-Tying & Rigging (Extended)", desc: "Advanced rigging, specialized knots", difficulty: 3 },
+ { file: "psychology-morale.html", title: "Psychology & Morale", desc: "Group dynamics, leadership, motivation", difficulty: 2 },
+ { file: "weapons-defense.html", title: "Weapons & Defense", desc: "Perimeter security, hunting tools, basic fortification", difficulty: 2 },
+ { file: "con-01-shelter-building.html", title: "Shelter Building (Extended)", desc: "Permanent and semi-permanent shelter construction", difficulty: 3 },
+ { file: "medical-reference.html", title: "Medical Reference", desc: "Comprehensive medical guide, treatment protocols", difficulty: 4 }
+ ],
+ recommended: [
+ { file: "trapping-snares.html", title: "Trapping & Snares", desc: "Detailed trap construction and placement", difficulty: 3 },
+ { file: "animal-tracking.html", title: "Animal Tracking", desc: "Reading signs, following trails, predicting behavior", difficulty: 3 },
+ { file: "herbalism.html", title: "Herbalism", desc: "Medicinal plants, identification, preparation", difficulty: 3 },
+ { file: "sur-03-herbal-medicine.html", title: "Herbal Medicine (Extended)", desc: "Advanced herbal remedies and preparations", difficulty: 3 },
+ { file: "herbal-antibiotics.html", title: "Herbal Antibiotics", desc: "Infection-fighting plants and preparations", difficulty: 3 },
+ { file: "burn-treatment.html", title: "Burn Treatment", desc: "Assessment and care for thermal injuries", difficulty: 2 },
+ { file: "martial-arts-defense.html", title: "Martial Arts & Defense", desc: "Basic self-defense, hand-to-hand combat", difficulty: 2 },
+ { file: "cra-07-primitive-weapons.html", title: "Primitive Weapons (Extended)", desc: "Making spears, bows, and other weapons", difficulty: 3 },
+ { file: "signals-communication.html", title: "Signals & Communication", desc: "Visual signals, sound signals, long-distance methods", difficulty: 2 },
+ { file: "mental-health-counseling.html", title: "Mental Health Counseling", desc: "Psychological support, trauma treatment, coping", difficulty: 2 },
+ { file: "infection-control.html", title: "Infection Control", desc: "Sterilization, wound care, preventing spread", difficulty: 2 },
+ { file: "toxicology.html", title: "Toxicology", desc: "Poisons, antidotes, toxic exposure treatment", difficulty: 3 }
+ ],
+ supplementary: [
+ { file: "archery-crossbows.html", title: "Archery & Crossbows", desc: "Making bows, arrows, and crossbows", difficulty: 3 },
+ { file: "dogs-working-animals.html", title: "Dogs & Working Animals", desc: "Training, care, working roles for animals", difficulty: 2 },
+ { file: "nutrition-deficiency-diseases.html", title: "Nutrition & Deficiency Diseases", desc: "Vitamins, minerals, disease prevention", difficulty: 2 },
+ { file: "snowshoe-manufacturing.html", title: "Snowshoe Manufacturing", desc: "Making and using snowshoes", difficulty: 2 },
+ { file: "cartography-mapmaking.html", title: "Cartography & Mapmaking", desc: "Creating accurate maps, surveying basics", difficulty: 3 },
+ { file: "charcoal-fuels.html", title: "Charcoal & Fuels", desc: "Charcoal production, fuel management", difficulty: 2 },
+ { file: "butchering.html", title: "Butchering", desc: "Processing game animals, meat preparation", difficulty: 2 }
+ ]
+ }
+ },
+ {
+ number: 2,
+ name: "Settlement",
+ timeframe: "Months 1-6",
+ goal: "Build permanent shelter, establish reliable food production (agriculture + preservation), form governance, begin craft production (soap, candles, medicine).",
+ summary: "By the end of this phase, you should have permanent shelter, first crops planted, food preservation systems, governance structure, and basic craft production underway.",
+ tiers: {
+ essential: [
+ { file: "construction.html", title: "Construction", desc: "Building permanent structures, materials, techniques", difficulty: 3 },
+ { file: "con-02-carpentry-woodworking.html", title: "Carpentry & Woodworking", desc: "Advanced woodworking, joinery, construction", difficulty: 3 },
+ { file: "agriculture.html", title: "Agriculture", desc: "Soil preparation, crop selection, planting, seasons", difficulty: 3 },
+ { file: "fod-03-agriculture-basics.html", title: "Agriculture Basics (Extended)", desc: "Detailed agricultural practices and planning", difficulty: 3 },
+ { file: "food-preservation.html", title: "Food Preservation", desc: "Drying, smoking, salting, pickling, storage", difficulty: 3 },
+ { file: "fod-01-food-preservation.html", title: "Food Preservation (Extended)", desc: "Advanced preservation techniques", difficulty: 3 },
+ { file: "animal-husbandry.html", title: "Animal Husbandry", desc: "Chickens, goats, cattle; breeding, care, slaughter", difficulty: 3 },
+ { file: "fod-04-animal-husbandry.html", title: "Animal Husbandry (Extended)", desc: "Detailed animal care and breeding", difficulty: 3 },
+ { file: "governance.html", title: "Governance", desc: "Rules, decision-making, resource distribution", difficulty: 2 },
+ { file: "com-01-community-governance.html", title: "Community Governance (Extended)", desc: "Advanced governance structures and systems", difficulty: 2 },
+ { file: "homestead-chemistry.html", title: "Homestead Chemistry", desc: "Soap making, candle production, lye, rendering", difficulty: 2 },
+ { file: "cra-04-soap-making.html", title: "Soap Making (Extended)", desc: "Advanced soap production techniques", difficulty: 2 },
+ { file: "soap-candles.html", title: "Soap & Candles", desc: "Making soap and candles, supplies and methods", difficulty: 2 }
+ ],
+ recommended: [
+ { file: "natural-building.html", title: "Natural Building", desc: "Cob, straw bale, rammed earth construction", difficulty: 3 },
+ { file: "con-03-clay-earthworks.html", title: "Clay & Earthworks", desc: "Clay construction, earthen buildings", difficulty: 3 },
+ { file: "thatching-roofing.html", title: "Thatching & Roofing", desc: "Thatch roofing, wood shingles, other roofing methods", difficulty: 3 },
+ { file: "insulation-weatherproofing.html", title: "Insulation & Weatherproofing", desc: "Thermal insulation, water protection, air sealing", difficulty: 2 },
+ { file: "well-drilling.html", title: "Well Drilling", desc: "Hand-dug and hand-drilled wells, water access", difficulty: 3 },
+ { file: "irrigation-water.html", title: "Irrigation & Water", desc: "Irrigation systems, water management, distribution", difficulty: 3 },
+ { file: "seed-vault.html", title: "Seed Vault", desc: "Seed storage, preservation, germination testing", difficulty: 2 },
+ { file: "plant-breeding-seed-saving.html", title: "Plant Breeding & Seed Saving", desc: "Selective breeding, saving seeds, variety development", difficulty: 3 },
+ { file: "forestry.html", title: "Forestry", desc: "Sustainable harvesting, timber management, woodlots", difficulty: 3 },
+ { file: "leather-tanning.html", title: "Leather Tanning", desc: "Hide processing, tanning methods, leather goods", difficulty: 3 },
+ { file: "basketry-cordage.html", title: "Basketry & Cordage", desc: "Basket weaving, rope making, fiber preparation", difficulty: 2 },
+ { file: "cra-03-cordage-textiles.html", title: "Cordage & Textiles (Extended)", desc: "Advanced fiber work and textile crafts", difficulty: 3 },
+ { file: "community-organizing.html", title: "Community Organizing", desc: "Building social structures, coordination, cooperation", difficulty: 2 },
+ { file: "home-management.html", title: "Home Management", desc: "Household organization, efficiency, resource allocation", difficulty: 2 },
+ { file: "woodcarving-furniture.html", title: "Woodcarving & Furniture", desc: "Making furniture, decorative carving, joinery", difficulty: 3 },
+ { file: "beekeeping.html", title: "Beekeeping", desc: "Keeping bees, harvesting honey, bee products", difficulty: 2 },
+ { file: "pest-control.html", title: "Pest Control", desc: "Managing agricultural pests, organic methods", difficulty: 2 }
+ ],
+ supplementary: [
+ { file: "greenhouse-coldframe.html", title: "Greenhouse & Coldframe", desc: "Growing structures, season extension", difficulty: 2 },
+ { file: "indoor-farming.html", title: "Indoor Farming", desc: "Growing food indoors, hydroponics basics", difficulty: 2 },
+ { file: "mushroom-cultivation.html", title: "Mushroom Cultivation", desc: "Growing mushrooms, fungal farming", difficulty: 2 },
+ { file: "insect-farming.html", title: "Insect Farming", desc: "Raising insects for protein, cricket/mealworm farming", difficulty: 2 },
+ { file: "aquaculture.html", title: "Aquaculture", desc: "Pond fish farming, water plants, protein production", difficulty: 3 },
+ { file: "famine-crops.html", title: "Famine Crops", desc: "High-calorie crops for survival, storage crops", difficulty: 2 },
+ { file: "soil-science-remediation.html", title: "Soil Science & Remediation", desc: "Soil testing, amendment, contamination treatment", difficulty: 3 },
+ { file: "lime-cement.html", title: "Lime & Cement", desc: "Making lime, cement, mortar", difficulty: 3 },
+ { file: "pottery-ceramics.html", title: "Pottery & Ceramics", desc: "Making pots, firing, kiln construction", difficulty: 3 },
+ { file: "cra-02-pottery-ceramics.html", title: "Pottery & Ceramics (Extended)", desc: "Advanced ceramic techniques", difficulty: 3 },
+ { file: "vinegar-ferments.html", title: "Vinegar & Ferments", desc: "Making vinegar, fermented foods, preservation", difficulty: 2 },
+ { file: "spices-seasonings.html", title: "Spices & Seasonings", desc: "Growing and preparing seasonings", difficulty: 1 },
+ { file: "oil-pressing.html", title: "Oil Pressing", desc: "Extracting oils from seeds and plants", difficulty: 2 },
+ { file: "salt-production.html", title: "Salt Production", desc: "Making salt from seawater or mineral sources", difficulty: 2 },
+ { file: "shoemaking.html", title: "Shoemaking", desc: "Making shoes and boots from leather and materials", difficulty: 3 },
+ { file: "waterproofing-textiles.html", title: "Waterproofing Textiles", desc: "Treating fabrics for water resistance", difficulty: 2 },
+ { file: "glue-adhesives.html", title: "Glue & Adhesives", desc: "Making natural glues and adhesives", difficulty: 2 },
+ { file: "storage-management.html", title: "Storage Management", desc: "Food storage systems, preservation, inventory", difficulty: 2 },
+ { file: "cultural-practices-cohesion.html", title: "Cultural Practices & Cohesion", desc: "Building cultural identity, traditions, bonding", difficulty: 2 },
+ { file: "philosophy-ethics.html", title: "Philosophy & Ethics", desc: "Moral frameworks, decision-making principles", difficulty: 2 },
+ { file: "justice-law.html", title: "Justice & Law", desc: "Legal systems, dispute resolution, punishment", difficulty: 2 }
+ ]
+ }
+ },
+ {
+ number: 3,
+ name: "Infrastructure",
+ timeframe: "Months 6-24",
+ goal: "Develop water systems, power generation, grain milling, textile production, communication, organized entertainment, and specialized medical capability.",
+ summary: "By the end of this phase, you should have water systems, mechanical power, textile production, long-distance communication, regular culture/entertainment, and trained midwife and dentist.",
+ tiers: {
+ essential: [
+ { file: "energy-systems.html", title: "Energy Systems", desc: "Water wheels, windmills, mechanical advantage", difficulty: 3 },
+ { file: "con-04-energy-systems.html", title: "Energy Systems (Extended)", desc: "Advanced power generation and distribution", difficulty: 3 },
+ { file: "fermentation-baking.html", title: "Fermentation & Baking", desc: "Beer, bread, kimchi, yeast cultivation", difficulty: 2 },
+ { file: "textiles.html", title: "Textiles", desc: "Spinning, weaving, cotton/wool processing", difficulty: 3 },
+ { file: "cra-05-weaving-textiles.html", title: "Weaving & Textiles (Extended)", desc: "Advanced textile production techniques", difficulty: 3 },
+ { file: "ham-radio.html", title: "Ham Radio", desc: "Building transmitters, frequency selection, long-distance communication", difficulty: 4 },
+ { file: "dentistry-midwifery.html", title: "Dentistry & Midwifery", desc: "Tooth extraction, childbirth assistance", difficulty: 3 },
+ { file: "midwifery.html", title: "Midwifery", desc: "Childbirth support, newborn care, pregnancy management", difficulty: 3 },
+ { file: "entertainment.html", title: "Entertainment", desc: "Music, games, festivals, theater, celebrations", difficulty: 1 },
+ { file: "grain-milling.html", title: "Grain Milling", desc: "Grist mills, grain processing, flour production", difficulty: 3 },
+ { file: "sewage-treatment.html", title: "Sewage Treatment", desc: "Wastewater treatment, system design, maintenance", difficulty: 3 }
+ ],
+ recommended: [
+ { file: "plumbing-pipes.html", title: "Plumbing & Pipes", desc: "Water systems, pipe making, distribution networks", difficulty: 3 },
+ { file: "bridges-dams.html", title: "Bridges & Dams", desc: "Water management structures, water power", difficulty: 4 },
+ { file: "road-building.html", title: "Road Building", desc: "Road construction, maintenance, drainage", difficulty: 3 },
+ { file: "water-mills-windmills.html", title: "Water Mills & Windmills", desc: "Detailed construction and operation", difficulty: 4 },
+ { file: "hydroelectric.html", title: "Hydroelectric", desc: "Small-scale hydro power generation", difficulty: 4 },
+ { file: "dairy-processing.html", title: "Dairy Processing", desc: "Cheese, butter, yogurt, milk preservation", difficulty: 2 },
+ { file: "wine-brewing.html", title: "Wine & Brewing", desc: "Wine, beer, ale production, fermentation control", difficulty: 3 },
+ { file: "sugar-sweeteners.html", title: "Sugar & Sweeteners", desc: "Making sugar, honey, molasses, sweetener production", difficulty: 2 },
+ { file: "veterinary.html", title: "Veterinary", desc: "Animal health, disease treatment, care", difficulty: 3 },
+ { file: "draft-animals.html", title: "Draft Animals", desc: "Using animals for work, care, training", difficulty: 2 },
+ { file: "hoof-care-farriery.html", title: "Hoof Care & Farriery", desc: "Shoeing animals, hoof maintenance", difficulty: 3 },
+ { file: "pedagogy-curriculum.html", title: "Pedagogy & Curriculum", desc: "Advanced teaching methods and curriculum development", difficulty: 2 },
+ { file: "bookbinding-printing.html", title: "Bookbinding & Printing", desc: "Making books, printing methods, binding", difficulty: 3 },
+ { file: "dyeing-pigments.html", title: "Dyeing & Pigments", desc: "Making dyes from plants, pigment production", difficulty: 2 },
+ { file: "emergency-dental.html", title: "Emergency Dental", desc: "Field dentistry, tooth extraction, pain management", difficulty: 3 },
+ { file: "surgery-field.html", title: "Surgery (Field)", desc: "Emergency surgery techniques, field amputation", difficulty: 4 },
+ { file: "anesthesia-pain.html", title: "Anesthesia & Pain", desc: "Pain management, local anesthesia production", difficulty: 3 },
+ { file: "infectious-disease.html", title: "Infectious Disease", desc: "Disease transmission, quarantine, treatment", difficulty: 3 },
+ { file: "medications.html", title: "Medications", desc: "Making medicines, pharmacology basics", difficulty: 3 },
+ { file: "pharmacy-compounding.html", title: "Pharmacy & Compounding", desc: "Preparing medicines, compounds, dosages", difficulty: 3 },
+ { file: "obstetric-emergencies.html", title: "Obstetric Emergencies", desc: "Childbirth complications, emergency response", difficulty: 4 },
+ { file: "storytelling-theater.html", title: "Storytelling & Theater", desc: "Performance arts, storytelling, entertainment", difficulty: 1 },
+ { file: "music-theory.html", title: "Music Theory", desc: "Music fundamentals, instrument making", difficulty: 2 }
+ ],
+ supplementary: [
+ { file: "tobacco-stimulants.html", title: "Tobacco & Stimulants", desc: "Growing and processing stimulant plants", difficulty: 2 },
+ { file: "marine-biology-ocean.html", title: "Marine Biology & Ocean", desc: "Sea creatures, fishing, ocean survival", difficulty: 2 },
+ { file: "refrigeration-cooling.html", title: "Refrigeration & Cooling", desc: "Ice houses, evaporative cooling, basic refrigeration", difficulty: 2 },
+ { file: "biogas-production.html", title: "Biogas Production", desc: "Methane from waste, anaerobic digestion", difficulty: 3 },
+ { file: "ink-pigment-chemistry.html", title: "Ink & Pigment Chemistry", desc: "Making inks and pigments from natural materials", difficulty: 3 },
+ { file: "archival-records.html", title: "Archival & Records", desc: "Storing documents, preservation, organization", difficulty: 2 },
+ { file: "knowledge-preservation.html", title: "Knowledge Preservation", desc: "Recording and preserving knowledge", difficulty: 2 },
+ { file: "library-classification.html", title: "Library Classification", desc: "Organizing knowledge, cataloging systems", difficulty: 2 },
+ { file: "census-vital-records.html", title: "Census & Vital Records", desc: "Tracking population, vital statistics", difficulty: 1 },
+ { file: "double-entry-bookkeeping.html", title: "Double-Entry Bookkeeping", desc: "Accounting systems, record keeping", difficulty: 2 },
+ { file: "photography-documentation.html", title: "Photography & Documentation", desc: "Recording visually, early photography", difficulty: 3 },
+ { file: "mortuary-science.html", title: "Mortuary Science", desc: "Funeral practices, body preparation, burial", difficulty: 1 },
+ { file: "dental-prosthetics.html", title: "Dental Prosthetics", desc: "Making dentures, dental replacements", difficulty: 3 },
+ { file: "dentistry-restorative.html", title: "Dentistry (Restorative)", desc: "Fillings, repairs, dental restoration", difficulty: 3 },
+ { file: "anatomy-oral.html", title: "Anatomy (Oral)", desc: "Tooth and jaw anatomy, dental structures", difficulty: 2 },
+ { file: "orthodontics-survival.html", title: "Orthodontics (Survival)", desc: "Teeth alignment, jaw correction basics", difficulty: 3 },
+ { file: "orthopedics-fractures.html", title: "Orthopedics & Fractures", desc: "Setting bones, splinting, fracture care", difficulty: 3 },
+ { file: "blood-medicine.html", title: "Blood Medicine", desc: "Blood types, transfusions, blood storage", difficulty: 3 },
+ { file: "parasitology-tropical.html", title: "Parasitology & Tropical", desc: "Parasite identification and treatment", difficulty: 3 },
+ { file: "zoonotic-disease.html", title: "Zoonotic Disease", desc: "Animal-to-human diseases, prevention", difficulty: 2 },
+ { file: "veterinary-obstetrics.html", title: "Veterinary Obstetrics", desc: "Animal childbirth management and assistance", difficulty: 3 },
+ { file: "veterinary-parasitology.html", title: "Veterinary Parasitology", desc: "Treating animal parasites", difficulty: 2 },
+ { file: "feminine-hygiene-production.html", title: "Feminine Hygiene Production", desc: "Making menstrual products", difficulty: 1 },
+ { file: "prosthetics-adaptive.html", title: "Prosthetics & Adaptive", desc: "Making artificial limbs and adaptive devices", difficulty: 3 },
+ { file: "vision-correction-optometry.html", title: "Vision Correction & Optometry", desc: "Making eyeglasses, vision correction", difficulty: 3 },
+ { file: "optics-vision.html", title: "Optics & Vision", desc: "Light physics, lenses, optical systems", difficulty: 3 },
+ { file: "standardized-skill-testing.html", title: "Standardized Skill Testing", desc: "Testing and certifying skills and competencies", difficulty: 2 }
+ ]
+ }
+ },
+ {
+ number: 4,
+ name: "Industrial Foundation",
+ timeframe: "Years 2-5",
+ goal: "Develop metalworking and tool production, formalize education, establish written records, and create economic/trade systems.",
+ summary: "By the end of this phase, you should have metalworking capability, widespread education systems, written records and archives, and established trade networks.",
+ tiers: {
+ essential: [
+ { file: "mining-materials.html", title: "Mining & Materials", desc: "Ore identification, smelting, material sourcing", difficulty: 4 },
+ { file: "metalworking.html", title: "Metalworking", desc: "Forge construction, iron smelting, tool creation", difficulty: 4 },
+ { file: "cra-01-forging-metalwork.html", title: "Forging & Metalwork (Extended)", desc: "Advanced metalworking and forge techniques", difficulty: 4 },
+ { file: "blacksmithing.html", title: "Blacksmithing", desc: "Blacksmith trade, hammer work, tempering", difficulty: 4 },
+ { file: "chemistry-fundamentals.html", title: "Chemistry Fundamentals", desc: "Elements, reactions, acid/base, dyes, explosives", difficulty: 3 },
+ { file: "glass-ceramics.html", title: "Glass & Ceramics", desc: "Pottery, kiln building, glass production, glazing", difficulty: 3 },
+ { file: "physics-machines.html", title: "Physics & Machines", desc: "Levers, pulleys, inclines, gears, mechanical advantage", difficulty: 3 },
+ { file: "mathematics.html", title: "Mathematics", desc: "Geometry, algebra, measurement, accounting", difficulty: 3 },
+ { file: "education-teaching.html", title: "Education & Teaching", desc: "Curriculum design, literacy, numeracy", difficulty: 2 },
+ { file: "papermaking.html", title: "Papermaking", desc: "Pulp production, sheet formation, ink, records", difficulty: 3 },
+ { file: "economics-trade.html", title: "Economics & Trade", desc: "Trade systems, currency, economic principles", difficulty: 3 }
+ ],
+ recommended: [
+ { file: "foundry-casting.html", title: "Foundry & Casting", desc: "Metal casting, mold making, furnace operation", difficulty: 4 },
+ { file: "steel-making.html", title: "Steel Making", desc: "Steel production, heat treatment, alloy creation", difficulty: 4 },
+ { file: "bloomery-furnace.html", title: "Bloomery Furnace", desc: "Iron smelting in bloomery furnaces", difficulty: 4 },
+ { file: "metallurgy-basics.html", title: "Metallurgy Basics", desc: "Metal properties, alloys, heat treatment", difficulty: 4 },
+ { file: "machine-tools.html", title: "Machine Tools", desc: "Lathe, drill, milling machines, tool making", difficulty: 4 },
+ { file: "precision-measurement.html", title: "Precision Measurement", desc: "Measuring tools, standards, accuracy", difficulty: 3 },
+ { file: "precision-measurement-tools.html", title: "Precision Measurement Tools", desc: "Making measurement instruments", difficulty: 3 },
+ { file: "weights-measures-standards.html", title: "Weights, Measures & Standards", desc: "Standardizing measurements and weights", difficulty: 2 },
+ { file: "mechanical-drawing.html", title: "Mechanical Drawing", desc: "Technical drawing, blueprints, design", difficulty: 3 },
+ { file: "printing-press.html", title: "Printing Press", desc: "Making printing presses, print technology", difficulty: 4 },
+ { file: "slide-rule-nomography.html", title: "Slide Rule & Nomography", desc: "Making calculation tools and nomographs", difficulty: 3 },
+ { file: "gunsmithing.html", title: "Gunsmithing", desc: "Making firearms, gunmaking, repair", difficulty: 4 },
+ { file: "blackpowder-blasting.html", title: "Blackpowder & Blasting", desc: "Explosives production, mining, blasting", difficulty: 4 },
+ { file: "gunpowder.html", title: "Gunpowder", desc: "Making gunpowder and explosives", difficulty: 4 },
+ { file: "engineering-repair.html", title: "Engineering & Repair", desc: "Problem solving, equipment repair, innovation", difficulty: 3 },
+ { file: "small-engines.html", title: "Small Engines", desc: "Making and repairing small internal combustion engines", difficulty: 4 },
+ { file: "shipbuilding-boats.html", title: "Shipbuilding & Boats", desc: "Boat and ship construction, water vessels", difficulty: 4 },
+ { file: "scrap-metal-identification.html", title: "Scrap Metal Identification", desc: "Identifying and recycling metal", difficulty: 2 },
+ { file: "warehousing-inventory.html", title: "Warehousing & Inventory", desc: "Storage systems, inventory management, tracking", difficulty: 2 },
+ { file: "postal-service-establishment.html", title: "Postal Service Establishment", desc: "Setting up mail/communication networks", difficulty: 2 }
+ ],
+ supplementary: [
+ { file: "abrasives-manufacturing.html", title: "Abrasives Manufacturing", desc: "Making sandpaper, grinding wheels, abrasives", difficulty: 3 },
+ { file: "bearing-manufacturing.html", title: "Bearing Manufacturing", desc: "Making ball and roller bearings", difficulty: 4 },
+ { file: "spring-manufacturing.html", title: "Spring Manufacturing", desc: "Making metal springs", difficulty: 3 },
+ { file: "seals-gaskets.html", title: "Seals & Gaskets", desc: "Making seals and gaskets for machinery", difficulty: 3 },
+ { file: "wire-drawing.html", title: "Wire Drawing", desc: "Making wire from metal", difficulty: 3 },
+ { file: "magnet-production.html", title: "Magnet Production", desc: "Making permanent and electromagnets", difficulty: 3 },
+ { file: "pressure-vessels.html", title: "Pressure Vessels", desc: "Making safe pressure vessels and boilers", difficulty: 4 },
+ { file: "wood-distillation.html", title: "Wood Distillation", desc: "Extracting products from wood via distillation", difficulty: 3 },
+ { file: "solvents-distillation.html", title: "Solvents & Distillation", desc: "Making solvents, distillation techniques", difficulty: 3 },
+ { file: "sulfuric-acid.html", title: "Sulfuric Acid", desc: "Making sulfuric acid, industrial chemistry", difficulty: 4 },
+ { file: "alkali-production.html", title: "Alkali Production", desc: "Making soda ash and alkali products", difficulty: 3 },
+ { file: "nitrogen-fixation.html", title: "Nitrogen Fixation", desc: "Making ammonia and nitrates for fertilizer", difficulty: 4 },
+ { file: "chlorine-bleach-production.html", title: "Chlorine & Bleach Production", desc: "Making bleach and chlorine compounds", difficulty: 4 },
+ { file: "electrolysis-chloralkali.html", title: "Electrolysis & Chlor-Alkali", desc: "Making chlorine and caustic soda via electrolysis", difficulty: 4 },
+ { file: "chemical-safety.html", title: "Chemical Safety", desc: "Safe handling, storage, disposal of chemicals", difficulty: 2 },
+ { file: "rubber-latex.html", title: "Rubber & Latex", desc: "Rubber processing, latex harvesting", difficulty: 3 },
+ { file: "rubber-vulcanization.html", title: "Rubber Vulcanization", desc: "Vulcanizing rubber, tire making", difficulty: 4 },
+ { file: "tire-recycling.html", title: "Tire Recycling", desc: "Recycling tires, making products from tires", difficulty: 2 },
+ { file: "plastic-remolding-systems.html", title: "Plastic Remolding Systems", desc: "Recycling and remolding plastics", difficulty: 3 },
+ { file: "pcb-component-salvage.html", title: "PCB & Component Salvage", desc: "Salvaging electronics and circuit boards", difficulty: 2 },
+ { file: "automotive-alternator-repurposing.html", title: "Automotive Alternator Repurposing", desc: "Using car alternators as generators", difficulty: 3 },
+ { file: "bicycle-construction.html", title: "Bicycle Construction", desc: "Making and repairing bicycles", difficulty: 3 }
+ ]
+ }
+ },
+ {
+ number: 5,
+ name: "Electrification & Beyond",
+ timeframe: "Year 5+",
+ goal: "Generate electricity, advance materials and computing capability, improve communication, and systematically reclaim pre-collapse technology and knowledge.",
+ summary: "By the end of this phase and beyond, you should have widespread electrical infrastructure, advanced materials, long-distance communication networks, and be well on the path to technological recovery.",
+ tiers: {
+ essential: [
+ { file: "electricity.html", title: "Electricity", desc: "Generators, dynamos, wiring, circuits, batteries", difficulty: 4 },
+ { file: "electrical-generation.html", title: "Electrical Generation", desc: "Generating electricity from various sources", difficulty: 4 },
+ { file: "electrical-wiring.html", title: "Electrical Wiring", desc: "Safe wiring, distribution, electrical systems", difficulty: 3 },
+ { file: "advanced-materials.html", title: "Advanced Materials", desc: "Steel, alloys, plastics, composites, new materials", difficulty: 4 },
+ { file: "computing-logic.html", title: "Computing & Logic", desc: "Binary systems, Boolean logic, mechanical/electrical computing", difficulty: 4 },
+ { file: "astronomy-calendar.html", title: "Astronomy & Calendar", desc: "Observation, telescopes, timekeeping, navigation", difficulty: 3 },
+ { file: "technology-roadmap.html", title: "Technology Roadmap", desc: "Strategic path to industrial capability, development priorities", difficulty: 3 },
+ { file: "transportation.html", title: "Transportation", desc: "Advanced vehicles, rail systems, boats, fuel", difficulty: 4 }
+ ],
+ recommended: [
+ { file: "power-distribution.html", title: "Power Distribution", desc: "Distributing electrical power, grid systems", difficulty: 3 },
+ { file: "electrical-motors.html", title: "Electrical Motors", desc: "Making electric motors, motor principles", difficulty: 4 },
+ { file: "electric-motor-rewinding.html", title: "Electric Motor Rewinding", desc: "Rewinding motor coils, motor repair", difficulty: 4 },
+ { file: "batteries.html", title: "Batteries", desc: "Making batteries, electrical storage", difficulty: 3 },
+ { file: "battery-restoration.html", title: "Battery Restoration", desc: "Restoring lead-acid and other batteries", difficulty: 3 },
+ { file: "solar-technology.html", title: "Solar Technology", desc: "Solar panels, solar thermal systems", difficulty: 4 },
+ { file: "steam-engines.html", title: "Steam Engines", desc: "Steam engine construction and operation", difficulty: 4 },
+ { file: "internal-combustion.html", title: "Internal Combustion", desc: "Gas engines, diesel engines, fuel systems", difficulty: 4 },
+ { file: "telecommunications.html", title: "Telecommunications", desc: "Long-distance communication systems", difficulty: 4 },
+ { file: "telegraph-telephone.html", title: "Telegraph & Telephone", desc: "Making telegraph and telephone systems", difficulty: 4 },
+ { file: "transistors.html", title: "Transistors", desc: "Understanding and making transistors", difficulty: 4 },
+ { file: "vaccine-production.html", title: "Vaccine Production", desc: "Making vaccines, immunization programs", difficulty: 4 },
+ { file: "pharmaceutical-production.html", title: "Pharmaceutical Production", desc: "Producing pharmaceuticals and medicines", difficulty: 4 },
+ { file: "insulin-extraction.html", title: "Insulin Extraction", desc: "Extracting and producing insulin", difficulty: 4 },
+ { file: "lens-grinding.html", title: "Lens Grinding", desc: "Making lenses, optical instruments", difficulty: 4 },
+ { file: "microscopy.html", title: "Microscopy", desc: "Making and using microscopes", difficulty: 3 },
+ { file: "cryptography-codes.html", title: "Cryptography & Codes", desc: "Codes, ciphers, secure communication", difficulty: 3 }
+ ],
+ supplementary: [
+ { file: "petroleum-refining.html", title: "Petroleum Refining", desc: "Refining crude oil, fuel production", difficulty: 4 },
+ { file: "ammonia-synthesis-simplified.html", title: "Ammonia Synthesis (Simplified)", desc: "Making ammonia without advanced industry", difficulty: 4 },
+ { file: "ether-chloroform-synthesis.html", title: "Ether & Chloroform Synthesis", desc: "Making anesthetic compounds", difficulty: 4 },
+ { file: "plastic-production.html", title: "Plastic Production", desc: "Making plastic materials, polymerization", difficulty: 4 },
+ { file: "thermal-energy-storage.html", title: "Thermal Energy Storage", desc: "Storing heat energy, thermal systems", difficulty: 3 },
+ { file: "vacuum-technology.html", title: "Vacuum Technology", desc: "Creating and using vacuum systems", difficulty: 4 },
+ { file: "flight-balloons.html", title: "Flight & Balloons", desc: "Hot air balloons, lighter-than-air craft", difficulty: 3 },
+ { file: "railroads.html", title: "Railroads", desc: "Railroad construction and operation", difficulty: 4 },
+ { file: "vehicle-conversion.html", title: "Vehicle Conversion", desc: "Converting vehicles to alternative fuels", difficulty: 3 },
+ { file: "clockmaking-precision.html", title: "Clockmaking & Precision", desc: "Making clocks and precise mechanisms", difficulty: 4 },
+ { file: "suture-material-production.html", title: "Suture Material Production", desc: "Making surgical sutures", difficulty: 2 },
+ { file: "sterilization-methods.html", title: "Sterilization Methods", desc: "Sterilizing medical equipment and supplies", difficulty: 2 },
+ { file: "acetylene-carbide-production.html", title: "Acetylene & Carbide Production", desc: "Making acetylene gas from carbide", difficulty: 4 }
+ ]
+ }
+ }
+ ];
+ // Initialize UI
+ async function init() {
+ await loadGuidesMapping();
+ loadProgress();
+ renderPhases();
+ renderTimeline();
+ updateStats();
+ renderNextUp();
+ setupEventListeners();
+ }
+
+ // Render "What's Next" recommendation section
+ function renderNextUp() {
+ const container = document.querySelector('.reading-order-header');
+ if (!container) return;
+
+ // Find the next unread essential guide in the current phase
+ let nextGuides = [];
+ for (const phase of phasesData) {
+ for (const guide of phase.tiers.essential) {
+ if (!isGuideRead(guide.file) && nextGuides.length < 3) {
+ // Check if prerequisites are met
+ const guideId = _fileToIdMap[guide.file];
+ const dep = guideId ? _prerequisiteMap.dependencies?.[guideId] : null;
+ let prereqsMet = true;
+ if (dep) {
+ prereqsMet = dep.requires.every(reqId => window.compendiumProgress?.[reqId]?.completed);
+ }
+ // Check what this guide unlocks
+ const unlocks = guideId ? (_prerequisiteMap.unlocks?.[guideId] || []) : [];
+
+ nextGuides.push({
+ ...guide,
+ phase: phase.number,
+ phaseName: phase.name,
+ prereqsMet,
+ unlocksCount: unlocks.length
+ });
+ }
+ }
+ if (nextGuides.length >= 3) break;
+ }
+
+ if (nextGuides.length === 0) {
+ // All essentials done - check recommended
+ for (const phase of phasesData) {
+ for (const guide of phase.tiers.recommended) {
+ if (!isGuideRead(guide.file) && nextGuides.length < 3) {
+ nextGuides.push({ ...guide, phase: phase.number, phaseName: phase.name, prereqsMet: true, unlocksCount: 0 });
+ }
+ }
+ if (nextGuides.length >= 3) break;
+ }
+ }
+
+ if (nextGuides.length === 0) return;
+
+ // Remove existing next-up section if any
+ const existing = document.getElementById('next-up-section');
+ if (existing) existing.remove();
+
+ const section = document.createElement('div');
+ section.id = 'next-up-section';
+ section.style.cssText = 'background:rgba(83,216,168,0.1);border:2px solid var(--accent2);border-radius:8px;padding:1.5rem;margin-top:1.5rem;';
+ section.innerHTML = `
+ <h2 style="color:var(--accent2);margin:0 0 1rem 0;font-size:1.1rem;"><span aria-hidden="true">📍</span> Up Next — What to Read</h2>
+ <div style="display:grid;gap:0.75rem;">
+ ${nextGuides.map(g => `
+ <a href="${g.file}" style="display:flex;align-items:center;gap:1rem;padding:0.75rem 1rem;background:var(--card);border-radius:6px;text-decoration:none;border-left:3px solid ${g.prereqsMet ? 'var(--accent2)' : 'var(--muted)'};transition:transform 0.2s;" onmouseover="this.style.transform='translateX(4px)'" onmouseout="this.style.transform='none'">
+ <div style="flex:1;">
+ <div style="color:var(--accent);font-weight:600;">${g.title}</div>
+ <div style="color:var(--muted);font-size:0.85rem;">Phase ${g.phase}: ${g.phaseName}${g.unlocksCount > 0 ? ' · Unlocks ' + g.unlocksCount + ' guide' + (g.unlocksCount > 1 ? 's' : '') : ''}</div>
+ </div>
+ ${!g.prereqsMet ? '<span style="color:var(--muted);font-size:0.8rem;">🔒 Prerequisites needed</span>' : '<span style="color:var(--accent2);font-size:0.9rem;">→</span>'}
+ </a>
+ `).join('')}
+ </div>
+ `;
+ container.appendChild(section);
+ }
+ // Render all phases
+ function renderPhases() {
+ const container = document.getElementById('phases-container');
+ container.innerHTML = '';
+ phasesData.forEach((phase, idx) => {
+ const phaseEl = createPhaseElement(phase, idx);
+ container.appendChild(phaseEl);
+ });
+ }
+ // Create phase element
+ function createPhaseElement(phase, phaseIndex) {
+ const phaseEl = document.createElement('div');
+ phaseEl.className = 'phase';
+ phaseEl.id = `phase-${phase.number}`;
+ phaseEl.dataset.phase = phase.number;
+ let guideCount = 0;
+ Object.values(phase.tiers).forEach(tier => {
+ guideCount += tier.length;
+ });
+ let completedCount = 0;
+ Object.values(phase.tiers).forEach(tier => {
+ tier.forEach(guide => {
+ if (isGuideRead(guide.file)) {
+ completedCount++;
+ }
+ });
+ });
+ const completionPercent = guideCount > 0 ? Math.round((completedCount / guideCount) * 100) : 0;
+ phaseEl.innerHTML = `
+ <div class="phase-header">
+ <div class="phase-header-left">
+ <div class="phase-number">${phase.number}</div>
+ <div class="phase-info">
+ <h2>${phase.name}</h2>
+ <p class="phase-timeframe">${phase.timeframe}</p>
+ <p class="phase-goal">${phase.goal}</p>
+ </div>
+ </div>
+ <div class="phase-header-right">
+ <div class="phase-completion">
+ <div class="completion-percent">${completionPercent}%</div>
+ <div class="completion-label">Progress</div>
+ </div>
+ <div class="collapse-icon">▼</div>
+ </div>
+ </div>
+ <div class="phase-content">
+ <div class="phase-goal-box">
+ <strong>Summary:</strong> ${phase.summary}
+ </div>
+ <div class="critical-actions">
+ <h3>Critical Actions for This Phase</h3>
+ <ul>
+ ${getCriticalActions(phase.number).map(action => `<li>${action}</li>`).join('')}
+ </ul>
+ </div>
+ ${renderTier(phase.tiers.essential, 'essential', 'Essential Reading')}
+ ${renderTier(phase.tiers.recommended, 'recommended', 'Recommended')}
+ ${renderTier(phase.tiers.supplementary, 'supplementary', 'Supplementary Reference')}
+ <div class="phase-summary-section">
+ <h4>By the end of this phase, you should have...</h4>
+ ${getPhaseOutcomes(phase.number)}
+ </div>
+ </div>
+ `;
+ phaseEl.querySelector('.phase-header').addEventListener('click', (e) => {
+ if (e.target.closest('.collapse-icon') || e.target.closest('.phase-header')) {
+ phaseEl.classList.toggle('collapsed');
+ updateProgressBar(phaseIndex);
+ }
+ });
+ // Setup tier toggle (collapsible)
+ phaseEl.querySelectorAll('.tier-header').forEach(header => {
+ header.addEventListener('click', () => {
+ const section = header.closest('.tier-section');
+ section.classList.toggle('tier-collapsed');
+ const isCollapsed = section.classList.contains('tier-collapsed');
+ header.setAttribute('aria-expanded', !isCollapsed);
+ });
+ header.addEventListener('keydown', (e) => {
+ if (e.key === 'Enter' || e.key === ' ') {
+ e.preventDefault();
+ header.click();
+ }
+ });
+ });
+ // Setup checkboxes
+ phaseEl.querySelectorAll('.guide-checkbox').forEach(checkbox => {
+ checkbox.addEventListener('change', (e) => {
+ const file = e.target.dataset.file;
+ if (e.target.checked) {
+ markGuideRead(file);
+ } else {
+ markGuideUnread(file);
+ }
+ updateStats();
+ updateProgressBar(phaseIndex);
+ });
+ });
+ return phaseEl;
+ }
+ // Render tier section
+ function renderTier(guides, tierClass, tierName) {
+ const guideHTML = guides.map(guide => {
+ const isRead = isGuideRead(guide.file);
+ const difficulty = '●'.repeat(guide.difficulty) + '○'.repeat(5 - guide.difficulty);
+ return `
+ <div class="guide-item ${isRead ? 'read' : ''}">
+ <input type="checkbox" class="guide-checkbox" data-file="${guide.file}" ${isRead ? 'checked' : ''}>
+ <div class="guide-content">
+ <a href="${guide.file}" class="guide-link">${guide.title}</a>
+ <p class="guide-description">${guide.desc}</p>
+ <div class="guide-meta">
+ <span class="difficulty-dots"><span class="difficulty-dots">${difficulty}</span></span>
+ <span class="read-time">~${Math.ceil(Math.random() * 30 + 5)} min read</span>
+ </div>
+ </div>
+ </div>
+ `;
+ }).join('');
+ const readCount = guides.filter(g => isGuideRead(g.file)).length;
+ return `
+ <div class="tier-section tier-${tierClass} tier-collapsed">
+ <div class="tier-header" role="button" aria-expanded="false" tabindex="0">
+ <span class="tier-chevron">▸</span>
+ <h3 class="tier-label">${tierName}</h3>
+ <span class="tier-progress">${readCount}/${guides.length}</span>
+ <span class="tier-count">${guides.length} guides</span>
+ </div>
+ <div class="guide-list tier-content">
+ ${guideHTML}
+ </div>
+ </div>
+ `;
+ }
+ // Render timeline
+ function renderTimeline() {
+ const timeline = document.getElementById('phase-timeline');
+ timeline.innerHTML = phasesData.map((phase, idx) => {
+ let completed = 0;
+ let total = 0;
+ Object.values(phase.tiers).forEach(tier => {
+ tier.forEach(guide => {
+ total++;
+ if (isGuideRead(guide.file)) {
+ completed++;
+ }
+ });
+ });
+ const percent = total > 0 ? Math.round((completed / total) * 100) : 0;
+ return `
+ <div class="timeline-phase-bar ${percent === 100 ? 'completed' : ''}" data-phase="${phase.number}">
+ <div class="timeline-phase-number">${phase.number}</div>
+ <div class="timeline-phase-name">${phase.name.split(' ').slice(0, 2).join(' ')}</div>
+ <div class="timeline-phase-progress">
+ <div class="timeline-phase-progress-fill" style="width: ${percent}%"></div>
+ </div>
+ </div>
+ `;
+ }).join('');
+ timeline.querySelectorAll('.timeline-phase-bar').forEach(bar => {
+ bar.addEventListener('click', () => {
+ const phaseNum = bar.dataset.phase;
+ document.getElementById(`phase-${phaseNum}`).scrollIntoView({ behavior: 'smooth' });
+ });
+ });
+ }
+ // Update progress bars
+ function updateProgressBar(phaseIndex) {
+ const phase = phasesData[phaseIndex];
+ let completed = 0;
+ let total = 0;
+ Object.values(phase.tiers).forEach(tier => {
+ tier.forEach(guide => {
+ total++;
+ if (isGuideRead(guide.file)) {
+ completed++;
+ }
+ });
+ });
+ const percent = total > 0 ? Math.round((completed / total) * 100) : 0;
+ const bar = document.querySelector(`[data-phase="${phase.number}"] .timeline-phase-progress-fill`);
+ if (bar) {
+ bar.style.width = percent + '%';
+ }
+ }
+ // Update stats
+ function updateStats() {
+ let totalCompleted = 0;
+ let totalGuides = 0;
+ phasesData.forEach(phase => {
+ Object.values(phase.tiers).forEach(tier => {
+ tier.forEach(guide => {
+ totalGuides++;
+ if (isGuideRead(guide.file)) {
+ totalCompleted++;
+ }
+ });
+ });
+ });
+ const percent = totalGuides > 0 ? Math.round((totalCompleted / totalGuides) * 100) : 0;
+ document.getElementById('total-completion').textContent = percent + '%';
+ document.getElementById('guides-read').textContent = totalCompleted;
+ document.getElementById('guides-remaining').textContent = totalGuides - totalCompleted;
+ renderTimeline();
+ }
+ // --- Unified storage: compendium-progress keyed by guide ID ---
+ let _fileToIdMap = {};
+ let _idToFileMap = {};
+ let _prerequisiteMap = { unlocks: {}, dependencies: {} };
+
+ async function loadGuidesMapping() {
+ try {
+ const [guidesRes, prereqRes] = await Promise.all([
+ fetch('../data/guides.json'),
+ fetch('../data/prerequisite-map.json')
+ ]);
+ const guidesData = await guidesRes.json();
+ _prerequisiteMap = await prereqRes.json();
+ for (const g of guidesData) {
+ const filename = (g.file || g.url || '').split('/').pop();
+ if (filename) {
+ _fileToIdMap[filename] = g.id;
+ _idToFileMap[g.id] = filename;
+ }
+ }
+ } catch (e) { console.error('Failed to load guides mapping:', e); }
+ }
+
+ // Load progress from localStorage (unified: compendium-progress)
+ function loadProgress() {
+ // Migrate old reading-order-progress if exists
+ const oldData = localStorage.getItem('reading-order-progress');
+ if (oldData && !localStorage.getItem('reading-order-progress-migrated')) {
+ try {
+ const old = JSON.parse(oldData);
+ const current = JSON.parse(localStorage.getItem('compendium-progress') || '{}');
+ for (const [file, data] of Object.entries(old)) {
+ if (data && data.read) {
+ const guideId = _fileToIdMap[file];
+ if (guideId && !current[guideId]?.completed) {
+ current[guideId] = { completed: true, lastUpdated: data.date || new Date().toISOString() };
+ }
+ }
+ }
+ localStorage.setItem('compendium-progress', JSON.stringify(current));
+ localStorage.setItem('reading-order-progress-migrated', 'true');
+ } catch (e) { console.error('Migration failed:', e); }
+ }
+ window.compendiumProgress = JSON.parse(localStorage.getItem('compendium-progress') || '{}');
+ }
+
+ // Check if guide is read (by filename, mapped to guide ID)
+ function isGuideRead(file) {
+ const guideId = _fileToIdMap[file];
+ if (guideId) return window.compendiumProgress && window.compendiumProgress[guideId]?.completed;
+ return false;
+ }
+
+ // Mark guide as read (unified storage)
+ function markGuideRead(file) {
+ if (!window.compendiumProgress) window.compendiumProgress = {};
+ const guideId = _fileToIdMap[file] || file;
+ window.compendiumProgress[guideId] = { completed: true, lastUpdated: new Date().toISOString() };
+ localStorage.setItem('compendium-progress', JSON.stringify(window.compendiumProgress));
+ window.dispatchEvent(new Event('progressUpdated'));
+ // Show "unlocks" toast if this guide unlocks others
+ showUnlocksToast(guideId);
+ }
+
+ // Mark guide as unread (unified storage)
+ function markGuideUnread(file) {
+ if (window.compendiumProgress) {
+ const guideId = _fileToIdMap[file] || file;
+ delete window.compendiumProgress[guideId];
+ localStorage.setItem('compendium-progress', JSON.stringify(window.compendiumProgress));
+ window.dispatchEvent(new Event('progressUpdated'));
+ }
+ }
+
+ // Show toast when completing a guide that unlocks others
+ function showUnlocksToast(guideId) {
+ const unlocks = _prerequisiteMap.unlocks?.[guideId];
+ if (!unlocks || unlocks.length === 0) return;
+ // Check which are now fully unlocked (all prereqs met)
+ const nowReady = unlocks.filter(u => {
+ const dep = _prerequisiteMap.dependencies?.[u.id];
+ if (!dep) return true;
+ return dep.requires.every(reqId => {
+ if (reqId === guideId) return true;
+ return window.compendiumProgress?.[reqId]?.completed;
+ });
+ });
+ if (nowReady.length === 0) return;
+ const toast = document.createElement('div');
+ toast.style.cssText = 'position:fixed;bottom:20px;right:20px;background:var(--accent2,#53d8a8);color:#1a1a2e;padding:16px 20px;border-radius:10px;z-index:9999;max-width:340px;box-shadow:0 4px 20px rgba(0,0,0,0.3);animation:slideIn 0.3s ease;font-size:0.95rem;';
+ const names = nowReady.map(u => `<strong>${u.icon || '📖'} ${u.title}</strong>`).join(', ');
+ toast.innerHTML = `<div style="font-weight:700;margin-bottom:6px;">🔓 New guides unlocked!</div><div>${names}</div>`;
+ document.body.appendChild(toast);
+ setTimeout(() => { toast.style.opacity = '0'; toast.style.transition = 'opacity 0.5s'; setTimeout(() => toast.remove(), 500); }, 5000);
+ }
+ // Setup event listeners
+ function setupEventListeners() {
+ // Toggle all phases
+ document.getElementById('toggle-all-phases').addEventListener('click', () => {
+ const phases = document.querySelectorAll('.phase');
+ const allCollapsed = Array.from(phases).every(p => p.classList.contains('collapsed'));
+ phases.forEach(phase => {
+ if (allCollapsed) {
+ phase.classList.remove('collapsed');
+ } else {
+ phase.classList.add('collapsed');
+ }
+ });
+ phasesData.forEach((_, idx) => updateProgressBar(idx));
+ });
+ // Filter unread only
+ document.getElementById('filter-unread').addEventListener('change', (e) => {
+ const container = document.getElementById('phases-container');
+ if (e.target.checked) {
+ container.classList.add('filter-unread');
+ } else {
+ container.classList.remove('filter-unread');
+ }
+ });
+ // Jump to current phase
+ document.getElementById('jump-to-current').addEventListener('click', () => {
+ for (let i = 0; i < phasesData.length; i++) {
+ const phase = phasesData[i];
+ let hasUnread = false;
+ Object.values(phase.tiers).forEach(tier => {
+ tier.forEach(guide => {
+ if (!isGuideRead(guide.file)) {
+ hasUnread = true;
+ }
+ });
+ });
+ if (hasUnread) {
+ const phaseEl = document.getElementById(`phase-${phase.number}`);
+ phaseEl.classList.remove('collapsed');
+ phaseEl.scrollIntoView({ behavior: 'smooth' });
+ break;
+ }
+ }
+ });
+ // Theme toggle
+ const themeToggle = document.getElementById('theme-toggle');
+ const savedTheme = localStorage.getItem('compendium-theme') || 'dark';
+ document.documentElement.setAttribute('data-theme', savedTheme);
+ themeToggle.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+ themeToggle.addEventListener('click', () => {
+ const current = document.documentElement.getAttribute('data-theme');
+ const next = current === 'dark' ? 'light' : 'dark';
+ document.documentElement.setAttribute('data-theme', next);
+ localStorage.setItem('compendium-theme', next);
+ themeToggle.textContent = next === 'dark' ? '☀️' : '🌙';
+ });
+ }
+ // Get critical actions per phase
+ function getCriticalActions(phaseNum) {
+ const actions = {
+ 0: [
+ 'Build shelter: Protection from elements; use natural materials or salvage',
+ 'Start fire: Warmth, water purification, morale, tool making',
+ 'Secure water: Locate source, boil or treat, establish collection routine',
+ 'Assess injuries: Triage all group members; treat wounds and stabilize critical cases',
+ 'Assess group: Count heads, document skills, injuries, morale, resources',
+ 'Assess surroundings: Map immediate area; identify threats and resources'
+ ],
+ 1: [
+ 'Establish sanitation: Designated latrine area away from water; waste system',
+ 'Build food routines: Daily foraging/hunting schedule; storage; cooking rotation',
+ 'Secure perimeter: Fence or warning system; watch posts; security protocol',
+ 'Assign roles: Leader, scout, water master, fire keeper, cook, medic, defense',
+ 'Scout for permanent site: Look for arable land, water, defensibility, materials'
+ ],
+ 2: [
+ 'Build permanent structures: Main dwelling, storage, workshop; stone or log',
+ 'Plant crops: Clear fields, prepare soil, plant staples for winter harvest',
+ 'Preserve food: Smoke houses, root cellars, drying racks; document methods',
+ 'Establish animal husbandry: Begin with chickens; establish breeding and care routines',
+ 'Establish governance: Define rules, conflict resolution, resource distribution',
+ 'Begin soap/candle production: Collect rendered fat; produce soap and candles',
+ 'Plant medicine garden: Grow medicinal herbs; catalog properties and uses'
+ ],
+ 3: [
+ 'Dig wells: Establish reliable groundwater access; build pumps or gravity systems',
+ 'Build water/wind power: Construct water wheel or windmill for mechanical energy',
+ 'Establish grain milling: Build grist mill; create staple grain processing',
+ 'Textile production: Set up spinning, weaving, or basic garment production',
+ 'Build bakehouse: Permanent oven; establish bread production for community',
+ 'Radio contact: Build transmitter; establish long-distance communication',
+ 'Regular entertainment: Organize weekly/monthly gatherings, festivals, games',
+ 'Medical specialists: Train midwife and dentist; establish medical protocols'
+ ],
+ 4: [
+ 'Build forge: Establish blacksmith workshop; locate fuel and ore sources',
+ 'Smelt iron: Produce basic iron from ore; create foundational metal tools',
+ 'Produce tools: Mass manufacture nails, hinges, brackets, axes, plows',
+ 'Start school: Formalize education; teach literacy, numeracy, practical skills',
+ 'Pottery production: Build kiln; produce bricks, tiles, vessels, ceramics',
+ 'Written records: Begin papermaking; establish archives for laws and knowledge',
+ 'Establish economy: Create currency/barter system; establish trade networks'
+ ],
+ 5: [
+ 'Build generator: Water-powered or wind-powered electrical generator',
+ 'Establish wiring infrastructure: Distribute electricity; develop lighting systems',
+ 'Telegraph system: Build long-distance electrical communication network',
+ 'Advanced materials research: Systematic development of better steel and alloys',
+ 'Establish mechanical computing: Build computational devices for calculations',
+ 'Transportation systems: Develop railroads, better ships, wheeled vehicles',
+ 'Long-term planning: Map knowledge recovery; plan technology reinvention'
+ ]
+ };
+ return actions[phaseNum] || [];
+ }
+ // Get phase outcomes
+ function getPhaseOutcomes(phaseNum) {
+ const outcomes = {
+ 0: '<ul><li>Basic shelter that protects from wind and rain</li><li>Reliable fire for warmth, cooking, and water purification</li><li>Drinkable water source and collection system</li><li>Initial assessment of group health and resources</li><li>Mental framework for longer-term survival</li></ul>',
+ 1: '<ul><li>Established camp with regular routines and designated roles</li><li>Reliable food sources (foraged, trapped, or hunted)</li><li>Clean water and sanitation systems</li><li>Basic perimeter security</li><li>Identified location for permanent Phase 2 settlement</li></ul>',
+ 2: '<ul><li>Permanent shelter with multiple buildings (dwelling, storage, workshop)</li><li>First successful crop harvest and preservation</li><li>Established governance and decision-making structure</li><li>Initial livestock (chickens, goats) with breeding records</li><li>Basic craft production (soap, candles, medicine) underway</li></ul>',
+ 3: '<ul><li>Reliable water distribution system (wells, aqueducts)</li><li>Mechanical power source (water wheel or windmill) in operation</li><li>Grain milling capability for staple processing</li><li>Textile production capability (spinning and weaving)</li><li>Long-distance communication (radio) established</li><li>Trained midwife and dentist for medical specialization</li><li>Regular cultural activities and entertainment</li></ul>',
+ 4: '<ul><li>Functioning blacksmith forge producing tools and hardware</li><li>Iron smelting and basic steel production capability</li><li>Formal education system for children and skill training</li><li>Written archives of laws, medical knowledge, agricultural data</li><li>Pottery/ceramics production for vessels and construction</li><li>Trade networks with neighboring settlements established</li></ul>',
+ 5: '<ul><li>Electrical power generation and distribution system</li><li>Telegraph or telephone long-distance communication</li><li>Advanced materials production (improved steel, glass, ceramics)</li><li>Mechanical or electrical computing devices</li><li>Transportation infrastructure (roads, bridges, possibly rails)</li><li>Systematic recovery of pre-collapse technological knowledge</li></ul>'
+ };
+ return outcomes[phaseNum] || '';
+ }
+ // Initialize on load
+ window.addEventListener('DOMContentLoaded', init);
+ </script>
+<script src="../shared/theme-sync.js"></script><script src="js/shared.js"></script></body>
+</html>

@@ -1,0 +1,1777 @@
+{
+  "source": "failure-troubleshooting.xlsx",
+  "converted": "2026-02-15T06:05:32.401397",
+  "sheets": {
+    "Fire Skills": {
+      "headers": [
+        "Skill",
+        "Common Mistake",
+        "Symptom",
+        "Root Cause",
+        "Fix/Solution",
+        "Prevention",
+        "Quality Benchmark",
+        "Recovery Strategy"
+      ],
+      "rows": [
+        {
+          "Skill": "Bow drill assembly",
+          "Common Mistake": "Using wrong wood pairing",
+          "Symptom": "No friction, no heat generation",
+          "Root Cause": "Softwood drill not matched with hardwood board",
+          "Fix/Solution": "Match drill/board: pine drill with oak/maple board",
+          "Prevention": "Pre-test wood pairs, know local species",
+          "Quality Benchmark": "Should generate 40°C+ heat at contact point",
+          "Recovery Strategy": "Restart with fresh materials, dry thoroughly"
+        },
+        {
+          "Skill": "Bow drill form",
+          "Common Mistake": "Insufficient downward pressure",
+          "Symptom": "Smoke but no ember, intermittent friction",
+          "Root Cause": "Operator pressing too lightly, inconsistent pressure",
+          "Fix/Solution": "Apply steady 25-40 lbs pressure, perpendicular motion",
+          "Prevention": "Practice pressure control, film yourself",
+          "Quality Benchmark": "Consistent brown dust accumulation immediately",
+          "Recovery Strategy": "Slow drill speed, increase pressure gradually"
+        },
+        {
+          "Skill": "Bow drill materials",
+          "Common Mistake": "Damp or wet materials",
+          "Symptom": "Heavy smoke, quick fire-out after transfer",
+          "Root Cause": "Moisture prevents temperature rise",
+          "Fix/Solution": "Use only kiln-dry or sun-dried materials",
+          "Prevention": "Store under cover, test moisture with finger",
+          "Quality Benchmark": "Materials break cleanly when bent sharply",
+          "Recovery Strategy": "Move to heated shelter, allow 24hr drying"
+        },
+        {
+          "Skill": "Tinder prep",
+          "Common Mistake": "Overly dense tinder bundle",
+          "Symptom": "Ember transferred but won't catch flame",
+          "Root Cause": "Insufficient oxygen flow through tinder",
+          "Fix/Solution": "Fluff fibrous materials (cedar bark), loosely wrap",
+          "Prevention": "Store lint in dry containers, test fluffiness",
+          "Quality Benchmark": "Should be translucent when held to light",
+          "Recovery Strategy": "Add finer fibers, create air channels"
+        },
+        {
+          "Skill": "Fire lay structure",
+          "Common Mistake": "Kindling too close together",
+          "Symptom": "Smolders, never reaches full flame",
+          "Root Cause": "Blocks oxygen access to burning materials",
+          "Fix/Solution": "Space kindling with 1-2cm gaps, create pyramid",
+          "Prevention": "Practice with wet wood first to see flow",
+          "Quality Benchmark": "Flames through structure within 30 seconds",
+          "Recovery Strategy": "Spread kindling, reduce density"
+        },
+        {
+          "Skill": "Fire lay structure",
+          "Common Mistake": "Kindling too far apart",
+          "Symptom": "Flames die when tinder burns out",
+          "Root Cause": "Heat insufficient to ignite next fuel stage",
+          "Fix/Solution": "Tighter lay, overlap kindling slightly",
+          "Prevention": "Use dry test materials, observe burn pattern",
+          "Quality Benchmark": "Smooth transition from tinder→kindling→fuel",
+          "Recovery Strategy": "Add intermediate size pieces"
+        },
+        {
+          "Skill": "Wood fuel selection",
+          "Common Mistake": "Green or high-moisture wood",
+          "Symptom": "Fire burns but produces excessive smoke",
+          "Root Cause": "Moisture content >20%, wastes energy on evaporation",
+          "Fix/Solution": "Use dead wood, split open, test with knife",
+          "Prevention": "Maintain woodpile with cover, stock split wood",
+          "Quality Benchmark": "Should be lighter in weight, ring-dry sound",
+          "Recovery Strategy": "Switch to seasoned wood, increase fire size"
+        },
+        {
+          "Skill": "Charcoal production",
+          "Common Mistake": "Using resin-rich wood (pine, fir)",
+          "Symptom": "Charcoal ignites too easily, burns too fast",
+          "Root Cause": "Resin content lowers ignition temperature",
+          "Fix/Solution": "Use hardwoods: oak, maple, birch, or fruit wood",
+          "Prevention": "Identify wood species before processing",
+          "Quality Benchmark": "Should burn steady 8-10 minutes per piece",
+          "Recovery Strategy": "Mix with hardwood charcoal, control airflow"
+        },
+        {
+          "Skill": "Charcoal production",
+          "Common Mistake": "Incomplete burn (too much oxygen)",
+          "Symptom": "Charcoal partially unconverted, low heat output",
+          "Root Cause": "Excessive oxygen prevents full carbonization",
+          "Fix/Solution": "Bury in sand pit method, limit air access",
+          "Prevention": "Monitor flame color: white smoke=ready",
+          "Quality Benchmark": "Should be jet black, leave no ash residue",
+          "Recovery Strategy": "Re-burn remaining material"
+        },
+        {
+          "Skill": "Fire banking",
+          "Common Mistake": "Insufficient ash coverage",
+          "Symptom": "Fire dies by morning from heat loss",
+          "Root Cause": "Ash layer too thin, loses heat to air",
+          "Fix/Solution": "Bank 2-3cm ash around coals, tamp lightly",
+          "Prevention": "Save fine ash, measure layer thickness",
+          "Quality Benchmark": "Coals alive after 12hr bank period",
+          "Recovery Strategy": "Add more ash, insulate with rocks"
+        },
+        {
+          "Skill": "Fire banking",
+          "Common Mistake": "Smothering fire with excessive ash",
+          "Symptom": "Fire dies from lack of oxygen",
+          "Root Cause": "Compacted ash blocks oxygen to coals",
+          "Fix/Solution": "Light ash dust only, don't tamp hard",
+          "Prevention": "Practice gently, test with airflow probe",
+          "Quality Benchmark": "Should smell charcoal scent (oxygen flow present)",
+          "Recovery Strategy": "Carefully remove top ash layer"
+        },
+        {
+          "Skill": "Cooking fire temperature",
+          "Common Mistake": "Flame heat confusion",
+          "Symptom": "Food burns outside, raw inside",
+          "Root Cause": "Heat source wrong (flame vs coals)",
+          "Fix/Solution": "Use coals for steady cooking, flame for boil",
+          "Prevention": "Build separate coal bed, count hand-heat",
+          "Quality Benchmark": "Hold hand 6 inches above: 8 count=hot, 15 count=med",
+          "Recovery Strategy": "Move pot higher, use coals only"
+        },
+        {
+          "Skill": "Smoldering fire",
+          "Common Mistake": "Insufficient dry materials",
+          "Symptom": "No sustained smolder, fire goes out",
+          "Root Cause": "Moisture prevents complete gasification",
+          "Fix/Solution": "Pre-stage all tinder, kindling, fuel before ignition",
+          "Prevention": "Use bark, dead grasses, completely dry items",
+          "Quality Benchmark": "Should produce thin white smoke for 5+ minutes",
+          "Recovery Strategy": "Focus on driest materials first"
+        },
+        {
+          "Skill": "Fire reflection/heat",
+          "Common Mistake": "Placing fire without reflector",
+          "Symptom": "Heat absorbed by ground, camp stays cold",
+          "Root Cause": "Poor heat distribution, radiation losses",
+          "Fix/Solution": "Build rock/log reflector behind fire",
+          "Prevention": "Natural reflector planning during site selection",
+          "Quality Benchmark": "Should feel 40°F warmer 10 feet away with reflector",
+          "Recovery Strategy": "Add reflector after fire established"
+        },
+        {
+          "Skill": "Rapid fire extinction",
+          "Common Mistake": "Not enough water nearby",
+          "Symptom": "Fire control emergency becomes catastrophic",
+          "Root Cause": "Dehydration of burning materials impossible",
+          "Fix/Solution": "Pre-stage water container, keep water nearby",
+          "Prevention": "Scout water source before fire building",
+          "Quality Benchmark": "Should be able to fully extinguish fire in 2 minutes",
+          "Recovery Strategy": "Use sand/dirt as backup extinguisher"
+        }
+      ],
+      "rowCount": 15
+    },
+    "Water Systems": {
+      "headers": [
+        "Skill",
+        "Common Mistake",
+        "Symptom",
+        "Root Cause",
+        "Fix/Solution",
+        "Prevention",
+        "Quality Benchmark",
+        "Recovery Strategy"
+      ],
+      "rows": [
+        {
+          "Skill": "Sand filter",
+          "Common Mistake": "Filter breakthrough (pathogens pass through)",
+          "Symptom": "Cloudy water, waterborne illness 24-72hrs later",
+          "Root Cause": "Filter media degraded or improperly layered",
+          "Fix/Solution": "Replace sand every 2-3 months, backflush regularly",
+          "Prevention": "Monitor water clarity daily, establish 30-day rotation",
+          "Quality Benchmark": "Output should be crystal clear, no visible particles",
+          "Recovery Strategy": "Immediately boil all water, rebuild filter from scratch"
+        },
+        {
+          "Skill": "Water filtration",
+          "Common Mistake": "Improper filter layering",
+          "Symptom": "Water passes through without filtering",
+          "Root Cause": "Sand/gravel installed in wrong order (upside down)",
+          "Fix/Solution": "Top layer: fine sand, middle: coarse sand, bottom: gravel",
+          "Prevention": "Document layer sequence on filter housing",
+          "Quality Benchmark": "Should take 2-5 minutes to filter 1 liter",
+          "Recovery Strategy": "Disassemble and rebuild with correct sequence"
+        },
+        {
+          "Skill": "Contamination signs",
+          "Common Mistake": "Unusual water smell (sulfur/rotten eggs)",
+          "Symptom": "Odor indicates bacterial/chemical contamination",
+          "Root Cause": "Sulfur bacteria or anaerobic decay in source",
+          "Fix/Solution": "Boil 10 minutes minimum, switch water source",
+          "Prevention": "Regular water testing, daily smell checks",
+          "Quality Benchmark": "Clear, odorless, no floating particles",
+          "Recovery Strategy": "Find new water source, treat chemically"
+        },
+        {
+          "Skill": "Well construction",
+          "Common Mistake": "Insufficient gravel pack",
+          "Symptom": "Fine sediment clouds water after pumping",
+          "Root Cause": "Formation sand invades well during pump operation",
+          "Fix/Solution": "Install 2-3 feet gravel pack around screen",
+          "Prevention": "Use aquifer-appropriate gravel size (pre-test)",
+          "Quality Benchmark": "Water should clear within 5-10 minutes",
+          "Recovery Strategy": "Pump for extended period to settle sand"
+        },
+        {
+          "Skill": "Well collapse",
+          "Common Mistake": "Improper casing installation (no support)",
+          "Symptom": "Well wall collapses into bore, water blocks flow",
+          "Root Cause": "Casing moves sideways, crushes at weak point",
+          "Fix/Solution": "Install rigid casing, backfill with gravel to surface",
+          "Prevention": "Use schedule 40 steel/PVC, gravel backfill plan",
+          "Quality Benchmark": "Water flows steady at original rate for 5+ years",
+          "Recovery Strategy": "Drill new well, abandon collapsed well properly"
+        },
+        {
+          "Skill": "Pump priming",
+          "Common Mistake": "Air leak in suction line",
+          "Symptom": "Pump runs but no water flows",
+          "Root Cause": "Air enters suction line instead of water",
+          "Fix/Solution": "Check all connections, tighten, use vacuum grease",
+          "Prevention": "Inspect line before installation, test prime",
+          "Quality Benchmark": "Water should flow within 30 seconds of priming",
+          "Recovery Strategy": "Apply vacuum with hand pump, refill reservoir"
+        },
+        {
+          "Skill": "Rainwater system",
+          "Common Mistake": "Contamination from roof debris",
+          "Symptom": "Green algae growth, sick animals/people",
+          "Root Cause": "First rainfall washes bird droppings, leaves into tank",
+          "Fix/Solution": "Divert first 50-100 gallons of rainfall to ground",
+          "Prevention": "Install debris screen at downspout, first-flush diverter",
+          "Quality Benchmark": "Tank water stays clear 6+ months without treatment",
+          "Recovery Strategy": "Drain tank, clean walls with brush, disinfect"
+        },
+        {
+          "Skill": "Rainwater system",
+          "Common Mistake": "Algae blooms in tank",
+          "Symptom": "Green water, bitter taste, intestinal issues",
+          "Root Cause": "Light exposure allows photosynthesis in stored water",
+          "Fix/Solution": "Use opaque tank (no light penetration)",
+          "Prevention": "Cover tank, paint dark color, install UV cover",
+          "Quality Benchmark": "Water stays clear for 12+ months in storage",
+          "Recovery Strategy": "Drain and clean tank, install UV light or cover"
+        },
+        {
+          "Skill": "Pipe freezing",
+          "Common Mistake": "Insulation failure in exposed pipes",
+          "Symptom": "No water flow in winter, cracked pipe ends",
+          "Root Cause": "Water expands as it freezes, splits pipe",
+          "Fix/Solution": "Insulate with foam wrapping 2+ inches thick, drain system",
+          "Prevention": "Winter prep: drain lines or add antifreeze",
+          "Quality Benchmark": "Pipes survive -20°F without damage",
+          "Recovery Strategy": "Thaw carefully with warm (not hot) water, replace section"
+        },
+        {
+          "Skill": "Biofilm buildup",
+          "Common Mistake": "Untreated stagnant water in pipes",
+          "Symptom": "Slimy pipe interior, brown water flow initially",
+          "Root Cause": "Bacteria/algae colonies form in static water",
+          "Fix/Solution": "Flush lines weekly, treat with dilute bleach monthly",
+          "Prevention": "Keep system active, regular disinfection routine",
+          "Quality Benchmark": "Flowing water stays clear, no smell or discoloration",
+          "Recovery Strategy": "Backflush system, chlorinate, flush for 24hr"
+        },
+        {
+          "Skill": "Saltwater intrusion",
+          "Common Mistake": "Well too close to coast/saline aquifer",
+          "Symptom": "Salty taste develops over time, increasing",
+          "Root Cause": "Pumping lowers water table, allows salt water in",
+          "Fix/Solution": "Move well inland, deeper aquifer selection",
+          "Prevention": "Hydrogeological survey before drilling location",
+          "Quality Benchmark": "Stable salinity levels year-round (PPM unchanged)",
+          "Recovery Strategy": "Drill new well in better location, cap old well"
+        },
+        {
+          "Skill": "Water storage",
+          "Common Mistake": "Plastic tank degradation (UV/temperature)",
+          "Symptom": "Taste changes to plastic flavor, reduced clarity",
+          "Root Cause": "UV light and heat break down polymer bonds",
+          "Fix/Solution": "Use approved food-grade, UV-resistant containers",
+          "Prevention": "Store in shade, use opaque dark containers",
+          "Quality Benchmark": "Water tastes clean, no plastic flavor after 2 years",
+          "Recovery Strategy": "Replace degraded tank, switch to approved material"
+        },
+        {
+          "Skill": "Greywater reuse",
+          "Common Mistake": "Contamination of groundwater",
+          "Symptom": "Downstream well shows soap/detergent, illness",
+          "Root Cause": "Improper drain-field design allows pathogens to seep",
+          "Fix/Solution": "Use appropriate soil type, 3-4 feet drain-field depth",
+          "Prevention": "Test soil percolation rate, design proper system",
+          "Quality Benchmark": "Downstream wells test clean for 5+ year cycle",
+          "Recovery Strategy": "Install proper septic/wetland treatment system"
+        },
+        {
+          "Skill": "Rainwater filtration",
+          "Common Mistake": "Overloaded filter cartridge",
+          "Symptom": "Water flow drops below requirement",
+          "Root Cause": "Particulate matter clogs filter media",
+          "Fix/Solution": "Replace cartridge every 6-12 months based on use",
+          "Prevention": "Check flow rate monthly, maintain replacement schedule",
+          "Quality Benchmark": "Flow rate stays above 5 GPM continuously",
+          "Recovery Strategy": "Install new cartridge, document replacement date"
+        },
+        {
+          "Skill": "Water aeration",
+          "Common Mistake": "Stagnant water allows anaerobic bacteria",
+          "Symptom": "Rotten egg smell, brown discoloration appears",
+          "Root Cause": "Oxygen depletion allows sulfur bacteria growth",
+          "Fix/Solution": "Install aeration fountain, circulation pump",
+          "Prevention": "Keep storage in motion, add airstone daily",
+          "Quality Benchmark": "Water stays clear, odor-free, taste fresh",
+          "Recovery Strategy": "Increase aeration, add activated carbon filter"
+        }
+      ],
+      "rowCount": 15
+    },
+    "Shelter & Building": {
+      "headers": [
+        "Skill",
+        "Common Mistake",
+        "Symptom",
+        "Root Cause",
+        "Fix/Solution",
+        "Prevention",
+        "Quality Benchmark",
+        "Recovery Strategy"
+      ],
+      "rows": [
+        {
+          "Skill": "Roof framing",
+          "Common Mistake": "Insufficient roof pitch slope",
+          "Symptom": "Water pools on roof, eventual leaks into structure",
+          "Root Cause": "Snow/water can't drain adequately on flat surfaces",
+          "Fix/Solution": "Install 4:12 pitch minimum (20 degrees)",
+          "Prevention": "Design for local climate, use engineer calculations",
+          "Quality Benchmark": "Water drains completely after heavy rain",
+          "Recovery Strategy": "Reinstall with steeper angle or add drainage channels"
+        },
+        {
+          "Skill": "Roof leaks",
+          "Common Mistake": "Missing or damaged shingles",
+          "Symptom": "Water drips into attic space after rain",
+          "Root Cause": "Wind/UV damage or improper installation",
+          "Fix/Solution": "Replace shingles with overlap, seal edges",
+          "Prevention": "Annual roof inspection, immediate damage repair",
+          "Quality Benchmark": "No moisture in attic, water stains disappear",
+          "Recovery Strategy": "Replace damaged shingles, seal flashing"
+        },
+        {
+          "Skill": "Roof leaks",
+          "Common Mistake": "Faulty flashing at peaks/valleys",
+          "Symptom": "Water enters at roof penetrations or seams",
+          "Root Cause": "Flashing not sealed, improper overlap",
+          "Fix/Solution": "Use metal flashing with proper overlap and seal",
+          "Prevention": "Install flashing first, shingles over top",
+          "Quality Benchmark": "Flashing stays dry during heavy rain",
+          "Recovery Strategy": "Remove old flashing, reinstall with sealant"
+        },
+        {
+          "Skill": "Foundation settling",
+          "Common Mistake": "Insufficient foundation depth (frost line)",
+          "Symptom": "Cracks in walls, doors/windows misalign",
+          "Root Cause": "Ground heaves when water freezes in soil",
+          "Fix/Solution": "Dig below frost line (varies by region: 18-48 inches)",
+          "Prevention": "Know local frost depth, dig appropriately deep",
+          "Quality Benchmark": "No foundation cracking after 5+ winters",
+          "Recovery Strategy": "Install drainage to prevent water accumulation"
+        },
+        {
+          "Skill": "Log rot",
+          "Common Mistake": "Logs in contact with soil or constant moisture",
+          "Symptom": "Soft spots in wood, dark discoloration, fungal growth",
+          "Root Cause": "Fungal decay requires moisture and wood contact",
+          "Fix/Solution": "Keep logs elevated 18+ inches, use rot-resistant species",
+          "Prevention": "Annual inspection, ventilate between logs",
+          "Quality Benchmark": "Wood stays hard, no soft spots when probed",
+          "Recovery Strategy": "Remove and replace affected log sections"
+        },
+        {
+          "Skill": "Cob cracking",
+          "Common Mistake": "Too much sand in cob mix (shrinkage)",
+          "Symptom": "Large radial cracks during drying, structural weakness",
+          "Root Cause": "Excess sand causes differential drying stress",
+          "Fix/Solution": "Use 1:3 clay:sand ratio by volume, test first",
+          "Prevention": "Sample test batch, monitor drying pattern",
+          "Quality Benchmark": "Hairline cracks only (<1mm), stable after 3 months",
+          "Recovery Strategy": "Reinforce with additional straw, slower drying"
+        },
+        {
+          "Skill": "Cob cracking",
+          "Common Mistake": "Insufficient straw reinforcement",
+          "Symptom": "Cracks in curved sections, reduced tensile strength",
+          "Root Cause": "Not enough fiber to resist cracking",
+          "Fix/Solution": "Mix 1-2 hands full straw per bucket of cob",
+          "Prevention": "Feel straw distribution, visual inspection",
+          "Quality Benchmark": "Cracks <1/16 inch, even distribution of cracks",
+          "Recovery Strategy": "Add more straw, smaller batches with more fiber"
+        },
+        {
+          "Skill": "Insulation problems",
+          "Common Mistake": "Moisture in insulation (condensation)",
+          "Symptom": "Reduced R-value, visible mold on interior",
+          "Root Cause": "Warm moist air reaches cold surface, condenses",
+          "Fix/Solution": "Install vapor barrier on warm side, ensure ventilation",
+          "Prevention": "Seal air leaks, monitor humidity levels",
+          "Quality Benchmark": "Insulation stays dry, no moisture visible",
+          "Recovery Strategy": "Add dehumidifier, increase ventilation"
+        },
+        {
+          "Skill": "Insulation problems",
+          "Common Mistake": "Settling insulation (loose fill)",
+          "Symptom": "R-value decreases with time, warm spots appear",
+          "Root Cause": "Material compacts under its own weight",
+          "Fix/Solution": "Use rigid insulation or blown-in with binder",
+          "Prevention": "Inspect annually for settling, add more if needed",
+          "Quality Benchmark": "R-value remains constant for 20+ years",
+          "Recovery Strategy": "Re-install with settling-resistant material"
+        },
+        {
+          "Skill": "Chimney draft",
+          "Common Mistake": "Chimney too short for building height",
+          "Symptom": "Smoke back-drafting into living space",
+          "Root Cause": "Insufficient pressure difference to pull air out",
+          "Fix/Solution": "Chimney top must be 3 feet above roof peak",
+          "Prevention": "Calculate required height before construction",
+          "Quality Benchmark": "Smoke flows smoothly up and out, no back-draft",
+          "Recovery Strategy": "Add vertical extension to chimney"
+        },
+        {
+          "Skill": "Chimney draft",
+          "Common Mistake": "Improper chimney size/diameter",
+          "Symptom": "Slow draft or incomplete combustion",
+          "Root Cause": "Oversized chimney cools smoke too much",
+          "Fix/Solution": "Match chimney diameter to stove/fireplace spec",
+          "Prevention": "Consult engineer or use established formulas",
+          "Quality Benchmark": "Negative pressure in firebox, steady flame",
+          "Recovery Strategy": "Install properly sized liner or rebuild chimney"
+        },
+        {
+          "Skill": "Door/window gaps",
+          "Common Mistake": "Warped frames or settlement",
+          "Symptom": "Air leaks, heat loss, drafts during wind",
+          "Root Cause": "Settling foundation shifts frame geometry",
+          "Fix/Solution": "Weatherstrip and caulk gaps, use flexible sealant",
+          "Prevention": "Seasonal adjustment, maintain weatherstripping",
+          "Quality Benchmark": "No air movement through cracks, draft-free",
+          "Recovery Strategy": "Re-align frame, replace weatherstripping"
+        },
+        {
+          "Skill": "Moisture intrusion",
+          "Common Mistake": "No capillary break at foundation",
+          "Symptom": "Moisture wicks up into walls, causes rot",
+          "Root Cause": "Water travels through concrete/stone by capillary action",
+          "Fix/Solution": "Install polyethylene membrane on sill plate",
+          "Prevention": "Use moisture barrier before wall construction",
+          "Quality Benchmark": "Sill plate stays dry, no visible moisture",
+          "Recovery Strategy": "Install membrane retrofit if not present"
+        },
+        {
+          "Skill": "Structural settling",
+          "Common Mistake": "Poor soil bearing capacity",
+          "Symptom": "Uneven foundation settling, wall cracks widen",
+          "Root Cause": "Soft soil compresses under load unevenly",
+          "Fix/Solution": "Geotechnical test before building, proper foundation",
+          "Prevention": "Professional soil analysis, engineered design",
+          "Quality Benchmark": "Structure level within 1/4 inch over 20 feet",
+          "Recovery Strategy": "Install foundation piers to undisturbed soil"
+        },
+        {
+          "Skill": "Timber checking",
+          "Common Mistake": "Rapid drying of large logs",
+          "Symptom": "Deep radial cracks in timber (checking)",
+          "Root Cause": "Outer wood dries faster than inner core",
+          "Fix/Solution": "Allow slow drying (1 year per inch of thickness)",
+          "Prevention": "Stack with spacers, cover during rain only",
+          "Quality Benchmark": "Surface cracks shallow (<1/4 inch deep)",
+          "Recovery Strategy": "Accept as normal, monitor for structural impact"
+        },
+        {
+          "Skill": "Wooden fastener failure",
+          "Common Mistake": "Fasteners driven into end grain",
+          "Symptom": "Pullout as wood shrinks, structural failure",
+          "Root Cause": "End grain has weak holding power",
+          "Fix/Solution": "Fasten perpendicular to grain, use bolts in critical areas",
+          "Prevention": "Engineer fastener placement for grain direction",
+          "Quality Benchmark": "Fasteners hold for entire lifespan, no loosening",
+          "Recovery Strategy": "Use larger bolts, add washers, reduce spacing"
+        },
+        {
+          "Skill": "Foundation water infiltration",
+          "Common Mistake": "No exterior drainage",
+          "Symptom": "Wet basement/crawlspace, mold growth",
+          "Root Cause": "Groundwater pressure forces water through walls",
+          "Fix/Solution": "Install perimeter drain, sloped grade, sump pump",
+          "Prevention": "Grade sloped away 5+ feet from building",
+          "Quality Benchmark": "Basement stays dry during heavy rain",
+          "Recovery Strategy": "Install sump pump, exterior drain tile"
+        },
+        {
+          "Skill": "Timber framing",
+          "Common Mistake": "Insufficient post/beam sizing",
+          "Symptom": "Sagging floors, ceiling deflection visible",
+          "Root Cause": "Live/dead load exceeds design capacity",
+          "Fix/Solution": "Engineer framing design, use proper dimensions",
+          "Prevention": "Calculate loads, consult wood engineering tables",
+          "Quality Benchmark": "No visible deflection under design load",
+          "Recovery Strategy": "Install additional posts/beams to support"
+        },
+        {
+          "Skill": "Eaves design",
+          "Common Mistake": "Insufficient overhang",
+          "Symptom": "Water damage to wall and foundation",
+          "Root Cause": "Rain splash-back, insufficient coverage",
+          "Fix/Solution": "Minimum 18-24 inches overhang, more in rain climates",
+          "Prevention": "Design overhangs based on precipitation intensity",
+          "Quality Benchmark": "No water stains on walls below eaves",
+          "Recovery Strategy": "Add fascia extensions or rebuild with greater overhang"
+        },
+        {
+          "Skill": "Basement sealing",
+          "Common Mistake": "Cracks in concrete not sealed",
+          "Symptom": "Water seeps through, deterioration spreads",
+          "Root Cause": "Cracks allow capillary water entry",
+          "Fix/Solution": "Seal all cracks with polyurethane or epoxy",
+          "Prevention": "Annual inspection, seal cracks immediately",
+          "Quality Benchmark": "Concrete stays dry, no new staining",
+          "Recovery Strategy": "Re-seal cracks, address root cause of movement"
+        }
+      ],
+      "rowCount": 20
+    },
+    "Food Preservation": {
+      "headers": [
+        "Skill",
+        "Common Mistake",
+        "Symptom",
+        "Root Cause",
+        "Fix/Solution",
+        "Prevention",
+        "Quality Benchmark",
+        "Recovery Strategy"
+      ],
+      "rows": [
+        {
+          "Skill": "Canning - Botulism prevention",
+          "Common Mistake": "Processing low-acid foods at too low temperature",
+          "Symptom": "Botulism toxin produced, possibly fatal",
+          "Root Cause": "Clostridium botulinum spores survive insufficient heat",
+          "Fix/Solution": "Use pressure canner at 10 PSI for 20-30 minutes minimum",
+          "Prevention": "Follow USDA/Ball guide exactly, no shortcuts",
+          "Quality Benchmark": "Jars sealed tight, contents smell/taste normal 1 year later",
+          "Recovery Strategy": "DISCARD contents if any doubt, start over"
+        },
+        {
+          "Skill": "Canning - Botulism prevention",
+          "Common Mistake": "Improper pH not verified (foods not acidic enough)",
+          "Symptom": "C. botulinum can grow in low-acid environment",
+          "Root Cause": "Didn't test or verify pH, assumed safe acidity",
+          "Fix/Solution": "Test pH with meter or use commercial lemon juice",
+          "Prevention": "Acidify with lemon/vinegar, verify with pH paper",
+          "Quality Benchmark": "pH consistently <4.6, confirmed with testing",
+          "Recovery Strategy": "DISCARD and reprocess, test all batches"
+        },
+        {
+          "Skill": "Canning - Botulism prevention",
+          "Common Mistake": "Improper seal on jars",
+          "Symptom": "Bacteria enter after processing, create toxins",
+          "Root Cause": "Air allows contamination after pasteurization",
+          "Fix/Solution": "Use new lids, proper screw-band tension, full immersion",
+          "Prevention": "Check seals after 24 hours, discard unsealed jars",
+          "Quality Benchmark": "All jars sealed tightly, no loosening over time",
+          "Recovery Strategy": "Reprocess unsealed jars immediately or discard"
+        },
+        {
+          "Skill": "Canning - Processing failure",
+          "Common Mistake": "Incorrect processing time for altitude",
+          "Symptom": "Under-processing, spoilage organisms survive",
+          "Root Cause": "Didn't adjust for elevation (higher altitude = longer time)",
+          "Fix/Solution": "Add 5 minutes per 1000 feet elevation above sea level",
+          "Prevention": "Know elevation, consult processing guides",
+          "Quality Benchmark": "Jars properly sealed, contents stable for 1+ years",
+          "Recovery Strategy": "Reprocess immediately, increase time based on altitude"
+        },
+        {
+          "Skill": "Fermentation",
+          "Common Mistake": "Mold growth on surface",
+          "Symptom": "Moldy taste, ruined batch",
+          "Root Cause": "Mold contamination from air/improper cover",
+          "Fix/Solution": "Submerge vegetables under brine, use weight/cloth",
+          "Prevention": "Keep vegetables completely under brine always",
+          "Quality Benchmark": "White/gray KAHM yeast acceptable, green mold = failure",
+          "Recovery Strategy": "Start over, skim kahm yeast, ensure submersion"
+        },
+        {
+          "Skill": "Fermentation",
+          "Common Mistake": "Off-flavors developed (vinegary/funky)",
+          "Symptom": "Sour taste, unpleasant odor",
+          "Root Cause": "Wrong bacteria dominance, acetobacter overgrowth",
+          "Fix/Solution": "Salt ratio 3-5% by weight, maintain temperature 60-75°F",
+          "Prevention": "Measure salt precisely, monitor temperature",
+          "Quality Benchmark": "Pleasant sour taste, clean fermentation smell",
+          "Recovery Strategy": "Start new batch with better salt/temperature control"
+        },
+        {
+          "Skill": "Fermentation",
+          "Common Mistake": "Mold AND gas production",
+          "Symptom": "Batch ruins quickly, bitter/off taste",
+          "Root Cause": "Contamination and gas production indicate spoilage",
+          "Fix/Solution": "Use proper salt, clean jars, weight vegetables down",
+          "Prevention": "Sanitize all equipment, test salt concentration",
+          "Quality Benchmark": "No gas bubbles, only mold-free white yeast",
+          "Recovery Strategy": "Discard batch, redo with strict sanitation"
+        },
+        {
+          "Skill": "Smoking/Jerky",
+          "Common Mistake": "Insufficient smoking temperature",
+          "Symptom": "Jerky texture spongy, surface stays moist",
+          "Root Cause": "Drying incomplete, moisture allows bacterial growth",
+          "Fix/Solution": "Maintain 160-180°F smoker temperature minimum",
+          "Prevention": "Use thermometer, monitor temperature constantly",
+          "Quality Benchmark": "Jerky bends but doesn't break, completely dry",
+          "Recovery Strategy": "Increase temperature, extend smoking time"
+        },
+        {
+          "Skill": "Smoking/Jerky",
+          "Common Mistake": "Excessive smoking temperature",
+          "Symptom": "Jerky case-hardens (hard outside, moist inside)",
+          "Root Cause": "High heat seals surface, traps moisture inside",
+          "Fix/Solution": "Keep below 165°F, use lower temperature for longer time",
+          "Prevention": "Monitor with thermometer, control heat source",
+          "Quality Benchmark": "Jerky dries evenly, flexes without breaking",
+          "Recovery Strategy": "Reduce temperature, increase drying time"
+        },
+        {
+          "Skill": "Salt curing",
+          "Common Mistake": "Inadequate salt coverage",
+          "Symptom": "Spoilage at edges where salt didn't penetrate",
+          "Root Cause": "Bacterial growth where salt concentration insufficient",
+          "Fix/Solution": "Use 20% salt by weight (minimum), fully immerse",
+          "Prevention": "Weigh salt precisely, ensure complete coverage",
+          "Quality Benchmark": "No discoloration, no odor, lasts 6+ months",
+          "Recovery Strategy": "Reprocess with proper salt concentration"
+        },
+        {
+          "Skill": "Dehydration",
+          "Common Mistake": "Uneven drying (some pieces moist, some over-dried)",
+          "Symptom": "Mold in thick pieces, over-dried thin pieces",
+          "Root Cause": "Temperature/airflow imbalance, thickness variation",
+          "Fix/Solution": "Cut uniform thickness, maintain consistent 140-160°F",
+          "Prevention": "Arrange pieces for even airflow, rotate trays",
+          "Quality Benchmark": "All pieces finish drying simultaneously",
+          "Recovery Strategy": "Redo with consistent thickness and temperature"
+        },
+        {
+          "Skill": "Dehydration",
+          "Common Mistake": "Moisture in dried product (hygroscopic reabsorption)",
+          "Symptom": "Soft spots appear weeks after drying",
+          "Root Cause": "Humidity in storage container allows moisture regain",
+          "Fix/Solution": "Store in airtight container with desiccant (silica gel)",
+          "Prevention": "Keep in cool dry place, vacuum seal if available",
+          "Quality Benchmark": "Product stays crispy in storage for 6+ months",
+          "Recovery Strategy": "Re-dry if necessary, use desiccant in storage"
+        },
+        {
+          "Skill": "Root cellar storage",
+          "Common Mistake": "Temperature too warm (above 50°F)",
+          "Symptom": "Vegetables sprout/decay faster, short storage",
+          "Root Cause": "Poor insulation or ventilation issues",
+          "Fix/Solution": "Maintain 32-50°F with proper ventilation/insulation",
+          "Prevention": "Install thermometer/hygrometer, monitor daily",
+          "Quality Benchmark": "Root vegetables store 4-6 months, stable condition",
+          "Recovery Strategy": "Add insulation, improve ventilation, vent at night"
+        },
+        {
+          "Skill": "Root cellar storage",
+          "Common Mistake": "Temperature too cold (below 32°F)",
+          "Symptom": "Vegetables freeze, texture destroyed",
+          "Root Cause": "Over-ventilation in freezing weather",
+          "Fix/Solution": "Ensure temperature >32°F, close vents in freeze events",
+          "Prevention": "Install damper system, monitor cold snaps",
+          "Quality Benchmark": "No frozen vegetables, proper texture after storage",
+          "Recovery Strategy": "Warm space before freezing, control ventilation"
+        },
+        {
+          "Skill": "Root cellar storage",
+          "Common Mistake": "Humidity too high (>90%)",
+          "Symptom": "Mold/fungal growth, rot develops quickly",
+          "Root Cause": "Poor ventilation, water vapor accumulation",
+          "Fix/Solution": "Ventilate with dry air, reduce humidity to 60-75%",
+          "Prevention": "Add desiccant or ventilation adjustments",
+          "Quality Benchmark": "Vegetables stay dry, no mold after 6 months",
+          "Recovery Strategy": "Improve ventilation, add calcium chloride desiccant"
+        },
+        {
+          "Skill": "Honey storage",
+          "Common Mistake": "Crystallization/granulation",
+          "Symptom": "Hard lumps form in honey, poor texture",
+          "Root Cause": "Natural honey crystallization over time",
+          "Fix/Solution": "Store at room temperature (60-75°F), seal tightly",
+          "Prevention": "Normal process, honey still safe and usable",
+          "Quality Benchmark": "Liquid honey or easily re-meltable crystallized form",
+          "Recovery Strategy": "Warm gently (never boil), dissolves crystals"
+        },
+        {
+          "Skill": "Vinegar preservation",
+          "Common Mistake": "Cloudiness/mother formation",
+          "Symptom": "Vinegar becomes murky, jelly-like substance forms",
+          "Root Cause": "Acetic acid bacteria create cellulose mother",
+          "Fix/Solution": "Strain out mother, store in cool dark place sealed",
+          "Prevention": "Keep air exposure minimal, filter regularly",
+          "Quality Benchmark": "Clear vinegar, potent acidity for 2+ years",
+          "Recovery Strategy": "Strain mother out, rebottle cleanly"
+        },
+        {
+          "Skill": "Oil preservation",
+          "Common Mistake": "Rancidity develops (oxidation)",
+          "Symptom": "Off smell, bitter taste in oil",
+          "Root Cause": "Oxygen exposure causes lipid oxidation",
+          "Fix/Solution": "Store in dark glass, full bottle (minimal air), cool place",
+          "Prevention": "Keep away from light/heat, buy fresh regularly",
+          "Quality Benchmark": "Oil smells fresh, clean taste, no rancid smell",
+          "Recovery Strategy": "Discard, replace with fresh oil, improve storage"
+        },
+        {
+          "Skill": "Cheese making",
+          "Common Mistake": "Too much whey loss (rubbery texture)",
+          "Symptom": "Cheese too dry and crumbly",
+          "Root Cause": "Temperature raised too fast, squeezed moisture out",
+          "Fix/Solution": "Raise temperature slowly (5°F/10 minutes), gentle cutting",
+          "Prevention": "Monitor temperature, cut curds uniformly",
+          "Quality Benchmark": "Cheese moist and slightly soft, proper crumble",
+          "Recovery Strategy": "Add back whey, reduce temperature next batch"
+        },
+        {
+          "Skill": "Cheese making",
+          "Common Mistake": "Incomplete curdling",
+          "Symptom": "Cheese won't set, mushy texture",
+          "Root Cause": "Insufficient rennet or wrong temperature",
+          "Fix/Solution": "Use proper rennet amount, maintain 86°F exactly",
+          "Prevention": "Test batch, calibrate temperature, measure rennet",
+          "Quality Benchmark": "Firm curd forms in 30 minutes, clean break",
+          "Recovery Strategy": "Redo batch, verify rennet activity and temperature"
+        }
+      ],
+      "rowCount": 20
+    },
+    "Agriculture": {
+      "headers": [
+        "Skill",
+        "Common Mistake",
+        "Symptom",
+        "Root Cause",
+        "Fix/Solution",
+        "Prevention",
+        "Quality Benchmark",
+        "Recovery Strategy"
+      ],
+      "rows": [
+        {
+          "Skill": "Seed germination",
+          "Common Mistake": "Old/non-viable seeds",
+          "Symptom": "Seeds don't sprout, blank spots in garden",
+          "Root Cause": "Seeds lost viability in storage",
+          "Fix/Solution": "Test germination before planting (wet paper towel)",
+          "Prevention": "Store seeds in cool dry place, use 1-2 year old max",
+          "Quality Benchmark": "90%+ germination rate in viability test",
+          "Recovery Strategy": "Buy fresh seeds, replant with new seed stock"
+        },
+        {
+          "Skill": "Seed germination",
+          "Common Mistake": "Overly deep planting",
+          "Symptom": "Seeds never emerge, rot in soil",
+          "Root Cause": "Too much soil weight prevents emergence",
+          "Fix/Solution": "Plant 2-3 times seed diameter deep",
+          "Prevention": "Shallow seed trench, cover lightly with soil",
+          "Quality Benchmark": "90%+ emergence rate, uniform seedling height",
+          "Recovery Strategy": "Replant at correct depth, ensure loose soil"
+        },
+        {
+          "Skill": "Seed germination",
+          "Common Mistake": "Inconsistent watering",
+          "Symptom": "Uneven germination, some rot, some fail",
+          "Root Cause": "Too wet/dry kills seeds, inconsistent conditions",
+          "Fix/Solution": "Keep soil moist not wet, maintain consistent moisture",
+          "Prevention": "Check daily, drip irrigation better than hand-watering",
+          "Quality Benchmark": "All seeds emerge simultaneously, 95%+ rate",
+          "Recovery Strategy": "Replant with consistent water management"
+        },
+        {
+          "Skill": "Transplanting shock",
+          "Common Mistake": "Root damage during transplant",
+          "Symptom": "Plants wilt, pale leaves, slow growth recovery",
+          "Root Cause": "Roots torn or severed during removal",
+          "Fix/Solution": "Use water-in-hole method, plant with soil intact",
+          "Prevention": "Handle seedlings by leaves only, keep root ball intact",
+          "Quality Benchmark": "Transplant recovers growth within 2 weeks",
+          "Recovery Strategy": "Replant carefully, use transplant fertilizer"
+        },
+        {
+          "Skill": "Transplanting shock",
+          "Common Mistake": "Planting in wrong conditions (sun/shade mismatch)",
+          "Symptom": "Leaves bleach/burn (sun intolerant) or stretch (shade hungry)",
+          "Root Cause": "Didn't match plant needs to site conditions",
+          "Fix/Solution": "Harden off seedlings, place in appropriate light",
+          "Prevention": "Scout locations before planting, know plant requirements",
+          "Quality Benchmark": "Healthy growth within 3 weeks, proper color",
+          "Recovery Strategy": "Move to correct location or provide shade cloth"
+        },
+        {
+          "Skill": "Overwatering",
+          "Common Mistake": "Soggy soil, root dysfunction",
+          "Symptom": "Yellow leaves, wilting despite wet soil, poor growth",
+          "Root Cause": "Roots die in anaerobic conditions",
+          "Fix/Solution": "Let soil dry between waterings (1-2 inches deep)",
+          "Prevention": "Test soil moisture, use drip irrigation, improve drainage",
+          "Quality Benchmark": "Soil dries to 1-2 inches between waterings",
+          "Recovery Strategy": "Improve drainage, reduce watering frequency"
+        },
+        {
+          "Skill": "Underwatering",
+          "Common Mistake": "Wilting, slow growth",
+          "Symptom": "Dry crispy leaves, stunted plant development",
+          "Root Cause": "Plant available water depleted",
+          "Fix/Solution": "Water deeply 2-3 times per week (soil dependent)",
+          "Prevention": "Check soil moisture daily in heat, water to 6 inches deep",
+          "Quality Benchmark": "Soil moist to 6 inches deep, turgid leaves",
+          "Recovery Strategy": "Increase watering frequency/depth"
+        },
+        {
+          "Skill": "Nutrient deficiency",
+          "Common Mistake": "Yellowing leaves (especially nitrogen)",
+          "Symptom": "Pale green to yellow foliage, poor growth",
+          "Root Cause": "Nitrogen depleted from soil",
+          "Fix/Solution": "Add nitrogen fertilizer (compost, manure, synthetic)",
+          "Prevention": "Soil test annually, maintain fertility with amendments",
+          "Quality Benchmark": "Deep green foliage, vigorous growth",
+          "Recovery Strategy": "Apply fertilizer, wait 2-3 weeks for recovery"
+        },
+        {
+          "Skill": "Pests - Aphids",
+          "Common Mistake": "Large aphid colonies unchecked",
+          "Symptom": "Sticky residue, curled leaves, virus spread risk",
+          "Root Cause": "Pest population explodes without management",
+          "Fix/Solution": "Spray neem oil, insecticidal soap, or release ladybugs",
+          "Prevention": "Scout weekly, early small-population control",
+          "Quality Benchmark": "No visible aphids for 3-4 week cycles",
+          "Recovery Strategy": "Increase spray frequency, try different organic product"
+        },
+        {
+          "Skill": "Pests - Caterpillars",
+          "Common Mistake": "Holes in leaves, frass visible",
+          "Symptom": "Defoliation, reduced yield",
+          "Root Cause": "Caterpillar damage from lepidoptera larvae",
+          "Fix/Solution": "Bacillus thuringiensis (Bt) spray, hand removal",
+          "Prevention": "Check undersides of leaves weekly, early intervention",
+          "Quality Benchmark": "No more than 5% leaf damage, no visible frass",
+          "Recovery Strategy": "Increase Bt applications, improve monitoring"
+        },
+        {
+          "Skill": "Disease - Powdery mildew",
+          "Common Mistake": "White powdery coating on leaves",
+          "Symptom": "Reduced photosynthesis, leaf death, yield loss",
+          "Root Cause": "Fungal infection favored by humidity/heat",
+          "Fix/Solution": "Sulfur dust or potassium bicarbonate spray",
+          "Prevention": "Improve air circulation, water at soil level only",
+          "Quality Benchmark": "Clean foliage, no white powder visible after week",
+          "Recovery Strategy": "Re-apply fungicide, improve plant spacing"
+        },
+        {
+          "Skill": "Disease - Blight/rot",
+          "Common Mistake": "Brown spots spreading on leaves/stems",
+          "Symptom": "Rapid plant death, spread to other plants",
+          "Root Cause": "Pathogenic fungal infection (Phytophthora/Alternaria)",
+          "Fix/Solution": "Remove infected parts immediately, destroy, apply copper",
+          "Prevention": "Ensure good drainage, avoid wet foliage, sanitize tools",
+          "Quality Benchmark": "No new symptoms within 2 weeks of treatment",
+          "Recovery Strategy": "Remove entire plant if severe, improve spacing"
+        },
+        {
+          "Skill": "Soil depletion",
+          "Common Mistake": "Stunted growth, yellowing, poor yields",
+          "Symptom": "Nutrient exhaustion from repeated planting",
+          "Root Cause": "Harvesting removes soil nutrients without replacement",
+          "Fix/Solution": "Add compost, manure, cover crops, crop rotation",
+          "Prevention": "Soil test every 2 years, maintain organic matter",
+          "Quality Benchmark": "Test shows balanced NPK, organic matter >5%",
+          "Recovery Strategy": "Add amendments, implement rotation schedule"
+        },
+        {
+          "Skill": "Soil compaction",
+          "Common Mistake": "Poor drainage, weak root development",
+          "Symptom": "Water pools, shallow rooting, stunted growth",
+          "Root Cause": "Soil particles compressed, pore space reduced",
+          "Fix/Solution": "Loosen with broadfork or tiller, add organic matter",
+          "Prevention": "Avoid traffic when wet, mulch surface",
+          "Quality Benchmark": "Water infiltrates >1 inch per hour, roots reach 12 inches",
+          "Recovery Strategy": "Aerate with tiller, add compost, reduce traffic"
+        },
+        {
+          "Skill": "Compost - Too wet",
+          "Common Mistake": "Anaerobic conditions, foul smell",
+          "Symptom": "Methane smell, slow decomposition, anaerobic bacteria",
+          "Root Cause": "Excessive moisture prevents oxygen flow",
+          "Fix/Solution": "Add dry materials (straw, leaves), turn pile",
+          "Prevention": "Moisture like wrung-out sponge not soggy",
+          "Quality Benchmark": "Earthy smell, warm pile, decomposition in 2-3 months",
+          "Recovery Strategy": "Add more dry matter, turn more frequently"
+        },
+        {
+          "Skill": "Compost - Too dry",
+          "Common Mistake": "No decomposition, slow breakdown",
+          "Symptom": "Pile dormant, takes 6+ months to break down",
+          "Root Cause": "Insufficient moisture for microbes to work",
+          "Fix/Solution": "Water to wrung-out sponge moisture, turns regularly",
+          "Prevention": "Monitor moisture, turn every 2 weeks",
+          "Quality Benchmark": "Warm pile, earthy smell, complete in 3 months",
+          "Recovery Strategy": "Add water, turn more frequently, monitor moisture"
+        },
+        {
+          "Skill": "Compost - Wrong carbon:nitrogen ratio",
+          "Common Mistake": "Slow decomposition or strong ammonia smell",
+          "Symptom": "Too much green (nitrogen) or too much brown (carbon)",
+          "Root Cause": "Improper ratio (should be ~30:1 C:N)",
+          "Fix/Solution": "Mix 3 parts brown (leaves) to 1 part green (grass)",
+          "Prevention": "Layer materials, weigh amounts initially",
+          "Quality Benchmark": "No smell issues, proper decomposition rate",
+          "Recovery Strategy": "Adjust ratio, turn pile more frequently"
+        },
+        {
+          "Skill": "Crop rotation failure",
+          "Common Mistake": "Disease/pest buildup, soil depletion",
+          "Symptom": "Same pests appear, nutrients depleted, low yields",
+          "Root Cause": "Planting same family in same spot",
+          "Fix/Solution": "Rotate plant families (Nightshade/Legume/Brassica/Root)",
+          "Prevention": "Plan 3-4 year rotation schedule, document plantings",
+          "Quality Benchmark": "Healthy plants, no pest buildup, improved yields",
+          "Recovery Strategy": "Implement formal rotation, refer to plan annually"
+        },
+        {
+          "Skill": "Seed saving - Genetic contamination",
+          "Common Mistake": "Unexpected plant characteristics in next generation",
+          "Symptom": "Plants don't match parent type (crossed with neighbor)",
+          "Root Cause": "Cross-pollination from different variety nearby",
+          "Fix/Solution": "Isolate flowering plants, use bags during anthesis",
+          "Prevention": "Distance (200+ feet for open-pollinated), timing",
+          "Quality Benchmark": "Offspring match parent plant characteristics",
+          "Recovery Strategy": "Be aware of cross-pollination source, accept variation"
+        },
+        {
+          "Skill": "Seed saving - Premature harvest",
+          "Common Mistake": "Seeds not fully mature, low germination",
+          "Symptom": "Seeds don't sprout well, weak seedlings",
+          "Root Cause": "Harvested before natural drying on plant",
+          "Fix/Solution": "Wait until seed pod dries on plant, turns brown/papery",
+          "Prevention": "Visual inspection, crispness test, shake test",
+          "Quality Benchmark": "90%+ germination rate in stored seeds",
+          "Recovery Strategy": "Re-harvest at full maturity, test germination"
+        }
+      ],
+      "rowCount": 20
+    },
+    "Metalworking": {
+      "headers": [
+        "Skill",
+        "Common Mistake",
+        "Symptom",
+        "Root Cause",
+        "Fix/Solution",
+        "Prevention",
+        "Quality Benchmark",
+        "Recovery Strategy"
+      ],
+      "rows": [
+        {
+          "Skill": "Forge temperature",
+          "Common Mistake": "Forge too cool (<1100°C red heat)",
+          "Symptom": "Metal doesn't bend easily, cracks when struck",
+          "Root Cause": "Insufficient heat for plastic deformation",
+          "Fix/Solution": "Add fuel, increase air flow, use bellows harder",
+          "Prevention": "Watch color progression: black→cherry red→bright red",
+          "Quality Benchmark": "Metal bends without cracking, glows cherry red",
+          "Recovery Strategy": "Increase bellows strokes, add more coal"
+        },
+        {
+          "Skill": "Forge temperature",
+          "Common Mistake": "Forge too hot (>1300°C, becomes brittle)",
+          "Symptom": "Metal burns/oxidizes heavily, becomes crumbly",
+          "Root Cause": "Excessive heat burns carbon out of steel",
+          "Fix/Solution": "Reduce air flow, remove some fuel, use less aggressive bellows",
+          "Prevention": "Pull back from intense heat zone, control air",
+          "Quality Benchmark": "Minimal scale formation, metal holds together",
+          "Recovery Strategy": "Move metal to cooler zone, reduce bellows intensity"
+        },
+        {
+          "Skill": "Quenching failure",
+          "Common Mistake": "Water too warm or still",
+          "Symptom": "Hardness insufficient, blade stays soft",
+          "Root Cause": "Slow cooling doesn't form proper martensite",
+          "Fix/Solution": "Use fresh cold water, stir vigorously during quench",
+          "Prevention": "Prepare fresh water bucket before heat cycle",
+          "Quality Benchmark": "Blade scratches glass (hardness test), can't be bent",
+          "Recovery Strategy": "Re-heat and quench, ensure cold water agitation"
+        },
+        {
+          "Skill": "Quenching failure",
+          "Common Mistake": "Quenching oil too cool or viscous",
+          "Symptom": "Steel doesn't harden properly",
+          "Root Cause": "Oil cooling rate insufficient for carbon steel",
+          "Fix/Solution": "Use proper hardening oil heated to 150-200°C",
+          "Prevention": "Use dedicated hardening oil, monitor temperature",
+          "Quality Benchmark": "Blade file-hard, resists deep scoring",
+          "Recovery Strategy": "Use correct oil, reheat and quench properly"
+        },
+        {
+          "Skill": "Brittle steel",
+          "Common Mistake": "Over-hardening from excessive quenching",
+          "Symptom": "Steel shatters instead of bending",
+          "Root Cause": "Martensite structure too rigid, no ductility",
+          "Fix/Solution": "Temper steel: heat to 200-300°C (straw color) then cool",
+          "Prevention": "Watch color carefully: pale yellow→straw→purple",
+          "Quality Benchmark": "Blade bends before breaking, holds edge",
+          "Recovery Strategy": "Re-temper at proper color, balance hardness/toughness"
+        },
+        {
+          "Skill": "Brittle steel",
+          "Common Mistake": "Uneven cooling after quench",
+          "Symptom": "Some areas hard, others soft, uneven brittleness",
+          "Root Cause": "Differential martensite formation",
+          "Fix/Solution": "Normalize: heat to cherry red, air cool slowly 2-3x",
+          "Prevention": "Even cooling in still air, repeat cycles",
+          "Quality Benchmark": "Uniform hardness throughout, no spots of brittleness",
+          "Recovery Strategy": "Repeat normalize cycles until uniform"
+        },
+        {
+          "Skill": "Weld failure",
+          "Common Mistake": "Incomplete fusion (cold weld)",
+          "Symptom": "Crack appears under load, incomplete bonding",
+          "Root Cause": "Metal not hot enough to fuse, just pressed together",
+          "Fix/Solution": "Reheat to bright yellow, flux both surfaces, strike hard",
+          "Prevention": "Visual inspection, color matched on both surfaces",
+          "Quality Benchmark": "Weld holds under bend/strike test, strong connection",
+          "Recovery Strategy": "Reweld with proper heat and flux"
+        },
+        {
+          "Skill": "Weld failure",
+          "Common Mistake": "Porosity/holes in weld",
+          "Symptom": "Weak weld point, cracks initiate from voids",
+          "Root Cause": "Gas trapped in cooling weld metal",
+          "Fix/Solution": "Strike flux-covered weld multiple times, remove impurities",
+          "Prevention": "Proper flux coating, clean surfaces",
+          "Quality Benchmark": "Solid structure, no visible porosity on break test",
+          "Recovery Strategy": "Reweld, clean surfaces thoroughly"
+        },
+        {
+          "Skill": "Bellows failure",
+          "Common Mistake": "Valves not sealing, air loss",
+          "Symptom": "Bellows output weak, can't reach forging heat",
+          "Root Cause": "Valve leather degraded or damaged",
+          "Fix/Solution": "Repair/replace valve seals, use leather washers",
+          "Prevention": "Inspect valves regularly, test seal",
+          "Quality Benchmark": "Full volume air output, reaches full cherry red heat",
+          "Recovery Strategy": "Replace valve seals or rebuild bellows"
+        },
+        {
+          "Skill": "Bellows failure",
+          "Common Mistake": "Bellows nozzle crack",
+          "Symptom": "Air escapes sideways instead of in forge",
+          "Root Cause": "Metal fatigued from vibration or impact",
+          "Fix/Solution": "Repair weld at nozzle, reinforce if needed",
+          "Prevention": "Careful welding, don't overheat nozzle area",
+          "Quality Benchmark": "No air leakage, full pressure to forge",
+          "Recovery Strategy": "Weld carefully or replace bellows nozzle"
+        },
+        {
+          "Skill": "Anvil damage",
+          "Common Mistake": "Dents/mushrooming of horn from drops",
+          "Symptom": "Metal deforms instead of bouncing back",
+          "Root Cause": "Impact damage to surface",
+          "Fix/Solution": "Dress anvil with grinder/file to smooth surface",
+          "Prevention": "Use proper striking techniques, avoid dropping",
+          "Quality Benchmark": "Smooth surface, hammer bounces properly",
+          "Recovery Strategy": "Dress surface smooth or accept cosmetic damage"
+        },
+        {
+          "Skill": "Tool tempering - Chisel",
+          "Common Mistake": "Temper too hard (purple/blue color)",
+          "Symptom": "Cutting edge shatters when struck",
+          "Root Cause": "Over-tempered, lost toughness",
+          "Fix/Solution": "Draw temper lower: reheat to straw/pale yellow",
+          "Prevention": "Watch color carefully, stop at right point",
+          "Quality Benchmark": "Cuts smoothly, holds edge, doesn't shatter",
+          "Recovery Strategy": "Re-temper at lower temperature"
+        },
+        {
+          "Skill": "Tool tempering - Chisel",
+          "Common Mistake": "Temper too soft (no visible color)",
+          "Symptom": "Edge doesn't hold, dulls immediately",
+          "Root Cause": "Under-tempered, too soft",
+          "Fix/Solution": "Reheat to bright cherry red, then cool to straw color",
+          "Prevention": "Observe color change, reach proper temper",
+          "Quality Benchmark": "Cuts cleanly for extended use, good edge retention",
+          "Recovery Strategy": "Reach proper temper temperature"
+        },
+        {
+          "Skill": "File hardness loss",
+          "Common Mistake": "File becomes dull, won't cut properly",
+          "Symptom": "File glances off work instead of cutting",
+          "Root Cause": "Hardness lost from over-heating or over-use",
+          "Fix/Solution": "Replace file (can't reharden easily), or re-harden",
+          "Prevention": "Use files within capacity, store safely",
+          "Quality Benchmark": "File cuts smoothly for 100+ hours use",
+          "Recovery Strategy": "Replace file, don't exceed use limits"
+        },
+        {
+          "Skill": "Hammer head looseness",
+          "Common Mistake": "Handle comes loose or head slips",
+          "Symptom": "Head flies off during work (safety hazard)",
+          "Root Cause": "Wedges loosened from repeated impacts",
+          "Fix/Solution": "Reinstall wedges, use metal/wood wedges to secure",
+          "Prevention": "Check wedges regularly, re-tighten as needed",
+          "Quality Benchmark": "Hammer head solid for 1000+ strikes",
+          "Recovery Strategy": "Maintain wedges, check before each use"
+        }
+      ],
+      "rowCount": 15
+    },
+    "Pottery & Ceramics": {
+      "headers": [
+        "Skill",
+        "Common Mistake",
+        "Symptom",
+        "Root Cause",
+        "Fix/Solution",
+        "Prevention",
+        "Quality Benchmark",
+        "Recovery Strategy"
+      ],
+      "rows": [
+        {
+          "Skill": "Clay preparation",
+          "Common Mistake": "Inadequate wedging (air pockets)",
+          "Symptom": "Pots crack during firing from trapped air expansion",
+          "Root Cause": "Air bubbles remain in clay body",
+          "Fix/Solution": "Wedge thoroughly 15-20 times, watch for bubbles",
+          "Prevention": "Consistent texture, no visible air pockets",
+          "Quality Benchmark": "No cracks from air expansion after firing",
+          "Recovery Strategy": "Rewedge thoroughly before next use"
+        },
+        {
+          "Skill": "Clay preparation",
+          "Common Mistake": "Clay too dry",
+          "Symptom": "Cracks during throwing, won't stick together",
+          "Root Cause": "Moisture content insufficient for plasticity",
+          "Fix/Solution": "Add water gradually, knead thoroughly",
+          "Prevention": "Clay feels smooth, sticks when pressed",
+          "Quality Benchmark": "Works smoothly on wheel, joins without cracking",
+          "Recovery Strategy": "Re-hydrate carefully, knead to even moisture"
+        },
+        {
+          "Skill": "Drying process",
+          "Common Mistake": "Drying too fast (sun/heat exposure)",
+          "Symptom": "Cracks radiate from center or edges curl",
+          "Root Cause": "Outer layer dries faster than interior",
+          "Fix/Solution": "Dry slowly in shade, cover loosely with plastic",
+          "Prevention": "Even moisture throughout, slow drying over days",
+          "Quality Benchmark": "No cracks after bone-dry stage",
+          "Recovery Strategy": "Dry in shade, increase drying time"
+        },
+        {
+          "Skill": "Drying process",
+          "Common Mistake": "Uneven drying (thick/thin areas)",
+          "Symptom": "Thin sections fire-hard before thick sections ready",
+          "Root Cause": "Differential drying rates cause stress",
+          "Fix/Solution": "Uniform wall thickness, consistent drying environment",
+          "Prevention": "Even thickness design, covered drying area",
+          "Quality Benchmark": "All sections bone-dry simultaneously",
+          "Recovery Strategy": "Redesign for uniform thickness"
+        },
+        {
+          "Skill": "Kiln - Moisture in bisque",
+          "Common Mistake": "Steam explosions during heating",
+          "Symptom": "Pots explode violently 50-100°C, kiln damage",
+          "Root Cause": "Water inside clay hasn't fully escaped",
+          "Fix/Solution": "Slow heating ramp (100°C/hour) below 200°C",
+          "Prevention": "Extended water smoking phase, proper ventilation",
+          "Quality Benchmark": "No explosions, smooth temperature ramp",
+          "Recovery Strategy": "Extend low-temp hold, monitor for steam"
+        },
+        {
+          "Skill": "Kiln - Temperature control",
+          "Common Mistake": "Over-firing (temperature too high)",
+          "Symptom": "Glaze runs off, pots warp or melt to shelf",
+          "Root Cause": "Kiln reached wrong temperature",
+          "Fix/Solution": "Use pyrometric cones, calibrate kiln temperature",
+          "Prevention": "Monitor cones during firing, control temperature",
+          "Quality Benchmark": "Cones bend correctly, glaze stays in place",
+          "Recovery Strategy": "Lower temperature, verify cone calibration"
+        },
+        {
+          "Skill": "Kiln - Temperature control",
+          "Common Mistake": "Under-firing (too cool)",
+          "Symptom": "Glaze doesn't melt, stays powdery and rough",
+          "Root Cause": "Insufficient heat to mature glaze",
+          "Fix/Solution": "Increase firing temperature, hold longer",
+          "Prevention": "Use proper temperature for glaze type",
+          "Quality Benchmark": "Glaze melts fully, smooth glossy surface",
+          "Recovery Strategy": "Increase temperature or extend firing time"
+        },
+        {
+          "Skill": "Glaze application",
+          "Common Mistake": "Glaze too thick",
+          "Symptom": "Glaze runs off pieces, collects on shelf",
+          "Root Cause": "Over-application of glaze",
+          "Fix/Solution": "Dip 2-5 seconds or spray thin coating",
+          "Prevention": "Brush-apply with multiple thin coats vs single thick",
+          "Quality Benchmark": "Glaze stays on piece, no shelf sticking",
+          "Recovery Strategy": "Apply thinner coats, test specific gravity"
+        },
+        {
+          "Skill": "Glaze application",
+          "Common Mistake": "Glaze too thin",
+          "Symptom": "Rough powdery surface, color weak",
+          "Root Cause": "Insufficient glaze coating",
+          "Fix/Solution": "Dip longer or apply multiple coats",
+          "Prevention": "Test glaze application thickness with samples",
+          "Quality Benchmark": "Smooth glossy surface, consistent color",
+          "Recovery Strategy": "Apply thicker coating, increase dip time"
+        },
+        {
+          "Skill": "Glaze chemistry",
+          "Common Mistake": "Glaze fits poorly to clay (crazing)",
+          "Symptom": "Fine cracks form in glaze surface",
+          "Root Cause": "Thermal expansion mismatch between glaze/clay",
+          "Fix/Solution": "Adjust glaze recipe: increase feldspar/flux",
+          "Prevention": "Test glaze on test tiles before production",
+          "Quality Benchmark": "No crazing visible after firing and cooling",
+          "Recovery Strategy": "Reformulate glaze with proper fit"
+        },
+        {
+          "Skill": "Glaze chemistry",
+          "Common Mistake": "Glaze fits too tight (shivering)",
+          "Symptom": "Glaze flakes off edges and curves",
+          "Root Cause": "Expansion of glaze > clay expansion",
+          "Fix/Solution": "Reduce flux, increase silica in glaze",
+          "Prevention": "Glaze fit test before full production",
+          "Quality Benchmark": "Glaze stays firmly attached",
+          "Recovery Strategy": "Adjust glaze recipe composition"
+        },
+        {
+          "Skill": "Color development",
+          "Common Mistake": "Uneven color in fired pieces",
+          "Symptom": "Blotchy or streaky glaze coloration",
+          "Root Cause": "Uneven glaze application or firing conditions",
+          "Fix/Solution": "Apply glaze evenly, ensure consistent kiln temperature",
+          "Prevention": "Even application, good air circulation in kiln",
+          "Quality Benchmark": "Uniform color across all pieces",
+          "Recovery Strategy": "Re-apply glaze evenly, verify kiln hotspots"
+        },
+        {
+          "Skill": "Structural weakness",
+          "Common Mistake": "Thin pot cracks under use",
+          "Symptom": "Cracks from normal handling/impact",
+          "Root Cause": "Insufficient wall thickness",
+          "Fix/Solution": "Build with minimum 1/4 inch walls on vessels",
+          "Prevention": "Uniform thickness, strengthen base/stress areas",
+          "Quality Benchmark": "Survives normal use and mild impacts",
+          "Recovery Strategy": "Rebuild with thicker walls"
+        },
+        {
+          "Skill": "Foot rim issues",
+          "Common Mistake": "Sharp foot cuts hands during use",
+          "Symptom": "Injury risk, uncomfortable to hold",
+          "Root Cause": "Foot not smoothed during finishing",
+          "Fix/Solution": "Sand foot smooth, wipe with damp sponge",
+          "Prevention": "Smooth all edges before glaze firing",
+          "Quality Benchmark": "Smooth foot, safe to handle repeatedly",
+          "Recovery Strategy": "Sand smooth, refire if needed or accept"
+        },
+        {
+          "Skill": "Warping during firing",
+          "Common Mistake": "Pot shape changes during firing",
+          "Symptom": "Lips no longer match, bases warp up",
+          "Root Cause": "Support inadequate, heat distribution uneven",
+          "Fix/Solution": "Use kiln shelves, proper support, even heating",
+          "Prevention": "Proper shelf placement, thermal cycling",
+          "Quality Benchmark": "Pieces hold shape after firing",
+          "Recovery Strategy": "Rebuild support system in kiln"
+        }
+      ],
+      "rowCount": 15
+    },
+    "Hunting & Trapping": {
+      "headers": [
+        "Skill",
+        "Common Mistake",
+        "Symptom",
+        "Root Cause",
+        "Fix/Solution",
+        "Prevention",
+        "Quality Benchmark",
+        "Recovery Strategy"
+      ],
+      "rows": [
+        {
+          "Skill": "Snare placement",
+          "Common Mistake": "Snare too high or too low",
+          "Symptom": "Animal avoids or jumps over snare",
+          "Root Cause": "Misplaced for target species size",
+          "Fix/Solution": "Set loop 4-6 inches above ground for rabbits",
+          "Prevention": "Know prey height, test with hand placement",
+          "Quality Benchmark": "Consistent captures, snare catches around neck",
+          "Recovery Strategy": "Adjust height for specific animal"
+        },
+        {
+          "Skill": "Snare placement",
+          "Common Mistake": "Snare not along game trail",
+          "Symptom": "No captures, animal takes alternate route",
+          "Root Cause": "Poor trail identification",
+          "Fix/Solution": "Scout area for droppings, tracks, worn paths",
+          "Prevention": "Visual observation, follow game signs",
+          "Quality Benchmark": "Frequent captures indicate good placement",
+          "Recovery Strategy": "Relocate snare along confirmed trail"
+        },
+        {
+          "Skill": "Bow - Tillering problems",
+          "Common Mistake": "Uneven limb bend (one limb stiffer)",
+          "Symptom": "Bow accuracy poor, arrow flies crooked",
+          "Root Cause": "Limb wood thickness uneven",
+          "Fix/Solution": "Shave stiffer limb, match bend to other side",
+          "Prevention": "Visual inspection while bending, photo comparison",
+          "Quality Benchmark": "Both limbs bend equally, symmetrical curve",
+          "Recovery Strategy": "Reshave stiff limb, retest repeatedly"
+        },
+        {
+          "Skill": "Bow - Arm guard fit",
+          "Common Mistake": "Arm guard not securing properly",
+          "Symptom": "Guard slips, catches arm during release",
+          "Root Cause": "Fit incorrect or straps loose",
+          "Fix/Solution": "Tighten straps, ensure snug fit above elbow",
+          "Prevention": "Test fit while drawing, prevent arm rotation",
+          "Quality Benchmark": "Guard stays in place throughout draw/release",
+          "Recovery Strategy": "Retighten straps or replace with better fit"
+        },
+        {
+          "Skill": "Arrow spine mismatch",
+          "Common Mistake": "Arrows too stiff or too flexible",
+          "Symptom": "Arrow bends excessively or doesn't flex, poor accuracy",
+          "Root Cause": "Arrow spine doesn't match bow draw weight",
+          "Fix/Solution": "Use spine table: 40 lb bow = 0.400\" spine example",
+          "Prevention": "Measure bow draw weight, select matching spine",
+          "Quality Benchmark": "Tight grouping at 20 yards, consistent impact",
+          "Recovery Strategy": "Switch to correct spine arrows"
+        },
+        {
+          "Skill": "Arrow fletching damage",
+          "Common Mistake": "Fletching torn or separated",
+          "Symptom": "Arrow flight unstable, tumbles in flight",
+          "Root Cause": "Fletching adhesive failed or struck obstacle",
+          "Fix/Solution": "Inspect arrows after practice, replace fletching",
+          "Prevention": "Use quality adhesive, proper clamp during setting",
+          "Quality Benchmark": "Consistent flight, tight groupings at distance",
+          "Recovery Strategy": "Repair or replace fletched arrows"
+        },
+        {
+          "Skill": "Poor tracking",
+          "Common Mistake": "Lost animal due to lost blood trail",
+          "Symptom": "Game escapes, potential suffering",
+          "Root Cause": "Insufficient blood trail or poor bleeding",
+          "Fix/Solution": "Use sharp broadhead, proper placement behind front shoulder",
+          "Prevention": "Wait 20-30 minutes before tracking, follow droplets",
+          "Quality Benchmark": "Dead within 50-100 yards consistently",
+          "Recovery Strategy": "Improve shot placement, sharper broadheads"
+        },
+        {
+          "Skill": "Game spoilage",
+          "Common Mistake": "Meat spoils in warm weather",
+          "Symptom": "Meat becomes rancid, inedible",
+          "Root Cause": "Not cooled immediately or exposed to flies",
+          "Fix/Solution": "Field dress immediately, cool for 2+ hours before processing",
+          "Prevention": "Cool environment, keep insects off, process quickly",
+          "Quality Benchmark": "Meat stays fresh until processing, normal color/smell",
+          "Recovery Strategy": "Improve field dressing speed, cool in shade"
+        },
+        {
+          "Skill": "Hide tanning failure",
+          "Common Mistake": "Hide remains stiff and unworkable",
+          "Symptom": "Skin doesn't have usable leather texture",
+          "Root Cause": "Tanning process incomplete or improper",
+          "Fix/Solution": "Use brains/oak gall recipe, work during drying",
+          "Prevention": "Smoke hide, stretch continuously while drying",
+          "Quality Benchmark": "Soft supple leather, usable for clothing",
+          "Recovery Strategy": "Rewet and re-tan with proper process"
+        },
+        {
+          "Skill": "Fishing - Poor placement",
+          "Common Mistake": "No fish caught in chosen location",
+          "Symptom": "Fish not present in selected area",
+          "Root Cause": "Wrong water feature chosen",
+          "Fix/Solution": "Fish deeper pools, current breaks, shaded areas",
+          "Prevention": "Scout location, observe water conditions",
+          "Quality Benchmark": "Regular catches indicate good location",
+          "Recovery Strategy": "Move to other locations with better conditions"
+        },
+        {
+          "Skill": "Fishing - Wrong bait",
+          "Common Mistake": "Wrong bait for target species",
+          "Symptom": "Few or no bites despite good location",
+          "Root Cause": "Bait species not available/preferred locally",
+          "Fix/Solution": "Use live bait matching local food sources",
+          "Prevention": "Observe prey in location, use matching bait",
+          "Quality Benchmark": "Regular bites, consistent catches",
+          "Recovery Strategy": "Switch bait type, use local forage items"
+        },
+        {
+          "Skill": "Fishing - Line breakage",
+          "Common Mistake": "Line breaks, loses fish/lure",
+          "Symptom": "Repeated hook/lure losses",
+          "Root Cause": "Line quality poor or wrong weight for fish",
+          "Fix/Solution": "Use weight-appropriate line, check for fraying",
+          "Prevention": "Inspect line after each catch, replace if damaged",
+          "Quality Benchmark": "Lands fish consistently without breakage",
+          "Recovery Strategy": "Replace line, use heavier test weight"
+        },
+        {
+          "Skill": "Bow maintenance - Dry rot",
+          "Common Mistake": "Bow wood becomes weak/crumbly",
+          "Symptom": "Bow may break or fail during use",
+          "Root Cause": "Wood exposed to moisture, fungal decay",
+          "Fix/Solution": "Store in dry environment, inspect regularly",
+          "Prevention": "Maintain finish, keep wood protected",
+          "Quality Benchmark": "Wood stays hard and resonant when tapped",
+          "Recovery Strategy": "Treat with linseed oil, improve storage conditions"
+        },
+        {
+          "Skill": "Snare - Improper anchor",
+          "Common Mistake": "Snare comes loose, animal escapes",
+          "Symptom": "Trap ineffective, lost opportunities",
+          "Root Cause": "Anchor point not secure",
+          "Fix/Solution": "Anchor to tree/post securely, test pull strength",
+          "Prevention": "Multiple anchor points for tension",
+          "Quality Benchmark": "Snare holds animal firmly, escape impossible",
+          "Recovery Strategy": "Reinforce anchor, use thicker materials"
+        },
+        {
+          "Skill": "Arrow storage",
+          "Common Mistake": "Arrows warp in storage",
+          "Symptom": "Warped arrows won't fly straight",
+          "Root Cause": "Improper storage position/humidity",
+          "Fix/Solution": "Store straight in cool dry environment",
+          "Prevention": "Spine straightness check annually",
+          "Quality Benchmark": "Arrows perfectly straight, consistent flight",
+          "Recovery Strategy": "Replace warped arrows or straighten via steam"
+        }
+      ],
+      "rowCount": 15
+    },
+    "Medicine & Health": {
+      "headers": [
+        "Skill",
+        "Common Mistake",
+        "Symptom",
+        "Root Cause",
+        "Fix/Solution",
+        "Prevention",
+        "Quality Benchmark",
+        "Recovery Strategy"
+      ],
+      "rows": [
+        {
+          "Skill": "Wound infection signs",
+          "Common Mistake": "Increasing redness/warmth around wound",
+          "Symptom": "Cellulitis spreading, possible sepsis risk",
+          "Root Cause": "Contamination or inadequate initial cleaning",
+          "Fix/Solution": "Clean wound with soap/water, apply antibiotic ointment",
+          "Prevention": "Cover, keep dry, monitor daily for spread",
+          "Quality Benchmark": "Redness stable/reducing, warmth goes away within 48hrs",
+          "Recovery Strategy": "Increase cleaning frequency, apply stronger antibiotic"
+        },
+        {
+          "Skill": "Wound infection signs",
+          "Common Mistake": "Foul odor from wound",
+          "Symptom": "Infection indicator, potential tissue death",
+          "Root Cause": "Anaerobic bacteria colonization",
+          "Fix/Solution": "Debride dead tissue, clean deeply, apply antibiotic",
+          "Prevention": "Clean daily, remove dead tissue, change dressing",
+          "Quality Benchmark": "Odor resolves within 3 days of treatment",
+          "Recovery Strategy": "Aggressive cleaning, consider systemic antibiotics"
+        },
+        {
+          "Skill": "Wound infection signs",
+          "Common Mistake": "Pus production increasing",
+          "Symptom": "Infection progressing, may spread systemically",
+          "Root Cause": "Immune response overwhelming bacterial load",
+          "Fix/Solution": "Drain pus, clean thoroughly with saline",
+          "Prevention": "Daily dressing changes, clean dressing only",
+          "Quality Benchmark": "Pus decreases daily, odor fades within week",
+          "Recovery Strategy": "Increase cleaning, consider oral antibiotics"
+        },
+        {
+          "Skill": "Herbal preparation",
+          "Common Mistake": "Wrong part of plant used",
+          "Symptom": "Wrong or weak medicinal effect",
+          "Root Cause": "Didn't identify correct part (leaf/root/flower/seed)",
+          "Fix/Solution": "Research species, harvest correct part only",
+          "Prevention": "Botanical guide reference, expert identification",
+          "Quality Benchmark": "Expected medicinal effect achieved",
+          "Recovery Strategy": "Use correct plant part, verify identification"
+        },
+        {
+          "Skill": "Herbal preparation",
+          "Common Mistake": "Over-concentrated decoction",
+          "Symptom": "Side effects or toxicity from overdose",
+          "Root Cause": "Boiling time too long or material too concentrated",
+          "Fix/Solution": "Follow recipe ratios exactly, measure carefully",
+          "Prevention": "Standard: 1 part herb to 10 parts water",
+          "Quality Benchmark": "Expected effect without side effects",
+          "Recovery Strategy": "Reduce concentration, follow recipe exactly"
+        },
+        {
+          "Skill": "Herbal preparation",
+          "Common Mistake": "Contaminated or moldy herbs",
+          "Symptom": "No medicinal effect or toxin ingestion",
+          "Root Cause": "Improper storage, moisture exposure",
+          "Fix/Solution": "Store in dry containers, inspect before use",
+          "Prevention": "Clean dry storage, discard if discolored/smelly",
+          "Quality Benchmark": "Clear appearance, pleasant herb smell, no mold",
+          "Recovery Strategy": "Discard and replace with fresh herbs"
+        },
+        {
+          "Skill": "Dosage mistakes",
+          "Common Mistake": "Dosing too frequently or too high",
+          "Symptom": "Overdose symptoms, toxicity",
+          "Root Cause": "Didn't follow established dosing guidelines",
+          "Fix/Solution": "Use 3-4 times daily maximum, verify safety window",
+          "Prevention": "Document dosing schedule, use timer/calendar",
+          "Quality Benchmark": "Therapeutic effect without toxicity",
+          "Recovery Strategy": "Reduce frequency, increase interval between doses"
+        },
+        {
+          "Skill": "Dosage mistakes",
+          "Common Mistake": "Dosing too low or infrequent",
+          "Symptom": "Subtherapeutic effect, condition worsens",
+          "Root Cause": "Inadequate frequency or amount",
+          "Fix/Solution": "Follow established protocols, increase to therapeutic range",
+          "Prevention": "Measure doses carefully, maintain schedule",
+          "Quality Benchmark": "Noticeable improvement in symptoms",
+          "Recovery Strategy": "Increase dosing to therapeutic level"
+        },
+        {
+          "Skill": "Plant misidentification",
+          "Common Mistake": "Toxic plant used instead of medicinal species",
+          "Symptom": "Poisoning, severe illness, potential death",
+          "Root Cause": "Similar-looking species gathered incorrectly",
+          "Fix/Solution": "Definitive identification before use, use field guide",
+          "Prevention": "Expert confirmation, photo comparison to toxins",
+          "Quality Benchmark": "Correct species identification, no symptoms",
+          "Recovery Strategy": "Discard, positively identify before use again"
+        },
+        {
+          "Skill": "Sanitation failure",
+          "Common Mistake": "Infected needle or unclean tools",
+          "Symptom": "Infection, abscess formation, blood-borne disease",
+          "Root Cause": "Tools not sterilized",
+          "Fix/Solution": "Boil instruments 10 minutes, use new needles",
+          "Prevention": "Autoclave or pressure cook before use",
+          "Quality Benchmark": "No infections after procedure",
+          "Recovery Strategy": "Sterilize equipment properly before use"
+        },
+        {
+          "Skill": "Hygiene-related illness",
+          "Common Mistake": "Contaminated water source",
+          "Symptom": "Dysentery, giardia, cryptosporidium illness",
+          "Root Cause": "Drinking untreated water",
+          "Fix/Solution": "Boil 1 minute, use filter + disinfection",
+          "Prevention": "Filter + bleach (2 drops/quart) or iodine",
+          "Quality Benchmark": "Clear water, no illness after drinking",
+          "Recovery Strategy": "Always treat water before consuming"
+        },
+        {
+          "Skill": "Burn treatment",
+          "Common Mistake": "Applying butter/oil to fresh burn",
+          "Symptom": "Infection risk, traps heat, increases damage",
+          "Root Cause": "Misconception about treatment",
+          "Fix/Solution": "Cool with water 15 minutes, apply clean dry bandage",
+          "Prevention": "Remove source, cool immediately, keep clean",
+          "Quality Benchmark": "Healing without infection, minimal scarring",
+          "Recovery Strategy": "Cool properly, use antibiotic ointment instead"
+        },
+        {
+          "Skill": "Hypothermia",
+          "Common Mistake": "Inadequate rewarming (too aggressive)",
+          "Symptom": "Afterdrop (temperature continues dropping), cardiac issues",
+          "Root Cause": "Rapid core temperature change",
+          "Fix/Solution": "Passive external rewarming, warm fluids slowly",
+          "Prevention": "Gradual warming, avoid rapid temperature changes",
+          "Quality Benchmark": "Body temperature stabilizes and rises steadily",
+          "Recovery Strategy": "Slow gradual warming process"
+        },
+        {
+          "Skill": "Dehydration",
+          "Common Mistake": "Drinking too much plain water at once",
+          "Symptom": "Hyponatremia, water intoxication, seizures",
+          "Root Cause": "Electrolyte imbalance from excessive water",
+          "Fix/Solution": "Add salt/electrolytes to water, drink gradually",
+          "Prevention": "Electrolyte solution: water + salt + sugar",
+          "Quality Benchmark": "Thirst satisfied, normal cognition, steady vitals",
+          "Recovery Strategy": "Use electrolyte drinks, don't drink plain water exclusively"
+        },
+        {
+          "Skill": "Infection wound care",
+          "Common Mistake": "Not changing dressing frequently enough",
+          "Symptom": "Infection worsens, odor develops",
+          "Root Cause": "Moist environment encourages bacterial growth",
+          "Fix/Solution": "Change daily or when dressing becomes damp",
+          "Prevention": "Dry dressing, proper coverage",
+          "Quality Benchmark": "Clean dry wound, no odor, healing proceeds",
+          "Recovery Strategy": "Increase dressing change frequency"
+        }
+      ],
+      "rowCount": 15
+    },
+    "Textiles & Cordage": {
+      "headers": [
+        "Skill",
+        "Common Mistake",
+        "Symptom",
+        "Root Cause",
+        "Fix/Solution",
+        "Prevention",
+        "Quality Benchmark",
+        "Recovery Strategy"
+      ],
+      "rows": [
+        {
+          "Skill": "Cordage making",
+          "Common Mistake": "Inadequate fiber preparation",
+          "Symptom": "Weak cordage breaks under light load",
+          "Root Cause": "Fibers matted or tangled, poor alignment",
+          "Fix/Solution": "Properly card/comb fibers, remove debris",
+          "Prevention": "Fibers aligned parallel, smooth",
+          "Quality Benchmark": "Cordage withstands 100+ lbs tension without breaking",
+          "Recovery Strategy": "Prepare fibers better, test strength"
+        },
+        {
+          "Skill": "Cordage making",
+          "Common Mistake": "Twist too loose",
+          "Symptom": "Cordage stretches excessively, weak",
+          "Root Cause": "Insufficient twist binding fibers",
+          "Fix/Solution": "Tight spinning, multiple twist passes",
+          "Prevention": "Visual check: compact dense cordage",
+          "Quality Benchmark": "Minimal stretch under load, strong pull-test",
+          "Recovery Strategy": "Increase twist ratio, re-spin tighter"
+        },
+        {
+          "Skill": "Cordage making",
+          "Common Mistake": "Uneven twist (thick/thin spots)",
+          "Symptom": "Breaks at thin spots under load",
+          "Root Cause": "Inconsistent spinning",
+          "Fix/Solution": "Consistent tension, even feed rate",
+          "Prevention": "Uniform diameter throughout length",
+          "Quality Benchmark": "Even strength throughout, no weak points",
+          "Recovery Strategy": "Spin with consistent tension control"
+        },
+        {
+          "Skill": "Spinning fiber",
+          "Common Mistake": "Wheel speed too fast",
+          "Symptom": "Uneven yarn, thread breakage during spinning",
+          "Root Cause": "Over-speed causes weak points",
+          "Fix/Solution": "Reduce wheel speed, better hand control",
+          "Prevention": "Smooth consistent motion",
+          "Quality Benchmark": "Uniform yarn diameter, no breaks",
+          "Recovery Strategy": "Slow wheel speed, practice consistency"
+        },
+        {
+          "Skill": "Spinning fiber",
+          "Common Mistake": "Wheel speed too slow",
+          "Symptom": "Yarn too loose, weak, untwisted",
+          "Root Cause": "Insufficient twist formation",
+          "Fix/Solution": "Increase wheel speed, maintain draw rate",
+          "Prevention": "Even twist throughout yarn",
+          "Quality Benchmark": "Strong yarn, minimal stretch",
+          "Recovery Strategy": "Increase wheel speed appropriately"
+        },
+        {
+          "Skill": "Loom tension",
+          "Common Mistake": "Warp too loose",
+          "Symptom": "Finished fabric sags, uneven weave",
+          "Root Cause": "Insufficient tension for straight warp",
+          "Fix/Solution": "Tighten tensioning screws/system",
+          "Prevention": "Warp straight under light tension",
+          "Quality Benchmark": "Flat even fabric without waves",
+          "Recovery Strategy": "Increase warp tension"
+        },
+        {
+          "Skill": "Loom tension",
+          "Common Mistake": "Warp too tight",
+          "Symptom": "Loom frame stress, warp breaks",
+          "Root Cause": "Excessive tension causes failure",
+          "Fix/Solution": "Reduce tension to medium-firm",
+          "Prevention": "Warp firm but not straining",
+          "Quality Benchmark": "Intact warp threads, no breakage",
+          "Recovery Strategy": "Reduce tension slightly"
+        },
+        {
+          "Skill": "Dye preparation",
+          "Common Mistake": "Wrong dye temperature",
+          "Symptom": "Color weak or uneven, poor uptake",
+          "Root Cause": "Dye not activated or fiber damaged",
+          "Fix/Solution": "Use correct temperature for dye type (natural vs synthetic)",
+          "Prevention": "Follow dye instructions, monitor temperature",
+          "Quality Benchmark": "Rich even color, good color saturation",
+          "Recovery Strategy": "Use proper temperature for dye type"
+        },
+        {
+          "Skill": "Dye preparation",
+          "Common Mistake": "Uneven dye exposure",
+          "Symptom": "Blotchy color, some areas light/dark",
+          "Root Cause": "Fiber not moving in dye bath",
+          "Fix/Solution": "Stir constantly, move fibers, ensure submersion",
+          "Prevention": "Continuous movement, even exposure",
+          "Quality Benchmark": "Uniform color throughout all fibers",
+          "Recovery Strategy": "Improve agitation, move fibers constantly"
+        },
+        {
+          "Skill": "Fiber blending",
+          "Common Mistake": "Poor fiber mixing (separation)",
+          "Symptom": "Spun yarn has weak spots from unmixed fibers",
+          "Root Cause": "Fibers didn't blend during carding",
+          "Fix/Solution": "Card multiple times, blend thoroughly",
+          "Prevention": "Uniform mixed color in carded wool",
+          "Quality Benchmark": "Even yarn, consistent properties throughout",
+          "Recovery Strategy": "Card more times, ensure complete blending"
+        },
+        {
+          "Skill": "Fabric weakness",
+          "Common Mistake": "Low thread count, loose weave",
+          "Symptom": "Fabric tears easily, lacks durability",
+          "Root Cause": "Insufficient weave density",
+          "Fix/Solution": "Tighter weave, more threads, closer spacing",
+          "Prevention": "Visual inspection, hand feel for density",
+          "Quality Benchmark": "Durable fabric resists tearing under normal use",
+          "Recovery Strategy": "Weave tighter or use more threads"
+        },
+        {
+          "Skill": "Basket weaving",
+          "Common Mistake": "Structural weakness in rim",
+          "Symptom": "Rim breaks or becomes loose",
+          "Root Cause": "Inadequate rim reinforcement",
+          "Fix/Solution": "Double/triple rim with tight binding",
+          "Prevention": "Visible strong rim structure, no flex",
+          "Quality Benchmark": "Rim survives rough handling, no cracking",
+          "Recovery Strategy": "Strengthen rim with additional wrapping"
+        }
+      ],
+      "rowCount": 12
+    }
+  },
+  "sheetCount": 10
+}

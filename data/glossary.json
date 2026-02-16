@@ -1,0 +1,4186 @@
+{
+  "metadata": {
+    "created": "2026-02-15T06:22:29.041Z",
+    "totalTerms": 250,
+    "version": "1.0"
+  },
+  "glossary": {
+    "Related Guides": {
+      "term": "Related Guides",
+      "definition": "A technical term used in advanced materials",
+      "sources": [
+        "advanced-materials",
+        "agriculture",
+        "alkali-production",
+        "anatomy-oral",
+        "anesthesia-pain",
+        "animal-husbandry",
+        "aquaculture",
+        "archery-crossbows",
+        "archival-records",
+        "astronomy-calendar",
+        "automotive-alternator-repurposing",
+        "basketry-cordage",
+        "batteries",
+        "bearing-manufacturing",
+        "beekeeping",
+        "bicycle-construction",
+        "biogas-production",
+        "blackpowder-blasting",
+        "blacksmithing",
+        "bloomery-furnace",
+        "bone-tools",
+        "bookbinding-printing",
+        "bridges-dams",
+        "burn-treatment",
+        "butchering",
+        "cartography-mapmaking",
+        "census-vital-records",
+        "charcoal-fuels",
+        "chemical-safety",
+        "chemistry-fundamentals",
+        "chlorine-bleach-production",
+        "clockmaking-precision",
+        "com-01-community-governance",
+        "community-organizing",
+        "computing-logic",
+        "con-01-shelter-building",
+        "con-02-carpentry-woodworking",
+        "con-03-clay-earthworks",
+        "con-04-energy-systems",
+        "construction",
+        "cra-01-forging-metalwork",
+        "cra-02-pottery-ceramics",
+        "cra-03-cordage-textiles",
+        "cra-04-soap-making",
+        "cra-05-weaving-textiles",
+        "cra-06-knot-tying-rigging",
+        "cra-07-primitive-weapons",
+        "cryptography-codes",
+        "cultural-practices-cohesion",
+        "dairy-processing",
+        "dentistry-midwifery",
+        "dentistry-restorative",
+        "dogs-working-animals",
+        "draft-animals",
+        "dyeing-pigments",
+        "economics-trade",
+        "education-teaching",
+        "electrical-generation",
+        "electrical-motors",
+        "electrical-wiring",
+        "electricity",
+        "electrolysis-chloralkali",
+        "emergency-dental",
+        "energy-systems",
+        "engineering-repair",
+        "entertainment",
+        "fermentation-baking",
+        "fire-suppression",
+        "first-aid",
+        "flight-balloons",
+        "fod-01-food-preservation",
+        "fod-02-trapping-hunting",
+        "fod-03-agriculture-basics",
+        "fod-04-animal-husbandry",
+        "fod-05-food-foraging",
+        "food-preservation",
+        "food-rationing",
+        "foraging-hunting",
+        "forestry",
+        "foundry-casting",
+        "glass-ceramics",
+        "glue-adhesives",
+        "governance",
+        "grain-milling",
+        "greenhouse-coldframe"
+      ],
+      "frequency": 85
+    },
+    "Common Mistakes": {
+      "term": "Common Mistakes",
+      "definition": "A technical term used in abrasives manufacturing",
+      "sources": [
+        "abrasives-manufacturing",
+        "acetylene-carbide-production",
+        "advanced-materials",
+        "agriculture",
+        "alkali-production",
+        "ammonia-synthesis-simplified",
+        "anatomy-oral",
+        "anesthesia-pain",
+        "animal-husbandry",
+        "animal-tracking",
+        "aquaculture",
+        "archery-crossbows",
+        "archival-records",
+        "astronomy-calendar",
+        "basketry-cordage",
+        "battery-restoration",
+        "bearing-manufacturing",
+        "beekeeping",
+        "bicycle-construction",
+        "blackpowder-blasting",
+        "blood-medicine",
+        "bone-tools",
+        "bookbinding-printing",
+        "bridges-dams",
+        "burn-treatment",
+        "butchering",
+        "cartography-mapmaking",
+        "census-vital-records",
+        "charcoal-fuels",
+        "chemistry-fundamentals",
+        "clockmaking-precision",
+        "community-organizing",
+        "computing-logic",
+        "con-01-shelter-building",
+        "con-02-carpentry-woodworking",
+        "con-03-clay-earthworks",
+        "con-04-energy-systems",
+        "construction",
+        "cra-01-forging-metalwork",
+        "cra-02-pottery-ceramics",
+        "cra-03-cordage-textiles",
+        "cra-04-soap-making",
+        "cra-05-weaving-textiles",
+        "cra-06-knot-tying-rigging",
+        "cra-07-primitive-weapons",
+        "cryptography-codes",
+        "cultural-practices-cohesion",
+        "dairy-processing",
+        "dental-prosthetics",
+        "dentistry-midwifery",
+        "disaster-triage",
+        "dogs-working-animals",
+        "double-entry-bookkeeping",
+        "draft-animals",
+        "dyeing-pigments",
+        "economics-trade",
+        "education-teaching",
+        "electric-motor-rewinding",
+        "electrical-motors",
+        "electricity",
+        "electrolysis-chloralkali",
+        "emergency-dental",
+        "energy-systems",
+        "engineering-repair",
+        "entertainment",
+        "famine-crops",
+        "feminine-hygiene-production",
+        "fermentation-baking",
+        "flight-balloons",
+        "fod-02-trapping-hunting",
+        "fod-03-agriculture-basics",
+        "food-preservation",
+        "foraging-hunting",
+        "forestry",
+        "foundry-casting",
+        "glass-ceramics",
+        "glue-adhesives",
+        "governance",
+        "grain-milling",
+        "greenhouse-coldframe"
+      ],
+      "frequency": 80
+    },
+    "Save Notes": {
+      "term": "Save Notes",
+      "definition": "A technical term used in acetylene carbide production",
+      "sources": [
+        "acetylene-carbide-production",
+        "advanced-materials",
+        "agriculture",
+        "anesthesia-pain",
+        "animal-husbandry",
+        "animal-tracking",
+        "aquaculture",
+        "archery-crossbows",
+        "archival-records",
+        "astronomy-calendar",
+        "basketry-cordage",
+        "bearing-manufacturing",
+        "beekeeping",
+        "bicycle-construction",
+        "blackpowder-blasting",
+        "blood-medicine",
+        "bookbinding-printing",
+        "bridges-dams",
+        "butchering",
+        "cartography-mapmaking",
+        "charcoal-fuels",
+        "chemistry-fundamentals",
+        "clockmaking-precision",
+        "community-organizing",
+        "computing-logic",
+        "construction",
+        "cryptography-codes",
+        "dairy-processing",
+        "dentistry-midwifery",
+        "dogs-working-animals",
+        "draft-animals",
+        "dyeing-pigments",
+        "economics-trade",
+        "education-teaching",
+        "electricity",
+        "emergency-dental",
+        "energy-systems",
+        "engineering-repair",
+        "entertainment",
+        "fermentation-baking",
+        "flight-balloons",
+        "food-preservation",
+        "foraging-hunting",
+        "forestry",
+        "foundry-casting",
+        "glass-ceramics",
+        "glue-adhesives",
+        "governance",
+        "grain-milling",
+        "greenhouse-coldframe"
+      ],
+      "frequency": 50
+    },
+    "Survival Compendium": {
+      "term": "Survival Compendium",
+      "definition": "A technical term used in acetylene carbide production",
+      "sources": [
+        "acetylene-carbide-production",
+        "advanced-tool-crafting",
+        "alkali-production",
+        "ammonia-synthesis-simplified",
+        "anatomy-oral",
+        "automotive-alternator-repurposing",
+        "batteries",
+        "battery-restoration",
+        "biogas-production",
+        "blacksmithing",
+        "bloomery-furnace",
+        "bone-tools",
+        "burn-treatment",
+        "census-vital-records",
+        "chemical-safety",
+        "chlorine-bleach-production",
+        "com-01-community-governance",
+        "con-01-shelter-building",
+        "con-02-carpentry-woodworking",
+        "con-03-clay-earthworks",
+        "con-04-energy-systems",
+        "cra-01-forging-metalwork",
+        "cra-02-pottery-ceramics",
+        "cra-03-cordage-textiles",
+        "cra-04-soap-making",
+        "cra-05-weaving-textiles",
+        "cra-06-knot-tying-rigging",
+        "cra-07-primitive-weapons",
+        "dental-prosthetics",
+        "dentistry-midwifery",
+        "dentistry-restorative",
+        "double-entry-bookkeeping",
+        "electrical-generation",
+        "electrical-motors",
+        "electrical-wiring",
+        "electrolysis-chloralkali",
+        "ether-chloroform-synthesis",
+        "feminine-hygiene-production",
+        "fire-building-techniques",
+        "fire-suppression",
+        "first-aid",
+        "fod-01-food-preservation",
+        "fod-02-trapping-hunting",
+        "fod-03-agriculture-basics",
+        "fod-04-animal-husbandry",
+        "fod-05-food-foraging",
+        "food-rationing",
+        "foraging-hunting"
+      ],
+      "frequency": 48
+    },
+    "🔖 Bookmarks in This Guide": {
+      "term": "🔖 Bookmarks in This Guide",
+      "definition": "A technical term used in advanced materials",
+      "sources": [
+        "advanced-materials",
+        "agriculture",
+        "animal-husbandry",
+        "animal-tracking",
+        "aquaculture",
+        "archery-crossbows",
+        "archival-records",
+        "astronomy-calendar",
+        "basketry-cordage",
+        "bearing-manufacturing",
+        "beekeeping",
+        "bicycle-construction",
+        "blackpowder-blasting",
+        "blood-medicine",
+        "bookbinding-printing",
+        "bridges-dams",
+        "butchering",
+        "cartography-mapmaking",
+        "charcoal-fuels",
+        "chemistry-fundamentals",
+        "clockmaking-precision",
+        "community-organizing",
+        "computing-logic",
+        "construction",
+        "cryptography-codes",
+        "dairy-processing",
+        "dentistry-midwifery",
+        "dogs-working-animals",
+        "draft-animals",
+        "dyeing-pigments",
+        "economics-trade",
+        "education-teaching",
+        "electricity",
+        "emergency-dental",
+        "energy-systems",
+        "engineering-repair",
+        "entertainment",
+        "fermentation-baking",
+        "flight-balloons",
+        "food-preservation",
+        "foraging-hunting",
+        "forestry",
+        "foundry-casting",
+        "glass-ceramics",
+        "glue-adhesives",
+        "governance",
+        "grain-milling",
+        "greenhouse-coldframe"
+      ],
+      "frequency": 48
+    },
+    "Table of Contents": {
+      "term": "Table of Contents",
+      "definition": "A technical term used in advanced materials",
+      "sources": [
+        "advanced-materials",
+        "advanced-tool-crafting",
+        "agriculture",
+        "alkali-production",
+        "anesthesia-pain",
+        "animal-husbandry",
+        "aquaculture",
+        "astronomy-calendar",
+        "basketry-cordage",
+        "bearing-manufacturing",
+        "beekeeping",
+        "bicycle-construction",
+        "blood-medicine",
+        "bookbinding-printing",
+        "burn-treatment",
+        "charcoal-fuels",
+        "chemistry-fundamentals",
+        "clockmaking-precision",
+        "com-01-community-governance",
+        "computing-logic",
+        "construction",
+        "dairy-processing",
+        "dental-prosthetics",
+        "dentistry-midwifery",
+        "disaster-triage",
+        "dogs-working-animals",
+        "draft-animals",
+        "dyeing-pigments",
+        "economics-trade",
+        "education-teaching",
+        "electric-motor-rewinding",
+        "electricity",
+        "electrolysis-chloralkali",
+        "emergency-dental",
+        "engineering-repair",
+        "entertainment",
+        "famine-crops",
+        "feminine-hygiene-production",
+        "fermentation-baking",
+        "fire-building-techniques",
+        "food-preservation",
+        "foraging-hunting",
+        "forestry",
+        "foundry-casting",
+        "governance",
+        "grain-milling"
+      ],
+      "frequency": 46
+    },
+    "Contents": {
+      "term": "Contents",
+      "definition": "A technical term used in abrasives manufacturing",
+      "sources": [
+        "abrasives-manufacturing",
+        "acetylene-carbide-production",
+        "ammonia-synthesis-simplified",
+        "anatomy-oral",
+        "archery-crossbows",
+        "archival-records",
+        "automotive-alternator-repurposing",
+        "batteries",
+        "biogas-production",
+        "blackpowder-blasting",
+        "blacksmithing",
+        "bloomery-furnace",
+        "bone-tools",
+        "census-vital-records",
+        "chemical-safety",
+        "chlorine-bleach-production",
+        "con-01-shelter-building",
+        "con-02-carpentry-woodworking",
+        "con-03-clay-earthworks",
+        "con-04-energy-systems",
+        "cra-01-forging-metalwork",
+        "cra-02-pottery-ceramics",
+        "cra-03-cordage-textiles",
+        "cra-04-soap-making",
+        "cra-05-weaving-textiles",
+        "cra-06-knot-tying-rigging",
+        "cra-07-primitive-weapons",
+        "cultural-practices-cohesion",
+        "dentistry-restorative",
+        "electrical-generation",
+        "electrical-motors",
+        "electrical-wiring",
+        "ether-chloroform-synthesis",
+        "fire-suppression",
+        "first-aid",
+        "fod-01-food-preservation",
+        "fod-02-trapping-hunting",
+        "fod-03-agriculture-basics",
+        "fod-04-animal-husbandry",
+        "fod-05-food-foraging",
+        "food-rationing"
+      ],
+      "frequency": 41
+    },
+    "Notes Save": {
+      "term": "Notes Save",
+      "definition": "A technical term used in advanced materials",
+      "sources": [
+        "advanced-materials",
+        "animal-husbandry",
+        "animal-tracking",
+        "aquaculture",
+        "archery-crossbows",
+        "archival-records",
+        "astronomy-calendar",
+        "basketry-cordage",
+        "bicycle-construction",
+        "blackpowder-blasting",
+        "bookbinding-printing",
+        "bridges-dams",
+        "butchering",
+        "charcoal-fuels",
+        "chemistry-fundamentals",
+        "clockmaking-precision",
+        "community-organizing",
+        "computing-logic",
+        "construction",
+        "dairy-processing",
+        "dentistry-midwifery",
+        "dogs-working-animals",
+        "draft-animals",
+        "dyeing-pigments",
+        "economics-trade",
+        "education-teaching",
+        "electricity",
+        "engineering-repair",
+        "fermentation-baking",
+        "flight-balloons",
+        "food-preservation",
+        "foraging-hunting",
+        "forestry",
+        "foundry-casting",
+        "glass-ceramics",
+        "glue-adhesives",
+        "governance",
+        "grain-milling",
+        "greenhouse-coldframe"
+      ],
+      "frequency": 39
+    },
+    "Offline Reference": {
+      "term": "Offline Reference",
+      "definition": "A technical term used in anatomy oral",
+      "sources": [
+        "anatomy-oral",
+        "automotive-alternator-repurposing",
+        "batteries",
+        "biogas-production",
+        "blacksmithing",
+        "bloomery-furnace",
+        "bone-tools",
+        "chemical-safety",
+        "chlorine-bleach-production",
+        "con-01-shelter-building",
+        "con-02-carpentry-woodworking",
+        "con-03-clay-earthworks",
+        "con-04-energy-systems",
+        "cra-01-forging-metalwork",
+        "cra-02-pottery-ceramics",
+        "cra-03-cordage-textiles",
+        "cra-04-soap-making",
+        "cra-05-weaving-textiles",
+        "cra-06-knot-tying-rigging",
+        "cra-07-primitive-weapons",
+        "dairy-processing",
+        "dentistry-restorative",
+        "electrical-generation",
+        "electrical-motors",
+        "electrical-wiring",
+        "energy-systems",
+        "fermentation-baking",
+        "fire-suppression",
+        "first-aid",
+        "fod-01-food-preservation",
+        "fod-02-trapping-hunting",
+        "fod-03-agriculture-basics",
+        "fod-04-animal-husbandry",
+        "fod-05-food-foraging",
+        "food-rationing",
+        "glass-ceramics"
+      ],
+      "frequency": 36
+    },
+    "Hero Survival": {
+      "term": "Hero Survival",
+      "definition": "A technical term used in anatomy oral",
+      "sources": [
+        "anatomy-oral",
+        "automotive-alternator-repurposing",
+        "batteries",
+        "battery-restoration",
+        "biogas-production",
+        "blacksmithing",
+        "bloomery-furnace",
+        "bone-tools",
+        "chemical-safety",
+        "chlorine-bleach-production",
+        "com-01-community-governance",
+        "con-01-shelter-building",
+        "con-02-carpentry-woodworking",
+        "con-03-clay-earthworks",
+        "con-04-energy-systems",
+        "cra-01-forging-metalwork",
+        "cra-02-pottery-ceramics",
+        "cra-03-cordage-textiles",
+        "cra-04-soap-making",
+        "cra-05-weaving-textiles",
+        "cra-06-knot-tying-rigging",
+        "cra-07-primitive-weapons",
+        "dentistry-restorative",
+        "electrical-generation",
+        "electrical-motors",
+        "electrical-wiring",
+        "fire-suppression",
+        "first-aid",
+        "fod-01-food-preservation",
+        "fod-02-trapping-hunting",
+        "fod-03-agriculture-basics",
+        "fod-04-animal-husbandry",
+        "fod-05-food-foraging",
+        "food-rationing"
+      ],
+      "frequency": 34
+    },
+    "Compendium Home": {
+      "term": "Compendium Home",
+      "definition": "A technical term used in anatomy oral",
+      "sources": [
+        "anatomy-oral",
+        "automotive-alternator-repurposing",
+        "batteries",
+        "biogas-production",
+        "blacksmithing",
+        "bloomery-furnace",
+        "bone-tools",
+        "chemical-safety",
+        "chlorine-bleach-production",
+        "com-01-community-governance",
+        "con-01-shelter-building",
+        "con-02-carpentry-woodworking",
+        "con-03-clay-earthworks",
+        "con-04-energy-systems",
+        "cra-01-forging-metalwork",
+        "cra-02-pottery-ceramics",
+        "cra-03-cordage-textiles",
+        "cra-04-soap-making",
+        "cra-05-weaving-textiles",
+        "cra-06-knot-tying-rigging",
+        "cra-07-primitive-weapons",
+        "dentistry-restorative",
+        "dogs-working-animals",
+        "electrical-generation",
+        "electrical-motors",
+        "electrical-wiring",
+        "fire-suppression",
+        "first-aid",
+        "fod-01-food-preservation",
+        "fod-02-trapping-hunting",
+        "fod-03-agriculture-basics",
+        "fod-04-animal-husbandry",
+        "fod-05-food-foraging",
+        "food-rationing"
+      ],
+      "frequency": 34
+    },
+    "Advantages:": {
+      "term": "Advantages:",
+      "definition": "A technical term used in acetylene carbide production",
+      "sources": [
+        "acetylene-carbide-production",
+        "agriculture",
+        "animal-husbandry",
+        "archery-crossbows",
+        "battery-restoration",
+        "blackpowder-blasting",
+        "bridges-dams",
+        "burn-treatment",
+        "cartography-mapmaking",
+        "charcoal-fuels",
+        "com-01-community-governance",
+        "community-organizing",
+        "construction",
+        "dairy-processing",
+        "dogs-working-animals",
+        "draft-animals",
+        "dyeing-pigments",
+        "education-teaching",
+        "electrolysis-chloralkali",
+        "energy-systems",
+        "entertainment",
+        "ether-chloroform-synthesis",
+        "famine-crops",
+        "feminine-hygiene-production",
+        "food-preservation",
+        "foundry-casting",
+        "glass-ceramics",
+        "governance",
+        "greenhouse-coldframe"
+      ],
+      "frequency": 29
+    },
+    "Compendium Skip": {
+      "term": "Compendium Skip",
+      "definition": "A technical term used in abrasives manufacturing",
+      "sources": [
+        "abrasives-manufacturing",
+        "advanced-materials",
+        "agriculture",
+        "animal-husbandry",
+        "aquaculture",
+        "archery-crossbows",
+        "astronomy-calendar",
+        "basketry-cordage",
+        "bearing-manufacturing",
+        "beekeeping",
+        "blackpowder-blasting",
+        "blood-medicine",
+        "clockmaking-precision",
+        "computing-logic",
+        "cultural-practices-cohesion",
+        "dentistry-midwifery",
+        "draft-animals",
+        "education-teaching",
+        "electricity",
+        "emergency-dental",
+        "engineering-repair",
+        "entertainment",
+        "fermentation-baking",
+        "flight-balloons",
+        "food-preservation",
+        "forestry",
+        "glue-adhesives",
+        "governance"
+      ],
+      "frequency": 28
+    },
+    "Storage:": {
+      "term": "Storage:",
+      "definition": "A technical term used in acetylene carbide production",
+      "sources": [
+        "acetylene-carbide-production",
+        "agriculture",
+        "ammonia-synthesis-simplified",
+        "aquaculture",
+        "archery-crossbows",
+        "basketry-cordage",
+        "batteries",
+        "beekeeping",
+        "butchering",
+        "census-vital-records",
+        "computing-logic",
+        "construction",
+        "cra-03-cordage-textiles",
+        "dairy-processing",
+        "dyeing-pigments",
+        "economics-trade",
+        "education-teaching",
+        "famine-crops",
+        "fermentation-baking",
+        "fod-01-food-preservation",
+        "fod-05-food-foraging",
+        "food-preservation",
+        "food-rationing",
+        "forestry",
+        "governance",
+        "grain-milling"
+      ],
+      "frequency": 26
+    },
+    "Solution:": {
+      "term": "Solution:",
+      "definition": "A technical term used in acetylene carbide production",
+      "sources": [
+        "acetylene-carbide-production",
+        "alkali-production",
+        "ammonia-synthesis-simplified",
+        "batteries",
+        "battery-restoration",
+        "biogas-production",
+        "bone-tools",
+        "con-01-shelter-building",
+        "con-02-carpentry-woodworking",
+        "con-03-clay-earthworks",
+        "con-04-energy-systems",
+        "cra-01-forging-metalwork",
+        "cra-02-pottery-ceramics",
+        "cra-03-cordage-textiles",
+        "cra-04-soap-making",
+        "cra-05-weaving-textiles",
+        "cra-06-knot-tying-rigging",
+        "cra-07-primitive-weapons",
+        "double-entry-bookkeeping",
+        "electric-motor-rewinding",
+        "electrolysis-chloralkali",
+        "feminine-hygiene-production",
+        "glass-ceramics"
+      ],
+      "frequency": 23
+    },
+    "Preparation:": {
+      "term": "Preparation:",
+      "definition": "A technical term used in acetylene carbide production",
+      "sources": [
+        "acetylene-carbide-production",
+        "agriculture",
+        "anesthesia-pain",
+        "archery-crossbows",
+        "basketry-cordage",
+        "batteries",
+        "beekeeping",
+        "bicycle-construction",
+        "blood-medicine",
+        "bloomery-furnace",
+        "butchering",
+        "construction",
+        "dairy-processing",
+        "dentistry-midwifery",
+        "draft-animals",
+        "dyeing-pigments",
+        "emergency-dental",
+        "entertainment",
+        "ether-chloroform-synthesis",
+        "famine-crops",
+        "foundry-casting",
+        "glue-adhesives"
+      ],
+      "frequency": 22
+    },
+    "Construction:": {
+      "term": "Construction:",
+      "definition": "A technical term used in agriculture",
+      "sources": [
+        "agriculture",
+        "archery-crossbows",
+        "astronomy-calendar",
+        "basketry-cordage",
+        "beekeeping",
+        "biogas-production",
+        "bone-tools",
+        "bridges-dams",
+        "charcoal-fuels",
+        "con-01-shelter-building",
+        "con-04-energy-systems",
+        "construction",
+        "cra-01-forging-metalwork",
+        "dairy-processing",
+        "dentistry-midwifery",
+        "draft-animals",
+        "education-teaching",
+        "entertainment",
+        "foundry-casting",
+        "glass-ceramics",
+        "governance",
+        "grain-milling"
+      ],
+      "frequency": 22
+    },
+    "Temperature:": {
+      "term": "Temperature:",
+      "definition": "A technical term used in agriculture",
+      "sources": [
+        "agriculture",
+        "ammonia-synthesis-simplified",
+        "aquaculture",
+        "archery-crossbows",
+        "bookbinding-printing",
+        "chlorine-bleach-production",
+        "con-04-energy-systems",
+        "construction",
+        "cra-04-soap-making",
+        "cra-05-weaving-textiles",
+        "dairy-processing",
+        "dyeing-pigments",
+        "electrolysis-chloralkali",
+        "feminine-hygiene-production",
+        "fermentation-baking",
+        "fire-suppression",
+        "food-preservation",
+        "food-rationing",
+        "foundry-casting",
+        "glass-ceramics",
+        "grain-milling"
+      ],
+      "frequency": 21
+    },
+    "Materials:": {
+      "term": "Materials:",
+      "definition": "A technical term used in agriculture",
+      "sources": [
+        "agriculture",
+        "batteries",
+        "beekeeping",
+        "biogas-production",
+        "bridges-dams",
+        "cartography-mapmaking",
+        "charcoal-fuels",
+        "community-organizing",
+        "dentistry-midwifery",
+        "draft-animals",
+        "dyeing-pigments",
+        "economics-trade",
+        "education-teaching",
+        "electricity",
+        "energy-systems",
+        "entertainment",
+        "feminine-hygiene-production",
+        "foundry-casting",
+        "glass-ceramics",
+        "governance",
+        "greenhouse-coldframe"
+      ],
+      "frequency": 21
+    },
+    "Duration:": {
+      "term": "Duration:",
+      "definition": "A technical term used in acetylene carbide production",
+      "sources": [
+        "acetylene-carbide-production",
+        "anesthesia-pain",
+        "animal-husbandry",
+        "archery-crossbows",
+        "bloomery-furnace",
+        "burn-treatment",
+        "butchering",
+        "charcoal-fuels",
+        "cultural-practices-cohesion",
+        "dentistry-midwifery",
+        "disaster-triage",
+        "draft-animals",
+        "economics-trade",
+        "electrolysis-chloralkali",
+        "entertainment",
+        "ether-chloroform-synthesis",
+        "famine-crops",
+        "fod-05-food-foraging",
+        "governance",
+        "greenhouse-coldframe"
+      ],
+      "frequency": 20
+    },
+    "Example:": {
+      "term": "Example:",
+      "definition": "A technical term used in ammonia synthesis simplified",
+      "sources": [
+        "ammonia-synthesis-simplified",
+        "archery-crossbows",
+        "battery-restoration",
+        "blood-medicine",
+        "bloomery-furnace",
+        "bridges-dams",
+        "burn-treatment",
+        "cartography-mapmaking",
+        "clockmaking-precision",
+        "con-04-energy-systems",
+        "construction",
+        "cra-06-knot-tying-rigging",
+        "double-entry-bookkeeping",
+        "electricity",
+        "electrolysis-chloralkali",
+        "energy-systems",
+        "entertainment",
+        "foundry-casting",
+        "glass-ceramics",
+        "governance"
+      ],
+      "frequency": 20
+    },
+    "Advantage:": {
+      "term": "Advantage:",
+      "definition": "A technical term used in anesthesia pain",
+      "sources": [
+        "anesthesia-pain",
+        "archery-crossbows",
+        "basketry-cordage",
+        "battery-restoration",
+        "cartography-mapmaking",
+        "clockmaking-precision",
+        "construction",
+        "cra-04-soap-making",
+        "dairy-processing",
+        "draft-animals",
+        "education-teaching",
+        "electrolysis-chloralkali",
+        "energy-systems",
+        "entertainment",
+        "ether-chloroform-synthesis",
+        "famine-crops",
+        "feminine-hygiene-production",
+        "governance",
+        "grain-milling",
+        "greenhouse-coldframe"
+      ],
+      "frequency": 20
+    },
+    "Disadvantages:": {
+      "term": "Disadvantages:",
+      "definition": "A technical term used in acetylene carbide production",
+      "sources": [
+        "acetylene-carbide-production",
+        "archery-crossbows",
+        "battery-restoration",
+        "blackpowder-blasting",
+        "burn-treatment",
+        "cartography-mapmaking",
+        "com-01-community-governance",
+        "community-organizing",
+        "construction",
+        "dairy-processing",
+        "dogs-working-animals",
+        "draft-animals",
+        "dyeing-pigments",
+        "electrolysis-chloralkali",
+        "ether-chloroform-synthesis",
+        "feminine-hygiene-production",
+        "food-preservation",
+        "foundry-casting",
+        "glass-ceramics"
+      ],
+      "frequency": 19
+    },
+    "Prevention:": {
+      "term": "Prevention:",
+      "definition": "A technical term used in acetylene carbide production",
+      "sources": [
+        "acetylene-carbide-production",
+        "agriculture",
+        "animal-husbandry",
+        "archery-crossbows",
+        "batteries",
+        "beekeeping",
+        "blood-medicine",
+        "burn-treatment",
+        "cultural-practices-cohesion",
+        "dentistry-midwifery",
+        "dogs-working-animals",
+        "electrolysis-chloralkali",
+        "energy-systems",
+        "ether-chloroform-synthesis",
+        "feminine-hygiene-production",
+        "fermentation-baking",
+        "food-preservation",
+        "food-rationing"
+      ],
+      "frequency": 18
+    },
+    "Warning:": {
+      "term": "Warning:",
+      "definition": "A technical term used in abrasives manufacturing",
+      "sources": [
+        "abrasives-manufacturing",
+        "advanced-materials",
+        "agriculture",
+        "alkali-production",
+        "animal-tracking",
+        "batteries",
+        "biogas-production",
+        "blackpowder-blasting",
+        "chemical-safety",
+        "cultural-practices-cohesion",
+        "dentistry-midwifery",
+        "dyeing-pigments",
+        "energy-systems",
+        "fermentation-baking",
+        "food-preservation",
+        "glass-ceramics",
+        "grain-milling"
+      ],
+      "frequency": 17
+    },
+    "Location:": {
+      "term": "Location:",
+      "definition": "A technical term used in acetylene carbide production",
+      "sources": [
+        "acetylene-carbide-production",
+        "agriculture",
+        "archery-crossbows",
+        "beekeeping",
+        "biogas-production",
+        "blackpowder-blasting",
+        "burn-treatment",
+        "butchering",
+        "cartography-mapmaking",
+        "construction",
+        "disaster-triage",
+        "economics-trade",
+        "energy-systems",
+        "entertainment",
+        "feminine-hygiene-production",
+        "food-preservation",
+        "governance"
+      ],
+      "frequency": 17
+    },
+    "Application:": {
+      "term": "Application:",
+      "definition": "A technical term used in agriculture",
+      "sources": [
+        "agriculture",
+        "anesthesia-pain",
+        "archery-crossbows",
+        "beekeeping",
+        "burn-treatment",
+        "butchering",
+        "construction",
+        "emergency-dental",
+        "entertainment",
+        "ether-chloroform-synthesis",
+        "feminine-hygiene-production",
+        "fod-01-food-preservation",
+        "fod-03-agriculture-basics",
+        "forestry",
+        "foundry-casting",
+        "glue-adhesives",
+        "greenhouse-coldframe"
+      ],
+      "frequency": 17
+    },
+    "Offline Compendium": {
+      "term": "Offline Compendium",
+      "definition": "A technical term used in animal husbandry",
+      "sources": [
+        "animal-husbandry",
+        "archival-records",
+        "basketry-cordage",
+        "bearing-manufacturing",
+        "bicycle-construction",
+        "blackpowder-blasting",
+        "cartography-mapmaking",
+        "clockmaking-precision",
+        "community-organizing",
+        "dairy-processing",
+        "disaster-triage",
+        "dyeing-pigments",
+        "electric-motor-rewinding",
+        "emergency-dental",
+        "flight-balloons",
+        "glue-adhesives",
+        "governance"
+      ],
+      "frequency": 17
+    },
+    "Method:": {
+      "term": "Method:",
+      "definition": "A technical term used in aquaculture",
+      "sources": [
+        "aquaculture",
+        "archery-crossbows",
+        "astronomy-calendar",
+        "basketry-cordage",
+        "burn-treatment",
+        "cartography-mapmaking",
+        "dairy-processing",
+        "dentistry-midwifery",
+        "electrolysis-chloralkali",
+        "feminine-hygiene-production",
+        "fermentation-baking",
+        "fod-01-food-preservation",
+        "fod-05-food-foraging",
+        "food-preservation",
+        "foundry-casting",
+        "grain-milling",
+        "greenhouse-coldframe"
+      ],
+      "frequency": 17
+    },
+    "Tip:": {
+      "term": "Tip:",
+      "definition": "A technical term used in abrasives manufacturing",
+      "sources": [
+        "abrasives-manufacturing",
+        "alkali-production",
+        "basketry-cordage",
+        "batteries",
+        "biogas-production",
+        "clockmaking-precision",
+        "con-01-shelter-building",
+        "con-02-carpentry-woodworking",
+        "con-03-clay-earthworks",
+        "con-04-energy-systems",
+        "cra-01-forging-metalwork",
+        "cra-02-pottery-ceramics",
+        "cra-03-cordage-textiles",
+        "dentistry-midwifery",
+        "dyeing-pigments",
+        "grain-milling"
+      ],
+      "frequency": 16
+    },
+    "Material:": {
+      "term": "Material:",
+      "definition": "A technical term used in acetylene carbide production",
+      "sources": [
+        "acetylene-carbide-production",
+        "archery-crossbows",
+        "basketry-cordage",
+        "bridges-dams",
+        "clockmaking-precision",
+        "construction",
+        "draft-animals",
+        "economics-trade",
+        "emergency-dental",
+        "energy-systems",
+        "entertainment",
+        "feminine-hygiene-production",
+        "foundry-casting",
+        "glass-ceramics",
+        "grain-milling",
+        "greenhouse-coldframe"
+      ],
+      "frequency": 16
+    },
+    "Size:": {
+      "term": "Size:",
+      "definition": "A technical term used in acetylene carbide production",
+      "sources": [
+        "acetylene-carbide-production",
+        "animal-tracking",
+        "archery-crossbows",
+        "basketry-cordage",
+        "beekeeping",
+        "biogas-production",
+        "bridges-dams",
+        "construction",
+        "dogs-working-animals",
+        "draft-animals",
+        "education-teaching",
+        "energy-systems",
+        "entertainment",
+        "feminine-hygiene-production",
+        "foundry-casting",
+        "grain-milling"
+      ],
+      "frequency": 16
+    },
+    "Process:": {
+      "term": "Process:",
+      "definition": "A technical term used in ammonia synthesis simplified",
+      "sources": [
+        "ammonia-synthesis-simplified",
+        "animal-husbandry",
+        "archery-crossbows",
+        "burn-treatment",
+        "butchering",
+        "cartography-mapmaking",
+        "cra-04-soap-making",
+        "cultural-practices-cohesion",
+        "disaster-triage",
+        "dyeing-pigments",
+        "entertainment",
+        "flight-balloons",
+        "food-preservation",
+        "forestry",
+        "glass-ceramics",
+        "governance"
+      ],
+      "frequency": 16
+    },
+    "Ventilation:": {
+      "term": "Ventilation:",
+      "definition": "A technical term used in abrasives manufacturing",
+      "sources": [
+        "abrasives-manufacturing",
+        "agriculture",
+        "ammonia-synthesis-simplified",
+        "batteries",
+        "beekeeping",
+        "biogas-production",
+        "blackpowder-blasting",
+        "construction",
+        "cra-01-forging-metalwork",
+        "draft-animals",
+        "education-teaching",
+        "fod-04-animal-husbandry",
+        "food-preservation",
+        "foundry-casting",
+        "greenhouse-coldframe"
+      ],
+      "frequency": 15
+    },
+    "Note:": {
+      "term": "Note:",
+      "definition": "A technical term used in acetylene carbide production",
+      "sources": [
+        "acetylene-carbide-production",
+        "agriculture",
+        "basketry-cordage",
+        "battery-restoration",
+        "beekeeping",
+        "blood-medicine",
+        "dentistry-midwifery",
+        "draft-animals",
+        "famine-crops",
+        "feminine-hygiene-production",
+        "fermentation-baking",
+        "food-preservation",
+        "food-rationing",
+        "foundry-casting",
+        "glass-ceramics"
+      ],
+      "frequency": 15
+    },
+    "Purpose:": {
+      "term": "Purpose:",
+      "definition": "A technical term used in animal husbandry",
+      "sources": [
+        "animal-husbandry",
+        "archery-crossbows",
+        "astronomy-calendar",
+        "beekeeping",
+        "cartography-mapmaking",
+        "census-vital-records",
+        "cultural-practices-cohesion",
+        "dairy-processing",
+        "draft-animals",
+        "entertainment",
+        "feminine-hygiene-production",
+        "foundry-casting",
+        "glass-ceramics",
+        "governance",
+        "grain-milling"
+      ],
+      "frequency": 15
+    },
+    "Frequency:": {
+      "term": "Frequency:",
+      "definition": "A technical term used in animal husbandry",
+      "sources": [
+        "animal-husbandry",
+        "aquaculture",
+        "archery-crossbows",
+        "astronomy-calendar",
+        "battery-restoration",
+        "burn-treatment",
+        "com-01-community-governance",
+        "cultural-practices-cohesion",
+        "dentistry-midwifery",
+        "draft-animals",
+        "economics-trade",
+        "emergency-dental",
+        "feminine-hygiene-production",
+        "governance",
+        "greenhouse-coldframe"
+      ],
+      "frequency": 15
+    },
+    "Error:": {
+      "term": "Error:",
+      "definition": "A technical term used in astronomy calendar",
+      "sources": [
+        "astronomy-calendar",
+        "bone-tools",
+        "con-01-shelter-building",
+        "con-02-carpentry-woodworking",
+        "con-03-clay-earthworks",
+        "con-04-energy-systems",
+        "cra-01-forging-metalwork",
+        "cra-02-pottery-ceramics",
+        "cra-03-cordage-textiles",
+        "cra-04-soap-making",
+        "cra-05-weaving-textiles",
+        "cra-06-knot-tying-rigging",
+        "cra-07-primitive-weapons",
+        "electrolysis-chloralkali",
+        "famine-crops"
+      ],
+      "frequency": 15
+    },
+    "Drying:": {
+      "term": "Drying:",
+      "definition": "A technical term used in abrasives manufacturing",
+      "sources": [
+        "abrasives-manufacturing",
+        "acetylene-carbide-production",
+        "agriculture",
+        "basketry-cordage",
+        "butchering",
+        "con-02-carpentry-woodworking",
+        "con-03-clay-earthworks",
+        "construction",
+        "feminine-hygiene-production",
+        "fod-01-food-preservation",
+        "foraging-hunting",
+        "foundry-casting",
+        "glass-ceramics",
+        "glue-adhesives"
+      ],
+      "frequency": 14
+    },
+    "Design:": {
+      "term": "Design:",
+      "definition": "A technical term used in abrasives manufacturing",
+      "sources": [
+        "abrasives-manufacturing",
+        "archery-crossbows",
+        "basketry-cordage",
+        "beekeeping",
+        "bone-tools",
+        "bridges-dams",
+        "clockmaking-precision",
+        "con-04-energy-systems",
+        "draft-animals",
+        "entertainment",
+        "feminine-hygiene-production",
+        "foundry-casting",
+        "glass-ceramics",
+        "governance"
+      ],
+      "frequency": 14
+    },
+    "Maintenance:": {
+      "term": "Maintenance:",
+      "definition": "A technical term used in acetylene carbide production",
+      "sources": [
+        "acetylene-carbide-production",
+        "agriculture",
+        "aquaculture",
+        "basketry-cordage",
+        "batteries",
+        "bridges-dams",
+        "construction",
+        "dogs-working-animals",
+        "dyeing-pigments",
+        "ether-chloroform-synthesis",
+        "famine-crops",
+        "glue-adhesives",
+        "governance",
+        "grain-milling"
+      ],
+      "frequency": 14
+    },
+    "Timing:": {
+      "term": "Timing:",
+      "definition": "A technical term used in agriculture",
+      "sources": [
+        "agriculture",
+        "animal-husbandry",
+        "beekeeping",
+        "burn-treatment",
+        "cultural-practices-cohesion",
+        "dentistry-midwifery",
+        "dogs-working-animals",
+        "draft-animals",
+        "dyeing-pigments",
+        "entertainment",
+        "fod-03-agriculture-basics",
+        "fod-04-animal-husbandry",
+        "forestry",
+        "foundry-casting"
+      ],
+      "frequency": 14
+    },
+    "Safety:": {
+      "term": "Safety:",
+      "definition": "A technical term used in archery crossbows",
+      "sources": [
+        "archery-crossbows",
+        "basketry-cordage",
+        "blackpowder-blasting",
+        "construction",
+        "dairy-processing",
+        "draft-animals",
+        "dyeing-pigments",
+        "economics-trade",
+        "entertainment",
+        "ether-chloroform-synthesis",
+        "foundry-casting",
+        "glue-adhesives",
+        "governance"
+      ],
+      "frequency": 13
+    },
+    "Food Preservation": {
+      "term": "Food Preservation",
+      "definition": "A technical term used in beekeeping",
+      "sources": [
+        "beekeeping",
+        "butchering",
+        "dairy-processing",
+        "famine-crops",
+        "fod-01-food-preservation",
+        "fod-02-trapping-hunting",
+        "fod-03-agriculture-basics",
+        "fod-04-animal-husbandry",
+        "fod-05-food-foraging",
+        "food-preservation",
+        "food-rationing",
+        "foraging-hunting",
+        "grain-milling"
+      ],
+      "frequency": 13
+    },
+    "Cause:": {
+      "term": "Cause:",
+      "definition": "A technical term used in acetylene carbide production",
+      "sources": [
+        "acetylene-carbide-production",
+        "alkali-production",
+        "archery-crossbows",
+        "batteries",
+        "battery-restoration",
+        "beekeeping",
+        "biogas-production",
+        "blood-medicine",
+        "burn-treatment",
+        "dairy-processing",
+        "dentistry-midwifery",
+        "food-rationing"
+      ],
+      "frequency": 12
+    },
+    "Procedure:": {
+      "term": "Procedure:",
+      "definition": "A technical term used in alkali production",
+      "sources": [
+        "alkali-production",
+        "archery-crossbows",
+        "blood-medicine",
+        "bridges-dams",
+        "burn-treatment",
+        "cartography-mapmaking",
+        "chemical-safety",
+        "draft-animals",
+        "dyeing-pigments",
+        "electrolysis-chloralkali",
+        "engineering-repair",
+        "glue-adhesives"
+      ],
+      "frequency": 12
+    },
+    "Common Mistakes & Solutions": {
+      "term": "Common Mistakes & Solutions",
+      "definition": "A technical term used in bone tools",
+      "sources": [
+        "bone-tools",
+        "con-01-shelter-building",
+        "con-02-carpentry-woodworking",
+        "con-03-clay-earthworks",
+        "con-04-energy-systems",
+        "cra-01-forging-metalwork",
+        "cra-02-pottery-ceramics",
+        "cra-03-cordage-textiles",
+        "cra-04-soap-making",
+        "cra-05-weaving-textiles",
+        "cra-06-knot-tying-rigging",
+        "cra-07-primitive-weapons"
+      ],
+      "frequency": 12
+    },
+    "Solutions Mistake": {
+      "term": "Solutions Mistake",
+      "definition": "A technical term used in bone tools",
+      "sources": [
+        "bone-tools",
+        "con-01-shelter-building",
+        "con-02-carpentry-woodworking",
+        "con-03-clay-earthworks",
+        "con-04-energy-systems",
+        "cra-01-forging-metalwork",
+        "cra-02-pottery-ceramics",
+        "cra-03-cordage-textiles",
+        "cra-04-soap-making",
+        "cra-05-weaving-textiles",
+        "cra-06-knot-tying-rigging",
+        "cra-07-primitive-weapons"
+      ],
+      "frequency": 12
+    },
+    "Problem:": {
+      "term": "Problem:",
+      "definition": "A technical term used in acetylene carbide production",
+      "sources": [
+        "acetylene-carbide-production",
+        "agriculture",
+        "astronomy-calendar",
+        "battery-restoration",
+        "blood-medicine",
+        "burn-treatment",
+        "double-entry-bookkeeping",
+        "energy-systems",
+        "famine-crops",
+        "fermentation-baking",
+        "glass-ceramics"
+      ],
+      "frequency": 11
+    },
+    "Result:": {
+      "term": "Result:",
+      "definition": "A technical term used in acetylene carbide production",
+      "sources": [
+        "acetylene-carbide-production",
+        "astronomy-calendar",
+        "beekeeping",
+        "burn-treatment",
+        "butchering",
+        "dairy-processing",
+        "entertainment",
+        "feminine-hygiene-production",
+        "fermentation-baking",
+        "food-preservation",
+        "food-rationing"
+      ],
+      "frequency": 11
+    },
+    "This Compendium": {
+      "term": "This Compendium",
+      "definition": "A technical term used in alkali production",
+      "sources": [
+        "alkali-production",
+        "archery-crossbows",
+        "basketry-cordage",
+        "beekeeping",
+        "census-vital-records",
+        "charcoal-fuels",
+        "cryptography-codes",
+        "cultural-practices-cohesion",
+        "electric-motor-rewinding",
+        "glue-adhesives",
+        "greenhouse-coldframe"
+      ],
+      "frequency": 11
+    },
+    "Use:": {
+      "term": "Use:",
+      "definition": "A technical term used in ammonia synthesis simplified",
+      "sources": [
+        "ammonia-synthesis-simplified",
+        "basketry-cordage",
+        "battery-restoration",
+        "burn-treatment",
+        "clockmaking-precision",
+        "cra-06-knot-tying-rigging",
+        "draft-animals",
+        "ether-chloroform-synthesis",
+        "feminine-hygiene-production",
+        "fermentation-baking",
+        "foundry-casting"
+      ],
+      "frequency": 11
+    },
+    "Related Guides in This Compendium": {
+      "term": "Related Guides in This Compendium",
+      "definition": "A technical term used in alkali production",
+      "sources": [
+        "alkali-production",
+        "archery-crossbows",
+        "basketry-cordage",
+        "beekeeping",
+        "census-vital-records",
+        "charcoal-fuels",
+        "cryptography-codes",
+        "cultural-practices-cohesion",
+        "glue-adhesives",
+        "greenhouse-coldframe"
+      ],
+      "frequency": 10
+    },
+    "Critical:": {
+      "term": "Critical:",
+      "definition": "A technical term used in animal tracking",
+      "sources": [
+        "animal-tracking",
+        "beekeeping",
+        "blackpowder-blasting",
+        "burn-treatment",
+        "chemical-safety",
+        "construction",
+        "dentistry-midwifery",
+        "economics-trade",
+        "ether-chloroform-synthesis",
+        "forestry"
+      ],
+      "frequency": 10
+    },
+    "Durability:": {
+      "term": "Durability:",
+      "definition": "A technical term used in archery crossbows",
+      "sources": [
+        "archery-crossbows",
+        "basketry-cordage",
+        "battery-restoration",
+        "bridges-dams",
+        "construction",
+        "draft-animals",
+        "emergency-dental",
+        "entertainment",
+        "feminine-hygiene-production",
+        "glue-adhesives"
+      ],
+      "frequency": 10
+    },
+    "Safety Warning:": {
+      "term": "Safety Warning:",
+      "definition": "A technical term used in automotive alternator repurposing",
+      "sources": [
+        "automotive-alternator-repurposing",
+        "blacksmithing",
+        "con-01-shelter-building",
+        "con-02-carpentry-woodworking",
+        "cra-01-forging-metalwork",
+        "cra-04-soap-making",
+        "electric-motor-rewinding",
+        "electrical-generation",
+        "electrical-motors",
+        "electrical-wiring"
+      ],
+      "frequency": 10
+    },
+    "Power Generation": {
+      "term": "Power Generation",
+      "definition": "A technical term used in automotive alternator repurposing",
+      "sources": [
+        "automotive-alternator-repurposing",
+        "batteries",
+        "bicycle-construction",
+        "con-04-energy-systems",
+        "electrical-generation",
+        "electrical-motors",
+        "electrical-wiring",
+        "electrolysis-chloralkali",
+        "energy-systems",
+        "flight-balloons"
+      ],
+      "frequency": 10
+    },
+    "Energy Systems": {
+      "term": "Energy Systems",
+      "definition": "A technical term used in battery restoration",
+      "sources": [
+        "battery-restoration",
+        "bicycle-construction",
+        "bridges-dams",
+        "charcoal-fuels",
+        "con-04-energy-systems",
+        "cra-02-pottery-ceramics",
+        "electric-motor-rewinding",
+        "energy-systems",
+        "engineering-repair",
+        "flight-balloons"
+      ],
+      "frequency": 10
+    },
+    "Very High": {
+      "term": "Very High",
+      "definition": "A technical term used in chlorine bleach production",
+      "sources": [
+        "chlorine-bleach-production",
+        "con-02-carpentry-woodworking",
+        "construction",
+        "cra-03-cordage-textiles",
+        "dental-prosthetics",
+        "electrolysis-chloralkali",
+        "energy-systems",
+        "fermentation-baking",
+        "governance",
+        "grain-milling"
+      ],
+      "frequency": 10
+    },
+    "Civilization Compendium": {
+      "term": "Civilization Compendium",
+      "definition": "A technical term used in abrasives manufacturing",
+      "sources": [
+        "abrasives-manufacturing",
+        "advanced-materials",
+        "aquaculture",
+        "astronomy-calendar",
+        "computing-logic",
+        "cultural-practices-cohesion",
+        "education-teaching",
+        "entertainment",
+        "forestry"
+      ],
+      "frequency": 9
+    },
+    "Appearance:": {
+      "term": "Appearance:",
+      "definition": "A technical term used in acetylene carbide production",
+      "sources": [
+        "acetylene-carbide-production",
+        "beekeeping",
+        "burn-treatment",
+        "cra-04-soap-making",
+        "dairy-processing",
+        "engineering-repair",
+        "ether-chloroform-synthesis",
+        "food-preservation",
+        "foundry-casting"
+      ],
+      "frequency": 9
+    },
+    "Position:": {
+      "term": "Position:",
+      "definition": "A technical term used in acetylene carbide production",
+      "sources": [
+        "acetylene-carbide-production",
+        "archery-crossbows",
+        "blood-medicine",
+        "butchering",
+        "community-organizing",
+        "dentistry-midwifery",
+        "ether-chloroform-synthesis",
+        "feminine-hygiene-production",
+        "foundry-casting"
+      ],
+      "frequency": 9
+    },
+    "Container:": {
+      "term": "Container:",
+      "definition": "A technical term used in acetylene carbide production",
+      "sources": [
+        "acetylene-carbide-production",
+        "agriculture",
+        "aquaculture",
+        "batteries",
+        "battery-restoration",
+        "beekeeping",
+        "charcoal-fuels",
+        "food-preservation",
+        "foundry-casting"
+      ],
+      "frequency": 9
+    },
+    "Monitoring:": {
+      "term": "Monitoring:",
+      "definition": "A technical term used in acetylene carbide production",
+      "sources": [
+        "acetylene-carbide-production",
+        "anesthesia-pain",
+        "archery-crossbows",
+        "burn-treatment",
+        "disaster-triage",
+        "draft-animals",
+        "electrolysis-chloralkali",
+        "ether-chloroform-synthesis",
+        "forestry"
+      ],
+      "frequency": 9
+    },
+    "Storage Conditions": {
+      "term": "Storage Conditions",
+      "definition": "A technical term used in agriculture",
+      "sources": [
+        "agriculture",
+        "archival-records",
+        "bookbinding-printing",
+        "chlorine-bleach-production",
+        "electrolysis-chloralkali",
+        "famine-crops",
+        "fod-01-food-preservation",
+        "food-preservation",
+        "grain-milling"
+      ],
+      "frequency": 9
+    },
+    "Best Uses": {
+      "term": "Best Uses",
+      "definition": "A technical term used in agriculture",
+      "sources": [
+        "agriculture",
+        "basketry-cordage",
+        "bone-tools",
+        "con-02-carpentry-woodworking",
+        "construction",
+        "cra-01-forging-metalwork",
+        "cra-03-cordage-textiles",
+        "forestry",
+        "glue-adhesives"
+      ],
+      "frequency": 9
+    },
+    "Risk:": {
+      "term": "Risk:",
+      "definition": "A technical term used in anesthesia pain",
+      "sources": [
+        "anesthesia-pain",
+        "archery-crossbows",
+        "battery-restoration",
+        "beekeeping",
+        "burn-treatment",
+        "cryptography-codes",
+        "dentistry-midwifery",
+        "economics-trade",
+        "governance"
+      ],
+      "frequency": 9
+    },
+    "Disadvantage:": {
+      "term": "Disadvantage:",
+      "definition": "A technical term used in animal husbandry",
+      "sources": [
+        "animal-husbandry",
+        "archery-crossbows",
+        "battery-restoration",
+        "cra-04-soap-making",
+        "draft-animals",
+        "electrolysis-chloralkali",
+        "feminine-hygiene-production",
+        "grain-milling",
+        "greenhouse-coldframe"
+      ],
+      "frequency": 9
+    },
+    "Color:": {
+      "term": "Color:",
+      "definition": "A technical term used in aquaculture",
+      "sources": [
+        "aquaculture",
+        "beekeeping",
+        "construction",
+        "dairy-processing",
+        "dentistry-midwifery",
+        "dyeing-pigments",
+        "fod-05-food-foraging",
+        "foundry-casting",
+        "greenhouse-coldframe"
+      ],
+      "frequency": 9
+    },
+    "Limitations:": {
+      "term": "Limitations:",
+      "definition": "A technical term used in astronomy calendar",
+      "sources": [
+        "astronomy-calendar",
+        "blackpowder-blasting",
+        "bridges-dams",
+        "cartography-mapmaking",
+        "charcoal-fuels",
+        "chemistry-fundamentals",
+        "dairy-processing",
+        "ether-chloroform-synthesis",
+        "glass-ceramics"
+      ],
+      "frequency": 9
+    },
+    "Design Principles": {
+      "term": "Design Principles",
+      "definition": "A technical term used in bridges dams",
+      "sources": [
+        "bridges-dams",
+        "construction",
+        "double-entry-bookkeeping",
+        "draft-animals",
+        "electrical-generation",
+        "electrical-wiring",
+        "flight-balloons",
+        "fod-04-animal-husbandry",
+        "foundry-casting"
+      ],
+      "frequency": 9
+    },
+    "Frame:": {
+      "term": "Frame:",
+      "definition": "A technical term used in abrasives manufacturing",
+      "sources": [
+        "abrasives-manufacturing",
+        "aquaculture",
+        "basketry-cordage",
+        "bookbinding-printing",
+        "clockmaking-precision",
+        "construction",
+        "draft-animals",
+        "entertainment"
+      ],
+      "frequency": 8
+    },
+    "Cooling:": {
+      "term": "Cooling:",
+      "definition": "A technical term used in acetylene carbide production",
+      "sources": [
+        "acetylene-carbide-production",
+        "ammonia-synthesis-simplified",
+        "bearing-manufacturing",
+        "charcoal-fuels",
+        "construction",
+        "energy-systems",
+        "fermentation-baking",
+        "foundry-casting"
+      ],
+      "frequency": 8
+    },
+    "Function:": {
+      "term": "Function:",
+      "definition": "A technical term used in acetylene carbide production",
+      "sources": [
+        "acetylene-carbide-production",
+        "agriculture",
+        "bridges-dams",
+        "burn-treatment",
+        "cultural-practices-cohesion",
+        "disaster-triage",
+        "draft-animals",
+        "entertainment"
+      ],
+      "frequency": 8
+    },
+    "Compendium Index": {
+      "term": "Compendium Index",
+      "definition": "A technical term used in acetylene carbide production",
+      "sources": [
+        "acetylene-carbide-production",
+        "basketry-cordage",
+        "beekeeping",
+        "clockmaking-precision",
+        "draft-animals",
+        "electrolysis-chloralkali",
+        "energy-systems",
+        "food-preservation"
+      ],
+      "frequency": 8
+    },
+    "Contents Overview": {
+      "term": "Contents Overview",
+      "definition": "A technical term used in acetylene carbide production",
+      "sources": [
+        "acetylene-carbide-production",
+        "battery-restoration",
+        "burn-treatment",
+        "census-vital-records",
+        "double-entry-bookkeeping",
+        "electrolysis-chloralkali",
+        "ether-chloroform-synthesis",
+        "feminine-hygiene-production"
+      ],
+      "frequency": 8
+    },
+    "Compendium Last": {
+      "term": "Compendium Last",
+      "definition": "A technical term used in advanced materials",
+      "sources": [
+        "advanced-materials",
+        "advanced-tool-crafting",
+        "animal-husbandry",
+        "basketry-cordage",
+        "dogs-working-animals",
+        "dyeing-pigments",
+        "entertainment",
+        "fire-building-techniques"
+      ],
+      "frequency": 8
+    },
+    "Ingredients:": {
+      "term": "Ingredients:",
+      "definition": "A technical term used in agriculture",
+      "sources": [
+        "agriculture",
+        "animal-husbandry",
+        "beekeeping",
+        "dairy-processing",
+        "dyeing-pigments",
+        "entertainment",
+        "fermentation-baking",
+        "fod-01-food-preservation"
+      ],
+      "frequency": 8
+    },
+    "Spacing:": {
+      "term": "Spacing:",
+      "definition": "A technical term used in agriculture",
+      "sources": [
+        "agriculture",
+        "bridges-dams",
+        "construction",
+        "cra-05-weaving-textiles",
+        "electrolysis-chloralkali",
+        "famine-crops",
+        "forestry",
+        "greenhouse-coldframe"
+      ],
+      "frequency": 8
+    },
+    "Light:": {
+      "term": "Light:",
+      "definition": "A technical term used in agriculture",
+      "sources": [
+        "agriculture",
+        "bookbinding-printing",
+        "chlorine-bleach-production",
+        "electrolysis-chloralkali",
+        "feminine-hygiene-production",
+        "fod-04-animal-husbandry",
+        "food-preservation",
+        "grain-milling"
+      ],
+      "frequency": 8
+    },
+    "Guides Food": {
+      "term": "Guides Food",
+      "definition": "A technical term used in agriculture",
+      "sources": [
+        "agriculture",
+        "butchering",
+        "fermentation-baking",
+        "fod-02-trapping-hunting",
+        "fod-03-agriculture-basics",
+        "fod-04-animal-husbandry",
+        "fod-05-food-foraging",
+        "food-rationing"
+      ],
+      "frequency": 8
+    },
+    "Protective Equipment": {
+      "term": "Protective Equipment",
+      "definition": "A technical term used in alkali production",
+      "sources": [
+        "alkali-production",
+        "beekeeping",
+        "chemical-safety",
+        "dental-prosthetics",
+        "disaster-triage",
+        "electrolysis-chloralkali",
+        "fire-suppression",
+        "foundry-casting"
+      ],
+      "frequency": 8
+    },
+    "Limitation:": {
+      "term": "Limitation:",
+      "definition": "A technical term used in animal husbandry",
+      "sources": [
+        "animal-husbandry",
+        "astronomy-calendar",
+        "burn-treatment",
+        "cartography-mapmaking",
+        "dairy-processing",
+        "emergency-dental",
+        "fod-04-animal-husbandry",
+        "governance"
+      ],
+      "frequency": 8
+    },
+    "Equipment:": {
+      "term": "Equipment:",
+      "definition": "A technical term used in animal husbandry",
+      "sources": [
+        "animal-husbandry",
+        "dairy-processing",
+        "disaster-triage",
+        "double-entry-bookkeeping",
+        "dyeing-pigments",
+        "entertainment",
+        "ether-chloroform-synthesis",
+        "fermentation-baking"
+      ],
+      "frequency": 8
+    },
+    "Animal Husbandry": {
+      "term": "Animal Husbandry",
+      "definition": "A technical term used in animal husbandry",
+      "sources": [
+        "animal-husbandry",
+        "beekeeping",
+        "butchering",
+        "dairy-processing",
+        "draft-animals",
+        "fod-02-trapping-hunting",
+        "fod-03-agriculture-basics",
+        "fod-04-animal-husbandry"
+      ],
+      "frequency": 8
+    },
+    "Shape:": {
+      "term": "Shape:",
+      "definition": "A technical term used in animal tracking",
+      "sources": [
+        "animal-tracking",
+        "archery-crossbows",
+        "basketry-cordage",
+        "bone-tools",
+        "bridges-dams",
+        "draft-animals",
+        "energy-systems",
+        "grain-milling"
+      ],
+      "frequency": 8
+    },
+    "Depth:": {
+      "term": "Depth:",
+      "definition": "A technical term used in archery crossbows",
+      "sources": [
+        "archery-crossbows",
+        "bridges-dams",
+        "burn-treatment",
+        "construction",
+        "dentistry-restorative",
+        "draft-animals",
+        "fermentation-baking",
+        "greenhouse-coldframe"
+      ],
+      "frequency": 8
+    },
+    "Benefit:": {
+      "term": "Benefit:",
+      "definition": "A technical term used in archery crossbows",
+      "sources": [
+        "archery-crossbows",
+        "beekeeping",
+        "dentistry-midwifery",
+        "draft-animals",
+        "entertainment",
+        "feminine-hygiene-production",
+        "fod-03-agriculture-basics",
+        "governance"
+      ],
+      "frequency": 8
+    },
+    "Accuracy:": {
+      "term": "Accuracy:",
+      "definition": "A technical term used in archery crossbows",
+      "sources": [
+        "archery-crossbows",
+        "astronomy-calendar",
+        "bridges-dams",
+        "cartography-mapmaking",
+        "clockmaking-precision",
+        "double-entry-bookkeeping",
+        "fod-04-animal-husbandry",
+        "foundry-casting"
+      ],
+      "frequency": 8
+    },
+    "Cordage Making": {
+      "term": "Cordage Making",
+      "definition": "A technical term used in basketry cordage",
+      "sources": [
+        "basketry-cordage",
+        "con-01-shelter-building",
+        "cra-01-forging-metalwork",
+        "cra-03-cordage-textiles",
+        "cra-04-soap-making",
+        "cra-05-weaving-textiles",
+        "cra-06-knot-tying-rigging",
+        "cra-07-primitive-weapons"
+      ],
+      "frequency": 8
+    },
+    "Source:": {
+      "term": "Source:",
+      "definition": "A technical term used in abrasives manufacturing",
+      "sources": [
+        "abrasives-manufacturing",
+        "acetylene-carbide-production",
+        "archery-crossbows",
+        "burn-treatment",
+        "dyeing-pigments",
+        "entertainment",
+        "foundry-casting"
+      ],
+      "frequency": 7
+    },
+    "Dry:": {
+      "term": "Dry:",
+      "definition": "A technical term used in abrasives manufacturing",
+      "sources": [
+        "abrasives-manufacturing",
+        "animal-husbandry",
+        "archival-records",
+        "clockmaking-precision",
+        "cra-05-weaving-textiles",
+        "famine-crops",
+        "food-preservation"
+      ],
+      "frequency": 7
+    },
+    "Consistency:": {
+      "term": "Consistency:",
+      "definition": "A technical term used in abrasives manufacturing",
+      "sources": [
+        "abrasives-manufacturing",
+        "archery-crossbows",
+        "charcoal-fuels",
+        "disaster-triage",
+        "double-entry-bookkeeping",
+        "economics-trade",
+        "entertainment"
+      ],
+      "frequency": 7
+    },
+    "Rotation:": {
+      "term": "Rotation:",
+      "definition": "A technical term used in abrasives manufacturing",
+      "sources": [
+        "abrasives-manufacturing",
+        "community-organizing",
+        "economics-trade",
+        "fermentation-baking",
+        "food-preservation",
+        "foraging-hunting",
+        "governance"
+      ],
+      "frequency": 7
+    },
+    "Process Prepare": {
+      "term": "Process Prepare",
+      "definition": "A technical term used in abrasives manufacturing",
+      "sources": [
+        "abrasives-manufacturing",
+        "bookbinding-printing",
+        "charcoal-fuels",
+        "construction",
+        "electric-motor-rewinding",
+        "food-preservation",
+        "foundry-casting"
+      ],
+      "frequency": 7
+    },
+    "Collection:": {
+      "term": "Collection:",
+      "definition": "A technical term used in acetylene carbide production",
+      "sources": [
+        "acetylene-carbide-production",
+        "ammonia-synthesis-simplified",
+        "butchering",
+        "dyeing-pigments",
+        "economics-trade",
+        "governance",
+        "greenhouse-coldframe"
+      ],
+      "frequency": 7
+    },
+    "Diameter:": {
+      "term": "Diameter:",
+      "definition": "A technical term used in acetylene carbide production",
+      "sources": [
+        "acetylene-carbide-production",
+        "archery-crossbows",
+        "bone-tools",
+        "con-01-shelter-building",
+        "draft-animals",
+        "energy-systems",
+        "foundry-casting"
+      ],
+      "frequency": 7
+    },
+    "Height:": {
+      "term": "Height:",
+      "definition": "A technical term used in acetylene carbide production",
+      "sources": [
+        "acetylene-carbide-production",
+        "basketry-cordage",
+        "bridges-dams",
+        "con-01-shelter-building",
+        "construction",
+        "draft-animals",
+        "grain-milling"
+      ],
+      "frequency": 7
+    },
+    "Critical Safety": {
+      "term": "Critical Safety",
+      "definition": "A technical term used in acetylene carbide production",
+      "sources": [
+        "acetylene-carbide-production",
+        "blackpowder-blasting",
+        "chemistry-fundamentals",
+        "chlorine-bleach-production",
+        "famine-crops",
+        "first-aid",
+        "food-preservation"
+      ],
+      "frequency": 7
+    },
+    "Sulfuric Acid": {
+      "term": "Sulfuric Acid",
+      "definition": "A technical term used in advanced materials",
+      "sources": [
+        "advanced-materials",
+        "alkali-production",
+        "ammonia-synthesis-simplified",
+        "batteries",
+        "chemical-safety",
+        "chemistry-fundamentals",
+        "electrolysis-chloralkali"
+      ],
+      "frequency": 7
+    },
+    "Water:": {
+      "term": "Water:",
+      "definition": "A technical term used in agriculture",
+      "sources": [
+        "agriculture",
+        "animal-husbandry",
+        "con-01-shelter-building",
+        "con-04-energy-systems",
+        "famine-crops",
+        "fod-04-animal-husbandry",
+        "governance"
+      ],
+      "frequency": 7
+    },
+    "Uses:": {
+      "term": "Uses:",
+      "definition": "A technical term used in agriculture",
+      "sources": [
+        "agriculture",
+        "butchering",
+        "dairy-processing",
+        "entertainment",
+        "ether-chloroform-synthesis",
+        "glass-ceramics",
+        "grain-milling"
+      ],
+      "frequency": 7
+    },
+    "Agriculture Basics": {
+      "term": "Agriculture Basics",
+      "definition": "A technical term used in agriculture",
+      "sources": [
+        "agriculture",
+        "fod-01-food-preservation",
+        "fod-02-trapping-hunting",
+        "fod-03-agriculture-basics",
+        "fod-04-animal-husbandry",
+        "fod-05-food-foraging",
+        "food-rationing"
+      ],
+      "frequency": 7
+    },
+    "Personal Protective": {
+      "term": "Personal Protective",
+      "definition": "A technical term used in alkali production",
+      "sources": [
+        "alkali-production",
+        "chemical-safety",
+        "dental-prosthetics",
+        "disaster-triage",
+        "electrolysis-chloralkali",
+        "fire-suppression",
+        "foundry-casting"
+      ],
+      "frequency": 7
+    },
+    "Mechanism:": {
+      "term": "Mechanism:",
+      "definition": "A technical term used in anesthesia pain",
+      "sources": [
+        "anesthesia-pain",
+        "burn-treatment",
+        "charcoal-fuels",
+        "clockmaking-precision",
+        "ether-chloroform-synthesis",
+        "famine-crops",
+        "glass-ceramics"
+      ],
+      "frequency": 7
+    },
+    "Effectiveness:": {
+      "term": "Effectiveness:",
+      "definition": "A technical term used in anesthesia pain",
+      "sources": [
+        "anesthesia-pain",
+        "archery-crossbows",
+        "cra-07-primitive-weapons",
+        "dogs-working-animals",
+        "emergency-dental",
+        "ether-chloroform-synthesis",
+        "greenhouse-coldframe"
+      ],
+      "frequency": 7
+    },
+    "Positioning:": {
+      "term": "Positioning:",
+      "definition": "A technical term used in anesthesia pain",
+      "sources": [
+        "anesthesia-pain",
+        "animal-tracking",
+        "archery-crossbows",
+        "burn-treatment",
+        "ether-chloroform-synthesis",
+        "feminine-hygiene-production",
+        "foundry-casting"
+      ],
+      "frequency": 7
+    },
+    "Treatment:": {
+      "term": "Treatment:",
+      "definition": "A technical term used in animal husbandry",
+      "sources": [
+        "animal-husbandry",
+        "beekeeping",
+        "burn-treatment",
+        "dentistry-midwifery",
+        "dogs-working-animals",
+        "food-preservation",
+        "food-rationing"
+      ],
+      "frequency": 7
+    },
+    "Smell:": {
+      "term": "Smell:",
+      "definition": "A technical term used in animal tracking",
+      "sources": [
+        "animal-tracking",
+        "aquaculture",
+        "beekeeping",
+        "cra-04-soap-making",
+        "dairy-processing",
+        "fod-05-food-foraging",
+        "food-preservation"
+      ],
+      "frequency": 7
+    },
+    "Drainage:": {
+      "term": "Drainage:",
+      "definition": "A technical term used in aquaculture",
+      "sources": [
+        "aquaculture",
+        "beekeeping",
+        "con-01-shelter-building",
+        "con-03-clay-earthworks",
+        "construction",
+        "draft-animals",
+        "fod-04-animal-husbandry"
+      ],
+      "frequency": 7
+    },
+    "Testing:": {
+      "term": "Testing:",
+      "definition": "A technical term used in archery crossbows",
+      "sources": [
+        "archery-crossbows",
+        "bone-tools",
+        "con-03-clay-earthworks",
+        "construction",
+        "entertainment",
+        "foundry-casting",
+        "governance"
+      ],
+      "frequency": 7
+    },
+    "Curing:": {
+      "term": "Curing:",
+      "definition": "A technical term used in archery crossbows",
+      "sources": [
+        "archery-crossbows",
+        "bridges-dams",
+        "butchering",
+        "construction",
+        "famine-crops",
+        "fermentation-baking",
+        "foundry-casting"
+      ],
+      "frequency": 7
+    },
+    "Properties:": {
+      "term": "Properties:",
+      "definition": "A technical term used in archery crossbows",
+      "sources": [
+        "archery-crossbows",
+        "emergency-dental",
+        "ether-chloroform-synthesis",
+        "feminine-hygiene-production",
+        "glass-ceramics",
+        "glue-adhesives",
+        "grain-milling"
+      ],
+      "frequency": 7
+    },
+    "Weight:": {
+      "term": "Weight:",
+      "definition": "A technical term used in archery crossbows",
+      "sources": [
+        "archery-crossbows",
+        "beekeeping",
+        "bone-tools",
+        "construction",
+        "cra-03-cordage-textiles",
+        "draft-animals",
+        "governance"
+      ],
+      "frequency": 7
+    },
+    "Extraction:": {
+      "term": "Extraction:",
+      "definition": "A technical term used in basketry cordage",
+      "sources": [
+        "basketry-cordage",
+        "butchering",
+        "charcoal-fuels",
+        "dentistry-midwifery",
+        "emergency-dental",
+        "glass-ceramics",
+        "grain-milling"
+      ],
+      "frequency": 7
+    },
+    "Insulation:": {
+      "term": "Insulation:",
+      "definition": "A technical term used in battery restoration",
+      "sources": [
+        "battery-restoration",
+        "charcoal-fuels",
+        "con-01-shelter-building",
+        "con-04-energy-systems",
+        "energy-systems",
+        "fod-04-animal-husbandry",
+        "food-preservation"
+      ],
+      "frequency": 7
+    },
+    "Shelf Life": {
+      "term": "Shelf Life",
+      "definition": "A technical term used in blood medicine",
+      "sources": [
+        "blood-medicine",
+        "dental-prosthetics",
+        "fermentation-baking",
+        "fod-01-food-preservation",
+        "food-preservation",
+        "glue-adhesives",
+        "grain-milling"
+      ],
+      "frequency": 7
+    },
+    "Cost:": {
+      "term": "Cost:",
+      "definition": "A technical term used in burn treatment",
+      "sources": [
+        "burn-treatment",
+        "draft-animals",
+        "famine-crops",
+        "foundry-casting",
+        "glass-ceramics",
+        "glue-adhesives",
+        "greenhouse-coldframe"
+      ],
+      "frequency": 7
+    },
+    "Cooking:": {
+      "term": "Cooking:",
+      "definition": "A technical term used in butchering",
+      "sources": [
+        "butchering",
+        "charcoal-fuels",
+        "con-04-energy-systems",
+        "dairy-processing",
+        "education-teaching",
+        "famine-crops",
+        "food-preservation"
+      ],
+      "frequency": 7
+    },
+    "Notes This": {
+      "term": "Notes This",
+      "definition": "A technical term used in butchering",
+      "sources": [
+        "butchering",
+        "dentistry-midwifery",
+        "draft-animals",
+        "economics-trade",
+        "engineering-repair",
+        "fermentation-baking",
+        "governance"
+      ],
+      "frequency": 7
+    },
+    "Best for:": {
+      "term": "Best for:",
+      "definition": "A technical term used in abrasives manufacturing",
+      "sources": [
+        "abrasives-manufacturing",
+        "blackpowder-blasting",
+        "com-01-community-governance",
+        "dairy-processing",
+        "fod-05-food-foraging",
+        "food-preservation"
+      ],
+      "frequency": 6
+    },
+    "Lighting:": {
+      "term": "Lighting:",
+      "definition": "A technical term used in acetylene carbide production",
+      "sources": [
+        "acetylene-carbide-production",
+        "aquaculture",
+        "education-teaching",
+        "entertainment",
+        "fod-04-animal-husbandry",
+        "governance"
+      ],
+      "frequency": 6
+    },
+    "Construction Steps": {
+      "term": "Construction Steps",
+      "definition": "A technical term used in acetylene carbide production",
+      "sources": [
+        "acetylene-carbide-production",
+        "archery-crossbows",
+        "batteries",
+        "dairy-processing",
+        "dental-prosthetics",
+        "greenhouse-coldframe"
+      ],
+      "frequency": 6
+    },
+    "Voltage:": {
+      "term": "Voltage:",
+      "definition": "A technical term used in acetylene carbide production",
+      "sources": [
+        "acetylene-carbide-production",
+        "alkali-production",
+        "battery-restoration",
+        "burn-treatment",
+        "electric-motor-rewinding",
+        "energy-systems"
+      ],
+      "frequency": 6
+    },
+    "Inspection:": {
+      "term": "Inspection:",
+      "definition": "A technical term used in acetylene carbide production",
+      "sources": [
+        "acetylene-carbide-production",
+        "archery-crossbows",
+        "construction",
+        "dairy-processing",
+        "economics-trade",
+        "grain-milling"
+      ],
+      "frequency": 6
+    },
+    "Operation:": {
+      "term": "Operation:",
+      "definition": "A technical term used in acetylene carbide production",
+      "sources": [
+        "acetylene-carbide-production",
+        "archery-crossbows",
+        "charcoal-fuels",
+        "clockmaking-precision",
+        "con-03-clay-earthworks",
+        "cra-07-primitive-weapons"
+      ],
+      "frequency": 6
+    },
+    "Offline Survival": {
+      "term": "Offline Survival",
+      "definition": "A technical term used in acetylene carbide production",
+      "sources": [
+        "acetylene-carbide-production",
+        "alkali-production",
+        "burn-treatment",
+        "dental-prosthetics",
+        "electrolysis-chloralkali",
+        "famine-crops"
+      ],
+      "frequency": 6
+    },
+    "Humidity:": {
+      "term": "Humidity:",
+      "definition": "A technical term used in agriculture",
+      "sources": [
+        "agriculture",
+        "beekeeping",
+        "bookbinding-printing",
+        "construction",
+        "feminine-hygiene-production",
+        "food-preservation"
+      ],
+      "frequency": 6
+    },
+    "Dimensions:": {
+      "term": "Dimensions:",
+      "definition": "A technical term used in agriculture",
+      "sources": [
+        "agriculture",
+        "archery-crossbows",
+        "bridges-dams",
+        "con-01-shelter-building",
+        "construction",
+        "draft-animals"
+      ],
+      "frequency": 6
+    },
+    "Isolation:": {
+      "term": "Isolation:",
+      "definition": "A technical term used in agriculture",
+      "sources": [
+        "agriculture",
+        "battery-restoration",
+        "bookbinding-printing",
+        "dogs-working-animals",
+        "famine-crops",
+        "fod-04-animal-husbandry"
+      ],
+      "frequency": 6
+    },
+    "Preservation:": {
+      "term": "Preservation:",
+      "definition": "A technical term used in alkali production",
+      "sources": [
+        "alkali-production",
+        "astronomy-calendar",
+        "dairy-processing",
+        "famine-crops",
+        "fermentation-baking",
+        "governance"
+      ],
+      "frequency": 6
+    },
+    "Soap Making": {
+      "term": "Soap Making",
+      "definition": "A technical term used in alkali production",
+      "sources": [
+        "alkali-production",
+        "butchering",
+        "cra-04-soap-making",
+        "cra-05-weaving-textiles",
+        "electrolysis-chloralkali",
+        "food-preservation"
+      ],
+      "frequency": 6
+    },
+    "Homestead Chemistry": {
+      "term": "Homestead Chemistry",
+      "definition": "A technical term used in alkali production",
+      "sources": [
+        "alkali-production",
+        "beekeeping",
+        "blackpowder-blasting",
+        "charcoal-fuels",
+        "dyeing-pigments",
+        "glue-adhesives"
+      ],
+      "frequency": 6
+    },
+    "Temperature Control": {
+      "term": "Temperature Control",
+      "definition": "A technical term used in ammonia synthesis simplified",
+      "sources": [
+        "ammonia-synthesis-simplified",
+        "biogas-production",
+        "butchering",
+        "cra-01-forging-metalwork",
+        "dairy-processing",
+        "glass-ceramics"
+      ],
+      "frequency": 6
+    },
+    "Shelf life:": {
+      "term": "Shelf life:",
+      "definition": "A technical term used in ammonia synthesis simplified",
+      "sources": [
+        "ammonia-synthesis-simplified",
+        "beekeeping",
+        "feminine-hygiene-production",
+        "fod-01-food-preservation",
+        "fod-05-food-foraging",
+        "food-preservation"
+      ],
+      "frequency": 6
+    },
+    "Yield:": {
+      "term": "Yield:",
+      "definition": "A technical term used in ammonia synthesis simplified",
+      "sources": [
+        "ammonia-synthesis-simplified",
+        "aquaculture",
+        "dairy-processing",
+        "dyeing-pigments",
+        "fod-04-animal-husbandry",
+        "glue-adhesives"
+      ],
+      "frequency": 6
+    },
+    "Infection Control": {
+      "term": "Infection Control",
+      "definition": "A technical term used in anatomy oral",
+      "sources": [
+        "anatomy-oral",
+        "burn-treatment",
+        "dental-prosthetics",
+        "dentistry-restorative",
+        "emergency-dental",
+        "first-aid"
+      ],
+      "frequency": 6
+    },
+    "Documentation:": {
+      "term": "Documentation:",
+      "definition": "A technical term used in anesthesia pain",
+      "sources": [
+        "anesthesia-pain",
+        "census-vital-records",
+        "cultural-practices-cohesion",
+        "disaster-triage",
+        "double-entry-bookkeeping",
+        "governance"
+      ],
+      "frequency": 6
+    },
+    "Technique:": {
+      "term": "Technique:",
+      "definition": "A technical term used in anesthesia pain",
+      "sources": [
+        "anesthesia-pain",
+        "archery-crossbows",
+        "burn-treatment",
+        "emergency-dental",
+        "entertainment",
+        "ether-chloroform-synthesis"
+      ],
+      "frequency": 6
+    },
+    "Composition:": {
+      "term": "Composition:",
+      "definition": "A technical term used in animal husbandry",
+      "sources": [
+        "animal-husbandry",
+        "battery-restoration",
+        "burn-treatment",
+        "foundry-casting",
+        "glass-ceramics",
+        "governance"
+      ],
+      "frequency": 6
+    },
+    "Types:": {
+      "term": "Types:",
+      "definition": "A technical term used in animal husbandry",
+      "sources": [
+        "animal-husbandry",
+        "archery-crossbows",
+        "burn-treatment",
+        "dentistry-midwifery",
+        "entertainment",
+        "glass-ceramics"
+      ],
+      "frequency": 6
+    },
+    "Length:": {
+      "term": "Length:",
+      "definition": "A technical term used in archery crossbows",
+      "sources": [
+        "archery-crossbows",
+        "bone-tools",
+        "bridges-dams",
+        "con-01-shelter-building",
+        "draft-animals",
+        "governance"
+      ],
+      "frequency": 6
+    },
+    "Advantages": {
+      "term": "Advantages",
+      "definition": "A technical term used in archery crossbows",
+      "sources": [
+        "archery-crossbows",
+        "basketry-cordage",
+        "beekeeping",
+        "biogas-production",
+        "cryptography-codes",
+        "economics-trade"
+      ],
+      "frequency": 6
+    },
+    "Symptoms:": {
+      "term": "Symptoms:",
+      "definition": "A technical term used in archery crossbows",
+      "sources": [
+        "archery-crossbows",
+        "burn-treatment",
+        "dentistry-midwifery",
+        "electrolysis-chloralkali",
+        "feminine-hygiene-production",
+        "food-rationing"
+      ],
+      "frequency": 6
+    },
+    "Organization:": {
+      "term": "Organization:",
+      "definition": "A technical term used in astronomy calendar",
+      "sources": [
+        "astronomy-calendar",
+        "basketry-cordage",
+        "disaster-triage",
+        "education-teaching",
+        "entertainment",
+        "governance"
+      ],
+      "frequency": 6
+    },
+    "Chemical Safety": {
+      "term": "Chemical Safety",
+      "definition": "A technical term used in batteries",
+      "sources": [
+        "batteries",
+        "biogas-production",
+        "chemical-safety",
+        "chlorine-bleach-production",
+        "dental-prosthetics",
+        "electrolysis-chloralkali"
+      ],
+      "frequency": 6
+    },
+    "CRITICAL:": {
+      "term": "CRITICAL:",
+      "definition": "A technical term used in battery restoration",
+      "sources": [
+        "battery-restoration",
+        "burn-treatment",
+        "famine-crops",
+        "fod-01-food-preservation",
+        "fod-05-food-foraging",
+        "food-preservation"
+      ],
+      "frequency": 6
+    },
+    "Cutting:": {
+      "term": "Cutting:",
+      "definition": "A technical term used in beekeeping",
+      "sources": [
+        "beekeeping",
+        "charcoal-fuels",
+        "construction",
+        "dentistry-midwifery",
+        "entertainment",
+        "fermentation-baking"
+      ],
+      "frequency": 6
+    },
+    "Material Selection": {
+      "term": "Material Selection",
+      "definition": "A technical term used in bicycle construction",
+      "sources": [
+        "bicycle-construction",
+        "bloomery-furnace",
+        "bone-tools",
+        "electrolysis-chloralkali",
+        "feminine-hygiene-production",
+        "fod-03-agriculture-basics"
+      ],
+      "frequency": 6
+    },
+    "Benefits:": {
+      "term": "Benefits:",
+      "definition": "A technical term used in blood medicine",
+      "sources": [
+        "blood-medicine",
+        "burn-treatment",
+        "dentistry-midwifery",
+        "entertainment",
+        "food-preservation",
+        "forestry"
+      ],
+      "frequency": 6
+    },
+    "Cleaning:": {
+      "term": "Cleaning:",
+      "definition": "A technical term used in bone tools",
+      "sources": [
+        "bone-tools",
+        "cra-03-cordage-textiles",
+        "dentistry-midwifery",
+        "fermentation-baking",
+        "forestry",
+        "glue-adhesives"
+      ],
+      "frequency": 6
+    },
+    "Formula:": {
+      "term": "Formula:",
+      "definition": "A technical term used in burn treatment",
+      "sources": [
+        "burn-treatment",
+        "cartography-mapmaking",
+        "con-04-energy-systems",
+        "cra-06-knot-tying-rigging",
+        "ether-chloroform-synthesis",
+        "fermentation-baking"
+      ],
+      "frequency": 6
+    },
+    "Scale:": {
+      "term": "Scale:",
+      "definition": "A technical term used in cartography mapmaking",
+      "sources": [
+        "cartography-mapmaking",
+        "clockmaking-precision",
+        "computing-logic",
+        "economics-trade",
+        "entertainment",
+        "glass-ceramics"
+      ],
+      "frequency": 6
+    },
+    "Transparency:": {
+      "term": "Transparency:",
+      "definition": "A technical term used in com 01 community governance",
+      "sources": [
+        "com-01-community-governance",
+        "disaster-triage",
+        "double-entry-bookkeeping",
+        "economics-trade",
+        "food-rationing",
+        "governance"
+      ],
+      "frequency": 6
+    },
+    "Texture:": {
+      "term": "Texture:",
+      "definition": "A technical term used in cra 02 pottery ceramics",
+      "sources": [
+        "cra-02-pottery-ceramics",
+        "dairy-processing",
+        "entertainment",
+        "fod-05-food-foraging",
+        "food-rationing",
+        "grain-milling"
+      ],
+      "frequency": 6
+    },
+    "Food Rationing": {
+      "term": "Food Rationing",
+      "definition": "A technical term used in famine crops",
+      "sources": [
+        "famine-crops",
+        "fod-01-food-preservation",
+        "fod-02-trapping-hunting",
+        "fod-04-animal-husbandry",
+        "fod-05-food-foraging",
+        "food-rationing"
+      ],
+      "frequency": 6
+    },
+    "Cure:": {
+      "term": "Cure:",
+      "definition": "A technical term used in abrasives manufacturing",
+      "sources": [
+        "abrasives-manufacturing",
+        "archery-crossbows",
+        "clockmaking-precision",
+        "construction",
+        "cra-04-soap-making"
+      ],
+      "frequency": 5
+    },
+    "Regular inspection:": {
+      "term": "Regular inspection:",
+      "definition": "A technical term used in abrasives manufacturing",
+      "sources": [
+        "abrasives-manufacturing",
+        "bookbinding-printing",
+        "census-vital-records",
+        "fod-01-food-preservation",
+        "food-preservation"
+      ],
+      "frequency": 5
+    },
+    "Repeat:": {
+      "term": "Repeat:",
+      "definition": "A technical term used in abrasives manufacturing",
+      "sources": [
+        "abrasives-manufacturing",
+        "basketry-cordage",
+        "battery-restoration",
+        "blackpowder-blasting",
+        "cra-05-weaving-textiles"
+      ],
+      "frequency": 5
+    },
+    "Containers:": {
+      "term": "Containers:",
+      "definition": "A technical term used in abrasives manufacturing",
+      "sources": [
+        "abrasives-manufacturing",
+        "acetylene-carbide-production",
+        "agriculture",
+        "beekeeping",
+        "food-preservation"
+      ],
+      "frequency": 5
+    },
+    "Construction Basic": {
+      "term": "Construction Basic",
+      "definition": "A technical term used in abrasives manufacturing",
+      "sources": [
+        "abrasives-manufacturing",
+        "construction",
+        "draft-animals",
+        "food-preservation",
+        "foraging-hunting"
+      ],
+      "frequency": 5
+    },
+    "Foundation:": {
+      "term": "Foundation:",
+      "definition": "A technical term used in acetylene carbide production",
+      "sources": [
+        "acetylene-carbide-production",
+        "basketry-cordage",
+        "bridges-dams",
+        "construction",
+        "education-teaching"
+      ],
+      "frequency": 5
+    },
+    "Walls:": {
+      "term": "Walls:",
+      "definition": "A technical term used in acetylene carbide production",
+      "sources": [
+        "acetylene-carbide-production",
+        "blackpowder-blasting",
+        "dentistry-restorative",
+        "draft-animals",
+        "glass-ceramics"
+      ],
+      "frequency": 5
+    },
+    "Materials": {
+      "term": "Materials",
+      "definition": "A technical term used in acetylene carbide production",
+      "sources": [
+        "acetylene-carbide-production",
+        "bookbinding-printing",
+        "construction",
+        "dairy-processing",
+        "economics-trade"
+      ],
+      "frequency": 5
+    },
+    "Handle:": {
+      "term": "Handle:",
+      "definition": "A technical term used in acetylene carbide production",
+      "sources": [
+        "acetylene-carbide-production",
+        "archery-crossbows",
+        "basketry-cordage",
+        "bone-tools",
+        "cra-07-primitive-weapons"
+      ],
+      "frequency": 5
+    },
+    "Cool:": {
+      "term": "Cool:",
+      "definition": "A technical term used in acetylene carbide production",
+      "sources": [
+        "acetylene-carbide-production",
+        "archival-records",
+        "cra-05-weaving-textiles",
+        "dairy-processing",
+        "food-preservation"
+      ],
+      "frequency": 5
+    },
+    "Chemistry Fundamentals": {
+      "term": "Chemistry Fundamentals",
+      "definition": "A technical term used in acetylene carbide production",
+      "sources": [
+        "acetylene-carbide-production",
+        "alkali-production",
+        "chemistry-fundamentals",
+        "dental-prosthetics",
+        "electrolysis-chloralkali"
+      ],
+      "frequency": 5
+    },
+    "Pros Cons": {
+      "term": "Pros Cons",
+      "definition": "A technical term used in acetylene carbide production",
+      "sources": [
+        "acetylene-carbide-production",
+        "ammonia-synthesis-simplified",
+        "community-organizing",
+        "construction",
+        "economics-trade"
+      ],
+      "frequency": 5
+    },
+    "Natural Materials": {
+      "term": "Natural Materials",
+      "definition": "A technical term used in advanced materials",
+      "sources": [
+        "advanced-materials",
+        "electricity",
+        "entertainment",
+        "foraging-hunting",
+        "glass-ceramics"
+      ],
+      "frequency": 5
+    },
+    "Key Point:": {
+      "term": "Key Point:",
+      "definition": "A technical term used in advanced tool crafting",
+      "sources": [
+        "advanced-tool-crafting",
+        "agriculture",
+        "burn-treatment",
+        "fire-building-techniques",
+        "forestry"
+      ],
+      "frequency": 5
+    },
+    "Fermentation:": {
+      "term": "Fermentation:",
+      "definition": "A technical term used in agriculture",
+      "sources": [
+        "agriculture",
+        "beekeeping",
+        "dyeing-pigments",
+        "famine-crops",
+        "foraging-hunting"
+      ],
+      "frequency": 5
+    },
+    "Installation:": {
+      "term": "Installation:",
+      "definition": "A technical term used in agriculture",
+      "sources": [
+        "agriculture",
+        "archery-crossbows",
+        "construction",
+        "energy-systems",
+        "greenhouse-coldframe"
+      ],
+      "frequency": 5
+    },
+    "Definition:": {
+      "term": "Definition:",
+      "definition": "A technical term used in agriculture",
+      "sources": [
+        "agriculture",
+        "archery-crossbows",
+        "cartography-mapmaking",
+        "dentistry-midwifery",
+        "disaster-triage"
+      ],
+      "frequency": 5
+    },
+    "Caution:": {
+      "term": "Caution:",
+      "definition": "A technical term used in agriculture",
+      "sources": [
+        "agriculture",
+        "aquaculture",
+        "archery-crossbows",
+        "burn-treatment",
+        "famine-crops"
+      ],
+      "frequency": 5
+    },
+    "Pasture:": {
+      "term": "Pasture:",
+      "definition": "A technical term used in agriculture",
+      "sources": [
+        "agriculture",
+        "animal-husbandry",
+        "draft-animals",
+        "fod-04-animal-husbandry",
+        "governance"
+      ],
+      "frequency": 5
+    },
+    "Processing:": {
+      "term": "Processing:",
+      "definition": "A technical term used in agriculture",
+      "sources": [
+        "agriculture",
+        "archery-crossbows",
+        "butchering",
+        "famine-crops",
+        "fod-04-animal-husbandry"
+      ],
+      "frequency": 5
+    },
+    "Personal Protective Equipment (PPE)": {
+      "term": "Personal Protective Equipment (PPE)",
+      "definition": "A technical term used in alkali production",
+      "sources": [
+        "alkali-production",
+        "dental-prosthetics",
+        "electrolysis-chloralkali",
+        "fire-suppression",
+        "foundry-casting"
+      ],
+      "frequency": 5
+    },
+    "Challenge:": {
+      "term": "Challenge:",
+      "definition": "A technical term used in ammonia synthesis simplified",
+      "sources": [
+        "ammonia-synthesis-simplified",
+        "archery-crossbows",
+        "burn-treatment",
+        "glass-ceramics",
+        "governance"
+      ],
+      "frequency": 5
+    },
+    "Composition Component": {
+      "term": "Composition Component",
+      "definition": "A technical term used in ammonia synthesis simplified",
+      "sources": [
+        "ammonia-synthesis-simplified",
+        "blackpowder-blasting",
+        "bookbinding-printing",
+        "dairy-processing",
+        "energy-systems"
+      ],
+      "frequency": 5
+    },
+    "Steps Prepare": {
+      "term": "Steps Prepare",
+      "definition": "A technical term used in ammonia synthesis simplified",
+      "sources": [
+        "ammonia-synthesis-simplified",
+        "bicycle-construction",
+        "clockmaking-precision",
+        "construction",
+        "dental-prosthetics"
+      ],
+      "frequency": 5
+    },
+    "Emergency Procedures": {
+      "term": "Emergency Procedures",
+      "definition": "A technical term used in anatomy oral",
+      "sources": [
+        "anatomy-oral",
+        "chemical-safety",
+        "electrolysis-chloralkali",
+        "ether-chloroform-synthesis",
+        "foundry-casting"
+      ],
+      "frequency": 5
+    },
+    "Emergency Response": {
+      "term": "Emergency Response",
+      "definition": "A technical term used in anatomy oral",
+      "sources": [
+        "anatomy-oral",
+        "draft-animals",
+        "electrolysis-chloralkali",
+        "ether-chloroform-synthesis",
+        "first-aid"
+      ],
+      "frequency": 5
+    },
+    "Pain Management": {
+      "term": "Pain Management",
+      "definition": "A technical term used in anesthesia pain",
+      "sources": [
+        "anesthesia-pain",
+        "beekeeping",
+        "burn-treatment",
+        "dentistry-midwifery",
+        "ether-chloroform-synthesis"
+      ],
+      "frequency": 5
+    },
+    "Temperature Management:": {
+      "term": "Temperature Management:",
+      "definition": "A technical term used in animal husbandry",
+      "sources": [
+        "animal-husbandry",
+        "cra-01-forging-metalwork",
+        "fermentation-baking",
+        "foundry-casting",
+        "greenhouse-coldframe"
+      ],
+      "frequency": 5
+    },
+    "Comparison Table": {
+      "term": "Comparison Table",
+      "definition": "A technical term used in animal husbandry",
+      "sources": [
+        "animal-husbandry",
+        "charcoal-fuels",
+        "electrical-motors",
+        "famine-crops",
+        "grain-milling"
+      ],
+      "frequency": 5
+    },
+    "Key Insight:": {
+      "term": "Key Insight:",
+      "definition": "A technical term used in animal tracking",
+      "sources": [
+        "animal-tracking",
+        "basketry-cordage",
+        "bicycle-construction",
+        "clockmaking-precision",
+        "grain-milling"
+      ],
+      "frequency": 5
+    },
+    "Monthly:": {
+      "term": "Monthly:",
+      "definition": "A technical term used in aquaculture",
+      "sources": [
+        "aquaculture",
+        "battery-restoration",
+        "bridges-dams",
+        "double-entry-bookkeeping",
+        "food-rationing"
+      ],
+      "frequency": 5
+    },
+    "Construction Simple": {
+      "term": "Construction Simple",
+      "definition": "A technical term used in aquaculture",
+      "sources": [
+        "aquaculture",
+        "bookbinding-printing",
+        "construction",
+        "cra-03-cordage-textiles",
+        "electrical-motors"
+      ],
+      "frequency": 5
+    },
+    "Width:": {
+      "term": "Width:",
+      "definition": "A technical term used in archery crossbows",
+      "sources": [
+        "archery-crossbows",
+        "bone-tools",
+        "bridges-dams",
+        "draft-animals",
+        "grain-milling"
+      ],
+      "frequency": 5
+    },
+    "Speed:": {
+      "term": "Speed:",
+      "definition": "A technical term used in archery crossbows",
+      "sources": [
+        "archery-crossbows",
+        "community-organizing",
+        "computing-logic",
+        "dogs-working-animals",
+        "draft-animals"
+      ],
+      "frequency": 5
+    },
+    "Tension:": {
+      "term": "Tension:",
+      "definition": "A technical term used in archery crossbows",
+      "sources": [
+        "archery-crossbows",
+        "basketry-cordage",
+        "cra-05-weaving-textiles",
+        "draft-animals",
+        "feminine-hygiene-production"
+      ],
+      "frequency": 5
+    },
+    "Type:": {
+      "term": "Type:",
+      "definition": "A technical term used in archery crossbows",
+      "sources": [
+        "archery-crossbows",
+        "blood-medicine",
+        "bridges-dams",
+        "dairy-processing",
+        "draft-animals"
+      ],
+      "frequency": 5
+    },
+    "Resource Inventory": {
+      "term": "Resource Inventory",
+      "definition": "A technical term used in archival records",
+      "sources": [
+        "archival-records",
+        "cartography-mapmaking",
+        "census-vital-records",
+        "community-organizing",
+        "disaster-triage"
+      ],
+      "frequency": 5
+    },
+    "Knowledge Preservation": {
+      "term": "Knowledge Preservation",
+      "definition": "A technical term used in archival records",
+      "sources": [
+        "archival-records",
+        "bookbinding-printing",
+        "economics-trade",
+        "education-teaching",
+        "governance"
+      ],
+      "frequency": 5
+    },
+    "Knowledge Transfer": {
+      "term": "Knowledge Transfer",
+      "definition": "A technical term used in archival records",
+      "sources": [
+        "archival-records",
+        "astronomy-calendar",
+        "cultural-practices-cohesion",
+        "education-teaching",
+        "governance"
+      ],
+      "frequency": 5
+    },
+    "Structure:": {
+      "term": "Structure:",
+      "definition": "A technical term used in astronomy calendar",
+      "sources": [
+        "astronomy-calendar",
+        "community-organizing",
+        "cultural-practices-cohesion",
+        "education-teaching",
+        "energy-systems"
+      ],
+      "frequency": 5
+    },
+    "Over Time": {
+      "term": "Over Time",
+      "definition": "A technical term used in astronomy calendar",
+      "sources": [
+        "astronomy-calendar",
+        "economics-trade",
+        "education-teaching",
+        "famine-crops",
+        "feminine-hygiene-production"
+      ],
+      "frequency": 5
+    },
+    "Electric Motors": {
+      "term": "Electric Motors",
+      "definition": "A technical term used in automotive alternator repurposing",
+      "sources": [
+        "automotive-alternator-repurposing",
+        "electrical-generation",
+        "electrical-motors",
+        "electrical-wiring",
+        "electricity"
+      ],
+      "frequency": 5
+    },
+    "Strength:": {
+      "term": "Strength:",
+      "definition": "A technical term used in basketry cordage",
+      "sources": [
+        "basketry-cordage",
+        "construction",
+        "dairy-processing",
+        "draft-animals",
+        "foundry-casting"
+      ],
+      "frequency": 5
+    },
+    "Capacity:": {
+      "term": "Capacity:",
+      "definition": "A technical term used in basketry cordage",
+      "sources": [
+        "basketry-cordage",
+        "battery-restoration",
+        "bicycle-construction",
+        "bridges-dams",
+        "draft-animals"
+      ],
+      "frequency": 5
+    },
+    "Construction": {
+      "term": "Construction",
+      "definition": "A technical term used in basketry cordage",
+      "sources": [
+        "basketry-cordage",
+        "beekeeping",
+        "biogas-production",
+        "entertainment",
+        "fod-02-trapping-hunting"
+      ],
+      "frequency": 5
+    },
+    "Time:": {
+      "term": "Time:",
+      "definition": "A technical term used in basketry cordage",
+      "sources": [
+        "basketry-cordage",
+        "dairy-processing",
+        "education-teaching",
+        "food-preservation",
+        "governance"
+      ],
+      "frequency": 5
+    },
+    "Longevity:": {
+      "term": "Longevity:",
+      "definition": "A technical term used in basketry cordage",
+      "sources": [
+        "basketry-cordage",
+        "construction",
+        "dairy-processing",
+        "draft-animals",
+        "forestry"
+      ],
+      "frequency": 5
+    },
+    "Electrical Wiring": {
+      "term": "Electrical Wiring",
+      "definition": "A technical term used in batteries",
+      "sources": [
+        "batteries",
+        "electrical-generation",
+        "electrical-motors",
+        "electrical-wiring",
+        "engineering-repair"
+      ],
+      "frequency": 5
+    },
+    "Orientation:": {
+      "term": "Orientation:",
+      "definition": "A technical term used in beekeeping",
+      "sources": [
+        "beekeeping",
+        "bridges-dams",
+        "draft-animals",
+        "energy-systems",
+        "foundry-casting"
+      ],
+      "frequency": 5
+    },
+    "Process": {
+      "term": "Process",
+      "definition": "A technical term used in beekeeping",
+      "sources": [
+        "beekeeping",
+        "bookbinding-printing",
+        "construction",
+        "dairy-processing",
+        "fod-03-agriculture-basics"
+      ],
+      "frequency": 5
+    },
+    "Infection Prevention": {
+      "term": "Infection Prevention",
+      "definition": "A technical term used in beekeeping",
+      "sources": [
+        "beekeeping",
+        "burn-treatment",
+        "dentistry-midwifery",
+        "ether-chloroform-synthesis",
+        "first-aid"
+      ],
+      "frequency": 5
+    },
+    "Flooring:": {
+      "term": "Flooring:",
+      "definition": "A technical term used in blackpowder blasting",
+      "sources": [
+        "blackpowder-blasting",
+        "con-01-shelter-building",
+        "draft-animals",
+        "education-teaching",
+        "fod-04-animal-husbandry"
+      ],
+      "frequency": 5
+    },
+    "Principle:": {
+      "term": "Principle:",
+      "definition": "A technical term used in blood medicine",
+      "sources": [
+        "blood-medicine",
+        "cartography-mapmaking",
+        "draft-animals",
+        "ether-chloroform-synthesis",
+        "governance"
+      ],
+      "frequency": 5
+    },
+    "Signs:": {
+      "term": "Signs:",
+      "definition": "A technical term used in blood medicine",
+      "sources": [
+        "blood-medicine",
+        "burn-treatment",
+        "draft-animals",
+        "ether-chloroform-synthesis",
+        "food-rationing"
+      ],
+      "frequency": 5
+    },
+    "Management:": {
+      "term": "Management:",
+      "definition": "A technical term used in blood medicine",
+      "sources": [
+        "blood-medicine",
+        "burn-treatment",
+        "dentistry-midwifery",
+        "ether-chloroform-synthesis",
+        "governance"
+      ],
+      "frequency": 5
+    },
+    "Tool Making": {
+      "term": "Tool Making",
+      "definition": "A technical term used in bone tools",
+      "sources": [
+        "bone-tools",
+        "con-01-shelter-building",
+        "con-02-carpentry-woodworking",
+        "cra-01-forging-metalwork",
+        "cra-07-primitive-weapons"
+      ],
+      "frequency": 5
+    },
+    "Stone Tool": {
+      "term": "Stone Tool",
+      "definition": "A technical term used in bone tools",
+      "sources": [
+        "bone-tools",
+        "con-01-shelter-building",
+        "con-02-carpentry-woodworking",
+        "cra-01-forging-metalwork",
+        "cra-07-primitive-weapons"
+      ],
+      "frequency": 5
+    },
+    "Alternative:": {
+      "term": "Alternative:",
+      "definition": "A technical term used in burn treatment",
+      "sources": [
+        "burn-treatment",
+        "butchering",
+        "emergency-dental",
+        "food-preservation",
+        "greenhouse-coldframe"
+      ],
+      "frequency": 5
+    },
+    "Challenges:": {
+      "term": "Challenges:",
+      "definition": "A technical term used in burn treatment",
+      "sources": [
+        "burn-treatment",
+        "charcoal-fuels",
+        "feminine-hygiene-production",
+        "glass-ceramics",
+        "governance"
+      ],
+      "frequency": 5
+    },
+    "Progression:": {
+      "term": "Progression:",
+      "definition": "A technical term used in burn treatment",
+      "sources": [
+        "burn-treatment",
+        "community-organizing",
+        "entertainment",
+        "food-rationing",
+        "governance"
+      ],
+      "frequency": 5
+    },
+    "Selection:": {
+      "term": "Selection:",
+      "definition": "A technical term used in butchering",
+      "sources": [
+        "butchering",
+        "cryptography-codes",
+        "emergency-dental",
+        "famine-crops",
+        "governance"
+      ],
+      "frequency": 5
+    },
+    "Boiling:": {
+      "term": "Boiling:",
+      "definition": "A technical term used in butchering",
+      "sources": [
+        "butchering",
+        "famine-crops",
+        "feminine-hygiene-production",
+        "food-preservation",
+        "foraging-hunting"
+      ],
+      "frequency": 5
+    },
+    "Mental Health": {
+      "term": "Mental Health",
+      "definition": "A technical term used in census vital records",
+      "sources": [
+        "census-vital-records",
+        "cultural-practices-cohesion",
+        "disaster-triage",
+        "entertainment",
+        "governance"
+      ],
+      "frequency": 5
+    },
+    "Cool completely:": {
+      "term": "Cool completely:",
+      "definition": "A technical term used in clockmaking precision",
+      "sources": [
+        "clockmaking-precision",
+        "dairy-processing",
+        "dental-prosthetics",
+        "fod-01-food-preservation",
+        "food-preservation"
+      ],
+      "frequency": 5
+    },
+    "Redundancy:": {
+      "term": "Redundancy:",
+      "definition": "A technical term used in com 01 community governance",
+      "sources": [
+        "com-01-community-governance",
+        "con-02-carpentry-woodworking",
+        "construction",
+        "cryptography-codes",
+        "governance"
+      ],
+      "frequency": 5
+    },
+    "Accountability:": {
+      "term": "Accountability:",
+      "definition": "A technical term used in community organizing",
+      "sources": [
+        "community-organizing",
+        "disaster-triage",
+        "double-entry-bookkeeping",
+        "economics-trade",
+        "governance"
+      ],
+      "frequency": 5
+    },
+    "Shelter Building": {
+      "term": "Shelter Building",
+      "definition": "A technical term used in con 01 shelter building",
+      "sources": [
+        "con-01-shelter-building",
+        "con-02-carpentry-woodworking",
+        "con-03-clay-earthworks",
+        "con-04-energy-systems",
+        "cra-06-knot-tying-rigging"
+      ],
+      "frequency": 5
+    },
+    "Test:": {
+      "term": "Test:",
+      "definition": "A technical term used in abrasives manufacturing",
+      "sources": [
+        "abrasives-manufacturing",
+        "anesthesia-pain",
+        "archery-crossbows",
+        "batteries"
+      ],
+      "frequency": 4
+    },
+    "Safety Considerations": {
+      "term": "Safety Considerations",
+      "definition": "A technical term used in abrasives manufacturing",
+      "sources": [
+        "abrasives-manufacturing",
+        "alkali-production",
+        "cra-07-primitive-weapons",
+        "disaster-triage"
+      ],
+      "frequency": 4
+    },
+    "Wheel Construction": {
+      "term": "Wheel Construction",
+      "definition": "A technical term used in abrasives manufacturing",
+      "sources": [
+        "abrasives-manufacturing",
+        "con-04-energy-systems",
+        "draft-animals",
+        "energy-systems"
+      ],
+      "frequency": 4
+    },
+    "Machine Tools": {
+      "term": "Machine Tools",
+      "definition": "A technical term used in abrasives manufacturing",
+      "sources": [
+        "abrasives-manufacturing",
+        "bicycle-construction",
+        "clockmaking-precision",
+        "foundry-casting"
+      ],
+      "frequency": 4
+    },
+    "Sourcing:": {
+      "term": "Sourcing:",
+      "definition": "A technical term used in acetylene carbide production",
+      "sources": [
+        "acetylene-carbide-production",
+        "archery-crossbows",
+        "feminine-hygiene-production",
+        "greenhouse-coldframe"
+      ],
+      "frequency": 4
+    },
+    "Placement:": {
+      "term": "Placement:",
+      "definition": "A technical term used in acetylene carbide production",
+      "sources": [
+        "acetylene-carbide-production",
+        "beekeeping",
+        "cra-07-primitive-weapons",
+        "greenhouse-coldframe"
+      ],
+      "frequency": 4
+    },
+    "Heat:": {
+      "term": "Heat:",
+      "definition": "A technical term used in acetylene carbide production",
+      "sources": [
+        "acetylene-carbide-production",
+        "chlorine-bleach-production",
+        "cra-04-soap-making",
+        "ether-chloroform-synthesis"
+      ],
+      "frequency": 4
+    },
+    "Safety Rules": {
+      "term": "Safety Rules",
+      "definition": "A technical term used in acetylene carbide production",
+      "sources": [
+        "acetylene-carbide-production",
+        "electricity",
+        "famine-crops",
+        "foraging-hunting"
+      ],
+      "frequency": 4
+    },
+    "Slaked Lime": {
+      "term": "Slaked Lime",
+      "definition": "A technical term used in acetylene carbide production",
+      "sources": [
+        "acetylene-carbide-production",
+        "alkali-production",
+        "chemistry-fundamentals",
+        "glass-ceramics"
+      ],
+      "frequency": 4
+    },
+    "Carbon Monoxide": {
+      "term": "Carbon Monoxide",
+      "definition": "A technical term used in acetylene carbide production",
+      "sources": [
+        "acetylene-carbide-production",
+        "burn-treatment",
+        "charcoal-fuels",
+        "energy-systems"
+      ],
+      "frequency": 4
+    },
+    "Rebuild Civilization": {
+      "term": "Rebuild Civilization",
+      "definition": "A technical term used in advanced materials",
+      "sources": [
+        "advanced-materials",
+        "astronomy-calendar",
+        "chemistry-fundamentals",
+        "computing-logic"
+      ],
+      "frequency": 4
+    },
+    "Type Composition": {
+      "term": "Type Composition",
+      "definition": "A technical term used in advanced materials",
+      "sources": [
+        "advanced-materials",
+        "agriculture",
+        "bookbinding-printing",
+        "dental-prosthetics"
+      ],
+      "frequency": 4
+    },
+    "Feeding:": {
+      "term": "Feeding:",
+      "definition": "A technical term used in agriculture",
+      "sources": [
+        "agriculture",
+        "burn-treatment",
+        "fod-04-animal-husbandry",
+        "greenhouse-coldframe"
+      ],
+      "frequency": 4
+    },
+    "Harvesting:": {
+      "term": "Harvesting:",
+      "definition": "A technical term used in agriculture",
+      "sources": [
+        "agriculture",
+        "aquaculture",
+        "basketry-cordage",
+        "famine-crops"
+      ],
+      "frequency": 4
+    },
+    "Monitor:": {
+      "term": "Monitor:",
+      "definition": "A technical term used in agriculture",
+      "sources": [
+        "agriculture",
+        "animal-husbandry",
+        "chlorine-bleach-production",
+        "food-preservation"
+      ],
+      "frequency": 4
+    },
+    "Fencing:": {
+      "term": "Fencing:",
+      "definition": "A technical term used in agriculture",
+      "sources": [
+        "agriculture",
+        "animal-husbandry",
+        "dogs-working-animals",
+        "fod-04-animal-husbandry"
+      ],
+      "frequency": 4
+    },
+    "Setup:": {
+      "term": "Setup:",
+      "definition": "A technical term used in agriculture",
+      "sources": [
+        "agriculture",
+        "chlorine-bleach-production",
+        "entertainment",
+        "greenhouse-coldframe"
+      ],
+      "frequency": 4
+    },
+    "Key Principle:": {
+      "term": "Key Principle:",
+      "definition": "A technical term used in agriculture",
+      "sources": [
+        "agriculture",
+        "blood-medicine",
+        "bridges-dams",
+        "disaster-triage"
+      ],
+      "frequency": 4
+    },
+    "Climate Zone": {
+      "term": "Climate Zone",
+      "definition": "A technical term used in agriculture",
+      "sources": [
+        "agriculture",
+        "construction",
+        "famine-crops",
+        "forestry"
+      ],
+      "frequency": 4
+    },
+    "Compendium This": {
+      "term": "Compendium This",
+      "definition": "A technical term used in agriculture",
+      "sources": [
+        "agriculture",
+        "archery-crossbows",
+        "blood-medicine",
+        "burn-treatment"
+      ],
+      "frequency": 4
+    },
+    "Best Practices": {
+      "term": "Best Practices",
+      "definition": "A technical term used in agriculture",
+      "sources": [
+        "agriculture",
+        "community-organizing",
+        "double-entry-bookkeeping",
+        "feminine-hygiene-production"
+      ],
+      "frequency": 4
+    },
+    "Inventory System": {
+      "term": "Inventory System",
+      "definition": "A technical term used in agriculture",
+      "sources": [
+        "agriculture",
+        "double-entry-bookkeeping",
+        "food-rationing",
+        "governance"
+      ],
+      "frequency": 4
+    },
+    "Advantages Over": {
+      "term": "Advantages Over",
+      "definition": "A technical term used in alkali production",
+      "sources": [
+        "alkali-production",
+        "bookbinding-printing",
+        "cryptography-codes",
+        "draft-animals"
+      ],
+      "frequency": 4
+    },
+    "Process Step": {
+      "term": "Process Step",
+      "definition": "A technical term used in ammonia synthesis simplified",
+      "sources": [
+        "ammonia-synthesis-simplified",
+        "foraging-hunting",
+        "foundry-casting",
+        "glue-adhesives"
+      ],
+      "frequency": 4
+    },
+    "Avoid Them": {
+      "term": "Avoid Them",
+      "definition": "A technical term used in ammonia synthesis simplified",
+      "sources": [
+        "ammonia-synthesis-simplified",
+        "battery-restoration",
+        "electric-motor-rewinding",
+        "feminine-hygiene-production"
+      ],
+      "frequency": 4
+    },
+    "Oral Anatomy": {
+      "term": "Oral Anatomy",
+      "definition": "A technical term used in anatomy oral",
+      "sources": [
+        "anatomy-oral",
+        "dental-prosthetics",
+        "dentistry-restorative",
+        "first-aid"
+      ],
+      "frequency": 4
+    },
+    "Anatomy Understanding": {
+      "term": "Anatomy Understanding",
+      "definition": "A technical term used in anatomy oral",
+      "sources": [
+        "anatomy-oral",
+        "bicycle-construction",
+        "dentistry-midwifery",
+        "draft-animals"
+      ],
+      "frequency": 4
+    }
+  }
+}

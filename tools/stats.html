@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics Dashboard - Survival Compendium</title>
+    <link rel="stylesheet" href="../css/main.css">
+    <style>
+        .stats-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .stats-header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .stats-header h1 {
+            color: var(--accent);
+            margin-bottom: 10px;
+        }
+
+        .stats-header p {
+            color: var(--muted);
+            font-size: 0.95rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-card h3 {
+            color: var(--accent);
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 15px;
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--accent);
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--muted);
+        }
+
+        .stat-details {
+            font-size: 0.8rem;
+            color: var(--muted);
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid var(--border);
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section h2 {
+            color: var(--accent);
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .chart-container {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .bar-chart {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .bar-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .bar-label {
+            flex: 0 0 150px;
+            font-size: 0.85rem;
+            color: var(--text);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .bar-track {
+            flex: 1;
+            height: 24px;
+            background: rgba(212, 165, 116, 0.15);
+            border-radius: 4px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+
+        .bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent), #c9a861);
+            transition: width 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 8px;
+            color: var(--bg);
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+
+        .bar-count {
+            flex: 0 0 50px;
+            text-align: right;
+            font-weight: bold;
+            color: var(--accent);
+        }
+
+        .heatmap {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 4px;
+            margin-top: 15px;
+        }
+
+        .heatmap-day {
+            aspect-ratio: 1;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .heatmap-day:hover {
+            border-color: var(--accent);
+            background: rgba(212, 165, 116, 0.2);
+        }
+
+        .heatmap-day.active {
+            background: var(--accent);
+            color: var(--bg);
+            font-weight: bold;
+        }
+
+        .heatmap-day.low {
+            background: rgba(212, 165, 116, 0.15);
+        }
+
+        .heatmap-day.medium {
+            background: rgba(212, 165, 116, 0.35);
+        }
+
+        .heatmap-day.high {
+            background: rgba(212, 165, 116, 0.55);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--muted);
+        }
+
+        .empty-state-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+
+        .empty-state p {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+
+        .empty-state-hint {
+            font-size: 0.9rem;
+            color: var(--muted);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            padding: 10px 16px;
+            background: rgba(212, 165, 116, 0.15);
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+
+        .action-btn:hover {
+            background: rgba(212, 165, 116, 0.25);
+        }
+
+        .action-btn.danger {
+            border-color: #c94444;
+            color: #c94444;
+            background: rgba(201, 68, 68, 0.15);
+        }
+
+        .action-btn.danger:hover {
+            background: rgba(201, 68, 68, 0.25);
+        }
+
+        .timestamp-info {
+            font-size: 0.8rem;
+            color: var(--muted);
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid var(--border);
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 30px;
+            color: var(--muted);
+            font-style: italic;
+        }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-content h2 {
+            color: var(--accent);
+            margin-bottom: 20px;
+        }
+
+        .modal-content p {
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            justify-content: flex-end;
+        }
+
+        .modal-btn {
+            padding: 10px 16px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+
+        .modal-btn.confirm {
+            background: rgba(201, 68, 68, 0.2);
+            color: #c94444;
+            border: 1px solid #c94444;
+        }
+
+        .modal-btn.confirm:hover {
+            background: rgba(201, 68, 68, 0.35);
+        }
+
+        .modal-btn.cancel {
+            background: rgba(212, 165, 116, 0.15);
+            color: var(--accent);
+            border: 1px solid var(--accent);
+        }
+
+        .modal-btn.cancel:hover {
+            background: rgba(212, 165, 116, 0.25);
+        }
+
+        .storage-info {
+            font-size: 0.8rem;
+            color: var(--muted);
+            background: rgba(212, 165, 116, 0.1);
+            padding: 10px;
+            border-radius: 4px;
+            margin-top: 15px;
+        }
+
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stat-value {
+                font-size: 1.8rem;
+            }
+
+            .bar-label {
+                flex: 0 0 120px;
+            }
+
+            .modal-content {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="top-bar" role="banner">
+        <div class="top-bar-left">
+            <span class="keyboard-hint">Local analytics dashboard</span>
+        </div>
+        <div class="top-bar-right">
+            <a href="../index.html" aria-label="Back to main">← Back to Main</a>
+            <button id="theme-toggle" aria-label="Toggle dark/light theme">☀️</button>
+        </div>
+    </div>
+
+    <main id="main-content" role="main">
+        <div class="stats-container">
+            <div class="stats-header">
+                <h1>📊 Analytics Dashboard</h1>
+                <p>Your learning activity tracked locally on this device. No data is sent anywhere.</p>
+            </div>
+
+            <!-- Quick Stats -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3>Guides Viewed</h3>
+                    <div class="stat-value" id="total-views">0</div>
+                    <div class="stat-label">Total views across all guides</div>
+                    <div class="stat-details" id="views-details"></div>
+                </div>
+
+                <div class="stat-card">
+                    <h3>Search Queries</h3>
+                    <div class="stat-value" id="total-searches">0</div>
+                    <div class="stat-label">Unique search terms tracked</div>
+                    <div class="stat-details" id="search-details"></div>
+                </div>
+
+                <div class="stat-card">
+                    <h3>Learning Sessions</h3>
+                    <div class="stat-value" id="total-sessions">0</div>
+                    <div class="stat-label">Sessions recorded</div>
+                    <div class="stat-details" id="session-details"></div>
+                </div>
+
+                <div class="stat-card">
+                    <h3>Active Days</h3>
+                    <div class="stat-value" id="active-days">0</div>
+                    <div class="stat-label">Days you've used the app</div>
+                    <div class="stat-details" id="active-days-details"></div>
+                </div>
+
+                <div class="stat-card">
+                    <h3>Average Load Time</h3>
+                    <div class="stat-value" id="avg-load-time">0</div>
+                    <div class="stat-label">Milliseconds</div>
+                    <div class="stat-details" id="load-details"></div>
+                </div>
+
+                <div class="stat-card">
+                    <h3>Storage Used</h3>
+                    <div class="stat-value" id="storage-used">0</div>
+                    <div class="stat-label">KB by analytics</div>
+                    <div class="stat-details" id="storage-details"></div>
+                </div>
+            </div>
+
+            <!-- Most Viewed Guides -->
+            <div class="section">
+                <h2>🔥 Most Viewed Guides</h2>
+                <div class="chart-container">
+                    <div id="guide-views" class="bar-chart"></div>
+                    <div id="no-views" class="no-data">No guide views recorded yet. Start reading some guides!</div>
+                </div>
+            </div>
+
+            <!-- Top Search Terms -->
+            <div class="section">
+                <h2>🔍 Top Search Terms</h2>
+                <div class="chart-container">
+                    <div id="search-terms" class="bar-chart"></div>
+                    <div id="no-searches" class="no-data">No search activity recorded yet. Try searching for something!</div>
+                </div>
+            </div>
+
+            <!-- Reading Activity Heatmap -->
+            <div class="section">
+                <h2>📅 Activity Heatmap (Last 30 Days)</h2>
+                <div class="chart-container">
+                    <div class="heatmap" id="activity-heatmap"></div>
+                    <div id="no-activity" class="no-data">No activity recorded in the last 30 days.</div>
+                </div>
+            </div>
+
+            <!-- Achievement Stats -->
+            <div class="section">
+                <h2>🏆 Achievement Progress</h2>
+                <div class="chart-container">
+                    <div id="achievement-stats"></div>
+                    <div id="no-achievements" class="no-data">No achievements unlocked yet. Keep learning!</div>
+                </div>
+            </div>
+
+            <!-- Session Statistics -->
+            <div class="section">
+                <h2>⏱️ Session Statistics</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h3>Total Learning Time</h3>
+                        <div class="stat-value" id="total-time">0</div>
+                        <div class="stat-label">Minutes</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Average Session</h3>
+                        <div class="stat-value" id="avg-session">0</div>
+                        <div class="stat-label">Minutes per session</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Longest Session</h3>
+                        <div class="stat-value" id="longest-session">0</div>
+                        <div class="stat-label">Minutes</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Shortest Session</h3>
+                        <div class="stat-value" id="shortest-session">0</div>
+                        <div class="stat-label">Seconds</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Actions -->
+            <div class="section">
+                <h2>⚙️ Data Management</h2>
+                <div class="chart-container">
+                    <p style="margin-bottom: 15px; color: var(--muted);">
+                        All your analytics data is stored locally in your browser's localStorage.
+                        It never leaves your device and is never sent to any server.
+                    </p>
+                    <div class="action-buttons">
+                        <button class="action-btn" id="export-btn">📥 Export Analytics</button>
+                        <button class="action-btn" id="refresh-btn">🔄 Refresh</button>
+                        <button class="action-btn danger" id="clear-btn">🗑️ Clear Analytics</button>
+                    </div>
+                    <div class="storage-info" id="storage-info"></div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Clear Confirmation Modal -->
+    <div id="clearModal" class="modal-overlay">
+        <div class="modal-content">
+            <h2>Clear All Analytics Data?</h2>
+            <p>This will permanently delete all tracked analytics data including:</p>
+            <ul style="color: var(--text); margin: 15px 0;">
+                <li>Guide view history</li>
+                <li>Search term history</li>
+                <li>Achievement unlock dates</li>
+                <li>Session statistics</li>
+                <li>Daily activity records</li>
+                <li>Page load times</li>
+            </ul>
+            <p style="color: var(--muted); font-size: 0.9rem;">This action cannot be undone.</p>
+            <div class="modal-buttons">
+                <button class="modal-btn cancel" id="cancelClear">Cancel</button>
+                <button class="modal-btn confirm" id="confirmClear">Yes, Clear Everything</button>
+            </div>
+        </div>
+    </div>
+
+    <footer role="contentinfo" class="footer">
+        Analytics Dashboard — All data stored locally • Zero external tracking
+    </footer>
+
+    <script type="module">
+        import * as analytics from '../js/analytics.js';
+        import * as storage from '../js/storage.js';
+        import * as ui from '../js/ui.js';
+
+        // Initialize theme toggle
+        ui.initializeThemeToggle();
+
+        // Render all stats
+        function renderStats() {
+            const data = analytics.getAnalytics();
+
+            // Quick stats
+            const totalViews = Object.values(data.guideViews).reduce((sum, g) => sum + g.count, 0);
+            document.getElementById('total-views').textContent = totalViews;
+            document.getElementById('views-details').innerHTML =
+                Object.keys(data.guideViews).length > 0
+                    ? `<strong>${Object.keys(data.guideViews).length}</strong> unique guides`
+                    : 'No guides viewed';
+
+            document.getElementById('total-searches').textContent = data.searchTerms.length;
+            document.getElementById('search-details').innerHTML =
+                data.searchTerms.length > 0
+                    ? `<strong>${data.searchTerms.reduce((sum, t) => sum + t.count, 0)}</strong> total searches`
+                    : 'No searches yet';
+
+            const sessionStats = analytics.getSessionStats();
+            document.getElementById('total-sessions').textContent = sessionStats.totalSessions;
+            document.getElementById('session-details').innerHTML =
+                sessionStats.totalSessions > 0
+                    ? `<strong>${Math.round(sessionStats.averageSessionTime / 1000 / 60)}</strong> min avg`
+                    : 'No sessions';
+
+            const dailyStats = analytics.getDailyUsageStats();
+            document.getElementById('active-days').textContent = dailyStats.activeDaysTotal;
+            document.getElementById('active-days-details').innerHTML =
+                dailyStats.activeDaysTotal > 0
+                    ? `Last: <strong>${dailyStats.lastActiveDate}</strong>`
+                    : 'No activity';
+
+            const loadStats = analytics.getLoadStats();
+            document.getElementById('avg-load-time').textContent = loadStats.averageLoadTime;
+            document.getElementById('load-details').innerHTML =
+                loadStats.totalMeasurements > 0
+                    ? `<strong>${loadStats.totalMeasurements}</strong> measurements`
+                    : 'No load data';
+
+            const storageSize = Math.round(analytics.getStorageSize() / 1024 * 100) / 100;
+            document.getElementById('storage-used').textContent = storageSize;
+            document.getElementById('storage-info').innerHTML =
+                `Storage: ${storageSize}KB • Data is completely local and never transmitted`;
+
+            // Most viewed guides
+            const guideStats = analytics.getGuideStats();
+            const guideViewsEl = document.getElementById('guide-views');
+            const noViewsEl = document.getElementById('no-views');
+
+            if (guideStats.length > 0) {
+                guideViewsEl.innerHTML = '';
+                noViewsEl.style.display = 'none';
+                const maxViews = Math.max(...guideStats.map(g => g.count));
+                guideStats.slice(0, 15).forEach(guide => {
+                    const percentage = (guide.count / maxViews) * 100;
+                    guideViewsEl.innerHTML += `
+                        <div class="bar-item">
+                            <div class="bar-label" title="${guide.guideId}">${guide.guideId}</div>
+                            <div class="bar-track">
+                                <div class="bar-fill" style="width: ${percentage}%">${Math.round(percentage)}%</div>
+                            </div>
+                            <div class="bar-count">${guide.count}</div>
+                        </div>
+                    `;
+                });
+            } else {
+                guideViewsEl.style.display = 'none';
+                noViewsEl.style.display = 'block';
+            }
+
+            // Top search terms
+            const topTerms = analytics.getTopSearchTerms(15);
+            const searchTermsEl = document.getElementById('search-terms');
+            const noSearchesEl = document.getElementById('no-searches');
+
+            if (topTerms.length > 0) {
+                searchTermsEl.innerHTML = '';
+                noSearchesEl.style.display = 'none';
+                const maxCount = Math.max(...topTerms.map(t => t.count));
+                topTerms.forEach(term => {
+                    const percentage = (term.count / maxCount) * 100;
+                    searchTermsEl.innerHTML += `
+                        <div class="bar-item">
+                            <div class="bar-label" title="${term.term}">${term.term}</div>
+                            <div class="bar-track">
+                                <div class="bar-fill" style="width: ${percentage}%">${Math.round(percentage)}%</div>
+                            </div>
+                            <div class="bar-count">${term.count}</div>
+                        </div>
+                    `;
+                });
+            } else {
+                searchTermsEl.style.display = 'none';
+                noSearchesEl.style.display = 'block';
+            }
+
+            // Activity heatmap
+            const heatmapEl = document.getElementById('activity-heatmap');
+            const noActivityEl = document.getElementById('no-activity');
+            const last30Days = dailyStats.dates.slice(-30);
+
+            if (last30Days.length > 0) {
+                heatmapEl.innerHTML = '';
+                noActivityEl.style.display = 'none';
+
+                // Fill in last 30 days
+                const today = new Date();
+                for (let i = 29; i >= 0; i--) {
+                    const date = new Date(today);
+                    date.setDate(date.getDate() - i);
+                    const dateStr = date.toISOString().split('T')[0];
+                    const isActive = last30Days.includes(dateStr);
+
+                    const dayEl = document.createElement('div');
+                    dayEl.className = `heatmap-day ${isActive ? 'active' : 'low'}`;
+                    dayEl.textContent = date.getDate();
+                    dayEl.title = dateStr;
+                    heatmapEl.appendChild(dayEl);
+                }
+            } else {
+                heatmapEl.style.display = 'none';
+                noActivityEl.style.display = 'block';
+            }
+
+            // Achievements
+            const achievements = data.achievements;
+            const achievementEl = document.getElementById('achievement-stats');
+            const noAchievementsEl = document.getElementById('no-achievements');
+
+            if (Object.keys(achievements).length > 0) {
+                achievementEl.innerHTML = `<p><strong>${Object.keys(achievements).length}</strong> achievement(s) unlocked!</p>`;
+                noAchievementsEl.style.display = 'none';
+                Object.entries(achievements).forEach(([id, data]) => {
+                    const date = new Date(data.unlockedAt).toLocaleDateString();
+                    achievementEl.innerHTML += `<div style="padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 0.9rem;">
+                        <strong>${id}</strong> <span style="color: var(--muted);">— ${date}</span>
+                    </div>`;
+                });
+            } else {
+                achievementEl.style.display = 'none';
+                noAchievementsEl.style.display = 'block';
+            }
+
+            // Session stats
+            document.getElementById('total-time').textContent = Math.round(sessionStats.totalSessionTime / 1000 / 60);
+            document.getElementById('avg-session').textContent = Math.round(sessionStats.averageSessionTime / 1000 / 60);
+            document.getElementById('longest-session').textContent = Math.round(sessionStats.longestSession / 1000 / 60);
+            document.getElementById('shortest-session').textContent = Math.round(sessionStats.shortestSession);
+        }
+
+        // Initial render
+        renderStats();
+
+        // Export analytics
+        document.getElementById('export-btn').addEventListener('click', () => {
+            const json = analytics.exportAnalyticsJSON();
+            const blob = new Blob([json], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `analytics-${new Date().toISOString().split('T')[0]}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+        });
+
+        // Refresh stats
+        document.getElementById('refresh-btn').addEventListener('click', () => {
+            renderStats();
+        });
+
+        // Clear analytics
+        const clearModal = document.getElementById('clearModal');
+        document.getElementById('clear-btn').addEventListener('click', () => {
+            clearModal.classList.add('active');
+        });
+
+        document.getElementById('cancelClear').addEventListener('click', () => {
+            clearModal.classList.remove('active');
+        });
+
+        document.getElementById('confirmClear').addEventListener('click', () => {
+            analytics.clearAnalytics();
+            clearModal.classList.remove('active');
+            renderStats();
+        });
+
+        // Close modal on background click
+        clearModal.addEventListener('click', (e) => {
+            if (e.target === clearModal) {
+                clearModal.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>

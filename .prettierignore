@@ -1,0 +1,5 @@
+css/main.min.css
+node_modules/
+*.html
+docs/
+spreadsheets/

@@ -1,0 +1,135 @@
+[
+  {
+    "file": "con-01-shelter-building.html",
+    "title": "Shelter Building",
+    "h1": "Shelter Building",
+    "matchedEntry": null,
+    "recommendation": "keep"
+  },
+  {
+    "file": "con-02-carpentry-woodworking.html",
+    "title": "Carpentry & Woodworking",
+    "h1": "Carpentry & Woodworking",
+    "matchedEntry": null,
+    "recommendation": "keep"
+  },
+  {
+    "file": "con-03-clay-earthworks.html",
+    "title": "Clay & Earthworks",
+    "h1": "Clay & Earthworks",
+    "matchedEntry": null,
+    "recommendation": "keep"
+  },
+  {
+    "file": "con-04-energy-systems.html",
+    "title": "Energy Systems",
+    "h1": "Energy Systems Overview",
+    "matchedEntry": null,
+    "recommendation": "keep"
+  },
+  {
+    "file": "cra-01-forging-metalwork.html",
+    "title": "Forging & Metalwork",
+    "h1": "Forging & Metalwork",
+    "matchedEntry": null,
+    "recommendation": "keep"
+  },
+  {
+    "file": "cra-02-pottery-ceramics.html",
+    "title": "Pottery & Ceramics",
+    "h1": "Pottery & Ceramics",
+    "matchedEntry": null,
+    "recommendation": "keep"
+  },
+  {
+    "file": "cra-03-cordage-textiles.html",
+    "title": "Cordage & Textiles",
+    "h1": "Cordage Making",
+    "matchedEntry": null,
+    "recommendation": "keep"
+  },
+  {
+    "file": "cra-04-soap-making.html",
+    "title": "Soap Making",
+    "h1": "Soap Making",
+    "matchedEntry": null,
+    "recommendation": "keep"
+  },
+  {
+    "file": "cra-05-weaving-textiles.html",
+    "title": "Weaving & Textiles",
+    "h1": "Weaving & Textiles",
+    "matchedEntry": null,
+    "recommendation": "keep"
+  },
+  {
+    "file": "cra-06-knot-tying-rigging.html",
+    "title": "Knot Tying & Rigging",
+    "h1": "Knot Tying & Rigging",
+    "matchedEntry": null,
+    "recommendation": "keep"
+  },
+  {
+    "file": "cra-07-primitive-weapons.html",
+    "title": "Primitive Weapons",
+    "h1": "Primitive Weapons",
+    "matchedEntry": null,
+    "recommendation": "keep"
+  },
+  {
+    "file": "fod-01-food-preservation.html",
+    "title": "Food Preservation",
+    "h1": "Food Preservation Techniques",
+    "matchedEntry": null,
+    "recommendation": "keep"
+  },
+  {
+    "file": "fod-02-trapping-hunting.html",
+    "title": "Trapping & Hunting",
+    "h1": "Trapping & Hunting Guide",
+    "matchedEntry": null,
+    "recommendation": "keep"
+  },
+  {
+    "file": "fod-03-agriculture-basics.html",
+    "title": "Agriculture Basics",
+    "h1": "Agriculture Fundamentals",
+    "matchedEntry": null,
+    "recommendation": "keep"
+  },
+  {
+    "file": "fod-04-animal-husbandry.html",
+    "title": "Animal Husbandry",
+    "h1": "Animal Husbandry & Livestock Management",
+    "matchedEntry": null,
+    "recommendation": "keep"
+  },
+  {
+    "file": "sur-01-water-purification.html",
+    "title": "Water Purification",
+    "h1": "Water Purification Methods",
+    "matchedEntry": null,
+    "recommendation": "keep"
+  },
+  {
+    "file": "sur-02-fire-starting.html",
+    "title": "Fire Starting",
+    "h1": "Fire Starting Methods",
+    "matchedEntry": null,
+    "recommendation": "keep"
+  },
+  {
+    "file": "sur-03-herbal-medicine.html",
+    "title": "Herbal Medicine",
+    "h1": "Herbal Medicine Guide",
+    "matchedEntry": null,
+    "recommendation": "keep"
+  },
+  {
+    "file": "sur-05-sanitation-hygiene.html",
+    "title": "Sanitation and Hygiene",
+    "h1": "Sanitation and Hygiene in Survival",
+    "matchedEntry": null,
+    "recommendation": "keep"
+  }
+]

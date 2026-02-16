@@ -1,0 +1,666 @@
+ZERO TO HERO SURVIVAL COMPENDIUM - EXECUTION-ORDER IMPROVEMENT PLAN
+=====================================================================
+
+Current State Summary:
+- 260+ HTML guides (~21 MB), 6 interactive tools (748 KB), 5 JSON data files (668 KB)
+- Vanilla JS PWA with service worker, localStorage state, no dependencies
+- index.html has 188 hardcoded guide cards (out of sync with 260+ actual guides)
+- CSS minified to 19 lines (11.5 KB), app.js is 461 lines (18.7 KB)
+- build.sh handles cache generation and validation
+- Spreadsheets directory (312 KB, 9 xlsx files) exists but is not integrated
+
+Parallelization key:
+  [PARALLEL] = can run simultaneously with other [PARALLEL] items in the same phase
+  [DEPENDS: X] = must wait for task X to finish
+  [AGENT] = good candidate for a dedicated agent/subprocess
+
+
+======================================================================
+PHASE 0: CLEANUP & PROJECT SCAFFOLDING (30 minutes)
+======================================================================
+Everything here is independent. Launch all as parallel agents.
+
+0.1 [PARALLEL] [AGENT: cleanup] Delete .DS_Store, add .gitignore
+    - Exclude .DS_Store, node_modules/, /tmp/build_stats.json, *.log, build artifacts
+    - Delete the existing .DS_Store file (15 KB)
+
+0.2 [PARALLEL] [AGENT: scaffold] Add package.json
+    - Name, version, description, author, license
+    - Scripts: build (wraps build.sh), dev (local server), test (placeholder), lint, format
+    - No npm dependencies yet, just project metadata
+
+0.3 [PARALLEL] [AGENT: docs] Add README.md
+    - What the app is, how to install as PWA, how to run locally
+    - Project structure overview
+    - How to contribute, how to add a new guide
+    - Include placeholder for screenshots
+
+0.4 [PARALLEL] [AGENT: favicon] Generate favicon.ico and apple-touch-icon
+    - From existing icon-512.png, generate: favicon.ico (16x16, 32x32, 48x48), apple-touch-icon (180x180)
+    - Add link tags to index.html
+    - Update manifest.json with additional icon sizes
+
+0.5 [PARALLEL] [AGENT: docs-cleanup] Consolidate existing documentation
+    - Move BUILD_SCRIPT_README.md, QUICK_REFERENCE.md, REFACTOR_COMPLETE.md into docs/ folder
+    - Archive ZTH-Compendium-Review.docx to docs/archive/
+    - Add CHANGELOG.md with current state as v1.0.0
+
+
+======================================================================
+PHASE 1: DATA AUDIT & CONSOLIDATION (1-2 hours)
+======================================================================
+Data cleanup is prerequisite for almost everything else. These are
+parallel within this phase but the whole phase must finish before Phase 2.
+
+1.1 [PARALLEL] [AGENT: data-audit] Audit and consolidate JSON data files
+    - Compare skills_merged.json (248 KB) vs skills_data.json (228 KB) - identify which is authoritative
+    - Compare both against master-skills-db.json (45 KB) hierarchy
+    - Delete the redundant file(s)
+    - Minify remaining JSON files
+    - Document what each remaining file is for
+
+1.2 [PARALLEL] [AGENT: guide-audit] Audit guide count mismatch
+    - List all files in guides/ directory (260+ HTML files)
+    - List all entries in guides.json (225 entries)
+    - List all cards in index.html (188 cards)
+    - Produce a reconciliation report: which guides exist as files but are missing from guides.json, which are in guides.json but missing from index.html, any orphans
+    - Update guides.json to include all guides that exist as files
+
+1.3 [PARALLEL] [AGENT: guide-structure-audit] Audit guide HTML structure consistency
+    - Sample 20-30 guides across categories
+    - Document which have inline <style> blocks
+    - Document heading hierarchy patterns
+    - Document which load shared/calculator.js
+    - Identify common inline styles that should move to shared.css
+    - Produce a standardization report
+
+1.4 [PARALLEL] [AGENT: taxonomy-audit] Reconcile categories and tags
+    - Extract all categories and tags from guides.json
+    - Extract all data-tags from index.html cards
+    - Extract categorization from tools/ files
+    - Produce a unified taxonomy proposal
+
+1.5 [PARALLEL] [AGENT: spreadsheet-audit] Audit spreadsheets/ directory
+    - Inventory all 9 xlsx files with contents summary
+    - Identify which guides each spreadsheet relates to
+    - Propose integration plan (convert to HTML tables? link from guides? new tools section?)
+
+
+======================================================================
+PHASE 2: CORE ARCHITECTURE CHANGES (1 day)
+======================================================================
+These are the foundational changes everything else builds on.
+
+2.1 [PARALLEL] [AGENT: unminify] Unminify main.css for development
+    - Pretty-print the 19-line minified CSS into readable source
+    - Extend CSS variables to cover all colors, spacing, font sizes
+    - Document the variable system
+    - Add build step to re-minify for production
+
+2.2 [PARALLEL] [AGENT: modularize] Split app.js into ES6 modules
+    [DEPENDS: 0.2 for package.json]
+    - Create js/ directory structure:
+      js/app.js (entry point, imports)
+      js/search.js (search logic, autocomplete)
+      js/achievements.js (achievement definitions, checking, toasts)
+      js/storage.js (localStorage abstraction layer)
+      js/ui.js (theme toggle, filters, modals, back-to-top)
+      js/keyboard.js (keyboard shortcuts, navigation)
+      js/import-export.js (data import/export, validation)
+    - Preserve IIFE-equivalent encapsulation via modules
+    - Add JSDoc comments to all exported functions while splitting
+
+2.3 [PARALLEL] [AGENT: dynamic-cards] Make index.html render cards from guides.json
+    [DEPENDS: 1.2 for reconciled guides.json]
+    - Remove all 188 hardcoded guide cards from index.html
+    - Add JS that fetches guides.json and generates cards at runtime
+    - This fixes the sync problem permanently
+    - index.html drops from 97 KB to ~15 KB
+    - New guides only need: HTML file + guides.json entry
+
+2.4 [PARALLEL] [AGENT: sw-rewrite] Rewrite service worker caching strategy
+    - Replace all-at-once precaching with on-demand caching
+    - Cache core shell (index.html, CSS, JS, guides.json) on install
+    - Cache individual guides when first opened
+    - Use stale-while-revalidate for data files
+    - Add proper try/catch error handling around all fetch operations
+    - Fix fallback to not return index.html for non-HTML requests
+    - Add cache expiration policies
+    - Version cache from package.json instead of hardcoded string
+
+2.5 [PARALLEL] [AGENT: storage-layer] Create storage abstraction layer
+    [DEPENDS: 2.2 being planned, can code in parallel]
+    - Abstract localStorage into a storage.js module
+    - Interface: get(key), set(key, value), remove(key), getAll()
+    - Start with localStorage backend
+    - Design interface to swap to IndexedDB later
+    - Add input validation and sanitization on all writes
+    - Add import data validation (check JSON structure before applying)
+
+
+======================================================================
+PHASE 3: BUILD SYSTEM & DEVELOPER EXPERIENCE (half day)
+======================================================================
+With the architecture settled, lock down the build pipeline.
+
+3.1 [PARALLEL] [AGENT: build-system] Modernize build pipeline
+    [DEPENDS: 2.1, 2.2 for new file structure]
+    - Migrate build.sh logic into npm scripts (keep build.sh as wrapper)
+    - Add CSS minification step (dev source -> production minified)
+    - Add JS bundling step (ES6 modules -> single bundle or keep modules with importmap)
+    - Add source map generation
+    - Add HTML validation for all 260+ guide files
+    - Remove the 10-result cap on dead link detection
+    - Add validation: guides.json entry count == guides/ file count
+    - Add asset hashing for cache busting (app.[hash].js, main.[hash].css)
+    - Clean up /tmp/build_stats.json after build
+    - Add --watch mode for development
+
+3.2 [PARALLEL] [AGENT: dev-server] Create development server
+    [DEPENDS: 0.2 for package.json]
+    - Add npm run dev script
+    - Use Vite or a simple live-reload HTTP server
+    - Disable service worker in dev mode (or use different caching strategy)
+    - Add hot reload for CSS/JS changes
+
+3.3 [PARALLEL] [AGENT: linting] Set up linting and formatting
+    [DEPENDS: 2.1, 2.2 for unminified source files]
+    - Add ESLint config for JavaScript
+    - Add Stylelint config for CSS
+    - Add Prettier for auto-formatting
+    - Run initial lint pass, fix errors
+    - Add pre-commit hook (husky + lint-staged)
+
+3.4 [PARALLEL] [AGENT: testing] Set up test framework
+    [DEPENDS: 2.2 for modular JS]
+    - Add Vitest (lightweight, works with ES modules)
+    - Write unit tests for: search filtering, achievement checking, storage operations, import validation
+    - Add to npm test script
+    - Aim for core logic coverage, not DOM testing yet
+
+3.5 [PARALLEL] [AGENT: guide-scaffold] Create guide scaffolding script
+    [DEPENDS: 1.3 for standardized format, 2.3 for dynamic rendering]
+    - npm run new-guide "Guide Title" --category=survival --tags=water,essential
+    - Creates HTML file from template in guides/
+    - Adds entry to guides.json
+    - Runs build.sh to update service worker cache
+    - No need to touch index.html anymore (cards are dynamic)
+
+
+======================================================================
+PHASE 4: UX QUICK WINS (1 day)
+======================================================================
+All independent of each other. Maximum parallelization.
+
+4.1 [PARALLEL] [AGENT: offline-indicator] Add offline/online indicator
+    - Listen for online/offline events
+    - Show banner or badge when offline
+    - Update UI text to "Offline Mode - All cached guides available"
+    - Add aria-live region for screen readers
+
+4.2 [PARALLEL] [AGENT: search-upgrade] Improve search functionality
+    [DEPENDS: 2.2 for search.js module, 2.3 for guides.json-based data]
+    - Search guide descriptions and tags, not just titles
+    - Add autocomplete dropdown with category grouping
+    - Highlight matched text in results
+    - Save recent searches to localStorage
+    - Make min-chars and max-results configurable
+    - Add keyboard navigation (arrow keys) in search results dropdown
+
+4.3 [PARALLEL] [AGENT: reading-time] Add estimated reading time to guides
+    [DEPENDS: 1.2 for complete guides.json]
+    - Script to calculate word count for each guide HTML file
+    - Add readingTime field to guides.json (assume 200 wpm)
+    - Display on guide cards: "~12 min read"
+    - Add as build step so it auto-updates
+
+4.4 [PARALLEL] [AGENT: difficulty-ratings] Add guide difficulty ratings
+    [DEPENDS: 1.2 for complete guides.json]
+    - Add difficulty field to guides.json (beginner/intermediate/advanced)
+    - Assign initial ratings based on category heuristics (fire-starting=beginner, vaccine-production=advanced)
+    - Add filter buttons for difficulty level
+    - Show difficulty badge on guide cards
+
+4.5 [PARALLEL] [AGENT: recently-viewed] Add recently viewed section
+    [DEPENDS: 2.5 for storage layer]
+    - Track guide opens with timestamps in storage
+    - Show "Continue Learning" section at top of main page with last 5 guides
+    - Quick resume functionality
+
+4.6 [PARALLEL] [AGENT: progress-viz] Add category progress visualization
+    [DEPENDS: 2.3 for dynamic cards with category data]
+    - Show completion percentage per category (critical, essential, rebuild, etc.)
+    - Visual progress bars in the hero/stats section
+    - Motivational messages at milestones
+
+4.7 [PARALLEL] [AGENT: theme-sync] Fix dark mode across all pages
+    - Ensure guide pages read theme preference from localStorage
+    - Add theme toggle to guide page header
+    - Sync shared.css variables with main.css variables
+    - Add smooth CSS transition between themes (0.2s on background-color, color)
+
+4.8 [PARALLEL] [AGENT: print-styles] Improve print styles
+    - Add @media print rules to shared.css for guide pages
+    - Hide navigation, back buttons, theme toggles when printing
+    - Add page-break-before on major headings
+    - Ensure SVG diagrams print cleanly
+
+4.9 [PARALLEL] [AGENT: tools-nav] Surface tools in main navigation
+    - Add "Tools" section/button in main nav bar
+    - Link to all 6 tools with descriptions
+    - Cross-link relevant tools from guide cards (e.g., "See related: Tech Tree")
+
+4.10 [PARALLEL] [AGENT: share] Add share functionality
+     - "Copy link" button on each guide
+     - Use Web Share API where available (mobile)
+     - Fallback to clipboard copy with toast notification
+     - Generate clean shareable URLs
+
+
+======================================================================
+PHASE 5: CONTENT STANDARDIZATION (1-2 days)
+======================================================================
+Bulk operations on 260+ files. Perfect for parallel agents.
+
+5.1 [PARALLEL] [AGENT: guide-template] Create guide HTML template
+    [DEPENDS: 1.3 for structure audit results]
+    - Standardized HTML structure: head, meta, nav, article, footer
+    - Consistent heading hierarchy
+    - Metadata block: category, tags, difficulty, reading time, prerequisites, last updated
+    - Hooks for theme, calculator, print styles
+    - Document the template in docs/GUIDE_TEMPLATE.md
+
+5.2 [PARALLEL] [AGENT: guide-css-cleanup] Consolidate guide inline styles
+    [DEPENDS: 1.3 for audit results, 5.1 for template]
+    - Move common inline <style> patterns into shared.css
+    - Remove redundant inline styles from guides
+    - This is a bulk operation across 260+ files - script it
+    - Verify no visual regressions by spot-checking categories
+
+5.3 [PARALLEL] [AGENT: guide-metadata] Add metadata to all guides
+    [DEPENDS: 1.4 for unified taxonomy, 4.3 for reading times, 4.4 for difficulty ratings]
+    - Add structured metadata block to each guide HTML file
+    - Include: title, category, tags, difficulty, reading time, prerequisites, version, last updated
+    - Script the bulk update using guides.json as source of truth
+    - Add metadata to guides.json for guides that lack it
+
+5.4 [PARALLEL] [AGENT: guide-prerequisites] Define guide prerequisites
+    [DEPENDS: 1.4 for taxonomy]
+    - For each guide, identify which other guides should be read first
+    - Add prerequisites array to guides.json
+    - Cross-reference with tech-tree-v2.html dependency data
+    - Show "Read first:" links on guide pages
+
+5.5 [PARALLEL] [AGENT: learning-paths] Create learning paths
+    [DEPENDS: 5.4 for prerequisites]
+    - Define 5-8 learning tracks: Survival Basics, Food Production, Medical, Crafts, Technology, etc.
+    - Each path = ordered sequence of guides
+    - Integrate with existing learning-paths.html tool
+    - Show path progress on main page
+    - "Start here" recommendations for brand new users
+
+5.6 [PARALLEL] [AGENT: guide-toc] Build master table of contents
+    [DEPENDS: 1.4 for taxonomy, 5.3 for metadata]
+    - Update guides/index.html with complete categorized listing
+    - Group by category, then subcategory
+    - Add cross-references between related guides
+    - Link to learning paths
+
+5.7 [PARALLEL] [AGENT: spreadsheet-integration] Integrate spreadsheet data
+    [DEPENDS: 1.5 for audit results]
+    - Convert key spreadsheets to interactive HTML tables or JSON
+    - Link from relevant guides (e.g., seasonal-calendar.xlsx linked from agriculture guides)
+    - Add "Reference Tables" tool or section
+    - salvage_data.json callout boxes in relevant guides ("With salvaged materials, this takes 80% less time")
+
+
+======================================================================
+PHASE 6: ACCESSIBILITY & SECURITY (1 day)
+======================================================================
+All parallel. Can run alongside Phase 5.
+
+6.1 [PARALLEL] [AGENT: aria-audit] Add ARIA labels and improve screen reader support
+    - Audit index.html for missing ARIA labels on all interactive elements
+    - Add aria-live regions for: search results, filter changes, achievement toasts, offline indicator
+    - Verify skip link works on all pages
+    - Add role attributes where missing
+
+6.2 [PARALLEL] [AGENT: keyboard-nav] Improve keyboard navigation
+    - Verify all features work without mouse
+    - Add visible focus indicators on all interactive elements
+    - Ensure tab order is logical
+    - Add Escape to close modals, search dropdown
+
+6.3 [PARALLEL] [AGENT: contrast-check] Check and fix color contrast
+    - Test all text against backgrounds in both light and dark themes
+    - Pay special attention to the earthy brown/green palette
+    - Fix any WCAG AA failures (4.5:1 for normal text, 3:1 for large text)
+    - Document the accessible color palette
+
+6.4 [PARALLEL] [AGENT: reduced-motion] Support prefers-reduced-motion
+    - Add @media (prefers-reduced-motion: reduce) rules
+    - Disable slideInRight, slideOutRight, pulse animations
+    - Replace with instant or simple opacity transitions
+    - Test with system setting enabled
+
+6.5 [PARALLEL] [AGENT: text-sizing] Add text sizing controls
+    - Add A+ / A- buttons in the top bar
+    - Scale via CSS variable on html font-size
+    - Remember preference in storage
+    - Test that layout does not break at 150% and 200% sizes
+
+6.6 [PARALLEL] [AGENT: guide-a11y] Audit guide page accessibility
+    - Check heading hierarchy in sample of 30 guides
+    - Ensure SVG diagrams have descriptive alt text or aria-label
+    - Check that all tables have proper headers and scope attributes
+    - Script bulk fixes where possible
+
+6.7 [PARALLEL] [AGENT: csp] Add Content Security Policy
+    - Add CSP meta tag to index.html and guide pages
+    - Whitelist self for scripts, styles, images
+    - Handle inline styles in guides (either move to external or add nonce/hash)
+    - Test that nothing breaks
+
+6.8 [PARALLEL] [AGENT: sanitize] Sanitize user input
+    - Add DOMPurify or equivalent to the notes feature
+    - Sanitize all user-provided data before storing and rendering
+    - Validate import JSON structure (check keys, types, reasonable sizes)
+    - Add Subresource Integrity attributes if any external resources are used
+
+6.9 [PARALLEL] [AGENT: guide-script-audit] Audit inline scripts in guides
+    - Scan all 260+ guides for <script> tags
+    - Assess security implications
+    - Consider sandboxing guide content or removing inline scripts
+    - Document findings
+
+
+======================================================================
+PHASE 7: PERFORMANCE OPTIMIZATION (1-2 days)
+======================================================================
+Now that architecture is clean, optimize aggressively.
+
+7.1 [PARALLEL] [AGENT: image-optimize] Optimize images
+    - Convert icon-192.png and icon-512.png to WebP (keep PNG as fallback)
+    - Generate full icon set: 16, 32, 48, 64, 128, 180, 192, 512
+    - Add srcset to any image references
+    - Compress all SVGs in guides (svgo)
+
+7.2 [PARALLEL] [AGENT: guide-compress] Compress guide content
+    - Strip redundant whitespace from HTML guides
+    - Remove comments from production guides
+    - Extract and deduplicate common SVG diagrams
+    - Consider converting to markdown with a lightweight renderer
+    - Measure before/after sizes per category
+
+7.3 [PARALLEL] [AGENT: tool-optimize] Optimize tools/ directory
+    - combo-projects.html (201 KB) - extract data into JSON, load dynamically
+    - learning-paths.html (116 KB) - same approach
+    - Extract shared tool logic into common tools.js
+    - Lazy load tools only when accessed
+
+7.4 [PARALLEL] [AGENT: bundle-analysis] Add bundle size tracking
+    [DEPENDS: 3.1 for build system]
+    - Add size-limit or bundlesize tool
+    - Set budgets: core shell < 50 KB, individual guide < 150 KB, total data < 400 KB
+    - Report sizes in build output
+    - Fail build if budgets exceeded
+
+7.5 [PARALLEL] [AGENT: search-index] Build full-text search index
+    [DEPENDS: 5.3 for guide metadata]
+    - Build step: extract text from all guide HTML files
+    - Generate lightweight search index (lunr.js or custom)
+    - Store as JSON, load on-demand when user searches
+    - Search within guide content, not just titles/descriptions
+    - Show matching sections in results
+
+7.6 [PARALLEL] [AGENT: selective-cache] Add selective offline download manager
+    [DEPENDS: 2.4 for on-demand caching]
+    - UI to choose which categories to cache for offline
+    - Show download progress bar and storage used
+    - Allow selective deletion of cached guide categories
+    - Better than the old all-or-nothing approach
+    - Show "Available Offline" badge on cached guides
+
+
+======================================================================
+PHASE 8: ADVANCED UX FEATURES (2-3 days)
+======================================================================
+
+8.1 [PARALLEL] [AGENT: achievements-v2] Expand achievement system
+    [DEPENDS: 2.2 for achievements.js module]
+    - Add more granular milestones (25, 75, 150 guides)
+    - Add progress indicators: "5/10 guides for Student achievement"
+    - Add category-specific achievements beyond the current set
+    - Create dedicated achievements page (not just modal)
+    - Add streak tracking (days in a row of reading)
+
+8.2 [PARALLEL] [AGENT: export-formats] Add multi-format data export
+    [DEPENDS: 2.5 for storage layer]
+    - Add CSV export for notes and bookmarks
+    - Add PDF export for selected guides (or collection of guides)
+    - Add backup reminders (prompt every 30 days if no export)
+    - Add auto-backup to IndexedDB as safety net
+
+8.3 [PARALLEL] [AGENT: scenario-planner] Build scenario/situation planner
+    [DEPENDS: 5.7 for integrated data]
+    - User inputs a situation: "I need to purify water" or "building shelter in winter"
+    - App connects guides.json, salvage_data.json, master-skills-db.json
+    - Shows: relevant guides, required skills, useful salvage items, time estimates
+    - Integrate with scenario-plans.xlsx data
+    - Link to relevant tools (tech tree, combo projects)
+
+8.4 [PARALLEL] [AGENT: materials-tool] Build "what can I build?" tool
+    [DEPENDS: 5.7 for integrated data]
+    - User selects available materials/salvage items from a checklist
+    - App cross-references salvage_data.json with guide prerequisites
+    - Shows possible projects ranked by feasibility
+    - Links to relevant guides for each project
+
+8.5 [PARALLEL] [AGENT: collections] Add user guide collections/playlists
+    [DEPENDS: 2.5 for storage layer]
+    - Let users create named collections: "Bug Out Bag Essentials", "Weekend Projects"
+    - Drag or click to add guides to a collection
+    - Export/import collections as JSON
+    - Show collection progress
+
+8.6 [PARALLEL] [AGENT: glossary] Build glossary/terminology reference
+    [DEPENDS: 5.3 for metadata, 7.5 for search index]
+    - Extract key terms from guides (build step or manual curation)
+    - Create searchable glossary page
+    - Auto-link terms in guide content to glossary entries
+    - Show tooltip definitions on hover
+
+8.7 [PARALLEL] [AGENT: random-guide] Add random guide suggestion
+    - "I'm Feeling Lucky" button on main page
+    - Weighted toward unread guides
+    - Optionally filter by category or difficulty
+    - Good for users who do not know where to start
+
+8.8 [PARALLEL] [AGENT: guide-notifications] Add guide update notifications
+    - Track last-read date per guide in storage
+    - If guide file is newer than last read, show "Updated" badge
+    - Highlight new guides added since last visit
+    - Show "New since your last visit" section
+
+8.9 [PARALLEL] [AGENT: practice-mode] Add practice mode / skill checklist
+    - Many guides describe hands-on physical skills
+    - Let users track which skills they have actually practiced in real life
+    - Separate from "read" status
+    - "I've done this" checkbox on each guide
+    - Track practice date and optional notes
+
+8.10 [PARALLEL] [AGENT: pwa-improvements] PWA enhancements
+     - Improve manifest.json: add screenshots, shortcuts, share_target, description
+     - Add install promotion (beforeinstallprompt event -> custom banner)
+     - Improve update flow: show what changed, allow deferral
+     - Add background sync API for queued exports
+
+
+======================================================================
+PHASE 9: CI/CD & MONITORING (half day)
+======================================================================
+
+9.1 [PARALLEL] [AGENT: cicd] Set up CI/CD pipeline
+    [DEPENDS: 3.1 for build system, 3.4 for tests]
+    - GitHub Actions (or equivalent) config
+    - On push: lint, test, build, validate HTML, check bundle sizes
+    - On merge to main: deploy
+    - build.sh already returns proper exit codes for CI
+    - Add Lighthouse CI for performance regression testing
+
+9.2 [PARALLEL] [AGENT: error-tracking] Add error tracking
+    - Global window.onerror and unhandledrejection handlers
+    - Log to IndexedDB for later review
+    - Track service worker failures
+    - Optional: integrate Sentry for remote error tracking
+
+9.3 [PARALLEL] [AGENT: analytics] Add privacy-respecting analytics
+    - Track locally in IndexedDB: most viewed guides, search terms, achievement rates
+    - Add admin/stats page to view local analytics
+    - Optional: add Plausible or Fathom for aggregate remote analytics
+    - Track page load times and service worker cache hit rates
+
+9.4 [PARALLEL] [AGENT: env-config] Add environment configurations
+    - Separate dev/staging/prod configs
+    - Dev: no service worker caching, verbose logging, source maps
+    - Prod: minified, cached, no debug output
+    - Configurable via env variable or config file
+
+
+======================================================================
+PHASE 10: LONG-TERM / OPTIONAL (ongoing)
+======================================================================
+
+10.1 [AGENT: typescript] Add TypeScript gradually
+     [DEPENDS: 2.2 for modular JS]
+     - Start with storage.js and search.js (most type-benefit)
+     - Add tsconfig.json with allowJs for gradual migration
+     - Convert module by module
+     - Add type definitions for guides.json schema
+
+10.2 [AGENT: indexeddb] Migrate storage to IndexedDB
+     [DEPENDS: 2.5 for storage abstraction layer]
+     - Implement IndexedDB backend for storage layer
+     - Auto-migrate existing localStorage data on first run
+     - Higher storage limits (no 5 MB cap)
+     - Store guide content for true offline-first
+
+10.3 [AGENT: cloud-sync] Add cloud sync
+     [DEPENDS: 10.2 for IndexedDB]
+     - Firebase, Supabase, or similar
+     - Sync progress, achievements, notes, collections across devices
+     - Conflict resolution: last-write-wins with merge for notes
+     - Keep offline-first: sync when online, queue when offline
+
+10.4 [AGENT: quiz] Add quiz/assessment feature
+     [DEPENDS: 5.3 for metadata, 8.1 for achievements v2]
+     - Add quiz questions per guide (stored in guides.json or separate quiz.json)
+     - Multiple choice and true/false
+     - Track scores, award achievements for perfect scores
+     - Integrate with existing skill-assessments.html tool
+
+10.5 [AGENT: community] Add community features (optional)
+     [DEPENDS: 10.3 for cloud backend]
+     - Let users rate guides (aggregate star ratings)
+     - Optional: comments or discussions per guide
+     - Share notes publicly (opt-in)
+     - Requires authentication and moderation
+
+10.6 [AGENT: guide-format-migration] Convert guides to lightweight format
+     - Convert HTML to markdown or structured JSON
+     - Add a markdown renderer to the app
+     - Would cut guide storage by 50-70%
+     - Migration script for bulk conversion
+     - Keep HTML rendering as fallback
+
+10.7 [AGENT: contributor-docs] Create comprehensive contributor documentation
+     - CONTRIBUTING.md with code style guide
+     - docs/ARCHITECTURE.md with diagrams (data flow, component relationships)
+     - docs/GUIDE_AUTHORING.md for content contributors
+     - API documentation for all public JS functions
+     - Add inline code comments for complex logic
+
+
+======================================================================
+AGENT PARALLELIZATION STRATEGY
+======================================================================
+
+The phases above are designed for maximum parallel execution within
+each phase. Here is how to use multiple agents to compress the timeline:
+
+PHASE 0 (30 min): 5 agents in parallel -> done in ~10 min
+  Agent A: cleanup (.DS_Store, .gitignore)
+  Agent B: scaffold (package.json)
+  Agent C: docs (README.md)
+  Agent D: favicon (icon generation)
+  Agent E: docs-cleanup (consolidate existing docs, CHANGELOG)
+
+PHASE 1 (1-2 hr): 5 agents in parallel -> done in ~30 min
+  Agent A: data file audit and consolidation
+  Agent B: guide count reconciliation
+  Agent C: guide HTML structure audit
+  Agent D: taxonomy reconciliation
+  Agent E: spreadsheet audit
+
+PHASE 2 (1 day): 5 agents in parallel -> done in ~3-4 hours
+  Agent A: unminify CSS + extend variables
+  Agent B: split app.js into modules + JSDoc
+  Agent C: dynamic card rendering from guides.json
+  Agent D: service worker rewrite
+  Agent E: storage abstraction layer
+
+PHASE 3 (half day): 5 agents in parallel -> done in ~2 hours
+  Agent A: build system modernization
+  Agent B: dev server setup
+  Agent C: linting + formatting + pre-commit hooks
+  Agent D: test framework + initial tests
+  Agent E: guide scaffolding script
+
+PHASE 4 (1 day): 10 agents in parallel -> done in ~2-3 hours
+  Agents A-J: each UX feature is fully independent
+  (offline indicator, search, reading time, difficulty, recently viewed,
+   progress viz, theme sync, print styles, tools nav, share)
+
+PHASE 5 (1-2 days): 7 agents in parallel -> done in ~4-6 hours
+  BUT has internal dependencies (template before cleanup, taxonomy before metadata)
+  Sub-wave 1: template (5.1) + taxonomy finalization
+  Sub-wave 2: CSS cleanup (5.2), metadata (5.3), prerequisites (5.4), spreadsheet integration (5.7)
+  Sub-wave 3: learning paths (5.5), table of contents (5.6)
+
+PHASE 6 (1 day): 9 agents in parallel -> done in ~2-3 hours
+  All accessibility and security tasks are independent
+  Can run fully parallel with late Phase 5 work
+
+PHASE 7 (1-2 days): 6 agents in parallel -> done in ~4-6 hours
+  All optimization tasks are independent once architecture is stable
+
+PHASE 8 (2-3 days): 10 agents in parallel -> done in ~6-8 hours
+  All features are independent of each other
+
+PHASE 9 (half day): 4 agents in parallel -> done in ~1-2 hours
+  CI/CD, error tracking, analytics, env config all independent
+
+PHASE 10 (ongoing): sequential dependencies limit parallelism
+  TypeScript and IndexedDB can run in parallel
+  Cloud sync depends on IndexedDB
+  Quiz depends on metadata
+  Community depends on cloud sync
+
+
+TOTAL ESTIMATED WALL-CLOCK TIME:
+  Serial execution:       ~2-3 weeks
+  With 5 parallel agents: ~4-5 days
+  With 10 parallel agents: ~2-3 days
+
+The biggest time savings come from:
+  - Phase 4 (10 independent UX features)
+  - Phase 5 (bulk operations across 260+ guide files)
+  - Phase 6 (9 independent accessibility/security tasks)
+  - Phase 8 (10 independent advanced features)
+
+Critical path (longest dependency chain):
+  Phase 0 -> Phase 1 (guide audit) -> Phase 2 (dynamic cards + modules)
+  -> Phase 3 (build system) -> Phase 5 (metadata + learning paths)
+  -> Phase 7 (search index) -> Phase 8 (scenario planner, glossary)
+  This chain is ~24-30 hours of actual work, compressible to ~12-15 hours
+  with agents handling the non-critical-path items in parallel.

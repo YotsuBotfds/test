@@ -1,0 +1,1489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Survival & Homesteading Skills - Visual Diagrams</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Georgia, 'Times New Roman', serif;
+            background: linear-gradient(135deg, #1a2e1a 0%, #2d2416 100%);
+            color: #f5f0e8;
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 3px solid #8b6f47;
+            padding-bottom: 30px;
+        }
+
+        h1 {
+            font-size: 3em;
+            color: #d4a574;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+        }
+
+        .subtitle {
+            font-size: 1.2em;
+            color: #b8956a;
+            font-style: italic;
+        }
+
+        .toc {
+            background: rgba(45, 36, 22, 0.8);
+            border-left: 4px solid #8b6f47;
+            border-radius: 8px;
+            padding: 25px;
+            margin: 30px 0;
+            backdrop-filter: blur(5px);
+        }
+
+        .toc h2 {
+            color: #d4a574;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+
+        .toc ul {
+            list-style: none;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 10px;
+        }
+
+        .toc li {
+            margin: 8px 0;
+        }
+
+        .toc a {
+            color: #b8956a;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: block;
+            padding: 8px 12px;
+            border-radius: 4px;
+        }
+
+        .toc a:hover {
+            color: #d4a574;
+            background: rgba(139, 111, 71, 0.3);
+            transform: translateX(5px);
+        }
+
+        .section {
+            background: linear-gradient(135deg, rgba(45, 36, 22, 0.9), rgba(60, 50, 35, 0.9));
+            border: 2px solid #8b6f47;
+            border-radius: 12px;
+            margin: 30px 0;
+            padding: 30px;
+            overflow: hidden;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+        }
+
+        .section h2 {
+            color: #d4a574;
+            font-size: 2em;
+            margin-bottom: 10px;
+            cursor: pointer;
+            user-select: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section h2:hover {
+            color: #e8c8a0;
+        }
+
+        .toggle-btn {
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            background: #8b6f47;
+            color: #f5f0e8;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            font-size: 1.2em;
+        }
+
+        .toggle-btn.open {
+            background: #d4a574;
+            transform: rotate(90deg);
+        }
+
+        .section-content {
+            display: none;
+            animation: slideDown 0.3s ease;
+        }
+
+        .section-content.open {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 30px;
+            align-items: start;
+        }
+
+        @media (max-width: 1200px) {
+            .section-content.open {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .diagram-container {
+            background: rgba(45, 36, 22, 0.6);
+            border-radius: 8px;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 300px;
+        }
+
+        svg {
+            max-width: 100%;
+            height: auto;
+            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.5));
+        }
+
+        .description {
+            color: #d0d0d0;
+            margin-top: 15px;
+            font-size: 0.95em;
+            line-height: 1.8;
+        }
+
+        .materials {
+            background: rgba(30, 25, 15, 0.9);
+            border-left: 3px solid #d4a574;
+            border-radius: 8px;
+            padding: 20px;
+        }
+
+        .materials h3 {
+            color: #d4a574;
+            margin-bottom: 12px;
+            font-size: 1.1em;
+        }
+
+        .materials ul {
+            list-style: none;
+        }
+
+        .materials li {
+            color: #b8956a;
+            margin: 8px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .materials li:before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            color: #8b6f47;
+        }
+
+        .svg-label {
+            font-size: 12px;
+            fill: #e8e8e8;
+            font-weight: 500;
+        }
+
+        .svg-dimension {
+            font-size: 10px;
+            fill: #d4a574;
+            font-style: italic;
+        }
+
+        .svg-title {
+            font-size: 14px;
+            fill: #d4a574;
+            font-weight: bold;
+        }
+
+        .grid-diagrams {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .grid-diagrams .diagram-container {
+            grid-column: span 1;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 2px solid #8b6f47;
+            color: #8b6f47;
+            font-size: 0.9em;
+        }
+
+        @media print {
+            body {
+                background: #f5f0e8;
+                color: black;
+            }
+            .section {
+                page-break-inside: avoid;
+                background: #f5f0e8;
+                border: 1px solid #999;
+            }
+            .toggle-btn {
+                display: none;
+            }
+            .section-content {
+                display: grid !important;
+            }
+        }
+
+        .step-diagram {
+            display: flex;
+            gap: 15px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .step-box {
+            background: rgba(139, 111, 71, 0.2);
+            border: 1px solid #8b6f47;
+            border-radius: 6px;
+            padding: 15px;
+            flex: 1;
+            min-width: 200px;
+            text-align: center;
+        }
+
+        .step-number {
+            color: #d4a574;
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .step-description {
+            color: #b8956a;
+            font-size: 0.9em;
+        }
+    
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
+        }</style>
+</head>
+<body>
+    <div style="background-color:#2d2416;padding:12px 20px;border-bottom:1px solid #5a4a3a;">
+        <a href="../index.html" style="color:#d4a574;text-decoration:none;font-size:0.95em;">← Back to Guides</a>
+    </div>
+    <div class="container" role="main">
+        <header>
+            <h1>Survival & Homesteading Skills</h1>
+            <p class="subtitle">Visual Diagrams & Reference Guide</p>
+        </header>
+
+        <div class="toc">
+            <h2>Table of Contents</h2>
+            <ul>
+                <li><a onclick="toggleSection('bow-drill')">1. Bow Drill Fire Starting</a></li>
+                <li><a onclick="toggleSection('water-filter')">2. Water Filtration System</a></li>
+                <li><a onclick="toggleSection('debris-shelter')">3. Debris Shelter Construction</a></li>
+                <li><a onclick="toggleSection('forge-setup')">4. Basic Forge Setup</a></li>
+                <li><a onclick="toggleSection('snares')">5. Snare Trap Designs</a></li>
+                <li><a onclick="toggleSection('pottery-kiln')">6. Pottery Kiln Construction</a></li>
+                <li><a onclick="toggleSection('log-cabin')">7. Log Cabin Notching</a></li>
+                <li><a onclick="toggleSection('cordage')">8. Cordage Making Process</a></li>
+                <li><a onclick="toggleSection('solar-still')">9. Solar Still</a></li>
+                <li><a onclick="toggleSection('smokehouse')">10. Smokehouse Design</a></li>
+            </ul>
+        </div>
+
+        <!-- BOW DRILL FIRE STARTING -->
+        <div class="section" id="bow-drill">
+            <h2>
+                <span class="toggle-btn">▶</span>
+                <span class="toggle-text">1. Bow Drill Fire Starting</span>
+            </h2>
+            <div class="section-content">
+                <div>
+                    <div class="diagram-container">
+                        <svg viewBox="0 0 600 500" width="600" height="500">
+                            <!-- Title -->
+                            <text x="300" y="25" class="svg-title" text-anchor="middle">Bow Drill Fire Starting Components</text>
+                            
+                            <!-- Fireboard -->
+                            <rect x="50" y="100" width="200" height="40" fill="#5c4a3d" stroke="#8b6f47" stroke-width="2"/>
+                            <text x="150" y="125" class="svg-label" text-anchor="middle" fill="#d4a574">Fireboard</text>
+                            <line x1="40" y1="120" x2="50" y2="120" stroke="#d4a574" stroke-width="2"/>
+                            <text x="30" y="125" class="svg-dimension" text-anchor="end">Dry wood</text>
+                            
+                            <!-- Spindle -->
+                            <line x1="280" y1="80" x2="280" y2="160" stroke="#8b6f47" stroke-width="6"/>
+                            <circle cx="280" cy="160" r="8" fill="#5c4a3d" stroke="#8b6f47" stroke-width="2"/>
+                            <line x1="290" y1="120" x2="310" y2="120" stroke="#d4a574" stroke-width="2"/>
+                            <text x="320" y="125" class="svg-label">Spindle</text>
+                            
+                            <!-- Bearing Block -->
+                            <rect x="340" y="70" width="60" height="50" fill="#5c4a3d" stroke="#8b6f47" stroke-width="2" rx="4"/>
+                            <circle cx="370" cy="85" r="6" fill="#8b6f47"/>
+                            <line x1="340" y1="100" x2="330" y2="100" stroke="#d4a574" stroke-width="2"/>
+                            <text x="320" y="105" class="svg-label" text-anchor="end">Bearing Block</text>
+                            
+                            <!-- Bow -->
+                            <path d="M 420 130 Q 500 200 420 270" stroke="#8b6f47" stroke-width="8" fill="none"/>
+                            <line x1="420" y1="130" x2="420" y2="270" stroke="#d4a574" stroke-width="1" stroke-dasharray="5,5"/>
+                            <line x1="430" y1="200" x2="450" y2="200" stroke="#d4a574" stroke-width="2"/>
+                            <text x="460" y="205" class="svg-label">Bow</text>
+                            
+                            <!-- Ember Tray/Notch Detail -->
+                            <g id="notch-detail">
+                                <rect x="50" y="300" width="250" height="150" fill="none" stroke="#8b6f47" stroke-width="2" stroke-dasharray="5,5"/>
+                                <text x="60" y="320" class="svg-label" fill="#d4a574">Notch Detail (45° Angle)</text>
+                                
+                                <path d="M 70 350 L 100 350 L 100 380 Z" fill="#5c4a3d" stroke="#8b6f47" stroke-width="2"/>
+                                <line x1="70" y1="350" x2="100" y2="380" stroke="#d4a574" stroke-width="2"/>
+                                <text x="105" y="370" class="svg-dimension">45°</text>
+                                <line x1="75" y1="360" x2="75" y2="375" stroke="#d4a574" stroke-width="1"/>
+                                <text x="85" y="400" class="svg-label">1/8 circle</text>
+                                <text x="85" y="415" class="svg-label">of disc</text>
+                                
+                                <text x="190" y="350" class="svg-label" fill="#b8956a">Hand Position:</text>
+                                <circle cx="180" cy="370" r="8" fill="#d4a574" opacity="0.5"/>
+                                <text x="190" y="375" class="svg-label">Downward pressure</text>
+                                <text x="190" y="390" class="svg-label">on bearing block</text>
+                            </g>
+                            
+                            <!-- Ember Tray -->
+                            <ellipse cx="150" cy="460" rx="100" ry="20" fill="none" stroke="#8b6f47" stroke-width="2"/>
+                            <path d="M 50 460 L 70 480 L 230 480 L 250 460" fill="#5c4a3d" stroke="#8b6f47" stroke-width="1"/>
+                            <line x1="160" y1="440" x2="160" y2="450" stroke="#d4a574" stroke-width="2"/>
+                            <text x="170" y="445" class="svg-label">Ember Tray</text>
+                        </svg>
+                    </div>
+                    <div class="description">
+                        The bow drill is an ancient yet effective fire-starting method. The spinning spindle creates friction against the fireboard, generating heat that produces an ember in the notch. The ember is then transferred to a tinder bundle.
+                    </div>
+
+                    <div class="step-diagram">
+                        <div class="step-box">
+                            <div class="step-number">1</div>
+                            <div class="step-description">Prepare dry materials: bow, spindle, fireboard, bearing block</div>
+                        </div>
+                        <div class="step-box">
+                            <div class="step-number">2</div>
+                            <div class="step-description">Create notch at 45° angle (1/8 circle) on fireboard</div>
+                        </div>
+                        <div class="step-box">
+                            <div class="step-number">3</div>
+                            <div class="step-description">Apply downward pressure on bearing block; use steady bow strokes</div>
+                        </div>
+                        <div class="step-box">
+                            <div class="step-number">4</div>
+                            <div class="step-description">Increase speed when smoke increases (coal forming)</div>
+                        </div>
+                        <div class="step-box">
+                            <div class="step-number">5</div>
+                            <div class="step-description">Transfer ember to tinder bundle in ember tray</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="materials">
+                    <h3>Materials Needed</h3>
+                    <ul>
+                        <li>Straight spindle (¼" diameter)</li>
+                        <li>Flat fireboard</li>
+                        <li>Wooden bow (curved)</li>
+                        <li>Bearing block</li>
+                        <li>Tinder bundle (dry grass, bark)</li>
+                        <li>Kindling (small twigs)</li>
+                        <li>Firewood (larger branches)</li>
+                        <li>Plant-based rope for bowstring</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- WATER FILTRATION SYSTEM -->
+        <div class="section" id="water-filter">
+            <h2>
+                <span class="toggle-btn">▶</span>
+                <span class="toggle-text">2. Water Filtration System</span>
+            </h2>
+            <div class="section-content">
+                <div>
+                    <div class="diagram-container">
+                        <svg viewBox="0 0 500 600" width="500" height="600">
+                            <!-- Title -->
+                            <text x="250" y="25" class="svg-title" text-anchor="middle">Layered Water Filter Cross-Section</text>
+                            
+                            <!-- Container -->
+                            <rect x="100" y="50" width="300" height="480" fill="none" stroke="#8b6f47" stroke-width="3"/>
+                            <ellipse cx="250" cy="50" rx="150" ry="20" fill="none" stroke="#8b6f47" stroke-width="3"/>
+                            
+                            <!-- Layer 1: Gravel (top) -->
+                            <rect x="100" y="50" width="300" height="40" fill="#a0825d" opacity="0.7"/>
+                            <circle cx="130" cy="70" r="8" fill="#6b5441" opacity="0.8"/>
+                            <circle cx="160" cy="75" r="6" fill="#6b5441" opacity="0.8"/>
+                            <circle cx="190" cy="68" r="7" fill="#6b5441" opacity="0.8"/>
+                            <circle cx="220" cy="72" r="6" fill="#6b5441" opacity="0.8"/>
+                            <circle cx="250" cy="69" r="8" fill="#6b5441" opacity="0.8"/>
+                            <circle cx="280" cy="73" r="7" fill="#6b5441" opacity="0.8"/>
+                            <circle cx="310" cy="70" r="6" fill="#6b5441" opacity="0.8"/>
+                            <circle cx="340" cy="74" r="8" fill="#6b5441" opacity="0.8"/>
+                            <text x="320" y="95" class="svg-label">Gravel (2-3")</text>
+                            
+                            <!-- Layer 2: Sand -->
+                            <rect x="100" y="90" width="300" height="60" fill="#c9a876" opacity="0.7"/>
+                            <text x="320" y="125" class="svg-label">Sand (4-6")</text>
+                            <line x1="105" y1="95" x2="395" y2="95" stroke="#d4a574" stroke-width="1"/>
+                            <line x1="105" y1="145" x2="395" y2="145" stroke="#d4a574" stroke-width="1"/>
+                            
+                            <!-- Layer 3: Activated Charcoal -->
+                            <rect x="100" y="150" width="300" height="80" fill="#3d3d3d" opacity="0.8"/>
+                            <text x="320" y="185" class="svg-label" fill="#d4a574">Activated Charcoal</text>
+                            <text x="320" y="200" class="svg-label" fill="#d4a574">(4-8")</text>
+                            <circle cx="130" cy="175" r="5" fill="#2a2a2a"/>
+                            <circle cx="155" cy="180" r="4" fill="#2a2a2a"/>
+                            <circle cx="180" cy="178" r="5" fill="#2a2a2a"/>
+                            <circle cx="210" cy="182" r="4" fill="#2a2a2a"/>
+                            <circle cx="235" cy="175" r="5" fill="#2a2a2a"/>
+                            <circle cx="260" cy="181" r="4" fill="#2a2a2a"/>
+                            <circle cx="285" cy="177" r="5" fill="#2a2a2a"/>
+                            <circle cx="310" cy="179" r="4" fill="#2a2a2a"/>
+                            <circle cx="335" cy="176" r="5" fill="#2a2a2a"/>
+                            
+                            <!-- Layer 4: Sand (fine) -->
+                            <rect x="100" y="230" width="300" height="60" fill="#d4a574" opacity="0.6"/>
+                            <text x="320" y="265" class="svg-label">Fine Sand (3-4")</text>
+                            <line x1="105" y1="235" x2="395" y2="235" stroke="#8b6f47" stroke-width="1"/>
+                            <line x1="105" y1="285" x2="395" y2="285" stroke="#8b6f47" stroke-width="1"/>
+                            
+                            <!-- Layer 5: Gravel (bottom) -->
+                            <rect x="100" y="290" width="300" height="40" fill="#a0825d" opacity="0.7"/>
+                            <circle cx="130" cy="310" r="8" fill="#6b5441" opacity="0.8"/>
+                            <circle cx="160" cy="315" r="6" fill="#6b5441" opacity="0.8"/>
+                            <circle cx="190" cy="308" r="7" fill="#6b5441" opacity="0.8"/>
+                            <circle cx="220" cy="312" r="6" fill="#6b5441" opacity="0.8"/>
+                            <circle cx="250" cy="309" r="8" fill="#6b5441" opacity="0.8"/>
+                            <circle cx="280" cy="313" r="7" fill="#6b5441" opacity="0.8"/>
+                            <circle cx="310" cy="310" r="6" fill="#6b5441" opacity="0.8"/>
+                            <circle cx="340" cy="314" r="8" fill="#6b5441" opacity="0.8"/>
+                            <text x="320" y="335" class="svg-label">Gravel (2-3")</text>
+                            
+                            <!-- Drainage -->
+                            <line x1="250" y1="330" x2="250" y2="380" stroke="#8b6f47" stroke-width="2" stroke-dasharray="5,5"/>
+                            <circle cx="250" cy="390" r="6" fill="none" stroke="#8b6f47" stroke-width="2"/>
+                            <text x="270" y="395" class="svg-label">Drainage</text>
+                            
+                            <!-- Input arrow -->
+                            <defs>
+                                <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                                    <polygon points="0 0, 10 3, 0 6" fill="#d4a574" />
+                                </marker>
+                            </defs>
+                            <line x1="50" y1="120" x2="95" y2="120" stroke="#d4a574" stroke-width="2" marker-end="url(#arrowhead)"/>
+                            <text x="30" y="115" class="svg-label" fill="#d4a574">Input</text>
+                            
+                            <!-- Output arrow -->
+                            <line x1="405" y1="390" x2="450" y2="390" stroke="#d4a574" stroke-width="2" marker-end="url(#arrowhead)"/>
+                            <text x="460" y="395" class="svg-label" fill="#d4a574">Filtered</text>
+                            
+                            <!-- Notes -->
+                            <text x="250" y="520" class="svg-dimension" text-anchor="middle">Flow Rate: 1-2 gallons/hour</text>
+                            <text x="250" y="540" class="svg-dimension" text-anchor="middle">Total Height: 14-20 inches</text>
+                            <text x="250" y="560" class="svg-dimension" text-anchor="middle">Removes: sediment, odor, some pathogens</text>
+                        </svg>
+                    </div>
+                    <div class="description">
+                        A layered water filter removes sediment, particles, and odors from water. The alternating sand and charcoal layers trap contaminants. Note: This filter should be combined with boiling or chemical treatment for safe drinking water.
+                    </div>
+                </div>
+
+                <div class="materials">
+                    <h3>Materials Needed</h3>
+                    <ul>
+                        <li>Container (5-gallon bucket)</li>
+                        <li>Gravel (river/smooth)</li>
+                        <li>Sand (coarse & fine)</li>
+                        <li>Activated charcoal</li>
+                        <li>Cloth or cheesecloth</li>
+                        <li>Drill with bit (for drainage)</li>
+                        <li>Container for output</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- DEBRIS SHELTER CONSTRUCTION -->
+        <div class="section" id="debris-shelter">
+            <h2>
+                <span class="toggle-btn">▶</span>
+                <span class="toggle-text">3. Debris Shelter Construction</span>
+            </h2>
+            <div class="section-content">
+                <div>
+                    <div class="diagram-container">
+                        <svg viewBox="0 0 700 550" width="700" height="550">
+                            <!-- Title -->
+                            <text x="350" y="25" class="svg-title" text-anchor="middle">Debris Shelter - Side View</text>
+                            
+                            <!-- Ground -->
+                            <rect x="0" y="480" width="700" height="70" fill="#5c4a3d" opacity="0.5"/>
+                            <line x1="0" y1="480" x2="700" y2="480" stroke="#8b6f47" stroke-width="2"/>
+                            
+                            <!-- Ridgepole -->
+                            <line x1="150" y1="300" x2="550" y2="300" stroke="#6b5441" stroke-width="8"/>
+                            <circle cx="150" cy="300" r="5" fill="#d4a574"/>
+                            <circle cx="550" cy="300" r="5" fill="#d4a574"/>
+                            <text x="150" y="285" class="svg-label">Support</text>
+                            <text x="540" y="285" class="svg-label">Support</text>
+                            
+                            <!-- Ridgepole dimension -->
+                            <line x1="150" y1="315" x2="550" y2="315" stroke="#d4a574" stroke-width="1"/>
+                            <line x1="150" y1="310" x2="150" y2="320" stroke="#d4a574" stroke-width="1"/>
+                            <line x1="550" y1="310" x2="550" y2="320" stroke="#d4a574" stroke-width="1"/>
+                            <text x="350" y="335" class="svg-dimension" text-anchor="middle">8-12 feet</text>
+                            
+                            <!-- Left ribbing -->
+                            <g id="ribs-left">
+                                <line x1="150" y1="300" x2="100" y2="450" stroke="#8b6f47" stroke-width="4"/>
+                                <line x1="160" y1="300" x2="115" y2="450" stroke="#8b6f47" stroke-width="4"/>
+                                <line x1="170" y1="300" x2="130" y2="450" stroke="#8b6f47" stroke-width="4"/>
+                                <line x1="180" y1="300" x2="145" y2="450" stroke="#8b6f47" stroke-width="4"/>
+                                <line x1="190" y1="300" x2="160" y2="450" stroke="#8b6f47" stroke-width="4"/>
+                                <line x1="200" y1="300" x2="175" y2="450" stroke="#8b6f47" stroke-width="4"/>
+                                <line x1="210" y1="300" x2="190" y2="450" stroke="#8b6f47" stroke-width="4"/>
+                            </g>
+                            
+                            <!-- Right ribbing -->
+                            <g id="ribs-right">
+                                <line x1="550" y1="300" x2="600" y2="450" stroke="#8b6f47" stroke-width="4"/>
+                                <line x1="540" y1="300" x2="585" y2="450" stroke="#8b6f47" stroke-width="4"/>
+                                <line x1="530" y1="300" x2="570" y2="450" stroke="#8b6f47" stroke-width="4"/>
+                                <line x1="520" y1="300" x2="555" y2="450" stroke="#8b6f47" stroke-width="4"/>
+                                <line x1="510" y1="300" x2="540" y2="450" stroke="#8b6f47" stroke-width="4"/>
+                                <line x1="500" y1="300" x2="525" y2="450" stroke="#8b6f47" stroke-width="4"/>
+                                <line x1="490" y1="300" x2="510" y2="450" stroke="#8b6f47" stroke-width="4"/>
+                            </g>
+                            
+                            <!-- Debris layering -->
+                            <g id="debris-left">
+                                <polygon points="100,450 150,300 210,300 190,450" fill="#a0825d" opacity="0.6" stroke="#8b6f47" stroke-width="1"/>
+                                <text x="135" y="375" class="svg-label" fill="#1a1a1a">Debris Layer</text>
+                            </g>
+                            
+                            <g id="debris-right">
+                                <polygon points="600,450 550,300 490,300 510,450" fill="#a0825d" opacity="0.6" stroke="#8b6f47" stroke-width="1"/>
+                                <text x="545" y="375" class="svg-label" fill="#1a1a1a">Debris Layer</text>
+                            </g>
+                            
+                            <!-- Thickness indicators -->
+                            <line x1="85" y1="450" x2="85" y2="480" stroke="#d4a574" stroke-width="2"/>
+                            <line x1="80" y1="450" x2="90" y2="450" stroke="#d4a574" stroke-width="1"/>
+                            <line x1="80" y1="480" x2="90" y2="480" stroke="#d4a574" stroke-width="1"/>
+                            <text x="60" y="470" class="svg-dimension" text-anchor="end">2-3 ft</text>
+                            
+                            <!-- Entrance -->
+                            <rect x="250" y="440" width="100" height="40" fill="none" stroke="#d4a574" stroke-width="2" stroke-dasharray="5,5"/>
+                            <text x="300" y="410" class="svg-label" text-anchor="middle" fill="#d4a574">Entrance</text>
+                            <text x="300" y="475" class="svg-dimension" text-anchor="middle">3-4 feet wide</text>
+                            
+                            <!-- Interior height -->
+                            <line x1="650" y1="310" x2="650" y2="450" stroke="#d4a574" stroke-width="2"/>
+                            <line x1="645" y1="310" x2="655" y2="310" stroke="#d4a574" stroke-width="1"/>
+                            <line x1="645" y1="450" x2="655" y2="450" stroke="#d4a574" stroke-width="1"/>
+                            <text x="670" y="385" class="svg-dimension">5-6 ft</text>
+                            
+                            <!-- Base dimensions -->
+                            <line x1="100" y1="500" x2="600" y2="500" stroke="#d4a574" stroke-width="1"/>
+                            <line x1="100" y1="495" x2="100" y2="505" stroke="#d4a574" stroke-width="1"/>
+                            <line x1="600" y1="495" x2="600" y2="505" stroke="#d4a574" stroke-width="1"/>
+                            <text x="350" y="520" class="svg-dimension" text-anchor="middle">Base: 8-12 feet</text>
+                        </svg>
+                    </div>
+                    <div class="description">
+                        A debris shelter is one of the fastest shelter builds for survival situations. It uses a ridgepole framework with rib supports covered in leaves, branches, and debris for insulation. The angled design sheds rain and conserves body heat.
+                    </div>
+                </div>
+
+                <div class="materials">
+                    <h3>Materials Needed</h3>
+                    <ul>
+                        <li>Large ridgepole (8-12 ft)</li>
+                        <li>Rib poles (6-8 pieces)</li>
+                        <li>Support sticks</li>
+                        <li>Leaves (dry leaves best)</li>
+                        <li>Branches & debris</li>
+                        <li>Bark sheets (optional)</li>
+                        <li>Insulation bedding</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- BASIC FORGE SETUP -->
+        <div class="section" id="forge-setup">
+            <h2>
+                <span class="toggle-btn">▶</span>
+                <span class="toggle-text">4. Basic Forge Setup</span>
+            </h2>
+            <div class="section-content">
+                <div>
+                    <div class="diagram-container">
+                        <svg viewBox="0 0 700 500" width="700" height="500">
+                            <!-- Title -->
+                            <text x="350" y="25" class="svg-title" text-anchor="middle">Basic Forge Layout - Top Down & Side View</text>
+                            
+                            <!-- SIDE VIEW -->
+                            <text x="175" y="60" class="svg-label" fill="#d4a574" font-weight="bold">SIDE VIEW</text>
+                            
+                            <!-- Ground -->
+                            <rect x="50" y="200" width="250" height="5" fill="#5c4a3d"/>
+                            
+                            <!-- Forge body - firebricks -->
+                            <rect x="80" y="130" width="190" height="70" fill="#8b4513" stroke="#8b6f47" stroke-width="2"/>
+                            <line x1="80" y1="165" x2="270" y2="165" stroke="#5c4a3d" stroke-width="1"/>
+                            <text x="175" y="175" class="svg-label" text-anchor="middle">Firebrick Forge</text>
+                            
+                            <!-- Chimney -->
+                            <rect x="150" y="80" width="50" height="50" fill="none" stroke="#8b6f47" stroke-width="2"/>
+                            <line x1="150" y1="115" x2="200" y2="115" stroke="#d4a574" stroke-width="1"/>
+                            <text x="175" y="145" class="svg-label" text-anchor="middle">Chimney</text>
+                            
+                            <!-- Tuyere -->
+                            <circle cx="150" cy="165" r="8" fill="#3d3d3d" stroke="#8b6f47" stroke-width="2"/>
+                            <line x1="120" y1="165" x2="140" y2="165" stroke="#8b6f47" stroke-width="3"/>
+                            <text x="115" y="185" class="svg-label" text-anchor="end">Tuyere</text>
+                            <text x="115" y="200" class="svg-label" text-anchor="end">(air inlet)</text>
+                            
+                            <!-- Bellows -->
+                            <ellipse cx="70" cy="260" rx="30" ry="25" fill="#5c4a3d" stroke="#8b6f47" stroke-width="2"/>
+                            <line x1="95" y1="260" x2="120" y2="165" stroke="#8b6f47" stroke-width="2"/>
+                            <text x="40" y="290" class="svg-label">Bellows</text>
+                            
+                            <!-- Anvil -->
+                            <rect x="240" y="175" width="40" height="30" fill="#3d3d3d" stroke="#8b6f47" stroke-width="2" rx="2"/>
+                            <line x1="235" y1="205" x2="285" y2="205" stroke="#8b6f47" stroke-width="3"/>
+                            <text x="310" y="200" class="svg-label">Anvil</text>
+                            
+                            <!-- TOP DOWN VIEW -->
+                            <text x="525" y="60" class="svg-label" fill="#d4a574" font-weight="bold">TOP DOWN VIEW</text>
+                            
+                            <!-- Forge outline -->
+                            <rect x="420" y="100" width="210" height="180" fill="none" stroke="#8b6f47" stroke-width="3"/>
+                            
+                            <!-- Firebrick arrangement -->
+                            <rect x="430" y="110" width="50" height="50" fill="#8b4513" stroke="#5c4a3d" stroke-width="1"/>
+                            <text x="455" y="140" class="svg-label" text-anchor="middle" font-size="10">Brick</text>
+                            
+                            <rect x="490" y="110" width="50" height="50" fill="#8b4513" stroke="#5c4a3d" stroke-width="1"/>
+                            <rect x="550" y="110" width="50" height="50" fill="#8b4513" stroke="#5c4a3d" stroke-width="1"/>
+                            
+                            <rect x="430" y="170" width="50" height="50" fill="#8b4513" stroke="#5c4a3d" stroke-width="1"/>
+                            <rect x="490" y="170" width="50" height="50" fill="#8b4513" stroke="#5c4a3d" stroke-width="1"/>
+                            <rect x="550" y="170" width="50" height="50" fill="#8b4513" stroke="#5c4a3d" stroke-width="1"/>
+                            
+                            <!-- Tuyere hole -->
+                            <circle cx="515" cy="165" r="6" fill="#3d3d3d" stroke="#d4a574" stroke-width="2"/>
+                            <text x="515" y="215" class="svg-dimension" text-anchor="middle">Tuyere</text>
+                            
+                            <!-- Work areas -->
+                            <path d="M 460 240 L 480 240 L 480 260 L 460 260 Z" fill="#d4a574" opacity="0.3" stroke="#d4a574" stroke-width="1" stroke-dasharray="5,5"/>
+                            <text x="440" y="250" class="svg-label" text-anchor="end">Anvil</text>
+                            
+                            <path d="M 540 240 L 560 240 L 560 260 L 540 260 Z" fill="#d4a574" opacity="0.3" stroke="#d4a574" stroke-width="1" stroke-dasharray="5,5"/>
+                            <text x="580" y="250" class="svg-label">Tool Rack</text>
+                            
+                            <!-- Flow arrow -->
+                            <defs>
+                                <marker id="arrowhead2" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                                    <polygon points="0 0, 10 3, 0 6" fill="#d4a574" />
+                                </marker>
+                            </defs>
+                            <line x1="430" y1="165" x2="415" y2="165" stroke="#d4a574" stroke-width="2" marker-end="url(#arrowhead2)"/>
+                            <text x="410" y="160" class="svg-label" fill="#d4a574">Air flow</text>
+                        </svg>
+                    </div>
+                    <div class="description">
+                        A basic forge requires a firebrick chamber, air input (tuyere), and draft system (chimney). The arrangement shown is efficient for small metalworking projects. Bellows provide air pressure; the anvil is positioned for safe work.
+                    </div>
+                </div>
+
+                <div class="materials">
+                    <h3>Materials Needed</h3>
+                    <ul>
+                        <li>Firebricks (20-30)</li>
+                        <li>Metal grate or bar</li>
+                        <li>Tuyere (pipe fitting)</li>
+                        <li>Bellows or air pump</li>
+                        <li>Anvil (100+ lbs)</li>
+                        <li>Chimney pipe</li>
+                        <li>Metal tongs & hammer</li>
+                        <li>Work surface/stand</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- SNARE TRAP DESIGNS -->
+        <div class="section" id="snares">
+            <h2>
+                <span class="toggle-btn">▶</span>
+                <span class="toggle-text">5. Snare Trap Designs</span>
+            </h2>
+            <div class="section-content">
+                <div>
+                    <div class="grid-diagrams">
+                        <!-- Simple Loop Snare -->
+                        <div class="diagram-container">
+                            <svg viewBox="0 0 350 400" width="350" height="400">
+                                <text x="175" y="25" class="svg-title" text-anchor="middle">Simple Loop Snare</text>
+                                
+                                <!-- Ground -->
+                                <rect x="0" y="320" width="350" height="80" fill="#5c4a3d" opacity="0.5"/>
+                                <line x1="0" y1="320" x2="350" y2="320" stroke="#8b6f47" stroke-width="2"/>
+                                
+                                <!-- Support stick -->
+                                <line x1="175" y1="50" x2="175" y2="320" stroke="#8b6f47" stroke-width="4"/>
+                                <circle cx="175" cy="50" r="4" fill="#d4a574"/>
+                                
+                                <!-- Wire/cordage loop -->
+                                <path d="M 175 100 Q 130 150 140 250 Q 145 280 170 310 Q 175 315 175 320" stroke="#a0825d" stroke-width="3" fill="none"/>
+                                <path d="M 175 100 Q 220 150 210 250 Q 205 280 180 310 Q 175 315 175 320" stroke="#a0825d" stroke-width="3" fill="none"/>
+                                
+                                <!-- Loop opening -->
+                                <circle cx="175" cy="260" r="35" fill="none" stroke="#d4a574" stroke-width="2" stroke-dasharray="5,5"/>
+                                <text x="175" y="270" class="svg-label" text-anchor="middle" font-size="11">Loop</text>
+                                
+                                <!-- Trigger point -->
+                                <circle cx="175" cy="240" r="3" fill="#d4a574"/>
+                                <line x1="175" y1="240" x2="185" y2="230" stroke="#d4a574" stroke-width="1"/>
+                                <text x="195" y="235" class="svg-label" font-size="10">Trigger</text>
+                                
+                                <!-- Setup notes -->
+                                <text x="175" y="360" class="svg-dimension" text-anchor="middle" font-size="11">Height: 4-8" above ground</text>
+                                <text x="175" y="375" class="svg-dimension" text-anchor="middle" font-size="11">Best for: rabbits, hares</text>
+                            </svg>
+                        </div>
+
+                        <!-- Spring Pole Snare -->
+                        <div class="diagram-container">
+                            <svg viewBox="0 0 350 400" width="350" height="400">
+                                <text x="175" y="25" class="svg-title" text-anchor="middle">Spring Pole Snare</text>
+                                
+                                <!-- Ground -->
+                                <rect x="0" y="320" width="350" height="80" fill="#5c4a3d" opacity="0.5"/>
+                                <line x1="0" y1="320" x2="350" y2="320" stroke="#8b6f47" stroke-width="2"/>
+                                
+                                <!-- Spring pole (bent) -->
+                                <path d="M 100 150 Q 150 50 200 150" stroke="#8b6f47" stroke-width="5" fill="none"/>
+                                <circle cx="100" cy="150" r="5" fill="#5c4a3d" stroke="#8b6f47" stroke-width="2"/>
+                                <text x="85" y="155" class="svg-label">Bent pole</text>
+                                
+                                <!-- Trigger mechanism -->
+                                <line x1="150" y1="150" x2="200" y2="200" stroke="#a0825d" stroke-width="3"/>
+                                <line x1="200" y1="200" x2="150" y2="250" stroke="#a0825d" stroke-width="3"/>
+                                <line x1="150" y1="150" x2="150" y2="250" stroke="#a0825d" stroke-width="2" stroke-dasharray="5,5"/>
+                                
+                                <!-- Trigger stick -->
+                                <circle cx="175" cy="200" r="4" fill="#d4a574"/>
+                                <text x="195" y="205" class="svg-label">Trigger</text>
+                                
+                                <!-- Snare loop -->
+                                <circle cx="175" cy="280" r="30" fill="none" stroke="#a0825d" stroke-width="2"/>
+                                <line x1="175" y1="250" x2="175" y2="250" stroke="#a0825d" stroke-width="2"/>
+                                <text x="175" y="315" class="svg-label" text-anchor="middle" font-size="11">Loop</text>
+                                
+                                <!-- Setup notes -->
+                                <text x="175" y="360" class="svg-dimension" text-anchor="middle" font-size="11">Height: 6-12" above ground</text>
+                                <text x="175" y="375" class="svg-dimension" text-anchor="middle" font-size="11">Best for: medium animals</text>
+                            </svg>
+                        </div>
+
+                        <!-- Deadfall Trigger -->
+                        <div class="diagram-container">
+                            <svg viewBox="0 0 350 400" width="350" height="400">
+                                <text x="175" y="25" class="svg-title" text-anchor="middle">Deadfall Trigger</text>
+                                
+                                <!-- Ground -->
+                                <rect x="0" y="300" width="350" height="100" fill="#5c4a3d" opacity="0.5"/>
+                                <line x1="0" y1="300" x2="350" y2="300" stroke="#8b6f47" stroke-width="2"/>
+                                
+                                <!-- Heavy deadfall -->
+                                <polygon points="80,150 270,150 280,200 70,200" fill="#6b5441" stroke="#8b6f47" stroke-width="2"/>
+                                <text x="175" y="180" class="svg-label" text-anchor="middle">Heavy log/rock</text>
+                                
+                                <!-- Trigger stick (vertical) -->
+                                <line x1="175" y1="200" x2="175" y2="280" stroke="#a0825d" stroke-width="4"/>
+                                <circle cx="175" cy="200" r="5" fill="#d4a574"/>
+                                <text x="195" y="240" class="svg-label">Trigger stick</text>
+                                
+                                <!-- Bait stick (horizontal) -->
+                                <line x1="100" y1="280" x2="250" y2="280" stroke="#a0825d" stroke-width="3"/>
+                                <circle cx="100" cy="280" r="4" fill="#d4a574"/>
+                                <circle cx="250" cy="280" r="4" fill="#d4a574"/>
+                                <text x="175" y="295" class="svg-label" text-anchor="middle" font-size="10">Bait stick</text>
+                                
+                                <!-- Support line -->
+                                <line x1="175" y1="200" x2="175" y2="280" stroke="#d4a574" stroke-width="1" stroke-dasharray="5,5"/>
+                                
+                                <!-- Setup notes -->
+                                <text x="175" y="350" class="svg-dimension" text-anchor="middle" font-size="11">Weight: 50+ lbs (lethal)</text>
+                                <text x="175" y="365" class="svg-dimension" text-anchor="middle" font-size="11">Best for: large game</text>
+                            </svg>
+                        </div>
+                    </div>
+                    
+                    <div class="description" style="margin-top: 30px;">
+                        Snare traps are effective passive hunting tools. Each design serves different game sizes and environments. Always check local regulations before setting traps. The loop must be at the correct height for the target species.
+                    </div>
+                </div>
+
+                <div class="materials">
+                    <h3>Materials Needed</h3>
+                    <ul>
+                        <li>Wire or strong cordage</li>
+                        <li>Support stakes</li>
+                        <li>Trigger sticks</li>
+                        <li>Flexible branch/pole</li>
+                        <li>Heavy deadfall weight</li>
+                        <li>Knots (various)</li>
+                        <li>Bait (optional)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- POTTERY KILN CONSTRUCTION -->
+        <div class="section" id="pottery-kiln">
+            <h2>
+                <span class="toggle-btn">▶</span>
+                <span class="toggle-text">6. Pottery Kiln Construction</span>
+            </h2>
+            <div class="section-content">
+                <div>
+                    <div class="diagram-container">
+                        <svg viewBox="0 0 600 550" width="600" height="550">
+                            <!-- Title -->
+                            <text x="300" y="25" class="svg-title" text-anchor="middle">Pit Kiln Cross-Section</text>
+                            
+                            <!-- Ground level -->
+                            <rect x="0" y="420" width="600" height="130" fill="#5c4a3d" opacity="0.5"/>
+                            <line x1="0" y1="420" x2="600" y2="420" stroke="#8b6f47" stroke-width="2"/>
+                            
+                            <!-- Pit outline -->
+                            <polygon points="150,420 450,420 480,100 120,100" fill="none" stroke="#8b6f47" stroke-width="3"/>
+                            
+                            <!-- Layer 1: Fuel (bottom) -->
+                            <polygon points="150,420 450,420 470,380 130,380" fill="#3d3d3d" opacity="0.7"/>
+                            <text x="300" y="400" class="svg-label" text-anchor="middle">Fuel Layer (wood)</text>
+                            <line x1="150" y1="420" x2="150" y2="400" stroke="#d4a574" stroke-width="1"/>
+                            <text x="125" y="410" class="svg-dimension" font-size="10">12"</text>
+                            
+                            <!-- Grate -->
+                            <line x1="130" y1="380" x2="470" y2="380" stroke="#8b6f47" stroke-width="2"/>
+                            <line x1="140" y1="378" x2="460" y2="378" stroke="#8b6f47" stroke-width="1"/>
+                            <line x1="140" y1="382" x2="460" y2="382" stroke="#8b6f47" stroke-width="1"/>
+                            <text x="480" y="380" class="svg-label" font-size="11">Grate</text>
+                            
+                            <!-- Pottery (middle) -->
+                            <polygon points="170,380 430,380 420,220 180,220" fill="#c9a876" opacity="0.8" stroke="#8b6f47" stroke-width="1"/>
+                            <text x="300" y="305" class="svg-label" text-anchor="middle">Pottery items</text>
+                            
+                            <!-- Clothing/insulation -->
+                            <polygon points="170,220 430,220 430,180 170,180" fill="#a0825d" opacity="0.6"/>
+                            <text x="300" y="200" class="svg-label" text-anchor="middle" font-size="11">Insulation layer</text>
+                            
+                            <!-- Cover/dome -->
+                            <path d="M 120,180 Q 120,80 300,60 Q 480,80 480,180" fill="none" stroke="#8b6f47" stroke-width="2"/>
+                            <path d="M 120,180 Q 120,80 300,60 Q 480,80 480,180 Z" fill="rgba(139, 111, 71, 0.2)" opacity="0.4"/>
+                            <text x="300" y="120" class="svg-label" text-anchor="middle">Dome cover</text>
+                            
+                            <!-- Temperature zones -->
+                            <text x="35" y="200" class="svg-label" fill="#d4a574" font-size="11">Hot zone</text>
+                            <polygon points="35,180 55,180 55,240 35,240" fill="#d4a574" opacity="0.3"/>
+                            
+                            <text x="35" y="350" class="svg-label" fill="#b8956a" font-size="11">Warm zone</text>
+                            <polygon points="35,330 55,330 55,370 35,370" fill="#b8956a" opacity="0.2"/>
+                            
+                            <!-- Air flow arrows -->
+                            <defs>
+                                <marker id="arrowhead3" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                                    <polygon points="0 0, 10 3, 0 6" fill="#d4a574" />
+                                </marker>
+                            </defs>
+                            
+                            <line x1="500" y1="380" x2="520" y2="380" stroke="#d4a574" stroke-width="2" marker-end="url(#arrowhead3)"/>
+                            <text x="530" y="385" class="svg-label" fill="#d4a574" font-size="10">Air in</text>
+                            
+                            <line x1="500" y1="140" x2="520" y2="140" stroke="#d4a574" stroke-width="2" marker-end="url(#arrowhead3)"/>
+                            <text x="530" y="145" class="svg-label" fill="#d4a574" font-size="10">Air out</text>
+                            
+                            <!-- Dimensions -->
+                            <line x1="120" y1="420" x2="120" y2="100" stroke="#d4a574" stroke-width="1"/>
+                            <line x1="115" y1="420" x2="125" y2="420" stroke="#d4a574" stroke-width="1"/>
+                            <line x1="115" y1="100" x2="125" y2="100" stroke="#d4a574" stroke-width="1"/>
+                            <text x="100" y="270" class="svg-dimension" text-anchor="end">3-4 ft</text>
+                            
+                            <!-- Base dimension -->
+                            <line x1="150" y1="440" x2="450" y2="440" stroke="#d4a574" stroke-width="1"/>
+                            <line x1="150" y1="435" x2="150" y2="445" stroke="#d4a574" stroke-width="1"/>
+                            <line x1="450" y1="435" x2="450" y2="445" stroke="#d4a574" stroke-width="1"/>
+                            <text x="300" y="460" class="svg-dimension" text-anchor="middle">4-6 ft wide</text>
+                        </svg>
+                    </div>
+                    <div class="description">
+                        A pit kiln is a simple but effective firing chamber for pottery. The design uses an earth pit with a grate for fuel separation. Air flows in from the bottom and exits from the top, creating consistent heat for firing clay.
+                    </div>
+                </div>
+
+                <div class="materials">
+                    <h3>Materials Needed</h3>
+                    <ul>
+                        <li>Digging area (4-6 ft)</li>
+                        <li>Metal grate or sticks</li>
+                        <li>Dry firewood (hardwood)</li>
+                        <li>Pottery items (clay)</li>
+                        <li>Insulation material</li>
+                        <li>Dome cover materials</li>
+                        <li>Thermometer (optional)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- LOG CABIN NOTCHING -->
+        <div class="section" id="log-cabin">
+            <h2>
+                <span class="toggle-btn">▶</span>
+                <span class="toggle-text">7. Log Cabin Notching</span>
+            </h2>
+            <div class="section-content">
+                <div>
+                    <div class="grid-diagrams">
+                        <!-- Saddle Notch -->
+                        <div class="diagram-container">
+                            <svg viewBox="0 0 320 400" width="320" height="400">
+                                <text x="160" y="25" class="svg-title" text-anchor="middle">Saddle Notch</text>
+                                
+                                <!-- Top view -->
+                                <text x="160" y="55" class="svg-label" fill="#d4a574">Top View</text>
+                                <rect x="40" y="70" width="240" height="40" fill="#6b5441" stroke="#8b6f47" stroke-width="2"/>
+                                <path d="M 80 110 Q 160 125 240 110" fill="#5c4a3d" stroke="#8b6f47" stroke-width="1"/>
+                                <text x="160" y="140" class="svg-dimension" text-anchor="middle" font-size="10">Curved notch</text>
+                                
+                                <!-- Side cut view -->
+                                <text x="160" y="175" class="svg-label" fill="#d4a574">Side View</text>
+                                <rect x="40" y="190" width="240" height="60" fill="#6b5441" stroke="#8b6f47" stroke-width="2"/>
+                                <path d="M 80 190 Q 160 210 240 190 L 240 250 L 80 250 Z" fill="#5c4a3d" opacity="0.5" stroke="#8b6f47" stroke-width="1"/>
+                                <line x1="160" y1="190" x2="160" y2="210" stroke="#d4a574" stroke-width="1" stroke-dasharray="5,5"/>
+                                <text x="175" y="205" class="svg-dimension" font-size="9">~1/3 depth</text>
+                                
+                                <!-- Advantages -->
+                                <rect x="40" y="280" width="240" height="100" fill="rgba(139, 111, 71, 0.1)" stroke="#8b6f47" stroke-width="1" stroke-dasharray="5,5" rx="4"/>
+                                <text x="50" y="300" class="svg-label" fill="#d4a574">Characteristics:</text>
+                                <text x="50" y="320" class="svg-label" fill="#b8956a" font-size="11">• Watertight at angles</text>
+                                <text x="50" y="335" class="svg-label" fill="#b8956a" font-size="11">• Moderate difficulty</text>
+                                <text x="50" y="350" class="svg-label" fill="#b8956a" font-size="11">• Traditional method</text>
+                                <text x="50" y="365" class="svg-label" fill="#b8956a" font-size="11">• No corner projection</text>
+                            </svg>
+                        </div>
+
+                        <!-- Dovetail Notch -->
+                        <div class="diagram-container">
+                            <svg viewBox="0 0 320 400" width="320" height="400">
+                                <text x="160" y="25" class="svg-title" text-anchor="middle">Dovetail Notch</text>
+                                
+                                <!-- Top view -->
+                                <text x="160" y="55" class="svg-label" fill="#d4a574">Top View</text>
+                                <rect x="40" y="70" width="240" height="40" fill="#6b5441" stroke="#8b6f47" stroke-width="2"/>
+                                <polygon points="80,110 160,125 240,110 240,125 160,140 80,125" fill="#5c4a3d" stroke="#8b6f47" stroke-width="1"/>
+                                <text x="160" y="155" class="svg-dimension" text-anchor="middle" font-size="10">Interlocking</text>
+                                
+                                <!-- Side cut view -->
+                                <text x="160" y="175" class="svg-label" fill="#d4a574">Side View</text>
+                                <rect x="40" y="190" width="240" height="60" fill="#6b5441" stroke="#8b6f47" stroke-width="2"/>
+                                <polygon points="100,190 160,210 220,190 220,250 100,250" fill="#5c4a3d" opacity="0.5" stroke="#8b6f47" stroke-width="1"/>
+                                <line x1="100" y1="220" x2="80" y2="220" stroke="#d4a574" stroke-width="1"/>
+                                <text x="75" y="225" class="svg-dimension" font-size="9">~45°</text>
+                                
+                                <!-- Advantages -->
+                                <rect x="40" y="280" width="240" height="100" fill="rgba(139, 111, 71, 0.1)" stroke="#8b6f47" stroke-width="1" stroke-dasharray="5,5" rx="4"/>
+                                <text x="50" y="300" class="svg-label" fill="#d4a574">Characteristics:</text>
+                                <text x="50" y="320" class="svg-label" fill="#b8956a" font-size="11">• Very strong joint</text>
+                                <text x="50" y="335" class="svg-label" fill="#b8956a" font-size="11">• Interlocking design</text>
+                                <text x="50" y="350" class="svg-label" fill="#b8956a" font-size="11">• More difficult</text>
+                                <text x="50" y="365" class="svg-label" fill="#b8956a" font-size="11">• Excellent alignment</text>
+                            </svg>
+                        </div>
+
+                        <!-- V-Notch -->
+                        <div class="diagram-container">
+                            <svg viewBox="0 0 320 400" width="320" height="400">
+                                <text x="160" y="25" class="svg-title" text-anchor="middle">V-Notch</text>
+                                
+                                <!-- Top view -->
+                                <text x="160" y="55" class="svg-label" fill="#d4a574">Top View</text>
+                                <rect x="40" y="70" width="240" height="40" fill="#6b5441" stroke="#8b6f47" stroke-width="2"/>
+                                <polygon points="160,110 120,125 200,125" fill="#5c4a3d" stroke="#8b6f47" stroke-width="1"/>
+                                <text x="160" y="150" class="svg-dimension" text-anchor="middle" font-size="10">V-shaped cut</text>
+                                
+                                <!-- Side cut view -->
+                                <text x="160" y="175" class="svg-label" fill="#d4a574">Side View</text>
+                                <rect x="40" y="190" width="240" height="60" fill="#6b5441" stroke="#8b6f47" stroke-width="2"/>
+                                <polygon points="130,190 160,210 190,190 190,250 130,250" fill="#5c4a3d" opacity="0.5" stroke="#8b6f47" stroke-width="1"/>
+                                <line x1="130" y1="210" x2="110" y2="210" stroke="#d4a574" stroke-width="1"/>
+                                <text x="100" y="215" class="svg-dimension" font-size="9">60°</text>
+                                
+                                <!-- Advantages -->
+                                <rect x="40" y="280" width="240" height="100" fill="rgba(139, 111, 71, 0.1)" stroke="#8b6f47" stroke-width="1" stroke-dasharray="5,5" rx="4"/>
+                                <text x="50" y="300" class="svg-label" fill="#d4a574">Characteristics:</text>
+                                <text x="50" y="320" class="svg-label" fill="#b8956a" font-size="11">• Easiest to cut</text>
+                                <text x="50" y="335" class="svg-label" fill="#b8956a" font-size="11">• Quick construction</text>
+                                <text x="50" y="350" class="svg-label" fill="#b8956a" font-size="11">• Less weather tight</text>
+                                <text x="50" y="365" class="svg-label" fill="#b8956a" font-size="11">• Weathering gaps</text>
+                            </svg>
+                        </div>
+                    </div>
+                    
+                    <div class="description" style="margin-top: 30px;">
+                        Log notching is crucial for cabin construction. Each method has trade-offs: saddle notches are traditional and beautiful, dovetails are strongest, and V-notches are quickest. The choice depends on your time, skill, and climate.
+                    </div>
+                </div>
+
+                <div class="materials">
+                    <h3>Materials Needed</h3>
+                    <ul>
+                        <li>Hand saw or chainsaw</li>
+                        <li>Chisels (various sizes)</li>
+                        <li>Measuring tape</li>
+                        <li>Pencil/chalk</li>
+                        <li>Level</li>
+                        <li>Straight edge</li>
+                        <li>Safety equipment</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- CORDAGE MAKING PROCESS -->
+        <div class="section" id="cordage">
+            <h2>
+                <span class="toggle-btn">▶</span>
+                <span class="toggle-text">8. Cordage Making Process</span>
+            </h2>
+            <div class="section-content">
+                <div>
+                    <div class="diagram-container">
+                        <svg viewBox="0 0 700 600" width="700" height="600">
+                            <!-- Title -->
+                            <text x="350" y="25" class="svg-title" text-anchor="middle">Cordage Making - Step by Step</text>
+                            
+                            <!-- STEP 1: Fiber Collection -->
+                            <g id="step1">
+                                <rect x="20" y="60" width="150" height="140" fill="rgba(139, 111, 71, 0.2)" stroke="#8b6f47" stroke-width="2" rx="4"/>
+                                <text x="95" y="85" class="svg-label" text-anchor="middle" fill="#d4a574">Step 1: Collect</text>
+                                
+                                <!-- Plant fibers -->
+                                <line x1="50" y1="110" x2="70" y2="120" stroke="#8b6f47" stroke-width="2"/>
+                                <line x1="70" y1="110" x2="85" y2="125" stroke="#8b6f47" stroke-width="2"/>
+                                <line x1="85" y1="110" x2="100" y2="130" stroke="#8b6f47" stroke-width="2"/>
+                                <line x1="100" y1="110" x2="120" y2="120" stroke="#8b6f47" stroke-width="2"/>
+                                
+                                <text x="95" y="145" class="svg-label" text-anchor="middle" font-size="11">Plant fibers</text>
+                                <text x="95" y="160" class="svg-label" text-anchor="middle" font-size="11">dry well</text>
+                                <text x="95" y="190" class="svg-label" text-anchor="middle" font-size="10">Bark, grass,</text>
+                                <text x="95" y="202" class="svg-label" text-anchor="middle" font-size="10">milkweed, nettles</text>
+                            </g>
+                            
+                            <!-- STEP 2: Preparation -->
+                            <g id="step2">
+                                <rect x="190" y="60" width="150" height="140" fill="rgba(139, 111, 71, 0.2)" stroke="#8b6f47" stroke-width="2" rx="4"/>
+                                <text x="265" y="85" class="svg-label" text-anchor="middle" fill="#d4a574">Step 2: Prepare</text>
+                                
+                                <!-- Fiber strands -->
+                                <line x1="210" y1="110" x2="320" y2="110" stroke="#a0825d" stroke-width="2"/>
+                                <line x1="210" y1="125" x2="320" y2="125" stroke="#a0825d" stroke-width="2"/>
+                                <line x1="210" y1="140" x2="320" y2="140" stroke="#a0825d" stroke-width="2"/>
+                                
+                                <text x="265" y="160" class="svg-label" text-anchor="middle" font-size="11">Separate</text>
+                                <text x="265" y="190" class="svg-label" text-anchor="middle" font-size="10">Remove bark, clean</text>
+                                <text x="265" y="202" class="svg-label" text-anchor="middle" font-size="10">and dry fibers</text>
+                            </g>
+                            
+                            <!-- STEP 3: Reverse Wrap -->
+                            <g id="step3">
+                                <rect x="360" y="60" width="150" height="140" fill="rgba(139, 111, 71, 0.2)" stroke="#8b6f47" stroke-width="2" rx="4"/>
+                                <text x="435" y="85" class="svg-label" text-anchor="middle" fill="#d4a574">Step 3: Twist</text>
+                                
+                                <!-- Two fiber strands -->
+                                <line x1="390" y1="110" x2="460" y2="110" stroke="#a0825d" stroke-width="3"/>
+                                <line x1="390" y1="130" x2="460" y2="130" stroke="#a0825d" stroke-width="3"/>
+                                
+                                <!-- Curved arrows showing twist -->
+                                <path d="M 410 100 Q 420 110 410 120" stroke="#d4a574" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+                                <text x="435" y="155" class="svg-label" text-anchor="middle" font-size="11">Reverse wrap</text>
+                                <text x="435" y="190" class="svg-label" text-anchor="middle" font-size="10">Twist 2-3 fibers</text>
+                                <text x="435" y="202" class="svg-label" text-anchor="middle" font-size="10">against each other</text>
+                            </g>
+                            
+                            <!-- STEP 4: Spinning -->
+                            <g id="step4">
+                                <rect x="530" y="60" width="150" height="140" fill="rgba(139, 111, 71, 0.2)" stroke="#8b6f47" stroke-width="2" rx="4"/>
+                                <text x="605" y="85" class="svg-label" text-anchor="middle" fill="#d4a574">Step 4: Spin</text>
+                                
+                                <!-- Spindle/twirl -->
+                                <circle cx="605" cy="120" r="20" fill="none" stroke="#a0825d" stroke-width="2"/>
+                                <line x1="605" y1="100" x2="605" y2="140" stroke="#a0825d" stroke-width="2"/>
+                                
+                                <!-- Rotation arrow -->
+                                <path d="M 630 110 Q 640 120 630 130" stroke="#d4a574" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+                                
+                                <text x="605" y="160" class="svg-label" text-anchor="middle" font-size="11">Add twist</text>
+                                <text x="605" y="190" class="svg-label" text-anchor="middle" font-size="10">Create uniform</text>
+                                <text x="605" y="202" class="svg-label" text-anchor="middle" font-size="10">cord diameter</text>
+                            </g>
+                            
+                            <!-- Detailed Reverse Wrap Animation -->
+                            <g id="detailed-wrap">
+                                <rect x="20" y="250" width="660" height="320" fill="none" stroke="#8b6f47" stroke-width="2" stroke-dasharray="5,5" rx="4"/>
+                                <text x="350" y="280" class="svg-label" text-anchor="middle" fill="#d4a574" font-size="13">Reverse Wrap Technique Detail</text>
+                                
+                                <!-- Sub-step A -->
+                                <text x="80" y="320" class="svg-label" fill="#d4a574" font-size="12">A. Prepare</text>
+                                <line x1="50" y1="335" x2="140" y2="335" stroke="#a0825d" stroke-width="3"/>
+                                <line x1="50" y1="345" x2="140" y2="345" stroke="#a0825d" stroke-width="3"/>
+                                <text x="80" y="370" class="svg-label" text-anchor="middle" font-size="10">Two strands</text>
+                                
+                                <!-- Sub-step B -->
+                                <text x="260" y="320" class="svg-label" fill="#d4a574" font-size="12">B. Twist Left</text>
+                                <path d="M 230 335 Q 250 340 270 335" stroke="#a0825d" stroke-width="3" fill="none"/>
+                                <path d="M 230 345 Q 250 350 270 345" stroke="#a0825d" stroke-width="3" fill="none"/>
+                                <path d="M 250 325 L 260 345" stroke="#d4a574" stroke-width="1" stroke-dasharray="3,3"/>
+                                <text x="260" y="370" class="svg-label" text-anchor="middle" font-size="10">~1 revolution</text>
+                                
+                                <!-- Sub-step C -->
+                                <text x="440" y="320" class="svg-label" fill="#d4a574" font-size="12">C. Add Fiber</text>
+                                <path d="M 410 335 Q 430 340 450 335" stroke="#a0825d" stroke-width="3" fill="none"/>
+                                <path d="M 410 345 Q 430 350 450 345" stroke="#a0825d" stroke-width="3" fill="none"/>
+                                <line x1="440" y1="345" x2="440" y2="360" stroke="#d4a574" stroke-width="2"/>
+                                <text x="440" y="370" class="svg-label" text-anchor="middle" font-size="10">New fiber added</text>
+                                
+                                <!-- Sub-step D -->
+                                <text x="600" y="320" class="svg-label" fill="#d4a574" font-size="12">D. Twist Right</text>
+                                <path d="M 570 335 Q 590 340 610 335" stroke="#a0825d" stroke-width="3" fill="none"/>
+                                <path d="M 570 345 Q 590 350 610 345" stroke="#a0825d" stroke-width="3" fill="none"/>
+                                <path d="M 590 325 L 580 345" stroke="#d4a574" stroke-width="1" stroke-dasharray="3,3"/>
+                                <text x="600" y="370" class="svg-label" text-anchor="middle" font-size="10">~1 revolution</text>
+                                
+                                <!-- Pattern explanation -->
+                                <rect x="40" y="400" width="620" height="150" fill="rgba(212, 165, 116, 0.05)" stroke="#8b6f47" stroke-width="1" stroke-dasharray="5,5" rx="3"/>
+                                <text x="350" y="425" class="svg-label" text-anchor="middle" fill="#d4a574">The Reverse Wrap Pattern:</text>
+                                <text x="60" y="450" class="svg-label" fill="#b8956a" font-size="11">1. Start with two prepared fiber strands</text>
+                                <text x="60" y="470" class="svg-label" fill="#b8956a" font-size="11">2. Twist fibers together (usually clockwise) - about 1 complete rotation</text>
+                                <text x="60" y="490" class="svg-label" fill="#b8956a" font-size="11">3. Add a new fiber bundle and wrap it around the twisting strands</text>
+                                <text x="60" y="510" class="svg-label" fill="#b8956a" font-size="11">4. Reverse direction and continue twisting (counterclockwise) - locks new fiber in place</text>
+                                <text x="60" y="530" class="svg-label" fill="#b8956a" font-size="11">5. Repeat steps 2-4 until cord reaches desired length</text>
+                            </g>
+                        </svg>
+                    </div>
+                    <div class="description">
+                        The reverse wrap technique is the most reliable method for creating strong cordage by hand. The alternating twist directions lock each added fiber segment in place, creating a uniform, durable cord. This method was used for millennia.
+                    </div>
+                </div>
+
+                <div class="materials">
+                    <h3>Materials Needed</h3>
+                    <ul>
+                        <li>Plant fibers (bark, grass)</li>
+                        <li>Moisture/water for working</li>
+                        <li>Flat surface</li>
+                        <li>Spindle or stick</li>
+                        <li>Patience and practice</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- SOLAR STILL -->
+        <div class="section" id="solar-still">
+            <h2>
+                <span class="toggle-btn">▶</span>
+                <span class="toggle-text">9. Solar Still</span>
+            </h2>
+            <div class="section-content">
+                <div>
+                    <div class="diagram-container">
+                        <svg viewBox="0 0 600 500" width="600" height="500">
+                            <!-- Title -->
+                            <text x="300" y="25" class="svg-title" text-anchor="middle">Solar Still - Cross Section</text>
+                            
+                            <!-- Ground level -->
+                            <rect x="0" y="400" width="600" height="100" fill="#5c4a3d" opacity="0.7"/>
+                            <line x1="0" y1="400" x2="600" y2="400" stroke="#8b6f47" stroke-width="2"/>
+                            <text x="300" y="480" class="svg-dimension" text-anchor="middle">Ground</text>
+                            
+                            <!-- Pit outline -->
+                            <polygon points="100,400 500,400 500,300 100,300" fill="none" stroke="#8b6f47" stroke-width="3"/>
+                            
+                            <!-- Pit dimensions -->
+                            <line x1="80" y1="300" x2="80" y2="400" stroke="#d4a574" stroke-width="1"/>
+                            <line x1="75" y1="300" x2="85" y2="300" stroke="#d4a574" stroke-width="1"/>
+                            <line x1="75" y1="400" x2="85" y2="400" stroke="#d4a574" stroke-width="1"/>
+                            <text x="60" y="355" class="svg-dimension" text-anchor="end">2-3 ft</text>
+                            
+                            <line x1="100" y1="420" x2="500" y2="420" stroke="#d4a574" stroke-width="1"/>
+                            <line x1="100" y1="415" x2="100" y2="425" stroke="#d4a574" stroke-width="1"/>
+                            <line x1="500" y1="415" x2="500" y2="425" stroke="#d4a574" stroke-width="1"/>
+                            <text x="300" y="445" class="svg-dimension" text-anchor="middle">3-4 ft</text>
+                            
+                            <!-- Water/soil layer -->
+                            <polygon points="100,400 500,400 500,350 100,350" fill="#8b6f47" opacity="0.4"/>
+                            <text x="300" y="380" class="svg-label" text-anchor="middle" font-size="12">Contaminated water/soil</text>
+                            
+                            <!-- Collection vessel -->
+                            <ellipse cx="300" cy="380" rx="30" ry="15" fill="#c9a876" stroke="#8b6f47" stroke-width="2"/>
+                            <path d="M 270 380 L 270 390 L 330 390 L 330 380" fill="#c9a876" stroke="#8b6f47" stroke-width="2"/>
+                            <text x="300" y="395" class="svg-label" text-anchor="middle" font-size="10">Collection</text>
+                            <text x="300" y="408" class="svg-label" text-anchor="middle" font-size="10">container</text>
+                            
+                            <!-- Plastic sheeting -->
+                            <polygon points="100,300 300,150 500,300 500,400 100,400" fill="rgba(200, 200, 200, 0.2)" stroke="#d4a574" stroke-width="2"/>
+                            <text x="300" y="280" class="svg-label" text-anchor="middle" fill="#d4a574" font-size="11">Clear plastic sheet</text>
+                            
+                            <!-- Rock weight -->
+                            <polygon points="290,160 310,160 315,175 285,175" fill="#6b5441" stroke="#8b6f47" stroke-width="1"/>
+                            <text x="300" y="195" class="svg-label" text-anchor="middle" font-size="10">Rock weight</text>
+                            <text x="300" y="207" class="svg-label" text-anchor="middle" font-size="9">(creates slope)</text>
+                            
+                            <!-- Condensation flow arrows -->
+                            <defs>
+                                <marker id="arrowhead4" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                                    <polygon points="0 0, 10 3, 0 6" fill="#d4a574" />
+                                </marker>
+                            </defs>
+                            
+                            <!-- Evaporation -->
+                            <path d="M 200 340 Q 220 300 240 260" stroke="#d4a574" stroke-width="2" stroke-dasharray="5,5" marker-end="url(#arrowhead4)"/>
+                            <text x="180" y="320" class="svg-label" fill="#d4a574" font-size="10">Evaporation</text>
+                            
+                            <!-- Condensation -->
+                            <path d="M 320 160 L 300 360" stroke="#d4a574" stroke-width="2" stroke-dasharray="5,5" marker-end="url(#arrowhead4)"/>
+                            <text x="330" y="250" class="svg-label" fill="#d4a574" font-size="10">Condensation</text>
+                            
+                            <!-- Sun rays -->
+                            <line x1="150" y1="80" x2="165" y2="110" stroke="#d4a574" stroke-width="2" opacity="0.5"/>
+                            <line x1="200" y1="50" x2="200" y2="90" stroke="#d4a574" stroke-width="2" opacity="0.5"/>
+                            <line x1="250" y1="80" x2="235" y2="110" stroke="#d4a574" stroke-width="2" opacity="0.5"/>
+                            <line x1="350" y1="50" x2="350" y2="90" stroke="#d4a574" stroke-width="2" opacity="0.5"/>
+                            <line x1="400" y1="80" x2="415" y2="110" stroke="#d4a574" stroke-width="2" opacity="0.5"/>
+                            <text x="300" y="45" class="svg-label" text-anchor="middle" fill="#d4a574">☀ Solar Energy</text>
+                            
+                            <!-- Process box -->
+                            <rect x="50" y="440" width="500" height="40" fill="rgba(139, 111, 71, 0.2)" stroke="#8b6f47" stroke-width="1" stroke-dasharray="5,5" rx="3"/>
+                            <text x="300" y="460" class="svg-label" text-anchor="middle" font-size="11">Heat drives water to vapor → condensation on plastic → drips into collection vessel</text>
+                        </svg>
+                    </div>
+                    <div class="description">
+                        A solar still uses the sun's energy to purify water through evaporation and condensation. Water evaporates from soil and condenses on the plastic sheet, running down into a collection container. This method purifies contaminated or saltwater.
+                    </div>
+                </div>
+
+                <div class="materials">
+                    <h3>Materials Needed</h3>
+                    <ul>
+                        <li>Digging area (3-4 ft)</li>
+                        <li>Clear plastic sheeting</li>
+                        <li>Collection container</li>
+                        <li>Rocks for weight</li>
+                        <li>Soil/sand for insulation</li>
+                        <li>Contaminated water/soil</li>
+                        <li>Sun exposure (full day)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- SMOKEHOUSE DESIGN -->
+        <div class="section" id="smokehouse">
+            <h2>
+                <span class="toggle-btn">▶</span>
+                <span class="toggle-text">10. Smokehouse Design</span>
+            </h2>
+            <div class="section-content">
+                <div>
+                    <div class="diagram-container">
+                        <svg viewBox="0 0 700 550" width="700" height="550">
+                            <!-- Title -->
+                            <text x="350" y="25" class="svg-title" text-anchor="middle">Smokehouse Design - Cold vs Hot Smoke</text>
+                            
+                            <!-- COLD SMOKE SETUP (Left) -->
+                            <g id="cold-smoke">
+                                <rect x="20" y="60" width="300" height="450" fill="none" stroke="#8b6f47" stroke-width="2" rx="6"/>
+                                <text x="170" y="90" class="svg-label" text-anchor="middle" fill="#d4a574" font-size="13">Cold Smoke Setup</text>
+                                
+                                <!-- Smokehouse chamber -->
+                                <rect x="60" y="120" width="220" height="280" fill="#5c4a3d" opacity="0.3" stroke="#8b6f47" stroke-width="1"/>
+                                <text x="170" y="210" class="svg-label" text-anchor="middle" font-size="11">Smoking chamber</text>
+                                <text x="170" y="240" class="svg-label" text-anchor="middle" font-size="9">(75-85°F)</text>
+                                
+                                <!-- Racks -->
+                                <line x1="75" y1="180" x2="265" y2="180" stroke="#8b6f47" stroke-width="2"/>
+                                <line x1="75" y1="240" x2="265" y2="240" stroke="#8b6f47" stroke-width="2"/>
+                                <line x1="75" y1="300" x2="265" y2="300" stroke="#8b6f47" stroke-width="2"/>
+                                <text x="280" y="265" class="svg-label" font-size="10">Meat racks</text>
+                                
+                                <!-- Ventilation top -->
+                                <rect x="100" y="115" width="140" height="8" fill="#8b6f47" stroke="#8b6f47" stroke-width="1"/>
+                                <text x="170" y="140" class="svg-label" text-anchor="middle" font-size="9">Top vent</text>
+                                
+                                <!-- Trench to smokehouse -->
+                                <polygon points="60,420 100,420 100,430 60,430" fill="#5c4a3d" opacity="0.4" stroke="#8b6f47" stroke-width="1"/>
+                                <line x1="75" y1="420" x2="75" y2="500" stroke="#8b6f47" stroke-width="2" stroke-dasharray="3,3"/>
+                                <text x="55" y="465" class="svg-label" font-size="10">Trench</text>
+                                
+                                <!-- Fire pit -->
+                                <circle cx="100" cy="510" r="25" fill="#3d3d3d" stroke="#8b6f47" stroke-width="2"/>
+                                <text x="100" y="515" class="svg-label" text-anchor="middle" font-size="10">Fire pit</text>
+                                <text x="100" y="530" class="svg-label" text-anchor="middle" font-size="9">(20-30 ft away)</text>
+                                
+                                <!-- Air flow -->
+                                <line x1="140" y1="435" x2="140" y2="480" stroke="#d4a574" stroke-width="2" stroke-dasharray="5,5" marker-end="url(#arrowhead4)"/>
+                                <text x="155" y="460" class="svg-label" font-size="9" fill="#d4a574">Smoke flow</text>
+                                
+                                <!-- Characteristics -->
+                                <rect x="30" y="350" width="280" height="50" fill="rgba(139, 111, 71, 0.1)" stroke="#8b6f47" stroke-width="1" stroke-dasharray="5,5" rx="3"/>
+                                <text x="40" y="365" class="svg-label" fill="#d4a574" font-size="10">• Low temperature (75-85°F)</text>
+                                <text x="40" y="380" class="svg-label" fill="#d4a574" font-size="10">• 12-48 hours smoking time</text>
+                                <text x="40" y="395" class="svg-label" fill="#d4a574" font-size="10">• Flavor development, preservation</text>
+                            </g>
+                            
+                            <!-- HOT SMOKE SETUP (Right) -->
+                            <g id="hot-smoke">
+                                <rect x="380" y="60" width="300" height="450" fill="none" stroke="#8b6f47" stroke-width="2" rx="6"/>
+                                <text x="530" y="90" class="svg-label" text-anchor="middle" fill="#d4a574" font-size="13">Hot Smoke Setup</text>
+                                
+                                <!-- Smokehouse chamber -->
+                                <rect x="420" y="120" width="220" height="280" fill="#5c4a3d" opacity="0.3" stroke="#8b6f47" stroke-width="1"/>
+                                <text x="530" y="210" class="svg-label" text-anchor="middle" font-size="11">Smoking chamber</text>
+                                <text x="530" y="240" class="svg-label" text-anchor="middle" font-size="9">(160-225°F)</text>
+                                
+                                <!-- Racks -->
+                                <line x1="435" y1="180" x2="625" y2="180" stroke="#8b6f47" stroke-width="2"/>
+                                <line x1="435" y1="240" x2="625" y2="240" stroke="#8b6f47" stroke-width="2"/>
+                                <line x1="435" y1="300" x2="625" y2="300" stroke="#8b6f47" stroke-width="2"/>
+                                <text x="640" y="265" class="svg-label" font-size="10">Meat racks</text>
+                                
+                                <!-- Ventilation adjustable -->
+                                <rect x="460" y="115" width="140" height="8" fill="#8b6f47" stroke="#8b6f47" stroke-width="1"/>
+                                <text x="530" y="140" class="svg-label" text-anchor="middle" font-size="9">Adjustable vent</text>
+                                
+                                <!-- Fire box attached -->
+                                <rect x="420" y="420" width="70" height="60" fill="#3d3d3d" stroke="#8b6f47" stroke-width="2" rx="3"/>
+                                <text x="455" y="450" class="svg-label" text-anchor="middle" font-size="10">Fire box</text>
+                                <text x="455" y="465" class="svg-label" text-anchor="middle" font-size="9">(attached)</text>
+                                
+                                <!-- Heat flow -->
+                                <line x1="455" y1="410" x2="455" y2="420" stroke="#d4a574" stroke-width="2" stroke-dasharray="5,5" marker-end="url(#arrowhead4)"/>
+                                <text x="475" y="410" class="svg-label" font-size="9" fill="#d4a574">Heat/Smoke</text>
+                                
+                                <!-- Thermometer placement -->
+                                <circle cx="570" cy="180" r="4" fill="#d4a574" stroke="#d4a574" stroke-width="1"/>
+                                <text x="585" y="185" class="svg-label" font-size="9">Thermometer</text>
+                                
+                                <!-- Characteristics -->
+                                <rect x="390" y="350" width="280" height="50" fill="rgba(139, 111, 71, 0.1)" stroke="#8b6f47" stroke-width="1" stroke-dasharray="5,5" rx="3"/>
+                                <text x="400" y="365" class="svg-label" fill="#d4a574" font-size="10">• High temperature (160-225°F)</text>
+                                <text x="400" y="380" class="svg-label" fill="#d4a574" font-size="10">• 4-12 hours smoking time</text>
+                                <text x="400" y="395" class="svg-label" fill="#d4a574" font-size="10">• Quick cooking and smoking</text>
+                            </g>
+                            
+                            <!-- Comparison section -->
+                            <rect x="50" y="520" width="600" height="20" fill="rgba(139, 111, 71, 0.15)" stroke="#8b6f47" stroke-width="1" rx="2"/>
+                            <text x="350" y="535" class="svg-label" text-anchor="middle" font-size="10">Cold smoke: Better preservation | Hot smoke: Faster cooking. Temperature control is key to success.</text>
+                        </svg>
+                    </div>
+                    <div class="description">
+                        Smokehouse design depends on your goal: cold smoking (below 85°F) develops flavor and preserves meat long-term, while hot smoking (160-225°F) cooks and smokes simultaneously. Both require consistent temperature and good smoke management for success.
+                    </div>
+                </div>
+
+                <div class="materials">
+                    <h3>Materials Needed</h3>
+                    <ul>
+                        <li>Wooden structure (log or post)</li>
+                        <li>Roof covering</li>
+                        <li>Meat racks/hangers</li>
+                        <li>Firebox (for hot smoke)</li>
+                        <li>Thermometer</li>
+                        <li>Smoke-producing wood</li>
+                        <li>Ventilation controls</li>
+                        <li>Hinged door (closable)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <footer role="contentinfo">
+            <p>Survival & Homesteading Skills - Visual Reference Guide</p>
+            <p>All diagrams are for educational and reference purposes. Always prioritize safety and follow local regulations.</p>
+            <p>Print-friendly version: Use your browser's print function for optimal results on paper.</p>
+        </footer>
+    </div>
+
+    <script>
+        function toggleSection(sectionId) {
+            const section = document.getElementById(sectionId);
+            const content = section.querySelector('.section-content');
+            const btn = section.querySelector('.toggle-btn');
+            
+            content.classList.toggle('open');
+            btn.classList.toggle('open');
+        }
+
+        // Optional: Open first section by default
+        document.addEventListener('DOMContentLoaded', function() {
+            toggleSection('bow-drill');
+        });
+    </script>
+</body>
+</html>

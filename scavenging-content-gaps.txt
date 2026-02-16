@@ -1,0 +1,364 @@
+SCAVENGING CONTENT GAP ANALYSIS — ZERO TO HERO SURVIVAL COMPENDIUM
+====================================================================
+
+WHAT CURRENTLY EXISTS (Salvage Category — 3 guides + 1 related)
+---------------------------------------------------------------
+
+1. Scrap Metal Identification (GD-181)
+   - Spark testing, magnet testing, density, chemical spot tests
+   - Value ranking of metals
+   - Has a small embedded "Scavenging Prioritization Framework" with site-specific
+     priorities for: residential, auto shop, hospital, hardware store, school
+   - Safety protocols for structural assessment
+
+2. Electric Motor Rewinding (GD-182)
+   - Motor types, nameplate reading, failure diagnosis
+   - Full disassembly/reassembly/rewind procedures
+   - Alternator conversion subsection
+   - Improvised insulation materials
+
+3. Alternator Repurposing (GD-183)
+   - Car alternator to wind/hydro generator
+   - Welding machine conversion
+   - Pulley ratios, voltage regulation
+
+4. PCB Component Salvage (GD-234)
+   - Desoldering techniques, component testing
+   - High-value targets (MOSFETs, voltage regulators, capacitors)
+   - Precious metal recovery
+   - Transformer salvage & rewinding
+   - Brief "Where to Find Electronics" section
+
+Supporting data files:
+  - salvage_data.json: 10 skills with salvage impact scores
+  - salvage_variants_master.json: Priority framework (first 24hr/week/month),
+    climate adaptations (plains only), transition paths
+
+
+WHAT'S MISSING — ENVIRONMENT-BASED SCAVENGING GUIDES
+=====================================================
+
+The existing content is strong on TECHNICAL PROCESSING (what to do with salvage
+once you have it) but weak on SOURCING (where to go, what to look for, and how
+environment type changes your strategy). There is no dedicated guide that says
+"you're in a rural area, here's what to prioritize" or "you're in a city,
+here are your highest-value targets."
+
+
+GAP 1: CITY/URBAN SCAVENGING GUIDE (does not exist)
+----------------------------------------------------
+
+Nothing currently covers systematic urban scavenging strategy. A dedicated guide
+should address high-value locations and what to extract from each:
+
+  AUTOMOTIVE (dealerships, repair shops, parking structures, junkyards)
+  - Alternators, starters, batteries (lead-acid for plates + acid)
+  - Belts, hoses, clamps, fasteners
+  - Wiring harnesses (copper + insulation)
+  - Hydraulic cylinders, brake fluid, transmission fluid
+  - Tires (rubber stock), leaf springs (high-carbon steel)
+  - Catalytic converters (platinum group metals)
+  - Radiators (copper/aluminum), heater cores
+
+  HOSPITALS & PHARMACIES
+  - Surgical instruments (stainless steel, precision-made)
+  - Antibiotics, antiseptics, anesthetics (shelf life guide needed)
+  - IV tubing, syringes, suture kits
+  - Oxygen tanks, regulators
+  - Bedframes (steel), wheelchairs (aluminum + rubber)
+  - Generator systems (backup power infrastructure)
+  - Sterilization equipment (autoclaves)
+
+  HARDWARE STORES & HOME IMPROVEMENT
+  - Hand tools (hammers, saws, chisels, files, planes)
+  - Fasteners bulk (nails, screws, bolts — sorted by type/size)
+  - Adhesives, sealants, epoxies
+  - Plumbing fittings (copper, PVC, brass valves)
+  - Electrical wire spools, junction boxes, breakers
+  - Rope, chain, cable
+  - Propane tanks, welding supplies
+  - Seeds (garden section — check viability)
+  - Lumber, sheet goods, concrete mix
+
+  OFFICE BUILDINGS & SCHOOLS
+  - Paper stock (writing, printing, fire starting, insulation)
+  - Magnets (hard drives, speakers)
+  - Copper wiring in walls
+  - Fire extinguishers (pressurized vessels + chemicals)
+  - Cafeteria equipment (commercial cookware, stainless steel)
+  - Lab equipment (schools — glassware, chemicals, scales)
+  - Furniture (wood, metal framing)
+
+  RESTAURANTS & COMMERCIAL KITCHENS
+  - Stainless steel cookware, prep surfaces
+  - Propane/natural gas lines and tanks
+  - Walk-in cooler insulation panels
+  - Knives, sharpening stones
+  - Grease traps (rendered fat for soap)
+  - Canned goods (long shelf-life stock)
+
+  MANUFACTURING & INDUSTRIAL
+  - Machine tools (lathes, drill presses, grinders)
+  - Raw stock (bar, rod, sheet metal, tubing)
+  - Bearings, gears, sprockets, chains
+  - Electric motors (often large, high-quality copper)
+  - Hydraulic/pneumatic systems
+  - Welding equipment and consumables
+  - Safety equipment (gloves, goggles, respirators)
+
+  FIRE STATIONS
+  - Hoses (high-pressure rated, long lengths)
+  - Axes, pry bars, bolt cutters (Halligan bars)
+  - Generators, pumps
+  - First aid / trauma supplies
+  - Turnout gear (fire-resistant clothing)
+  - Portable radios, batteries
+
+  CONSTRUCTION SITES
+  - Rebar (steel reinforcement)
+  - Concrete forms (reusable lumber)
+  - Heavy equipment (diesel engines, hydraulics)
+  - Scaffolding (pipe + clamps)
+  - Portable generators, compressors
+
+  RESIDENTIAL (apartments, houses, subdivisions)
+  - Copper plumbing (older homes especially)
+  - Water heaters (glass-lined steel tanks, heating elements, thermostats)
+  - Appliance motors (washing machines, dryers, HVAC blowers)
+  - Window glass (flat glass stock)
+  - Gutters and downspouts (aluminum)
+  - Garage contents (personal tool collections, fuel, lubricants)
+  - Mattress springs (steel wire stock)
+  - Mirrors (glass + silver backing)
+  - Batteries (household, car, UPS systems)
+
+  MISSING URBAN TOPICS (not covered anywhere):
+  - Systematic neighborhood sweep methodology
+  - Structural safety assessment for entering buildings
+  - Load-bearing wall identification (don't collapse the building on yourself)
+  - Hazardous material avoidance (asbestos, lead paint, gas leaks, sewage)
+  - Marking/cataloging cleared vs uncleared buildings
+  - Transport logistics (carts, sleds, staging areas)
+  - Team scavenging protocols and communication
+  - Time-decay priorities (what degrades first and must be grabbed early)
+
+
+GAP 2: RURAL SCAVENGING GUIDE (does not exist)
+-----------------------------------------------
+
+Rural environments have completely different high-value targets. Nothing in the
+current content addresses this. Key locations and targets:
+
+  FARMS & RANCHES
+  - Tractors and implements (diesel engines, hydraulics, PTO systems)
+  - Fuel storage tanks (diesel, gasoline — check for water contamination)
+  - Fencing (wire, posts, electric fence chargers + solar panels)
+  - Barbed wire (steel wire stock, also defensive)
+  - Grain bins (sheet metal, auger motors, drying fans)
+  - Animal handling equipment (gates, chutes, feeders)
+  - Veterinary supplies (antibiotics, suture materials, syringes)
+  - Well pumps (submersible motors, pipe, pressure tanks)
+  - Hay equipment (mower blades — high-carbon steel)
+  - Seed stock (stored grain for planting — viability matters)
+  - Irrigation systems (pipe, sprinklers, pumps, timers)
+  - Workshop contents (welders, grinders, air compressors, hand tools)
+  - Livestock trailers (axles, bearings, structural steel)
+  - Windmills (tower steel, gearbox, pump rod)
+
+  RURAL HARDWARE & FEED STORES
+  - Bulk fasteners, fencing supplies
+  - Animal feed (caloric value for humans in emergency)
+  - Veterinary medicines (crossover applicability)
+  - Rope, twine, baling wire
+  - Chainsaw parts, bar oil, fuel mix
+  - Axes, mauls, wedges, logging chains
+
+  SAWMILLS & LUMBER YARDS
+  - Seasoned lumber (already processed)
+  - Sawmill blades (high-quality steel)
+  - Conveyor systems (belts, rollers, motors)
+  - Sawdust/wood chips (insulation, composting, fuel)
+  - Drying kilns (brick/metal structures, heating elements)
+
+  HUNTING & SPORTING GOODS
+  - Firearms and ammunition
+  - Optics (binoculars, scopes — precision glass)
+  - Fishing gear (line, hooks, nets)
+  - Camping equipment (tents, sleeping bags, cookware)
+  - Knives, multitools
+  - Paracord, carabiners, climbing gear
+
+  CHURCHES & COMMUNITY BUILDINGS
+  - Large cooking facilities (community kitchens)
+  - Generators (backup power)
+  - Bell bronze (high-value metal)
+  - Large interior spaces (wood, metal roofing)
+  - PA systems (speakers, amplifiers, wire)
+
+  GRAIN ELEVATORS & SILOS
+  - Bulk grain (food + seed stock)
+  - Conveyor/auger systems
+  - Large motors and gearboxes
+  - Sheet metal (bin walls)
+  - Explosion-proof electrical components
+
+  RURAL POWER INFRASTRUCTURE
+  - Utility poles (treated lumber)
+  - Transformers (copper windings, transformer oil — PCB warning needed)
+  - Copper and aluminum wire (transmission lines)
+  - Insulators (porcelain/glass — specialized uses)
+  - Solar panels on rural properties
+  - Battery bank systems (off-grid homes)
+
+  WATERWAYS & PONDS
+  - Dam structures (potential micro-hydro sites)
+  - Culverts (steel/concrete pipe)
+  - Pump houses (motors, pipe, valves)
+  - Fish stock (food source assessment)
+  - Dock hardware (marine-grade fasteners, rope, chain)
+
+  ABANDONED MINES & QUARRIES
+  - Rail track (high-quality steel)
+  - Mine carts (wheels, bearings, axles)
+  - Ventilation equipment
+  - Stone/gravel (building material)
+  - Timber shoring (already cut to structural size)
+  - WARNING: gas accumulation, cave-in risks, water hazards
+
+  MISSING RURAL TOPICS (not covered anywhere):
+  - How to assess a rural property quickly for value
+  - Distance/transport challenges (no cart = limited haul)
+  - Seasonal access issues (mud, snow, flooding)
+  - Animal hazards (livestock gone feral, wildlife in structures)
+  - Well and water system evaluation
+  - Fuel siphoning and storage safety
+  - Farm chemical hazards (fertilizer, pesticides, anhydrous ammonia)
+  - Identifying viable seed stock vs degraded
+
+
+GAP 3: CROSS-ENVIRONMENT TOPICS (missing entirely)
+---------------------------------------------------
+
+These topics apply regardless of environment but have no coverage:
+
+  BUILDING MATERIALS SALVAGE
+  - No guide covers lumber recovery, brick reclamation, roofing materials,
+    window glass, insulation, doors/fixtures
+  - Current content jumps straight to metals and electronics
+  - Huge gap: shelter and construction are Phase 1-2 priorities but salvage
+    guides only cover Phase 4+ technical materials
+
+  TEXTILE & FABRIC SALVAGE
+  - Clothing recovery and repurposing
+  - Upholstery fabric, curtains, bedding
+  - Cordage from fabric (strips, braiding)
+  - Natural fiber identification and processing
+  - Leather salvage (shoes, belts, furniture)
+
+  CHEMICAL & FUEL SALVAGE
+  - Siphoning fuel safely
+  - Identifying and storing salvaged chemicals
+  - Cleaning product chemistry (bleach, ammonia, etc.)
+  - Paint and solvent recovery
+  - Lubricant types and substitutability
+  - Fertilizer and soil amendment salvage
+
+  FOOD SALVAGE (distinct from foraging)
+  - Canned goods shelf-life assessment
+  - Dry goods viability (flour, rice, pasta — pest/moisture check)
+  - Frozen food timeline (how long after power loss)
+  - Condiment and spice value
+  - Pet food as emergency calories
+  - Supplement and vitamin recovery
+  - MRE/emergency ration identification
+
+  TOOL RESTORATION
+  - Evaluating salvaged hand tools
+  - Rust removal and prevention
+  - Handle replacement
+  - Sharpening (axes, saws, chisels, knives)
+  - Power tool assessment (motor viability)
+  - Improvised tool creation from salvage
+
+  PLASTICS & RUBBER
+  - Plastic type identification (recycling numbers)
+  - Which plastics are heat-formable vs dangerous to burn
+  - Rubber salvage (tires, hoses, gaskets, seals)
+  - Container salvage and food-safety assessment
+
+  GLASS SALVAGE
+  - Flat glass cutting and reuse
+  - Bottle glass for container reuse vs melting stock
+  - Optical glass (lenses from cameras, binoculars, projectors)
+  - Laboratory glassware
+
+  TRANSPORT & LOGISTICS
+  - Cart/sled construction for hauling
+  - Staging area setup
+  - Mapping and cataloging salvage sites
+  - Team coordination for large-scale operations
+  - Weight estimation for planning trips
+
+
+GAP 4: PROGRESSION-BOOSTING FRAMEWORK (missing)
+------------------------------------------------
+
+The salvage_variants_master.json has a basic priority system, but nothing ties
+scavenging directly to the skill progression tree. A guide linking "if you
+find X, you can skip Y weeks of primitive manufacturing" would be huge:
+
+  PROGRESSION SHORTCUTS VIA SALVAGE
+  - Found a working axe → skip flint knapping + hafting (saves weeks)
+  - Found copper wire → skip smelting, drawing wire (saves months)
+  - Found a hand drill → skip bow drill mastery for fire AND tool making
+  - Found antibiotics → bypass months of herbal medicine progression
+  - Found a generator → shortcut entire Phase 5 electricity bootstrapping
+  - Found quality steel → skip bloom iron → wrought iron → steel chain
+  - Found glass jars → skip pottery progression for food storage
+  - Found a sewing machine → skip hand-sewing skill development
+  - Found solar panels → bypass steam/hydro power generation entirely
+
+  This could be structured as:
+  - "Salvage → Skill Skip" mapping table
+  - Priority tiers based on which skips save the most time
+  - Environment-specific versions (what you're likely to find rural vs city)
+  - Degradation timeline (find it in month 1 vs month 12 — still viable?)
+
+
+GAP 5: TIME-DECAY & PRIORITIZATION (partial — needs expansion)
+--------------------------------------------------------------
+
+salvage_variants_master.json covers first 24hr/week/month priorities but
+doesn't address the degradation timeline:
+
+  WHAT DEGRADES AND WHEN
+  - Immediate (days): Fresh food, some medicines, exposed batteries
+  - Weeks: Fuel (gasoline degrades, diesel lasts longer), opened chemicals
+  - Months: Seeds (viability drops), rubber (UV/ozone), exposed metals (rust)
+  - Years: Canned food, sealed electronics, hand tools, glass, ceramics
+  - Decades: Stone, quality steel (oiled), precious metals, fired clay
+
+  This matters because it changes WHEN you scavenge WHAT. Early runs should
+  target perishable high-value items. Later runs can focus on durable stock.
+
+
+SUMMARY OF RECOMMENDED NEW GUIDES
+==================================
+
+Priority 1 (fills biggest gaps, highest progression impact):
+  - Urban Scavenging: Location-by-Location Guide
+  - Rural Scavenging: Location-by-Location Guide
+  - Salvage-to-Skill Progression Shortcuts
+
+Priority 2 (important supporting content):
+  - Building Materials Salvage & Recovery
+  - Food Salvage & Shelf Life Assessment
+  - Time-Decay Priority Framework (expand existing)
+  - Chemical & Fuel Salvage Safety
+
+Priority 3 (valuable additions):
+  - Textile & Fabric Salvage
+  - Tool Restoration from Salvage
+  - Plastics, Rubber & Glass Identification
+  - Scavenging Logistics & Team Operations
+  - Structural Safety for Building Entry

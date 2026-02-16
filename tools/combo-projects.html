@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>75 Combo Projects - Zero to Hero</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Georgia, 'Times New Roman', serif;
+            background-color: #1a2e1a;
+            color: #f5f0e8;
+            line-height: 1.6;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #2d2416 0%, #1a2e1a 100%);
+            padding: 40px 20px;
+            text-align: center;
+            border-bottom: 3px solid #d4a574;
+        }
+        
+        h1 {
+            font-size: 2.5em;
+            color: #d4a574;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        
+        .subtitle {
+            color: #b8956a;
+            font-size: 1.1em;
+            font-style: italic;
+        }
+        
+        .controls {
+            background: #2d2416;
+            padding: 30px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            border-bottom: 2px solid #d4a574;
+        }
+        
+        .search-box {
+            width: 100%;
+            max-width: 600px;
+            padding: 12px;
+            margin-bottom: 20px;
+            background-color: #1a2e1a;
+            border: 2px solid #d4a574;
+            color: #f5f0e8;
+            font-size: 1em;
+            border-radius: 4px;
+        }
+        
+        .search-box::placeholder {
+            color: #8b7355;
+        }
+        
+        .filter-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .filter-btn {
+            padding: 10px 20px;
+            background-color: #1a2e1a;
+            color: #d4a574;
+            border: 2px solid #d4a574;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+        
+        .filter-btn:hover {
+            background-color: #d4a574;
+            color: #1a2e1a;
+        }
+        
+        .filter-btn.active {
+            background-color: #d4a574;
+            color: #1a2e1a;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 30px 20px;
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 30px;
+        }
+        
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
+            gap: 25px;
+        }
+        
+        .project-card {
+            background: #2d2416;
+            border: 2px solid #d4a574;
+            border-radius: 8px;
+            padding: 25px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .project-card .details {
+            display: none;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #5a4a3a;
+        }
+
+        .project-card .details.visible {
+            display: block;
+        }
+
+        .project-card h3 {
+            color: #d4a574;
+            font-size: 1.3em;
+            margin-bottom: 8px;
+        }
+
+        .project-card .difficulty {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: bold;
+            text-transform: capitalize;
+            margin-bottom: 6px;
+        }
+
+        .project-card .difficulty-beginner { background-color: #3a5a3a; color: #a8e6a8; }
+        .project-card .difficulty-intermediate { background-color: #5a4a3a; color: #e6d4a8; }
+        .project-card .difficulty-advanced { background-color: #5a3a3a; color: #e6a8a8; }
+        .project-card .difficulty-master { background-color: #4a3a5a; color: #d4a8e6; }
+
+        .project-card .category {
+            display: inline-block;
+            padding: 4px 10px;
+            background-color: #1a2e1a;
+            color: #d4a574;
+            border: 1px solid #d4a574;
+            border-radius: 4px;
+            font-size: 0.85em;
+            margin-left: 8px;
+        }
+
+        .project-card .details strong { color: #d4a574; }
+        .project-card .details ol { padding-left: 20px; margin: 10px 0; }
+        .project-card .details li { padding: 4px 0; }
+        .project-card .details ul { list-style: none; padding: 0; }
+        .project-card .details ul li { padding: 3px 0; }
+        .project-card .details a { color: #d4a574; text-decoration: none; }
+        .project-card .details a:hover { text-decoration: underline; }
+        
+        .project-card:hover {
+            box-shadow: 0 8px 16px rgba(212, 165, 116, 0.3);
+            transform: translateY(-5px);
+        }
+        
+        .project-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .project-title {
+            font-size: 1.4em;
+            color: #d4a574;
+            margin-bottom: 5px;
+        }
+        
+        .difficulty-badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        
+        .difficulty-beginner {
+            background-color: #3a5a3a;
+            color: #a8e6a8;
+        }
+        
+        .difficulty-intermediate {
+            background-color: #5a4a3a;
+            color: #e6d4a8;
+        }
+        
+        .difficulty-advanced {
+            background-color: #5a3a3a;
+            color: #e6a8a8;
+        }
+        
+        .difficulty-master {
+            background-color: #4a3a5a;
+            color: #d4a8e6;
+        }
+        
+        .category-tag {
+            display: inline-block;
+            padding: 4px 10px;
+            background-color: #1a2e1a;
+            color: #d4a574;
+            border: 1px solid #d4a574;
+            border-radius: 4px;
+            font-size: 0.85em;
+            margin-top: 10px;
+        }
+        
+        .skills-section {
+            margin: 15px 0;
+            padding: 12px;
+            background-color: #1a2e1a;
+            border-left: 3px solid #d4a574;
+            border-radius: 4px;
+        }
+        
+        .skills-label {
+            color: #d4a574;
+            font-weight: bold;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+        
+        .skill-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        
+        .skill-link {
+            padding: 5px 10px;
+            background-color: #2d2416;
+            color: #b8956a;
+            text-decoration: none;
+            border-radius: 4px;
+            border: 1px solid #5a4a3a;
+            font-size: 0.85em;
+            transition: all 0.2s ease;
+        }
+        
+        .skill-link:hover {
+            background-color: #d4a574;
+            color: #1a2e1a;
+            border-color: #d4a574;
+        }
+        
+        .project-details {
+            margin-top: 15px;
+        }
+        
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #5a4a3a;
+            font-size: 0.95em;
+        }
+        
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+        
+        .detail-label {
+            color: #d4a574;
+            font-weight: bold;
+        }
+        
+        .detail-value {
+            color: #f5f0e8;
+            max-width: 60%;
+            text-align: right;
+        }
+        
+        .svg-diagram {
+            width: 100%;
+            background-color: #1a2e1a;
+            border: 1px solid #5a4a3a;
+            border-radius: 4px;
+            margin: 15px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .svg-diagram svg {
+            width: 100%;
+            max-width: 300px;
+            height: auto;
+            display: block;
+        }
+        
+        .expandable-section {
+            margin-top: 15px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+        
+        .expandable-section.visible {
+            max-height: 1500px;
+        }
+        
+        .expand-btn {
+            background-color: #1a2e1a;
+            color: #d4a574;
+            padding: 10px 15px;
+            border: 1px solid #d4a574;
+            cursor: pointer;
+            border-radius: 4px;
+            font-weight: bold;
+            margin-top: 15px;
+            width: 100%;
+            transition: all 0.2s ease;
+        }
+        
+        .expand-btn:hover {
+            background-color: #d4a574;
+            color: #1a2e1a;
+        }
+        
+        .steps-list {
+            list-style: none;
+            padding: 0;
+            margin: 15px 0;
+        }
+        
+        .steps-list li {
+            padding: 8px 0;
+            padding-left: 25px;
+            color: #f5f0e8;
+            position: relative;
+        }
+        
+        .steps-list li:before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            color: #d4a574;
+        }
+        
+        .materials-list {
+            list-style: none;
+            padding: 0;
+            margin: 10px 0;
+        }
+        
+        .materials-list li {
+            padding: 6px 0;
+            padding-left: 20px;
+            color: #f5f0e8;
+            position: relative;
+        }
+        
+        .materials-list li:before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: #d4a574;
+        }
+        
+        .success-criteria {
+            background-color: #1a2e1a;
+            padding: 12px;
+            border-left: 3px solid #a8e6a8;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+        
+        .success-criteria-label {
+            color: #a8e6a8;
+            font-weight: bold;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+        
+        .sidebar {
+            background: #2d2416;
+            border: 2px solid #d4a574;
+            border-radius: 8px;
+            padding: 20px;
+            height: fit-content;
+            position: sticky;
+            top: 20px;
+        }
+        
+        .sidebar-title {
+            color: #d4a574;
+            font-size: 1.1em;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+        
+        .skills-usage-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .skills-usage-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid #5a4a3a;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .skills-usage-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .skill-name {
+            color: #d4a574;
+            font-size: 0.95em;
+        }
+        
+        .skill-count {
+            background-color: #1a2e1a;
+            color: #d4a574;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.85em;
+            font-weight: bold;
+        }
+        
+        .no-results {
+            text-align: center;
+            padding: 40px 20px;
+            color: #b8956a;
+            font-size: 1.1em;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+            
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                position: static;
+            }
+            
+            h1 {
+                font-size: 1.8em;
+            }
+        }
+    
+        .top-bar {
+            background-color: #2d2416;
+            padding: 12px 20px;
+            border-bottom: 1px solid #5a4a3a;
+        }
+
+        .back-link {
+            color: #d4a574;
+            text-decoration: none;
+            font-size: 0.95em;
+            transition: color 0.2s ease;
+        }
+
+        .back-link:hover {
+            color: #f5f0e8;
+        }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
+        }</style>
+</head>
+<body>
+    <div class="top-bar">
+        <a href="../index.html" class="back-link">← Back to Guides</a>
+    </div>
+    <header>
+        <h1>75 Combo Projects</h1>
+        <p class="subtitle">Master Zero-to-Hero Skills Through Integrated Construction Projects</p>
+    </header>
+    
+    <div class="controls" role="toolbar">
+        <input type="text" class="search-box" id="searchBox" placeholder="Search projects by name or skill..." aria-label="Input">
+        <div class="filter-buttons">
+            <button class="filter-btn active" data-filter="all">All Projects</button>
+            <button class="filter-btn" data-filter="beginner">Beginner</button>
+            <button class="filter-btn" data-filter="intermediate">Intermediate</button>
+            <button class="filter-btn" data-filter="advanced">Advanced</button>
+            <button class="filter-btn" data-filter="master">Master</button>
+        </div>
+    </div>
+    
+    <div class="container" role="main">
+        <div class="projects-grid" id="projectsGrid"></div>
+        
+        <div class="sidebar">
+            <div class="sidebar-title">Skills Used</div>
+            <ul class="skills-usage-list" id="skillsList"></ul>
+        </div>
+    </div>
+    
+    <script>
+
+        let projects = [];
+        let currentFilter = 'all';
+        let searchTerm = '';
+        
+        // Load projects data dynamically
+        async function loadProjects() {
+            try {
+                const response = await fetch('./data/combo-projects-data.json');
+                projects = await response.json();
+                renderProjects();
+                updateSkillsList();
+            } catch (error) {
+                console.error('Error loading projects:', error);
+                document.getElementById('projectsGrid').innerHTML = 
+                    '<p style="color: #d4a574; padding: 20px;">Error loading projects data. Please refresh the page.</p>';
+            }
+        }
+
+        function renderProjects() {
+            const container = document.getElementById('projectsGrid');
+            let filtered = projects;
+
+            if (currentFilter !== 'all') {
+                filtered = projects.filter(p => p.difficulty === currentFilter);
+            }
+
+            if (searchTerm) {
+                const tokens = searchTerm.toLowerCase().split(/\s+/).filter(t => t.length > 0);
+                filtered = filtered.filter(p => {
+                    const haystack = [
+                        p.name, p.category, p.difficulty,
+                        (p.materials || []).join(' '),
+                        (p.skills || []).map(s => s.name).join(' '),
+                        (p.steps || []).join(' ')
+                    ].join(' ').toLowerCase();
+                    return tokens.every(tok => haystack.includes(tok));
+                });
+            }
+
+            // Show result count
+            const countHtml = `<p style="color:#a89968;font-size:0.9em;margin-bottom:12px;grid-column:1/-1;">Showing <strong style="color:#d4a574;">${filtered.length}</strong> of ${projects.length} projects</p>`;
+
+            if (filtered.length === 0) {
+                container.innerHTML = countHtml + '<p style="color: #d4a574; padding: 20px;">No projects found matching your filters.</p>';
+                return;
+            }
+            
+            container.innerHTML = countHtml + filtered.map(project => `
+                <div class="project-card" onclick="toggleDetails(${project.id})">
+                    <h3>${project.name}</h3>
+                    <p class="difficulty difficulty-${project.difficulty.toLowerCase()}">${project.difficulty}</p>
+                    <p class="category">${project.category}</p>
+                    <div class="details" id="details-${project.id}">
+                        <div class="svg-container">${project.svg || ''}</div>
+                        <p><strong>Time Estimate:</strong> ${project.time_estimate}</p>
+                        <p><strong>Materials:</strong> ${project.materials ? project.materials.join(', ') : 'N/A'}</p>
+                        <p><strong>Success Criteria:</strong> ${project.success}</p>
+                        <h4>Steps:</h4>
+                        <ol>${project.steps ? project.steps.map(s => `<li>${s}</li>`).join('') : ''}</ol>
+                        <h4>Skills Required:</h4>
+                        <ul>${project.skills ? project.skills.map(s => `<li><a href="${s.link}">${s.name}</a></li>`).join('') : ''}</ul>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        function updateSkillsList() {
+            const skillCounts = {};
+            projects.forEach(project => {
+                if (project.skills) {
+                    project.skills.forEach(skill => {
+                        skillCounts[skill.name] = (skillCounts[skill.name] || 0) + 1;
+                    });
+                }
+            });
+
+            const sidebar = document.getElementById('skillsList');
+            if (sidebar) {
+                sidebar.innerHTML = Object.entries(skillCounts)
+                    .sort((a, b) => b[1] - a[1])
+                    .map(([name, count]) =>
+                        `<li><span class="skill-name">${name}</span><span class="skill-count">${count}</span></li>`
+                    ).join('');
+            }
+        }
+        
+        document.getElementById('searchBox').addEventListener('input', (e) => {
+            searchTerm = e.target.value;
+            renderProjects();
+        });
+        
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                currentFilter = e.target.getAttribute('data-filter');
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                e.target.classList.add('active');
+                renderProjects();
+            });
+        });
+        
+        function toggleDetails(id) {
+            const details = document.getElementById(`details-${id}`);
+            details.classList.toggle('visible');
+        }
+        
+        // Load projects when page loads
+        loadProjects();
+    </script>
+</body>
+</html>

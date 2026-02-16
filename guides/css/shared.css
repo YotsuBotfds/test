@@ -1,0 +1,1038 @@
+/* Shared CSS for Survival Compendium Guides */
+
+/* Dark Theme Variables (Default) */
+:root {
+  --bg: #1a2e1a;
+  --surface: #2d2416;
+  --card: #2d2416;
+  --accent: #d4a574;
+  --accent2: #b8956a;
+  --text: #f5f0e8;
+  --muted: #999;
+  --border: #4a6d4a;
+  --red: #c94444;
+  --lg: #4a6d4a;
+}
+
+/* Light Theme Variant */
+[data-theme="light"] {
+  --bg: #f5f0e8;
+  --surface: #fff;
+  --card: #f0ebe0;
+  --accent: #8b6f47;
+  --accent2: #4a6d4a;
+  --text: #1a2e1a;
+  --muted: #666;
+  --border: #d4c9b4;
+  --red: #c94444;
+  --lg: #4a6d4a;
+}
+
+/* Base Styles */
+* {
+  box-sizing: border-box;
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Georgia, 'Times New Roman', serif;
+  background-color: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  padding: 1rem;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Header Styles */
+header {
+  background: linear-gradient(135deg, var(--surface), var(--card));
+  padding: 2rem;
+  border-radius: 8px;
+  border-left: 4px solid var(--accent);
+  margin-bottom: 2rem;
+}
+
+header h1 {
+  color: var(--accent2);
+  margin: 0 0 0.5rem 0;
+  font-size: 2.2rem;
+}
+
+header p {
+  color: var(--muted);
+  font-size: 1.1rem;
+  font-style: italic;
+  margin: 0;
+}
+
+/* Heading Styles */
+h1 {
+  font-size: 2.5rem;
+  color: var(--accent2);
+  margin-bottom: 10px;
+}
+
+h2 {
+  font-size: 1.8rem;
+  color: var(--accent);
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--border);
+}
+
+h3 {
+  font-size: 1.3rem;
+  color: var(--accent2);
+  margin-top: 1.5rem;
+  margin-bottom: 0.8rem;
+}
+
+h4 {
+  font-size: 1.1rem;
+  color: var(--accent);
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Navigation & Links */
+nav.breadcrumb {
+  margin-bottom: 2rem;
+  padding: 1rem;
+  background: var(--surface);
+  border-radius: 4px;
+}
+
+nav.breadcrumb a {
+  color: var(--accent2);
+  text-decoration: none;
+  margin-right: 1rem;
+}
+
+nav.breadcrumb a:hover {
+  text-decoration: underline;
+}
+
+.back-link {
+  display: inline-block;
+  margin-bottom: 15px;
+  padding: 8px 16px;
+  background-color: var(--surface);
+  color: var(--accent2);
+  text-decoration: none;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  transition: all 0.3s ease;
+}
+
+.back-link:hover {
+  background-color: var(--card);
+  color: var(--accent);
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Table of Contents */
+.toc {
+  background: var(--surface);
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+  border-left: 4px solid var(--accent2);
+}
+
+.toc h2 {
+  color: var(--accent2);
+  margin-bottom: 1rem;
+  font-size: 1.3rem;
+  margin-top: 0;
+}
+
+.toc ol,
+.toc ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.toc li {
+  margin: 0.5rem 0;
+  padding-left: 1.5rem;
+}
+
+.toc a {
+  color: var(--text);
+  text-decoration: none;
+}
+
+.toc a:hover {
+  color: var(--accent);
+}
+
+/* Content Sections */
+section {
+  margin-bottom: 2.5rem;
+}
+
+p {
+  margin-bottom: 1rem;
+}
+
+/* Lists */
+ul, ol {
+  margin-left: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+/* Text Emphasis */
+strong {
+  color: var(--accent2);
+}
+
+em {
+  font-style: italic;
+}
+
+/* Code & Code Blocks */
+code {
+  background-color: var(--card);
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-family: 'Courier New', monospace;
+  color: var(--accent2);
+}
+
+pre {
+  background-color: var(--card);
+  padding: 15px;
+  border-radius: 4px;
+  overflow-x: auto;
+  margin: 15px 0;
+}
+
+pre code {
+  padding: 0;
+  background: none;
+  color: var(--text);
+}
+
+/* Cards & Content Boxes */
+.card {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.card h3 {
+  margin-top: 0;
+}
+
+/* Alert & Info Boxes */
+.warning {
+  background: var(--surface);
+  border-left: 4px solid var(--red);
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+  border-radius: 4px;
+}
+
+.warning strong {
+  color: var(--red);
+}
+
+.tip {
+  background: var(--surface);
+  border-left: 4px solid var(--lg);
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+  border-radius: 4px;
+}
+
+.tip strong {
+  color: var(--lg);
+}
+
+.info-box {
+  background: var(--surface);
+  border-left: 4px solid var(--accent2);
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+  border-radius: 4px;
+}
+
+.danger {
+  background: var(--surface);
+  border-left: 4px solid #ff4444;
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+  border-radius: 4px;
+}
+
+.danger strong {
+  color: #ff4444;
+}
+
+/* Tables */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+  background-color: var(--surface);
+}
+
+th {
+  background: var(--surface);
+  color: var(--accent);
+  padding: 0.8rem;
+  text-align: left;
+  border-bottom: 2px solid var(--border);
+  font-weight: 600;
+}
+
+td {
+  padding: 0.8rem;
+  border-bottom: 1px solid var(--border);
+}
+
+tr:hover {
+  background: rgba(45, 36, 22, 0.3);
+}
+
+/* Related Guides Section */
+.related {
+  background: var(--surface);
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin-top: 3rem;
+}
+
+.related h3 {
+  color: var(--accent2);
+  margin-bottom: 1rem;
+}
+
+.related a {
+  color: var(--accent);
+  text-decoration: none;
+  margin-right: 1.5rem;
+  display: inline-block;
+  margin-bottom: 0.5rem;
+}
+
+.related a:hover {
+  text-decoration: underline;
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  padding: 2rem 0;
+  color: var(--muted);
+  border-top: 1px solid var(--border);
+  margin-top: 3rem;
+  font-size: 0.9rem;
+}
+
+/* Consolidated Guide Styles (appearing in 10+ guides) */
+
+.back-to-top {
+  display:none;
+  position:fixed;
+  bottom:30px;
+  right:30px;
+  background:var(--accent);
+  color:var(--bg);
+  border:0;
+  padding:15px 20px;
+  border-radius:5px;
+  cursor:pointer;
+  font-weight:bold;
+  z-index:999;
+  transition:all .3s ease;
+}
+
+.diagram {
+  background-color:var(--card);
+  border:1px solid var(--border);
+  border-radius:8px;
+  padding:20px;
+  margin:20px 0;
+  text-align:center;
+}
+
+.diagram-container {
+  background-color:var(--bg);
+  padding:20px;
+  border-radius:6px;
+  margin:20px 0;
+  display:flex;
+  justify-content:center;
+  border:1px solid var(--border);
+}
+
+.diagram-label {
+  color:var(--muted);
+  font-size:.9em;
+  margin-top:10px;
+  font-style:italic;
+}
+
+.field-notes {
+  background:var(--card);
+  border:2px dashed var(--accent2);
+  border-radius:6px;
+  padding:20px;
+  margin:20px 0;
+  font-family:'Courier New',monospace;
+  font-size:.95em;
+}
+
+.footer {
+  border-top:3px solid #ff6b6b;
+  padding-top:20px;
+  margin-top:40px;
+  color:#888;
+  text-align:center;
+}
+
+.formula {
+  background:var(--surface);
+  padding:1rem;
+  border-left:3px solid var(--accent);
+  margin:1rem 0;
+  font-family:'Courier New',monospace;
+  color:var(--accent2);
+  border-radius:4px;
+  overflow-x:auto;
+}
+
+.guide-link {
+  background-color:#1a2e1a;
+  padding:15px;
+  border-radius:4px;
+  border:1px solid #558b2f;
+  color:#9ccc65;
+  text-decoration:none;
+  transition:all .3s ease;
+}
+
+.guide-link:hover {
+  transform:translateX(5px);
+}
+
+.highlight {
+  color:var(--accent2);
+  font-weight:bold;
+}
+
+.note {
+  background:rgba(83,216,168,0.1);
+  border-left:3px solid var(--accent2);
+  padding:1rem;
+  margin:1rem 0;
+  border-radius:4px;
+}
+
+.section {
+  background-color:var(--surface);
+  border:1px solid var(--border);
+  border-radius:6px;
+  padding:30px;
+  margin-bottom:30px;
+}
+
+.spec-box {
+  background-color:var(--card);
+  border:1px solid var(--border);
+  border-radius:8px;
+  padding:20px;
+}
+
+.step {
+  background-color:rgba(83,216,168,0.05);
+  padding:15px;
+  margin:10px 0;
+  border-radius:4px;
+  border-left:3px solid var(--accent2);
+}
+
+.subtitle {
+  font-size:1.1em;
+  color:var(--muted);
+  font-style:italic;
+}
+
+.svg-container {
+  background-color:var(--surface);
+  padding:30px;
+  border-radius:8px;
+  margin:30px 0;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  border:1px solid var(--border);
+}
+
+.tag {
+  background-color:var(--accent);
+  color:var(--bg);
+  padding:5px 12px;
+  border-radius:20px;
+  font-size:.85em;
+  font-weight:bold;
+}
+
+.theme-toggle {
+  position:fixed;
+  top:20px;
+  right:20px;
+  z-index:1000;
+  background:var(--surface);
+  border:2px solid var(--border);
+  color:var(--accent2);
+  padding:8px 16px;
+  border-radius:6px;
+  cursor:pointer;
+  font-size:14px;
+  transition:all .3s;
+}
+
+.theme-toggle:hover {
+  background:var(--card);
+  color:var(--accent);
+}
+
+body.light-mode {
+  --bg:#f5f5f5;
+  --surface:#fff;
+  --card:#e8f4f8;
+  --accent:#d63447;
+  --accent2:#2d9d78;
+  --text:#222;
+  --muted:#666;
+  --border:#d4c9b4;
+}
+
+html {
+  scroll-behavior:smooth;
+}
+
+li {
+  margin-bottom:10px;
+}
+
+main {
+  max-width:1200px;
+  margin:0 auto;
+}
+
+nav {
+  max-width:1200px;
+  margin:0 auto 2rem;
+}
+
+nav a {
+  color:var(--accent2);
+  text-decoration:none;
+  transition:color .3s;
+  font-weight:500;
+}
+
+nav a:hover {
+  color:var(--accent);
+}
+
+nav h2 {
+  color:var(--accent2);
+  margin-bottom:15px;
+  font-size:1.3em;
+}
+
+nav li {
+  margin:8px 0;
+}
+
+nav ul {
+  list-style:none;
+}
+
+nav.toc {
+  background-color:var(--card);
+  padding:20px;
+  border-radius:8px;
+  margin-bottom:30px;
+  border:1px solid var(--border);
+}
+
+nav.toc a {
+  color:var(--accent2);
+  text-decoration:none;
+  transition:color .3s ease;
+}
+
+nav.toc a:hover {
+  color:var(--accent);
+}
+
+nav.toc h2 {
+  color:var(--accent2);
+  margin-bottom:1.5rem;
+  font-size:1.3rem;
+}
+
+section h2 {
+  color:var(--accent2);
+  font-size:2em;
+  margin-bottom:20px;
+  padding-bottom:15px;
+  border-bottom:2px solid var(--accent);
+}
+
+section h3 {
+  color:var(--accent);
+  font-size:1.4em;
+  margin-top:25px;
+  margin-bottom:15px;
+}
+
+section h4 {
+  color:var(--text);
+  font-size:1.1em;
+  margin-top:20px;
+  margin-bottom:10px;
+  text-transform:uppercase;
+  letter-spacing:1px;
+}
+
+svg {
+  max-width:100%;
+  height:auto;
+  display:inline-block;
+}
+
+table td {
+  padding:12px;
+  border-bottom:1px solid var(--border);
+}
+
+table th {
+  background:var(--card);
+  color:var(--accent2);
+  padding:12px;
+  text-align:left;
+  border-bottom:2px solid var(--accent);
+  font-weight:bold;
+}
+
+table tr:hover {
+  background:rgba(83,216,168,0.05);
+}
+
+thead {
+  background-color:var(--accent);
+  color:var(--bg);
+}
+
+tr:last-child td {
+  border-bottom:0;
+}
+
+
+/* Collapsible TOC */
+.toc-toggle {
+  display: none;
+  background: var(--accent2);
+  color: var(--bg);
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.95rem;
+  width: 100%;
+  text-align: left;
+  margin-bottom: 0.5rem;
+  font-family: Georgia, 'Times New Roman', serif;
+}
+
+.toc-toggle::after {
+  content: ' ▾';
+  float: right;
+}
+
+.toc-toggle.collapsed::after {
+  content: ' ▸';
+}
+
+.toc.collapsible .toc-content {
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+
+.toc.collapsible .toc-content.collapsed {
+  max-height: 0 !important;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  body {
+    padding: 0.5rem;
+  }
+
+  header {
+    padding: 1.5rem;
+  }
+
+  header h1 {
+    font-size: 1.6rem;
+  }
+
+  .container {
+    padding: 0.5rem;
+  }
+
+  h1 {
+    font-size: 1.8rem;
+  }
+
+  h2 {
+    font-size: 1.4rem;
+  }
+
+  h3 {
+    font-size: 1.1rem;
+  }
+
+  table {
+    font-size: 0.9rem;
+  }
+
+  th, td {
+    padding: 0.5rem;
+  }
+
+  /* Make floating elements smaller on mobile */
+  .theme-toggle {
+    top: 10px;
+    right: 10px;
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+
+  .back-to-top {
+    bottom: 15px;
+    right: 15px;
+    padding: 10px 14px;
+    font-size: 0.85rem;
+  }
+
+  /* Make TOC collapsible on mobile */
+  .toc-toggle {
+    display: block;
+  }
+
+  .toc h2 {
+    display: none;
+  }
+
+  nav.toc h2 {
+    display: none;
+  }
+
+  .toc {
+    padding: 0.75rem;
+    margin-bottom: 1.5rem;
+  }
+
+  nav.toc {
+    padding: 0.75rem;
+    margin-bottom: 1.5rem;
+  }
+
+  /* Prevent header from being hidden behind theme toggle */
+  header {
+    padding-right: 80px;
+  }
+}
+
+/* Print Styles */
+@media print {
+  /* Page setup */
+  @page {
+    margin: 2cm;
+    size: A4;
+  }
+
+  /* Base styles */
+  * {
+    background: transparent !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+
+  body {
+    background: #fff !important;
+    color: #000 !important;
+    line-height: 1.6;
+    font-size: 11pt;
+  }
+
+  /* Typography */
+  h1, h2, h3, h4, h5, h6 {
+    color: #000 !important;
+    page-break-after: avoid;
+  }
+
+  /* Page breaks for major headings */
+  h1 {
+    page-break-before: always;
+    margin-top: 2cm;
+  }
+
+  h1:first-of-type {
+    page-break-before: avoid;
+  }
+
+  h2 {
+    page-break-before: auto;
+    margin-top: 1.5cm;
+  }
+
+  /* Navigation & Interactive Elements - Hide */
+  nav,
+  .back-link,
+  .breadcrumb,
+  header,
+  footer,
+  .related,
+  .toc,
+  #back-to-top,
+  .keyboard-hint,
+  [role="navigation"],
+  button,
+  input,
+  .mark-as-read,
+  .theme-toggle,
+  #theme-toggle {
+    display: none !important;
+  }
+
+  /* Links with URL references */
+  a {
+    color: #000 !important;
+    text-decoration: underline;
+  }
+
+  a[href]::after {
+    content: " (" attr(href) ")";
+    font-size: 0.85em;
+    color: #666;
+  }
+
+  /* Content sections */
+  section {
+    page-break-inside: avoid;
+    margin-bottom: 1.5rem;
+  }
+
+  p {
+    margin-bottom: 0.5rem;
+    orphans: 3;
+    widows: 3;
+  }
+
+  /* Lists */
+  ul, ol {
+    margin-left: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  li {
+    margin-bottom: 0.25rem;
+    page-break-inside: avoid;
+  }
+
+  /* Code blocks */
+  code {
+    background: #f5f5f5 !important;
+    border: 1px solid #ddd;
+    color: #000 !important;
+    padding: 2px 4px;
+    border-radius: 3px;
+  }
+
+  pre {
+    background: #f5f5f5 !important;
+    border: 1px solid #ddd;
+    color: #000 !important;
+    padding: 10px;
+    margin: 1rem 0;
+    page-break-inside: avoid;
+    overflow-x: visible;
+    word-wrap: break-word;
+  }
+
+  pre code {
+    background: transparent !important;
+    border: none;
+    padding: 0;
+  }
+
+  /* Cards & Content Boxes */
+  .card {
+    background: #fff !important;
+    border: 1px solid #000;
+    margin-bottom: 1rem;
+    page-break-inside: avoid;
+    padding: 15px;
+  }
+
+  /* Alert & Info Boxes */
+  .warning,
+  .tip,
+  .info-box,
+  .danger {
+    background: #fff !important;
+    border-left: 3px solid #333;
+    margin: 1rem 0;
+    padding: 10px 15px;
+    page-break-inside: avoid;
+  }
+
+  .warning strong,
+  .danger strong {
+    color: #000;
+  }
+
+  .tip strong,
+  .info-box strong {
+    color: #000;
+  }
+
+  /* Tables */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1rem 0;
+    page-break-inside: avoid;
+    background: #fff !important;
+  }
+
+  th {
+    background: #e8e8e8 !important;
+    color: #000 !important;
+    border: 1px solid #000;
+    padding: 8px;
+    text-align: left;
+    font-weight: 600;
+  }
+
+  td {
+    background: #fff !important;
+    color: #000 !important;
+    border: 1px solid #999;
+    padding: 8px;
+  }
+
+  tr {
+    page-break-inside: avoid;
+  }
+
+  tr:hover {
+    background: transparent !important;
+  }
+
+  /* SVG Diagrams */
+  svg {
+    max-width: 100%;
+    page-break-inside: avoid;
+    background: #fff !important;
+    color: #000 !important;
+  }
+
+  svg text,
+  svg tspan {
+    fill: #000 !important;
+    color: #000 !important;
+  }
+
+  svg path,
+  svg line,
+  svg rect,
+  svg circle,
+  svg polygon {
+    stroke: #000 !important;
+    fill: #fff !important;
+  }
+
+  /* Images */
+  img {
+    max-width: 100%;
+    page-break-inside: avoid;
+    filter: grayscale(100%) !important;
+  }
+
+  /* Visibility & Clipping */
+  .hidden,
+  [hidden],
+  .sr-only {
+    display: none !important;
+  }
+
+  /* Remove decorative elements */
+  .divider,
+  hr {
+    border: none;
+    border-top: 1px solid #000;
+    margin: 1rem 0;
+  }
+
+  /* Strong & emphasis */
+  strong {
+    color: #000 !important;
+    font-weight: 700;
+  }
+
+  em {
+    font-style: italic;
+  }
+
+  /* Container */
+  .container {
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Ensure text is not clipped */
+  body, .container, section, article, main, div {
+    overflow: visible !important;
+    clip: auto !important;
+  }
+
+  /* Print-specific improvements */
+  body {
+    margin: 0;
+    padding: 0;
+  }
+}

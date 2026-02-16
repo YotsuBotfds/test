@@ -1,0 +1,1 @@
+export function escapeHtml(t){if(!t)return"";const e={"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"};return String(t).replace(/[&<>"']/g,t=>e[t])}

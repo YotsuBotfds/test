@@ -1,0 +1,2455 @@
+{
+  "source": "climate-terrain-guide.xlsx",
+  "converted": "2026-02-15T06:05:32.376025",
+  "sheets": {
+    "Temperate Forest": {
+      "headers": [
+        "Category",
+        "Species/Resource",
+        "Scientific Name",
+        "Uses",
+        "Season Available",
+        "Identification Tips",
+        "Warnings/Notes"
+      ],
+      "rows": [
+        {
+          "Category": "Edible Plants",
+          "Species/Resource": "Acorn",
+          "Scientific Name": "Quercus spp.",
+          "Uses": "Flour, porridge after leaching tannins",
+          "Season Available": "Fall, Winter",
+          "Identification Tips": "From oak trees; cup-shaped cap, round nut",
+          "Warnings/Notes": "Must leach tannins before eating raw"
+        },
+        {
+          "Category": "Edible Plants",
+          "Species/Resource": "Wild Ramps",
+          "Scientific Name": "Allium tricoccum",
+          "Uses": "Greens, flavoring, bulbs",
+          "Season Available": "Spring",
+          "Identification Tips": "Garlic/onion smell, lily-like leaves in clusters",
+          "Warnings/Notes": "Only harvest 1 in 10 to preserve population"
+        },
+        {
+          "Category": "Edible Plants",
+          "Species/Resource": "Pawpaw",
+          "Scientific Name": "Asimina triloba",
+          "Uses": "Custard-like fruit",
+          "Season Available": "Late Summer/Fall",
+          "Identification Tips": "Tropical-looking leaves, large brown seeds",
+          "Warnings/Notes": "Seed is toxic; only eat fruit flesh"
+        },
+        {
+          "Category": "Edible Plants",
+          "Species/Resource": "Wild Mushrooms",
+          "Scientific Name": "Various spp.",
+          "Uses": "Protein, nutrients",
+          "Season Available": "Spring-Fall",
+          "Identification Tips": "Requires species-specific identification",
+          "Warnings/Notes": "Many toxic species; only eat positively identified"
+        },
+        {
+          "Category": "Edible Plants",
+          "Species/Resource": "Fiddlehead Ferns",
+          "Scientific Name": "Pteridium spp.",
+          "Uses": "Cooked vegetable when young",
+          "Season Available": "Spring",
+          "Identification Tips": "Tightly coiled fern fronds, fuzzy brown covering",
+          "Warnings/Notes": "Pick before fully unfurled; boil to remove fuzz"
+        },
+        {
+          "Category": "Edible Plants",
+          "Species/Resource": "Wild Leeks",
+          "Scientific Name": "Allium ampeloprasum",
+          "Uses": "Root and leaf vegetable",
+          "Season Available": "Spring/Summer",
+          "Identification Tips": "Green onion smell, flat leaves",
+          "Warnings/Notes": "Sustainable harvesting critical"
+        },
+        {
+          "Category": "Edible Plants",
+          "Species/Resource": "Nettle",
+          "Scientific Name": "Urtica dioica",
+          "Uses": "Nutritious greens, fiber",
+          "Season Available": "Spring-Summer",
+          "Identification Tips": "Square stems, opposite leaves, stinging hairs",
+          "Warnings/Notes": "Boiling or drying removes sting"
+        },
+        {
+          "Category": "Edible Plants",
+          "Species/Resource": "Wild Rice",
+          "Scientific Name": "Zizania aquatica",
+          "Uses": "Grain, carbohydrate source",
+          "Season Available": "Late Summer",
+          "Identification Tips": "Tall wetland grass with dark grain heads",
+          "Warnings/Notes": "Found in wetlands; harvest by hand-beating into canoe"
+        },
+        {
+          "Category": "Edible Plants",
+          "Species/Resource": "Hickory Nuts",
+          "Scientific Name": "Carya spp.",
+          "Uses": "Nuts, oil, flour",
+          "Season Available": "Fall",
+          "Identification Tips": "Thick shell, smaller than walnuts, bitter skin",
+          "Warnings/Notes": "Crack shells; white nutmeat excellent"
+        },
+        {
+          "Category": "Edible Plants",
+          "Species/Resource": "Walnuts",
+          "Scientific Name": "Juglans nigra",
+          "Uses": "Nuts, oil, dye",
+          "Season Available": "Fall",
+          "Identification Tips": "Large green husk, wrinkled shell",
+          "Warnings/Notes": "Husks stain hands; crack hard shell"
+        },
+        {
+          "Category": "Edible Plants",
+          "Species/Resource": "Berries (Mixed)",
+          "Scientific Name": "Rubus/Sambucus spp.",
+          "Uses": "Fresh/dried fruit, jams, medicine",
+          "Season Available": "Summer",
+          "Identification Tips": "Brambles, bushes, various colors",
+          "Warnings/Notes": "Some species toxic when raw"
+        },
+        {
+          "Category": "Medicinal Plants",
+          "Species/Resource": "Willow Bark",
+          "Scientific Name": "Salix alba",
+          "Uses": "Pain relief, fever reduction (aspirin-like)",
+          "Season Available": "Spring",
+          "Identification Tips": "Flexible branches, drooping leaves",
+          "Warnings/Notes": "Contain salicin; similar to aspirin"
+        },
+        {
+          "Category": "Medicinal Plants",
+          "Species/Resource": "Elderberry",
+          "Scientific Name": "Sambucus canadensis",
+          "Uses": "Immune support, cold remedy",
+          "Season Available": "Fall",
+          "Identification Tips": "Blue-black berries in clusters, compound leaves",
+          "Warnings/Notes": "Berries medicinal; raw leaves/bark toxic"
+        },
+        {
+          "Category": "Medicinal Plants",
+          "Species/Resource": "Echinacea",
+          "Scientific Name": "Echinacea purpurea",
+          "Uses": "Immune support, wound healing",
+          "Season Available": "Summer-Fall",
+          "Identification Tips": "Purple petals, spiky orange center",
+          "Warnings/Notes": "Root most potent; harvest in fall"
+        },
+        {
+          "Category": "Medicinal Plants",
+          "Species/Resource": "Ginger (Wild)",
+          "Scientific Name": "Asarum canadense",
+          "Uses": "Digestion, inflammation",
+          "Season Available": "Spring",
+          "Identification Tips": "Heart-shaped leaves, hidden flowers at base",
+          "Warnings/Notes": "Endangered in some areas; cultivate instead"
+        },
+        {
+          "Category": "Medicinal Plants",
+          "Species/Resource": "Plantain",
+          "Scientific Name": "Plantago major",
+          "Uses": "Wound healing, poultice",
+          "Season Available": "Spring-Summer",
+          "Identification Tips": "Oval leaves with prominent veins",
+          "Warnings/Notes": "Common weeds; very safe and effective"
+        },
+        {
+          "Category": "Fiber Plants",
+          "Species/Resource": "Stinging Nettle",
+          "Scientific Name": "Urtica dioica",
+          "Uses": "Rope, cloth, cordage",
+          "Season Available": "Summer",
+          "Identification Tips": "Square stems, opposite serrated leaves",
+          "Warnings/Notes": "Dry and ret to separate fibers"
+        },
+        {
+          "Category": "Fiber Plants",
+          "Species/Resource": "Cattail",
+          "Scientific Name": "Typha latifolia",
+          "Uses": "Baskets, mats, insulation",
+          "Season Available": "Summer-Fall",
+          "Identification Tips": "Brown seed head, sword-like leaves",
+          "Warnings/Notes": "Leaves for weaving; roots for carbs"
+        },
+        {
+          "Category": "Fiber Plants",
+          "Species/Resource": "Milkweed",
+          "Scientific Name": "Asclepias spp.",
+          "Uses": "Rope, insulation, tinder",
+          "Season Available": "Summer-Fall",
+          "Identification Tips": "Milky sap, pods with silky floss",
+          "Warnings/Notes": "Seed pods excellent for insulation"
+        },
+        {
+          "Category": "Wood Trees",
+          "Species/Resource": "White Oak",
+          "Scientific Name": "Quercus alba",
+          "Uses": "Furniture, barrels, building",
+          "Season Available": "Year-round",
+          "Identification Tips": "Light gray bark, lobed leaves",
+          "Warnings/Notes": "High rot resistance (Janka: 1360)"
+        },
+        {
+          "Category": "Wood Trees",
+          "Species/Resource": "Red Oak",
+          "Scientific Name": "Quercus rubra",
+          "Uses": "Flooring, furniture, building",
+          "Season Available": "Year-round",
+          "Identification Tips": "Red-tinged bark, pointed lobed leaves",
+          "Warnings/Notes": "Medium rot resistance (Janka: 1290)"
+        },
+        {
+          "Category": "Wood Trees",
+          "Species/Resource": "White Pine",
+          "Scientific Name": "Pinus strobus",
+          "Uses": "Lumber, furniture, carvings",
+          "Season Available": "Year-round",
+          "Identification Tips": "Five needles per bundle, soft bark",
+          "Warnings/Notes": "Soft, workable, low rot resistance"
+        },
+        {
+          "Category": "Wood Trees",
+          "Species/Resource": "Black Cherry",
+          "Scientific Name": "Prunus serotina",
+          "Uses": "Fine furniture, workable",
+          "Season Available": "Year-round",
+          "Identification Tips": "Horizontal lenticels, reddish wood",
+          "Warnings/Notes": "Beautiful color when finished (Janka: 995)"
+        },
+        {
+          "Category": "Wood Trees",
+          "Species/Resource": "Hickory",
+          "Scientific Name": "Carya spp.",
+          "Uses": "Tool handles, smoking meat",
+          "Season Available": "Year-round",
+          "Identification Tips": "Compound leaves, splitting bark",
+          "Warnings/Notes": "Hard, resilient, excellent for tools"
+        },
+        {
+          "Category": "Wood Trees",
+          "Species/Resource": "Eastern Red Cedar",
+          "Scientific Name": "Juniperus virginiana",
+          "Uses": "Aromatic, moth-resistant, rot-proof",
+          "Season Available": "Year-round",
+          "Identification Tips": "Shredding bark, scale-like foliage",
+          "Warnings/Notes": "Highly rot resistant; aromatic heartwood"
+        },
+        {
+          "Category": "Useful Stones",
+          "Species/Resource": "Granite",
+          "Scientific Name": "Igneous Rock",
+          "Uses": "Building, crushing, tool-making",
+          "Season Available": "Year-round",
+          "Identification Tips": "Crystalline, feldspar/quartz/mica mix",
+          "Warnings/Notes": "Very hard and durable"
+        },
+        {
+          "Category": "Useful Stones",
+          "Species/Resource": "Flint",
+          "Scientific Name": "Microcrystalline Quartz",
+          "Uses": "Fire-starting, tool-making, blades",
+          "Season Available": "Year-round",
+          "Identification Tips": "Dark gray-black, glassy, sharp edges",
+          "Warnings/Notes": "Master fracture for best edge"
+        },
+        {
+          "Category": "Useful Stones",
+          "Species/Resource": "Obsidian",
+          "Scientific Name": "Volcanic Glass",
+          "Uses": "Sharp blades, arrow tips, mirrors",
+          "Season Available": "Year-round",
+          "Identification Tips": "Shiny black glass, extremely sharp",
+          "Warnings/Notes": "Sharper than modern surgical steel"
+        },
+        {
+          "Category": "Clay Sources",
+          "Species/Resource": "River Clay",
+          "Scientific Name": "Various spp.",
+          "Uses": "Pottery, adobe, waterproofing",
+          "Season Available": "Year-round",
+          "Identification Tips": "Fine silt from river banks",
+          "Warnings/Notes": "Test for binding strength; add straw"
+        },
+        {
+          "Category": "Seasonal Notes",
+          "Species/Resource": "Spring Abundance",
+          "Scientific Name": "All categories",
+          "Uses": "Peak foraging season starts",
+          "Season Available": "Spring",
+          "Identification Tips": "Everything leafing out, mushrooms fruiting",
+          "Warnings/Notes": "Begin preserving for year"
+        }
+      ],
+      "rowCount": 30
+    },
+    "Arid & Desert": {
+      "headers": [
+        "Category",
+        "Species/Resource",
+        "Scientific Name",
+        "Uses",
+        "Season Available",
+        "Identification Tips",
+        "Warnings/Notes"
+      ],
+      "rows": [
+        {
+          "Category": "Desert Edibles",
+          "Species/Resource": "Prickly Pear Cactus",
+          "Scientific Name": "Opuntia ficus-indica",
+          "Uses": "Fruit, pads (nopales), water source",
+          "Season Available": "Spring-Summer",
+          "Identification Tips": "Flat paddle-shaped stems, spiny fruit",
+          "Warnings/Notes": "Remove spines; fruit sweet and hydrating"
+        },
+        {
+          "Category": "Desert Edibles",
+          "Species/Resource": "Mesquite",
+          "Scientific Name": "Prosopis spp.",
+          "Uses": "Flour, sweetener, firewood",
+          "Season Available": "Summer-Fall",
+          "Identification Tips": "Feathery leaves, long seed pods",
+          "Warnings/Notes": "Seed pods very nutritious; grind seeds"
+        },
+        {
+          "Category": "Desert Edibles",
+          "Species/Resource": "Agave",
+          "Scientific Name": "Agave spp.",
+          "Uses": "Heart (cooked), fiber, water",
+          "Season Available": "Spring",
+          "Identification Tips": "Rosette of thick fleshy leaves",
+          "Warnings/Notes": "Leaves contain oxalates; roast heart 2-3 days"
+        },
+        {
+          "Category": "Desert Edibles",
+          "Species/Resource": "Date Palm",
+          "Scientific Name": "Phoenix dactylifera",
+          "Uses": "High-calorie fruit, shade",
+          "Season Available": "Summer-Fall",
+          "Identification Tips": "Tall with fronds, date clusters",
+          "Warnings/Notes": "Dates store for years; excellent travel food"
+        },
+        {
+          "Category": "Desert Edibles",
+          "Species/Resource": "Jujube",
+          "Scientific Name": "Ziziphus jujuba",
+          "Uses": "Sweet fruit, medicine",
+          "Season Available": "Fall",
+          "Identification Tips": "Small red fruits on thorny branches",
+          "Warnings/Notes": "Candied or dried; extremely nutritious"
+        },
+        {
+          "Category": "Desert Edibles",
+          "Species/Resource": "Desert Chia",
+          "Scientific Name": "Salvia hispanica",
+          "Uses": "Seeds (omega-3s, hydration)",
+          "Season Available": "Spring",
+          "Identification Tips": "Purple/pink flowers, small square stems",
+          "Warnings/Notes": "Seeds expand in water; sustaining food source"
+        },
+        {
+          "Category": "Desert Edibles",
+          "Species/Resource": "Carob",
+          "Scientific Name": "Ceratonia siliqua",
+          "Uses": "Sweet bean pods, flour",
+          "Season Available": "Fall",
+          "Identification Tips": "Feathery leaves, dark brown pods",
+          "Warnings/Notes": "Sweet and nutritious; can replace chocolate"
+        },
+        {
+          "Category": "Medicinal",
+          "Species/Resource": "Aloe Vera",
+          "Scientific Name": "Aloe barbadensis",
+          "Uses": "Burn relief, digestive aid",
+          "Season Available": "Year-round",
+          "Identification Tips": "Thick succulent leaves with spiky edges",
+          "Warnings/Notes": "Gel for burns; bitter latex for laxative"
+        },
+        {
+          "Category": "Medicinal",
+          "Species/Resource": "Creosote Bush",
+          "Scientific Name": "Larrea tridentata",
+          "Uses": "Respiratory aid, antiseptic",
+          "Season Available": "Year-round",
+          "Identification Tips": "Pungent smell, small sticky leaves",
+          "Warnings/Notes": "Strong flavor; use sparingly as tea"
+        },
+        {
+          "Category": "Medicinal",
+          "Species/Resource": "Desert Sage",
+          "Scientific Name": "Salvia dorrii",
+          "Uses": "Respiratory, fever reduction",
+          "Season Available": "Spring-Summer",
+          "Identification Tips": "Grayish hairy leaves, purple flowers",
+          "Warnings/Notes": "Traditional use for colds and fever"
+        },
+        {
+          "Category": "Building Materials",
+          "Species/Resource": "Adobe Clay",
+          "Scientific Name": "Clay-rich soil",
+          "Uses": "Sun-dried bricks for walls",
+          "Season Available": "Year-round",
+          "Identification Tips": "Fine reddish-brown soil",
+          "Warnings/Notes": "Mix with straw for binding; very durable"
+        },
+        {
+          "Category": "Building Materials",
+          "Species/Resource": "Sandstone",
+          "Scientific Name": "Sedimentary rock",
+          "Uses": "Blocks, grinding stones",
+          "Season Available": "Year-round",
+          "Identification Tips": "Tan/brown stone with sandy texture",
+          "Warnings/Notes": "Easy to work; moderate durability"
+        },
+        {
+          "Category": "Building Materials",
+          "Species/Resource": "Limestone",
+          "Scientific Name": "Calcium carbonate rock",
+          "Uses": "Lime mortar, plaster",
+          "Season Available": "Year-round",
+          "Identification Tips": "Whitish rock, reacts with acid",
+          "Warnings/Notes": "Burn for quicklime and mortar"
+        },
+        {
+          "Category": "Water-Finding",
+          "Species/Resource": "Desert Willow",
+          "Scientific Name": "Chilopsis linearis",
+          "Uses": "Indicator of underground water",
+          "Season Available": "Spring-Summer",
+          "Identification Tips": "Willow-like leaves, purple flowers",
+          "Warnings/Notes": "Green leaves signal nearby water table"
+        },
+        {
+          "Category": "Water-Finding",
+          "Species/Resource": "Cottonwood",
+          "Scientific Name": "Populus spp.",
+          "Uses": "Water indicator, shade",
+          "Season Available": "Spring-Summer",
+          "Identification Tips": "Cotton-like seeds, tall, thirsty tree",
+          "Warnings/Notes": "Presence indicates perennial water"
+        },
+        {
+          "Category": "Water-Finding",
+          "Species/Resource": "Tamarisk",
+          "Scientific Name": "Tamarix spp.",
+          "Uses": "Water-seeking indicator",
+          "Season Available": "Spring-Summer",
+          "Identification Tips": "Fine feathery foliage, pink flowers",
+          "Warnings/Notes": "Deep roots find underground water"
+        },
+        {
+          "Category": "Heat Adaptation",
+          "Species/Resource": "Shade Cloth Tech",
+          "Scientific Name": "Woven fabric",
+          "Uses": "Create cooling shade structures",
+          "Season Available": "Year-round",
+          "Identification Tips": "Light-colored woven material",
+          "Warnings/Notes": "Reduces temperature 10-15 degrees"
+        },
+        {
+          "Category": "Heat Adaptation",
+          "Species/Resource": "White-painted structures",
+          "Scientific Name": "Paint/lime",
+          "Uses": "Reflect heat, cooling interiors",
+          "Season Available": "Year-round",
+          "Identification Tips": "Lime or white paint",
+          "Warnings/Notes": "Can reduce interior temp by 5-10 degrees"
+        },
+        {
+          "Category": "Heat Adaptation",
+          "Species/Resource": "Evaporative Cooling",
+          "Scientific Name": "Clay pots/water",
+          "Uses": "Cool water through evaporation",
+          "Season Available": "Dry season",
+          "Identification Tips": "Porous clay containers",
+          "Warnings/Notes": "Wet cloth barrier creates cooling effect"
+        },
+        {
+          "Category": "Heat Adaptation",
+          "Species/Resource": "Buried structures",
+          "Scientific Name": "Underground dwelling",
+          "Uses": "Utilize earth's cooling mass",
+          "Season Available": "Year-round",
+          "Identification Tips": "Below ground level",
+          "Warnings/Notes": "Earth provides natural insulation"
+        },
+        {
+          "Category": "Heat Adaptation",
+          "Species/Resource": "Windbreaks",
+          "Scientific Name": "Vegetation/structures",
+          "Uses": "Reduce wind-driven heat loss",
+          "Season Available": "Year-round",
+          "Identification Tips": "Rows of trees or walls",
+          "Warnings/Notes": "Essential for solar heating at night"
+        },
+        {
+          "Category": "Heat Adaptation",
+          "Species/Resource": "Thermal Mass",
+          "Scientific Name": "Stone/adobe",
+          "Uses": "Store heat for night use",
+          "Season Available": "Year-round",
+          "Identification Tips": "Dense materials",
+          "Warnings/Notes": "Critical for desert temperature swings"
+        },
+        {
+          "Category": "Desert Species",
+          "Species/Resource": "Barrel Cactus",
+          "Scientific Name": "Ferocactus acanthodes",
+          "Uses": "Emergency water (spines=water ducts)",
+          "Season Available": "Year-round",
+          "Identification Tips": "Round spiny cactus",
+          "Warnings/Notes": "Spongy interior holds water"
+        },
+        {
+          "Category": "Desert Species",
+          "Species/Resource": "Resurrection Plant",
+          "Scientific Name": "Selaginella lepidophylla",
+          "Uses": "Survival indicator, tinder",
+          "Season Available": "Year-round",
+          "Identification Tips": "Curls when dry, expands when wet",
+          "Warnings/Notes": "Indicates moisture nearby when green"
+        },
+        {
+          "Category": "Desert Species",
+          "Species/Resource": "Ocotillo",
+          "Scientific Name": "Fouquieria splendens",
+          "Uses": "Fencing, emergency water (roots)",
+          "Season Available": "Spring",
+          "Identification Tips": "Thin spiny branches, red flowers",
+          "Warnings/Notes": "Can survive long droughts"
+        }
+      ],
+      "rowCount": 25
+    },
+    "Coastal & Maritime": {
+      "headers": [
+        "Category",
+        "Species/Resource",
+        "Scientific Name",
+        "Uses",
+        "Season Available",
+        "Identification Tips",
+        "Warnings/Notes"
+      ],
+      "rows": [
+        {
+          "Category": "Seaweed",
+          "Species/Resource": "Kelp",
+          "Scientific Name": "Laminaria spp.",
+          "Uses": "Food, iodine, fertilizer, thickener",
+          "Season Available": "Year-round",
+          "Identification Tips": "Large brown fronds up to 60ft, holdfasts",
+          "Warnings/Notes": "Wash to remove salt; dry for storage"
+        },
+        {
+          "Category": "Seaweed",
+          "Species/Resource": "Nori",
+          "Scientific Name": "Porphyra umbilicalis",
+          "Uses": "High protein, wraps for food",
+          "Season Available": "Winter-Spring",
+          "Identification Tips": "Red/purple delicate sheets",
+          "Warnings/Notes": "Farmed and wild; very nutritious"
+        },
+        {
+          "Category": "Seaweed",
+          "Species/Resource": "Sea Lettuce",
+          "Scientific Name": "Ulva lactuca",
+          "Uses": "Vitamin-rich greens",
+          "Season Available": "Spring-Summer",
+          "Identification Tips": "Bright green, thin, lettuce-like",
+          "Warnings/Notes": "Tender when young; cook like greens"
+        },
+        {
+          "Category": "Seaweed",
+          "Species/Resource": "Dulse",
+          "Scientific Name": "Palmaria palmata",
+          "Uses": "Chewy, nutrient-dense",
+          "Season Available": "Year-round",
+          "Identification Tips": "Red/purple fronds, 5-30cm tall",
+          "Warnings/Notes": "Can be eaten raw; nutty flavor when cooked"
+        },
+        {
+          "Category": "Seaweed",
+          "Species/Resource": "Sea Urchin Roe",
+          "Scientific Name": "Strongylocentrotus spp.",
+          "Uses": "High-fat delicacy, nutritious",
+          "Season Available": "Year-round",
+          "Identification Tips": "Spiny globular sea urchins",
+          "Warnings/Notes": "Orange/yellow roe; salty umami flavor"
+        },
+        {
+          "Category": "Shellfish",
+          "Species/Resource": "Oysters",
+          "Scientific Name": "Ostrea spp.",
+          "Uses": "High protein, minerals, pearls",
+          "Season Available": "Year-round",
+          "Identification Tips": "Irregular shells, found on rocks",
+          "Warnings/Notes": "Harvest from clean water; can store alive"
+        },
+        {
+          "Category": "Shellfish",
+          "Species/Resource": "Mussels",
+          "Scientific Name": "Mytilus spp.",
+          "Uses": "Protein, iron, quick cooking",
+          "Season Available": "Year-round",
+          "Identification Tips": "Black triangular shells, clustering",
+          "Warnings/Notes": "Blue mussels most common; avoid red tides"
+        },
+        {
+          "Category": "Shellfish",
+          "Species/Resource": "Clams",
+          "Scientific Name": "Mercenaria spp.",
+          "Uses": "Protein, chowder base",
+          "Season Available": "Year-round",
+          "Identification Tips": "Round hard shells, burrowing",
+          "Warnings/Notes": "Steamer clams easier to harvest"
+        },
+        {
+          "Category": "Shellfish",
+          "Species/Resource": "Scallops",
+          "Scientific Name": "Pecten irradians",
+          "Uses": "Lean protein, tender meat",
+          "Season Available": "Summer-Fall",
+          "Identification Tips": "Fan-shaped shells, ridged",
+          "Warnings/Notes": "Adductor muscle is edible part"
+        },
+        {
+          "Category": "Shellfish",
+          "Species/Resource": "Lobster",
+          "Scientific Name": "Homarus americanus",
+          "Uses": "High protein, luxury food",
+          "Season Available": "Summer-Fall",
+          "Identification Tips": "Large clawed crustacean, reddish",
+          "Warnings/Notes": "Molting season affects catch quality"
+        },
+        {
+          "Category": "Shellfish",
+          "Species/Resource": "Crabs",
+          "Scientific Name": "Cancer spp.",
+          "Uses": "Protein, diverse species",
+          "Season Available": "Summer-Fall",
+          "Identification Tips": "Wide body, large claws, sideways walk",
+          "Warnings/Notes": "Different species; check local regulations"
+        },
+        {
+          "Category": "Salt Production",
+          "Species/Resource": "Evaporation Ponds",
+          "Scientific Name": "Seawater",
+          "Uses": "Mineral-rich cooking salt",
+          "Season Available": "Summer",
+          "Identification Tips": "Shallow coastal ponds",
+          "Warnings/Notes": "Process: evaporate, collect crystals"
+        },
+        {
+          "Category": "Salt Production",
+          "Species/Resource": "Salt Marsh",
+          "Scientific Name": "Coastal marshes",
+          "Uses": "Salt harvest from concentrated brines",
+          "Season Available": "Summer-Fall",
+          "Identification Tips": "Muddy intertidal zones",
+          "Warnings/Notes": "Scrape salt crusts from surface"
+        },
+        {
+          "Category": "Driftwood",
+          "Species/Resource": "Driftwood Collection",
+          "Scientific Name": "Washed wood",
+          "Uses": "Firewood, construction, art",
+          "Season Available": "Year-round",
+          "Identification Tips": "Smooth weathered wood on shore",
+          "Warnings/Notes": "Already cured; excellent fuel"
+        },
+        {
+          "Category": "Driftwood",
+          "Species/Resource": "Flotsam Materials",
+          "Scientific Name": "Washed materials",
+          "Uses": "Rope, nets, building supplies",
+          "Season Available": "Year-round",
+          "Identification Tips": "Tangled nets and wood on beach",
+          "Warnings/Notes": "Can be salvaged and repurposed"
+        },
+        {
+          "Category": "Coastal Plants",
+          "Species/Resource": "Beach Plum",
+          "Scientific Name": "Prunus maritima",
+          "Uses": "Fruit for jams, preserves",
+          "Season Available": "Late Summer",
+          "Identification Tips": "Shrub on sandy beaches, blue-purple fruit",
+          "Warnings/Notes": "Makes excellent preserves"
+        },
+        {
+          "Category": "Coastal Plants",
+          "Species/Resource": "Sea Rocket",
+          "Scientific Name": "Cakile maritima",
+          "Uses": "Peppery greens, seeds like capers",
+          "Season Available": "Spring-Summer",
+          "Identification Tips": "Fleshy succulent coastal plant",
+          "Warnings/Notes": "Young plants most tender"
+        },
+        {
+          "Category": "Coastal Plants",
+          "Species/Resource": "Glasswort",
+          "Scientific Name": "Salicornia europaea",
+          "Uses": "Salty pickled vegetable",
+          "Season Available": "Summer",
+          "Identification Tips": "Jointed succulent salt-marsh plant",
+          "Warnings/Notes": "Pickle whole plant before hardening"
+        },
+        {
+          "Category": "Coastal Plants",
+          "Species/Resource": "Beach Rose",
+          "Scientific Name": "Rosa rugosa",
+          "Uses": "Rose hips (vitamin C), ornamental",
+          "Season Available": "Fall",
+          "Identification Tips": "Dense shrub with fragrant flowers",
+          "Warnings/Notes": "Hips used for tea after first frost"
+        },
+        {
+          "Category": "Marine Clay",
+          "Species/Resource": "Coastal Clay",
+          "Scientific Name": "Marine deposits",
+          "Uses": "Pottery, adobe, sealing",
+          "Season Available": "Year-round",
+          "Identification Tips": "Fine clay in intertidal zones",
+          "Warnings/Notes": "Higher salt content requires rinsing"
+        },
+        {
+          "Category": "Sand/Gravel",
+          "Species/Resource": "Construction Sand",
+          "Scientific Name": "Beach deposits",
+          "Uses": "Mortar, concrete, glass",
+          "Season Available": "Year-round",
+          "Identification Tips": "White/tan sand",
+          "Warnings/Notes": "Rinse salt water sand before use"
+        },
+        {
+          "Category": "Sand/Gravel",
+          "Species/Resource": "Shell Hash",
+          "Scientific Name": "Crushed shells",
+          "Uses": "Aggregate, calcium source",
+          "Season Available": "Year-round",
+          "Identification Tips": "Crushed shellfish shells",
+          "Warnings/Notes": "Excellent drainage material"
+        },
+        {
+          "Category": "Tidal Patterns",
+          "Species/Resource": "Tidal Pools",
+          "Scientific Name": "Rocky intertidal zones",
+          "Uses": "Diverse edibles and medicines",
+          "Season Available": "Low tide only",
+          "Identification Tips": "Exposed pools at lowest tide",
+          "Warnings/Notes": "Time your foraging with tide tables"
+        },
+        {
+          "Category": "Boat Building",
+          "Species/Resource": "White Oak",
+          "Scientific Name": "Quercus alba",
+          "Uses": "Shipwright's preferred wood",
+          "Season Available": "Year-round",
+          "Identification Tips": "Rot-resistant, strong wood",
+          "Warnings/Notes": "Traditional boat material"
+        },
+        {
+          "Category": "Boat Building",
+          "Species/Resource": "Ash",
+          "Scientific Name": "Fraxinus spp.",
+          "Uses": "Flexible oars, structural wood",
+          "Season Available": "Year-round",
+          "Identification Tips": "Rings visible in grain, pale wood",
+          "Warnings/Notes": "Excellent shock absorption"
+        }
+      ],
+      "rowCount": 25
+    },
+    "Mountain & Alpine": {
+      "headers": [
+        "Category",
+        "Species/Resource",
+        "Scientific Name",
+        "Uses",
+        "Season Available",
+        "Identification Tips",
+        "Warnings/Notes"
+      ],
+      "rows": [
+        {
+          "Category": "High-Altitude Plants",
+          "Species/Resource": "Gentian",
+          "Scientific Name": "Gentiana spp.",
+          "Uses": "Digestive aid, medicinal bitter",
+          "Season Available": "Summer",
+          "Identification Tips": "Blue tubular flowers, high elevation",
+          "Warnings/Notes": "Endangered in some regions; cultivate"
+        },
+        {
+          "Category": "High-Altitude Plants",
+          "Species/Resource": "Edelweiss",
+          "Scientific Name": "Leontopodium nivale",
+          "Uses": "Medicinal, winter food preservation",
+          "Season Available": "Summer",
+          "Identification Tips": "Fuzzy white star-shaped flowers",
+          "Warnings/Notes": "Rare and protected in many regions"
+        },
+        {
+          "Category": "High-Altitude Plants",
+          "Species/Resource": "Mountain Sorrel",
+          "Scientific Name": "Oxyria digyna",
+          "Uses": "Edible leaves, oxalic acid source",
+          "Season Available": "Summer",
+          "Identification Tips": "Red/brown leaves, small flowers",
+          "Warnings/Notes": "Eat sparingly due to oxalates"
+        },
+        {
+          "Category": "High-Altitude Plants",
+          "Species/Resource": "Alpine Bistort",
+          "Scientific Name": "Bistorta vivipara",
+          "Uses": "Root starch, survival food",
+          "Season Available": "Summer",
+          "Identification Tips": "Pink flower spikes, bulbils on stems",
+          "Warnings/Notes": "Roots store well for winter"
+        },
+        {
+          "Category": "High-Altitude Plants",
+          "Species/Resource": "Lingonberry",
+          "Scientific Name": "Vaccinium vitis-idaea",
+          "Uses": "Vitamin-rich berries, jam",
+          "Season Available": "Fall",
+          "Identification Tips": "Red berries on low mats",
+          "Warnings/Notes": "Stores well dried or frozen"
+        },
+        {
+          "Category": "Mountain Minerals",
+          "Species/Resource": "Copper Ore",
+          "Scientific Name": "Native copper, chalcopyrite",
+          "Uses": "Metallurgy, tools, corrosion resistance",
+          "Season Available": "Year-round",
+          "Identification Tips": "Greenish rocks, oxidized surface",
+          "Warnings/Notes": "Smelt and alloy with tin for bronze"
+        },
+        {
+          "Category": "Mountain Minerals",
+          "Species/Resource": "Iron Ore",
+          "Scientific Name": "Hematite, magnetite",
+          "Uses": "Steel-making, tools, structure",
+          "Season Available": "Year-round",
+          "Identification Tips": "Red/black heavy mineral deposits",
+          "Warnings/Notes": "Higher elevation deposits often pure"
+        },
+        {
+          "Category": "Mountain Minerals",
+          "Species/Resource": "Silver Ore",
+          "Scientific Name": "Native silver, argentite",
+          "Uses": "Jewelry, conductivity, antimicrobial",
+          "Season Available": "Year-round",
+          "Identification Tips": "Shiny gray/white metal deposits",
+          "Warnings/Notes": "Often found with copper ore"
+        },
+        {
+          "Category": "Mountain Minerals",
+          "Species/Resource": "Gold",
+          "Scientific Name": "Native gold nuggets",
+          "Uses": "Currency, jewelry, malleability",
+          "Season Available": "Year-round",
+          "Identification Tips": "Yellow metal in quartz veins",
+          "Warnings/Notes": "Panning in mountain streams productive"
+        },
+        {
+          "Category": "Altitude Adaptation",
+          "Species/Resource": "Coca Leaves",
+          "Scientific Name": "Erythroxylum coca",
+          "Uses": "Altitude sickness relief, energy",
+          "Season Available": "Year-round",
+          "Identification Tips": "Small green leaves, high elevation",
+          "Warnings/Notes": "Traditional use by mountain dwellers"
+        },
+        {
+          "Category": "Altitude Adaptation",
+          "Species/Resource": "Deep Breathing Practice",
+          "Scientific Name": "Breathing technique",
+          "Uses": "Increase oxygen absorption at height",
+          "Season Available": "Immediate",
+          "Identification Tips": "Slow deep respiratory technique",
+          "Warnings/Notes": "Helps acclimate faster"
+        },
+        {
+          "Category": "Stone Building",
+          "Species/Resource": "Slate",
+          "Scientific Name": "Metamorphic rock",
+          "Uses": "Roofing, waterproofing, tools",
+          "Season Available": "Year-round",
+          "Identification Tips": "Layered gray stone, splits easily",
+          "Warnings/Notes": "Excellent water protection"
+        },
+        {
+          "Category": "Stone Building",
+          "Species/Resource": "Granite",
+          "Scientific Name": "Igneous rock",
+          "Uses": "Durable foundations, grindstones",
+          "Season Available": "Year-round",
+          "Identification Tips": "Crystalline, hard, sparkly minerals",
+          "Warnings/Notes": "Heat-resistant for hearths"
+        },
+        {
+          "Category": "Stone Building",
+          "Species/Resource": "Limestone",
+          "Scientific Name": "Sedimentary rock",
+          "Uses": "Mortar, plaster, calcium",
+          "Season Available": "Year-round",
+          "Identification Tips": "Whitish/tan, reacts with acid",
+          "Warnings/Notes": "Burn for quicklime and mortar"
+        },
+        {
+          "Category": "Water Sources",
+          "Species/Resource": "Mountain Springs",
+          "Scientific Name": "Natural springs",
+          "Uses": "Pure water, reliable source",
+          "Season Available": "Year-round",
+          "Identification Tips": "Ground water emergence on slopes",
+          "Warnings/Notes": "Test and boil if necessary"
+        },
+        {
+          "Category": "Water Sources",
+          "Species/Resource": "Snowmelt",
+          "Scientific Name": "Seasonal runoff",
+          "Uses": "Fresh water in spring/summer",
+          "Season Available": "Spring-Summer",
+          "Identification Tips": "Fast-flowing from glacier/snowpack",
+          "Warnings/Notes": "Sediment settles; pre-filter"
+        },
+        {
+          "Category": "Water Sources",
+          "Species/Resource": "High-Elevation Tarns",
+          "Scientific Name": "Mountain lakes",
+          "Uses": "Fresh water storage",
+          "Season Available": "Summer-Fall",
+          "Identification Tips": "Small alpine lakes above treeline",
+          "Warnings/Notes": "Clear but test before drinking"
+        },
+        {
+          "Category": "Wind Protection",
+          "Species/Resource": "Evergreen Windbreaks",
+          "Scientific Name": "Conifer stands",
+          "Uses": "Shelter from mountain winds",
+          "Season Available": "Year-round",
+          "Identification Tips": "Dense spruce/pine/fir coverage",
+          "Warnings/Notes": "Position structures on lee side"
+        },
+        {
+          "Category": "Wind Protection",
+          "Species/Resource": "Rock Shelters",
+          "Scientific Name": "Natural rock outcrops",
+          "Uses": "Built-in windbreaks",
+          "Season Available": "Year-round",
+          "Identification Tips": "Rock overhangs and crevices",
+          "Warnings/Notes": "Scout and prepare before winter"
+        },
+        {
+          "Category": "Cold-Weather Survival",
+          "Species/Resource": "Downy Feathers",
+          "Scientific Name": "Bird down insulation",
+          "Uses": "Loft insulation, warmth",
+          "Season Available": "Year-round",
+          "Identification Tips": "Lightweight, compressible insulation",
+          "Warnings/Notes": "Crucial for extreme cold"
+        },
+        {
+          "Category": "Cold-Weather Survival",
+          "Species/Resource": "Animal Hides",
+          "Scientific Name": "Fur/leather processing",
+          "Uses": "Clothing, bedding, warmth",
+          "Season Available": "Year-round",
+          "Identification Tips": "Processed from game animals",
+          "Warnings/Notes": "Oil and tan for water resistance"
+        },
+        {
+          "Category": "Alpine Forage",
+          "Species/Resource": "Pika Drying Hay",
+          "Scientific Name": "High-elevation herb storage",
+          "Uses": "Observe animal food preservation",
+          "Season Available": "Summer",
+          "Identification Tips": "Small mammals gather plants",
+          "Warnings/Notes": "Learn which plants they prefer"
+        },
+        {
+          "Category": "Alpine Forage",
+          "Species/Resource": "Dry Grass Species",
+          "Scientific Name": "Alpine tundra grasses",
+          "Uses": "Emergency forage, animal feed",
+          "Season Available": "Summer-Fall",
+          "Identification Tips": "Low growth, tough grasses",
+          "Warnings/Notes": "Less nutritious but available"
+        },
+        {
+          "Category": "Alpine Forage",
+          "Species/Resource": "Lichen",
+          "Scientific Name": "Crustose/foliose types",
+          "Uses": "Emergency food, survival food",
+          "Season Available": "Year-round",
+          "Identification Tips": "Rock-hugging growth, slow-growing",
+          "Warnings/Notes": "Long soak required for digestion"
+        },
+        {
+          "Category": "High-Elevation Living",
+          "Species/Resource": "Permafrost Considerations",
+          "Scientific Name": "Frozen ground year-round",
+          "Uses": "Foundation challenges, water storage",
+          "Season Available": "Year-round",
+          "Identification Tips": "Ground remains frozen permanently",
+          "Warnings/Notes": "Build on insulating layers"
+        }
+      ],
+      "rowCount": 25
+    },
+    "Tropical": {
+      "headers": [
+        "Category",
+        "Species/Resource",
+        "Scientific Name",
+        "Uses",
+        "Season Available",
+        "Identification Tips",
+        "Warnings/Notes"
+      ],
+      "rows": [
+        {
+          "Category": "Tropical Fruits",
+          "Species/Resource": "Banana",
+          "Scientific Name": "Musa spp.",
+          "Uses": "Starch, energy, year-round food",
+          "Season Available": "Year-round",
+          "Identification Tips": "Large herbaceous plant, hanging fruit bunches",
+          "Warnings/Notes": "Source of potassium; versatile"
+        },
+        {
+          "Category": "Tropical Fruits",
+          "Species/Resource": "Coconut",
+          "Scientific Name": "Cocos nucifera",
+          "Uses": "Oil, milk, water, fiber, meat",
+          "Season Available": "Year-round",
+          "Identification Tips": "Tall palm with large nuts",
+          "Warnings/Notes": "Every part usable; high calorie"
+        },
+        {
+          "Category": "Tropical Fruits",
+          "Species/Resource": "Mango",
+          "Scientific Name": "Mangifera indica",
+          "Uses": "Sweet fruit, antioxidants",
+          "Season Available": "Summer",
+          "Identification Tips": "Large stone fruit, sweet flesh",
+          "Warnings/Notes": "Allergic skin; handle with care"
+        },
+        {
+          "Category": "Tropical Fruits",
+          "Species/Resource": "Papaya",
+          "Scientific Name": "Carica papaya",
+          "Uses": "Digestive enzymes, soft fruit",
+          "Season Available": "Year-round",
+          "Identification Tips": "Tree-like herbaceous plant, mild flavor",
+          "Warnings/Notes": "Raw fruit aids digestion"
+        },
+        {
+          "Category": "Tropical Fruits",
+          "Species/Resource": "Pineapple",
+          "Scientific Name": "Ananas comosus",
+          "Uses": "Vitamin C, bromelain enzyme",
+          "Season Available": "Year-round",
+          "Identification Tips": "Crown of leaves above fruit body",
+          "Warnings/Notes": "Bromelain makes fresh pineapple special"
+        },
+        {
+          "Category": "Tropical Fruits",
+          "Species/Resource": "Cacao",
+          "Scientific Name": "Theobroma cacao",
+          "Uses": "Chocolate, stimulant, trade good",
+          "Season Available": "Year-round",
+          "Identification Tips": "Tree with small fruiting bodies on trunk",
+          "Warnings/Notes": "Ferment and dry beans for processing"
+        },
+        {
+          "Category": "Tropical Fruits",
+          "Species/Resource": "Avocado",
+          "Scientific Name": "Persea americana",
+          "Uses": "Fat, nutrition, creamy texture",
+          "Season Available": "Year-round",
+          "Identification Tips": "Pear-shaped green fruit, single large seed",
+          "Warnings/Notes": "Healthy monounsaturated fats"
+        },
+        {
+          "Category": "Bamboo Species",
+          "Species/Resource": "Moso Bamboo",
+          "Scientific Name": "Phyllostachys edulis",
+          "Uses": "Construction, shoots, tools",
+          "Season Available": "Spring-Summer",
+          "Identification Tips": "Tall giant culms, edible shoots spring",
+          "Warnings/Notes": "Grows 3ft per day when mature"
+        },
+        {
+          "Category": "Bamboo Species",
+          "Species/Resource": "Golden Bamboo",
+          "Scientific Name": "Phyllostachys aurea",
+          "Uses": "Flexible construction, baskets",
+          "Season Available": "Year-round",
+          "Identification Tips": "Smaller culms than Moso, golden color",
+          "Warnings/Notes": "Weaving material; durable"
+        },
+        {
+          "Category": "Bamboo Species",
+          "Species/Resource": "Black Bamboo",
+          "Scientific Name": "Phyllostachys nigra",
+          "Uses": "Fine craftswork, strong",
+          "Season Available": "Year-round",
+          "Identification Tips": "Dark culms, ornamental",
+          "Warnings/Notes": "Excellent for fine tools and art"
+        },
+        {
+          "Category": "Bamboo Species",
+          "Species/Resource": "Timber Bamboo",
+          "Scientific Name": "Dendrocalamus spp.",
+          "Uses": "Heavy construction, scaffolding",
+          "Season Available": "Year-round",
+          "Identification Tips": "Thickest culms, strongest",
+          "Warnings/Notes": "Load-bearing capacity high"
+        },
+        {
+          "Category": "Palm Species",
+          "Species/Resource": "Coconut Palm",
+          "Scientific Name": "Cocos nucifera",
+          "Uses": "Oil, water, hearts of palm",
+          "Season Available": "Year-round",
+          "Identification Tips": "Tall feathery fronds, coconuts",
+          "Warnings/Notes": "Multipurpose tree"
+        },
+        {
+          "Category": "Palm Species",
+          "Species/Resource": "Date Palm",
+          "Scientific Name": "Phoenix dactylifera",
+          "Uses": "High-calorie fruit, dates",
+          "Season Available": "Summer-Fall",
+          "Identification Tips": "Fronds, date clusters",
+          "Warnings/Notes": "Stores for years; energy food"
+        },
+        {
+          "Category": "Palm Species",
+          "Species/Resource": "Sago Palm",
+          "Scientific Name": "Metroxylon sagu",
+          "Uses": "Starch extraction from trunk",
+          "Season Available": "Year-round",
+          "Identification Tips": "Feathery fronds, trunky appearance",
+          "Warnings/Notes": "Pound trunk to extract nutritious starch"
+        },
+        {
+          "Category": "Palm Species",
+          "Species/Resource": "Areca Palm",
+          "Scientific Name": "Areca catechu",
+          "Uses": "Betel nut, stimulant properties",
+          "Season Available": "Year-round",
+          "Identification Tips": "Slender trunk, orange fruit clusters",
+          "Warnings/Notes": "Contains stimulant alkaloid"
+        },
+        {
+          "Category": "Tropical Medicinals",
+          "Species/Resource": "Turmeric",
+          "Scientific Name": "Curcuma longa",
+          "Uses": "Anti-inflammatory, medicinal",
+          "Season Available": "Spring-Summer",
+          "Identification Tips": "Yellow rhizomes, aromatic leaves",
+          "Warnings/Notes": "Active compound curcumin very potent"
+        },
+        {
+          "Category": "Tropical Medicinals",
+          "Species/Resource": "Ginger",
+          "Scientific Name": "Zingiber officinale",
+          "Uses": "Digestion, nausea, inflammation",
+          "Season Available": "Spring-Summer",
+          "Identification Tips": "Rhizomes, aromatic leaves",
+          "Warnings/Notes": "Fresh or dried; warming spice"
+        },
+        {
+          "Category": "Tropical Medicinals",
+          "Species/Resource": "Lemongrass",
+          "Scientific Name": "Cymbopogon citratus",
+          "Uses": "Fever reduction, digestive aid",
+          "Season Available": "Year-round",
+          "Identification Tips": "Tall grass-like, lemon-scented",
+          "Warnings/Notes": "Steep for fragrant medicinal tea"
+        },
+        {
+          "Category": "Tropical Medicinals",
+          "Species/Resource": "Moringa",
+          "Scientific Name": "Moringa oleifera",
+          "Uses": "Nutrition (all amino acids), medicine",
+          "Season Available": "Year-round",
+          "Identification Tips": "Feathery foliage, drum-stick fruits",
+          "Warnings/Notes": "Leaves most nutritious part"
+        },
+        {
+          "Category": "Tropical Medicinals",
+          "Species/Resource": "Neem",
+          "Scientific Name": "Azadirachta indica",
+          "Uses": "Antibacterial, antiparasitic",
+          "Season Available": "Year-round",
+          "Identification Tips": "Feathery leaves, bitter taste",
+          "Warnings/Notes": "Leaves, bark, seeds all medicinal"
+        },
+        {
+          "Category": "Thatching Materials",
+          "Species/Resource": "Palm Fronds",
+          "Scientific Name": "Cocos/Phoenix spp.",
+          "Uses": "Roof thatching, weatherproof",
+          "Season Available": "Year-round",
+          "Identification Tips": "Large fronds from palm trees",
+          "Warnings/Notes": "Traditional thatch; last 10-15 years"
+        },
+        {
+          "Category": "Thatching Materials",
+          "Species/Resource": "Pandanus Leaves",
+          "Scientific Name": "Pandanus spp.",
+          "Uses": "Fine weaving, water-resistant",
+          "Season Available": "Year-round",
+          "Identification Tips": "Sword-like leaves, spiral growth",
+          "Warnings/Notes": "Especially water-resistant for roofing"
+        },
+        {
+          "Category": "Thatching Materials",
+          "Species/Resource": "Bamboo Strips",
+          "Scientific Name": "Bamboo spp.",
+          "Uses": "Structure and weaving material",
+          "Season Available": "Year-round",
+          "Identification Tips": "Split bamboo culms",
+          "Warnings/Notes": "Lightweight, flexible, durable"
+        },
+        {
+          "Category": "Tropical Hardwoods",
+          "Species/Resource": "Teak",
+          "Scientific Name": "Tectona grandis",
+          "Uses": "Furniture, boat-building, durable",
+          "Season Available": "Year-round",
+          "Identification Tips": "Dark wood, natural oil, high rot-resistance",
+          "Warnings/Notes": "Most durable tropical hardwood"
+        },
+        {
+          "Category": "Tropical Hardwoods",
+          "Species/Resource": "Mahogany",
+          "Scientific Name": "Swietenia macrophylla",
+          "Uses": "Fine furniture, woodworking",
+          "Season Available": "Year-round",
+          "Identification Tips": "Red-brown wood, beautiful grain",
+          "Warnings/Notes": "Historically over-logged"
+        },
+        {
+          "Category": "Tropical Hardwoods",
+          "Species/Resource": "Rosewood",
+          "Scientific Name": "Dalbergia spp.",
+          "Uses": "Fine instruments, aromatic",
+          "Season Available": "Year-round",
+          "Identification Tips": "Dark fragrant wood",
+          "Warnings/Notes": "Endangered; sustainable sources only"
+        },
+        {
+          "Category": "Tropical Fibers",
+          "Species/Resource": "Hemp",
+          "Scientific Name": "Cannabis sativa",
+          "Uses": "Rope, cloth, nutrition (seeds)",
+          "Season Available": "Summer-Fall",
+          "Identification Tips": "Tall plant, compound leaves",
+          "Warnings/Notes": "Fiber separation by retting"
+        },
+        {
+          "Category": "Tropical Fibers",
+          "Species/Resource": "Jute",
+          "Scientific Name": "Corchorus olitorius",
+          "Uses": "Burlap, rope, twine",
+          "Season Available": "Summer",
+          "Identification Tips": "Herbaceous plant, fibrous stems",
+          "Warnings/Notes": "Coarse but strong fiber"
+        },
+        {
+          "Category": "Tropical Fibers",
+          "Species/Resource": "Sisal",
+          "Scientific Name": "Agave sisalana",
+          "Uses": "Rope, twine, rough cordage",
+          "Season Available": "Year-round",
+          "Identification Tips": "Large succulent rosette",
+          "Warnings/Notes": "Leaf extraction yields strong fiber"
+        },
+        {
+          "Category": "Monsoon Adaptation",
+          "Species/Resource": "Water Collection",
+          "Scientific Name": "Catchment systems",
+          "Uses": "Prepare for heavy rains",
+          "Season Available": "Dry Season",
+          "Identification Tips": "Build gutters and cisterns",
+          "Warnings/Notes": "Capture excess for dry season"
+        }
+      ],
+      "rowCount": 30
+    },
+    "Grassland & Prairie": {
+      "headers": [
+        "Category",
+        "Species/Resource",
+        "Scientific Name",
+        "Uses",
+        "Season Available",
+        "Identification Tips",
+        "Warnings/Notes"
+      ],
+      "rows": [
+        {
+          "Category": "Prairie Edibles",
+          "Species/Resource": "Prairie Turnips",
+          "Scientific Name": "Tipsin/Psoralea esculenta",
+          "Uses": "Root vegetable, carbohydrates",
+          "Season Available": "Spring",
+          "Identification Tips": "Purple flowers, tuberous root",
+          "Warnings/Notes": "Dig in spring for best flavor"
+        },
+        {
+          "Category": "Prairie Edibles",
+          "Species/Resource": "Wild Rice",
+          "Scientific Name": "Zizania aquatica",
+          "Uses": "Grain, carbohydrates",
+          "Season Available": "Late Summer",
+          "Identification Tips": "Tall marsh grass, dark seeds",
+          "Warnings/Notes": "Hand-harvest by canoe beating"
+        },
+        {
+          "Category": "Prairie Edibles",
+          "Species/Resource": "Buffalo Berries",
+          "Scientific Name": "Shepherdia canadensis",
+          "Uses": "Tart berries, vitamin C",
+          "Season Available": "Fall",
+          "Identification Tips": "Red berries on thorny shrub",
+          "Warnings/Notes": "Mix with fat for pemmican"
+        },
+        {
+          "Category": "Prairie Edibles",
+          "Species/Resource": "Hazelnuts",
+          "Scientific Name": "Corylus americana",
+          "Uses": "Oil-rich nuts, calories",
+          "Season Available": "Fall",
+          "Identification Tips": "Brown hazelnut in leafy husk",
+          "Warnings/Notes": "Great for storage and nutrition"
+        },
+        {
+          "Category": "Prairie Edibles",
+          "Species/Resource": "Sunflower",
+          "Scientific Name": "Helianthus annuus",
+          "Uses": "Seeds, oil, medicinal",
+          "Season Available": "Fall",
+          "Identification Tips": "Large yellow flower head",
+          "Warnings/Notes": "Seeds excellent stored food"
+        },
+        {
+          "Category": "Prairie Edibles",
+          "Species/Resource": "Lamb's Quarters",
+          "Scientific Name": "Chenopodium album",
+          "Uses": "Nutritious greens",
+          "Season Available": "Spring-Summer",
+          "Identification Tips": "Gray-white dusty leaves, spinach-like",
+          "Warnings/Notes": "One of most nutritious wild greens"
+        },
+        {
+          "Category": "Prairie Edibles",
+          "Species/Resource": "Prairie Dock",
+          "Scientific Name": "Silphium terebinthinaceum",
+          "Uses": "Root roasting, medicinal",
+          "Season Available": "Fall",
+          "Identification Tips": "Resinous roots, tall plant",
+          "Warnings/Notes": "Dig only if abundant"
+        },
+        {
+          "Category": "Sod Building",
+          "Species/Resource": "Prairie Sod",
+          "Scientific Name": "Grass/soil blocks",
+          "Uses": "Building blocks for structures",
+          "Season Available": "Summer",
+          "Identification Tips": "Cut turf squares with grass/roots intact",
+          "Warnings/Notes": "Provides insulation and fire resistance"
+        },
+        {
+          "Category": "Sod Building",
+          "Species/Resource": "Sod House Construction",
+          "Scientific Name": "Sod walls",
+          "Uses": "Entire dwelling from prairie",
+          "Season Available": "Year-round",
+          "Identification Tips": "Stack sod blocks like bricks",
+          "Warnings/Notes": "Temperature stable, economical"
+        },
+        {
+          "Category": "Sod Building",
+          "Species/Resource": "Roof Sod",
+          "Scientific Name": "Sod thatch",
+          "Uses": "Insulating flat roof",
+          "Season Available": "Year-round",
+          "Identification Tips": "Sod over support structure",
+          "Warnings/Notes": "Self-sealing, excellent insulation"
+        },
+        {
+          "Category": "Game Management",
+          "Species/Resource": "Bison Habitat",
+          "Scientific Name": "Grassland management",
+          "Uses": "Maintain native species",
+          "Season Available": "Year-round",
+          "Identification Tips": "Rotational grazing patterns",
+          "Warnings/Notes": "Bison natural to great plains"
+        },
+        {
+          "Category": "Game Management",
+          "Species/Resource": "Controlled Burning",
+          "Scientific Name": "Fire management",
+          "Uses": "Rejuvenate prairie grass",
+          "Season Available": "Spring/Fall",
+          "Identification Tips": "Controlled low-intensity burns",
+          "Warnings/Notes": "Prevents forest encroachment"
+        },
+        {
+          "Category": "Game Management",
+          "Species/Resource": "Water Holes",
+          "Scientific Name": "Prairie water sources",
+          "Uses": "Attract game animals",
+          "Season Available": "Dry Season",
+          "Identification Tips": "Dig or maintain shallow ponds",
+          "Warnings/Notes": "Critical for large herbivores"
+        },
+        {
+          "Category": "Grass Species",
+          "Species/Resource": "Big Bluestem",
+          "Scientific Name": "Andropogon gerardii",
+          "Uses": "Thatch material, animal forage",
+          "Season Available": "Fall",
+          "Identification Tips": "Three-pronged seed heads, purple tint",
+          "Warnings/Notes": "Most common prairie grass"
+        },
+        {
+          "Category": "Grass Species",
+          "Species/Resource": "Little Bluestem",
+          "Scientific Name": "Schizachyrium scoparium",
+          "Uses": "Fine thatch, animal feed",
+          "Season Available": "Fall",
+          "Identification Tips": "Purple-tinged seed heads, fine stems",
+          "Warnings/Notes": "Finer than Big Bluestem"
+        },
+        {
+          "Category": "Grass Species",
+          "Species/Resource": "Switchgrass",
+          "Scientific Name": "Panicum virgatum",
+          "Uses": "Coarse thatch, biofuel",
+          "Season Available": "Fall",
+          "Identification Tips": "Tall panicle seed heads",
+          "Warnings/Notes": "Fast-growing, productive"
+        },
+        {
+          "Category": "Rope/Twine Making",
+          "Species/Resource": "Prairie Cordage",
+          "Scientific Name": "Grass twisting",
+          "Uses": "Strong rope from dried grass",
+          "Season Available": "Fall",
+          "Identification Tips": "Twisted dried prairie grass",
+          "Warnings/Notes": "Useful but less durable than fiber plants"
+        },
+        {
+          "Category": "Medicinal Plants",
+          "Species/Resource": "Purple Coneflower",
+          "Scientific Name": "Echinacea angustifolia",
+          "Uses": "Immune support, root medicine",
+          "Season Available": "Fall",
+          "Identification Tips": "Purple petals, spiky center",
+          "Warnings/Notes": "Root harvest in fall for potency"
+        },
+        {
+          "Category": "Medicinal Plants",
+          "Species/Resource": "Prairie Blazing Star",
+          "Scientific Name": "Liatris pycnostachya",
+          "Uses": "Traditional medicine, fever",
+          "Season Available": "Summer-Fall",
+          "Identification Tips": "Purple flower spikes",
+          "Warnings/Notes": "Used by prairie tribes"
+        },
+        {
+          "Category": "Windbreak Planting",
+          "Species/Resource": "Tree Shelterbelts",
+          "Scientific Name": "Deciduous trees",
+          "Uses": "Protection from prairie winds",
+          "Season Available": "Year-round",
+          "Identification Tips": "Rows of oak, ash, maple",
+          "Warnings/Notes": "Plant on north and west sides"
+        },
+        {
+          "Category": "Underground Shelter",
+          "Species/Resource": "Root Cellar",
+          "Scientific Name": "Below-ground storage",
+          "Uses": "Food preservation, shelter",
+          "Season Available": "Year-round",
+          "Identification Tips": "Dug below frost line",
+          "Warnings/Notes": "Stable temperature for storage"
+        },
+        {
+          "Category": "Underground Shelter",
+          "Species/Resource": "Sod Dugout",
+          "Scientific Name": "Semi-subterranean house",
+          "Uses": "Early prairie dwelling",
+          "Season Available": "Year-round",
+          "Identification Tips": "Partially underground with sod roof",
+          "Warnings/Notes": "Provides insulation and protection"
+        }
+      ],
+      "rowCount": 22
+    },
+    "Arctic & Subarctic": {
+      "headers": [
+        "Category",
+        "Species/Resource",
+        "Scientific Name",
+        "Uses",
+        "Season Available",
+        "Identification Tips",
+        "Warnings/Notes"
+      ],
+      "rows": [
+        {
+          "Category": "Lichen",
+          "Species/Resource": "Reindeer Lichen",
+          "Scientific Name": "Cladonia rangiferina",
+          "Uses": "Emergency food, animal fodder",
+          "Season Available": "Year-round",
+          "Identification Tips": "Branched grayish lichen on ground",
+          "Warnings/Notes": "Requires long soaking to digest"
+        },
+        {
+          "Category": "Lichen",
+          "Species/Resource": "Iceland Moss",
+          "Scientific Name": "Cetraria islandica",
+          "Uses": "Medicinal food, respiratory health",
+          "Season Available": "Year-round",
+          "Identification Tips": "Leafy lichen, bitter taste",
+          "Warnings/Notes": "Boil repeatedly to make edible"
+        },
+        {
+          "Category": "Lichen",
+          "Species/Resource": "Rock Tripe",
+          "Scientific Name": "Umbilicaria spp.",
+          "Uses": "Survival food, last resort",
+          "Season Available": "Year-round",
+          "Identification Tips": "Dark lichen on rocks",
+          "Warnings/Notes": "Soaking and cooking necessary"
+        },
+        {
+          "Category": "Berries",
+          "Species/Resource": "Cloudberry",
+          "Scientific Name": "Rubus chamaemorus",
+          "Uses": "Vitamin C, delicate amber berries",
+          "Season Available": "Summer",
+          "Identification Tips": "Single orange berry on short plant",
+          "Warnings/Notes": "Rare and valuable; preserve carefully"
+        },
+        {
+          "Category": "Berries",
+          "Species/Resource": "Crowberry",
+          "Scientific Name": "Empetrum nigrum",
+          "Uses": "Small black berries, year-round food",
+          "Season Available": "Summer-Fall",
+          "Identification Tips": "Small black berries on low shrub",
+          "Warnings/Notes": "Survives freezing well"
+        },
+        {
+          "Category": "Berries",
+          "Species/Resource": "Lingonberry",
+          "Scientific Name": "Vaccinium vitis-idaea",
+          "Uses": "Red berries, vitamin-rich",
+          "Season Available": "Fall",
+          "Identification Tips": "Red berries on low mat",
+          "Warnings/Notes": "Stores well dried or frozen"
+        },
+        {
+          "Category": "Berries",
+          "Species/Resource": "Blueberry",
+          "Scientific Name": "Vaccinium uliginosum",
+          "Uses": "Blue berries, antioxidants",
+          "Season Available": "Summer",
+          "Identification Tips": "Blue berries on low shrub",
+          "Warnings/Notes": "Abundant in some areas"
+        },
+        {
+          "Category": "Root Vegetables",
+          "Species/Resource": "Arctic Root Mats",
+          "Scientific Name": "Ground storage of roots",
+          "Uses": "Preserved through frozen ground",
+          "Season Available": "Year-round",
+          "Identification Tips": "Buried under permafrost",
+          "Warnings/Notes": "Underground freezer natural storage"
+        },
+        {
+          "Category": "Root Vegetables",
+          "Species/Resource": "Arctic Lupine",
+          "Scientific Name": "Lupinus arcticus",
+          "Uses": "Root starch, traditional use",
+          "Season Available": "Summer",
+          "Identification Tips": "Purple flowers, legume family",
+          "Warnings/Notes": "Inuit food tradition"
+        },
+        {
+          "Category": "Animal Products",
+          "Species/Resource": "Fish (Arctic Char)",
+          "Scientific Name": "Salvelinus alpinus",
+          "Uses": "Protein, omega-3 oils",
+          "Season Available": "Summer-Fall",
+          "Identification Tips": "Silver/pink fish in cold waters",
+          "Warnings/Notes": "Migratory; accessible in rivers"
+        },
+        {
+          "Category": "Animal Products",
+          "Species/Resource": "Seal Meat/Oil",
+          "Scientific Name": "Phocidae spp.",
+          "Uses": "Primary calorie source, fat/blubber",
+          "Season Available": "Year-round",
+          "Identification Tips": "Marine mammals",
+          "Warnings/Notes": "Fat essential for extreme cold"
+        },
+        {
+          "Category": "Animal Products",
+          "Species/Resource": "Whale Meat/Blubber",
+          "Scientific Name": "Various baleen whales",
+          "Uses": "High-calorie subsistence food",
+          "Season Available": "Spring-Fall",
+          "Identification Tips": "Marine mammals",
+          "Warnings/Notes": "Sustainable harvest by indigenous people"
+        },
+        {
+          "Category": "Animal Products",
+          "Species/Resource": "Musk Ox",
+          "Scientific Name": "Ovibos moschatus",
+          "Uses": "Meat, qiviut (wool)",
+          "Season Available": "Year-round",
+          "Identification Tips": "Shaggy Arctic bovine",
+          "Warnings/Notes": "Qiviut warmest natural fiber"
+        },
+        {
+          "Category": "Animal Products",
+          "Species/Resource": "Ptarmigan",
+          "Scientific Name": "Lagopus spp.",
+          "Uses": "Game bird, seasonal hunting",
+          "Season Available": "Fall-Winter",
+          "Identification Tips": "Hare-like bird, white winter plumage",
+          "Warnings/Notes": "Camouflage in snow"
+        },
+        {
+          "Category": "Ice/Snow Construction",
+          "Species/Resource": "Igloo Building",
+          "Scientific Name": "Snow blocks",
+          "Uses": "Insulating shelter from snow",
+          "Season Available": "Winter",
+          "Identification Tips": "Compacted snow with high density",
+          "Warnings/Notes": "Body heat maintains comfort"
+        },
+        {
+          "Category": "Ice/Snow Construction",
+          "Species/Resource": "Ice Fishing Shelter",
+          "Scientific Name": "Ice structures",
+          "Uses": "Windproof fishing shelter",
+          "Season Available": "Winter",
+          "Identification Tips": "Built on frozen lakes",
+          "Warnings/Notes": "Maintains breathing hole access"
+        },
+        {
+          "Category": "Permafrost Considerations",
+          "Species/Resource": "Permafrost Impact",
+          "Scientific Name": "Frozen ground permanently",
+          "Uses": "Foundation and storage challenges",
+          "Season Available": "Year-round",
+          "Identification Tips": "Ground frozen year-round below 1m",
+          "Warnings/Notes": "Major construction challenge"
+        },
+        {
+          "Category": "Permafrost Considerations",
+          "Species/Resource": "Thermokarst Lakes",
+          "Scientific Name": "Melt depression lakes",
+          "Uses": "Water source, seasonal variability",
+          "Season Available": "Summer",
+          "Identification Tips": "Lake-filled depressions from ice melt",
+          "Warnings/Notes": "Largest source of water"
+        },
+        {
+          "Category": "Fur/Hide Processing",
+          "Species/Resource": "Animal Hide Tanning",
+          "Scientific Name": "Hide preservation",
+          "Uses": "Clothing, shelter, waterproofing",
+          "Season Available": "Year-round",
+          "Identification Tips": "Brain tanning or smoke tanning methods",
+          "Warnings/Notes": "Critical skill for survival"
+        },
+        {
+          "Category": "Fur/Hide Processing",
+          "Species/Resource": "Fur Clothing",
+          "Scientific Name": "Layered insulation",
+          "Uses": "Warmth from animal furs",
+          "Season Available": "Year-round",
+          "Identification Tips": "Multiple layers of furs",
+          "Warnings/Notes": "Essential for extreme cold"
+        },
+        {
+          "Category": "Fat/Oil Sources",
+          "Species/Resource": "Marine Mammal Fat",
+          "Scientific Name": "Seal/whale blubber",
+          "Uses": "Fuel, calories, cooking oil",
+          "Season Available": "Year-round",
+          "Identification Tips": "Rendered animal fat stored",
+          "Warnings/Notes": "Sustenance in high-calorie environment"
+        },
+        {
+          "Category": "Extreme Cold Materials",
+          "Species/Resource": "Bone Tools",
+          "Scientific Name": "Worked bone/antler",
+          "Uses": "Tools, weapons, jewelry",
+          "Season Available": "Year-round",
+          "Identification Tips": "Carved and shaped bone",
+          "Warnings/Notes": "Traditional material before metals"
+        }
+      ],
+      "rowCount": 22
+    },
+    "Seasonal Adaptations": {
+      "headers": [
+        "Season",
+        "Biome",
+        "Priority Activities",
+        "Key Resources Available",
+        "Storage/Preservation Focus",
+        "Threats to Watch",
+        "Planning Notes"
+      ],
+      "rows": [
+        {
+          "Season": "Spring",
+          "Biome": "Temperate Forest",
+          "Priority Activities": "Foraging, hunting, planting",
+          "Key Resources Available": "New greens, mushrooms, animals emerging",
+          "Storage/Preservation Focus": "Preservation for summer/fall",
+          "Threats to Watch": "Pests, diseases in wet conditions",
+          "Planning Notes": "Extend season with cloches"
+        },
+        {
+          "Season": "Summer",
+          "Biome": "Temperate Forest",
+          "Priority Activities": "Harvesting, preserving, storing",
+          "Key Resources Available": "Berries, fruits, abundant greens",
+          "Storage/Preservation Focus": "Canning, drying, fermenting",
+          "Threats to Watch": "Drought stress, insect damage",
+          "Planning Notes": "Peak preservation work"
+        },
+        {
+          "Season": "Fall",
+          "Biome": "Temperate Forest",
+          "Priority Activities": "Harvest nuts, store roots, prepare for winter",
+          "Key Resources Available": "Nuts, seeds, root crops, game",
+          "Storage/Preservation Focus": "Root cellaring, canning, smoking",
+          "Threats to Watch": "Early frost risk, wildlife storage competitors",
+          "Planning Notes": "Complete all preservation"
+        },
+        {
+          "Season": "Winter",
+          "Biome": "Temperate Forest",
+          "Priority Activities": "Resource management, skill building",
+          "Key Resources Available": "Stored foods, hunting, fuel",
+          "Storage/Preservation Focus": "Careful rationing and rotation",
+          "Threats to Watch": "Extreme cold, food spoilage, isolation",
+          "Planning Notes": "Indoor craft production"
+        },
+        {
+          "Season": "Spring",
+          "Biome": "Arid & Desert",
+          "Priority Activities": "Water harvesting, planting heat-tolerant crops",
+          "Key Resources Available": "Early greens, new growth",
+          "Storage/Preservation Focus": "Prepare for dry season scarcity",
+          "Threats to Watch": "Flash floods, frost danger",
+          "Planning Notes": "Build water storage systems"
+        },
+        {
+          "Season": "Summer",
+          "Biome": "Arid & Desert",
+          "Priority Activities": "Manage heat, preserve water, shade crops",
+          "Key Resources Available": "Limited fresh foods, focus on stored",
+          "Storage/Preservation Focus": "Deep storage in cool areas",
+          "Threats to Watch": "Extreme heat, water depletion",
+          "Planning Notes": "Maintain shade structures"
+        },
+        {
+          "Season": "Fall",
+          "Biome": "Arid & Desert",
+          "Priority Activities": "Harvest summer crops, conserve water",
+          "Key Resources Available": "Desert plants bearing seeds/fruit",
+          "Storage/Preservation Focus": "Root cellar, cool storage",
+          "Threats to Watch": "Dust storms, temperature swing",
+          "Planning Notes": "Prepare for winter scarcity"
+        },
+        {
+          "Season": "Winter",
+          "Biome": "Arid & Desert",
+          "Priority Activities": "Minimal activity, survive on stores",
+          "Key Resources Available": "Stored foods, some dried plants",
+          "Storage/Preservation Focus": "Careful rationing",
+          "Threats to Watch": "Cold nights, sparse water",
+          "Planning Notes": "Plan spring crops"
+        },
+        {
+          "Season": "Spring",
+          "Biome": "Coastal & Maritime",
+          "Priority Activities": "Shellfish harvest, seaweed collection",
+          "Key Resources Available": "Spring herring runs, new greens",
+          "Storage/Preservation Focus": "Drying, salting, fermenting",
+          "Threats to Watch": "Overharvesting, pollution checks",
+          "Planning Notes": "Respect tidal patterns"
+        },
+        {
+          "Season": "Summer",
+          "Biome": "Coastal & Maritime",
+          "Priority Activities": "Fish abundance, seaweed harvesting",
+          "Key Resources Available": "Fish, shellfish, seaweed, salt",
+          "Storage/Preservation Focus": "Smoking, drying, fermenting",
+          "Threats to Watch": "Red tides, algal blooms",
+          "Planning Notes": "Preserve salt fish"
+        },
+        {
+          "Season": "Fall",
+          "Biome": "Coastal & Maritime",
+          "Priority Activities": "Fish migration harvest, storm preparation",
+          "Key Resources Available": "Salmon runs, shellfish fattening",
+          "Storage/Preservation Focus": "Smoking, salting, storage",
+          "Threats to Watch": "Storms, rough seas",
+          "Planning Notes": "Winter food security focus"
+        },
+        {
+          "Season": "Winter",
+          "Biome": "Coastal & Maritime",
+          "Priority Activities": "Manage winter storms, use stored foods",
+          "Key Resources Available": "Stored fish, some bottom fish",
+          "Storage/Preservation Focus": "Rationing, careful inventory",
+          "Threats to Watch": "Storm surge, ice dangers",
+          "Planning Notes": "Plan spring harvests"
+        },
+        {
+          "Season": "Spring",
+          "Biome": "Mountain & Alpine",
+          "Priority Activities": "Prepare for summer, plant gardens",
+          "Key Resources Available": "Water from snowmelt, early greens",
+          "Storage/Preservation Focus": "Preservation for harsh months",
+          "Threats to Watch": "Avalanche risk, frost",
+          "Planning Notes": "Build elevation-specific crops"
+        },
+        {
+          "Season": "Summer",
+          "Biome": "Mountain & Alpine",
+          "Priority Activities": "Peak foraging, harvest growing season",
+          "Key Resources Available": "Berries, plants, high-elevation growth",
+          "Storage/Preservation Focus": "Drying, root cellaring",
+          "Threats to Watch": "Rapid weather changes, altitude hazards",
+          "Planning Notes": "Work fast on short season"
+        },
+        {
+          "Season": "Fall",
+          "Biome": "Mountain & Alpine",
+          "Priority Activities": "Final harvest, store for 8-month winter",
+          "Key Resources Available": "Berries, roots, game fattening",
+          "Storage/Preservation Focus": "Heavy preservation, root cellar",
+          "Threats to Watch": "Early snow, extreme cold approach",
+          "Planning Notes": "Complete storage by Sept"
+        },
+        {
+          "Season": "Winter",
+          "Biome": "Mountain & Alpine",
+          "Priority Activities": "Isolation, minimal resources, indoor work",
+          "Key Resources Available": "Stored foods, occasional game",
+          "Storage/Preservation Focus": "Careful rationing, inventory",
+          "Threats to Watch": "Avalanches, isolation, cold",
+          "Planning Notes": "Community interdependence"
+        },
+        {
+          "Season": "Spring",
+          "Biome": "Tropical",
+          "Priority Activities": "Prepare for wet season, clear gutters",
+          "Key Resources Available": "Beginning of monsoon abundance",
+          "Storage/Preservation Focus": "Preservation for dry months",
+          "Threats to Watch": "Mold, rot, tropical diseases",
+          "Planning Notes": "Organize water systems"
+        },
+        {
+          "Season": "Summer",
+          "Biome": "Tropical",
+          "Priority Activities": "Monsoon management, water collection",
+          "Key Resources Available": "Peak plant growth, abundant food",
+          "Storage/Preservation Focus": "Fermentation, salt preservation",
+          "Threats to Watch": "Flood risk, rot, pests",
+          "Planning Notes": "Capture water excess"
+        },
+        {
+          "Season": "Fall",
+          "Biome": "Tropical",
+          "Priority Activities": "Transition to dry season, gather reserves",
+          "Key Resources Available": "Harvest before dry begins",
+          "Storage/Preservation Focus": "Drying, storage organization",
+          "Threats to Watch": "Pest damage, drought prep",
+          "Planning Notes": "Build dry season security"
+        },
+        {
+          "Season": "Winter",
+          "Biome": "Tropical",
+          "Priority Activities": "Dry season management, ration water",
+          "Key Resources Available": "Stored foods, tap rainwater cisterns",
+          "Storage/Preservation Focus": "Water conservation critical",
+          "Threats to Watch": "Drought stress, low water",
+          "Planning Notes": "Plan water capture systems"
+        },
+        {
+          "Season": "Spring",
+          "Biome": "Grassland & Prairie",
+          "Priority Activities": "Burn season, spring planting, calving",
+          "Key Resources Available": "New grass, bison calves, spring greens",
+          "Storage/Preservation Focus": "Plan for upcoming harvest",
+          "Threats to Watch": "Fire season danger, drought start",
+          "Planning Notes": "Prepare fire management"
+        },
+        {
+          "Season": "Summer",
+          "Biome": "Grassland & Prairie",
+          "Priority Activities": "Growth peak, hay making, hunting",
+          "Key Resources Available": "Abundant grass, game animals, seeds",
+          "Storage/Preservation Focus": "Hay for winter, drying",
+          "Threats to Watch": "Drought, prairie fire risk",
+          "Planning Notes": "Hay harvest critical work"
+        },
+        {
+          "Season": "Fall",
+          "Biome": "Grassland & Prairie",
+          "Priority Activities": "Final harvest, hunt, gather nuts",
+          "Key Resources Available": "Game fattening, nuts, roots, seeds",
+          "Storage/Preservation Focus": "Heavy food preservation",
+          "Threats to Watch": "Early freeze, frost hazard",
+          "Planning Notes": "Complete winter stores"
+        },
+        {
+          "Season": "Winter",
+          "Biome": "Grassland & Prairie",
+          "Priority Activities": "Manage cold, surviving on stores",
+          "Key Resources Available": "Stored foods, occasional winter game",
+          "Storage/Preservation Focus": "Rationing stored reserves",
+          "Threats to Watch": "Blizzards, extreme cold",
+          "Planning Notes": "Community and herd focus"
+        },
+        {
+          "Season": "Spring",
+          "Biome": "Arctic & Subarctic",
+          "Priority Activities": "Ice melt, migration hunting, fishing begins",
+          "Key Resources Available": "Fish runs, migrating animals, new plants",
+          "Storage/Preservation Focus": "Early preservation begins",
+          "Threats to Watch": "Dangerous ice breakup",
+          "Planning Notes": "Prepare for migration season"
+        },
+        {
+          "Season": "Summer",
+          "Biome": "Arctic & Subarctic",
+          "Priority Activities": "Harvest peak, preserve for long winter",
+          "Key Resources Available": "Abundant fish, berries, migrating game",
+          "Storage/Preservation Focus": "Heavy drying, smoking, fermenting",
+          "Threats to Watch": "Insect swarms, rapid spoilage",
+          "Planning Notes": "Maximize short growing season"
+        },
+        {
+          "Season": "Fall",
+          "Biome": "Arctic & Subarctic",
+          "Priority Activities": "Final harvest, prepare for freeze",
+          "Key Resources Available": "Last berries, animals fattening, fish",
+          "Storage/Preservation Focus": "Completion of storage",
+          "Threats to Watch": "Early freeze, first snow",
+          "Planning Notes": "Winter survival depends on this"
+        },
+        {
+          "Season": "Winter",
+          "Biome": "Arctic & Subarctic",
+          "Priority Activities": "Survive extreme cold, minimal resources",
+          "Key Resources Available": "Stored fish/meat, ice fishing, hunting",
+          "Storage/Preservation Focus": "Strict rationing, fuel management",
+          "Threats to Watch": "Extreme cold, isolation, darkness",
+          "Planning Notes": "Community cooperation essential"
+        }
+      ],
+      "rowCount": 28
+    },
+    "Regional Skill Priorities": {
+      "headers": [
+        "Biome",
+        "#1 Priority Skill",
+        "#2 Priority",
+        "#3 Priority",
+        "#4 Priority",
+        "#5 Priority",
+        "Critical First-Week Tasks",
+        "Biggest Threat",
+        "Key Advantage"
+      ],
+      "rows": [
+        {
+          "Biome": "Temperate Forest",
+          "#1 Priority Skill": "Plant/mushroom ID",
+          "#2 Priority": "Water finding",
+          "#3 Priority": "Shelter building",
+          "#4 Priority": "Food preservation",
+          "#5 Priority": "Tool making",
+          "Critical First-Week Tasks": "ID safe food, build shelter, find water",
+          "Biggest Threat": "Starvation from misidentification",
+          "Key Advantage": "Abundant diverse resources"
+        },
+        {
+          "Biome": "Arid & Desert",
+          "#1 Priority Skill": "Water finding/conservation",
+          "#2 Priority": "Heat shelter building",
+          "#3 Priority": "Desert plant ID",
+          "#4 Priority": "Fire management",
+          "#5 Priority": "Navigation",
+          "Critical First-Week Tasks": "Find water, build shade shelter, ration",
+          "Biggest Threat": "Dehydration, heat exposure",
+          "Key Advantage": "Clear visibility, simple fire"
+        },
+        {
+          "Biome": "Coastal & Maritime",
+          "#1 Priority Skill": "Shellfish/seaweed ID",
+          "#2 Priority": "Swimming/water safety",
+          "#3 Priority": "Navigation/tides",
+          "#4 Priority": "Fish processing/preservation",
+          "#5 Priority": "Knot tying",
+          "Critical First-Week Tasks": "Identify safe edibles, learn tides, fish",
+          "Biggest Threat": "Pollution, red tide, drowning",
+          "Key Advantage": "Abundant consistent food source"
+        },
+        {
+          "Biome": "Mountain & Alpine",
+          "#1 Priority Skill": "Altitude adaptation",
+          "#2 Priority": "Rock climbing/safety",
+          "#3 Priority": "Cold weather shelter",
+          "#4 Priority": "Mountain plant ID",
+          "#5 Priority": "Avalanche awareness",
+          "Critical First-Week Tasks": "Acclimatize, build shelter, water access",
+          "Biggest Threat": "Altitude sickness, avalanche, cold",
+          "Key Advantage": "Clean water, dramatic resources"
+        },
+        {
+          "Biome": "Tropical",
+          "#1 Priority Skill": "Machete/jungle movement",
+          "#2 Priority": "Tropical disease prevention",
+          "#3 Priority": "Plant ID (poisonous)",
+          "#4 Priority": "Water purification",
+          "#5 Priority": "Pest/wildlife avoidance",
+          "Critical First-Week Tasks": "Clear shelter space, learn jungle, water",
+          "Biggest Threat": "Rot/disease, dehydration, creatures",
+          "Key Advantage": "Year-round growing season"
+        },
+        {
+          "Biome": "Grassland & Prairie",
+          "#1 Priority Skill": "Fire management",
+          "#2 Priority": "Sod shelter building",
+          "#3 Priority": "Game animal tracking",
+          "#4 Priority": "Hay making",
+          "#5 Priority": "Wind management",
+          "Critical First-Week Tasks": "Build sod structure, learn fire patterns",
+          "Biggest Threat": "Prairie fire, blizzards, drought",
+          "Key Advantage": "Predictable seasons, open visibility"
+        },
+        {
+          "Biome": "Arctic & Subarctic",
+          "#1 Priority Skill": "Cold injury prevention",
+          "#2 Priority": "Ice travel safety",
+          "#3 Priority": "Seal/fish processing",
+          "#4 Priority": "Snow/ice shelter",
+          "#5 Priority": "Extreme cold clothing",
+          "Critical First-Week Tasks": "Build warm shelter, find fuel, fish/hunt",
+          "Biggest Threat": "Frostbite, hypothermia, starvation",
+          "Key Advantage": "Marine life abundance, clear ice travel"
+        }
+      ],
+      "rowCount": 7
+    },
+    "Wood Properties Guide": {
+      "headers": [
+        "Wood Species",
+        "Hardness (Janka)",
+        "Rot Resistance",
+        "Fire Quality (BTU)",
+        "Workability",
+        "Best Uses",
+        "Regions Found",
+        "Notes"
+      ],
+      "rows": [
+        {
+          "Wood Species": "White Oak",
+          "Hardness (Janka)": 1360,
+          "Rot Resistance": "Excellent",
+          "Fire Quality (BTU)": "4.2M BTU",
+          "Workability": "Good, workable",
+          "Best Uses": "Furniture, shipbuilding, barrels",
+          "Regions Found": "Eastern NA",
+          "Notes": "Traditional boat material"
+        },
+        {
+          "Wood Species": "Red Oak",
+          "Hardness (Janka)": 1290,
+          "Rot Resistance": "Fair",
+          "Fire Quality (BTU)": "3.9M BTU",
+          "Workability": "Good",
+          "Best Uses": "Flooring, furniture, exterior trim",
+          "Regions Found": "Eastern NA",
+          "Notes": "Less rot-resistant than white oak"
+        },
+        {
+          "Wood Species": "Sugar Maple",
+          "Hardness (Janka)": 1450,
+          "Rot Resistance": "Good",
+          "Fire Quality (BTU)": "4.2M BTU",
+          "Workability": "Good",
+          "Best Uses": "Fine furniture, flooring, musical instruments",
+          "Regions Found": "Eastern NA",
+          "Notes": "Dense, beautiful grain"
+        },
+        {
+          "Wood Species": "Black Walnut",
+          "Hardness (Janka)": 1010,
+          "Rot Resistance": "Excellent",
+          "Fire Quality (BTU)": "3.8M BTU",
+          "Workability": "Excellent",
+          "Best Uses": "Fine furniture, veneers, gunstocks",
+          "Regions Found": "Eastern NA",
+          "Notes": "Dark color, most valuable hardwood"
+        },
+        {
+          "Wood Species": "White Pine",
+          "Hardness (Janka)": 420,
+          "Rot Resistance": "Poor",
+          "Fire Quality (BTU)": "3.7M BTU",
+          "Workability": "Excellent, soft",
+          "Best Uses": "Lumber, carvings, interior trim",
+          "Regions Found": "Eastern NA",
+          "Notes": "Easy to work; quick growing"
+        },
+        {
+          "Wood Species": "Eastern Red Cedar",
+          "Hardness (Janka)": 900,
+          "Rot Resistance": "Excellent",
+          "Fire Quality (BTU)": "4.1M BTU",
+          "Workability": "Fair to Good",
+          "Best Uses": "Closets, chests, fencing, aromatic",
+          "Regions Found": "Eastern NA",
+          "Notes": "Rot-resistant; aromatic heartwood"
+        },
+        {
+          "Wood Species": "Ash",
+          "Hardness (Janka)": 1320,
+          "Rot Resistance": "Poor",
+          "Fire Quality (BTU)": "4.4M BTU",
+          "Workability": "Good",
+          "Best Uses": "Tool handles, oars, baseball bats",
+          "Regions Found": "Eastern NA",
+          "Notes": "Excellent shock absorption"
+        },
+        {
+          "Wood Species": "Hickory",
+          "Hardness (Janka)": 1820,
+          "Rot Resistance": "Poor",
+          "Fire Quality (BTU)": "5.2M BTU",
+          "Workability": "Moderate to hard",
+          "Best Uses": "Tool handles, smoking meat, tight cooperage",
+          "Regions Found": "Eastern NA",
+          "Notes": "Extremely hard and resilient"
+        },
+        {
+          "Wood Species": "Black Cherry",
+          "Hardness (Janka)": 995,
+          "Rot Resistance": "Fair",
+          "Fire Quality (BTU)": "3.8M BTU",
+          "Workability": "Excellent",
+          "Best Uses": "Fine furniture, decorative veneer",
+          "Regions Found": "Eastern NA",
+          "Notes": "Beautiful warm color when finished"
+        },
+        {
+          "Wood Species": "Birch",
+          "Hardness (Janka)": 1260,
+          "Rot Resistance": "Poor",
+          "Fire Quality (BTU)": "4.0M BTU",
+          "Workability": "Good",
+          "Best Uses": "Plywood, furniture, utensils",
+          "Regions Found": "Northern NA",
+          "Notes": "White wood, attractive grain"
+        },
+        {
+          "Wood Species": "Poplar",
+          "Hardness (Janka)": 540,
+          "Rot Resistance": "Poor",
+          "Fire Quality (BTU)": "3.6M BTU",
+          "Workability": "Excellent, soft",
+          "Best Uses": "Pulpwood, crates, interior trim",
+          "Regions Found": "Eastern NA",
+          "Notes": "Fast growing; soft and light"
+        },
+        {
+          "Wood Species": "Willow",
+          "Hardness (Janka)": 470,
+          "Rot Resistance": "Poor",
+          "Fire Quality (BTU)": "2.8M BTU",
+          "Workability": "Excellent, very soft",
+          "Best Uses": "Charcoal, wickerwork, baskets",
+          "Regions Found": "Wetland areas",
+          "Notes": "Traditional charcoal source"
+        },
+        {
+          "Wood Species": "Teak",
+          "Hardness (Janka)": 1000,
+          "Rot Resistance": "Excellent",
+          "Fire Quality (BTU)": "4.1M BTU",
+          "Workability": "Good",
+          "Best Uses": "Fine furniture, boats, decking",
+          "Regions Found": "Tropical regions",
+          "Notes": "Naturally rot-resistant"
+        },
+        {
+          "Wood Species": "Bamboo",
+          "Hardness (Janka)": 1380,
+          "Rot Resistance": "Excellent",
+          "Fire Quality (BTU)": "4.5M BTU",
+          "Workability": "Good",
+          "Best Uses": "Construction, furniture, utensils",
+          "Regions Found": "Tropical/subtropical",
+          "Notes": "Fastest growing 'tree'; sustainable"
+        },
+        {
+          "Wood Species": "Douglas Fir",
+          "Hardness (Janka)": 620,
+          "Rot Resistance": "Fair",
+          "Fire Quality (BTU)": "3.9M BTU",
+          "Workability": "Good",
+          "Best Uses": "Lumber, plywood, construction",
+          "Regions Found": "Western NA",
+          "Notes": "Common softwood structural timber"
+        },
+        {
+          "Wood Species": "Spruce",
+          "Hardness (Janka)": 410,
+          "Rot Resistance": "Poor",
+          "Fire Quality (BTU)": "3.8M BTU",
+          "Workability": "Excellent, soft",
+          "Best Uses": "Resonance wood (instruments), lumber",
+          "Regions Found": "Northern NA",
+          "Notes": "Lightweight, strong for weight"
+        },
+        {
+          "Wood Species": "Hemlock",
+          "Hardness (Janka)": 500,
+          "Rot Resistance": "Poor",
+          "Fire Quality (BTU)": "3.8M BTU",
+          "Workability": "Good",
+          "Best Uses": "General lumber, pulpwood",
+          "Regions Found": "Eastern/Western NA",
+          "Notes": "Soft, moderate strength"
+        },
+        {
+          "Wood Species": "Larch",
+          "Hardness (Janka)": 900,
+          "Rot Resistance": "Good",
+          "Fire Quality (BTU)": "4.0M BTU",
+          "Workability": "Fair to Good",
+          "Best Uses": "Heavy construction, poles, decking",
+          "Regions Found": "Northern regions",
+          "Notes": "Hardest softwood, slow growth"
+        },
+        {
+          "Wood Species": "Locust",
+          "Hardness (Janka)": 1620,
+          "Rot Resistance": "Excellent",
+          "Fire Quality (BTU)": "4.5M BTU",
+          "Workability": "Hard, workable",
+          "Best Uses": "Fencing posts, boats, tool handles",
+          "Regions Found": "Eastern NA",
+          "Notes": "Extremely rot-resistant heartwood"
+        },
+        {
+          "Wood Species": "Mahogany",
+          "Hardness (Janka)": 900,
+          "Rot Resistance": "Excellent",
+          "Fire Quality (BTU)": "3.9M BTU",
+          "Workability": "Excellent",
+          "Best Uses": "Fine furniture, cabinetwork",
+          "Regions Found": "Tropical regions",
+          "Notes": "Historically over-harvested"
+        }
+      ],
+      "rowCount": 20
+    },
+    "Stone & Mineral Guide": {
+      "headers": [
+        "Material",
+        "Type",
+        "Hardness (Mohs)",
+        "Where Found",
+        "Uses",
+        "Working Methods",
+        "Quality Indicators",
+        "Notes"
+      ],
+      "rows": [
+        {
+          "Material": "Flint",
+          "Type": "Microcrystalline quartz",
+          "Hardness (Mohs)": "7",
+          "Where Found": "Riverbeds, chalk deposits",
+          "Uses": "Fire-starting, blades, tools",
+          "Working Methods": "Percussion flaking, pressure flaking",
+          "Quality Indicators": "Glassy, sharp edges, rings when struck",
+          "Notes": "Master fracture for best edge"
+        },
+        {
+          "Material": "Obsidian",
+          "Type": "Volcanic glass",
+          "Hardness (Mohs)": "5-6",
+          "Where Found": "Volcanic regions",
+          "Uses": "Razor-sharp blades, mirrors",
+          "Working Methods": "Pressure flaking, controlled fracture",
+          "Quality Indicators": "Shiny, uniform color, no crystals",
+          "Notes": "Sharper than surgical steel"
+        },
+        {
+          "Material": "Granite",
+          "Type": "Igneous rock (feldspar, quartz, mica)",
+          "Hardness (Mohs)": "6-7",
+          "Where Found": "Widespread, mountain cores",
+          "Uses": "Building blocks, grinding stones, tools",
+          "Working Methods": "Percussion, hot/cold cycles",
+          "Quality Indicators": "Uniform grain, sparkly minerals",
+          "Notes": "Very hard and durable"
+        },
+        {
+          "Material": "Limestone",
+          "Type": "Sedimentary (calcium carbonate)",
+          "Hardness (Mohs)": "3",
+          "Where Found": "Marine deposits, worldwide",
+          "Uses": "Mortar, plaster, lime, aggregate",
+          "Working Methods": "Burning for quicklime, cutting, crushing",
+          "Quality Indicators": "Reacts to acid, white/tan color",
+          "Notes": "Softer than granite; more workable"
+        },
+        {
+          "Material": "Sandstone",
+          "Type": "Sedimentary (cemented quartz sand)",
+          "Hardness (Mohs)": "6-7",
+          "Where Found": "Desert/coastal areas",
+          "Uses": "Building blocks, whetstones, grinding",
+          "Working Methods": "Cutting, splitting, grinding",
+          "Quality Indicators": "Sandy texture, various colors",
+          "Notes": "Moderate durability, easy to work"
+        },
+        {
+          "Material": "Slate",
+          "Type": "Metamorphic (compressed shale)",
+          "Hardness (Mohs)": "6-7",
+          "Where Found": "Mountain/metamorphic regions",
+          "Uses": "Roofing, writing surfaces, fine tools",
+          "Working Methods": "Splitting along natural planes",
+          "Quality Indicators": "Splits into thin sheets cleanly",
+          "Notes": "Excellent water protection"
+        },
+        {
+          "Material": "Quartz",
+          "Type": "Crystalline silica",
+          "Hardness (Mohs)": "7",
+          "Where Found": "Mountain regions, riverbeds",
+          "Uses": "Glass, grinding, fire-starting",
+          "Working Methods": "Percussion/pressure flaking, grinding",
+          "Quality Indicators": "Clear or colored crystals, rings when struck",
+          "Notes": "Very hard, high utility"
+        },
+        {
+          "Material": "Iron Ore",
+          "Type": "Hematite, magnetite, limonite",
+          "Hardness (Mohs)": "5.5-6.5",
+          "Where Found": "Mountain regions, clay deposits",
+          "Uses": "Steel/iron-making, tools, pigment",
+          "Working Methods": "Smelting, magnetic separation",
+          "Quality Indicators": "Heavy, reddish-brown or black, magnetic",
+          "Notes": "Higher elevation deposits often purer"
+        },
+        {
+          "Material": "Copper Ore",
+          "Type": "Native copper, chalcopyrite, malachite",
+          "Hardness (Mohs)": "2.5-4",
+          "Where Found": "Mountain regions, geological deposits",
+          "Uses": "Metallurgy, tools, corrosion resistance",
+          "Working Methods": "Smelting, hammering, annealing",
+          "Quality Indicators": "Greenish oxidation, metallic sheen",
+          "Notes": "Alloy with tin for bronze"
+        },
+        {
+          "Material": "Clay - Potter's",
+          "Type": "Fine clay mixture",
+          "Hardness (Mohs)": "1-2",
+          "Where Found": "Riverbanks, wetlands, clay deposits",
+          "Uses": "Pottery, ceramics, adobe bricks",
+          "Working Methods": "Hand-shaping, firing, wheel-throwing",
+          "Quality Indicators": "Plastic when wet, fine grain, stainless",
+          "Notes": "Fires orange/tan; most workable"
+        },
+        {
+          "Material": "Clay - Bentonite",
+          "Type": "Volcanic clay, montmorillonite",
+          "Hardness (Mohs)": "1-2",
+          "Where Found": "Volcanic regions, specific deposits",
+          "Uses": "Sealing (bentonite liners), pharmaceuticals",
+          "Working Methods": "Water-mixing, compacting",
+          "Quality Indicators": "Very absorbent, swells with water",
+          "Notes": "Excellent sealing properties"
+        },
+        {
+          "Material": "Silver Ore",
+          "Type": "Native silver, argentite, acanthite",
+          "Hardness (Mohs)": "2.5-3",
+          "Where Found": "Mountain regions, quartz veins",
+          "Uses": "Jewelry, conductivity, antimicrobial",
+          "Working Methods": "Smelting, hammering, annealing",
+          "Quality Indicators": "Shiny gray/white metallic, malleable",
+          "Notes": "Often found with copper ore"
+        },
+        {
+          "Material": "Gold",
+          "Type": "Native gold nuggets/dust",
+          "Hardness (Mohs)": "2.5-3",
+          "Where Found": "Mountain streams, quartz veins",
+          "Uses": "Currency, jewelry, malleability",
+          "Working Methods": "Panning, smelting, hammering",
+          "Quality Indicators": "Bright yellow, very heavy, malleable",
+          "Notes": "Panning productive in mountain streams"
+        },
+        {
+          "Material": "Talc",
+          "Type": "Metamorphic mineral",
+          "Hardness (Mohs)": "1",
+          "Where Found": "Metamorphic regions",
+          "Uses": "Lubrication, insulation, sculptures",
+          "Working Methods": "Carving, grinding",
+          "Quality Indicators": "Soft, slippery, easily carved",
+          "Notes": "Softest mineral; soapstone is compact talc"
+        },
+        {
+          "Material": "Basalt",
+          "Type": "Volcanic igneous rock",
+          "Hardness (Mohs)": "5-6",
+          "Where Found": "Volcanic regions",
+          "Uses": "Building, grinding tools, agricultural",
+          "Working Methods": "Chipping, grinding, breaking",
+          "Quality Indicators": "Dark dense rock, fine-grained",
+          "Notes": "Excellent for grinding/milling stones"
+        }
+      ],
+      "rowCount": 15
+    }
+  },
+  "sheetCount": 11
+}

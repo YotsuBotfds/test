@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Survival Skills Quick Reference Cards</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Georgia, 'Times New Roman', serif;
+            background-color: #1a2e1a;
+            padding: 20px;
+            color: #f5f0e8;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: #f5f0e8;
+            margin-bottom: 20px;
+            font-size: 28px;
+        }
+
+        .controls {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .print-btn {
+            background-color: #1a2e1a;
+            color: #f5f0e8;
+            padding: 12px 24px;
+            border: 2px solid #d4a574;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .print-btn:hover {
+            background-color: #d4a574;
+            color: #f5f0e8;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        .card {
+            background-color: #1a2e1a;
+            border: 3px solid #1a2e1a;
+            padding: 20px;
+            page-break-inside: avoid;
+            min-height: 300px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #f5f0e8;
+            margin-bottom: 12px;
+            border-bottom: 2px solid #d4a574;
+            padding-bottom: 8px;
+        }
+
+        .card-content {
+            font-size: 11px;
+            line-height: 1.4;
+            color: #f5f0e8;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        .card-content p {
+            margin-bottom: 8px;
+        }
+
+        .card-content strong {
+            color: #f5f0e8;
+        }
+
+        .card-content em {
+            color: #d4a574;
+        }
+
+        .section {
+            margin-bottom: 8px;
+            font-size: 10px;
+        }
+
+        .section-title {
+            font-weight: bold;
+            color: #f5f0e8;
+            text-decoration: underline;
+            font-size: 10px;
+        }
+
+        pre {
+            font-family: 'Courier New', monospace;
+            font-size: 9px;
+            background-color: rgba(212, 165, 116, 0.1);
+            padding: 6px;
+            border-radius: 2px;
+            overflow-x: auto;
+            line-height: 1.2;
+            margin: 4px 0;
+        }
+
+        .list-compact {
+            margin-left: 8px;
+            font-size: 10px;
+        }
+
+        .list-compact li {
+            list-style-position: inside;
+            margin-bottom: 2px;
+        }
+
+        table {
+            width: 100%;
+            font-size: 9px;
+            border-collapse: collapse;
+            margin: 4px 0;
+        }
+
+        table td, table th {
+            border: 1px solid #d4a574;
+            padding: 3px;
+            text-align: left;
+        }
+
+        table th {
+            background-color: rgba(212, 165, 116, 0.2);
+            font-weight: bold;
+        }
+
+        @media print {
+            body {
+                padding: 0;
+                background-color: white;
+            }
+
+            .controls {
+                display: none;
+            }
+
+            .container {
+                max-width: 100%;
+            }
+
+            h1 {
+                display: none;
+            }
+
+            .cards-grid {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 0;
+                page-break-after: always;
+            }
+
+            .card {
+                width: calc(50% - 0px);
+                height: 50%;
+                page-break-inside: avoid;
+                break-inside: avoid;
+                margin: 0;
+                padding: 15px;
+                background-color: white;
+            }
+
+            @page {
+                size: landscape;
+                margin: 0;
+                padding: 0;
+            }
+        }
+    
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
+        }</style>
+</head>
+<body>
+    <div style="background-color:#2d2416;padding:12px 20px;border-bottom:1px solid #5a4a3a;">
+        <a href="../index.html" style="color:#d4a574;text-decoration:none;font-size:0.95em;">← Back to Guides</a>
+    </div>
+    <div class="container" role="main">
+        <h1>Survival Skills Quick Reference Cards</h1>
+        <div class="controls" role="toolbar">
+            <button class="print-btn" onclick="window.print()" aria-label="Print cards">Print Cards</button>
+        </div>
+
+        <div class="cards-grid" role="list">
+            <!-- Card 1: Water Purification -->
+            <div class="card" role="listitem">
+                <div class="card-title">Water Purification Quick Ref</div>
+                <div class="card-content">
+                    <div class="section">
+                        <div class="section-title">BOILING TIMES (altitude)</div>
+                        <ul class="list-compact">
+                            <li>&lt;6,500 ft: 1 minute</li>
+                            <li>6,500-8,500 ft: 3 minutes</li>
+                            <li>&gt;8,500 ft: 5+ minutes</li>
+                        </ul>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">BLEACH TREATMENT</div>
+                        <ul class="list-compact">
+                            <li>Clear water: 2 drops/qt</li>
+                            <li>Cloudy water: 4 drops/qt</li>
+                            <li>Wait 30 min before use</li>
+                        </ul>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">FILTER LAYERS (top→bottom)</div>
+                        <ul class="list-compact">
+                            <li>1. Sand (fine)</li>
+                            <li>2. Charcoal</li>
+                            <li>3. Sand (coarse)</li>
+                            <li>4. Gravel</li>
+                            <li>5. Cloth</li>
+                        </ul>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">SODIS (Solar)</div>
+                        <ul class="list-compact">
+                            <li>Clear water in clear bottle</li>
+                            <li>Full sun: 6+ hours</li>
+                            <li>Cloudy: 2+ days</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 2: Fire Starting -->
+            <div class="card" role="listitem">
+                <div class="card-title">Fire Starting Quick Ref</div>
+                <div class="card-content">
+                    <div class="section">
+                        <div class="section-title">TINDER (ranked)</div>
+                        <ul class="list-compact">
+                            <li>1. Char cloth</li>
+                            <li>2. Dryer lint</li>
+                            <li>3. Milkweed down</li>
+                            <li>4. Birch bark</li>
+                            <li>5. Cedar bark</li>
+                        </ul>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">BOW DRILL WOODS</div>
+                        <ul class="list-compact">
+                            <li>Spindle: cedar, aspen</li>
+                            <li>Board: poplar, basswood</li>
+                            <li>Softer spindle/harder board</li>
+                        </ul>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">CHAR CLOTH STEPS</div>
+                        <ul class="list-compact">
+                            <li>1. Cut 100% cotton fabric</li>
+                            <li>2. Place in tin with 1/4" hole</li>
+                            <li>3. Heat in coals 10-15 min</li>
+                            <li>4. Smoke = done, let cool</li>
+                        </ul>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">FIRE LAY</div>
+                        <pre>
+    Tinder
+    [Kindling: pencil-thick]
+    [Fuel: wrist-thick]
+    [Large fuel above]
+                        </pre>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 3: Shelter Priorities -->
+            <div class="card" role="listitem">
+                <div class="card-title">Shelter Priorities</div>
+                <div class="card-content">
+                    <div class="section">
+                        <div class="section-title">SITE SELECTION</div>
+                        <ul class="list-compact">
+                            <li>High ground (drainage)</li>
+                            <li>Windbreak (back of valley)</li>
+                            <li>Dead trees overhead (no!)</li>
+                            <li>Dry materials nearby</li>
+                            <li>Water access 100+ ft away</li>
+                            <li>Avoid dead animal signs</li>
+                        </ul>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">DEBRIS HUT DIMS</div>
+                        <ul class="list-compact">
+                            <li>Length: 7 ft</li>
+                            <li>Width: 3 ft</li>
+                            <li>Height (peak): 3 ft</li>
+                            <li>Wall thickness: 2 ft</li>
+                        </ul>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">INSULATION DEPTH</div>
+                        <ul class="list-compact">
+                            <li>32-50°F: 1 ft</li>
+                            <li>0-32°F: 1.5-2 ft</li>
+                            <li>Below 0°F: 2.5+ ft</li>
+                            <li>Use leaves, pine needles</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 4: Edible Plant ID -->
+            <div class="card" role="listitem">
+                <div class="card-title">Edible Plant ID</div>
+                <div class="card-content">
+                    <div class="section">
+                        <div class="section-title">UNIVERSAL SAFE PLANTS</div>
+                        <ul class="list-compact">
+                            <li><strong>Dandelion:</strong> Jagged leaves, yellow flower, milky stem</li>
+                            <li><strong>Cattail:</strong> Brown top, long blade leaves, aquatic</li>
+                            <li><strong>Clover:</strong> Round leaflet clusters, 3-lobed</li>
+                            <li><strong>Chickweed:</strong> Small opposite leaves, weak stem</li>
+                            <li><strong>Plantain:</strong> Oval leaves in rosette, parallel veins</li>
+                            <li><strong>Purslane:</strong> Fleshy red stems, thick leaves</li>
+                            <li><strong>Watercress:</strong> Small round leaves, peppery taste</li>
+                            <li><strong>Acorns:</strong> Oak cap, boil 5+ times to remove tannins</li>
+                            <li><strong>Pine nuts:</strong> Soft nuts inside cone</li>
+                            <li><strong>Birch sap:</strong> Spring, mild sweet taste</li>
+                        </ul>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">UNIV. EDIBILITY TEST</div>
+                        <ul class="list-compact">
+                            <li>1. Break skin, smell</li>
+                            <li>2. Touch to wrist (reaction?)</li>
+                            <li>3. Touch to lip (15 min)</li>
+                            <li>4. Chew, spit out (5 min)</li>
+                            <li>5. Swallow 1/4 tsp (5 hr wait)</li>
+                            <li>6. Eat 1 oz (24 hr wait)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 5: Dangerous Plants -->
+            <div class="card" role="listitem">
+                <div class="card-title">Dangerous Plants (Avoid!)</div>
+                <div class="card-content">
+                    <div class="section">
+                        <div class="section-title">LOOKALIKES TO AVOID</div>
+                        <ul class="list-compact">
+                            <li><strong>Water Hemlock:</strong> vs. Wild carrot - hollow stems, purple blotches, musty smell TOXIC</li>
+                            <li><strong>Poison Hemlock:</strong> vs. Wild parsnip - 6+ ft tall, hairless, red blotches TOXIC</li>
+                            <li><strong>Deadly Nightshade:</strong> Bell flowers, black berries, no smell TOXIC</li>
+                            <li><strong>Foxglove:</strong> Tall spire, fuzzy leaves, pink/purple flowers CARDIAC</li>
+                            <li><strong>Larkspur:</strong> vs. Delphinium - purple/blue, spur on back TOXIC</li>
+                            <li><strong>Poison Oak:</strong> 3 leaflets, glossy, no thorns DERMATITIS</li>
+                            <li><strong>Poison Ivy:</strong> 3 leaflets, glossy, center stalk longer DERMATITIS</li>
+                            <li><strong>Stinging Nettle:</strong> Fuzzy, stinging hairs, square stem CONTACT</li>
+                            <li><strong>Castor Bean:</strong> Large leaves, spiky pods, no taste RICIN POISON</li>
+                            <li><strong>Ergot (grain fungus):</strong> Black spur on cereal crops GANGRENOUS</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 6: Knots -->
+            <div class="card" role="listitem">
+                <div class="card-title">Knot Reference</div>
+                <div class="card-content">
+                    <div class="section">
+                        <div class="section-title">BOWLINE (rescue loop)</div>
+                        <pre>
+ /‾‾‾‾\
+( rope )
+ \____/
+Rabbit out of hole,
+around tree, back down.
+                        </pre>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">CLOVE HITCH (quick tie)</div>
+                        <pre>
+X cross wraps around pole
+Figure-8 shape
+Quick to tie & release
+                        </pre>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">TAUT-LINE (sliding)</div>
+                        <pre>
+3 turns around standing line
+Tightens under load
+Adjustable rope tension
+                        </pre>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">TRUCKER'S HITCH (purchase)</div>
+                        <pre>
+Bowline in middle of rope
+Loop mechanical advantage
+3:1 pulling power
+                        </pre>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">SQUARE KNOT (join rope)</div>
+                        <pre>
+Right over left, left over right
+Flat, compact, equal-sized rope
+                        </pre>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">SHEET BEND (join unequal)</div>
+                        <pre>
+Loop in thick rope
+Thin rope: out, over, under, out
+Works with unequal diameters
+                        </pre>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">FIGURE-8 (stopper)</div>
+                        <pre>
+Wrap rope like 8-shape
+Prevents rope slipping
+Strong, reliable
+                        </pre>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">TIMBER HITCH (tree drag)</div>
+                        <pre>
+Loop around log
+2+ wraps around standing line
+Easy one-handed tie
+                        </pre>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 7: First Aid -->
+            <div class="card" role="listitem">
+                <div class="card-title">First Aid Priorities (MARCH)</div>
+                <div class="card-content">
+                    <div class="section">
+                        <div class="section-title">MARCH PROTOCOL</div>
+                        <ul class="list-compact">
+                            <li><strong>M - Massive hemorrhage:</strong> Apply tourniquets above wound</li>
+                            <li><strong>A - Airway:</strong> Clear mouth, reposition head</li>
+                            <li><strong>R - Respirations:</strong> Check breathing, start rescue breaths</li>
+                            <li><strong>C - Circulation:</strong> Check pulse, CPR if needed</li>
+                            <li><strong>H - Hypothermia:</strong> Handle gently, rewarm slowly</li>
+                        </ul>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">BLEEDING CONTROL</div>
+                        <ul class="list-compact">
+                            <li>1. Direct pressure (clean cloth)</li>
+                            <li>2. Elevate limb above heart</li>
+                            <li>3. Pressure points (artery)</li>
+                            <li>4. Tourniquet (2" above wound)</li>
+                            <li>5. Write time on tourniquet</li>
+                        </ul>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">SHOCK TREATMENT</div>
+                        <ul class="list-compact">
+                            <li>Lay flat, elevate legs 12"</li>
+                            <li>Keep warm (blanket)</li>
+                            <li>Monitor breathing & pulse</li>
+                            <li>Don't give food/water</li>
+                        </ul>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">SPLINTING BASICS</div>
+                        <ul class="list-compact">
+                            <li>Immobilize joint above/below</li>
+                            <li>Pad splint with cloth</li>
+                            <li>Check circulation after</li>
+                            <li>Keep elevated, cold compress</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 8: Trapping -->
+            <div class="card" role="listitem">
+                <div class="card-title">Trapping Quick Ref</div>
+                <div class="card-content">
+                    <div class="section">
+                        <div class="section-title">SNARE TYPES & DIMS</div>
+                        <ul class="list-compact">
+                            <li><strong>Figure-4 deadfall:</strong> Bait trigger, heavy log, rabbit-sized</li>
+                            <li><strong>Paiute deadfall:</strong> No bait, self-setting, larger game</li>
+                            <li><strong>Spring snare:</strong> Sapling bent, noose at trail height</li>
+                            <li><strong>Loop snare:</strong> Simple brass wire, neck-height, 4" diameter</li>
+                        </ul>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">BAIT BY ANIMAL</div>
+                        <ul class="list-compact">
+                            <li>Rabbit: clover, bark, twigs</li>
+                            <li>Squirrel: nuts, seeds, berries</li>
+                            <li>Deer: salt, acorns, browse</li>
+                            <li>Fish: insects, worms, smaller fish</li>
+                        </ul>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">PLACEMENT TIPS</div>
+                        <ul class="list-compact">
+                            <li>Set on trails, water crossings</li>
+                            <li>Use natural funneling</li>
+                            <li>Disguise human scent</li>
+                            <li>Check traps daily</li>
+                            <li>Set multiple traps</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 9: Navigation -->
+            <div class="card" role="listitem">
+                <div class="card-title">Navigation</div>
+                <div class="card-content">
+                    <div class="section">
+                        <div class="section-title">FINDING NORTH</div>
+                        <ul class="list-compact">
+                            <li><strong>Stick shadow:</strong> N-S line, shorter shadow = south</li>
+                            <li><strong>North Star:</strong> Find Big Dipper, follow pointer stars</li>
+                            <li><strong>Watch method:</strong> Point hour hand at sun, bisect to 12 = S</li>
+                            <li><strong>Moon:</strong> Terminator line points north</li>
+                        </ul>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">PACE COUNTING</div>
+                        <ul class="list-compact">
+                            <li>Count every other step</li>
+                            <li>Measure your pace (flat, level)</li>
+                            <li>Typical: 30-40 paces = 100 ft</li>
+                            <li>Adjust for terrain, load</li>
+                        </ul>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">BASIC TRIANGULATION</div>
+                        <ul class="list-compact">
+                            <li>1. Sight known landmark (bearing)</li>
+                            <li>2. Sight second landmark</li>
+                            <li>3. Intersection = position</li>
+                            <li>Use compass or sun angles</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 10: Food Preservation -->
+            <div class="card" role="listitem">
+                <div class="card-title">Food Preservation Times/Temps</div>
+                <div class="card-content">
+                    <div class="section">
+                        <div class="section-title">SMOKING</div>
+                        <ul class="list-compact">
+                            <li>Cold: 70-90°F, 12-24 hrs</li>
+                            <li>Hot: 160-180°F, 4-8 hrs</li>
+                            <li>Smoke woods: oak, hickory, apple</li>
+                        </ul>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">DRYING</div>
+                        <ul class="list-compact">
+                            <li>Sun: 60-80°F, 24-72 hrs</li>
+                            <li>Shade: lower heat, slower</li>
+                            <li>Brittle to touch = done</li>
+                            <li>Store in dry, cool place</li>
+                        </ul>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">SALT CURING</div>
+                        <ul class="list-compact">
+                            <li>1:3 meat-to-salt ratio</li>
+                            <li>Rub meat thoroughly</li>
+                            <li>Store in cool, dry</li>
+                            <li>Lasts months to years</li>
+                        </ul>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">FERMENTATION</div>
+                        <ul class="list-compact">
+                            <li>Salt: 2-5% by weight</li>
+                            <li>Keep submerged under brine</li>
+                            <li>Room temp 60-70°F</li>
+                            <li>3-6 weeks to ferment</li>
+                        </ul>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">CANNING PRESSURE</div>
+                        <ul class="list-compact">
+                            <li>Low altitude: 10-15 psi</li>
+                            <li>3000+ ft: 20+ psi</li>
+                            <li>Process time: 30-90 min</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 11: Forging Temps -->
+            <div class="card" role="listitem">
+                <div class="card-title">Forging Temperature Colors</div>
+                <div class="card-content">
+                    <div class="section">
+                        <div class="section-title">COLOR-TO-TEMP CHART</div>
+                        <ul class="list-compact">
+                            <li><strong>Black heat:</strong> 400-700°F, unworkable</li>
+                            <li><strong>Dark red:</strong> 700-800°F, hard to see</li>
+                            <li><strong>Bright cherry red:</strong> 800-900°F, slow working</li>
+                            <li><strong>Cherry red:</strong> 900-1000°F, good starting</li>
+                            <li><strong>Bright cherry:</strong> 1000-1100°F, optimal work</li>
+                            <li><strong>Orange:</strong> 1100-1200°F, final work</li>
+                            <li><strong>Yellow-orange:</strong> 1200-1300°F, near finish</li>
+                            <li><strong>Yellow:</strong> 1300-1400°F, very hot</li>
+                            <li><strong>Light yellow:</strong> 1400-1500°F, sparking</li>
+                            <li><strong>White heat:</strong> 1500°F+, oxidation risk</li>
+                        </ul>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">QUENCH MEDIA</div>
+                        <ul class="list-compact">
+                            <li>Water: fast, brittle risk</li>
+                            <li>Oil: slower, safer</li>
+                            <li>Brine: balanced</li>
+                        </ul>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">TEMPER COLORS</div>
+                        <ul class="list-compact">
+                            <li>Pale yellow: 300°F, very hard</li>
+                            <li>Straw: 350°F, good edge</li>
+                            <li>Brown: 400°F, balanced</li>
+                            <li>Light blue: 600°F, flexible</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 12: Wood Species -->
+            <div class="card" role="listitem">
+                <div class="card-title">Wood Species Guide</div>
+                <div class="card-content">
+                    <div class="section">
+                        <div class="section-title">15 COMMON TREES</div>
+                        <ul class="list-compact">
+                            <li><strong>Oak:</strong> Very hard, slow burn, excellent fuel, rot resistant</li>
+                            <li><strong>Maple:</strong> Hard, dense, good coals, less rot resistant</li>
+                            <li><strong>Ash:</strong> Hard, straight grain, splits easy, good burning</li>
+                            <li><strong>Hickory:</strong> Very hard, dense, excellent coals, great tool wood</li>
+                            <li><strong>Birch:</strong> Medium hard, white inner bark, splits poorly</li>
+                            <li><strong>Pine:</strong> Soft, resinous, sparks, fast fire, good bow wood</li>
+                            <li><strong>Cedar:</strong> Soft, aromatic, rot resistant, good shingles</li>
+                            <li><strong>Spruce:</strong> Soft, light, resonant, good bows, weak fire</li>
+                            <li><strong>Elm:</strong> Hard, bends well, splits poorly, waterproof</li>
+                            <li><strong>Walnut:</strong> Hard, dark, durable, excellent turning</li>
+                            <li><strong>Poplar:</strong> Very soft, light, poor fire, excellent spindle</li>
+                            <li><strong>Willow:</strong> Soft, flexible, splits easy, friction fire bow</li>
+                            <li><strong>Basswood:</strong> Soft, light, straight grain, excellent spindle</li>
+                            <li><strong>Locust:</strong> Very hard, dense, excellent durability</li>
+                            <li><strong>Apple:</strong> Hard, dense, smoking wood, strong structure</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 13: Cordage -->
+            <div class="card" role="listitem">
+                <div class="card-title">Cordage Quick Ref</div>
+                <div class="card-content">
+                    <div class="section">
+                        <div class="section-title">REVERSE WRAP STEPS</div>
+                        <ul class="list-compact">
+                            <li>1. Strip bark from inner fiber</li>
+                            <li>2. Soak 24+ hrs to soften</li>
+                            <li>3. Beat to separate fibers</li>
+                            <li>4. Twist 2+ fibers together</li>
+                            <li>5. Ply cords into rope</li>
+                        </ul>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">FIBER SOURCES</div>
+                        <ul class="list-compact">
+                            <li>Bark: willow, basswood, cedar</li>
+                            <li>Leaves: yucca, iris, palm</li>
+                            <li>Plant: nettle, milkweed, hemp</li>
+                            <li>Inner bark: wet separates best</li>
+                        </ul>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">BREAKING STRENGTHS</div>
+                        <ul class="list-compact">
+                            <li>Natural 1" rope: 3,000-5,000 lbs</li>
+                            <li>Twisted bark: 500-1,500 lbs</li>
+                            <li>Test your cordage!</li>
+                        </ul>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">SPLICE TECHNIQUE</div>
+                        <ul class="list-compact">
+                            <li>Eye splice: loop end</li>
+                            <li>Short splice: join two ropes</li>
+                            <li>Whip end: prevent fraying</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 14: Animal Tracks -->
+            <div class="card" role="listitem">
+                <div class="card-title">Animal Tracks</div>
+                <div class="card-content">
+                    <div class="section">
+                        <div class="section-title">10 GAME ANIMALS</div>
+                        <ul class="list-compact">
+                            <li><strong>Deer:</strong> Heart shape, 2-3" wide, gentle toes, 24-48" stride</li>
+                            <li><strong>Elk:</strong> Larger than deer, 4" wide, 60"+ stride, rounded</li>
+                            <li><strong>Moose:</strong> Huge, 5-6" wide, splayed hooves, 80"+ stride</li>
+                            <li><strong>Bear:</strong> Hand-like (5 toes), 3-5" wide, deep claw marks</li>
+                            <li><strong>Raccoon:</strong> Hand-print, 2" wide, 5 toes visible, pigeon-toed</li>
+                            <li><strong>Squirrel:</strong> Tiny, 1/2" wide, 4 toes front/5 rear, hop pattern</li>
+                            <li><strong>Rabbit:</strong> 4-toed, hind foot longer, hopping pattern, 24-30" stride</li>
+                            <li><strong>Fox:</strong> Dog-like, 1.5" wide, straight line trail, claw marks</li>
+                            <li><strong>Coyote:</strong> Larger fox, 2" wide, very straight trail</li>
+                            <li><strong>Bobcat:</strong> 4-toed, 1.5" wide, retracted claws, rolling gait</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 15: Weather Prediction -->
+            <div class="card" role="listitem">
+                <div class="card-title">Weather Prediction</div>
+                <div class="card-content">
+                    <div class="section">
+                        <div class="section-title">CLOUD TYPES & MEANING</div>
+                        <ul class="list-compact">
+                            <li><strong>Cumulus:</strong> Puffy, flat base = fair weather</li>
+                            <li><strong>Cumulonimbus:</strong> Anvil top = severe storm coming</li>
+                            <li><strong>Stratus:</strong> Gray blanket = drizzle/overcast</li>
+                            <li><strong>Cirrus:</strong> Wispy, high = weather change in 24 hrs</li>
+                            <li><strong>Altocumulus:</strong> Rippled = afternoon thunderstorm</li>
+                        </ul>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">WIND SHIFTS & PRESSURE</div>
+                        <ul class="list-compact">
+                            <li>Shift clockwise = improving weather</li>
+                            <li>Shift counterclockwise = worsening</li>
+                            <li>Increasing wind = low pressure → storms</li>
+                            <li>Calm before storm = pressure drop</li>
+                        </ul>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">NATURAL SIGNS</div>
+                        <ul class="list-compact">
+                            <li>Animals sheltering = weather change</li>
+                            <li>Dew on grass = fair tomorrow</li>
+                            <li>No dew = rain coming</li>
+                            <li>Red sunrise = storm approach</li>
+                            <li>Red sunset = fair tomorrow</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 16: Medicinal Plants -->
+            <div class="card" role="listitem">
+                <div class="card-title">Medicinal Plants</div>
+                <div class="card-content">
+                    <div class="section">
+                        <div class="section-title">10 KEY HERBS</div>
+                        <ul class="list-compact">
+                            <li><strong>Willow bark:</strong> Tea, pain/fever, aspirin-like, use fresh bark</li>
+                            <li><strong>Ginger:</strong> Root tea, nausea/digestion, 1-2 tsp per cup</li>
+                            <li><strong>Yarrow:</strong> Leaf tea, fever/wounds, steep 10 min, astringent</li>
+                            <li><strong>Echinacea:</strong> Root/leaf, immune, 2-3 cups tea daily</li>
+                            <li><strong>Comfrey:</strong> Leaf poultice, wounds/bone, external only, toxic if internal</li>
+                            <li><strong>Elderberry:</strong> Fruit tea, cough/cold, simmer 15 min</li>
+                            <li><strong>Plantain:</strong> Leaf poultice, wound, chew fresh for fast action</li>
+                            <li><strong>Peppermint:</strong> Leaf tea, digestion, steep 5-10 min</li>
+                            <li><strong>Calendula:</strong> Flower tea, skin/infection, 1/2 tsp dry herb</li>
+                            <li><strong>Garlic:</strong> Fresh bulb, infection/prevention, chew raw, take daily</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 17: Barter Values -->
+            <div class="card" role="listitem">
+                <div class="card-title">Barter Values - Trade Goods</div>
+                <div class="card-content">
+                    <div class="section">
+                        <div class="section-title">TOP 20 TRADE GOODS (relative value)</div>
+                        <ul class="list-compact">
+                            <li><strong>TIER 1 (highest):</strong> Ammunition, fuel, antibiotics, water purification</li>
+                            <li><strong>TIER 2:</strong> Tools, rope, metal, salt, sugar, coffee, tobacco</li>
+                            <li><strong>TIER 3:</strong> Canned food, batteries, cooking oil, grain, seeds</li>
+                            <li><strong>TIER 4:</strong> Soap, candles, cloth, nails, matches, fishing line</li>
+                            <li><strong>TIER 5:</strong> Books, spices, alcohol, candle wax, charcoal</li>
+                            <li><strong>Luxury:</strong> Honey, chocolate, alcohol, coffee (variable demand)</li>
+                        </ul>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">BARTERING TIPS</div>
+                        <ul class="list-compact">
+                            <li>Items that solve problems = high value</li>
+                            <li>Consumables always trade</li>
+                            <li>Skills + items combo is powerful</li>
+                            <li>Seasonal demand varies</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 18: Radio Frequencies -->
+            <div class="card" role="listitem">
+                <div class="card-title">Radio Frequencies</div>
+                <div class="card-content">
+                    <div class="section">
+                        <div class="section-title">EMERGENCY FREQUENCIES</div>
+                        <ul class="list-compact">
+                            <li><strong>VHF 156.8 MHz:</strong> Maritime emergency (Channel 16)</li>
+                            <li><strong>VHF 121.5 MHz:</strong> Aircraft emergency</li>
+                            <li><strong>2 meters:</strong> 146.52 MHz (simplex, local amateur)</li>
+                            <li><strong>70 cm:</strong> 446 MHz (simplex, local amateur)</li>
+                        </ul>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">FRS/GMRS CHANNELS</div>
+                        <ul class="list-compact">
+                            <li>FRS: Ch 1-7 (short range, license-free)</li>
+                            <li>GMRS: Ch 8-14 (longer range, license required)</li>
+                            <li>Ch 1-8 available on both (FRS/GMRS)</li>
+                            <li>Use 462-467 MHz range</li>
+                        </ul>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">SIGNAL PROTOCOLS</div>
+                        <ul class="list-compact">
+                            <li><strong>CQ:</strong> General call (seeking anyone)</li>
+                            <li><strong>QTH:</strong> Location</li>
+                            <li><strong>RST:</strong> Readability, Signal, Tone</li>
+                            <li><strong>QSL:</strong> Acknowledge receipt</li>
+                            <li>Phonetic alphabet for clarity</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 19: Calories & Nutrition -->
+            <div class="card" role="listitem">
+                <div class="card-title">Calorie & Nutrition Guide</div>
+                <div class="card-content">
+                    <div class="section">
+                        <div class="section-title">DAILY CALORIE NEEDS</div>
+                        <ul class="list-compact">
+                            <li>Sedentary: 1,800-2,200 cal</li>
+                            <li>Moderate activity: 2,200-2,800 cal</li>
+                            <li>High activity/survival: 3,000-6,000 cal</li>
+                            <li>Cold environment: +50% calories</li>
+                        </ul>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">WILD FOOD CALORIES</div>
+                        <ul class="list-compact">
+                            <li>Nuts/seeds: 150-200 cal/oz</li>
+                            <li>Insects: 50-100 cal/oz</li>
+                            <li>Fish: 50-80 cal/oz</li>
+                            <li>Lean meat: 40-60 cal/oz</li>
+                            <li>Edible plants: 10-50 cal/cup</li>
+                        </ul>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">PROTEIN SOURCES</div>
+                        <ul class="list-compact">
+                            <li>Nuts: 5-10g per oz</li>
+                            <li>Legumes: 8-15g per cup</li>
+                            <li>Meat: 25-30g per 3 oz</li>
+                            <li>Insects: 10-20g per oz</li>
+                            <li>Fish: 25g per 3 oz</li>
+                        </ul>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">DAILY PROTEIN NEEDS</div>
+                        <ul class="list-compact">
+                            <li>Minimum: 40-50g daily</li>
+                            <li>Active: 60-100g daily</li>
+                            <li>High stress: 100-150g daily</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 20: Tool Sharpening -->
+            <div class="card" role="listitem">
+                <div class="card-title">Tool Sharpening Guide</div>
+                <div class="card-content">
+                    <div class="section">
+                        <div class="section-title">ANGLES BY TOOL</div>
+                        <ul class="list-compact">
+                            <li>Kitchen knife: 15-20 degrees</li>
+                            <li>Bushcraft/outdoor: 25-30 degrees</li>
+                            <li>Axe: 25-35 degrees</li>
+                            <li>Hatchet: 30-35 degrees</li>
+                            <li>Chisel: 25 degrees</li>
+                            <li>Plow blade: 35-40 degrees</li>
+                        </ul>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">STONE PROGRESSION</div>
+                        <ul class="list-compact">
+                            <li>1. Coarse stone (1000-2000 grit)</li>
+                            <li>2. Medium stone (4000-6000 grit)</li>
+                            <li>3. Fine stone (8000-10000 grit)</li>
+                            <li>4. Leather strop (finishing)</li>
+                        </ul>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">STROP TECHNIQUE</div>
+                        <ul class="list-compact">
+                            <li>Use leather or canvas strap</li>
+                            <li>Apply stropping compound if available</li>
+                            <li>Draw blade SPINE-FIRST across strop</li>
+                            <li>Return flat-side up, lift edge clear</li>
+                            <li>10-20 strokes per side</li>
+                        </ul>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">FIELD SHARPENING</div>
+                        <ul class="list-compact">
+                            <li>Smooth rock (fine-grained)</li>
+                            <li>Ceramic mug bottom</li>
+                            <li>Leather strop + dirt paste</li>
+                            <li>Regular maintenance > major restoration</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('keydown', function(event) {
+            if ((event.ctrlKey || event.metaKey) && event.key === 'p') {
+                event.preventDefault();
+                window.print();
+            }
+        });
+    </script>
+</body>
+</html>

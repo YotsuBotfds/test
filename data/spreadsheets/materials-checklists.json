@@ -1,0 +1,2417 @@
+{
+  "source": "materials-checklists.xlsx",
+  "converted": "2026-02-15T06:05:32.435024",
+  "sheets": {
+    "Water Systems": {
+      "headers": [
+        "Skill",
+        "Material",
+        "Quantity",
+        "Source/Where to Find",
+        "Primitive Tier",
+        "Salvage Tier",
+        "Modern Tier",
+        "Notes"
+      ],
+      "rows": [
+        {
+          "Skill": "Water Filtration",
+          "Material": "Sand (fine)",
+          "Quantity": "5 gallons",
+          "Source/Where to Find": "River/stream beds",
+          "Primitive Tier": "Free, local",
+          "Salvage Tier": "Free, local",
+          "Modern Tier": "Home improvement store",
+          "Notes": "Rinse before use"
+        },
+        {
+          "Skill": "Water Filtration",
+          "Material": "Gravel",
+          "Quantity": "5 gallons",
+          "Source/Where to Find": "Dry riverbeds, beaches",
+          "Primitive Tier": "Free, local",
+          "Salvage Tier": "Free, local",
+          "Modern Tier": "Landscape supplier",
+          "Notes": "Use different sizes"
+        },
+        {
+          "Skill": "Water Filtration",
+          "Material": "Charcoal",
+          "Quantity": "2-3 pounds",
+          "Source/Where to Find": "Make from hardwood fires",
+          "Primitive Tier": "Self-made",
+          "Salvage Tier": "Burnt wood from old fires",
+          "Modern Tier": "Hardware store",
+          "Notes": "Crush into chunks"
+        },
+        {
+          "Skill": "Water Filtration",
+          "Material": "Cloth filter material",
+          "Quantity": "10 yards",
+          "Source/Where to Find": "Plant fiber weaving",
+          "Primitive Tier": "Woven plant fiber",
+          "Salvage Tier": "Old clothing/burlap",
+          "Modern Tier": "Cheesecloth, cotton",
+          "Notes": "Multiple layers for fine filtering"
+        },
+        {
+          "Skill": "Water Filtration",
+          "Material": "Large filter container",
+          "Quantity": "2-5 gallons",
+          "Source/Where to Find": "Hollowed log/bamboo",
+          "Primitive Tier": "Carved wood vessel",
+          "Salvage Tier": "Old buckets, barrels",
+          "Modern Tier": "Food-grade plastic",
+          "Notes": "Drill drainage holes"
+        },
+        {
+          "Skill": "Purification",
+          "Material": "Metal pots",
+          "Quantity": "3-5 quarts",
+          "Source/Where to Find": "Carved from metal ore",
+          "Primitive Tier": "Beaten copper/tin",
+          "Salvage Tier": "Salvaged pots, kettles",
+          "Modern Tier": "Stainless steel pots",
+          "Notes": "Boiling kills pathogens"
+        },
+        {
+          "Skill": "Purification",
+          "Material": "Fire/heat source",
+          "Quantity": "Continuous",
+          "Source/Where to Find": "Bow drill, hand drill",
+          "Primitive Tier": "Friction fire",
+          "Salvage Tier": "Salvaged stove/fire pit",
+          "Modern Tier": "Gas burner, electric",
+          "Notes": "Boil water 1+ minutes"
+        },
+        {
+          "Skill": "Purification",
+          "Material": "UV light source",
+          "Quantity": "Variable",
+          "Source/Where to Find": "Sun exposure (slow)",
+          "Primitive Tier": "Direct sunlight",
+          "Salvage Tier": "Clear bottles + sun",
+          "Modern Tier": "UV sterilizer pen",
+          "Notes": "SODIS method: 6 hours"
+        },
+        {
+          "Skill": "Well Digging",
+          "Material": "Digging tools",
+          "Quantity": "1 set",
+          "Source/Where to Find": "Carved stone/wood",
+          "Primitive Tier": "Stone/wood tools",
+          "Salvage Tier": "Salvaged spades, picks",
+          "Modern Tier": "Modern shovel, pickaxe",
+          "Notes": "Sharpen regularly"
+        },
+        {
+          "Skill": "Well Digging",
+          "Material": "Rope/cordage",
+          "Quantity": "100+ feet",
+          "Source/Where to Find": "Twisted plant fiber",
+          "Primitive Tier": "Hand-twisted fibers",
+          "Salvage Tier": "Paracord, salvaged rope",
+          "Modern Tier": "Nylon rope",
+          "Notes": "Test load-bearing capacity"
+        },
+        {
+          "Skill": "Well Digging",
+          "Material": "Bucket for extraction",
+          "Quantity": "2-3 buckets",
+          "Source/Where to Find": "Carved wood/leather",
+          "Primitive Tier": "Woven or carved",
+          "Salvage Tier": "Salvaged buckets",
+          "Modern Tier": "Metal or plastic",
+          "Notes": "Secure fastening critical"
+        },
+        {
+          "Skill": "Well Digging",
+          "Material": "Casing material",
+          "Quantity": "50+ feet",
+          "Source/Where to Find": "Hollowed logs",
+          "Primitive Tier": "Bamboo or wood tubes",
+          "Salvage Tier": "PVC pipes, steel",
+          "Modern Tier": "PVC or steel pipe",
+          "Notes": "Prevents cave-in"
+        },
+        {
+          "Skill": "Rainwater Collection",
+          "Material": "Catchment surface",
+          "Quantity": "200+ sq ft",
+          "Source/Where to Find": "Flat rock outcrops",
+          "Primitive Tier": "Natural rock/clay",
+          "Salvage Tier": "Metal roofing",
+          "Modern Tier": "Purpose-built gutters",
+          "Notes": "Slope toward collection"
+        },
+        {
+          "Skill": "Rainwater Collection",
+          "Material": "Gutter material",
+          "Quantity": "100+ feet",
+          "Source/Where to Find": "Carved wood troughs",
+          "Primitive Tier": "Wood or bark channels",
+          "Salvage Tier": "Metal gutters",
+          "Modern Tier": "Aluminum gutters",
+          "Notes": "Clean regularly"
+        },
+        {
+          "Skill": "Rainwater Collection",
+          "Material": "Downspout",
+          "Quantity": "10+ feet",
+          "Source/Where to Find": "Hollowed branch/bamboo",
+          "Primitive Tier": "Split wood tubes",
+          "Salvage Tier": "Vinyl downspout",
+          "Modern Tier": "PVC pipe",
+          "Notes": "Direct to collection point"
+        },
+        {
+          "Skill": "Rainwater Collection",
+          "Material": "First flush diverter",
+          "Quantity": "1 unit",
+          "Source/Where to Find": "Coconut shell valve",
+          "Primitive Tier": "Manual valve diversion",
+          "Salvage Tier": "PVC T-fitting diverter",
+          "Modern Tier": "Commercial diverter",
+          "Notes": "Diverts dirty water"
+        },
+        {
+          "Skill": "Water Storage",
+          "Material": "Storage containers",
+          "Quantity": "500+ gallons",
+          "Source/Where to Find": "Sealed barrels, cisterns",
+          "Primitive Tier": "Sealed clay vessels",
+          "Salvage Tier": "Salvaged barrels, tanks",
+          "Modern Tier": "Food-grade tanks",
+          "Notes": "Keep dark and cool"
+        },
+        {
+          "Skill": "Water Storage",
+          "Material": "Container covers",
+          "Quantity": "1-2 covers",
+          "Source/Where to Find": "Woven reed lids",
+          "Primitive Tier": "Cloth/leaf covers",
+          "Salvage Tier": "Metal lids, plywood",
+          "Modern Tier": "Sealed covers",
+          "Notes": "Prevents contamination"
+        },
+        {
+          "Skill": "Water Storage",
+          "Material": "Overflow pipe",
+          "Quantity": "1-2 pipes",
+          "Source/Where to Find": "Bamboo or wood",
+          "Primitive Tier": "Natural tube",
+          "Salvage Tier": "PVC pipe",
+          "Modern Tier": "PVC or copper pipe",
+          "Notes": "Prevents overflow damage"
+        },
+        {
+          "Skill": "Water Testing",
+          "Material": "pH testing kit",
+          "Quantity": "1 set",
+          "Source/Where to Find": "Plant indicators (litmus)",
+          "Primitive Tier": "Natural plant dyes",
+          "Salvage Tier": "pH strips (salvaged)",
+          "Modern Tier": "Digital pH meter",
+          "Notes": "Check regularly"
+        },
+        {
+          "Skill": "Water Testing",
+          "Material": "Clarity test vessel",
+          "Quantity": "1 vessel",
+          "Source/Where to Find": "Clear carved wood",
+          "Primitive Tier": "Transparent glass",
+          "Salvage Tier": "Old glass bottle",
+          "Modern Tier": "Clear plastic jar",
+          "Notes": "Hold to sunlight"
+        },
+        {
+          "Skill": "Water Testing",
+          "Material": "Bacterial test",
+          "Quantity": "As needed",
+          "Source/Where to Find": "Observation (smell/taste)",
+          "Primitive Tier": "Sensory evaluation",
+          "Salvage Tier": "Simple test kit",
+          "Modern Tier": "Laboratory test kit",
+          "Notes": "Trust your senses"
+        }
+      ],
+      "rowCount": 22
+    },
+    "Fire & Energy": {
+      "headers": [
+        "Skill",
+        "Material",
+        "Quantity",
+        "Source/Where to Find",
+        "Primitive Tier",
+        "Salvage Tier",
+        "Modern Tier",
+        "Notes"
+      ],
+      "rows": [
+        {
+          "Skill": "Fire Starting",
+          "Material": "Bow drill set",
+          "Quantity": "1 set",
+          "Source/Where to Find": "Carved from available wood",
+          "Primitive Tier": "Self-made from wood",
+          "Salvage Tier": "Salvaged bow + wood",
+          "Modern Tier": "Commercial kit",
+          "Notes": "Requires dry tinder, friction"
+        },
+        {
+          "Skill": "Fire Starting",
+          "Material": "Hand drill set",
+          "Quantity": "1 set",
+          "Source/Where to Find": "Straight wood shaft + board",
+          "Primitive Tier": "Self-made from wood",
+          "Salvage Tier": "Salvaged dowel + board",
+          "Modern Tier": "Commercial kit",
+          "Notes": "More difficult than bow"
+        },
+        {
+          "Skill": "Fire Starting",
+          "Material": "Flint & steel",
+          "Quantity": "1 set",
+          "Source/Where to Find": "Flint rock + steel scrap",
+          "Primitive Tier": "Knapped flint + salvaged steel",
+          "Salvage Tier": "Salvaged steel + flint",
+          "Modern Tier": "Commercial flint & steel",
+          "Notes": "Produces hot sparks"
+        },
+        {
+          "Skill": "Fire Starting",
+          "Material": "Char cloth",
+          "Quantity": "10+ yards",
+          "Source/Where to Find": "Cotton cloth charred in fire",
+          "Primitive Tier": "Self-made from scrap cotton",
+          "Salvage Tier": "Salvaged cotton cloth charred",
+          "Modern Tier": "Pre-made char cloth",
+          "Notes": "Highly flammable tinder"
+        },
+        {
+          "Skill": "Fire Starting",
+          "Material": "Tinder bundle",
+          "Quantity": "10+ bundles",
+          "Source/Where to Find": "Dry plant fiber (cattail down)",
+          "Primitive Tier": "Collected plant fluff",
+          "Salvage Tier": "Dryer lint, plant fiber",
+          "Modern Tier": "Cotton balls, char cloth",
+          "Notes": "Keep completely dry"
+        },
+        {
+          "Skill": "Fire Banking",
+          "Material": "Fire banking material",
+          "Quantity": "As needed",
+          "Source/Where to Find": "Ash, coals, slow-burning wood",
+          "Primitive Tier": "Self-collected materials",
+          "Salvage Tier": "Salvaged coal/charcoal",
+          "Modern Tier": "Hardwood charcoal",
+          "Notes": "Keeps fire alive overnight"
+        },
+        {
+          "Skill": "Fire Banking",
+          "Material": "Large container/pit",
+          "Quantity": "1-2 pits",
+          "Source/Where to Find": "Excavated fire pit",
+          "Primitive Tier": "Dug earth pit",
+          "Salvage Tier": "Rock ring, salvaged metal",
+          "Modern Tier": "Fire brick construction",
+          "Notes": "Insulates hot coals"
+        },
+        {
+          "Skill": "Solar Fire",
+          "Material": "Magnifying lens",
+          "Quantity": "1 lens",
+          "Source/Where to Find": "Found clear crystal/ice",
+          "Primitive Tier": "Natural lens found/made",
+          "Salvage Tier": "Salvaged glass lens",
+          "Modern Tier": "Fresnel lens",
+          "Notes": "Focuses sunlight to point"
+        },
+        {
+          "Skill": "Solar Fire",
+          "Material": "Tinder material",
+          "Quantity": "10+ grams",
+          "Source/Where to Find": "Fine dry plant material",
+          "Primitive Tier": "Collected fuzz, char cloth",
+          "Salvage Tier": "Salvaged dried material",
+          "Modern Tier": "Char cloth",
+          "Notes": "Must be very dry and fine"
+        },
+        {
+          "Skill": "Charcoal Making",
+          "Material": "Kiln or pit",
+          "Quantity": "1 kiln",
+          "Source/Where to Find": "Earthen pit with sealed top",
+          "Primitive Tier": "Self-built clay kiln",
+          "Salvage Tier": "Metal drum kiln",
+          "Modern Tier": "Purpose-built kiln",
+          "Notes": "Anaerobic burning"
+        },
+        {
+          "Skill": "Charcoal Making",
+          "Material": "Hardwood logs",
+          "Quantity": "50+ pounds",
+          "Source/Where to Find": "Oak, maple, birch",
+          "Primitive Tier": "Locally harvested",
+          "Salvage Tier": "Salvaged hardwood",
+          "Modern Tier": "Purchased firewood",
+          "Notes": "Must be seasoned"
+        },
+        {
+          "Skill": "Charcoal Making",
+          "Material": "Air holes",
+          "Quantity": "Variable",
+          "Source/Where to Find": "Small openings at bottom",
+          "Primitive Tier": "Minimal air introduction",
+          "Salvage Tier": "Controlled vents",
+          "Modern Tier": "Adjustable dampers",
+          "Notes": "Controls burn rate"
+        },
+        {
+          "Skill": "Oil Lamps",
+          "Material": "Oil lamp vessel",
+          "Quantity": "2-3 lamps",
+          "Source/Where to Find": "Carved clay or stone",
+          "Primitive Tier": "Handmade ceramic",
+          "Salvage Tier": "Salvaged glass bottles",
+          "Modern Tier": "Ceramic or glass lamp",
+          "Notes": "Must be heat-resistant"
+        },
+        {
+          "Skill": "Oil Lamps",
+          "Material": "Wick material",
+          "Quantity": "50+ feet",
+          "Source/Where to Find": "Twisted plant fiber",
+          "Primitive Tier": "Hand-spun plant cord",
+          "Salvage Tier": "Salvaged cotton rope",
+          "Modern Tier": "Commercial wicks",
+          "Notes": "Absorbs oil, burns slowly"
+        },
+        {
+          "Skill": "Oil Lamps",
+          "Material": "Fuel oil",
+          "Quantity": "1 gallon/month",
+          "Source/Where to Find": "Animal fat rendered",
+          "Primitive Tier": "Rendered animal fat",
+          "Salvage Tier": "Salvaged motor oil",
+          "Modern Tier": "Kerosene or plant oil",
+          "Notes": "Vegetable oil works"
+        },
+        {
+          "Skill": "Basic Electrical",
+          "Material": "Wire (copper)",
+          "Quantity": "100+ feet",
+          "Source/Where to Find": "Salvaged from copper ore",
+          "Primitive Tier": "Smelted and drawn",
+          "Salvage Tier": "Scavenged wire/cables",
+          "Modern Tier": "Electrical wire",
+          "Notes": "Bare or insulated"
+        },
+        {
+          "Skill": "Basic Electrical",
+          "Material": "Battery",
+          "Quantity": "2-4 cells",
+          "Source/Where to Find": "Galvanic cells (acid + metals)",
+          "Primitive Tier": "Homemade electrodes",
+          "Salvage Tier": "Salvaged batteries",
+          "Modern Tier": "AA/AAA batteries",
+          "Notes": "Store in cool, dry place"
+        },
+        {
+          "Skill": "Basic Electrical",
+          "Material": "Switch components",
+          "Quantity": "5-10 pieces",
+          "Source/Where to Find": "Manual lever/contact",
+          "Primitive Tier": "Hand-carved switch",
+          "Salvage Tier": "Salvaged switch parts",
+          "Modern Tier": "Commercial switches",
+          "Notes": "Complete circuits control"
+        },
+        {
+          "Skill": "Solar Panels",
+          "Material": "Solar panel",
+          "Quantity": "1-4 panels",
+          "Source/Where to Find": "Not primitive - skip",
+          "Primitive Tier": "N/A",
+          "Salvage Tier": "Salvaged panels",
+          "Modern Tier": "100-400W panel",
+          "Notes": "Harvest free renewable energy"
+        },
+        {
+          "Skill": "Solar Panels",
+          "Material": "Battery storage",
+          "Quantity": "1-2 batteries",
+          "Source/Where to Find": "Not applicable",
+          "Primitive Tier": "N/A",
+          "Salvage Tier": "Salvaged car batteries",
+          "Modern Tier": "Lithium or lead-acid",
+          "Notes": "Store electrical energy"
+        }
+      ],
+      "rowCount": 20
+    },
+    "Shelter & Construction": {
+      "headers": [
+        "Skill",
+        "Material",
+        "Quantity",
+        "Source/Where to Find",
+        "Primitive Tier",
+        "Salvage Tier",
+        "Modern Tier",
+        "Notes"
+      ],
+      "rows": [
+        {
+          "Skill": "Debris Shelter",
+          "Material": "Poles/branches",
+          "Quantity": "20-30 pieces",
+          "Source/Where to Find": "Branches from trees",
+          "Primitive Tier": "Cut branches, saplings",
+          "Salvage Tier": "Salvaged scrap wood",
+          "Modern Tier": "Bought timber",
+          "Notes": "Frame structure"
+        },
+        {
+          "Skill": "Debris Shelter",
+          "Material": "Debris/leaves",
+          "Quantity": "2+ cubic yards",
+          "Source/Where to Find": "Leaves, bark, dried grass",
+          "Primitive Tier": "Collected from nature",
+          "Salvage Tier": "Salvaged leaves, straw",
+          "Modern Tier": "Purchased straw",
+          "Notes": "Insulation and cover"
+        },
+        {
+          "Skill": "Debris Shelter",
+          "Material": "Large branch (ridge)",
+          "Quantity": "1-2 pieces",
+          "Source/Where to Find": "3-6 inch diameter",
+          "Primitive Tier": "Fallen trees",
+          "Salvage Tier": "Salvaged logs",
+          "Modern Tier": "Bought lumber",
+          "Notes": "Backbone of shelter"
+        },
+        {
+          "Skill": "Tarp Shelter",
+          "Material": "Tarp material",
+          "Quantity": "8x10 to 12x16 ft",
+          "Source/Where to Find": "Woven plant fiber sheets",
+          "Primitive Tier": "Self-made woven fabric",
+          "Salvage Tier": "Salvaged canvas/tarps",
+          "Modern Tier": "Modern tarp",
+          "Notes": "Creates waterproof layer"
+        },
+        {
+          "Skill": "Tarp Shelter",
+          "Material": "Rope/cordage",
+          "Quantity": "100+ feet",
+          "Source/Where to Find": "Twisted plant fiber",
+          "Primitive Tier": "Hand-made cordage",
+          "Salvage Tier": "Salvaged rope",
+          "Modern Tier": "Nylon rope",
+          "Notes": "Tie-down lines"
+        },
+        {
+          "Skill": "Tarp Shelter",
+          "Material": "Poles",
+          "Quantity": "4-8 poles",
+          "Source/Where to Find": "Saplings 2-3 inches diameter",
+          "Primitive Tier": "Cut from trees",
+          "Salvage Tier": "Salvaged poles",
+          "Modern Tier": "Bought lumber",
+          "Notes": "Support structure"
+        },
+        {
+          "Skill": "Log Cabin",
+          "Material": "Axes",
+          "Quantity": "2-3 axes",
+          "Source/Where to Find": "Stone/bone heads + wood handles",
+          "Primitive Tier": "Hand-crafted",
+          "Salvage Tier": "Salvaged axes",
+          "Modern Tier": "Steel axes",
+          "Notes": "Fell and trim logs"
+        },
+        {
+          "Skill": "Log Cabin",
+          "Material": "Saws",
+          "Quantity": "2-3 saws",
+          "Source/Where to Find": "Hand saw with teeth",
+          "Primitive Tier": "Bone/stone teeth",
+          "Salvage Tier": "Salvaged hand saws",
+          "Modern Tier": "Modern hand saw",
+          "Notes": "Cut logs to length"
+        },
+        {
+          "Skill": "Log Cabin",
+          "Material": "Chisels",
+          "Quantity": "3-5 chisels",
+          "Source/Where to Find": "Stone/bone/metal blades",
+          "Primitive Tier": "Hand-forged or carved",
+          "Salvage Tier": "Salvaged chisels",
+          "Modern Tier": "Steel chisels",
+          "Notes": "Notch log joints"
+        },
+        {
+          "Skill": "Log Cabin",
+          "Material": "Logs (main)",
+          "Quantity": "50-100 logs",
+          "Source/Where to Find": "4-10 inch diameter",
+          "Primitive Tier": "Felled trees on property",
+          "Salvage Tier": "Salvaged logs",
+          "Modern Tier": "Bought logs",
+          "Notes": "16-20 ft lengths typical"
+        },
+        {
+          "Skill": "Log Cabin",
+          "Material": "Chinking material",
+          "Quantity": "50+ pounds",
+          "Source/Where to Find": "Clay + straw/fiber",
+          "Primitive Tier": "Dug clay, collected straw",
+          "Salvage Tier": "Salvaged clay/mud",
+          "Modern Tier": "Caulk/chinking compound",
+          "Notes": "Fill gaps between logs"
+        },
+        {
+          "Skill": "Log Cabin",
+          "Material": "Foundation stones",
+          "Quantity": "20-40 tons",
+          "Source/Where to Find": "Fieldstone from ground",
+          "Primitive Tier": "Gathered/quarried stones",
+          "Salvage Tier": "Salvaged stone",
+          "Modern Tier": "Bought stone/concrete",
+          "Notes": "Prevent ground rot"
+        },
+        {
+          "Skill": "Earthen Building - Cob",
+          "Material": "Clay",
+          "Quantity": "10+ cubic yards",
+          "Source/Where to Find": "Dug from ground",
+          "Primitive Tier": "Local soil deposit",
+          "Salvage Tier": "Salvaged/quarried clay",
+          "Modern Tier": "Purchased clay",
+          "Notes": "Bind material"
+        },
+        {
+          "Skill": "Earthen Building - Cob",
+          "Material": "Straw/hay",
+          "Quantity": "50+ pounds",
+          "Source/Where to Find": "Harvest or collect",
+          "Primitive Tier": "Collected dry grass",
+          "Salvage Tier": "Salvaged straw",
+          "Modern Tier": "Purchased straw",
+          "Notes": "Reinforce material"
+        },
+        {
+          "Skill": "Earthen Building - Cob",
+          "Material": "Sand",
+          "Quantity": "5+ cubic yards",
+          "Source/Where to Find": "River/beach sand",
+          "Primitive Tier": "Collected from riverbeds",
+          "Salvage Tier": "Salvaged sand",
+          "Modern Tier": "Purchased sand",
+          "Notes": "Aggregate material"
+        },
+        {
+          "Skill": "Earthen Building - Adobe",
+          "Material": "Molds",
+          "Quantity": "1-2 molds",
+          "Source/Where to Find": "Wooden forms",
+          "Primitive Tier": "Hand-made wooden frames",
+          "Salvage Tier": "Salvaged wood forms",
+          "Modern Tier": "Commercial molds",
+          "Notes": "Shape bricks"
+        },
+        {
+          "Skill": "Earthen Building - Adobe",
+          "Material": "Adobe bricks",
+          "Quantity": "500-1000 bricks",
+          "Source/Where to Find": "Clay + straw, sun-dried",
+          "Primitive Tier": "Self-made from materials",
+          "Salvage Tier": "Salvaged bricks",
+          "Modern Tier": "Purchased adobe",
+          "Notes": "12x18x4 inch typical"
+        },
+        {
+          "Skill": "Roofing",
+          "Material": "Thatch material",
+          "Quantity": "100+ bundles",
+          "Source/Where to Find": "Reeds, straw, bark",
+          "Primitive Tier": "Collected and bundled",
+          "Salvage Tier": "Salvaged thatch",
+          "Modern Tier": "Thatching supplies",
+          "Notes": "Water-resistant cover"
+        },
+        {
+          "Skill": "Roofing",
+          "Material": "Metal sheeting",
+          "Quantity": "200+ sq ft",
+          "Source/Where to Find": "Salvaged sheet metal",
+          "Primitive Tier": "Beaten copper/tin",
+          "Salvage Tier": "Corrugated metal sheets",
+          "Modern Tier": "Metal roofing",
+          "Notes": "Long-lasting option"
+        },
+        {
+          "Skill": "Roofing",
+          "Material": "Shingles",
+          "Quantity": "200+ pieces",
+          "Source/Where to Find": "Carved wood or bark",
+          "Primitive Tier": "Hand-split shakes",
+          "Salvage Tier": "Salvaged shingles",
+          "Modern Tier": "Modern shingles",
+          "Notes": "Overlap for water-shedding"
+        },
+        {
+          "Skill": "Insulation",
+          "Material": "Cellulose/fiber",
+          "Quantity": "100+ sq ft",
+          "Source/Where to Find": "Dried plant material",
+          "Primitive Tier": "Straw, cattail, reeds",
+          "Salvage Tier": "Salvaged newspaper, straw",
+          "Modern Tier": "Commercial batts",
+          "Notes": "Fill wall cavities"
+        },
+        {
+          "Skill": "Insulation",
+          "Material": "Mineral wool",
+          "Quantity": "100+ sq ft",
+          "Source/Where to Find": "N/A primitive",
+          "Primitive Tier": "N/A",
+          "Salvage Tier": "Salvaged mineral wool",
+          "Modern Tier": "Purchased batts",
+          "Notes": "Fire-resistant option"
+        },
+        {
+          "Skill": "Foundation",
+          "Material": "Stone/rock",
+          "Quantity": "50+ tons",
+          "Source/Where to Find": "Gathered fieldstone",
+          "Primitive Tier": "Collected local stone",
+          "Salvage Tier": "Salvaged stone blocks",
+          "Modern Tier": "Concrete footings",
+          "Notes": "Raise structure off ground"
+        },
+        {
+          "Skill": "Foundation",
+          "Material": "Mortar (clay/lime)",
+          "Quantity": "50+ pounds",
+          "Source/Where to Find": "Clay, lime, sand",
+          "Primitive Tier": "Foraged/made lime",
+          "Salvage Tier": "Salvaged mortar",
+          "Modern Tier": "Portland cement",
+          "Notes": "Bind foundation stones"
+        },
+        {
+          "Skill": "Doors & Windows",
+          "Material": "Frame material",
+          "Quantity": "20-40 linear feet",
+          "Source/Where to Find": "Carved wood",
+          "Primitive Tier": "Fitted wooden frames",
+          "Salvage Tier": "Salvaged window frames",
+          "Modern Tier": "Metal framing",
+          "Notes": "Support hinged elements"
+        },
+        {
+          "Skill": "Doors & Windows",
+          "Material": "Hinges",
+          "Quantity": "8-12 hinges",
+          "Source/Where to Find": "Forged metal",
+          "Primitive Tier": "Hand-forged iron",
+          "Salvage Tier": "Salvaged hinges",
+          "Modern Tier": "Steel hinges",
+          "Notes": "Allow opening/closing"
+        },
+        {
+          "Skill": "Doors & Windows",
+          "Material": "Latch/handle",
+          "Quantity": "2-4 latches",
+          "Source/Where to Find": "Carved wood/bone",
+          "Primitive Tier": "Hand-carved toggle",
+          "Salvage Tier": "Salvaged latches",
+          "Modern Tier": "Metal latches",
+          "Notes": "Secure door closure"
+        },
+        {
+          "Skill": "Doors & Windows",
+          "Material": "Glass/panes",
+          "Quantity": "4-12 panes",
+          "Source/Where to Find": "Not primitive - N/A",
+          "Primitive Tier": "Oiled paper/leather",
+          "Salvage Tier": "Salvaged windows",
+          "Modern Tier": "Glass panes",
+          "Notes": "Allow light transmission"
+        },
+        {
+          "Skill": "Chimney",
+          "Material": "Chimney brick",
+          "Quantity": "500-1000 bricks",
+          "Source/Where to Find": "Clay bricks",
+          "Primitive Tier": "Self-made fired brick",
+          "Salvage Tier": "Salvaged bricks",
+          "Modern Tier": "Purchased bricks",
+          "Notes": "Heat-resistant material"
+        },
+        {
+          "Skill": "Chimney",
+          "Material": "Mortar",
+          "Quantity": "50+ pounds",
+          "Source/Where to Find": "Clay/lime mortar",
+          "Primitive Tier": "Made from ground materials",
+          "Salvage Tier": "Salvaged mortar",
+          "Modern Tier": "Cement mortar",
+          "Notes": "Bind bricks together"
+        }
+      ],
+      "rowCount": 30
+    },
+    "Food - Hunting & Gathering": {
+      "headers": [
+        "Skill",
+        "Material",
+        "Quantity",
+        "Source/Where to Find",
+        "Primitive Tier",
+        "Salvage Tier",
+        "Modern Tier",
+        "Notes"
+      ],
+      "rows": [
+        {
+          "Skill": "Trapping",
+          "Material": "Snare wire",
+          "Quantity": "50+ feet",
+          "Source/Where to Find": "Twisted plant fiber",
+          "Primitive Tier": "22-gauge wire from plants",
+          "Salvage Tier": "Salvaged 22-gauge wire",
+          "Modern Tier": "Hardware store wire",
+          "Notes": "Loop traps for small game"
+        },
+        {
+          "Skill": "Trapping",
+          "Material": "Trap components",
+          "Quantity": "20-30 pieces",
+          "Source/Where to Find": "Carved wood, bone pegs",
+          "Primitive Tier": "Hand-made from natural materials",
+          "Salvage Tier": "Salvaged spring/hinges",
+          "Modern Tier": "Commercial trap parts",
+          "Notes": "Deadfall, pit components"
+        },
+        {
+          "Skill": "Trapping",
+          "Material": "Bait container",
+          "Quantity": "2-3 containers",
+          "Source/Where to Find": "Natural fiber basket",
+          "Primitive Tier": "Woven plant fiber",
+          "Salvage Tier": "Tin cans, salvaged boxes",
+          "Modern Tier": "Small metal cage",
+          "Notes": "Hold bait safe from scavengers"
+        },
+        {
+          "Skill": "Bow & Arrow",
+          "Material": "Bow stave",
+          "Quantity": "1-2 staves",
+          "Source/Where to Find": "3-4 ft straight wood",
+          "Primitive Tier": "Yew, hickory, osage orange",
+          "Salvage Tier": "Salvaged PVC pipe (backup)",
+          "Modern Tier": "Ash or hickory wood",
+          "Notes": "Primary archer weapon"
+        },
+        {
+          "Skill": "Bow & Arrow",
+          "Material": "Bowstring",
+          "Quantity": "1-2 strings",
+          "Source/Where to Find": "Plant fiber or animal sinew",
+          "Primitive Tier": "Hand-twisted cordage",
+          "Salvage Tier": "Salvaged paracord",
+          "Modern Tier": "Commercial bowstring",
+          "Notes": "Must be strong and flexible"
+        },
+        {
+          "Skill": "Bow & Arrow",
+          "Material": "Arrow shafts",
+          "Quantity": "12-24 arrows",
+          "Source/Where to Find": "Straight branch wood",
+          "Primitive Tier": "Hand-selected, dried wood",
+          "Salvage Tier": "Salvaged dowels",
+          "Modern Tier": "Commercial shafts",
+          "Notes": "Tournament-grade accuracy"
+        },
+        {
+          "Skill": "Bow & Arrow",
+          "Material": "Arrow points",
+          "Quantity": "12-24 points",
+          "Source/Where to Find": "Knapped stone or bone",
+          "Primitive Tier": "Hand-knapped flint/obsidian",
+          "Salvage Tier": "Salvaged metal broadheads",
+          "Modern Tier": "Commercial broadheads",
+          "Notes": "Field or hunting tips"
+        },
+        {
+          "Skill": "Bow & Arrow",
+          "Material": "Arrow fletching",
+          "Quantity": "12-24 sets",
+          "Source/Where to Find": "Bird feathers (3 per arrow)",
+          "Primitive Tier": "Collected molt feathers",
+          "Salvage Tier": "Salvaged feathers",
+          "Modern Tier": "Commercial fletching",
+          "Notes": "Stabilize arrow flight"
+        },
+        {
+          "Skill": "Fishing",
+          "Material": "Fishing line",
+          "Quantity": "100+ feet",
+          "Source/Where to Find": "Plant fiber cordage",
+          "Primitive Tier": "Hand-twisted plant fiber",
+          "Salvage Tier": "Salvaged paracord, twine",
+          "Modern Tier": "Monofilament line",
+          "Notes": "Various weight ratings"
+        },
+        {
+          "Skill": "Fishing",
+          "Material": "Hooks",
+          "Quantity": "10-20 hooks",
+          "Source/Where to Find": "Bone or wood curved shape",
+          "Primitive Tier": "Hand-carved bone hooks",
+          "Salvage Tier": "Salvaged hooks",
+          "Modern Tier": "Commercial hooks",
+          "Notes": "Size #6-16 typical"
+        },
+        {
+          "Skill": "Fishing",
+          "Material": "Fish nets",
+          "Quantity": "1-2 nets",
+          "Source/Where to Find": "Knotted plant fiber",
+          "Primitive Tier": "Hand-tied network",
+          "Salvage Tier": "Salvaged net, cloth",
+          "Modern Tier": "Commercial nets",
+          "Notes": "3-10 foot diameter"
+        },
+        {
+          "Skill": "Fishing",
+          "Material": "Fish traps (weirs)",
+          "Quantity": "1-2 traps",
+          "Source/Where to Find": "Woven branch cage",
+          "Primitive Tier": "Hand-woven basket trap",
+          "Salvage Tier": "Salvaged cage materials",
+          "Modern Tier": "Crayfish trap",
+          "Notes": "Passive collection method"
+        },
+        {
+          "Skill": "Foraging Tools",
+          "Material": "Digging stick",
+          "Quantity": "1-2 sticks",
+          "Source/Where to Find": "Hardwood stake, pointed",
+          "Primitive Tier": "Natural wood with point",
+          "Salvage Tier": "Salvaged tool handle",
+          "Modern Tier": "Modern spade",
+          "Notes": "Extract root vegetables"
+        },
+        {
+          "Skill": "Foraging Tools",
+          "Material": "Baskets/containers",
+          "Quantity": "3-5 baskets",
+          "Source/Where to Find": "Woven plant fiber",
+          "Primitive Tier": "Hand-woven from natural material",
+          "Salvage Tier": "Salvaged baskets",
+          "Modern Tier": "Modern containers",
+          "Notes": "Carry gathered plants"
+        },
+        {
+          "Skill": "Foraging Tools",
+          "Material": "Knife/blade",
+          "Quantity": "1-2 blades",
+          "Source/Where to Find": "Knapped stone or carved bone",
+          "Primitive Tier": "Hand-made blade",
+          "Salvage Tier": "Salvaged knife",
+          "Modern Tier": "Steel knife",
+          "Notes": "Cut plants/mushrooms safely"
+        },
+        {
+          "Skill": "Game Processing",
+          "Material": "Butchering knife",
+          "Quantity": "1-2 knives",
+          "Source/Where to Find": "Bone/stone blade",
+          "Primitive Tier": "Hand-made and sharpened",
+          "Salvage Tier": "Salvaged hunting knife",
+          "Modern Tier": "Butcher's knife",
+          "Notes": "Sharp edge essential"
+        },
+        {
+          "Skill": "Game Processing",
+          "Material": "Meat saw",
+          "Quantity": "1 saw",
+          "Source/Where to Find": "Bone cutting blade",
+          "Primitive Tier": "Hand-made saw",
+          "Salvage Tier": "Salvaged hacksaw blade",
+          "Modern Tier": "Meat saw",
+          "Notes": "Cut through bone safely"
+        },
+        {
+          "Skill": "Game Processing",
+          "Material": "Cutting board",
+          "Quantity": "1-2 boards",
+          "Source/Where to Find": "Flat wood surface",
+          "Primitive Tier": "Carved wood board",
+          "Salvage Tier": "Salvaged wood board",
+          "Modern Tier": "Modern cutting board",
+          "Notes": "Keep sanitary"
+        },
+        {
+          "Skill": "Game Processing",
+          "Material": "Storage container",
+          "Quantity": "3-5 containers",
+          "Source/Where to Find": "Sealed wood/pottery vessels",
+          "Primitive Tier": "Hand-made ceramic",
+          "Salvage Tier": "Salvaged jars, crocks",
+          "Modern Tier": "Food-grade plastic",
+          "Notes": "Preserve processed meat"
+        },
+        {
+          "Skill": "Hide Tanning",
+          "Material": "Tanning solution",
+          "Quantity": "10+ gallons",
+          "Source/Where to Find": "Oak gall solution, plant tannins",
+          "Primitive Tier": "Foraged tannin plants",
+          "Salvage Tier": "Salvaged tree bark extract",
+          "Modern Tier": "Commercial tanning",
+          "Notes": "Chemical process"
+        },
+        {
+          "Skill": "Hide Tanning",
+          "Material": "Scraping tool",
+          "Quantity": "2-3 tools",
+          "Source/Where to Find": "Bone or stone scraper",
+          "Primitive Tier": "Hand-made from materials",
+          "Salvage Tier": "Salvaged metal scraper",
+          "Modern Tier": "Fleshing tool",
+          "Notes": "Remove flesh from hide"
+        },
+        {
+          "Skill": "Hide Tanning",
+          "Material": "Stretching frame",
+          "Quantity": "1-2 frames",
+          "Source/Where to Find": "Wood frame with pegs",
+          "Primitive Tier": "Hand-made wood construction",
+          "Salvage Tier": "Salvaged frame",
+          "Modern Tier": "Professional frame",
+          "Notes": "Dry hide under tension"
+        }
+      ],
+      "rowCount": 22
+    },
+    "Food - Agriculture": {
+      "headers": [
+        "Skill",
+        "Material",
+        "Quantity",
+        "Source/Where to Find",
+        "Primitive Tier",
+        "Salvage Tier",
+        "Modern Tier",
+        "Notes"
+      ],
+      "rows": [
+        {
+          "Skill": "Garden Beds",
+          "Material": "Raised bed frame",
+          "Quantity": "4-8 beds",
+          "Source/Where to Find": "Logs or wood planks",
+          "Primitive Tier": "Stacked logs, no fasteners",
+          "Salvage Tier": "Salvaged wood planks",
+          "Modern Tier": "2x8 lumber",
+          "Notes": "4x8x12 inches typical"
+        },
+        {
+          "Skill": "Garden Beds",
+          "Material": "Soil amendment",
+          "Quantity": "20+ cubic yards",
+          "Source/Where to Find": "Compost, leaf matter",
+          "Primitive Tier": "Self-composted material",
+          "Salvage Tier": "Salvaged topsoil",
+          "Modern Tier": "Garden soil bags",
+          "Notes": "Improve soil fertility"
+        },
+        {
+          "Skill": "Garden Beds",
+          "Material": "Mulch",
+          "Quantity": "10+ cubic yards",
+          "Source/Where to Find": "Dried leaves, straw, wood chips",
+          "Primitive Tier": "Collected/made locally",
+          "Salvage Tier": "Salvaged wood chips",
+          "Modern Tier": "Wood chip mulch",
+          "Notes": "Retain moisture, prevent weeds"
+        },
+        {
+          "Skill": "Irrigation",
+          "Material": "Water source",
+          "Quantity": "Continuous",
+          "Source/Where to Find": "Well, stream, collected rain",
+          "Primitive Tier": "Hand-carried buckets",
+          "Salvage Tier": "Salvaged barrel system",
+          "Modern Tier": "Drip irrigation kit",
+          "Notes": "Constant water supply"
+        },
+        {
+          "Skill": "Irrigation",
+          "Material": "Irrigation channels",
+          "Quantity": "100+ feet",
+          "Source/Where to Find": "Dug trenches or wooden troughs",
+          "Primitive Tier": "Hand-dug channels",
+          "Salvage Tier": "Salvaged PVC/wood",
+          "Modern Tier": "PVC pipe system",
+          "Notes": "Guide water to plants"
+        },
+        {
+          "Skill": "Irrigation",
+          "Material": "Watering can/bucket",
+          "Quantity": "2-4 containers",
+          "Source/Where to Find": "Carved wood or clay",
+          "Primitive Tier": "Hand-made vessel",
+          "Salvage Tier": "Salvaged watering can",
+          "Modern Tier": "Galvanized can",
+          "Notes": "Manual water application"
+        },
+        {
+          "Skill": "Crop Storage",
+          "Material": "Root cellar",
+          "Quantity": "1 cellar",
+          "Source/Where to Find": "Underground chamber",
+          "Primitive Tier": "Dug earth cellar",
+          "Salvage Tier": "Salvaged building",
+          "Modern Tier": "Purpose-built cellar",
+          "Notes": "45-55°F, 90-95% humidity"
+        },
+        {
+          "Skill": "Crop Storage",
+          "Material": "Storage racks/shelves",
+          "Quantity": "10-20 shelves",
+          "Source/Where to Find": "Wood slats",
+          "Primitive Tier": "Hand-built from wood",
+          "Salvage Tier": "Salvaged shelving",
+          "Modern Tier": "Metal shelving",
+          "Notes": "Organize stored crops"
+        },
+        {
+          "Skill": "Crop Storage",
+          "Material": "Storage containers",
+          "Quantity": "20-40 containers",
+          "Source/Where to Find": "Clay pots, wooden boxes",
+          "Primitive Tier": "Handmade ceramic",
+          "Salvage Tier": "Salvaged boxes, crates",
+          "Modern Tier": "Food-grade containers",
+          "Notes": "Keep produce organized"
+        },
+        {
+          "Skill": "Seed Saving",
+          "Material": "Seed drying rack",
+          "Quantity": "2-4 racks",
+          "Source/Where to Find": "Fine mesh on frame",
+          "Primitive Tier": "Woven plant fiber mesh",
+          "Salvage Tier": "Salvaged screen",
+          "Modern Tier": "Window screen",
+          "Notes": "Air-dry saved seeds"
+        },
+        {
+          "Skill": "Seed Saving",
+          "Material": "Seed storage jars",
+          "Quantity": "10-20 jars",
+          "Source/Where to Find": "Sealed pottery vessels",
+          "Primitive Tier": "Handmade with tight lids",
+          "Salvage Tier": "Salvaged glass jars",
+          "Modern Tier": "Mason jars",
+          "Notes": "Keep cool, dark, dry"
+        },
+        {
+          "Skill": "Seed Saving",
+          "Material": "Labels/records",
+          "Quantity": "As needed",
+          "Source/Where to Find": "Plant fiber paper",
+          "Primitive Tier": "Hand-made plant paper",
+          "Salvage Tier": "Salvaged cardboard",
+          "Modern Tier": "Modern labels",
+          "Notes": "Track seed varieties/dates"
+        },
+        {
+          "Skill": "Soil Amendment",
+          "Material": "Compost materials",
+          "Quantity": "Ongoing",
+          "Source/Where to Find": "Food scraps, leaves, manure",
+          "Primitive Tier": "Collected from daily waste",
+          "Salvage Tier": "Animal manure, grass clippings",
+          "Modern Tier": "Commercial compost",
+          "Notes": "Build soil nutrients over time"
+        },
+        {
+          "Skill": "Soil Amendment",
+          "Material": "Lime (pH adjustment)",
+          "Quantity": "10-20 pounds",
+          "Source/Where to Find": "Calcium carbonate from shells",
+          "Primitive Tier": "Crushed seashells or limestone",
+          "Salvage Tier": "Salvaged lime",
+          "Modern Tier": "Agricultural lime",
+          "Notes": "Neutralize acidic soil"
+        },
+        {
+          "Skill": "Composting",
+          "Material": "Compost bin",
+          "Quantity": "1-2 bins",
+          "Source/Where to Find": "Stacked logs or wood frame",
+          "Primitive Tier": "Hand-built wood box",
+          "Salvage Tier": "Salvaged pallets/bin",
+          "Modern Tier": "Commercial composter",
+          "Notes": "3x3x3 ft minimum"
+        },
+        {
+          "Skill": "Composting",
+          "Material": "Carbon material",
+          "Quantity": "20+ pounds",
+          "Source/Where to Find": "Dried leaves, paper, straw",
+          "Primitive Tier": "Collected leaves/scrap",
+          "Salvage Tier": "Salvaged cardboard/paper",
+          "Modern Tier": "Shredded newspaper",
+          "Notes": "Browns layer"
+        },
+        {
+          "Skill": "Composting",
+          "Material": "Nitrogen material",
+          "Quantity": "10+ pounds",
+          "Source/Where to Find": "Food scraps, manure, grass",
+          "Primitive Tier": "Kitchen waste, animal manure",
+          "Salvage Tier": "Salvaged material",
+          "Modern Tier": "Fresh grass clippings",
+          "Notes": "Greens layer"
+        },
+        {
+          "Skill": "Animal Husbandry - Fencing",
+          "Material": "Fence material",
+          "Quantity": "500+ linear feet",
+          "Source/Where to Find": "Branches, logs, twine",
+          "Primitive Tier": "Hand-made enclosure",
+          "Salvage Tier": "Salvaged wire, metal",
+          "Modern Tier": "Wire fencing",
+          "Notes": "Contain animals securely"
+        },
+        {
+          "Skill": "Animal Husbandry - Shelter",
+          "Material": "Shelter frame",
+          "Quantity": "1-2 shelters",
+          "Source/Where to Find": "Wood/logs",
+          "Primitive Tier": "Hand-built structure",
+          "Salvage Tier": "Salvaged lumber",
+          "Modern Tier": "Wood frame",
+          "Notes": "Protect animals from weather"
+        },
+        {
+          "Skill": "Animal Husbandry - Shelter",
+          "Material": "Bedding material",
+          "Quantity": "20+ pounds",
+          "Source/Where to Find": "Straw, leaves, wood shavings",
+          "Primitive Tier": "Collected natural material",
+          "Salvage Tier": "Salvaged straw",
+          "Modern Tier": "Purchased bedding",
+          "Notes": "Absorb waste, insulate"
+        },
+        {
+          "Skill": "Animal Husbandry - Feed",
+          "Material": "Grain/feed storage",
+          "Quantity": "50+ pounds",
+          "Source/Where to Find": "Sealed containers",
+          "Primitive Tier": "Sealed wood/clay vessel",
+          "Salvage Tier": "Salvaged barrel/crate",
+          "Modern Tier": "Metal trash cans",
+          "Notes": "Rat-proof storage"
+        },
+        {
+          "Skill": "Animal Husbandry - Water",
+          "Material": "Water trough",
+          "Quantity": "1-3 troughs",
+          "Source/Where to Find": "Carved log or stone",
+          "Primitive Tier": "Hand-carved vessel",
+          "Salvage Tier": "Salvaged metal trough",
+          "Modern Tier": "Metal or plastic trough",
+          "Notes": "Fresh water daily"
+        },
+        {
+          "Skill": "Animal Husbandry - Vet Basics",
+          "Material": "First aid supplies",
+          "Quantity": "1 kit",
+          "Source/Where to Find": "Herbs, cloth bandages",
+          "Primitive Tier": "Foraged medicinal plants",
+          "Salvage Tier": "Salvaged medical supplies",
+          "Modern Tier": "Modern vet kit",
+          "Notes": "Treat common injuries"
+        }
+      ],
+      "rowCount": 23
+    },
+    "Food Preservation": {
+      "headers": [
+        "Skill",
+        "Material",
+        "Quantity",
+        "Source/Where to Find",
+        "Primitive Tier",
+        "Salvage Tier",
+        "Modern Tier",
+        "Notes"
+      ],
+      "rows": [
+        {
+          "Skill": "Smoking",
+          "Material": "Smokehouse",
+          "Quantity": "1 structure",
+          "Source/Where to Find": "Small enclosed wood building",
+          "Primitive Tier": "Hand-built log structure",
+          "Salvage Tier": "Salvaged shed",
+          "Modern Tier": "Purpose-built smoker",
+          "Notes": "Cold smoke 40-90°F"
+        },
+        {
+          "Skill": "Smoking",
+          "Material": "Smoke source (wood)",
+          "Quantity": "10+ cords",
+          "Source/Where to Find": "Hardwood (oak, hickory)",
+          "Primitive Tier": "Collected/cut wood",
+          "Salvage Tier": "Salvaged untreated wood",
+          "Modern Tier": "Smoking wood chips",
+          "Notes": "Never use softwood"
+        },
+        {
+          "Skill": "Smoking",
+          "Material": "Meat hooks/racks",
+          "Quantity": "20-30 hooks",
+          "Source/Where to Find": "Carved wood or bent branch",
+          "Primitive Tier": "Hand-made from materials",
+          "Salvage Tier": "Salvaged hooks",
+          "Modern Tier": "Metal S-hooks",
+          "Notes": "Hang meat for smoking"
+        },
+        {
+          "Skill": "Smoking",
+          "Material": "Temperature control",
+          "Quantity": "1 system",
+          "Source/Where to Find": "Fire management",
+          "Primitive Tier": "Manual fire tending",
+          "Salvage Tier": "Salvaged thermometer",
+          "Modern Tier": "Meat thermometer",
+          "Notes": "Monitor internal temp"
+        },
+        {
+          "Skill": "Drying/Dehydrating",
+          "Material": "Drying rack",
+          "Quantity": "4-6 racks",
+          "Source/Where to Find": "Wood frame with cloth",
+          "Primitive Tier": "Hand-made from materials",
+          "Salvage Tier": "Salvaged screen",
+          "Modern Tier": "Dehydrator trays",
+          "Notes": "Air circulation essential"
+        },
+        {
+          "Skill": "Drying/Dehydrating",
+          "Material": "Drying surface",
+          "Quantity": "100+ sq ft",
+          "Source/Where to Find": "Woven cloth or mesh",
+          "Primitive Tier": "Woven plant fiber",
+          "Salvage Tier": "Salvaged cheesecloth",
+          "Modern Tier": "Parchment paper",
+          "Notes": "Non-stick surface"
+        },
+        {
+          "Skill": "Drying/Dehydrating",
+          "Material": "Location",
+          "Quantity": "1 location",
+          "Source/Where to Find": "Warm, dry, ventilated space",
+          "Primitive Tier": "Open air/structure",
+          "Salvage Tier": "Shed or attic space",
+          "Modern Tier": "Controlled environment",
+          "Notes": "70-90°F, low humidity ideal"
+        },
+        {
+          "Skill": "Salt Curing",
+          "Material": "Salt source",
+          "Quantity": "50+ pounds",
+          "Source/Where to Find": "Evaporated sea salt or rock salt",
+          "Primitive Tier": "Evaporated from salt water",
+          "Salvage Tier": "Salvaged salt",
+          "Modern Tier": "Sea salt or rock salt",
+          "Notes": "Dry brining material"
+        },
+        {
+          "Skill": "Salt Curing",
+          "Material": "Curing container",
+          "Quantity": "2-3 containers",
+          "Source/Where to Find": "Clay or wooden vessel",
+          "Primitive Tier": "Hand-made ceramic",
+          "Salvage Tier": "Salvaged crock/barrel",
+          "Modern Tier": "Food-grade plastic",
+          "Notes": "Non-reactive material"
+        },
+        {
+          "Skill": "Salt Curing",
+          "Material": "Weight",
+          "Quantity": "10-20 pounds",
+          "Source/Where to Find": "Stone or wood board",
+          "Primitive Tier": "Weighted stone/wood",
+          "Salvage Tier": "Salvaged weights",
+          "Modern Tier": "Metal weights",
+          "Notes": "Press meat down"
+        },
+        {
+          "Skill": "Fermentation",
+          "Material": "Fermentation vessel",
+          "Quantity": "5-10 vessels",
+          "Source/Where to Find": "Glass jars or ceramic crocks",
+          "Primitive Tier": "Handmade ceramic",
+          "Salvage Tier": "Salvaged glass jars",
+          "Modern Tier": "Mason jars or crocks",
+          "Notes": "1-2 gallon capacity"
+        },
+        {
+          "Skill": "Fermentation",
+          "Material": "Starter culture",
+          "Quantity": "As needed",
+          "Source/Where to Find": "Whey, starter cabbage",
+          "Primitive Tier": "Cultured whey or existing batch",
+          "Salvage Tier": "Salvaged starter",
+          "Modern Tier": "Commercial starter culture",
+          "Notes": "Ensure proper fermentation"
+        },
+        {
+          "Skill": "Fermentation",
+          "Material": "Weights (submersion)",
+          "Quantity": "5-10 pieces",
+          "Source/Where to Find": "Small stones or weights",
+          "Primitive Tier": "Natural stone",
+          "Salvage Tier": "Salvaged weights",
+          "Modern Tier": "Glass weights",
+          "Notes": "Keep veg submerged"
+        },
+        {
+          "Skill": "Fermentation",
+          "Material": "Cloth covers",
+          "Quantity": "10-20 cloths",
+          "Source/Where to Find": "Woven plant fiber",
+          "Primitive Tier": "Hand-woven material",
+          "Salvage Tier": "Salvaged cloth",
+          "Modern Tier": "Cheesecloth",
+          "Notes": "Cover, prevent dust"
+        },
+        {
+          "Skill": "Canning",
+          "Material": "Glass jars",
+          "Quantity": "50-100 jars",
+          "Source/Where to Find": "Reusable glass canning jars",
+          "Primitive Tier": "Handmade glass blown",
+          "Salvage Tier": "Salvaged mason jars",
+          "Modern Tier": "Mason jars",
+          "Notes": "Various sizes (8oz-quart)"
+        },
+        {
+          "Skill": "Canning",
+          "Material": "Canning lids",
+          "Quantity": "50-100 lids",
+          "Source/Where to Find": "Metal lids with seals",
+          "Primitive Tier": "Not primitive - N/A",
+          "Salvage Tier": "Salvaged lids",
+          "Modern Tier": "Two-piece lids",
+          "Notes": "One-time use sealing"
+        },
+        {
+          "Skill": "Canning",
+          "Material": "Large pot (water bath)",
+          "Quantity": "1-2 pots",
+          "Source/Where to Find": "Large metal pot",
+          "Primitive Tier": "Large clay pot",
+          "Salvage Tier": "Salvaged large pot",
+          "Modern Tier": "Stainless steel pot",
+          "Notes": "10+ quart capacity"
+        },
+        {
+          "Skill": "Canning",
+          "Material": "Jar lifter/tools",
+          "Quantity": "1-2 sets",
+          "Source/Where to Find": "Forged metal or wood tongs",
+          "Primitive Tier": "Hand-made from materials",
+          "Salvage Tier": "Salvaged tongs",
+          "Modern Tier": "Canning tool set",
+          "Notes": "Handle hot jars safely"
+        },
+        {
+          "Skill": "Canning",
+          "Material": "Pressure canner",
+          "Quantity": "1 canner",
+          "Source/Where to Find": "Sealed pot with pressure gauge",
+          "Primitive Tier": "Not primitive",
+          "Salvage Tier": "Salvaged pressure cooker",
+          "Modern Tier": "Pressure canner",
+          "Notes": "21+ PSI for low-acid foods"
+        },
+        {
+          "Skill": "Root Cellaring",
+          "Material": "Root cellar structure",
+          "Quantity": "1 cellar",
+          "Source/Where to Find": "Underground chamber",
+          "Primitive Tier": "Hand-dug earth cellar",
+          "Salvage Tier": "Salvaged building space",
+          "Modern Tier": "Purpose-built cellar",
+          "Notes": "45-50°F, high humidity"
+        },
+        {
+          "Skill": "Root Cellaring",
+          "Material": "Storage racks",
+          "Quantity": "10-20 racks",
+          "Source/Where to Find": "Wood slats",
+          "Primitive Tier": "Hand-built wood shelving",
+          "Salvage Tier": "Salvaged shelves",
+          "Modern Tier": "Metal shelving",
+          "Notes": "Organize by crop type"
+        },
+        {
+          "Skill": "Root Cellaring",
+          "Material": "Ventilation",
+          "Quantity": "As needed",
+          "Source/Where to Find": "Air vents, pipes",
+          "Primitive Tier": "Dug air channels",
+          "Salvage Tier": "Salvaged pipe vents",
+          "Modern Tier": "PVC air ducts",
+          "Notes": "Maintain temperature"
+        }
+      ],
+      "rowCount": 22
+    },
+    "Crafting & Manufacturing": {
+      "headers": [
+        "Skill",
+        "Material",
+        "Quantity",
+        "Source/Where to Find",
+        "Primitive Tier",
+        "Salvage Tier",
+        "Modern Tier",
+        "Notes"
+      ],
+      "rows": [
+        {
+          "Skill": "Pottery/Ceramics",
+          "Material": "Clay source",
+          "Quantity": "10+ pounds",
+          "Source/Where to Find": "Dug from clay deposit",
+          "Primitive Tier": "Locally mined clay",
+          "Salvage Tier": "Salvaged clay",
+          "Modern Tier": "Purchased air-dry clay",
+          "Notes": "Test for plasticity"
+        },
+        {
+          "Skill": "Pottery/Ceramics",
+          "Material": "Pottery wheel",
+          "Quantity": "1 wheel",
+          "Source/Where to Find": "Hand-turned wood wheel",
+          "Primitive Tier": "Hand-made wooden wheel",
+          "Salvage Tier": "Salvaged wheel",
+          "Modern Tier": "Electric pottery wheel",
+          "Notes": "Spin clay for shaping"
+        },
+        {
+          "Skill": "Pottery/Ceramics",
+          "Material": "Hand tools",
+          "Quantity": "10-15 tools",
+          "Source/Where to Find": "Carved wood, bone tools",
+          "Primitive Tier": "Hand-made shapers",
+          "Salvage Tier": "Salvaged tools",
+          "Modern Tier": "Pottery tool set",
+          "Notes": "Shape and detail clay"
+        },
+        {
+          "Skill": "Pottery/Ceramics",
+          "Material": "Kiln",
+          "Quantity": "1 kiln",
+          "Source/Where to Find": "Clay brick kiln structure",
+          "Primitive Tier": "Hand-built brick kiln",
+          "Salvage Tier": "Salvaged kiln",
+          "Modern Tier": "Electric kiln",
+          "Notes": "Fire to high temperature"
+        },
+        {
+          "Skill": "Pottery/Ceramics",
+          "Material": "Glaze materials",
+          "Quantity": "5-10 pounds",
+          "Source/Where to Find": "Natural mineral glazes",
+          "Primitive Tier": "Crushed minerals + clay",
+          "Salvage Tier": "Salvaged glaze",
+          "Modern Tier": "Commercial glaze",
+          "Notes": "Color and seal surface"
+        },
+        {
+          "Skill": "Basket Weaving",
+          "Material": "Basket materials",
+          "Quantity": "50+ linear feet",
+          "Source/Where to Find": "Plant fiber (willow, reed)",
+          "Primitive Tier": "Harvested and dried",
+          "Salvage Tier": "Salvaged material",
+          "Modern Tier": "Commercial reed",
+          "Notes": "Warp material"
+        },
+        {
+          "Skill": "Basket Weaving",
+          "Material": "Weaving tools",
+          "Quantity": "3-5 tools",
+          "Source/Where to Find": "Hand tools",
+          "Primitive Tier": "Simple carved tools",
+          "Salvage Tier": "Salvaged tools",
+          "Modern Tier": "Weaving tool kit",
+          "Notes": "Guide and compress weave"
+        },
+        {
+          "Skill": "Basket Weaving",
+          "Material": "Dyes (optional)",
+          "Quantity": "2-3 colors",
+          "Source/Where to Find": "Plant-based dyes",
+          "Primitive Tier": "Foraged plant materials",
+          "Salvage Tier": "Salvaged dyes",
+          "Modern Tier": "Commercial dyes",
+          "Notes": "Color basketry"
+        },
+        {
+          "Skill": "Cordage/Rope",
+          "Material": "Fiber source",
+          "Quantity": "50+ pounds",
+          "Source/Where to Find": "Plant stalks (hemp, flax)",
+          "Primitive Tier": "Harvested plant material",
+          "Salvage Tier": "Salvaged fiber",
+          "Modern Tier": "Commercial twine/rope",
+          "Notes": "Twisted into cordage"
+        },
+        {
+          "Skill": "Cordage/Rope",
+          "Material": "Spinning wheel",
+          "Quantity": "1 wheel",
+          "Source/Where to Find": "Hand-turned wood wheel",
+          "Primitive Tier": "Hand-made wheel",
+          "Salvage Tier": "Salvaged wheel",
+          "Modern Tier": "Electric spinner",
+          "Notes": "Twist fibers into thread"
+        },
+        {
+          "Skill": "Cordage/Rope",
+          "Material": "Twisting frame",
+          "Quantity": "1 frame",
+          "Source/Where to Find": "Simple frame with pegs",
+          "Primitive Tier": "Hand-made wood frame",
+          "Salvage Tier": "Salvaged frame",
+          "Modern Tier": "Rope-making tool",
+          "Notes": "Braid/twist multiple strands"
+        },
+        {
+          "Skill": "Textiles/Weaving",
+          "Material": "Loom",
+          "Quantity": "1 loom",
+          "Source/Where to Find": "Wood frame construction",
+          "Primitive Tier": "Hand-made wood loom",
+          "Salvage Tier": "Salvaged frame",
+          "Modern Tier": "Modern weaving loom",
+          "Notes": "Foundation for weaving"
+        },
+        {
+          "Skill": "Textiles/Weaving",
+          "Material": "Thread/yarn",
+          "Quantity": "100+ yards",
+          "Source/Where to Find": "Spun plant fiber or wool",
+          "Primitive Tier": "Hand-spun yarn",
+          "Salvage Tier": "Salvaged thread",
+          "Modern Tier": "Commercial yarn",
+          "Notes": "Various weights/colors"
+        },
+        {
+          "Skill": "Textiles/Weaving",
+          "Material": "Heddles (warp setup)",
+          "Quantity": "50-100 pieces",
+          "Source/Where to Find": "String or thread loops",
+          "Primitive Tier": "Hand-made loops",
+          "Salvage Tier": "Salvaged string",
+          "Modern Tier": "Commercial heddles",
+          "Notes": "Lift alternate warp threads"
+        },
+        {
+          "Skill": "Textiles/Weaving",
+          "Material": "Shuttle/beater",
+          "Quantity": "2-3 pieces",
+          "Source/Where to Find": "Carved wood tools",
+          "Primitive Tier": "Hand-made tools",
+          "Salvage Tier": "Salvaged wood tools",
+          "Modern Tier": "Commercial shuttle",
+          "Notes": "Pass weft through warp"
+        },
+        {
+          "Skill": "Soap Making",
+          "Material": "Lye solution",
+          "Quantity": "1 batch",
+          "Source/Where to Find": "Wood ash + water",
+          "Primitive Tier": "Leached hardwood ash",
+          "Salvage Tier": "Salvaged lye",
+          "Modern Tier": "Caustic soda (NaOH)",
+          "Notes": "Saponification agent"
+        },
+        {
+          "Skill": "Soap Making",
+          "Material": "Oil/fat",
+          "Quantity": "5+ pounds",
+          "Source/Where to Find": "Animal fat rendered",
+          "Primitive Tier": "Rendered tallow",
+          "Salvage Tier": "Salvaged grease",
+          "Modern Tier": "Palm or coconut oil",
+          "Notes": "Soap base ingredient"
+        },
+        {
+          "Skill": "Soap Making",
+          "Material": "Soap pot/mold",
+          "Quantity": "2-3 items",
+          "Source/Where to Find": "Clay pot or wood mold",
+          "Primitive Tier": "Hand-made ceramic/wood",
+          "Salvage Tier": "Salvaged pot",
+          "Modern Tier": "Stainless steel pot",
+          "Notes": "Cure and cut soap"
+        },
+        {
+          "Skill": "Soap Making",
+          "Material": "Thermometer",
+          "Quantity": "1 thermometer",
+          "Source/Where to Find": "Improvised water thermometer",
+          "Primitive Tier": "Simple glass tube",
+          "Salvage Tier": "Salvaged thermometer",
+          "Modern Tier": "Soap thermometer",
+          "Notes": "Monitor temperature (100-110°F)"
+        },
+        {
+          "Skill": "Candle Making",
+          "Material": "Wax source",
+          "Quantity": "5+ pounds",
+          "Source/Where to Find": "Animal tallow or beeswax",
+          "Primitive Tier": "Rendered animal fat/honey",
+          "Salvage Tier": "Salvaged candle wax",
+          "Modern Tier": "Soy or paraffin wax",
+          "Notes": "Candle base"
+        },
+        {
+          "Skill": "Candle Making",
+          "Material": "Wick material",
+          "Quantity": "50+ feet",
+          "Source/Where to Find": "Twisted plant fiber",
+          "Primitive Tier": "Hand-twisted cordage",
+          "Salvage Tier": "Salvaged string",
+          "Modern Tier": "Commercial wick",
+          "Notes": "Burns slowly, controls flame"
+        },
+        {
+          "Skill": "Candle Making",
+          "Material": "Mold",
+          "Quantity": "2-4 molds",
+          "Source/Where to Find": "Clay or metal vessels",
+          "Primitive Tier": "Hand-made ceramic/cast",
+          "Salvage Tier": "Salvaged containers",
+          "Modern Tier": "Candle molds",
+          "Notes": "Shape molten wax"
+        },
+        {
+          "Skill": "Candle Making",
+          "Material": "Dyes/scents (optional)",
+          "Quantity": "2-3 items",
+          "Source/Where to Find": "Plant materials",
+          "Primitive Tier": "Foraged plant material",
+          "Salvage Tier": "Salvaged dyes",
+          "Modern Tier": "Commercial scents",
+          "Notes": "Optional coloring/fragrance"
+        }
+      ],
+      "rowCount": 23
+    },
+    "Metalworking & Tools": {
+      "headers": [
+        "Skill",
+        "Material",
+        "Quantity",
+        "Source/Where to Find",
+        "Primitive Tier",
+        "Salvage Tier",
+        "Modern Tier",
+        "Notes"
+      ],
+      "rows": [
+        {
+          "Skill": "Forge Construction",
+          "Material": "Forge pit",
+          "Quantity": "1 forge",
+          "Source/Where to Find": "Stone or clay constructed hearth",
+          "Primitive Tier": "Hand-built stone forge",
+          "Salvage Tier": "Salvaged metal barrel",
+          "Modern Tier": "Blacksmith forge",
+          "Notes": "Heat metal for shaping"
+        },
+        {
+          "Skill": "Forge Construction",
+          "Material": "Bellows",
+          "Quantity": "1 bellows",
+          "Source/Where to Find": "Leather/skin with wood frame",
+          "Primitive Tier": "Hand-made skin bellows",
+          "Salvage Tier": "Salvaged bellows",
+          "Modern Tier": "Modern forge bellows",
+          "Notes": "Force air, increase heat"
+        },
+        {
+          "Skill": "Forge Construction",
+          "Material": "Anvil",
+          "Quantity": "1 anvil",
+          "Source/Where to Find": "Large flat stone or cast iron",
+          "Primitive Tier": "Large worked stone",
+          "Salvage Tier": "Salvaged anvil",
+          "Modern Tier": "Steel anvil",
+          "Notes": "50-150 pounds typical"
+        },
+        {
+          "Skill": "Forge Construction",
+          "Material": "Heat source",
+          "Quantity": "Continuous",
+          "Source/Where to Find": "Charcoal fire",
+          "Primitive Tier": "Self-made charcoal",
+          "Salvage Tier": "Salvaged charcoal",
+          "Modern Tier": "Coal or propane",
+          "Notes": "Reach 2000°F+ temperatures"
+        },
+        {
+          "Skill": "Blacksmithing Tools",
+          "Material": "Hammer (ball-peen)",
+          "Quantity": "1-2 hammers",
+          "Source/Where to Find": "Stone head + wood handle",
+          "Primitive Tier": "Hand-forged metal head",
+          "Salvage Tier": "Salvaged hammer",
+          "Modern Tier": "Steel hammer",
+          "Notes": "1.5-2 pounds head"
+        },
+        {
+          "Skill": "Blacksmithing Tools",
+          "Material": "Tongs",
+          "Quantity": "2-4 pairs",
+          "Source/Where to Find": "Forged metal with handles",
+          "Primitive Tier": "Hand-forged iron",
+          "Salvage Tier": "Salvaged tongs",
+          "Modern Tier": "Blacksmith tongs",
+          "Notes": "Grip hot metal safely"
+        },
+        {
+          "Skill": "Blacksmithing Tools",
+          "Material": "Punches/chisels",
+          "Quantity": "3-5 tools",
+          "Source/Where to Find": "Pointed metal pieces",
+          "Primitive Tier": "Hand-forged points",
+          "Salvage Tier": "Salvaged punches",
+          "Modern Tier": "Blacksmith punches",
+          "Notes": "Create holes/details"
+        },
+        {
+          "Skill": "Blacksmithing Tools",
+          "Material": "Die blocks",
+          "Quantity": "2-3 blocks",
+          "Source/Where to Find": "Steel with shaped depressions",
+          "Primitive Tier": "Hand-made shapes",
+          "Salvage Tier": "Salvaged dies",
+          "Modern Tier": "Commercial die blocks",
+          "Notes": "Stamp metal patterns"
+        },
+        {
+          "Skill": "Smelting",
+          "Material": "Ore source",
+          "Quantity": "50+ pounds",
+          "Source/Where to Find": "Iron ore or scrap iron",
+          "Primitive Tier": "Mined/collected ore",
+          "Salvage Tier": "Salvaged iron scrap",
+          "Modern Tier": "Iron ore pellets",
+          "Notes": "Raw material for metal"
+        },
+        {
+          "Skill": "Smelting",
+          "Material": "Crucible",
+          "Quantity": "1-2 crucibles",
+          "Source/Where to Find": "Clay or ceramic vessel",
+          "Primitive Tier": "Hand-made ceramic",
+          "Salvage Tier": "Salvaged high-temp vessel",
+          "Modern Tier": "Ceramic crucibles",
+          "Notes": "Melt ore at extreme heat"
+        },
+        {
+          "Skill": "Smelting",
+          "Material": "Flux",
+          "Quantity": "5+ pounds",
+          "Source/Where to Find": "Limestone or borax",
+          "Primitive Tier": "Crushed stone",
+          "Salvage Tier": "Salvaged flux material",
+          "Modern Tier": "Borax powder",
+          "Notes": "Lower melting point of ore"
+        },
+        {
+          "Skill": "Smelting",
+          "Material": "Cooling bath",
+          "Quantity": "1 bath",
+          "Source/Where to Find": "Water container",
+          "Primitive Tier": "Large clay vessel",
+          "Salvage Tier": "Salvaged bucket/tub",
+          "Modern Tier": "Metal quench tank",
+          "Notes": "Rapidly cool molten metal"
+        },
+        {
+          "Skill": "Knife Making",
+          "Material": "Steel source",
+          "Quantity": "2-3 pounds",
+          "Source/Where to Find": "Smelted metal or scrap",
+          "Primitive Tier": "Smelted iron/steel",
+          "Salvage Tier": "Car leaf springs, tools",
+          "Modern Tier": "High-carbon steel",
+          "Notes": "Knife blade material"
+        },
+        {
+          "Skill": "Knife Making",
+          "Material": "Handle material",
+          "Quantity": "5-10 pieces",
+          "Source/Where to Find": "Bone, wood, or horn",
+          "Primitive Tier": "Carved natural material",
+          "Salvage Tier": "Salvaged handles",
+          "Modern Tier": "Hardwood or bone",
+          "Notes": "Grip construction"
+        },
+        {
+          "Skill": "Knife Making",
+          "Material": "Fasteners",
+          "Quantity": "10-20 pieces",
+          "Source/Where to Find": "Metal pins or nails",
+          "Primitive Tier": "Hand-forged metal",
+          "Salvage Tier": "Salvaged nails",
+          "Modern Tier": "Steel pins",
+          "Notes": "Attach handle to blade"
+        },
+        {
+          "Skill": "Tool Handles",
+          "Material": "Wood source",
+          "Quantity": "50+ linear feet",
+          "Source/Where to Find": "Hardwood branches",
+          "Primitive Tier": "Selected and carved",
+          "Salvage Tier": "Salvaged handles",
+          "Modern Tier": "Ash or hickory",
+          "Notes": "Axe, hoe, spade handles"
+        },
+        {
+          "Skill": "Tool Handles",
+          "Material": "Fastening",
+          "Quantity": "20-30 pieces",
+          "Source/Where to Find": "Wooden pegs or metal wedges",
+          "Primitive Tier": "Hand-made pegs",
+          "Salvage Tier": "Salvaged wedges",
+          "Modern Tier": "Metal ferrules",
+          "Notes": "Secure head to handle"
+        },
+        {
+          "Skill": "Sharpening",
+          "Material": "Sharpening stone",
+          "Quantity": "1-2 stones",
+          "Source/Where to Find": "Natural whetstone",
+          "Primitive Tier": "Quarried stone",
+          "Salvage Tier": "Salvaged stones",
+          "Modern Tier": "Commercial whetstone",
+          "Notes": "Hone blade edges"
+        },
+        {
+          "Skill": "Sharpening",
+          "Material": "Stropping leather",
+          "Quantity": "1-2 pieces",
+          "Source/Where to Find": "Leather piece with compound",
+          "Primitive Tier": "Prepared leather",
+          "Salvage Tier": "Salvaged leather",
+          "Modern Tier": "Commercial strop",
+          "Notes": "Final edge refinement"
+        },
+        {
+          "Skill": "Sharpening",
+          "Material": "Honing compound",
+          "Quantity": "5-10 ounces",
+          "Source/Where to Find": "Ground metallic powder",
+          "Primitive Tier": "Not primitive - N/A",
+          "Salvage Tier": "Salvaged compound",
+          "Modern Tier": "Commercial honing paste",
+          "Notes": "Polish blade surface"
+        },
+        {
+          "Skill": "Welding",
+          "Material": "Welding heat source",
+          "Quantity": "Continuous",
+          "Source/Where to Find": "Forge fire",
+          "Primitive Tier": "Charcoal fire in forge",
+          "Salvage Tier": "Salvaged forge",
+          "Modern Tier": "Oxyacetylene or electric",
+          "Notes": "Join metal pieces"
+        },
+        {
+          "Skill": "Welding",
+          "Material": "Hammer technique",
+          "Quantity": "1-2 hammers",
+          "Source/Where to Find": "Ball-peen hammer",
+          "Primitive Tier": "Hand-forged",
+          "Salvage Tier": "Salvaged hammer",
+          "Modern Tier": "Blacksmith hammer",
+          "Notes": "Weld by repeated hammering"
+        }
+      ],
+      "rowCount": 22
+    },
+    "Medicine & Health": {
+      "headers": [
+        "Skill",
+        "Material",
+        "Quantity",
+        "Source/Where to Find",
+        "Primitive Tier",
+        "Salvage Tier",
+        "Modern Tier",
+        "Notes"
+      ],
+      "rows": [
+        {
+          "Skill": "First Aid",
+          "Material": "Bandage material",
+          "Quantity": "20+ yards",
+          "Source/Where to Find": "Plant fiber cloth or hide",
+          "Primitive Tier": "Woven plant material",
+          "Salvage Tier": "Salvaged cloth strips",
+          "Modern Tier": "Medical bandages",
+          "Notes": "Dress wounds"
+        },
+        {
+          "Skill": "First Aid",
+          "Material": "Splint material",
+          "Quantity": "10-20 pieces",
+          "Source/Where to Find": "Straight branches or bark",
+          "Primitive Tier": "Cut branches, lashed",
+          "Salvage Tier": "Salvaged wood",
+          "Modern Tier": "Tongue depressors",
+          "Notes": "Immobilize injuries"
+        },
+        {
+          "Skill": "First Aid",
+          "Material": "Sling material",
+          "Quantity": "5-10 pieces",
+          "Source/Where to Find": "Cloth strips or leather",
+          "Primitive Tier": "Cut fabric or hide",
+          "Salvage Tier": "Salvaged cloth",
+          "Modern Tier": "Elastic bandage",
+          "Notes": "Support injured arm"
+        },
+        {
+          "Skill": "First Aid",
+          "Material": "Herbal salve",
+          "Quantity": "1-2 containers",
+          "Source/Where to Find": "Rendered fat + plant herbs",
+          "Primitive Tier": "Self-made from plants",
+          "Salvage Tier": "Salvaged salve",
+          "Modern Tier": "Antibiotic ointment",
+          "Notes": "Heal minor wounds"
+        },
+        {
+          "Skill": "Herbal Medicine",
+          "Material": "Medicinal herbs",
+          "Quantity": "20+ species",
+          "Source/Where to Find": "Foraged from wild",
+          "Primitive Tier": "Collected and dried",
+          "Salvage Tier": "Salvaged dried herbs",
+          "Modern Tier": "Dried herb suppliers",
+          "Notes": "Internal remedies"
+        },
+        {
+          "Skill": "Herbal Medicine",
+          "Material": "Drying racks",
+          "Quantity": "4-6 racks",
+          "Source/Where to Find": "Cloth stretched on frame",
+          "Primitive Tier": "Hand-made drying frame",
+          "Salvage Tier": "Salvaged racks",
+          "Modern Tier": "Herb drying screens",
+          "Notes": "Preserve plant properties"
+        },
+        {
+          "Skill": "Herbal Medicine",
+          "Material": "Storage containers",
+          "Quantity": "10-20 jars",
+          "Source/Where to Find": "Clay pots or glass",
+          "Primitive Tier": "Hand-made ceramic",
+          "Salvage Tier": "Salvaged jars",
+          "Modern Tier": "Glass jars",
+          "Notes": "Keep dark, cool, dry"
+        },
+        {
+          "Skill": "Herbal Medicine",
+          "Material": "Extraction vessels",
+          "Quantity": "3-5 pots",
+          "Source/Where to Find": "Clay or metal pots",
+          "Primitive Tier": "Hand-made ceramic",
+          "Salvage Tier": "Salvaged pots",
+          "Modern Tier": "Glass jars",
+          "Notes": "Make infusions/tinctures"
+        },
+        {
+          "Skill": "Dental Care",
+          "Material": "Tooth-cleaning stick",
+          "Quantity": "10+ sticks",
+          "Source/Where to Find": "Softwood branch chewed/frayed",
+          "Primitive Tier": "Prepared branches",
+          "Salvage Tier": "Salvaged sticks",
+          "Modern Tier": "Disposable dental picks",
+          "Notes": "Clean teeth daily"
+        },
+        {
+          "Skill": "Dental Care",
+          "Material": "Abrasive paste",
+          "Quantity": "1-2 containers",
+          "Source/Where to Find": "Ash + salt + herb powder",
+          "Primitive Tier": "Self-made mixture",
+          "Salvage Tier": "Salvaged powder",
+          "Modern Tier": "Toothpaste",
+          "Notes": "Scrub teeth surface"
+        },
+        {
+          "Skill": "Dental Care",
+          "Material": "Clove oil (pain relief)",
+          "Quantity": "1 ounce",
+          "Source/Where to Find": "Foraged clove buds or oil",
+          "Primitive Tier": "Collected clove buds",
+          "Salvage Tier": "Salvaged clove oil",
+          "Modern Tier": "Pure clove oil",
+          "Notes": "Numb toothache"
+        },
+        {
+          "Skill": "Dental Care",
+          "Material": "Extraction tools",
+          "Quantity": "2-3 tools",
+          "Source/Where to Find": "Metal or bone levers",
+          "Primitive Tier": "Hand-made from materials",
+          "Salvage Tier": "Salvaged dental picks",
+          "Modern Tier": "Dental extraction set",
+          "Notes": "Last resort removal"
+        },
+        {
+          "Skill": "Wound Management",
+          "Material": "Wound cleaning",
+          "Quantity": "2-3 solutions",
+          "Source/Where to Find": "Boiled water, herbal wash",
+          "Primitive Tier": "Plant-based rinse",
+          "Salvage Tier": "Salvaged solution",
+          "Modern Tier": "Antiseptic solution",
+          "Notes": "Prevent infection"
+        },
+        {
+          "Skill": "Wound Management",
+          "Material": "Pressure dressing",
+          "Quantity": "10-20 pads",
+          "Source/Where to Find": "Cloth soaked in solution",
+          "Primitive Tier": "Prepared cloth",
+          "Salvage Tier": "Salvaged cloth",
+          "Modern Tier": "Sterile gauze pads",
+          "Notes": "Stop bleeding"
+        },
+        {
+          "Skill": "Wound Management",
+          "Material": "Tourniquet material",
+          "Quantity": "3-5 pieces",
+          "Source/Where to Find": "Cloth strips or cord",
+          "Primitive Tier": "Cloth or cordage",
+          "Salvage Tier": "Salvaged material",
+          "Modern Tier": "Elastic tourniquet",
+          "Notes": "Stop severe bleeding"
+        },
+        {
+          "Skill": "Wound Management",
+          "Material": "Infection prevention",
+          "Quantity": "As needed",
+          "Source/Where to Find": "Honey, plant tannins",
+          "Primitive Tier": "Raw honey, crushed leaves",
+          "Salvage Tier": "Salvaged honey",
+          "Modern Tier": "Antibiotic salve",
+          "Notes": "Promote healing"
+        },
+        {
+          "Skill": "Waterborne Illness Prevention",
+          "Material": "Water treatment",
+          "Quantity": "Continuous",
+          "Source/Where to Find": "Boiling or filtration",
+          "Primitive Tier": "Fire + pot method",
+          "Salvage Tier": "Salvaged filter",
+          "Modern Tier": "Water purification tablets",
+          "Notes": "Destroy pathogens"
+        },
+        {
+          "Skill": "Waterborne Illness Prevention",
+          "Material": "Storage protection",
+          "Quantity": "Ongoing",
+          "Source/Where to Find": "Sealed containers",
+          "Primitive Tier": "Sealed clay vessels",
+          "Salvage Tier": "Salvaged barrels",
+          "Modern Tier": "Food-grade containers",
+          "Notes": "Prevent contamination"
+        },
+        {
+          "Skill": "Waterborne Illness Prevention",
+          "Material": "Testing method",
+          "Quantity": "As needed",
+          "Source/Where to Find": "Observation + observation",
+          "Primitive Tier": "Sensory evaluation",
+          "Salvage Tier": "Simple test kit",
+          "Modern Tier": "Water testing kit",
+          "Notes": "Monitor water quality"
+        },
+        {
+          "Skill": "Hygiene/Sanitation",
+          "Material": "Waste disposal",
+          "Quantity": "1 system",
+          "Source/Where to Find": "Composting toilet",
+          "Primitive Tier": "Hand-dug pit latrine",
+          "Salvage Tier": "Salvaged receptacle",
+          "Modern Tier": "Modern composting toilet",
+          "Notes": "Distance from water"
+        },
+        {
+          "Skill": "Hygiene/Sanitation",
+          "Material": "Handwashing supplies",
+          "Quantity": "1 kit",
+          "Source/Where to Find": "Soap + water source",
+          "Primitive Tier": "Self-made soap + water",
+          "Salvage Tier": "Salvaged soap",
+          "Modern Tier": "Modern soap",
+          "Notes": "Prevent disease spread"
+        },
+        {
+          "Skill": "Hygiene/Sanitation",
+          "Material": "Personal hygiene",
+          "Quantity": "Daily",
+          "Source/Where to Find": "Water + cloth + soap",
+          "Primitive Tier": "Collected materials",
+          "Salvage Tier": "Salvaged items",
+          "Modern Tier": "Modern supplies",
+          "Notes": "Maintain health"
+        }
+      ],
+      "rowCount": 22
+    },
+    "Communication & Navigation": {
+      "headers": [
+        "Skill",
+        "Material",
+        "Quantity",
+        "Source/Where to Find",
+        "Primitive Tier",
+        "Salvage Tier",
+        "Modern Tier",
+        "Notes"
+      ],
+      "rows": [
+        {
+          "Skill": "Map Making",
+          "Material": "Base material",
+          "Quantity": "20-30 sheets",
+          "Source/Where to Find": "Plant-based paper or bark",
+          "Primitive Tier": "Hand-made plant paper",
+          "Salvage Tier": "Salvaged parchment",
+          "Modern Tier": "Waterproof paper",
+          "Notes": "Map surface"
+        },
+        {
+          "Skill": "Map Making",
+          "Material": "Drawing implements",
+          "Quantity": "5-10 tools",
+          "Source/Where to Find": "Charcoal, plant dyes",
+          "Primitive Tier": "Hand-made charcoal sticks",
+          "Salvage Tier": "Salvaged pen/pencil",
+          "Modern Tier": "Modern pen/pencil set",
+          "Notes": "Mark features"
+        },
+        {
+          "Skill": "Map Making",
+          "Material": "Measurement tools",
+          "Quantity": "2-3 tools",
+          "Source/Where to Find": "Rope with knots, stick ruler",
+          "Primitive Tier": "Hand-made measuring device",
+          "Salvage Tier": "Salvaged ruler/tape",
+          "Modern Tier": "Measuring scale",
+          "Notes": "Record distances"
+        },
+        {
+          "Skill": "Map Making",
+          "Material": "Storage",
+          "Quantity": "2-3 cases",
+          "Source/Where to Find": "Waterproof container",
+          "Primitive Tier": "Sealed leather case",
+          "Salvage Tier": "Salvaged tube/case",
+          "Modern Tier": "Map case",
+          "Notes": "Protect maps from water"
+        },
+        {
+          "Skill": "Signaling",
+          "Material": "Signal fire materials",
+          "Quantity": "Ongoing",
+          "Source/Where to Find": "Dry wood + green branches",
+          "Primitive Tier": "Collected wood",
+          "Salvage Tier": "Salvaged materials",
+          "Modern Tier": "Smoke flares",
+          "Notes": "Create visible smoke"
+        },
+        {
+          "Skill": "Signaling",
+          "Material": "Mirror/reflector",
+          "Quantity": "1-2 pieces",
+          "Source/Where to Find": "Polished metal or glass",
+          "Primitive Tier": "Polished stone or beaten metal",
+          "Salvage Tier": "Salvaged mirror",
+          "Modern Tier": "Signal mirror",
+          "Notes": "Reflect sunlight"
+        },
+        {
+          "Skill": "Signaling",
+          "Material": "Flag/cloth signal",
+          "Quantity": "2-3 pieces",
+          "Source/Where to Find": "Colored plant-dyed cloth",
+          "Primitive Tier": "Woven and dyed fabric",
+          "Salvage Tier": "Salvaged cloth",
+          "Modern Tier": "Bright fabric",
+          "Notes": "Flag patterns recognized"
+        },
+        {
+          "Skill": "Signaling",
+          "Material": "Whistle",
+          "Quantity": "2-4 whistles",
+          "Source/Where to Find": "Carved bone or wood",
+          "Primitive Tier": "Hand-carved instrument",
+          "Salvage Tier": "Salvaged whistle",
+          "Modern Tier": "Commercial whistle",
+          "Notes": "Three blasts = distress"
+        },
+        {
+          "Skill": "Radio Basics",
+          "Material": "Crystal radio",
+          "Quantity": "1 radio",
+          "Source/Where to Find": "Crystal + coil circuit",
+          "Primitive Tier": "Not primitive",
+          "Salvage Tier": "Salvaged radio parts",
+          "Modern Tier": "Crystal radio kit",
+          "Notes": "Simple receiver"
+        },
+        {
+          "Skill": "Radio Basics",
+          "Material": "Antenna",
+          "Quantity": "20-50 feet",
+          "Source/Where to Find": "Wire aerial",
+          "Primitive Tier": "Hand-strung wire",
+          "Salvage Tier": "Salvaged wire",
+          "Modern Tier": "Copper antenna wire",
+          "Notes": "Improve reception"
+        },
+        {
+          "Skill": "Radio Basics",
+          "Material": "Headphones",
+          "Quantity": "1-2 units",
+          "Source/Where to Find": "Simple earpiece",
+          "Primitive Tier": "Not primitive",
+          "Salvage Tier": "Salvaged headphones",
+          "Modern Tier": "Low-impedance headphones",
+          "Notes": "Listen without broadcast"
+        },
+        {
+          "Skill": "Record Keeping",
+          "Material": "Paper supply",
+          "Quantity": "100+ sheets",
+          "Source/Where to Find": "Plant-based paper",
+          "Primitive Tier": "Hand-made plant paper",
+          "Salvage Tier": "Salvaged paper",
+          "Modern Tier": "Modern paper",
+          "Notes": "Document information"
+        },
+        {
+          "Skill": "Record Keeping",
+          "Material": "Writing implements",
+          "Quantity": "10-20 items",
+          "Source/Where to Find": "Charcoal stick or plant ink",
+          "Primitive Tier": "Hand-made ink + stick",
+          "Salvage Tier": "Salvaged pen",
+          "Modern Tier": "Modern pen/pencil",
+          "Notes": "Create records"
+        },
+        {
+          "Skill": "Record Keeping",
+          "Material": "Binding material",
+          "Quantity": "10-20 yards",
+          "Source/Where to Find": "Plant fiber cord or leather",
+          "Primitive Tier": "Hand-made binding",
+          "Salvage Tier": "Salvaged twine",
+          "Modern Tier": "Modern binding rings",
+          "Notes": "Bind pages together"
+        },
+        {
+          "Skill": "Paper Making",
+          "Material": "Pulp source",
+          "Quantity": "10+ pounds",
+          "Source/Where to Find": "Plant fiber (bark, stalks)",
+          "Primitive Tier": "Collected plant material",
+          "Salvage Tier": "Salvaged paper waste",
+          "Modern Tier": "Recycled fiber",
+          "Notes": "Paper base material"
+        },
+        {
+          "Skill": "Paper Making",
+          "Material": "Beating equipment",
+          "Quantity": "1 tool",
+          "Source/Where to Find": "Stone hammer on flat surface",
+          "Primitive Tier": "Hand-made stone tool",
+          "Salvage Tier": "Salvaged mallet",
+          "Modern Tier": "Paper beater",
+          "Notes": "Separate fibers"
+        },
+        {
+          "Skill": "Paper Making",
+          "Material": "Screen/mold",
+          "Quantity": "1-2 molds",
+          "Source/Where to Find": "Fine mesh on frame",
+          "Primitive Tier": "Hand-woven plant fiber",
+          "Salvage Tier": "Salvaged window screen",
+          "Modern Tier": "Paper mold",
+          "Notes": "Form paper sheets"
+        },
+        {
+          "Skill": "Paper Making",
+          "Material": "Press",
+          "Quantity": "1 press",
+          "Source/Where to Find": "Stone/board with weight",
+          "Primitive Tier": "Hand-made press",
+          "Salvage Tier": "Salvaged wood press",
+          "Modern Tier": "Hydraulic press",
+          "Notes": "Remove excess water"
+        },
+        {
+          "Skill": "Basic Optics",
+          "Material": "Lens material",
+          "Quantity": "1-2 lenses",
+          "Source/Where to Find": "Polished clear crystal/ice",
+          "Primitive Tier": "Polished natural material",
+          "Salvage Tier": "Salvaged glass",
+          "Modern Tier": "Optical glass",
+          "Notes": "Magnify or focus light"
+        },
+        {
+          "Skill": "Basic Optics",
+          "Material": "Lens frame",
+          "Quantity": "1-2 frames",
+          "Source/Where to Find": "Carved wood or bone",
+          "Primitive Tier": "Hand-made holders",
+          "Salvage Tier": "Salvaged frame",
+          "Modern Tier": "Metal frames",
+          "Notes": "Hold lenses in position"
+        }
+      ],
+      "rowCount": 20
+    }
+  },
+  "sheetCount": 10
+}

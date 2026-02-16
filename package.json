@@ -1,0 +1,18 @@
+{
+  "name": "local-test-server",
+  "version": "1.0.0",
+  "description": "Simple Express server for local testing",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "npm install && npm start",
+    "audit": "npm audit --production",
+    "test": "node tests/test-runner.js"
+  },
+  "keywords": ["express", "server", "testing"],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}

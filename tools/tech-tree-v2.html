@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zero to Hero - Complete Tech Tree</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: Georgia, 'Times New Roman', serif;
+            background-color: #1a2e1a;
+            color: #f5f0e8;
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        #top-bar {
+            background-color: #2d2416;
+            padding: 10px 20px;
+            border-bottom: 2px solid #d4a574;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            z-index: 100;
+        }
+
+        .top-bar-left {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+        }
+
+        h1 { font-size: 20px; color: #d4a574; }
+
+        .breadcrumb { color: #a89968; font-size: 13px; }
+        .breadcrumb a { color: #d4a574; text-decoration: none; }
+        .breadcrumb a:hover { text-decoration: underline; }
+
+        .top-bar-right {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        input[type="text"], select {
+            padding: 5px 10px;
+            background-color: #3a3228;
+            border: 1px solid #8b6f47;
+            color: #f5f0e8;
+            border-radius: 3px;
+            font-size: 12px;
+        }
+        input[type="text"]:focus, select:focus {
+            outline: none;
+            border-color: #d4a574;
+        }
+
+        button {
+            padding: 5px 12px;
+            background-color: #8b6f47;
+            border: none;
+            color: #1a2e1a;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+            transition: background-color 0.2s;
+        }
+        button:hover { background-color: #d4a574; }
+        button.active { background-color: #d4a574; color: #1a2e1a; }
+
+        .stats-bar {
+            display: flex;
+            gap: 16px;
+            font-size: 12px;
+            color: #d4a574;
+        }
+        .stat-value { color: #f5f0e8; font-weight: 600; }
+
+        #canvas-wrap {
+            position: relative;
+            flex: 1;
+            height: calc(100vh - 50px);
+        }
+
+        svg { width: 100%; height: 100%; display: block; }
+
+        .phase-label {
+            font-family: Georgia, serif;
+            fill: #d4a574;
+            font-size: 16px;
+            font-weight: 700;
+            opacity: 0.4;
+        }
+        .phase-sublabel {
+            font-family: Georgia, serif;
+            fill: #a89968;
+            font-size: 11px;
+            opacity: 0.3;
+        }
+
+        .link { stroke-width: 1.2; fill: none; opacity: 0.15; }
+        .link.highlighted { opacity: 0.8; stroke-width: 2.5; }
+        .link.faded { opacity: 0.03; }
+
+        .node { cursor: pointer; }
+        .node.faded { opacity: 0.08; }
+        .node.highlighted .node-bg { stroke: #ffff99; stroke-width: 2; filter: drop-shadow(0 0 4px rgba(255,255,153,0.5)); }
+
+        .node-bg { stroke: rgba(0,0,0,0.3); stroke-width: 0.5; }
+        .node-text {
+            font-family: Georgia, serif;
+            fill: #f5f0e8;
+            text-anchor: middle;
+            pointer-events: none;
+            font-size: 8px;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.9);
+        }
+
+        #detail-panel {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 0;
+            height: 100%;
+            background-color: #2d2416;
+            border-left: 2px solid #d4a574;
+            overflow-y: auto;
+            transition: width 0.3s ease;
+            z-index: 50;
+        }
+        #detail-panel.open { width: 340px; }
+
+        .detail-content { padding: 16px; display: none; }
+        .detail-content.visible { display: block; }
+
+        .detail-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #8b6f47;
+        }
+        .detail-title { font-size: 16px; font-weight: 700; color: #d4a574; }
+        .close-detail { background: none; border: none; color: #d4a574; font-size: 18px; cursor: pointer; padding: 0; }
+
+        .detail-section { margin-bottom: 12px; }
+        .detail-label {
+            font-size: 10px;
+            color: #a89968;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 4px;
+            display: block;
+        }
+        .detail-value { font-size: 13px; color: #f5f0e8; line-height: 1.5; }
+
+        .badge {
+            display: inline-block;
+            padding: 2px 7px;
+            background-color: #8b6f47;
+            border-radius: 3px;
+            font-size: 10px;
+            margin: 2px 3px 2px 0;
+            color: #1a2e1a;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .badge:hover { background-color: #d4a574; }
+        .badge.clickable { cursor: pointer; }
+
+        .resource-link a {
+            color: #d4a574;
+            text-decoration: none;
+            font-size: 12px;
+            padding: 3px 8px;
+            border: 1px solid #8b6f47;
+            border-radius: 3px;
+            display: inline-block;
+            margin: 2px 4px 2px 0;
+        }
+        .resource-link a:hover { background-color: #8b6f47; color: #1a2e1a; }
+
+        .legend {
+            position: absolute;
+            bottom: 16px;
+            left: 16px;
+            background-color: rgba(45, 36, 22, 0.92);
+            border: 1px solid #d4a574;
+            padding: 12px 14px;
+            border-radius: 4px;
+            font-size: 11px;
+            max-width: 180px;
+            z-index: 10;
+        }
+        .legend-title { display: block; margin-bottom: 6px; color: #d4a574; font-weight: 700; }
+        .legend-item { display: flex; align-items: center; margin-bottom: 5px; gap: 6px; }
+        .legend-color { width: 14px; height: 14px; border-radius: 3px; border: 1px solid rgba(0,0,0,0.3); }
+        .legend-sep { border: none; border-top: 1px solid #8b6f47; margin: 6px 0; }
+
+        .minimap {
+            position: absolute;
+            bottom: 16px;
+            right: 16px;
+            width: 160px;
+            height: 100px;
+            background: rgba(45,36,22,0.85);
+            border: 1px solid #d4a574;
+            border-radius: 4px;
+            z-index: 10;
+            overflow: hidden;
+        }
+        .minimap-viewport {
+            stroke: #d4a574;
+            stroke-width: 1;
+            fill: rgba(212,165,116,0.1);
+        }
+
+        @media (max-width: 768px) {
+            #top-bar { flex-direction: column; align-items: flex-start; }
+            .legend { display: none; }
+            .minimap { display: none; }
+            #detail-panel.open { width: 100%; }
+        }
+
+        .sr-only {
+            position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+            overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border-width: 0;
+        }
+    </style>
+</head>
+<body>
+    <div id="top-bar">
+        <div class="top-bar-left">
+            <a href="../index.html" style="color:#d4a574;text-decoration:none;font-size:0.95em;">← Back to Guides</a>
+            <h1>Complete Tech Tree</h1>
+            <div class="stats-bar">
+                <div>Guides: <span class="stat-value" id="total-count">0</span></div>
+                <div>Connections: <span class="stat-value" id="link-count">0</span></div>
+                <div>Showing: <span class="stat-value" id="visible-count">0</span></div>
+            </div>
+        </div>
+        <div class="top-bar-right">
+            <input type="text" id="search" placeholder="Search topics..." aria-label="Search topics" style="width:160px">
+            <select id="phase-filter">
+                <option value="">All Phases</option>
+                <option value="0">Phase 0: First 72 Hours</option>
+                <option value="1">Phase 1: Stabilization</option>
+                <option value="2">Phase 2: Settlement</option>
+                <option value="3">Phase 3: Infrastructure</option>
+                <option value="4">Phase 4: Industrial</option>
+                <option value="5">Phase 5: Electrification</option>
+            </select>
+            <select id="category-filter">
+                <option value="">All Categories</option>
+            </select>
+            <select id="tier-filter">
+                <option value="">All Tiers</option>
+                <option value="essential">Essential</option>
+                <option value="recommended">Recommended</option>
+                <option value="supplementary">Supplementary</option>
+            </select>
+            <button id="reset-btn">Reset View</button>
+        </div>
+    </div>
+
+    <div id="canvas-wrap">
+        <svg id="svg"></svg>
+        <div id="detail-panel">
+            <div class="detail-content" id="detail-content">
+                <div class="detail-header">
+                    <div class="detail-title" id="detail-title">Topic</div>
+                    <button class="close-detail" id="close-detail">&times;</button>
+                </div>
+                <div class="detail-section">
+                    <span class="detail-label">Phase &amp; Tier</span>
+                    <div class="detail-value" id="detail-phase-tier"></div>
+                </div>
+                <div class="detail-section">
+                    <span class="detail-label">Category</span>
+                    <div class="detail-value" id="detail-category"></div>
+                </div>
+                <div class="detail-section">
+                    <span class="detail-label">Guide</span>
+                    <div class="detail-value" id="detail-guide-link"></div>
+                </div>
+                <div class="detail-section">
+                    <span class="detail-label">Leads To</span>
+                    <div class="detail-value" id="detail-unlocks"></div>
+                </div>
+                <div class="detail-section">
+                    <span class="detail-label">Requires</span>
+                    <div class="detail-value" id="detail-prereqs"></div>
+                </div>
+                <div class="detail-section">
+                    <span class="detail-label">Related Topics</span>
+                    <div class="detail-value" id="detail-related"></div>
+                </div>
+            </div>
+        </div>
+        <div class="legend">
+            <span class="legend-title">Categories</span>
+            <div id="legend-categories"></div>
+            <hr class="legend-sep">
+            <span class="legend-title">Node Size = Tier</span>
+            <div class="legend-item"><div class="legend-color" style="width:18px;height:18px;background:#8b6f47;border-radius:50%;"></div><span>Essential</span></div>
+            <div class="legend-item"><div class="legend-color" style="width:13px;height:13px;background:#8b6f47;border-radius:50%;"></div><span>Recommended</span></div>
+            <div class="legend-item"><div class="legend-color" style="width:9px;height:9px;background:#8b6f47;border-radius:50%;"></div><span>Supplementary</span></div>
+        </div>
+    </div>
+
+<script>
+// ===== COMPREHENSIVE GUIDE DATA =====
+// All 252 guides organized by phase, tier, and category
+const guidesRaw = [
+// Phase 0: The First 72 Hours
+{f:"survival-basics.html",n:"Survival Basics",p:0,t:"essential",c:"Survival"},
+{f:"first-aid.html",n:"First Aid",p:0,t:"essential",c:"Medical"},
+{f:"water-purification.html",n:"Water Purification",p:0,t:"essential",c:"Survival"},
+{f:"sur-02-fire-starting.html",n:"Fire Starting",p:0,t:"essential",c:"Survival"},
+{f:"navigation.html",n:"Navigation",p:0,t:"essential",c:"Survival"},
+{f:"weather-geology.html",n:"Weather & Geology",p:0,t:"essential",c:"Survival"},
+{f:"disaster-triage.html",n:"Disaster Triage",p:0,t:"essential",c:"Medical"},
+{f:"search-rescue.html",n:"Search & Rescue",p:0,t:"recommended",c:"Survival"},
+{f:"psychological-resilience.html",n:"Psychological Resilience",p:0,t:"recommended",c:"Community"},
+{f:"food-rationing.html",n:"Food Rationing",p:0,t:"recommended",c:"Food"},
+{f:"primitive-technology.html",n:"Primitive Technology",p:0,t:"recommended",c:"Crafting"},
+{f:"bone-tools.html",n:"Bone Tools",p:0,t:"recommended",c:"Crafting"},
+{f:"stone-tools.html",n:"Stone Tools",p:0,t:"recommended",c:"Crafting"},
+{f:"winter-survival-systems.html",n:"Winter Survival",p:0,t:"recommended",c:"Survival"},
+{f:"sur-04-navigation-mapping.html",n:"Navigation & Mapping",p:0,t:"supplementary",c:"Survival"},
+{f:"nbc-defense.html",n:"NBC Defense",p:0,t:"supplementary",c:"Survival"},
+{f:"fire-suppression.html",n:"Fire Suppression",p:0,t:"supplementary",c:"Survival"},
+{f:"heat-management.html",n:"Heat Management",p:0,t:"supplementary",c:"Survival"},
+
+// Phase 1: Stabilization
+{f:"foraging-hunting.html",n:"Foraging & Hunting",p:1,t:"essential",c:"Food"},
+{f:"fod-02-trapping-hunting.html",n:"Trapping & Hunting",p:1,t:"essential",c:"Food"},
+{f:"fod-05-food-foraging.html",n:"Food Foraging",p:1,t:"essential",c:"Food"},
+{f:"sanitation.html",n:"Sanitation",p:1,t:"essential",c:"Survival"},
+{f:"sur-05-sanitation-hygiene.html",n:"Sanitation & Hygiene",p:1,t:"essential",c:"Survival"},
+{f:"knots-rigging.html",n:"Knots & Rigging",p:1,t:"essential",c:"Crafting"},
+{f:"cra-06-knot-tying-rigging.html",n:"Knot-Tying & Rigging",p:1,t:"essential",c:"Crafting"},
+{f:"psychology-morale.html",n:"Psychology & Morale",p:1,t:"essential",c:"Community"},
+{f:"weapons-defense.html",n:"Weapons & Defense",p:1,t:"essential",c:"Crafting"},
+{f:"con-01-shelter-building.html",n:"Shelter Building",p:1,t:"essential",c:"Construction"},
+{f:"medical-reference.html",n:"Medical Reference",p:1,t:"essential",c:"Medical"},
+{f:"trapping-snares.html",n:"Trapping & Snares",p:1,t:"recommended",c:"Food"},
+{f:"animal-tracking.html",n:"Animal Tracking",p:1,t:"recommended",c:"Food"},
+{f:"herbalism.html",n:"Herbalism",p:1,t:"recommended",c:"Medical"},
+{f:"sur-03-herbal-medicine.html",n:"Herbal Medicine",p:1,t:"recommended",c:"Medical"},
+{f:"herbal-antibiotics.html",n:"Herbal Antibiotics",p:1,t:"recommended",c:"Medical"},
+{f:"burn-treatment.html",n:"Burn Treatment",p:1,t:"recommended",c:"Medical"},
+{f:"martial-arts-defense.html",n:"Martial Arts & Defense",p:1,t:"recommended",c:"Crafting"},
+{f:"cra-07-primitive-weapons.html",n:"Primitive Weapons",p:1,t:"recommended",c:"Crafting"},
+{f:"signals-communication.html",n:"Signals & Communication",p:1,t:"recommended",c:"Community"},
+{f:"mental-health-counseling.html",n:"Mental Health Counseling",p:1,t:"recommended",c:"Community"},
+{f:"infection-control.html",n:"Infection Control",p:1,t:"recommended",c:"Medical"},
+{f:"toxicology.html",n:"Toxicology",p:1,t:"recommended",c:"Medical"},
+{f:"archery-crossbows.html",n:"Archery & Crossbows",p:1,t:"supplementary",c:"Crafting"},
+{f:"dogs-working-animals.html",n:"Dogs & Working Animals",p:1,t:"supplementary",c:"Food"},
+{f:"nutrition-deficiency-diseases.html",n:"Nutrition Deficiencies",p:1,t:"supplementary",c:"Medical"},
+{f:"snowshoe-manufacturing.html",n:"Snowshoe Manufacturing",p:1,t:"supplementary",c:"Crafting"},
+{f:"cartography-mapmaking.html",n:"Cartography & Mapmaking",p:1,t:"supplementary",c:"Survival"},
+{f:"charcoal-fuels.html",n:"Charcoal & Fuels",p:1,t:"supplementary",c:"Crafting"},
+{f:"butchering.html",n:"Butchering",p:1,t:"supplementary",c:"Food"},
+
+// Phase 2: Settlement
+{f:"construction.html",n:"Construction",p:2,t:"essential",c:"Construction"},
+{f:"con-02-carpentry-woodworking.html",n:"Carpentry & Woodworking",p:2,t:"essential",c:"Construction"},
+{f:"agriculture.html",n:"Agriculture",p:2,t:"essential",c:"Food"},
+{f:"fod-03-agriculture-basics.html",n:"Agriculture Basics",p:2,t:"essential",c:"Food"},
+{f:"food-preservation.html",n:"Food Preservation",p:2,t:"essential",c:"Food"},
+{f:"fod-01-food-preservation.html",n:"Food Preservation (Ext)",p:2,t:"essential",c:"Food"},
+{f:"animal-husbandry.html",n:"Animal Husbandry",p:2,t:"essential",c:"Food"},
+{f:"fod-04-animal-husbandry.html",n:"Animal Husbandry (Ext)",p:2,t:"essential",c:"Food"},
+{f:"governance.html",n:"Governance",p:2,t:"essential",c:"Community"},
+{f:"com-01-community-governance.html",n:"Community Governance",p:2,t:"essential",c:"Community"},
+{f:"homestead-chemistry.html",n:"Homestead Chemistry",p:2,t:"essential",c:"Chemistry"},
+{f:"cra-04-soap-making.html",n:"Soap Making",p:2,t:"essential",c:"Crafting"},
+{f:"soap-candles.html",n:"Soap & Candles",p:2,t:"essential",c:"Crafting"},
+{f:"natural-building.html",n:"Natural Building",p:2,t:"recommended",c:"Construction"},
+{f:"con-03-clay-earthworks.html",n:"Clay & Earthworks",p:2,t:"recommended",c:"Construction"},
+{f:"thatching-roofing.html",n:"Thatching & Roofing",p:2,t:"recommended",c:"Construction"},
+{f:"insulation-weatherproofing.html",n:"Insulation & Weatherproofing",p:2,t:"recommended",c:"Construction"},
+{f:"well-drilling.html",n:"Well Drilling",p:2,t:"recommended",c:"Construction"},
+{f:"irrigation-water.html",n:"Irrigation & Water",p:2,t:"recommended",c:"Food"},
+{f:"seed-vault.html",n:"Seed Vault",p:2,t:"recommended",c:"Food"},
+{f:"plant-breeding-seed-saving.html",n:"Plant Breeding & Seeds",p:2,t:"recommended",c:"Food"},
+{f:"forestry.html",n:"Forestry",p:2,t:"recommended",c:"Food"},
+{f:"leather-tanning.html",n:"Leather Tanning",p:2,t:"recommended",c:"Crafting"},
+{f:"basketry-cordage.html",n:"Basketry & Cordage",p:2,t:"recommended",c:"Crafting"},
+{f:"cra-03-cordage-textiles.html",n:"Cordage & Textiles",p:2,t:"recommended",c:"Crafting"},
+{f:"community-organizing.html",n:"Community Organizing",p:2,t:"recommended",c:"Community"},
+{f:"home-management.html",n:"Home Management",p:2,t:"recommended",c:"Community"},
+{f:"woodcarving-furniture.html",n:"Woodcarving & Furniture",p:2,t:"recommended",c:"Crafting"},
+{f:"beekeeping.html",n:"Beekeeping",p:2,t:"recommended",c:"Food"},
+{f:"pest-control.html",n:"Pest Control",p:2,t:"recommended",c:"Food"},
+{f:"greenhouse-coldframe.html",n:"Greenhouse & Coldframe",p:2,t:"supplementary",c:"Food"},
+{f:"indoor-farming.html",n:"Indoor Farming",p:2,t:"supplementary",c:"Food"},
+{f:"mushroom-cultivation.html",n:"Mushroom Cultivation",p:2,t:"supplementary",c:"Food"},
+{f:"insect-farming.html",n:"Insect Farming",p:2,t:"supplementary",c:"Food"},
+{f:"aquaculture.html",n:"Aquaculture",p:2,t:"supplementary",c:"Food"},
+{f:"famine-crops.html",n:"Famine Crops",p:2,t:"supplementary",c:"Food"},
+{f:"soil-science-remediation.html",n:"Soil Science",p:2,t:"supplementary",c:"Food"},
+{f:"lime-cement.html",n:"Lime & Cement",p:2,t:"supplementary",c:"Construction"},
+{f:"pottery-ceramics.html",n:"Pottery & Ceramics",p:2,t:"supplementary",c:"Crafting"},
+{f:"cra-02-pottery-ceramics.html",n:"Pottery & Ceramics (Ext)",p:2,t:"supplementary",c:"Crafting"},
+{f:"vinegar-ferments.html",n:"Vinegar & Ferments",p:2,t:"supplementary",c:"Food"},
+{f:"spices-seasonings.html",n:"Spices & Seasonings",p:2,t:"supplementary",c:"Food"},
+{f:"oil-pressing.html",n:"Oil Pressing",p:2,t:"supplementary",c:"Food"},
+{f:"salt-production.html",n:"Salt Production",p:2,t:"supplementary",c:"Food"},
+{f:"shoemaking.html",n:"Shoemaking",p:2,t:"supplementary",c:"Crafting"},
+{f:"waterproofing-textiles.html",n:"Waterproofing Textiles",p:2,t:"supplementary",c:"Crafting"},
+{f:"glue-adhesives.html",n:"Glue & Adhesives",p:2,t:"supplementary",c:"Crafting"},
+{f:"storage-management.html",n:"Storage Management",p:2,t:"supplementary",c:"Community"},
+{f:"cultural-practices-cohesion.html",n:"Cultural Practices",p:2,t:"supplementary",c:"Community"},
+{f:"philosophy-ethics.html",n:"Philosophy & Ethics",p:2,t:"supplementary",c:"Community"},
+{f:"justice-law.html",n:"Justice & Law",p:2,t:"supplementary",c:"Community"},
+
+// Phase 3: Infrastructure
+{f:"energy-systems.html",n:"Energy Systems",p:3,t:"essential",c:"Construction"},
+{f:"con-04-energy-systems.html",n:"Energy Systems (Ext)",p:3,t:"essential",c:"Construction"},
+{f:"fermentation-baking.html",n:"Fermentation & Baking",p:3,t:"essential",c:"Food"},
+{f:"textiles.html",n:"Textiles",p:3,t:"essential",c:"Crafting"},
+{f:"cra-05-weaving-textiles.html",n:"Weaving & Textiles",p:3,t:"essential",c:"Crafting"},
+{f:"ham-radio.html",n:"Ham Radio",p:3,t:"essential",c:"Electronics"},
+{f:"dentistry-midwifery.html",n:"Dentistry & Midwifery",p:3,t:"essential",c:"Medical"},
+{f:"midwifery.html",n:"Midwifery",p:3,t:"essential",c:"Medical"},
+{f:"entertainment.html",n:"Entertainment",p:3,t:"essential",c:"Community"},
+{f:"grain-milling.html",n:"Grain Milling",p:3,t:"essential",c:"Food"},
+{f:"sewage-treatment.html",n:"Sewage Treatment",p:3,t:"essential",c:"Construction"},
+{f:"plumbing-pipes.html",n:"Plumbing & Pipes",p:3,t:"recommended",c:"Construction"},
+{f:"bridges-dams.html",n:"Bridges & Dams",p:3,t:"recommended",c:"Construction"},
+{f:"road-building.html",n:"Road Building",p:3,t:"recommended",c:"Construction"},
+{f:"water-mills-windmills.html",n:"Water Mills & Windmills",p:3,t:"recommended",c:"Construction"},
+{f:"hydroelectric.html",n:"Hydroelectric",p:3,t:"recommended",c:"Construction"},
+{f:"dairy-processing.html",n:"Dairy Processing",p:3,t:"recommended",c:"Food"},
+{f:"wine-brewing.html",n:"Wine & Brewing",p:3,t:"recommended",c:"Food"},
+{f:"sugar-sweeteners.html",n:"Sugar & Sweeteners",p:3,t:"recommended",c:"Food"},
+{f:"veterinary.html",n:"Veterinary",p:3,t:"recommended",c:"Medical"},
+{f:"draft-animals.html",n:"Draft Animals",p:3,t:"recommended",c:"Food"},
+{f:"hoof-care-farriery.html",n:"Hoof Care & Farriery",p:3,t:"recommended",c:"Food"},
+{f:"pedagogy-curriculum.html",n:"Pedagogy & Curriculum",p:3,t:"recommended",c:"Community"},
+{f:"bookbinding-printing.html",n:"Bookbinding & Printing",p:3,t:"recommended",c:"Community"},
+{f:"dyeing-pigments.html",n:"Dyeing & Pigments",p:3,t:"recommended",c:"Crafting"},
+{f:"emergency-dental.html",n:"Emergency Dental",p:3,t:"recommended",c:"Medical"},
+{f:"surgery-field.html",n:"Surgery (Field)",p:3,t:"recommended",c:"Medical"},
+{f:"anesthesia-pain.html",n:"Anesthesia & Pain",p:3,t:"recommended",c:"Medical"},
+{f:"infectious-disease.html",n:"Infectious Disease",p:3,t:"recommended",c:"Medical"},
+{f:"medications.html",n:"Medications",p:3,t:"recommended",c:"Medical"},
+{f:"pharmacy-compounding.html",n:"Pharmacy & Compounding",p:3,t:"recommended",c:"Medical"},
+{f:"obstetric-emergencies.html",n:"Obstetric Emergencies",p:3,t:"recommended",c:"Medical"},
+{f:"storytelling-theater.html",n:"Storytelling & Theater",p:3,t:"recommended",c:"Community"},
+{f:"music-theory.html",n:"Music Theory",p:3,t:"recommended",c:"Community"},
+{f:"tobacco-stimulants.html",n:"Tobacco & Stimulants",p:3,t:"supplementary",c:"Food"},
+{f:"marine-biology-ocean.html",n:"Marine Biology",p:3,t:"supplementary",c:"Food"},
+{f:"refrigeration-cooling.html",n:"Refrigeration & Cooling",p:3,t:"supplementary",c:"Construction"},
+{f:"biogas-production.html",n:"Biogas Production",p:3,t:"supplementary",c:"Construction"},
+{f:"ink-pigment-chemistry.html",n:"Ink & Pigment Chemistry",p:3,t:"supplementary",c:"Chemistry"},
+{f:"archival-records.html",n:"Archival & Records",p:3,t:"supplementary",c:"Community"},
+{f:"knowledge-preservation.html",n:"Knowledge Preservation",p:3,t:"supplementary",c:"Community"},
+{f:"library-classification.html",n:"Library Classification",p:3,t:"supplementary",c:"Community"},
+{f:"census-vital-records.html",n:"Census & Vital Records",p:3,t:"supplementary",c:"Community"},
+{f:"double-entry-bookkeeping.html",n:"Bookkeeping",p:3,t:"supplementary",c:"Community"},
+{f:"photography-documentation.html",n:"Photography",p:3,t:"supplementary",c:"Community"},
+{f:"mortuary-science.html",n:"Mortuary Science",p:3,t:"supplementary",c:"Medical"},
+{f:"dental-prosthetics.html",n:"Dental Prosthetics",p:3,t:"supplementary",c:"Medical"},
+{f:"dentistry-restorative.html",n:"Restorative Dentistry",p:3,t:"supplementary",c:"Medical"},
+{f:"anatomy-oral.html",n:"Oral Anatomy",p:3,t:"supplementary",c:"Medical"},
+{f:"orthodontics-survival.html",n:"Orthodontics",p:3,t:"supplementary",c:"Medical"},
+{f:"orthopedics-fractures.html",n:"Orthopedics & Fractures",p:3,t:"supplementary",c:"Medical"},
+{f:"blood-medicine.html",n:"Blood Medicine",p:3,t:"supplementary",c:"Medical"},
+{f:"parasitology-tropical.html",n:"Parasitology",p:3,t:"supplementary",c:"Medical"},
+{f:"zoonotic-disease.html",n:"Zoonotic Disease",p:3,t:"supplementary",c:"Medical"},
+{f:"veterinary-obstetrics.html",n:"Veterinary Obstetrics",p:3,t:"supplementary",c:"Medical"},
+{f:"veterinary-parasitology.html",n:"Veterinary Parasitology",p:3,t:"supplementary",c:"Medical"},
+{f:"feminine-hygiene-production.html",n:"Feminine Hygiene",p:3,t:"supplementary",c:"Crafting"},
+{f:"prosthetics-adaptive.html",n:"Prosthetics & Adaptive",p:3,t:"supplementary",c:"Medical"},
+{f:"vision-correction-optometry.html",n:"Vision Correction",p:3,t:"supplementary",c:"Medical"},
+{f:"optics-vision.html",n:"Optics & Vision",p:3,t:"supplementary",c:"Medical"},
+{f:"standardized-skill-testing.html",n:"Skill Testing",p:3,t:"supplementary",c:"Community"},
+
+// Phase 4: Industrial Foundation
+{f:"mining-materials.html",n:"Mining & Materials",p:4,t:"essential",c:"Crafting"},
+{f:"metalworking.html",n:"Metalworking",p:4,t:"essential",c:"Crafting"},
+{f:"cra-01-forging-metalwork.html",n:"Forging & Metalwork",p:4,t:"essential",c:"Crafting"},
+{f:"blacksmithing.html",n:"Blacksmithing",p:4,t:"essential",c:"Crafting"},
+{f:"chemistry-fundamentals.html",n:"Chemistry Fundamentals",p:4,t:"essential",c:"Chemistry"},
+{f:"glass-ceramics.html",n:"Glass & Ceramics",p:4,t:"essential",c:"Crafting"},
+{f:"physics-machines.html",n:"Physics & Machines",p:4,t:"essential",c:"Construction"},
+{f:"mathematics.html",n:"Mathematics",p:4,t:"essential",c:"Community"},
+{f:"education-teaching.html",n:"Education & Teaching",p:4,t:"essential",c:"Community"},
+{f:"papermaking.html",n:"Papermaking",p:4,t:"essential",c:"Crafting"},
+{f:"economics-trade.html",n:"Economics & Trade",p:4,t:"essential",c:"Community"},
+{f:"foundry-casting.html",n:"Foundry & Casting",p:4,t:"recommended",c:"Crafting"},
+{f:"steel-making.html",n:"Steel Making",p:4,t:"recommended",c:"Crafting"},
+{f:"bloomery-furnace.html",n:"Bloomery Furnace",p:4,t:"recommended",c:"Crafting"},
+{f:"metallurgy-basics.html",n:"Metallurgy Basics",p:4,t:"recommended",c:"Crafting"},
+{f:"machine-tools.html",n:"Machine Tools",p:4,t:"recommended",c:"Crafting"},
+{f:"precision-measurement.html",n:"Precision Measurement",p:4,t:"recommended",c:"Crafting"},
+{f:"precision-measurement-tools.html",n:"Measurement Tools",p:4,t:"recommended",c:"Crafting"},
+{f:"weights-measures-standards.html",n:"Weights & Measures",p:4,t:"recommended",c:"Community"},
+{f:"mechanical-drawing.html",n:"Mechanical Drawing",p:4,t:"recommended",c:"Crafting"},
+{f:"printing-press.html",n:"Printing Press",p:4,t:"recommended",c:"Community"},
+{f:"slide-rule-nomography.html",n:"Slide Rule",p:4,t:"recommended",c:"Community"},
+{f:"gunsmithing.html",n:"Gunsmithing",p:4,t:"recommended",c:"Crafting"},
+{f:"blackpowder-blasting.html",n:"Blackpowder & Blasting",p:4,t:"recommended",c:"Chemistry"},
+{f:"gunpowder.html",n:"Gunpowder",p:4,t:"recommended",c:"Chemistry"},
+{f:"engineering-repair.html",n:"Engineering & Repair",p:4,t:"recommended",c:"Construction"},
+{f:"small-engines.html",n:"Small Engines",p:4,t:"recommended",c:"Construction"},
+{f:"shipbuilding-boats.html",n:"Shipbuilding & Boats",p:4,t:"recommended",c:"Construction"},
+{f:"scrap-metal-identification.html",n:"Scrap Metal ID",p:4,t:"recommended",c:"Crafting"},
+{f:"warehousing-inventory.html",n:"Warehousing & Inventory",p:4,t:"recommended",c:"Community"},
+{f:"postal-service-establishment.html",n:"Postal Service",p:4,t:"recommended",c:"Community"},
+{f:"abrasives-manufacturing.html",n:"Abrasives Mfg",p:4,t:"supplementary",c:"Crafting"},
+{f:"bearing-manufacturing.html",n:"Bearing Mfg",p:4,t:"supplementary",c:"Crafting"},
+{f:"spring-manufacturing.html",n:"Spring Mfg",p:4,t:"supplementary",c:"Crafting"},
+{f:"seals-gaskets.html",n:"Seals & Gaskets",p:4,t:"supplementary",c:"Crafting"},
+{f:"wire-drawing.html",n:"Wire Drawing",p:4,t:"supplementary",c:"Crafting"},
+{f:"magnet-production.html",n:"Magnet Production",p:4,t:"supplementary",c:"Crafting"},
+{f:"pressure-vessels.html",n:"Pressure Vessels",p:4,t:"supplementary",c:"Crafting"},
+{f:"wood-distillation.html",n:"Wood Distillation",p:4,t:"supplementary",c:"Chemistry"},
+{f:"solvents-distillation.html",n:"Solvents & Distillation",p:4,t:"supplementary",c:"Chemistry"},
+{f:"sulfuric-acid.html",n:"Sulfuric Acid",p:4,t:"supplementary",c:"Chemistry"},
+{f:"alkali-production.html",n:"Alkali Production",p:4,t:"supplementary",c:"Chemistry"},
+{f:"nitrogen-fixation.html",n:"Nitrogen Fixation",p:4,t:"supplementary",c:"Chemistry"},
+{f:"chlorine-bleach-production.html",n:"Chlorine & Bleach",p:4,t:"supplementary",c:"Chemistry"},
+{f:"electrolysis-chloralkali.html",n:"Electrolysis",p:4,t:"supplementary",c:"Chemistry"},
+{f:"chemical-safety.html",n:"Chemical Safety",p:4,t:"supplementary",c:"Chemistry"},
+{f:"rubber-latex.html",n:"Rubber & Latex",p:4,t:"supplementary",c:"Crafting"},
+{f:"rubber-vulcanization.html",n:"Rubber Vulcanization",p:4,t:"supplementary",c:"Crafting"},
+{f:"tire-recycling.html",n:"Tire Recycling",p:4,t:"supplementary",c:"Crafting"},
+{f:"plastic-remolding-systems.html",n:"Plastic Remolding",p:4,t:"supplementary",c:"Crafting"},
+{f:"pcb-component-salvage.html",n:"PCB & Component Salvage",p:4,t:"supplementary",c:"Electronics"},
+{f:"automotive-alternator-repurposing.html",n:"Alternator Repurposing",p:4,t:"supplementary",c:"Electronics"},
+{f:"bicycle-construction.html",n:"Bicycle Construction",p:4,t:"supplementary",c:"Construction"},
+
+// Phase 5: Electrification & Beyond
+{f:"electricity.html",n:"Electricity",p:5,t:"essential",c:"Electronics"},
+{f:"electrical-generation.html",n:"Electrical Generation",p:5,t:"essential",c:"Electronics"},
+{f:"electrical-wiring.html",n:"Electrical Wiring",p:5,t:"essential",c:"Electronics"},
+{f:"advanced-materials.html",n:"Advanced Materials",p:5,t:"essential",c:"Chemistry"},
+{f:"computing-logic.html",n:"Computing & Logic",p:5,t:"essential",c:"Electronics"},
+{f:"astronomy-calendar.html",n:"Astronomy & Calendar",p:5,t:"essential",c:"Community"},
+{f:"technology-roadmap.html",n:"Technology Roadmap",p:5,t:"essential",c:"Community"},
+{f:"transportation.html",n:"Transportation",p:5,t:"essential",c:"Construction"},
+{f:"power-distribution.html",n:"Power Distribution",p:5,t:"recommended",c:"Electronics"},
+{f:"electrical-motors.html",n:"Electrical Motors",p:5,t:"recommended",c:"Electronics"},
+{f:"electric-motor-rewinding.html",n:"Motor Rewinding",p:5,t:"recommended",c:"Electronics"},
+{f:"batteries.html",n:"Batteries",p:5,t:"recommended",c:"Electronics"},
+{f:"battery-restoration.html",n:"Battery Restoration",p:5,t:"recommended",c:"Electronics"},
+{f:"solar-technology.html",n:"Solar Technology",p:5,t:"recommended",c:"Electronics"},
+{f:"steam-engines.html",n:"Steam Engines",p:5,t:"recommended",c:"Construction"},
+{f:"internal-combustion.html",n:"Internal Combustion",p:5,t:"recommended",c:"Construction"},
+{f:"telecommunications.html",n:"Telecommunications",p:5,t:"recommended",c:"Electronics"},
+{f:"telegraph-telephone.html",n:"Telegraph & Telephone",p:5,t:"recommended",c:"Electronics"},
+{f:"transistors.html",n:"Transistors",p:5,t:"recommended",c:"Electronics"},
+{f:"vaccine-production.html",n:"Vaccine Production",p:5,t:"recommended",c:"Medical"},
+{f:"pharmaceutical-production.html",n:"Pharmaceutical Production",p:5,t:"recommended",c:"Medical"},
+{f:"insulin-extraction.html",n:"Insulin Extraction",p:5,t:"recommended",c:"Medical"},
+{f:"lens-grinding.html",n:"Lens Grinding",p:5,t:"recommended",c:"Crafting"},
+{f:"microscopy.html",n:"Microscopy",p:5,t:"recommended",c:"Medical"},
+{f:"cryptography-codes.html",n:"Cryptography & Codes",p:5,t:"recommended",c:"Community"},
+{f:"petroleum-refining.html",n:"Petroleum Refining",p:5,t:"supplementary",c:"Chemistry"},
+{f:"ammonia-synthesis-simplified.html",n:"Ammonia Synthesis",p:5,t:"supplementary",c:"Chemistry"},
+{f:"ether-chloroform-synthesis.html",n:"Ether & Chloroform",p:5,t:"supplementary",c:"Chemistry"},
+{f:"plastic-production.html",n:"Plastic Production",p:5,t:"supplementary",c:"Chemistry"},
+{f:"thermal-energy-storage.html",n:"Thermal Energy Storage",p:5,t:"supplementary",c:"Electronics"},
+{f:"vacuum-technology.html",n:"Vacuum Technology",p:5,t:"supplementary",c:"Electronics"},
+{f:"flight-balloons.html",n:"Flight & Balloons",p:5,t:"supplementary",c:"Construction"},
+{f:"railroads.html",n:"Railroads",p:5,t:"supplementary",c:"Construction"},
+{f:"vehicle-conversion.html",n:"Vehicle Conversion",p:5,t:"supplementary",c:"Construction"},
+{f:"clockmaking-precision.html",n:"Clockmaking",p:5,t:"supplementary",c:"Crafting"},
+{f:"suture-material-production.html",n:"Suture Materials",p:5,t:"supplementary",c:"Medical"},
+{f:"sterilization-methods.html",n:"Sterilization Methods",p:5,t:"supplementary",c:"Medical"},
+{f:"acetylene-carbide-production.html",n:"Acetylene & Carbide",p:5,t:"supplementary",c:"Chemistry"}
+];
+
+// ===== BUILD NODES =====
+const categoryColors = {
+    "Survival":     "#4a7c4a",
+    "Food":         "#8b6f47",
+    "Construction": "#7a5c3a",
+    "Crafting":     "#b87333",
+    "Medical":      "#6b8a6b",
+    "Community":    "#6b5b73",
+    "Chemistry":    "#7a6b8a",
+    "Electronics":  "#5a7a8a"
+};
+const tierRadius = { essential: 14, recommended: 10, supplementary: 7 };
+const phaseNames = [
+    "Phase 0: First 72 Hours",
+    "Phase 1: Stabilization",
+    "Phase 2: Settlement",
+    "Phase 3: Infrastructure",
+    "Phase 4: Industrial",
+    "Phase 5: Electrification"
+];
+const phaseShort = ["72 Hours","Stabilize","Settle","Infrastructure","Industrial","Electrify"];
+
+const nodes = guidesRaw.map((g, i) => ({
+    id: i,
+    file: g.f,
+    name: g.n,
+    phase: g.p,
+    tier: g.t,
+    category: g.c,
+    radius: tierRadius[g.t],
+    color: categoryColors[g.c] || "#8b6f47"
+}));
+
+const nodeByFile = {};
+nodes.forEach(n => nodeByFile[n.file] = n);
+
+// ===== BUILD LINKS =====
+// Topical connections: link related guides across phases
+const topicChains = [
+    // Survival chain
+    ["survival-basics.html","sanitation.html","sur-05-sanitation-hygiene.html","sewage-treatment.html"],
+    ["water-purification.html","well-drilling.html","irrigation-water.html","plumbing-pipes.html","hydroelectric.html"],
+    ["sur-02-fire-starting.html","charcoal-fuels.html","homestead-chemistry.html","chemistry-fundamentals.html"],
+    ["navigation.html","sur-04-navigation-mapping.html","cartography-mapmaking.html","astronomy-calendar.html"],
+    ["weather-geology.html","soil-science-remediation.html","mining-materials.html"],
+
+    // Food chain
+    ["food-rationing.html","foraging-hunting.html","agriculture.html","fermentation-baking.html","grain-milling.html"],
+    ["fod-05-food-foraging.html","fod-03-agriculture-basics.html","plant-breeding-seed-saving.html","seed-vault.html"],
+    ["fod-02-trapping-hunting.html","butchering.html","food-preservation.html","fod-01-food-preservation.html","dairy-processing.html"],
+    ["animal-tracking.html","trapping-snares.html","dogs-working-animals.html"],
+    ["fod-04-animal-husbandry.html","draft-animals.html","hoof-care-farriery.html"],
+    ["animal-husbandry.html","veterinary.html","veterinary-obstetrics.html","veterinary-parasitology.html"],
+    ["beekeeping.html","sugar-sweeteners.html","wine-brewing.html","vinegar-ferments.html"],
+    ["agriculture.html","pest-control.html","greenhouse-coldframe.html","indoor-farming.html"],
+    ["aquaculture.html","marine-biology-ocean.html"],
+    ["mushroom-cultivation.html","insect-farming.html","famine-crops.html"],
+
+    // Construction chain
+    ["con-01-shelter-building.html","construction.html","natural-building.html","bridges-dams.html","road-building.html"],
+    ["con-02-carpentry-woodworking.html","woodcarving-furniture.html","shipbuilding-boats.html"],
+    ["con-03-clay-earthworks.html","lime-cement.html","thatching-roofing.html","insulation-weatherproofing.html"],
+    ["energy-systems.html","con-04-energy-systems.html","water-mills-windmills.html","steam-engines.html","internal-combustion.html"],
+    ["engineering-repair.html","small-engines.html","bicycle-construction.html","transportation.html"],
+    ["refrigeration-cooling.html","biogas-production.html","thermal-energy-storage.html"],
+
+    // Crafting chain
+    ["primitive-technology.html","stone-tools.html","bone-tools.html"],
+    ["knots-rigging.html","cra-06-knot-tying-rigging.html","basketry-cordage.html","cra-03-cordage-textiles.html"],
+    ["textiles.html","cra-05-weaving-textiles.html","dyeing-pigments.html","waterproofing-textiles.html"],
+    ["leather-tanning.html","shoemaking.html"],
+    ["weapons-defense.html","cra-07-primitive-weapons.html","archery-crossbows.html","martial-arts-defense.html"],
+    ["pottery-ceramics.html","cra-02-pottery-ceramics.html","glass-ceramics.html"],
+    ["cra-04-soap-making.html","soap-candles.html","feminine-hygiene-production.html"],
+    ["glue-adhesives.html","rubber-latex.html","rubber-vulcanization.html"],
+    ["metalworking.html","cra-01-forging-metalwork.html","blacksmithing.html","foundry-casting.html","steel-making.html"],
+    ["bloomery-furnace.html","metallurgy-basics.html","scrap-metal-identification.html"],
+    ["machine-tools.html","precision-measurement.html","precision-measurement-tools.html","mechanical-drawing.html"],
+    ["gunpowder.html","blackpowder-blasting.html","gunsmithing.html"],
+    ["papermaking.html","bookbinding-printing.html","printing-press.html"],
+    ["mining-materials.html","abrasives-manufacturing.html","bearing-manufacturing.html","spring-manufacturing.html"],
+    ["wire-drawing.html","magnet-production.html","seals-gaskets.html","pressure-vessels.html"],
+    ["tire-recycling.html","plastic-remolding-systems.html","plastic-production.html"],
+    ["lens-grinding.html","microscopy.html","clockmaking-precision.html","optics-vision.html"],
+
+    // Medical chain
+    ["first-aid.html","medical-reference.html","surgery-field.html","anesthesia-pain.html"],
+    ["disaster-triage.html","burn-treatment.html","infection-control.html","infectious-disease.html"],
+    ["herbalism.html","sur-03-herbal-medicine.html","herbal-antibiotics.html","medications.html","pharmacy-compounding.html"],
+    ["dentistry-midwifery.html","emergency-dental.html","dental-prosthetics.html","dentistry-restorative.html"],
+    ["anatomy-oral.html","orthodontics-survival.html"],
+    ["midwifery.html","obstetric-emergencies.html"],
+    ["toxicology.html","nutrition-deficiency-diseases.html","blood-medicine.html"],
+    ["orthopedics-fractures.html","prosthetics-adaptive.html","suture-material-production.html"],
+    ["parasitology-tropical.html","zoonotic-disease.html"],
+    ["vision-correction-optometry.html","optics-vision.html"],
+    ["medications.html","vaccine-production.html","pharmaceutical-production.html","insulin-extraction.html"],
+    ["infection-control.html","sterilization-methods.html","mortuary-science.html"],
+
+    // Chemistry chain
+    ["homestead-chemistry.html","chemistry-fundamentals.html","sulfuric-acid.html","alkali-production.html"],
+    ["nitrogen-fixation.html","ammonia-synthesis-simplified.html"],
+    ["chlorine-bleach-production.html","electrolysis-chloralkali.html"],
+    ["wood-distillation.html","solvents-distillation.html","petroleum-refining.html"],
+    ["chemical-safety.html","ether-chloroform-synthesis.html","acetylene-carbide-production.html"],
+    ["ink-pigment-chemistry.html","photography-documentation.html"],
+    ["advanced-materials.html","plastic-production.html","vacuum-technology.html"],
+
+    // Electronics chain
+    ["signals-communication.html","ham-radio.html","telecommunications.html","telegraph-telephone.html"],
+    ["electricity.html","electrical-generation.html","electrical-wiring.html","power-distribution.html"],
+    ["electrical-motors.html","electric-motor-rewinding.html","automotive-alternator-repurposing.html"],
+    ["batteries.html","battery-restoration.html","solar-technology.html"],
+    ["pcb-component-salvage.html","transistors.html","computing-logic.html"],
+    ["cryptography-codes.html","computing-logic.html"],
+
+    // Community chain
+    ["psychological-resilience.html","psychology-morale.html","mental-health-counseling.html"],
+    ["governance.html","com-01-community-governance.html","community-organizing.html","justice-law.html"],
+    ["education-teaching.html","pedagogy-curriculum.html","mathematics.html","slide-rule-nomography.html"],
+    ["home-management.html","storage-management.html","warehousing-inventory.html"],
+    ["cultural-practices-cohesion.html","philosophy-ethics.html","entertainment.html","storytelling-theater.html","music-theory.html"],
+    ["economics-trade.html","double-entry-bookkeeping.html","weights-measures-standards.html","postal-service-establishment.html"],
+    ["archival-records.html","knowledge-preservation.html","library-classification.html","census-vital-records.html"],
+    ["technology-roadmap.html","standardized-skill-testing.html"],
+    ["transportation.html","railroads.html","vehicle-conversion.html","flight-balloons.html"]
+];
+
+const links = [];
+const linkSet = new Set();
+function addLink(sourceId, targetId, type) {
+    const key = sourceId + '-' + targetId;
+    if (!linkSet.has(key) && sourceId !== targetId) {
+        linkSet.add(key);
+        links.push({ source: sourceId, target: targetId, type: type });
+    }
+}
+
+topicChains.forEach(chain => {
+    for (let i = 0; i < chain.length - 1; i++) {
+        const s = nodeByFile[chain[i]];
+        const t = nodeByFile[chain[i+1]];
+        if (s && t) addLink(s.id, t.id, 'topic');
+    }
+});
+
+// ===== D3 SETUP =====
+const W = window.innerWidth;
+const H = window.innerHeight - 50;
+const phaseWidth = W / 6;
+
+// Set initial positions by phase column
+nodes.forEach(n => {
+    const phaseNodes = nodes.filter(x => x.phase === n.phase);
+    const idx = phaseNodes.indexOf(n);
+    const tierOrder = {essential:0,recommended:1,supplementary:2};
+    n.x = (n.phase + 0.5) * phaseWidth;
+    n.y = 60 + (idx / phaseNodes.length) * (H - 120);
+    n.fx = undefined;
+    n.fy = undefined;
+});
+
+const svg = d3.select('#svg').attr('width', W).attr('height', H);
+const defs = svg.append('defs');
+
+// Arrow markers by category
+Object.entries(categoryColors).forEach(([cat, color]) => {
+    defs.append('marker')
+        .attr('id', 'arrow-' + cat)
+        .attr('markerWidth', 6).attr('markerHeight', 6)
+        .attr('refX', 12).attr('refY', 3)
+        .attr('orient', 'auto')
+        .append('polygon')
+        .attr('points', '0 0, 6 3, 0 6')
+        .attr('fill', color)
+        .attr('opacity', 0.6);
+});
+
+const container = svg.append('g');
+const zoom = d3.zoom().scaleExtent([0.15, 4]).on('zoom', e => container.attr('transform', e.transform));
+svg.call(zoom);
+
+// Phase background labels
+for (let p = 0; p < 6; p++) {
+    container.append('text')
+        .attr('class','phase-label')
+        .attr('x', (p + 0.5) * phaseWidth)
+        .attr('y', 30)
+        .attr('text-anchor','middle')
+        .text(phaseShort[p]);
+    container.append('text')
+        .attr('class','phase-sublabel')
+        .attr('x', (p + 0.5) * phaseWidth)
+        .attr('y', 46)
+        .attr('text-anchor','middle')
+        .text(`Phase ${p}`);
+    // Vertical divider
+    if (p > 0) {
+        container.append('line')
+            .attr('x1', p * phaseWidth).attr('y1', 10)
+            .attr('x2', p * phaseWidth).attr('y2', H)
+            .attr('stroke', '#d4a574').attr('stroke-width', 0.3).attr('opacity', 0.2);
+    }
+}
+
+// Links
+const linkG = container.selectAll('.link')
+    .data(links).enter().append('line')
+    .attr('class', 'link')
+    .attr('stroke', d => {
+        const sn = nodes[d.source] || nodes.find(x=>x.id===d.source);
+        return sn ? categoryColors[sn.category] || '#8b6f47' : '#8b6f47';
+    });
+
+// Simulation
+const simulation = d3.forceSimulation(nodes)
+    .force('link', d3.forceLink(links).id(d => d.id).distance(50).strength(0.08))
+    .force('charge', d3.forceManyBody().strength(-25))
+    .force('x', d3.forceX(d => (d.phase + 0.5) * phaseWidth).strength(0.7))
+    .force('y', d3.forceY(d => {
+        const phaseNodes = nodes.filter(x => x.phase === d.phase);
+        const tierOrder = {essential:0,recommended:1,supplementary:2};
+        phaseNodes.sort((a,b) => (tierOrder[a.tier]||0) - (tierOrder[b.tier]||0) || a.name.localeCompare(b.name));
+        const idx = phaseNodes.indexOf(d);
+        return 60 + (idx / Math.max(1, phaseNodes.length - 1)) * (H - 120);
+    }).strength(0.3))
+    .force('collision', d3.forceCollide().radius(d => d.radius + 3))
+    .alphaDecay(0.02);
+
+// Nodes
+const nodeG = container.selectAll('.node')
+    .data(nodes).enter().append('g')
+    .attr('class','node')
+    .call(d3.drag()
+        .on('start', (e,d) => { if (!e.active) simulation.alphaTarget(0.3).restart(); d.fx=d.x; d.fy=d.y; })
+        .on('drag', (e,d) => { d.fx=e.x; d.fy=e.y; })
+        .on('end', (e,d) => { if (!e.active) simulation.alphaTarget(0); d.fx=null; d.fy=null; })
+    );
+
+nodeG.append('circle')
+    .attr('class','node-bg')
+    .attr('r', d => d.radius)
+    .attr('fill', d => d.color);
+
+nodeG.append('text')
+    .attr('class','node-text')
+    .attr('dy', '0.3em')
+    .attr('font-size', d => d.radius > 10 ? 8 : 6)
+    .text(d => {
+        const max = d.radius > 10 ? 16 : 10;
+        return d.name.length > max ? d.name.slice(0, max-1) + '…' : d.name;
+    });
+
+// Hover highlighting
+nodeG.on('mouseenter', function(e, d) {
+    const connected = new Set([d.id]);
+    links.forEach(l => {
+        const sid = typeof l.source === 'object' ? l.source.id : l.source;
+        const tid = typeof l.target === 'object' ? l.target.id : l.target;
+        if (sid === d.id) connected.add(tid);
+        if (tid === d.id) connected.add(sid);
+    });
+    nodeG.classed('highlighted', n => connected.has(n.id)).classed('faded', n => !connected.has(n.id));
+    linkG.classed('highlighted', l => {
+        const sid = typeof l.source === 'object' ? l.source.id : l.source;
+        const tid = typeof l.target === 'object' ? l.target.id : l.target;
+        return sid === d.id || tid === d.id;
+    }).classed('faded', l => {
+        const sid = typeof l.source === 'object' ? l.source.id : l.source;
+        const tid = typeof l.target === 'object' ? l.target.id : l.target;
+        return sid !== d.id && tid !== d.id;
+    });
+})
+.on('mouseleave', function() {
+    nodeG.classed('highlighted', false).classed('faded', false);
+    linkG.classed('highlighted', false).classed('faded', false);
+})
+.on('click', function(e, d) { showDetail(d); });
+
+// Tick
+simulation.on('tick', () => {
+    linkG
+        .attr('x1', d => d.source.x).attr('y1', d => d.source.y)
+        .attr('x2', d => d.target.x).attr('y2', d => d.target.y);
+    nodeG.attr('transform', d => `translate(${d.x},${d.y})`);
+});
+
+// ===== DETAIL PANEL =====
+function showDetail(node) {
+    document.getElementById('detail-title').textContent = node.name;
+    document.getElementById('detail-phase-tier').innerHTML =
+        `<span class="badge">${phaseNames[node.phase]}</span> <span class="badge">${node.tier}</span>`;
+    document.getElementById('detail-category').innerHTML =
+        `<span class="badge" style="background-color:${node.color}">${node.category}</span>`;
+    document.getElementById('detail-guide-link').innerHTML =
+        `<div class="resource-link"><a href="../guides/${node.file}">Open Guide &rarr;</a></div>`;
+
+    // Find connections
+    const leadsTo = [];
+    const requires = [];
+    const related = [];
+    links.forEach(l => {
+        const sid = typeof l.source === 'object' ? l.source.id : l.source;
+        const tid = typeof l.target === 'object' ? l.target.id : l.target;
+        if (sid === node.id) leadsTo.push(nodes[tid]);
+        if (tid === node.id) requires.push(nodes[sid]);
+    });
+
+    // Find same-category nodes not directly linked
+    nodes.forEach(n => {
+        if (n.id !== node.id && n.category === node.category &&
+            !leadsTo.find(x=>x.id===n.id) && !requires.find(x=>x.id===n.id) &&
+            Math.abs(n.phase - node.phase) <= 1) {
+            related.push(n);
+        }
+    });
+
+    const makeBadges = (arr) => arr.length > 0
+        ? arr.map(n => `<span class="badge clickable" data-node-id="${n.id}">${n.name}</span>`).join('')
+        : '<span style="color:#a89968;font-size:12px;">None</span>';
+
+    document.getElementById('detail-unlocks').innerHTML = makeBadges(leadsTo);
+    document.getElementById('detail-prereqs').innerHTML = makeBadges(requires);
+    document.getElementById('detail-related').innerHTML = makeBadges(related.slice(0, 12));
+
+    // Click badges to navigate
+    document.querySelectorAll('.badge.clickable').forEach(b => {
+        b.addEventListener('click', () => {
+            const nid = parseInt(b.dataset.nodeId);
+            const target = nodes.find(x => x.id === nid);
+            if (target) showDetail(target);
+        });
+    });
+
+    document.getElementById('detail-panel').classList.add('open');
+    document.getElementById('detail-content').classList.add('visible');
+}
+
+document.getElementById('close-detail').addEventListener('click', () => {
+    document.getElementById('detail-panel').classList.remove('open');
+    document.getElementById('detail-content').classList.remove('visible');
+});
+
+// ===== FILTERING =====
+let filteredIds = new Set(nodes.map(n => n.id));
+
+function applyFilters() {
+    const search = document.getElementById('search').value.toLowerCase().trim();
+    const phase = document.getElementById('phase-filter').value;
+    const category = document.getElementById('category-filter').value;
+    const tier = document.getElementById('tier-filter').value;
+    const searchTokens = search ? search.split(/\s+/) : [];
+
+    filteredIds.clear();
+    nodes.forEach(n => {
+        let match = true;
+        if (searchTokens.length > 0) {
+            // Each token must match name, category, tier, or filename
+            const haystack = (n.name + ' ' + n.category + ' ' + n.tier + ' ' + n.file).toLowerCase();
+            match = searchTokens.every(tok => haystack.includes(tok));
+        }
+        if (phase !== '' && n.phase !== parseInt(phase)) match = false;
+        if (category && n.category !== category) match = false;
+        if (tier && n.tier !== tier) match = false;
+        if (match) filteredIds.add(n.id);
+    });
+
+    nodeG.style('opacity', n => filteredIds.has(n.id) ? 1 : 0.06);
+    linkG.style('opacity', l => {
+        const sid = typeof l.source === 'object' ? l.source.id : l.source;
+        const tid = typeof l.target === 'object' ? l.target.id : l.target;
+        return filteredIds.has(sid) && filteredIds.has(tid) ? 0.25 : 0.02;
+    });
+
+    document.getElementById('visible-count').textContent = filteredIds.size;
+
+    // Auto-zoom to visible nodes if search is active
+    if (search && filteredIds.size > 0 && filteredIds.size < nodes.length) {
+        const visible = nodes.filter(n => filteredIds.has(n.id));
+        const minX = d3.min(visible, d => d.x) - 40;
+        const maxX = d3.max(visible, d => d.x) + 40;
+        const minY = d3.min(visible, d => d.y) - 40;
+        const maxY = d3.max(visible, d => d.y) + 40;
+        const dx = maxX - minX, dy = maxY - minY;
+        const scale = Math.min(W / dx, H / dy, 2.5) * 0.85;
+        const tx = W / 2 - (minX + dx / 2) * scale;
+        const ty = H / 2 - (minY + dy / 2) * scale;
+        svg.transition().duration(400).call(zoom.transform,
+            d3.zoomIdentity.translate(tx, ty).scale(scale));
+    }
+}
+
+document.getElementById('search').addEventListener('input', applyFilters);
+document.getElementById('phase-filter').addEventListener('change', applyFilters);
+document.getElementById('category-filter').addEventListener('change', applyFilters);
+document.getElementById('tier-filter').addEventListener('change', applyFilters);
+
+document.getElementById('reset-btn').addEventListener('click', () => {
+    document.getElementById('search').value = '';
+    document.getElementById('phase-filter').value = '';
+    document.getElementById('category-filter').value = '';
+    document.getElementById('tier-filter').value = '';
+    applyFilters();
+    svg.transition().duration(500).call(zoom.transform, d3.zoomIdentity);
+});
+
+// Populate category filter
+const cats = [...new Set(nodes.map(n => n.category))].sort();
+const catSelect = document.getElementById('category-filter');
+cats.forEach(c => {
+    const opt = document.createElement('option');
+    opt.value = c; opt.textContent = c;
+    catSelect.appendChild(opt);
+});
+
+// Populate legend
+const legendDiv = document.getElementById('legend-categories');
+cats.forEach(c => {
+    const item = document.createElement('div');
+    item.className = 'legend-item';
+    item.innerHTML = `<div class="legend-color" style="background-color:${categoryColors[c]||'#8b6f47'}"></div><span>${c}</span>`;
+    legendDiv.appendChild(item);
+});
+
+// Stats
+document.getElementById('total-count').textContent = nodes.length;
+document.getElementById('link-count').textContent = links.length;
+document.getElementById('visible-count').textContent = nodes.length;
+</script>
+</body>
+</html>

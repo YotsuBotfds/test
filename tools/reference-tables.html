@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reference Tables - Data & Spreadsheets</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Georgia, 'Times New Roman', serif;
+            background-color: #1a2e1a;
+            padding: 20px;
+            color: #f5f0e8;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: #f5f0e8;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #d4a574;
+            margin-bottom: 30px;
+            font-size: 14px;
+            font-style: italic;
+        }
+
+        .layout {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 20px;
+            min-height: calc(100vh - 150px);
+        }
+
+        .sidebar {
+            background-color: #0d1a0d;
+            border: 2px solid #d4a574;
+            border-radius: 4px;
+            padding: 15px;
+            max-height: calc(100vh - 200px);
+            overflow-y: auto;
+        }
+
+        .sidebar h2 {
+            font-size: 16px;
+            color: #d4a574;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #d4a574;
+            padding-bottom: 8px;
+        }
+
+        .table-list {
+            list-style: none;
+        }
+
+        .table-item {
+            margin-bottom: 8px;
+        }
+
+        .table-button {
+            display: block;
+            width: 100%;
+            padding: 10px 12px;
+            background-color: #1a2e1a;
+            color: #f5f0e8;
+            border: 1px solid #d4a574;
+            border-radius: 3px;
+            cursor: pointer;
+            text-align: left;
+            font-family: Georgia, serif;
+            font-size: 13px;
+            transition: all 0.2s ease;
+        }
+
+        .table-button:hover {
+            background-color: #d4a574;
+            color: #1a2e1a;
+            font-weight: bold;
+        }
+
+        .table-button.active {
+            background-color: #d4a574;
+            color: #1a2e1a;
+            font-weight: bold;
+            border-color: #f5f0e8;
+        }
+
+        .table-meta {
+            font-size: 11px;
+            color: #999;
+            margin-top: 3px;
+            padding-left: 12px;
+        }
+
+        .content {
+            background-color: #0d1a0d;
+            border: 2px solid #d4a574;
+            border-radius: 4px;
+            padding: 20px;
+            min-height: 400px;
+        }
+
+        .controls {
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #d4a574;
+        }
+
+        .controls h3 {
+            color: #d4a574;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .control-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .sheet-selector {
+            padding: 8px 12px;
+            background-color: #1a2e1a;
+            color: #f5f0e8;
+            border: 1px solid #d4a574;
+            border-radius: 3px;
+            font-family: Georgia, serif;
+            cursor: pointer;
+            font-size: 13px;
+        }
+
+        .sheet-selector:hover {
+            background-color: #d4a574;
+            color: #1a2e1a;
+        }
+
+        .search-input {
+            padding: 8px 12px;
+            background-color: #1a2e1a;
+            color: #f5f0e8;
+            border: 1px solid #d4a574;
+            border-radius: 3px;
+            font-family: Georgia, serif;
+            font-size: 13px;
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .search-input::placeholder {
+            color: #999;
+        }
+
+        .search-input:focus {
+            outline: none;
+            background-color: #0d1a0d;
+            border-color: #f5f0e8;
+        }
+
+        .search-button {
+            padding: 8px 16px;
+            background-color: #1a2e1a;
+            color: #f5f0e8;
+            border: 1px solid #d4a574;
+            border-radius: 3px;
+            cursor: pointer;
+            font-family: Georgia, serif;
+            font-size: 13px;
+            transition: all 0.2s ease;
+        }
+
+        .search-button:hover {
+            background-color: #d4a574;
+            color: #1a2e1a;
+        }
+
+        .search-info {
+            color: #d4a574;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+            margin-top: 15px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+        }
+
+        table thead {
+            background-color: rgba(212, 165, 116, 0.2);
+        }
+
+        table th {
+            padding: 10px;
+            text-align: left;
+            border: 1px solid #d4a574;
+            color: #f5f0e8;
+            font-weight: bold;
+            border-bottom: 2px solid #d4a574;
+        }
+
+        table td {
+            padding: 8px 10px;
+            border: 1px solid #444;
+            color: #f5f0e8;
+        }
+
+        table tbody tr:nth-child(odd) {
+            background-color: rgba(26, 46, 26, 0.5);
+        }
+
+        table tbody tr:nth-child(even) {
+            background-color: rgba(13, 26, 13, 0.5);
+        }
+
+        table tbody tr:hover {
+            background-color: rgba(212, 165, 116, 0.1);
+        }
+
+        .cell-overflow {
+            max-width: 300px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .cell-overflow:hover {
+            white-space: normal;
+            overflow: visible;
+            z-index: 10;
+            position: relative;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #999;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: #d4a574;
+        }
+
+        .error {
+            background-color: rgba(139, 0, 0, 0.2);
+            border: 1px solid #8b0000;
+            color: #ff6b6b;
+            padding: 12px;
+            border-radius: 3px;
+            margin: 10px 0;
+        }
+
+        .export-buttons {
+            display: flex;
+            gap: 10px;
+            margin-left: auto;
+        }
+
+        .export-btn {
+            padding: 8px 12px;
+            background-color: #1a2e1a;
+            color: #f5f0e8;
+            border: 1px solid #d4a574;
+            border-radius: 3px;
+            cursor: pointer;
+            font-family: Georgia, serif;
+            font-size: 12px;
+            transition: all 0.2s ease;
+        }
+
+        .export-btn:hover {
+            background-color: #d4a574;
+            color: #1a2e1a;
+        }
+
+        .table-info {
+            color: #d4a574;
+            font-size: 12px;
+            margin-bottom: 10px;
+        }
+
+        .row-count {
+            color: #999;
+            font-size: 11px;
+            font-style: italic;
+        }
+
+        @media (max-width: 768px) {
+            .layout {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                max-height: 200px;
+            }
+
+            .export-buttons {
+                flex-direction: column;
+            }
+
+            .control-group {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .search-input {
+                min-width: 100%;
+            }
+
+            table {
+                font-size: 11px;
+            }
+
+            table th, table td {
+                padding: 6px;
+            }
+        }
+
+        .scrollbar-style::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .scrollbar-style::-webkit-scrollbar-track {
+            background: rgba(212, 165, 116, 0.1);
+            border-radius: 10px;
+        }
+
+        .scrollbar-style::-webkit-scrollbar-thumb {
+            background: #d4a574;
+            border-radius: 10px;
+        }
+
+        .scrollbar-style::-webkit-scrollbar-thumb:hover {
+            background: #f5f0e8;
+        }
+
+        .sidebar {
+            scrollbar-color: #d4a574 rgba(212, 165, 116, 0.1);
+        }
+
+        .table-wrapper {
+            scrollbar-color: #d4a574 rgba(212, 165, 116, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div style="background-color:#2d2416;padding:12px 20px;border-bottom:1px solid #5a4a3a;">
+        <a href="../index.html" style="color:#d4a574;text-decoration:none;font-size:0.95em;">← Back to Guides</a>
+    </div>
+    <div class="container">
+        <h1>📊 Reference Tables</h1>
+        <p class="subtitle">Browse and search survival reference data</p>
+
+        <div class="layout">
+            <!-- Sidebar with table list -->
+            <div class="sidebar scrollbar-style">
+                <h2>Available Tables</h2>
+                <ul class="table-list" id="tableList"></ul>
+            </div>
+
+            <!-- Main content area -->
+            <div class="content">
+                <div id="tableContent">
+                    <div class="empty-state">
+                        <p>Select a reference table from the list to view its contents</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const APP_ROOT = '../';
+        const SPREADSHEETS_DIR = 'data/spreadsheets/';
+
+        // Data cache
+        let loadedData = {};
+        let currentTable = null;
+        let currentSheet = null;
+        let filteredRows = null;
+
+        /**
+         * Initialize the application
+         */
+        async function init() {
+            try {
+                await loadTableList();
+                setupEventListeners();
+            } catch (error) {
+                console.error('Initialization error:', error);
+                showError('Failed to initialize reference tables');
+            }
+        }
+
+        /**
+         * Load and display the list of available tables
+         */
+        async function loadTableList() {
+            const summaryResponse = await fetch(SPREADSHEETS_DIR + 'conversion-summary.json');
+            const summary = await summaryResponse.json();
+
+            const tableList = document.getElementById('tableList');
+            tableList.innerHTML = '';
+
+            summary.files.forEach((file, index) => {
+                if (file.error) return;
+
+                const li = document.createElement('li');
+                li.className = 'table-item';
+
+                const button = document.createElement('button');
+                button.className = 'table-button';
+                button.textContent = formatTableName(file.source);
+                button.dataset.file = file.output;
+                button.addEventListener('click', () => selectTable(file.output, button));
+
+                li.appendChild(button);
+
+                const meta = document.createElement('div');
+                meta.className = 'table-meta';
+                meta.textContent = `${file.sheets} sheets • ${file.rows} rows`;
+                li.appendChild(meta);
+
+                tableList.appendChild(li);
+
+                // Load first table by default
+                if (index === 0) {
+                    button.click();
+                }
+            });
+        }
+
+        /**
+         * Format spreadsheet filename to readable title
+         */
+        function formatTableName(filename) {
+            return filename
+                .replace('.xlsx', '')
+                .replace(/[-_]/g, ' ')
+                .replace(/\b\w/g, char => char.toUpperCase());
+        }
+
+        /**
+         * Select and load a table
+         */
+        async function selectTable(filename, button) {
+            // Update active button
+            document.querySelectorAll('.table-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            button.classList.add('active');
+
+            currentTable = filename.replace('.json', '');
+            currentSheet = null;
+            filteredRows = null;
+
+            // Load data if not cached
+            if (!loadedData[filename]) {
+                showLoading();
+                try {
+                    const response = await fetch(SPREADSHEETS_DIR + filename);
+                    loadedData[filename] = await response.json();
+                } catch (error) {
+                    showError(`Failed to load ${filename}`);
+                    return;
+                }
+            }
+
+            displayTableData(loadedData[filename]);
+        }
+
+        /**
+         * Display the table data with controls
+         */
+        function displayTableData(data) {
+            const sheets = Object.keys(data.sheets);
+            const firstSheet = sheets[0];
+            currentSheet = firstSheet;
+
+            const contentDiv = document.getElementById('tableContent');
+
+            // Create controls
+            const controlsHtml = `
+                <div class="controls">
+                    <h3>Table Controls</h3>
+                    <div class="control-group">
+                        <label for="sheetSelect" style="color: #d4a574;">Sheet:</label>
+                        <select id="sheetSelect" class="sheet-selector">
+                            ${sheets.map(sheet => `<option value="${sheet}">${sheet}</option>`).join('')}
+                        </select>
+
+                        <input type="text" id="searchInput" class="search-input" placeholder="Search table contents...">
+                        <button id="searchBtn" class="search-button">Search</button>
+                        <button id="clearBtn" class="search-button">Clear</button>
+
+                        <div class="export-buttons">
+                            <button id="copyBtn" class="export-btn">Copy as CSV</button>
+                            <button id="exportBtn" class="export-btn">Export JSON</button>
+                        </div>
+                    </div>
+                    <div id="searchInfo" class="search-info"></div>
+                </div>
+                <div id="tableContainer"></div>
+            `;
+
+            contentDiv.innerHTML = controlsHtml;
+
+            // Render first sheet
+            renderSheet(data.sheets[firstSheet]);
+
+            // Setup event listeners
+            document.getElementById('sheetSelect').addEventListener('change', (e) => {
+                currentSheet = e.target.value;
+                filteredRows = null;
+                document.getElementById('searchInput').value = '';
+                document.getElementById('searchInfo').textContent = '';
+                renderSheet(data.sheets[e.target.value]);
+            });
+
+            document.getElementById('searchBtn').addEventListener('click', performSearch);
+            document.getElementById('clearBtn').addEventListener('click', () => {
+                filteredRows = null;
+                document.getElementById('searchInput').value = '';
+                document.getElementById('searchInfo').textContent = '';
+                renderSheet(data.sheets[currentSheet]);
+            });
+
+            document.getElementById('searchInput').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') performSearch();
+            });
+
+            document.getElementById('copyBtn').addEventListener('click', copyAsCSV);
+            document.getElementById('exportBtn').addEventListener('click', exportJSON);
+        }
+
+        /**
+         * Render a sheet as an HTML table
+         */
+        function renderSheet(sheet) {
+            const rows = filteredRows || sheet.rows;
+            const tableContainer = document.getElementById('tableContainer');
+
+            if (rows.length === 0) {
+                tableContainer.innerHTML = '<div class="empty-state"><p>No data found</p></div>';
+                return;
+            }
+
+            // Build table HTML
+            let html = `
+                <div class="table-info">
+                    <strong>${currentSheet}</strong>
+                    <span class="row-count">${rows.length} rows</span>
+                </div>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                ${sheet.headers.map(header => `<th>${escapeHtml(header)}</th>`).join('')}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${rows.map(row => `
+                                <tr>
+                                    ${sheet.headers.map(header => {
+                                        const value = row[header];
+                                        return `<td title="${escapeHtml(String(value || ''))}">${escapeHtml(formatCellValue(value))}</td>`;
+                                    }).join('')}
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                </div>
+            `;
+
+            tableContainer.innerHTML = html;
+        }
+
+        /**
+         * Format cell value for display
+         */
+        function formatCellValue(value) {
+            if (value === null || value === undefined || value === '') return '-';
+            if (typeof value === 'boolean') return value ? 'Yes' : 'No';
+            if (typeof value === 'number') return value.toLocaleString();
+            return String(value);
+        }
+
+        /**
+         * Perform search across current sheet
+         */
+        function performSearch() {
+            const searchTerm = document.getElementById('searchInput').value.trim().toLowerCase();
+            if (!searchTerm) {
+                filteredRows = null;
+                const sheet = loadedData[currentTable + '.json'].sheets[currentSheet];
+                renderSheet(sheet);
+                return;
+            }
+
+            const sheet = loadedData[currentTable + '.json'].sheets[currentSheet];
+            filteredRows = sheet.rows.filter(row => {
+                return sheet.headers.some(header => {
+                    const value = String(row[header] || '').toLowerCase();
+                    return value.includes(searchTerm);
+                });
+            });
+
+            const info = document.getElementById('searchInfo');
+            info.textContent = `Found ${filteredRows.length} of ${sheet.rows.length} rows matching "${searchTerm}"`;
+
+            renderSheet(sheet);
+        }
+
+        /**
+         * Copy table as CSV
+         */
+        function copyAsCSV() {
+            const sheet = loadedData[currentTable + '.json'].sheets[currentSheet];
+            const rows = filteredRows || sheet.rows;
+
+            let csv = sheet.headers.map(h => `"${h}"`).join(',') + '\n';
+            csv += rows.map(row => {
+                return sheet.headers.map(header => {
+                    const value = row[header];
+                    return `"${String(value || '').replace(/"/g, '""')}"`;
+                }).join(',');
+            }).join('\n');
+
+            navigator.clipboard.writeText(csv).then(() => {
+                alert('Table copied to clipboard as CSV');
+            }).catch(err => {
+                showError('Failed to copy to clipboard');
+            });
+        }
+
+        /**
+         * Export table as JSON
+         */
+        function exportJSON() {
+            const sheet = loadedData[currentTable + '.json'].sheets[currentSheet];
+            const rows = filteredRows || sheet.rows;
+
+            const data = {
+                source: currentTable,
+                sheet: currentSheet,
+                exportDate: new Date().toISOString(),
+                rowCount: rows.length,
+                data: rows
+            };
+
+            const json = JSON.stringify(data, null, 2);
+            const blob = new Blob([json], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${currentTable}-${currentSheet}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        /**
+         * Show loading state
+         */
+        function showLoading() {
+            document.getElementById('tableContent').innerHTML = '<div class="loading">Loading table data...</div>';
+        }
+
+        /**
+         * Show error message
+         */
+        function showError(message) {
+            document.getElementById('tableContent').innerHTML = `<div class="error">${escapeHtml(message)}</div>`;
+        }
+
+        /**
+         * Escape HTML special characters
+         */
+        function escapeHtml(text) {
+            const map = {
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#39;'
+            };
+            return String(text).replace(/[&<>"']/g, m => map[m]);
+        }
+
+        /**
+         * Setup general event listeners
+         */
+        function setupEventListeners() {
+            // Auto-load when page loads
+            console.log('Reference tables initialized');
+        }
+
+        // Initialize when DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', init);
+        } else {
+            init();
+        }
+    </script>
+</body>
+</html>

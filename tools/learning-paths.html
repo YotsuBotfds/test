@@ -1,0 +1,1377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comprehensive Learning Paths - Zero to Hero Survival</title>
+    <style>
+        :root {
+            --color-dark: #1a2e1a;
+            --color-medium: #2d2416;
+            --color-accent: #d4a574;
+            --color-light: #f5f0e8;
+            --color-success: #4a7c4e;
+            --color-warning: #c9a961;
+            --color-danger: #8b4513;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Georgia, 'Times New Roman', serif;
+            background-color: var(--color-dark);
+            color: var(--color-light);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--color-dark) 0%, var(--color-medium) 100%);
+            padding: 40px 20px;
+            margin-bottom: 40px;
+            border-bottom: 3px solid var(--color-accent);
+            text-align: center;
+        }
+        
+        header h1 {
+            font-size: 2.8em;
+            color: var(--color-accent);
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        
+        header p {
+            font-size: 1.2em;
+            color: var(--color-light);
+            font-style: italic;
+        }
+        
+        /* Sticky Sidebar Navigation */
+        .sidebar-nav {
+            position: fixed;
+            left: 20px;
+            top: 100px;
+            width: 220px;
+            background-color: var(--color-medium);
+            border: 2px solid var(--color-accent);
+            border-radius: 8px;
+            padding: 20px;
+            max-height: 80vh;
+            overflow-y: auto;
+            z-index: 1000;
+        }
+        
+        .sidebar-nav h3 {
+            color: var(--color-accent);
+            font-size: 1.2em;
+            margin-bottom: 15px;
+            border-bottom: 2px solid var(--color-accent);
+            padding-bottom: 10px;
+        }
+        
+        .sidebar-nav ul {
+            list-style: none;
+        }
+        
+        .sidebar-nav li {
+            margin-bottom: 10px;
+        }
+        
+        .sidebar-nav a {
+            color: var(--color-light);
+            text-decoration: none;
+            display: block;
+            padding: 8px 12px;
+            border-left: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+        
+        .sidebar-nav a:hover {
+            color: var(--color-accent);
+            border-left-color: var(--color-accent);
+            background-color: rgba(212, 165, 116, 0.1);
+            padding-left: 18px;
+        }
+        
+        /* Main content margin */
+        .main-content {
+            margin-left: 280px;
+        }
+        
+        /* Sections */
+        section {
+            background-color: var(--color-medium);
+            margin-bottom: 40px;
+            padding: 40px;
+            border-radius: 12px;
+            border-left: 5px solid var(--color-accent);
+        }
+        
+        section h2 {
+            color: var(--color-accent);
+            font-size: 2.2em;
+            margin-bottom: 30px;
+            border-bottom: 2px solid var(--color-accent);
+            padding-bottom: 15px;
+        }
+        
+        section h3 {
+            color: var(--color-accent);
+            font-size: 1.6em;
+            margin-top: 30px;
+            margin-bottom: 20px;
+        }
+        
+        section h4 {
+            color: var(--color-light);
+            font-size: 1.3em;
+            margin-top: 20px;
+            margin-bottom: 15px;
+        }
+        
+        p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+        
+        /* Links */
+        a {
+            color: var(--color-accent);
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+            transition: all 0.3s ease;
+        }
+        
+        a:hover {
+            border-bottom: 1px solid var(--color-accent);
+        }
+        
+        .skill-link {
+            display: inline-block;
+            padding: 4px 8px;
+            background-color: rgba(212, 165, 116, 0.15);
+            border-radius: 4px;
+            margin: 2px;
+        }
+        
+        /* Day-by-Day Section */
+        .day-card {
+            background-color: var(--color-dark);
+            border: 2px solid var(--color-accent);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            display: grid;
+            grid-template-columns: 100px 1fr 200px;
+            gap: 20px;
+        }
+        
+        .day-number {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--color-accent);
+            color: var(--color-dark);
+            font-size: 2em;
+            font-weight: bold;
+            border-radius: 8px;
+        }
+        
+        .day-content h4 {
+            margin-top: 0;
+        }
+        
+        .day-tasks {
+            list-style-position: inside;
+            margin: 10px 0;
+        }
+        
+        .day-tasks li {
+            margin-bottom: 8px;
+            padding-left: 10px;
+        }
+        
+        .day-stats {
+            background-color: rgba(212, 165, 116, 0.1);
+            padding: 15px;
+            border-radius: 6px;
+            font-size: 0.9em;
+        }
+        
+        .day-stats p {
+            margin-bottom: 8px;
+        }
+        
+        .stat-label {
+            color: var(--color-accent);
+            font-weight: bold;
+        }
+        
+        /* Week separators */
+        .week-header {
+            text-align: center;
+            margin: 30px 0 20px 0;
+            padding: 20px;
+            background-color: var(--color-dark);
+            border: 2px solid var(--color-success);
+            border-radius: 8px;
+        }
+        
+        .week-header h3 {
+            color: var(--color-success);
+            margin: 0;
+        }
+        
+        /* Scenario Tracks */
+        .track-container {
+            background-color: var(--color-dark);
+            border: 2px solid var(--color-accent);
+            border-radius: 8px;
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .track-header {
+            margin-bottom: 25px;
+        }
+        
+        .track-header h3 {
+            color: var(--color-accent);
+            font-size: 1.8em;
+            margin-bottom: 10px;
+        }
+        
+        .track-description {
+            color: var(--color-light);
+            font-style: italic;
+            margin-bottom: 20px;
+        }
+        
+        .timeline {
+            display: flex;
+            gap: 15px;
+            overflow-x: auto;
+            padding: 20px 0;
+            align-items: flex-start;
+        }
+        
+        .timeline-node {
+            flex-shrink: 0;
+            background-color: var(--color-medium);
+            border: 2px solid var(--color-accent);
+            border-radius: 8px;
+            padding: 15px;
+            width: 180px;
+            text-align: center;
+        }
+        
+        .timeline-node.highlight {
+            background-color: rgba(212, 165, 116, 0.2);
+            border-color: var(--color-warning);
+        }
+        
+        .node-skill {
+            color: var(--color-accent);
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 0.95em;
+        }
+        
+        .node-days {
+            color: var(--color-light);
+            font-size: 0.85em;
+            margin-bottom: 10px;
+        }
+        
+        .timeline-node a {
+            display: block;
+            margin-top: 10px;
+        }
+        
+        .track-milestones {
+            background-color: rgba(212, 165, 116, 0.1);
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+        
+        .track-milestones h4 {
+            color: var(--color-accent);
+        }
+        
+        .milestones-list {
+            list-style-position: inside;
+        }
+        
+        .milestones-list li {
+            margin-bottom: 8px;
+            padding-left: 10px;
+        }
+        
+        .track-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .track-stat-box {
+            background-color: var(--color-dark);
+            padding: 15px;
+            border-radius: 6px;
+            border-left: 3px solid var(--color-accent);
+        }
+        
+        .track-stat-label {
+            color: var(--color-accent);
+            font-size: 0.9em;
+            font-weight: bold;
+        }
+        
+        .track-stat-value {
+            color: var(--color-light);
+            font-size: 1.4em;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+        
+        /* Flowcharts */
+        .flowchart {
+            background-color: var(--color-dark);
+            border: 2px solid var(--color-accent);
+            border-radius: 8px;
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .flowchart h3 {
+            color: var(--color-accent);
+            margin-bottom: 25px;
+        }
+        
+        .flowchart-grid {
+            display: grid;
+            gap: 30px;
+        }
+        
+        .flowchart-visual {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            align-items: start;
+        }
+        
+        .flow-box {
+            background-color: var(--color-medium);
+            border: 2px solid var(--color-accent);
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+            min-height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .flow-box a {
+            color: var(--color-accent);
+        }
+        
+        .flow-arrow {
+            text-align: center;
+            color: var(--color-accent);
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+        
+        /* Skill Table */
+        .table-wrapper {
+            overflow-x: auto;
+            margin-top: 20px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: var(--color-dark);
+        }
+        
+        th {
+            background-color: var(--color-accent);
+            color: var(--color-dark);
+            padding: 15px;
+            text-align: left;
+            font-weight: bold;
+            cursor: pointer;
+            user-select: none;
+        }
+        
+        th:hover {
+            background-color: var(--color-warning);
+        }
+        
+        th.sortable::after {
+            content: " ▼▲";
+            font-size: 0.8em;
+            margin-left: 5px;
+            opacity: 0.5;
+        }
+        
+        td {
+            padding: 12px 15px;
+            border-bottom: 1px solid var(--color-medium);
+        }
+        
+        tr:hover {
+            background-color: rgba(212, 165, 116, 0.1);
+        }
+        
+        .category-survival { color: #4a9eff; }
+        .category-food { color: #4eff4a; }
+        .category-crafts { color: #d4a574; }
+        .category-health { color: #ff6b6b; }
+        .category-advanced { color: #c76ef0; }
+        .category-social { color: #ff9500; }
+        
+        .difficulty-easy { color: #4eff4a; }
+        .difficulty-medium { color: #d4a574; }
+        .difficulty-hard { color: #ff6b6b; }
+        
+        /* Reading Order */
+        .reading-order {
+            background-color: var(--color-dark);
+            border-left: 5px solid var(--color-accent);
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 6px;
+        }
+        
+        .reading-order ol {
+            list-style-position: inside;
+            counter-reset: item;
+        }
+        
+        .reading-order li {
+            margin-bottom: 15px;
+            padding-left: 10px;
+        }
+        
+        .reading-order-number {
+            display: inline-block;
+            background-color: var(--color-accent);
+            color: var(--color-dark);
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            margin-right: 10px;
+            font-weight: bold;
+        }
+        
+        .reading-order-skill {
+            font-weight: bold;
+            color: var(--color-accent);
+        }
+        
+        .reading-order-rationale {
+            display: block;
+            margin-left: 40px;
+            font-size: 0.95em;
+            color: var(--color-light);
+            font-style: italic;
+            margin-top: 5px;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--color-dark);
+            padding: 30px 20px;
+            text-align: center;
+            border-top: 3px solid var(--color-accent);
+            margin-top: 60px;
+        }
+        
+        footer p {
+            margin-bottom: 10px;
+        }
+        
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .sidebar-nav {
+                position: static;
+                width: 100%;
+                margin-bottom: 30px;
+                max-height: none;
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+            
+            .day-card {
+                grid-template-columns: 1fr;
+            }
+            
+            .timeline {
+                flex-direction: column;
+            }
+            
+            .timeline-node {
+                width: 100%;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2em;
+            }
+            
+            section {
+                padding: 20px;
+            }
+            
+            .flowchart-visual {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Utility */
+        .error {
+            color: var(--color-danger);
+        }
+        
+        .back-to-top {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: var(--color-accent);
+            color: var(--color-dark);
+            border-radius: 6px;
+            cursor: pointer;
+            text-align: center;
+        }
+        
+        .back-to-top:hover {
+            background-color: var(--color-warning);
+        }
+    
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
+        }</style>
+</head>
+<body>
+    <div style="background-color:#2d2416;padding:12px 20px;border-bottom:1px solid #5a4a3a;position:relative;z-index:1000;">
+        <a href="../index.html" style="color:#d4a574;text-decoration:none;font-size:0.95em;">← Back to Guides</a>
+    </div>
+    <!-- Sticky Sidebar Navigation -->
+    <aside class="sidebar-nav">
+        <h3>Navigation</h3>
+        <ul>
+            <li><a href="#day-by-day">30-Day Guide</a></li>
+            <li><a href="#scenario-tracks">Scenario Tracks</a></li>
+            <li><a href="#flowcharts">Flowcharts</a></li>
+            <li><a href="#skill-table">Skill Table</a></li>
+            <li><a href="#reading-order">Reading Order</a></li>
+        </ul>
+    </aside>
+    
+    <!-- Main Content -->
+    <div class="main-content">
+        <header>
+            <h1>Comprehensive Learning Paths</h1>
+            <p>Master survival skills with structured, interconnected learning paths</p>
+        </header>
+        
+        <div class="container" role="main">
+
+            <section id="day-by-day">
+                <h2>1. Day-by-Day 30-Day Survival Guide</h2>
+                <p>A detailed timeline showing exactly what to focus on each day, with linked skill modules for immediate reference. This guide progresses from immediate survival needs through sustainable systems over four weeks.</p>
+
+                <div class="week-header">
+                    <h3>Week 1: Immediate Survival (Water, Fire, Shelter, Foraging)</h3>
+                </div>
+
+                <div class="day-card">
+                    <div class="day-number">Day 1</div>
+                    <div class="day-content">
+                        <h4>Find Water Source</h4>
+                        <p><strong>Priority Tasks:</strong></p>
+                        <ul class="day-tasks">
+                            <li>Find clean water source</li>
+                            <li>Locate water purification materials</li>
+
+                        </ul>
+                        <p><strong>Skill Modules:</strong><br><a href='../guides/sur-01-water-purification.html' class='skill-link'>Water Purification</a></p>
+                        <p><strong>Expected Outcome:</strong> Safe drinking water identified and tested</p>
+                    </div>
+                    <div class="day-stats">
+                        <p><span class="stat-label">Calories Needed:</span><br>1200-1500</p>
+                        <p><span class="stat-label">Water Intake:</span><br>2-3 liters minimum</p>
+                    </div>
+                </div>
+
+                <div class="day-card">
+                    <div class="day-number">Day 2</div>
+                    <div class="day-content">
+                        <h4>Water Purification</h4>
+                        <p><strong>Priority Tasks:</strong></p>
+                        <ul class="day-tasks">
+                            <li>Purify and store water</li>
+                            <li>Establish water collection system</li>
+
+                        </ul>
+                        <p><strong>Skill Modules:</strong><br><a href='../guides/sur-01-water-purification.html' class='skill-link'>Water Purification</a></p>
+                        <p><strong>Expected Outcome:</strong> Reliable daily water supply secured</p>
+                    </div>
+                    <div class="day-stats">
+                        <p><span class="stat-label">Calories Needed:</span><br>1200-1500</p>
+                        <p><span class="stat-label">Water Intake:</span><br>3-4 liters</p>
+                    </div>
+                </div>
+
+                <div class="day-card">
+                    <div class="day-number">Day 3</div>
+                    <div class="day-content">
+                        <h4>Fire Starting</h4>
+                        <p><strong>Priority Tasks:</strong></p>
+                        <ul class="day-tasks">
+                            <li>Gather tinder, kindling, fuel</li>
+                            <li>Start first fire</li>
+                            <li>Maintain fire through night</li>
+
+                        </ul>
+                        <p><strong>Skill Modules:</strong><br><a href='../guides/sur-02-fire-starting.html' class='skill-link'>Fire Starting</a></p>
+                        <p><strong>Expected Outcome:</strong> Fire lit and controlled, warmth secured</p>
+                    </div>
+                    <div class="day-stats">
+                        <p><span class="stat-label">Calories Needed:</span><br>1300-1600</p>
+                        <p><span class="stat-label">Water Intake:</span><br>3-4 liters</p>
+                    </div>
+                </div>
+
+                <div class="day-card">
+                    <div class="day-number">Day 4</div>
+                    <div class="day-content">
+                        <h4>Fire Management</h4>
+                        <p><strong>Priority Tasks:</strong></p>
+                        <ul class="day-tasks">
+                            <li>Maintain fire</li>
+                            <li>Gather more fuel</li>
+                            <li>Cook first meal over fire</li>
+
+                        </ul>
+                        <p><strong>Skill Modules:</strong><br><a href='../guides/sur-02-fire-starting.html' class='skill-link'>Fire Starting</a></p>
+                        <p><strong>Expected Outcome:</strong> Fire consistently available, cooking possible</p>
+                    </div>
+                    <div class="day-stats">
+                        <p><span class="stat-label">Calories Needed:</span><br>1400-1700</p>
+                        <p><span class="stat-label">Water Intake:</span><br>3-4 liters</p>
+                    </div>
+                </div>
+
+                <div class="day-card">
+                    <div class="day-number">Day 5</div>
+                    <div class="day-content">
+                        <h4>Shelter Materials</h4>
+                        <p><strong>Priority Tasks:</strong></p>
+                        <ul class="day-tasks">
+                            <li>Collect branches, leaves, bark</li>
+                            <li>Find shelter location</li>
+                            <li>Begin shelter frame</li>
+
+                        </ul>
+                        <p><strong>Skill Modules:</strong><br><a href='../guides/cra-03-cordage-textiles.html' class='skill-link'>Cordage & Textiles</a> <a href='../guides/con-01-shelter-building.html' class='skill-link'>Shelter Building</a></p>
+                        <p><strong>Expected Outcome:</strong> Shelter frame structure started</p>
+                    </div>
+                    <div class="day-stats">
+                        <p><span class="stat-label">Calories Needed:</span><br>1500-1800</p>
+                        <p><span class="stat-label">Water Intake:</span><br>3-4 liters</p>
+                    </div>
+                </div>
+
+                <div class="day-card">
+                    <div class="day-number">Day 6</div>
+                    <div class="day-content">
+                        <h4>Shelter Building</h4>
+                        <p><strong>Priority Tasks:</strong></p>
+                        <ul class="day-tasks">
+                            <li>Continue shelter construction</li>
+                            <li>Make rope from cordage</li>
+                            <li>Tie knots for structure</li>
+
+                        </ul>
+                        <p><strong>Skill Modules:</strong><br><a href='../guides/con-01-shelter-building.html' class='skill-link'>Shelter Building</a> <a href='../guides/cra-06-knot-tying-rigging.html' class='skill-link'>Knot Tying & Rigging</a></p>
+                        <p><strong>Expected Outcome:</strong> Shelter framework nearly complete</p>
+                    </div>
+                    <div class="day-stats">
+                        <p><span class="stat-label">Calories Needed:</span><br>1500-1800</p>
+                        <p><span class="stat-label">Water Intake:</span><br>3-4 liters</p>
+                    </div>
+                </div>
+
+                <div class="day-card">
+                    <div class="day-number">Day 7</div>
+                    <div class="day-content">
+                        <h4>Shelter Completion</h4>
+                        <p><strong>Priority Tasks:</strong></p>
+                        <ul class="day-tasks">
+                            <li>Complete shelter walls</li>
+                            <li>Add insulation</li>
+                            <li>Test shelter for leaks</li>
+
+                        </ul>
+                        <p><strong>Skill Modules:</strong><br><a href='../guides/con-01-shelter-building.html' class='skill-link'>Shelter Building</a></p>
+                        <p><strong>Expected Outcome:</strong> Weatherproof shelter ready</p>
+                    </div>
+                    <div class="day-stats">
+                        <p><span class="stat-label">Calories Needed:</span><br>1500-1800</p>
+                        <p><span class="stat-label">Water Intake:</span><br>3-4 liters</p>
+                    </div>
+                </div>
+
+                <div class="week-header">
+                    <h3>Week 2: Food Security (Trapping, Fishing, Preservation)</h3>
+                </div>
+
+                <div class="day-card">
+                    <div class="day-number">Day 8</div>
+                    <div class="day-content">
+                        <h4>Food Foraging Basics</h4>
+                        <p><strong>Priority Tasks:</strong></p>
+                        <ul class="day-tasks">
+                            <li>Learn 5 edible plants</li>
+                            <li>Forage for greens</li>
+                            <li>Test for toxins safely</li>
+
+                        </ul>
+                        <p><strong>Skill Modules:</strong><br><a href='../guides/fod-05-food-foraging.html' class='skill-link'>Food Foraging</a></p>
+                        <p><strong>Expected Outcome:</strong> First foraged meal successfully eaten</p>
+                    </div>
+                    <div class="day-stats">
+                        <p><span class="stat-label">Calories Needed:</span><br>1600-1900</p>
+                        <p><span class="stat-label">Water Intake:</span><br>3-4 liters</p>
+                    </div>
+                </div>
+
+                <div class="day-card">
+                    <div class="day-number">Day 9</div>
+                    <div class="day-content">
+                        <h4>Foraged Food Security</h4>
+                        <p><strong>Priority Tasks:</strong></p>
+                        <ul class="day-tasks">
+                            <li>Expand edible plant knowledge</li>
+                            <li>Gather variety of foods</li>
+                            <li>Store dried plants</li>
+
+                        </ul>
+                        <p><strong>Skill Modules:</strong><br><a href='../guides/fod-05-food-foraging.html' class='skill-link'>Food Foraging</a></p>
+                        <p><strong>Expected Outcome:</strong> Reliable plant food source identified</p>
+                    </div>
+                    <div class="day-stats">
+                        <p><span class="stat-label">Calories Needed:</span><br>1700-2000</p>
+                        <p><span class="stat-label">Water Intake:</span><br>3-4 liters</p>
+                    </div>
+                </div>
+
+                <div class="day-card">
+                    <div class="day-number">Day 10</div>
+                    <div class="day-content">
+                        <h4>Trapping Basics</h4>
+                        <p><strong>Priority Tasks:</strong></p>
+                        <ul class="day-tasks">
+                            <li>Make cordage for traps</li>
+                            <li>Learn trap types</li>
+                            <li>Set first traps</li>
+
+                        </ul>
+                        <p><strong>Skill Modules:</strong><br><a href='../guides/fod-02-trapping-hunting.html' class='skill-link'>Trapping & Hunting</a> <a href='../guides/cra-03-cordage-textiles.html' class='skill-link'>Cordage & Textiles</a></p>
+                        <p><strong>Expected Outcome:</strong> Multiple traps set and monitored</p>
+                    </div>
+                    <div class="day-stats">
+                        <p><span class="stat-label">Calories Needed:</span><br>1700-2000</p>
+                        <p><span class="stat-label">Water Intake:</span><br>3-4 liters</p>
+                    </div>
+                </div>
+
+                <div class="day-card">
+                    <div class="day-number">Day 11</div>
+                    <div class="day-content">
+                        <h4>Trap Monitoring</h4>
+                        <p><strong>Priority Tasks:</strong></p>
+                        <ul class="day-tasks">
+                            <li>Check traps regularly</li>
+                            <li>Reset unsuccessful traps</li>
+                            <li>Process any game</li>
+
+                        </ul>
+                        <p><strong>Skill Modules:</strong><br><a href='../guides/fod-02-trapping-hunting.html' class='skill-link'>Trapping & Hunting</a></p>
+                        <p><strong>Expected Outcome:</strong> Trap setting routine established</p>
+                    </div>
+                    <div class="day-stats">
+                        <p><span class="stat-label">Calories Needed:</span><br>1800-2100</p>
+                        <p><span class="stat-label">Water Intake:</span><br>3-4 liters</p>
+                    </div>
+                </div>
+
+                <div class="day-card">
+                    <div class="day-number">Day 12</div>
+                    <div class="day-content">
+                        <h4>Fishing Introduction</h4>
+                        <p><strong>Priority Tasks:</strong></p>
+                        <ul class="day-tasks">
+                            <li>Find water with fish</li>
+                            <li>Make fishing tools</li>
+                            <li>Attempt fishing</li>
+
+                        </ul>
+                        <p><strong>Skill Modules:</strong><br><a href='../guides/fod-02-trapping-hunting.html' class='skill-link'>Trapping & Hunting</a> <a href='../guides/sur-04-navigation-mapping.html' class='skill-link'>Navigation & Mapping</a></p>
+                        <p><strong>Expected Outcome:</strong> First fish caught or understanding of water resources</p>
+                    </div>
+                    <div class="day-stats">
+                        <p><span class="stat-label">Calories Needed:</span><br>1800-2100</p>
+                        <p><span class="stat-label">Water Intake:</span><br>3-4 liters</p>
+                    </div>
+                </div>
+
+                <div class="day-card">
+                    <div class="day-number">Day 13</div>
+                    <div class="day-content">
+                        <h4>Herbal Medicine</h4>
+                        <p><strong>Priority Tasks:</strong></p>
+                        <ul class="day-tasks">
+                            <li>Identify medicinal plants</li>
+                            <li>Prepare remedies</li>
+                            <li>Store dried herbs</li>
+
+                        </ul>
+                        <p><strong>Skill Modules:</strong><br><a href='../guides/sur-03-herbal-medicine.html' class='skill-link'>Herbal Medicine</a></p>
+                        <p><strong>Expected Outcome:</strong> Herbal medicine supply started</p>
+                    </div>
+                    <div class="day-stats">
+                        <p><span class="stat-label">Calories Needed:</span><br>1800-2100</p>
+                        <p><span class="stat-label">Water Intake:</span><br>3-4 liters</p>
+                    </div>
+                </div>
+
+                <div class="day-card">
+                    <div class="day-number">Day 14</div>
+                    <div class="day-content">
+                        <h4>Food Preservation Start</h4>
+                        <p><strong>Priority Tasks:</strong></p>
+                        <ul class="day-tasks">
+                            <li>Dry meat or fish</li>
+                            <li>Preserve plant foods</li>
+                            <li>Make soap for hygiene</li>
+
+                        </ul>
+                        <p><strong>Skill Modules:</strong><br><a href='../guides/fod-01-food-preservation.html' class='skill-link'>Food Preservation</a> <a href='../guides/cra-04-soap-making.html' class='skill-link'>Soap Making</a></p>
+                        <p><strong>Expected Outcome:</strong> Food preservation methods in progress</p>
+                    </div>
+                    <div class="day-stats">
+                        <p><span class="stat-label">Calories Needed:</span><br>1900-2200</p>
+                        <p><span class="stat-label">Water Intake:</span><br>3-4 liters</p>
+                    </div>
+                </div>
+
+                <div class="week-header">
+                    <h3>Week 3: Tool Making (Cordage, Carpentry, Knots)</h3>
+                </div>
+
+                <div class="day-card">
+                    <div class="day-number">Day 15</div>
+                    <div class="day-content">
+                        <h4>Cordage Production</h4>
+                        <p><strong>Priority Tasks:</strong></p>
+                        <ul class="day-tasks">
+                            <li>Gather cordage materials</li>
+                            <li>Make rope or twine</li>
+                            <li>Prepare supplies</li>
+
+                        </ul>
+                        <p><strong>Skill Modules:</strong><br><a href='../guides/cra-03-cordage-textiles.html' class='skill-link'>Cordage & Textiles</a></p>
+                        <p><strong>Expected Outcome:</strong> Usable cordage for projects</p>
+                    </div>
+                    <div class="day-stats">
+                        <p><span class="stat-label">Calories Needed:</span><br>1900-2200</p>
+                        <p><span class="stat-label">Water Intake:</span><br>3-4 liters</p>
+                    </div>
+                </div>
+
+                <div class="day-card">
+                    <div class="day-number">Day 16</div>
+                    <div class="day-content">
+                        <h4>Knot Tying Mastery</h4>
+                        <p><strong>Priority Tasks:</strong></p>
+                        <ul class="day-tasks">
+                            <li>Learn 10 essential knots</li>
+                            <li>Practice tying</li>
+                            <li>Use in daily tasks</li>
+
+                        </ul>
+                        <p><strong>Skill Modules:</strong><br><a href='../guides/cra-06-knot-tying-rigging.html' class='skill-link'>Knot Tying & Rigging</a></p>
+                        <p><strong>Expected Outcome:</strong> Can tie knots reliably for work</p>
+                    </div>
+                    <div class="day-stats">
+                        <p><span class="stat-label">Calories Needed:</span><br>1900-2200</p>
+                        <p><span class="stat-label">Water Intake:</span><br>3-4 liters</p>
+                    </div>
+                </div>
+
+                <div class="day-card">
+                    <div class="day-number">Day 17</div>
+                    <div class="day-content">
+                        <h4>Basic Carpentry</h4>
+                        <p><strong>Priority Tasks:</strong></p>
+                        <ul class="day-tasks">
+                            <li>Make wooden tools</li>
+                            <li>Fashion handles</li>
+                            <li>Build simple objects</li>
+
+                        </ul>
+                        <p><strong>Skill Modules:</strong><br><a href='../guides/con-02-carpentry-woodworking.html' class='skill-link'>Carpentry & Woodworking</a></p>
+                        <p><strong>Expected Outcome:</strong> Basic wooden implements created</p>
+                    </div>
+                    <div class="day-stats">
+                        <p><span class="stat-label">Calories Needed:</span><br>2000-2300</p>
+                        <p><span class="stat-label">Water Intake:</span><br>3-4 liters</p>
+                    </div>
+                </div>
+
+                <div class="day-card">
+                    <div class="day-number">Day 18</div>
+                    <div class="day-content">
+                        <h4>Primitive Weapons</h4>
+                        <p><strong>Priority Tasks:</strong></p>
+                        <ul class="day-tasks">
+                            <li>Make spear or bow</li>
+                            <li>Create arrows</li>
+                            <li>Practice throwing</li>
+
+                        </ul>
+                        <p><strong>Skill Modules:</strong><br><a href='../guides/cra-07-primitive-weapons.html' class='skill-link'>Primitive Weapons</a></p>
+                        <p><strong>Expected Outcome:</strong> Functional weapons for hunting</p>
+                    </div>
+                    <div class="day-stats">
+                        <p><span class="stat-label">Calories Needed:</span><br>2000-2300</p>
+                        <p><span class="stat-label">Water Intake:</span><br>3-4 liters</p>
+                    </div>
+                </div>
+
+                <div class="day-card">
+                    <div class="day-number">Day 19</div>
+                    <div class="day-content">
+                        <h4>Tool Enhancement</h4>
+                        <p><strong>Priority Tasks:</strong></p>
+                        <ul class="day-tasks">
+                            <li>Make metal tools if possible</li>
+                            <li>Improve implements</li>
+                            <li>Create specialized tools</li>
+
+                        </ul>
+                        <p><strong>Skill Modules:</strong><br><a href='../guides/cra-01-forging-metalwork.html' class='skill-link'>Metalwork & Forging</a> <a href='../guides/con-02-carpentry-woodworking.html' class='skill-link'>Carpentry & Woodworking</a></p>
+                        <p><strong>Expected Outcome:</strong> Effective tool collection</p>
+                    </div>
+                    <div class="day-stats">
+                        <p><span class="stat-label">Calories Needed:</span><br>2000-2300</p>
+                        <p><span class="stat-label">Water Intake:</span><br>3-4 liters</p>
+                    </div>
+                </div>
+
+                <div class="day-card">
+                    <div class="day-number">Day 20</div>
+                    <div class="day-content">
+                        <h4>Sanitation Systems</h4>
+                        <p><strong>Priority Tasks:</strong></p>
+                        <ul class="day-tasks">
+                            <li>Build toilet area</li>
+                            <li>Establish hygiene routine</li>
+                            <li>Create waste management</li>
+
+                        </ul>
+                        <p><strong>Skill Modules:</strong><br><a href='../guides/sur-05-sanitation-hygiene.html' class='skill-link'>Sanitation & Hygiene</a></p>
+                        <p><strong>Expected Outcome:</strong> Sanitation system operational</p>
+                    </div>
+                    <div class="day-stats">
+                        <p><span class="stat-label">Calories Needed:</span><br>2000-2300</p>
+                        <p><span class="stat-label">Water Intake:</span><br>3-4 liters</p>
+                    </div>
+                </div>
+
+                <div class="day-card">
+                    <div class="day-number">Day 21</div>
+                    <div class="day-content">
+                        <h4>Navigation Skills</h4>
+                        <p><strong>Priority Tasks:</strong></p>
+                        <ul class="day-tasks">
+                            <li>Learn direction finding</li>
+                            <li>Map territory</li>
+                            <li>Create mental map</li>
+
+                        </ul>
+                        <p><strong>Skill Modules:</strong><br><a href='../guides/sur-04-navigation-mapping.html' class='skill-link'>Navigation & Mapping</a></p>
+                        <p><strong>Expected Outcome:</strong> Can navigate territory confidently</p>
+                    </div>
+                    <div class="day-stats">
+                        <p><span class="stat-label">Calories Needed:</span><br>2000-2300</p>
+                        <p><span class="stat-label">Water Intake:</span><br>3-4 liters</p>
+                    </div>
+                </div>
+
+                <div class="week-header">
+                    <h3>Week 4: Sustainability (Agriculture, Sanitation, Community)</h3>
+                </div>
+
+                <div class="day-card">
+                    <div class="day-number">Day 22</div>
+                    <div class="day-content">
+                        <h4>Agriculture Planning</h4>
+                        <p><strong>Priority Tasks:</strong></p>
+                        <ul class="day-tasks">
+                            <li>Choose crop location</li>
+                            <li>Prepare soil</li>
+                            <li>Plant seeds</li>
+
+                        </ul>
+                        <p><strong>Skill Modules:</strong><br><a href='../guides/fod-03-agriculture-basics.html' class='skill-link'>Agriculture Basics</a></p>
+                        <p><strong>Expected Outcome:</strong> Garden planted for future harvest</p>
+                    </div>
+                    <div class="day-stats">
+                        <p><span class="stat-label">Calories Needed:</span><br>2100-2400</p>
+                        <p><span class="stat-label">Water Intake:</span><br>3-4 liters</p>
+                    </div>
+                </div>
+
+                <div class="day-card">
+                    <div class="day-number">Day 23</div>
+                    <div class="day-content">
+                        <h4>Agriculture Maintenance</h4>
+                        <p><strong>Priority Tasks:</strong></p>
+                        <ul class="day-tasks">
+                            <li>Water crops</li>
+                            <li>Remove weeds</li>
+                            <li>Monitor growth</li>
+
+                        </ul>
+                        <p><strong>Skill Modules:</strong><br><a href='../guides/fod-03-agriculture-basics.html' class='skill-link'>Agriculture Basics</a></p>
+                        <p><strong>Expected Outcome:</strong> Garden care routine established</p>
+                    </div>
+                    <div class="day-stats">
+                        <p><span class="stat-label">Calories Needed:</span><br>2100-2400</p>
+                        <p><span class="stat-label">Water Intake:</span><br>3-4 liters</p>
+                    </div>
+                </div>
+
+                <div class="day-card">
+                    <div class="day-number">Day 24</div>
+                    <div class="day-content">
+                        <h4>Pottery Basics</h4>
+                        <p><strong>Priority Tasks:</strong></p>
+                        <ul class="day-tasks">
+                            <li>Gather clay</li>
+                            <li>Make containers</li>
+                            <li>Fire ceramics</li>
+
+                        </ul>
+                        <p><strong>Skill Modules:</strong><br><a href='../guides/cra-02-pottery-ceramics.html' class='skill-link'>Pottery & Ceramics</a> <a href='../guides/con-03-clay-earthworks.html' class='skill-link'>Clay & Earthworks</a></p>
+                        <p><strong>Expected Outcome:</strong> Usable containers for storage</p>
+                    </div>
+                    <div class="day-stats">
+                        <p><span class="stat-label">Calories Needed:</span><br>2100-2400</p>
+                        <p><span class="stat-label">Water Intake:</span><br>3-4 liters</p>
+                    </div>
+                </div>
+
+                <div class="day-card">
+                    <div class="day-number">Day 25</div>
+                    <div class="day-content">
+                        <h4>Weaving & Textiles</h4>
+                        <p><strong>Priority Tasks:</strong></p>
+                        <ul class="day-tasks">
+                            <li>Make loom</li>
+                            <li>Weave cloth</li>
+                            <li>Create textiles</li>
+
+                        </ul>
+                        <p><strong>Skill Modules:</strong><br><a href='../guides/cra-05-weaving-textiles.html' class='skill-link'>Weaving & Textiles</a> <a href='../guides/cra-03-cordage-textiles.html' class='skill-link'>Cordage & Textiles</a></p>
+                        <p><strong>Expected Outcome:</strong> Cloth and textiles produced</p>
+                    </div>
+                    <div class="day-stats">
+                        <p><span class="stat-label">Calories Needed:</span><br>2100-2400</p>
+                        <p><span class="stat-label">Water Intake:</span><br>3-4 liters</p>
+                    </div>
+                </div>
+
+                <div class="day-card">
+                    <div class="day-number">Day 26</div>
+                    <div class="day-content">
+                        <h4>Animal Care Planning</h4>
+                        <p><strong>Priority Tasks:</strong></p>
+                        <ul class="day-tasks">
+                            <li>Prepare animal shelter</li>
+                            <li>Gather feed supplies</li>
+                            <li>Learn animal care</li>
+
+                        </ul>
+                        <p><strong>Skill Modules:</strong><br><a href='../guides/fod-04-animal-husbandry.html' class='skill-link'>Animal Husbandry</a></p>
+                        <p><strong>Expected Outcome:</strong> Ready for animals to arrive</p>
+                    </div>
+                    <div class="day-stats">
+                        <p><span class="stat-label">Calories Needed:</span><br>2100-2400</p>
+                        <p><span class="stat-label">Water Intake:</span><br>3-4 liters</p>
+                    </div>
+                </div>
+
+                <div class="day-card">
+                    <div class="day-number">Day 27</div>
+                    <div class="day-content">
+                        <h4>Food Storage Systems</h4>
+                        <p><strong>Priority Tasks:</strong></p>
+                        <ul class="day-tasks">
+                            <li>Build storage structure</li>
+                            <li>Preserve harvest</li>
+                            <li>Inventory supplies</li>
+
+                        </ul>
+                        <p><strong>Skill Modules:</strong><br><a href='../guides/fod-01-food-preservation.html' class='skill-link'>Food Preservation</a></p>
+                        <p><strong>Expected Outcome:</strong> Functional food storage</p>
+                    </div>
+                    <div class="day-stats">
+                        <p><span class="stat-label">Calories Needed:</span><br>2200-2500</p>
+                        <p><span class="stat-label">Water Intake:</span><br>3-4 liters</p>
+                    </div>
+                </div>
+
+                <div class="day-card">
+                    <div class="day-number">Day 28</div>
+                    <div class="day-content">
+                        <h4>Energy Systems Planning</h4>
+                        <p><strong>Priority Tasks:</strong></p>
+                        <ul class="day-tasks">
+                            <li>Plan water power or wind</li>
+                            <li>Gather materials</li>
+                            <li>Begin construction</li>
+
+                        </ul>
+                        <p><strong>Skill Modules:</strong><br><a href='../guides/con-04-energy-systems.html' class='skill-link'>Energy Systems</a></p>
+                        <p><strong>Expected Outcome:</strong> Energy system prototype started</p>
+                    </div>
+                    <div class="day-stats">
+                        <p><span class="stat-label">Calories Needed:</span><br>2200-2500</p>
+                        <p><span class="stat-label">Water Intake:</span><br>3-4 liters</p>
+                    </div>
+                </div>
+
+                <div class="week-header">
+                    <h3>Week 4: Sustainability (Agriculture, Sanitation, Community)</h3>
+                </div>
+
+                <div class="day-card">
+                    <div class="day-number">Day 29</div>
+                    <div class="day-content">
+                        <h4>Systems Integration</h4>
+                        <p><strong>Priority Tasks:</strong></p>
+                        <ul class="day-tasks">
+                            <li>Connect water, food, energy</li>
+                            <li>Create routines</li>
+                            <li>Plan improvements</li>
+
+                        </ul>
+                        <p><strong>Skill Modules:</strong><br><a href='../guides/com-01-community-governance.html' class='skill-link'>Community Governance</a></p>
+                        <p><strong>Expected Outcome:</strong> Integrated survival systems</p>
+                    </div>
+                    <div class="day-stats">
+                        <p><span class="stat-label">Calories Needed:</span><br>2200-2500</p>
+                        <p><span class="stat-label">Water Intake:</span><br>3-4 liters</p>
+                    </div>
+                </div>
+
+                <div class="day-card">
+                    <div class="day-number">Day 30</div>
+                    <div class="day-content">
+                        <h4>Sustainability Assessment</h4>
+                        <p><strong>Priority Tasks:</strong></p>
+                        <ul class="day-tasks">
+                            <li>Review what&#x27;s working</li>
+                            <li>Identify improvements</li>
+                            <li>Plan next phase</li>
+
+                        </ul>
+                        <p><strong>Skill Modules:</strong><br><a href='../guides/com-01-community-governance.html' class='skill-link'>Community Governance</a></p>
+                        <p><strong>Expected Outcome:</strong> Sustainable survival achieved</p>
+                    </div>
+                    <div class="day-stats">
+                        <p><span class="stat-label">Calories Needed:</span><br>2200-2500</p>
+                        <p><span class="stat-label">Water Intake:</span><br>3-4 liters</p>
+                    </div>
+                </div>
+
+            </section>
+
+            <section id="scenario-tracks">
+                <h2>2. Six Scenario Tracks</h2>
+                <p>Different survival situations require different skill progressions. Choose the track that matches your expected environment and group size, then follow the skill sequence with milestones and timing estimates.</p>
+
+                
+                <!-- Paths will be rendered here by JavaScript -->
+                <div id="paths-container"></div>
+
+            </div>
+        </section>
+
+    <script>
+        let learningPaths = [];
+
+        async function loadPaths() {
+            try {
+                const response = await fetch('./data/learning-paths-data.json');
+                learningPaths = await response.json();
+                renderPaths();
+            } catch (error) {
+                console.error('Error loading learning paths:', error);
+                document.getElementById('paths-container').innerHTML = 
+                    '<p style="color: #d4a574; padding: 20px;">Error loading learning paths data.</p>';
+            }
+        }
+
+        function renderPaths() {
+            const container = document.getElementById('paths-container');
+            
+            container.innerHTML = learningPaths.map(path => `
+                <div class="track-container">
+                    <div class="track-header">
+                        <h3>${path.title}</h3>
+                        <p class="track-description">${path.description}</p>
+                    </div>
+                    
+                    <div class="timeline">
+                        ${path.nodes.map(node => `
+                            <div class="timeline-node">
+                                <div class="node-skill">${node.skill}</div>
+                                <div class="node-days">${node.days}</div>
+                                <a href="${node.link}">Learn More</a>
+                            </div>
+                        `).join('')}
+                    </div>
+                    
+                    <div class="track-stats">
+                        <div class="track-stat-box">
+                            <div class="track-stat-label">Total Track Duration</div>
+                            <div class="track-stat-value">${path.duration}</div>
+                        </div>
+                        <div class="track-stat-box">
+                            <div class="track-stat-label">Skills Required</div>
+                            <div class="track-stat-value">${path.skills_count}</div>
+                        </div>
+                        <div class="track-stat-box">
+                            <div class="track-stat-label">Difficulty</div>
+                            <div class="track-stat-value">${path.difficulty}</div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Navigation functionality
+        document.querySelectorAll('.sidebar-nav a').forEach(link => {
+            link.addEventListener('click', (e) => {
+                const href = this.getAttribute('href');
+                if (href && href.startsWith('#')) {
+                    e.preventDefault();
+                    const section = document.querySelector(href);
+                    if (section) {
+                        section.scrollIntoView({ behavior: 'smooth' });
+                    }
+                }
+            });
+        });
+
+        // Load paths when page is ready
+        loadPaths();
+    </script>
+</section>
+            
+            <footer role="contentinfo">
+                <p>&copy; 2024 Zero to Hero Survival Learning Paths</p>
+                <p>Master wilderness survival through structured, interconnected skill development</p>
+                <p style="font-size: 0.9em; margin-top: 20px;">
+                    <a href="#day-by-day">Top</a> | 
+                    <a href="../guides/INDEX.html">All Skills</a> | 
+                    <a href="combo-projects.html">Projects</a>
+                </p>
+            </footer>
+        </div>
+    </div>
+    
+    <script>
+        // Table sorting functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const table = document.getElementById('skillTable');
+            const headers = table.querySelectorAll('th.sortable');
+            
+            headers.forEach((header, index) => {
+                header.addEventListener('click', function() {
+                    const tbody = table.querySelector('tbody');
+                    const rows = Array.from(tbody.querySelectorAll('tr'));
+                    const isAscending = header.classList.toggle('ascending');
+                    
+                    rows.sort((a, b) => {
+                        const aValue = a.cells[index].textContent.trim();
+                        const bValue = b.cells[index].textContent.trim();
+                        
+                        // Try numeric comparison first
+                        const aNum = parseFloat(aValue);
+                        const bNum = parseFloat(bValue);
+                        
+                        if (!isNaN(aNum) && !isNaN(bNum)) {
+                            return isAscending ? aNum - bNum : bNum - aNum;
+                        }
+                        
+                        // Fall back to string comparison
+                        return isAscending 
+                            ? aValue.localeCompare(bValue) 
+                            : bValue.localeCompare(aValue);
+                    });
+                    
+                    tbody.innerHTML = '';
+                    rows.forEach(row => tbody.appendChild(row));
+                });
+            });
+            
+            // Smooth scroll for sidebar links
+            document.querySelectorAll('.sidebar-nav a').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    const href = this.getAttribute('href');
+                    if (href.startsWith('#')) {
+                        e.preventDefault();
+                        const section = document.querySelector(href);
+                        if (section) {
+                            section.scrollIntoView({ behavior: 'smooth' });
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

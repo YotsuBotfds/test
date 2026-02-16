@@ -1,0 +1,6 @@
+{
+  "debug": true,
+  "serviceWorker": false,
+  "logLevel": "debug",
+  "cacheBust": true
+}

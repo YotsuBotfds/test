@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{TITLE}} - ZTH Survival Compendium</title>
+  <link rel="stylesheet" href="../guides/css/shared.css">
+</head>
+<body>
+  <main role="main">
+    <div class="container">
+      <!-- Navigation & Breadcrumbs -->
+      <nav class="breadcrumb" role="navigation" aria-label="Breadcrumb">
+        <a href="index.html">Home</a> &rsaquo; <strong>{{TITLE}}</strong>
+      </nav>
+
+      <!-- Header with Guide Title & Description -->
+      <header>
+        <h1>{{TITLE}}</h1>
+        <p>{{DESCRIPTION}}</p>
+      </header>
+
+      <!-- Metadata Section -->
+      <div class="guide-metadata">
+        <span class="category">Category: <strong>{{CATEGORY}}</strong></span>
+        <span class="difficulty">Difficulty: <strong>{{DIFFICULTY_BADGE}}</strong></span>
+        <span class="reading-time">Reading Time: <strong>{{READING_TIME}} min</strong></span>
+        <span class="last-updated">Last Updated: <strong>{{LAST_UPDATED}}</strong></span>
+      </div>
+
+      <!-- Guide Tags -->
+      <div class="guide-tags">
+        {{TAGS_HTML}}
+      </div>
+
+      <!-- Table of Contents -->
+      <nav class="toc" role="navigation" aria-label="Table of Contents">
+        <h2>Contents</h2>
+        <ol>
+          <li><a href="#section-1">Section 1</a></li>
+          <li><a href="#section-2">Section 2</a></li>
+          <li><a href="#section-3">Section 3</a></li>
+          <!-- Add more sections as needed -->
+        </ol>
+      </nav>
+
+      <!-- Article Content -->
+      <article>
+        <!-- Section Template 1: Standard Section -->
+        <section id="section-1">
+          <h2>Section 1 Title</h2>
+          <p>
+            Opening paragraph introducing the topic. Provide context and explain why
+            this information is important for survival.
+          </p>
+
+          <h3>Subsection 1.1</h3>
+          <p>
+            Detailed information organized in logical subsections. Use clear, concise language.
+            Each paragraph should focus on a single concept or process.
+          </p>
+
+          <h3>Subsection 1.2</h3>
+          <p>
+            Additional details and explanations. Use lists to organize multiple items:
+          </p>
+          <ul>
+            <li>Item one with explanation</li>
+            <li>Item two with explanation</li>
+            <li>Item three with explanation</li>
+          </ul>
+
+          <!-- Info Box Example -->
+          <div class="info-box">
+            <strong>Key Point:</strong> Important information that users should remember
+            or prioritize. Use for essential concepts, critical safety notes, or main takeaways.
+          </div>
+
+          <!-- Tip Box Example -->
+          <div class="tip">
+            <strong>Tip:</strong> Practical advice, shortcuts, or optimization techniques.
+            These are helpful but not critical to the main procedure.
+          </div>
+
+          <!-- Warning Box Example -->
+          <div class="warning">
+            <strong>WARNING:</strong> Safety-critical information. Use for hazards, dangerous
+            practices, or situations that could cause injury or death.
+          </div>
+
+          <!-- Danger Box Example -->
+          <div class="danger">
+            <strong>DANGER:</strong> Extreme hazard information. Use only for life-threatening
+            situations or catastrophic outcomes.
+          </div>
+        </section>
+
+        <!-- Section Template 2: Procedure with Steps -->
+        <section id="section-2">
+          <h2>Section 2 Title: Step-by-Step Procedure</h2>
+          <p>Introduction to the procedure and what users will accomplish.</p>
+
+          <h3>Preparation</h3>
+          <p>Explain what materials, tools, or environment are needed before starting.</p>
+
+          <h3>Step-by-Step Instructions</h3>
+          <ol>
+            <li>
+              <strong>First step:</strong> Clear description of the action. Include specific
+              measurements, temperatures, times, or other quantifiable details when relevant.
+            </li>
+            <li>
+              <strong>Second step:</strong> Next action in sequence. Explain what to look for
+              or how to know if the step was successful.
+            </li>
+            <li>
+              <strong>Third step:</strong> Continue the procedure. Include troubleshooting notes
+              for common failures at this step.
+            </li>
+          </ol>
+
+          <h3>Verification & Troubleshooting</h3>
+          <p>How to verify the procedure was successful:</p>
+          <ul>
+            <li>Success indicator one</li>
+            <li>Success indicator two</li>
+          </ul>
+
+          <p>Common problems and solutions:</p>
+          <div class="card">
+            <h4>Problem: Description of issue</h4>
+            <p>Cause: Why this happens.</p>
+            <p>Solution: How to fix or prevent it.</p>
+          </div>
+        </section>
+
+        <!-- Section Template 3: Comparison/Reference Table -->
+        <section id="section-3">
+          <h2>Section 3 Title: Reference Information</h2>
+          <p>Introductory paragraph explaining the reference material.</p>
+
+          <h3>Comparison Table</h3>
+          <table>
+            <thead>
+              <tr>
+                <th>Item/Method</th>
+                <th>Characteristic 1</th>
+                <th>Characteristic 2</th>
+                <th>Best Use</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Option A</td>
+                <td>Detail about option A</td>
+                <td>Additional detail</td>
+                <td>When to use</td>
+              </tr>
+              <tr>
+                <td>Option B</td>
+                <td>Detail about option B</td>
+                <td>Additional detail</td>
+                <td>When to use</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h3>Advanced Topics</h3>
+          <p>Information for more experienced users or advanced applications.</p>
+        </section>
+
+        <!-- Related Guides Section -->
+        <div class="related" role="navigation" aria-label="Related guides">
+          <h3>Related Guides</h3>
+          <a href="related-guide-1.html">Related Guide Title 1</a>
+          <a href="related-guide-2.html">Related Guide Title 2</a>
+          <a href="related-guide-3.html">Related Guide Title 3</a>
+        </div>
+      </article>
+
+      <!-- Footer with Guide Metadata -->
+      <footer>
+        <p>Guide ID: <strong>{{GUIDE_ID}}</strong> | Version: <strong>{{VERSION}}</strong></p>
+        <p>Zero to Hero Survival Compendium &mdash; Offline Reference</p>
+      </footer>
+    </div>
+  </main>
+
+  <!-- Theme Synchronization Script -->
+  <script src="../shared/theme-sync.js"></script>
+</body>
+</html>

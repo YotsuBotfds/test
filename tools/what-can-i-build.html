@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What Can I Build? - Survival Skills</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Georgia, 'Times New Roman', serif;
+            background-color: #1a2e1a;
+            padding: 20px;
+            color: #f5f0e8;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 30px;
+        }
+
+        h1 {
+            grid-column: 1 / -1;
+            text-align: center;
+            color: #f5f0e8;
+            margin-bottom: 20px;
+            font-size: 28px;
+        }
+
+        .subtitle {
+            grid-column: 1 / -1;
+            text-align: center;
+            color: #d4a574;
+            font-size: 14px;
+            margin-bottom: 30px;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .sidebar-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            background-color: #1a2e1a;
+            color: #f5f0e8;
+            padding: 10px 16px;
+            border: 2px solid #d4a574;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: Georgia, 'Times New Roman', serif;
+        }
+
+        .btn:hover {
+            background-color: #d4a574;
+            color: #1a2e1a;
+            font-weight: bold;
+        }
+
+        .btn-search {
+            background-color: #2d5a2d;
+            padding: 12px 16px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .btn-search:hover {
+            background-color: #3d7a3d;
+        }
+
+        .btn-secondary {
+            font-size: 12px;
+            padding: 8px 12px;
+        }
+
+        /* Material categories */
+        .material-section {
+            background-color: rgba(212, 165, 116, 0.1);
+            border: 1px solid #d4a574;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .material-header {
+            background-color: rgba(212, 165, 116, 0.2);
+            padding: 12px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: bold;
+            color: #d4a574;
+            user-select: none;
+        }
+
+        .material-header:hover {
+            background-color: rgba(212, 165, 116, 0.3);
+        }
+
+        .toggle-icon {
+            display: inline-block;
+            transition: transform 0.3s ease;
+        }
+
+        .material-header.collapsed .toggle-icon {
+            transform: rotate(-90deg);
+        }
+
+        .material-list {
+            padding: 12px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .material-list.hidden {
+            display: none;
+        }
+
+        .material-item {
+            display: flex;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(212, 165, 116, 0.1);
+        }
+
+        .material-item:last-child {
+            border-bottom: none;
+        }
+
+        .material-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            margin-right: 10px;
+            cursor: pointer;
+            accent-color: #d4a574;
+        }
+
+        .material-item label {
+            cursor: pointer;
+            flex: 1;
+            font-size: 13px;
+        }
+
+        .material-count {
+            font-size: 11px;
+            color: #d4a574;
+            background-color: rgba(212, 165, 116, 0.15);
+            padding: 2px 8px;
+            border-radius: 3px;
+            margin-left: 8px;
+        }
+
+        /* Main content */
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .search-info {
+            background-color: rgba(212, 165, 116, 0.1);
+            border-left: 3px solid #d4a574;
+            padding: 15px;
+            border-radius: 4px;
+            font-size: 13px;
+        }
+
+        .search-info.empty {
+            text-align: center;
+            color: #d4a574;
+        }
+
+        /* Results */
+        .results-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 20px;
+        }
+
+        .result-card {
+            background-color: #1a2e1a;
+            border: 2px solid #d4a574;
+            border-radius: 4px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .result-card:hover {
+            box-shadow: 0 0 15px rgba(212, 165, 116, 0.3);
+            border-color: #e8c88c;
+        }
+
+        .result-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #f5f0e8;
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            gap: 10px;
+        }
+
+        .result-id {
+            font-size: 11px;
+            color: #d4a574;
+            background-color: rgba(212, 165, 116, 0.15);
+            padding: 3px 8px;
+            border-radius: 3px;
+            white-space: nowrap;
+        }
+
+        .feasibility-bar {
+            background-color: rgba(212, 165, 116, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            padding: 0 8px;
+            font-size: 12px;
+        }
+
+        .feasibility-fill {
+            background: linear-gradient(90deg, #2d5a2d 0%, #3d7a3d 50%, #4d9a4d 100%);
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #f5f0e8;
+            font-weight: bold;
+            transition: width 0.3s ease;
+            min-width: 50px;
+        }
+
+        .result-description {
+            font-size: 13px;
+            color: #d4a574;
+            line-height: 1.4;
+        }
+
+        .difficulty {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            font-size: 12px;
+        }
+
+        .difficulty-badge {
+            padding: 4px 10px;
+            border-radius: 3px;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 11px;
+        }
+
+        .difficulty-beginner {
+            background-color: rgba(61, 122, 61, 0.3);
+            color: #5dd65d;
+        }
+
+        .difficulty-intermediate {
+            background-color: rgba(212, 165, 116, 0.2);
+            color: #d4a574;
+        }
+
+        .difficulty-advanced {
+            background-color: rgba(200, 100, 100, 0.2);
+            color: #ff6b6b;
+        }
+
+        .missing-materials {
+            background-color: rgba(212, 165, 116, 0.08);
+            border-left: 2px solid #d4a574;
+            padding: 12px;
+            border-radius: 3px;
+            font-size: 12px;
+        }
+
+        .missing-title {
+            font-weight: bold;
+            color: #d4a574;
+            margin-bottom: 8px;
+        }
+
+        .missing-list {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .missing-item {
+            background-color: rgba(212, 165, 116, 0.15);
+            padding: 4px 10px;
+            border-radius: 3px;
+            font-size: 11px;
+            color: #f5f0e8;
+        }
+
+        .guide-link {
+            display: inline-block;
+            background-color: #2d5a2d;
+            color: #f5f0e8;
+            padding: 8px 12px;
+            border-radius: 3px;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: bold;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid #3d7a3d;
+        }
+
+        .guide-link:hover {
+            background-color: #3d7a3d;
+            text-decoration: none;
+        }
+
+        .no-results {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 40px 20px;
+            color: #d4a574;
+            font-size: 16px;
+        }
+
+        .no-results-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        /* Responsive */
+        @media (max-width: 1000px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+
+            .results-container {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                display: none;
+            }
+        }
+
+        /* Scrollbar styling */
+        .material-list::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .material-list::-webkit-scrollbar-track {
+            background: rgba(212, 165, 116, 0.05);
+        }
+
+        .material-list::-webkit-scrollbar-thumb {
+            background: rgba(212, 165, 116, 0.3);
+            border-radius: 4px;
+        }
+
+        .material-list::-webkit-scrollbar-thumb:hover {
+            background: rgba(212, 165, 116, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <div style="background-color:#2d2416;padding:12px 20px;border-bottom:1px solid #5a4a3a;">
+        <a href="../index.html" style="color:#d4a574;text-decoration:none;font-size:0.95em;">← Back to Guides</a>
+    </div>
+    <div class="container">
+        <h1>🔨 What Can I Build?</h1>
+        <p class="subtitle">Select the materials you have available to discover what projects you can create</p>
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-controls">
+                <button class="btn btn-search" id="searchBtn">Search Projects</button>
+                <button class="btn btn-secondary" id="selectAllBtn">Select All</button>
+                <button class="btn btn-secondary" id="clearAllBtn">Clear All</button>
+            </div>
+            <div id="materialCategories"></div>
+        </aside>
+
+        <!-- Main content -->
+        <main class="main-content">
+            <div class="search-info" id="searchInfo">
+                <strong>💡 Tip:</strong> Select materials from the sidebar, then click "Search Projects" to find what you can build.
+            </div>
+            <div class="results-container" id="resultsContainer"></div>
+        </main>
+    </div>
+
+    <script>
+        // All available materials organized by category
+        const MATERIALS_DATABASE = {
+            'Metals': [
+                'Copper wire',
+                'Steel bars',
+                'Aluminum sheets',
+                'Iron nails',
+                'Brass fittings',
+                'Tin',
+                'Lead',
+                'Zinc',
+                'Nickel',
+                'Metal drums',
+                'Metal buckets',
+                'Wire rope',
+                'Metal pipe',
+                'Steel cable',
+                'Bolts and nuts'
+            ],
+            'Wood & Plant Materials': [
+                'Wood logs',
+                'Branches',
+                'Bark',
+                'Vines',
+                'Plant fibers',
+                'Bamboo',
+                'Straw',
+                'Reeds',
+                'Willow branches',
+                'Pine wood',
+                'Hardwood'
+            ],
+            'Chemicals & Compounds': [
+                'Charcoal',
+                'Potassium nitrate',
+                'Sulfur',
+                'Salt',
+                'Vinegar',
+                'Lye',
+                'Calcium carbonate',
+                'Clay',
+                'Ash',
+                'Lime',
+                'Soda ash'
+            ],
+            'Tools': [
+                'Hammer',
+                'Saw',
+                'Knife',
+                'Axe',
+                'Shovel',
+                'Hoe',
+                'File',
+                'Pliers',
+                'Wrench',
+                'Drill',
+                'Chisel'
+            ],
+            'Salvaged Items': [
+                'Bicycle wheels',
+                'Car pulleys',
+                'Ball bearings',
+                'PVC pipe',
+                'Leather',
+                'Glass',
+                'Pottery wheel',
+                'Propane torch',
+                'Electric blower',
+                'Leaf blower',
+                'Fire bricks'
+            ],
+            'Textiles & Fibers': [
+                'Rope',
+                'Paracord',
+                'Fishing line',
+                'Cotton cloth',
+                'Wool cloth',
+                'Canvas',
+                'Silk',
+                'Linen'
+            ],
+            'Water & Containers': [
+                'PVC pipe',
+                'Metal containers',
+                'Glass bottles',
+                'Plastic buckets',
+                'Clay pots',
+                'Wooden barrels',
+                'Rubber tubing'
+            ],
+            'Fuel & Energy': [
+                'Wood',
+                'Coal',
+                'Peat',
+                'Oil',
+                'Propane',
+                'Natural gas',
+                'Kerosene'
+            ]
+        };
+
+        // Project database with material requirements
+        const PROJECTS_DATABASE = [
+            {
+                id: 'SUR-02',
+                title: 'Fire Starting',
+                category: 'Survival',
+                difficulty: 'Beginner',
+                description: 'Master friction fire, tinder preparation, and advanced ignition techniques.',
+                requiredMaterials: ['Wood', 'Bark', 'Plant fibers', 'Knife'],
+                optionalMaterials: ['Lighter', 'Matches', 'Metal containers'],
+                guide: 'guides/sur-02-fire-starting.html'
+            },
+            {
+                id: 'CON-01',
+                title: 'Shelter Building',
+                category: 'Construction',
+                difficulty: 'Beginner',
+                description: 'Build emergency and long-term shelters from natural materials.',
+                requiredMaterials: ['Wood logs', 'Branches', 'Vines', 'Bark'],
+                optionalMaterials: ['Rope', 'Tools'],
+                guide: 'guides/con-01-shelter-building.html'
+            },
+            {
+                id: 'FOD-01',
+                title: 'Food Preservation',
+                category: 'Food Systems',
+                difficulty: 'Intermediate',
+                description: 'Preserve seasonal abundance through smoking, salting, drying, fermenting.',
+                requiredMaterials: ['Salt', 'Wood', 'Metal containers', 'Fire'],
+                optionalMaterials: ['Charcoal', 'Vinegar'],
+                guide: 'guides/fod-01-food-preservation.html'
+            },
+            {
+                id: 'CRA-01',
+                title: 'Rope & Cordage',
+                category: 'Crafting',
+                difficulty: 'Beginner',
+                description: 'Create strong cordage from plant fibers for binding and construction.',
+                requiredMaterials: ['Plant fibers', 'Bark', 'Vines'],
+                optionalMaterials: ['Knife', 'Rope'],
+                guide: 'guides/cra-01-rope-cordage.html'
+            },
+            {
+                id: 'CRA-04',
+                title: 'Basketry & Weaving',
+                category: 'Crafting',
+                difficulty: 'Intermediate',
+                description: 'Weave baskets and containers from plant materials for storage.',
+                requiredMaterials: ['Plant fibers', 'Bark', 'Vines', 'Knife'],
+                optionalMaterials: ['Willow branches', 'Reeds'],
+                guide: 'guides/cra-04-basketry.html'
+            },
+            {
+                id: 'MET-01',
+                title: 'Charcoal Production',
+                category: 'Metallurgy',
+                difficulty: 'Intermediate',
+                description: 'Produce charcoal from wood using pit or drum methods.',
+                requiredMaterials: ['Wood', 'Soil', 'Fire'],
+                optionalMaterials: ['Metal drums', 'Metal pipe'],
+                guide: 'guides/met-01-charcoal-production.html'
+            },
+            {
+                id: 'MET-02',
+                title: 'Bloomery Iron',
+                category: 'Metallurgy',
+                difficulty: 'Advanced',
+                description: 'Build and operate a bloomery furnace for iron smelting.',
+                requiredMaterials: ['Charcoal', 'Iron ore', 'Metal drums', 'Clay'],
+                optionalMaterials: ['Electric blower', 'Thermometer', 'Bellows'],
+                guide: 'guides/met-02-bloomery-iron.html'
+            },
+            {
+                id: 'POT-01',
+                title: 'Pottery Basics',
+                category: 'Crafting',
+                difficulty: 'Intermediate',
+                description: 'Hand-build pottery vessels using clay and basic kiln techniques.',
+                requiredMaterials: ['Clay', 'Fire', 'Knife'],
+                optionalMaterials: ['Pottery wheel', 'Propane torch'],
+                guide: 'guides/pot-01-pottery-basics.html'
+            },
+            {
+                id: 'GLA-01',
+                title: 'Glassmaking',
+                category: 'Crafting',
+                difficulty: 'Advanced',
+                description: 'Melt and shape glass using propane burners and furnaces.',
+                requiredMaterials: ['Glass', 'Charcoal', 'Fire', 'Metal containers'],
+                optionalMaterials: ['Propane torch', 'Fire bricks', 'Silica'],
+                guide: 'guides/gla-01-glassmaking.html'
+            },
+            {
+                id: 'AGR-01',
+                title: 'Agriculture Fundamentals',
+                category: 'Food Systems',
+                difficulty: 'Beginner',
+                description: 'Establish gardens and farms using hand tools and basic techniques.',
+                requiredMaterials: ['Soil', 'Tools', 'Water'],
+                optionalMaterials: ['Seeds', 'PVC pipe', 'Metal containers'],
+                guide: 'guides/agr-01-agriculture.html'
+            },
+            {
+                id: 'WAT-01',
+                title: 'Water Wheel Basics',
+                category: 'Engineering',
+                difficulty: 'Advanced',
+                description: 'Construct water wheels and mills for power generation.',
+                requiredMaterials: ['Wood', 'Metal pipe', 'Bearings', 'Tools'],
+                optionalMaterials: ['Bicycle wheels', 'Car pulleys', 'PVC pipe'],
+                guide: 'guides/wat-01-water-wheel.html'
+            },
+            {
+                id: 'TEX-01',
+                title: 'Textile Weaving',
+                category: 'Crafting',
+                difficulty: 'Intermediate',
+                description: 'Weave cloth and textiles using looms and hand techniques.',
+                requiredMaterials: ['Plant fibers', 'Wood', 'Bark'],
+                optionalMaterials: ['Cotton cloth', 'Wool cloth', 'Tools'],
+                guide: 'guides/tex-01-textile-weaving.html'
+            },
+            {
+                id: 'CON-02',
+                title: 'Earthworks & Mud Brick',
+                category: 'Construction',
+                difficulty: 'Intermediate',
+                description: 'Work with earth materials for durable adobe and mud brick construction.',
+                requiredMaterials: ['Clay', 'Straw', 'Water', 'Tools'],
+                optionalMaterials: ['Molds', 'Sand'],
+                guide: 'guides/con-02-earthworks.html'
+            },
+            {
+                id: 'FOD-02',
+                title: 'Foraging & Plant Identification',
+                category: 'Food Systems',
+                difficulty: 'Intermediate',
+                description: 'Identify, harvest, and prepare wild edible and medicinal plants.',
+                requiredMaterials: ['Knife', 'Knowledge'],
+                optionalMaterials: ['Containers', 'Plant identification guides'],
+                guide: 'guides/fod-02-foraging.html'
+            },
+            {
+                id: 'SUR-01',
+                title: 'Water Purification',
+                category: 'Survival',
+                difficulty: 'Beginner',
+                description: 'Learn multiple water purification methods from boiling to filtration.',
+                requiredMaterials: ['Fire', 'Water', 'Containers'],
+                optionalMaterials: ['Sand', 'Charcoal', 'Cloth'],
+                guide: 'guides/sur-01-water-purification.html'
+            }
+        ];
+
+        // Track selected materials
+        let selectedMaterials = new Set();
+
+        // Initialize the app
+        document.addEventListener('DOMContentLoaded', function() {
+            createMaterialCategories();
+            setupEventListeners();
+        });
+
+        function createMaterialCategories() {
+            const container = document.getElementById('materialCategories');
+            container.innerHTML = '';
+
+            Object.entries(MATERIALS_DATABASE).forEach(([category, materials]) => {
+                const section = document.createElement('div');
+                section.className = 'material-section';
+
+                const header = document.createElement('div');
+                header.className = 'material-header';
+                header.innerHTML = `
+                    <span>${category}</span>
+                    <span class="toggle-icon">▼</span>
+                `;
+
+                const list = document.createElement('div');
+                list.className = 'material-list';
+
+                materials.forEach(material => {
+                    const item = document.createElement('div');
+                    item.className = 'material-item';
+
+                    const input = document.createElement('input');
+                    input.type = 'checkbox';
+                    input.id = material;
+                    input.value = material;
+
+                    const label = document.createElement('label');
+                    label.htmlFor = material;
+                    label.textContent = material;
+
+                    item.appendChild(input);
+                    item.appendChild(label);
+                    list.appendChild(item);
+
+                    // Track changes
+                    input.addEventListener('change', function() {
+                        if (this.checked) {
+                            selectedMaterials.add(material);
+                        } else {
+                            selectedMaterials.delete(material);
+                        }
+                    });
+                });
+
+                header.addEventListener('click', function() {
+                    header.classList.toggle('collapsed');
+                    list.classList.toggle('hidden');
+                });
+
+                section.appendChild(header);
+                section.appendChild(list);
+                container.appendChild(section);
+            });
+        }
+
+        function setupEventListeners() {
+            document.getElementById('searchBtn').addEventListener('click', searchProjects);
+            document.getElementById('selectAllBtn').addEventListener('click', selectAllMaterials);
+            document.getElementById('clearAllBtn').addEventListener('click', clearAllMaterials);
+        }
+
+        function selectAllMaterials() {
+            document.querySelectorAll('.material-item input[type="checkbox"]').forEach(checkbox => {
+                if (!checkbox.checked) {
+                    checkbox.checked = true;
+                    selectedMaterials.add(checkbox.value);
+                }
+            });
+        }
+
+        function clearAllMaterials() {
+            document.querySelectorAll('.material-item input[type="checkbox"]').forEach(checkbox => {
+                checkbox.checked = false;
+            });
+            selectedMaterials.clear();
+        }
+
+        function searchProjects() {
+            const resultsContainer = document.getElementById('resultsContainer');
+            const searchInfo = document.getElementById('searchInfo');
+
+            if (selectedMaterials.size === 0) {
+                searchInfo.innerHTML = '⚠️ <strong>No materials selected.</strong> Choose at least one material to see available projects.';
+                resultsContainer.innerHTML = '';
+                return;
+            }
+
+            // Calculate feasibility for each project
+            const projectScores = PROJECTS_DATABASE.map(project => {
+                const requiredCount = project.requiredMaterials.length;
+                const matchedRequired = project.requiredMaterials.filter(mat =>
+                    selectedMaterials.has(mat)
+                ).length;
+
+                const totalMaterials = project.requiredMaterials.length + project.optionalMaterials.length;
+                const matched = matchedRequired + project.optionalMaterials.filter(mat =>
+                    selectedMaterials.has(mat)
+                ).length;
+
+                const feasibility = totalMaterials > 0 ? Math.round((matched / totalMaterials) * 100) : 0;
+                const canBuild = matchedRequired === requiredCount;
+
+                return {
+                    ...project,
+                    feasibility,
+                    canBuild,
+                    matchedRequired,
+                    totalRequired: requiredCount,
+                    matchedMaterials: [
+                        ...project.requiredMaterials.filter(mat => selectedMaterials.has(mat)),
+                        ...project.optionalMaterials.filter(mat => selectedMaterials.has(mat))
+                    ],
+                    missingMaterials: [
+                        ...project.requiredMaterials.filter(mat => !selectedMaterials.has(mat)),
+                        ...project.optionalMaterials.filter(mat => !selectedMaterials.has(mat))
+                    ]
+                };
+            }).filter(p => p.feasibility > 0).sort((a, b) => {
+                // Sort by: buildable first, then feasibility
+                if (a.canBuild !== b.canBuild) return b.canBuild ? 1 : -1;
+                return b.feasibility - a.feasibility;
+            });
+
+            if (projectScores.length === 0) {
+                searchInfo.innerHTML = `<strong>No matching projects found</strong> for your selected materials. Try selecting more items.`;
+                resultsContainer.innerHTML = '';
+                return;
+            }
+
+            searchInfo.innerHTML = `<strong>✓ Found ${projectScores.length} matching project(s)</strong> for your available materials. Projects are ranked by feasibility.`;
+
+            resultsContainer.innerHTML = projectScores.map(project => `
+                <div class="result-card">
+                    <div class="result-title">
+                        <span>${project.title}</span>
+                        <span class="result-id">${project.id}</span>
+                    </div>
+
+                    <div class="feasibility-bar">
+                        <div class="feasibility-fill" style="width: ${project.feasibility}%">
+                            ${project.feasibility}%
+                        </div>
+                    </div>
+
+                    <p class="result-description">${project.description}</p>
+
+                    <div class="difficulty">
+                        <span class="difficulty-badge difficulty-${project.difficulty.toLowerCase()}">
+                            ${project.difficulty}
+                        </span>
+                        <span>${project.category}</span>
+                    </div>
+
+                    ${project.missingMaterials.length > 0 ? `
+                        <div class="missing-materials">
+                            <div class="missing-title">Missing: ${project.missingMaterials.length} item(s)</div>
+                            <ul class="missing-list">
+                                ${project.missingMaterials.map(mat => `<li class="missing-item">${mat}</li>`).join('')}
+                            </ul>
+                        </div>
+                    ` : `
+                        <div style="color: #5dd65d; font-weight: bold; font-size: 12px;">
+                            ✓ You have all materials needed!
+                        </div>
+                    `}
+
+                    <a href="${project.guide}" class="guide-link">📖 View Guide</a>
+                </div>
+            `).join('');
+        }
+    </script>
+</body>
+</html>

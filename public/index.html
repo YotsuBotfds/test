@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Local Test Server</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    
+    .container {
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+      padding: 40px;
+      max-width: 600px;
+      text-align: center;
+    }
+    
+    h1 {
+      color: #333;
+      margin-bottom: 10px;
+    }
+    
+    .status {
+      font-size: 14px;
+      color: #666;
+      margin-bottom: 30px;
+    }
+    
+    .section {
+      margin: 30px 0;
+      text-align: left;
+    }
+    
+    .section h2 {
+      color: #667eea;
+      font-size: 16px;
+      margin-bottom: 15px;
+    }
+    
+    code {
+      background: #f5f5f5;
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-family: 'Courier New', monospace;
+    }
+    
+    button {
+      background: #667eea;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+      margin-top: 10px;
+      transition: background 0.3s;
+    }
+    
+    button:hover {
+      background: #764ba2;
+    }
+    
+    .response {
+      background: #f5f5f5;
+      padding: 15px;
+      border-radius: 5px;
+      margin-top: 10px;
+      font-family: 'Courier New', monospace;
+      font-size: 12px;
+      text-align: left;
+      max-height: 200px;
+      overflow-y: auto;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🚀 Local Test Server</h1>
+    <p class="status">Server is running and ready for testing</p>
+    
+    <div class="section">
+      <h2>✅ Server Status</h2>
+      <button onclick="checkHealth()">Check Server Health</button>
+      <div id="healthResponse" class="response" style="display:none;"></div>
+    </div>
+    
+    <div class="section">
+      <h2>📝 Next Steps</h2>
+      <p>
+        Edit the <code>public/index.html</code> file to customize this page. 
+        Add your CSS, JavaScript, and other assets to the <code>public/</code> directory.
+      </p>
+    </div>
+    
+    <div class="section">
+      <h2>📚 Resources</h2>
+      <ul style="text-align: left; margin-left: 20px;">
+        <li>See <code>README.md</code> for detailed instructions</li>
+        <li>Server runs at <code>http://localhost:3000</code></li>
+        <li>Press Ctrl+C to stop the server</li>
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    async function checkHealth() {
+      try {
+        const response = await fetch('/api/health');
+        const data = await response.json();
+        const responseDiv = document.getElementById('healthResponse');
+        responseDiv.textContent = JSON.stringify(data, null, 2);
+        responseDiv.style.display = 'block';
+      } catch (error) {
+        const responseDiv = document.getElementById('healthResponse');
+        responseDiv.textContent = `Error: ${error.message}`;
+        responseDiv.style.display = 'block';
+      }
+    }
+  </script>
+</body>
+</html>

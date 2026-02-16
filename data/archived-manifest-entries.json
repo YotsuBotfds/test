@@ -1,0 +1,478 @@
+[
+  {
+    "id": "GD-087",
+    "title": "Famine & Emergency Crops",
+    "category": "agriculture",
+    "tags": [
+      "critical"
+    ],
+    "description": "Ultra-hardy crops: cassava, sorghum, amaranth, moringa, chia, buckwheat. Calorie yields and detoxification.",
+    "icon": "🌾",
+    "file": "guides/famine-crops.html",
+    "url": "guides/famine-crops.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-165",
+    "title": "Slide Rules & Nomography",
+    "category": "sciences",
+    "tags": [
+      "rebuild"
+    ],
+    "description": "Analog computation, slide rule construction/use, nomogram design, abacus, graphical methods, and look-up tables.",
+    "icon": "🧮",
+    "file": "guides/slide-rule-nomography.html",
+    "url": "guides/slide-rule-nomography.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-166",
+    "title": "Weights, Measures & Standards",
+    "category": "sciences",
+    "tags": [
+      "rebuild"
+    ],
+    "description": "Creating standard meter/kilogram, balance construction, calibration, surveying baselines, and conversion tables.",
+    "icon": "⚖️",
+    "file": "guides/weights-measures-standards.html",
+    "url": "guides/weights-measures-standards.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-182",
+    "title": "Electric Motor Rewinding",
+    "category": "salvage",
+    "tags": [
+      "rebuild"
+    ],
+    "description": "Motor diagnosis, winding data recording, slot insulation, hand winding, varnishing, and alternator conversion.",
+    "icon": "🔌",
+    "file": "guides/electric-motor-rewinding.html",
+    "url": "guides/electric-motor-rewinding.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0",
+    "prerequisites": [
+      "GD-230"
+    ]
+  },
+  {
+    "id": "GD-202",
+    "title": "Pedagogy & Curriculum Design",
+    "category": "society",
+    "tags": [
+      "rebuild"
+    ],
+    "description": "Bloom's taxonomy, scaffolding, spaced repetition, one-room schoolhouse, apprenticeships, and competency assessment.",
+    "icon": "📚",
+    "file": "guides/pedagogy-curriculum.html",
+    "url": "guides/pedagogy-curriculum.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-204",
+    "title": "Warehousing & Inventory",
+    "category": "resource-management",
+    "tags": [
+      "essential"
+    ],
+    "description": "FIFO, grain silos, root cellars, barrel cooperage, pest control, supply chain management, and record keeping.",
+    "icon": "📦",
+    "file": "guides/warehousing-inventory.html",
+    "url": "guides/warehousing-inventory.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0",
+    "relatedSpreadsheet": "resource-database.json"
+  },
+  {
+    "id": "GD-218",
+    "title": "Quick Reference Cards",
+    "category": "tools",
+    "tags": [
+      "critical"
+    ],
+    "description": "One-screen emergency cards: CPR, choking, bleeding, ORS, water ratios, fire starting, Morse code. Print and laminate.",
+    "icon": "🚨",
+    "file": "guides/quick-reference.html",
+    "url": "guides/quick-reference.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-241",
+    "title": "Microscopy & Magnification",
+    "category": "specialized",
+    "tags": [
+      "practical"
+    ],
+    "description": "Building and using microscopes for medical diagnosis, water quality testing, and scientific observation",
+    "icon": "🔬",
+    "file": "guides/microscopy.html",
+    "url": "guides/microscopy.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-247",
+    "title": "Railroad Construction & Operation",
+    "category": "transportation",
+    "tags": [
+      "rebuild"
+    ],
+    "description": "Building and operating rail systems for efficient heavy transport in resource-limited contexts",
+    "icon": "🚂",
+    "file": "guides/railroads.html",
+    "url": "guides/railroads.html",
+    "difficulty": "intermediate",
+    "readingTime": 5,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0",
+    "prerequisites": [
+      "GD-232"
+    ]
+  },
+  {
+    "id": "GD-256",
+    "title": "Urban Scavenging: Location-by-Location Guide",
+    "category": "salvage",
+    "tags": [
+      "new",
+      "essential",
+      "rebuild"
+    ],
+    "description": "Systematic urban salvage covering automotive, hospitals, hardware stores, offices, restaurants, industrial, fire stations, construction sites, and residential targets.",
+    "icon": "♻️",
+    "file": "guides/urban-scavenging-guide.html",
+    "url": "guides/urban-scavenging-guide.html",
+    "difficulty": "intermediate",
+    "readingTime": 25,
+    "wordCount": 5000,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0",
+    "prerequisites": [
+      "GD-181"
+    ]
+  },
+  {
+    "id": "GD-269",
+    "title": "Infant & Child Care (Birth to Age 5)",
+    "category": "medical",
+    "tags": [
+      "critical",
+      "new",
+      "essential",
+      "human"
+    ],
+    "description": "Life-saving guide covering breastfeeding support, oral rehydration therapy, childhood illness recognition, neonatal danger signs, and improvised infant nutrition.",
+    "icon": "🏥",
+    "file": "guides/infant-child-care.html",
+    "url": "guides/infant-child-care.html",
+    "difficulty": "intermediate",
+    "readingTime": 19,
+    "wordCount": 3800,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-272",
+    "title": "Family Planning & Population Genetics",
+    "category": "medical",
+    "tags": [
+      "critical",
+      "new",
+      "essential",
+      "human"
+    ],
+    "description": "Natural contraception methods, minimum viable population genetics, fertility tracking, and population-to-resource carrying capacity calculations.",
+    "icon": "🏥",
+    "file": "guides/family-planning-population.html",
+    "url": "guides/family-planning-population.html",
+    "difficulty": "intermediate",
+    "readingTime": 19,
+    "wordCount": 3800,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-276",
+    "title": "Regional Climate Agriculture",
+    "category": "agriculture",
+    "tags": [
+      "new",
+      "essential"
+    ],
+    "description": "Climate-zone framework covering temperate, subtropical, arid, maritime, tropical, and boreal zones with crop calendars and variety recommendations.",
+    "icon": "🌾",
+    "file": "guides/regional-climate-agriculture.html",
+    "url": "guides/regional-climate-agriculture.html",
+    "difficulty": "intermediate",
+    "readingTime": 18,
+    "wordCount": 3500,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-277",
+    "title": "Waste Management & Recycling Systems",
+    "category": "resource-management",
+    "tags": [
+      "new",
+      "rebuild"
+    ],
+    "description": "Community composting, ash utilization, textile recycling, metal scrap collection, construction debris sorting, and community-scale refuse organization.",
+    "icon": "📦",
+    "file": "guides/waste-management-recycling.html",
+    "url": "guides/waste-management-recycling.html",
+    "difficulty": "intermediate",
+    "readingTime": 18,
+    "wordCount": 3500,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-278",
+    "title": "Food Distribution & Community Feeding",
+    "category": "agriculture",
+    "tags": [
+      "new",
+      "essential",
+      "human"
+    ],
+    "description": "Communal kitchen setup, bulk cooking for 50-500 people, fair distribution systems, seasonal menu planning, and special dietary needs.",
+    "icon": "🌾",
+    "file": "guides/food-distribution-community-feeding.html",
+    "url": "guides/food-distribution-community-feeding.html",
+    "difficulty": "intermediate",
+    "readingTime": 18,
+    "wordCount": 3500,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-279",
+    "title": "Animal-Powered Machinery",
+    "category": "crafts",
+    "tags": [
+      "new",
+      "rebuild",
+      "technology"
+    ],
+    "description": "Horse mill construction, animal-powered pumps, ox-drawn equipment, logging with draft animals, power transmission, and harness design.",
+    "icon": "⚒️",
+    "file": "guides/animal-powered-machinery.html",
+    "url": "guides/animal-powered-machinery.html",
+    "difficulty": "advanced",
+    "readingTime": 14,
+    "wordCount": 2700,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-280",
+    "title": "Tropical & Coastal Survival",
+    "category": "survival",
+    "tags": [
+      "new",
+      "critical",
+      "essential"
+    ],
+    "description": "Tropical disease prevention, jungle shelter, tropical food sources, coastal foraging, hurricane preparation, and venomous creature management.",
+    "icon": "🔥",
+    "file": "guides/tropical-coastal-survival.html",
+    "url": "guides/tropical-coastal-survival.html",
+    "difficulty": "intermediate",
+    "readingTime": 14,
+    "wordCount": 2800,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-283",
+    "title": "Personal Hygiene Product Manufacturing",
+    "category": "crafts",
+    "tags": [
+      "new"
+    ],
+    "description": "Soap making, toothpaste, shampoo alternatives, deodorant, menstrual products, and skin care from natural ingredients.",
+    "icon": "⚒️",
+    "file": "guides/hygiene-product-manufacturing.html",
+    "url": "guides/hygiene-product-manufacturing.html",
+    "difficulty": "beginner",
+    "readingTime": 14,
+    "wordCount": 2800,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-284",
+    "title": "Furniture & Household Goods",
+    "category": "crafts",
+    "tags": [
+      "new"
+    ],
+    "description": "Basic joinery, bed construction, table and bench building, storage solutions, household utensils, and cleaning tool making.",
+    "icon": "⚒️",
+    "file": "guides/furniture-household-goods.html",
+    "url": "guides/furniture-household-goods.html",
+    "difficulty": "intermediate",
+    "readingTime": 15,
+    "wordCount": 2900,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-285",
+    "title": "Timekeeping Systems",
+    "category": "society",
+    "tags": [
+      "new"
+    ],
+    "description": "Sundial construction, water clocks, sand timers, candle clocks, community bell schedules, and calendar systems.",
+    "icon": "🏛️",
+    "file": "guides/timekeeping-systems.html",
+    "url": "guides/timekeeping-systems.html",
+    "difficulty": "intermediate",
+    "readingTime": 14,
+    "wordCount": 2700,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-286",
+    "title": "Musical Instrument Construction",
+    "category": "crafts",
+    "tags": [
+      "new"
+    ],
+    "description": "Drum construction, string instruments, wind instruments, percussion from found materials, tuning basics, and music's role in community.",
+    "icon": "⚒️",
+    "file": "guides/instrument-construction.html",
+    "url": "guides/instrument-construction.html",
+    "difficulty": "intermediate",
+    "readingTime": 14,
+    "wordCount": 2800,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-287",
+    "title": "Disaster Preparedness & Emergency Response",
+    "category": "survival",
+    "tags": [
+      "new"
+    ],
+    "description": "Community early warning systems, evacuation planning, emergency shelter, flood/wildfire/earthquake response, and post-disaster recovery.",
+    "icon": "🔥",
+    "file": "guides/disaster-preparedness.html",
+    "url": "guides/disaster-preparedness.html",
+    "difficulty": "intermediate",
+    "readingTime": 15,
+    "wordCount": 2900,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-288",
+    "title": "Preserving & Teaching History",
+    "category": "society",
+    "tags": [
+      "new"
+    ],
+    "description": "Oral history techniques, written record preservation, community archives, teaching pre-collapse history, and preventing knowledge loss.",
+    "icon": "🏛️",
+    "file": "guides/history-preservation.html",
+    "url": "guides/history-preservation.html",
+    "difficulty": "intermediate",
+    "readingTime": 14,
+    "wordCount": 2800,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-289",
+    "title": "Animal-Based Materials Processing",
+    "category": "crafts",
+    "tags": [
+      "new"
+    ],
+    "description": "Hide tanning, leather working, bone tool manufacture, sinew processing, horn and antler working, and tallow rendering.",
+    "icon": "⚒️",
+    "file": "guides/animal-materials-processing.html",
+    "url": "guides/animal-materials-processing.html",
+    "difficulty": "intermediate",
+    "readingTime": 14,
+    "wordCount": 2800,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-290",
+    "title": "Industrial Fermentation",
+    "category": "chemistry",
+    "tags": [
+      "new"
+    ],
+    "description": "Ethanol production at scale, vinegar manufacturing, lactic acid fermentation, yeast cultivation, biofuel, and quality control.",
+    "icon": "🏭",
+    "file": "guides/industrial-fermentation.html",
+    "url": "guides/industrial-fermentation.html",
+    "difficulty": "advanced",
+    "readingTime": 15,
+    "wordCount": 2900,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-291",
+    "title": "Rope & Cordage at Scale",
+    "category": "crafts",
+    "tags": [
+      "new"
+    ],
+    "description": "Fiber selection, rope walk construction, rope laying techniques, splicing, strength testing, and production optimization.",
+    "icon": "⚒️",
+    "file": "guides/rope-cordage-scale.html",
+    "url": "guides/rope-cordage-scale.html",
+    "difficulty": "intermediate",
+    "readingTime": 13,
+    "wordCount": 2600,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  },
+  {
+    "id": "GD-292",
+    "title": "Community Lighting Systems",
+    "category": "building",
+    "tags": [
+      "new"
+    ],
+    "description": "Oil lamp design, candle manufacturing at scale, street lighting, reflector design, biogas lighting, and salvaged LED systems.",
+    "icon": "🔨",
+    "file": "guides/community-lighting-systems.html",
+    "url": "guides/community-lighting-systems.html",
+    "difficulty": "intermediate",
+    "readingTime": 14,
+    "wordCount": 2700,
+    "lastUpdated": "2026-02-15",
+    "version": "1.0"
+  }
+]
