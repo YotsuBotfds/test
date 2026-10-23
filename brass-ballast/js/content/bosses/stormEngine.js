@@ -844,6 +844,7 @@ export default {
   stage: 3,
   music: 'boss',
   hp: BASE_HP,
+  hudPhases: [P2, P3],
   r: 92,
   speed: 95,
   contactDamage: 26,

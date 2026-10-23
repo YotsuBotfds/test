@@ -299,7 +299,7 @@ function drawClaw(ctx, w, h, frame) {
   // 64×48, pivot (18,24) = segment centre; hook pincers reach toward +x. frame 1 = clamped.
   const cx = 18;
   const cy = 24;
-  const open = frame === 0 ? 1 : 0.15;
+  const open = frame === 0 ? 1 : 0;
   // wrist
   ctx.beginPath();
   ctx.ellipse(cx, cy, 13, 16, 0, 0, TAU);
@@ -309,7 +309,7 @@ function drawClaw(ctx, w, h, frame) {
   for (const s of [-1, 1]) {
     ctx.save();
     ctx.translate(cx + 6, cy + s * 5);
-    ctx.rotate(s * (0.12 + 0.42 * open));
+    ctx.rotate(s * (-0.06 + 0.55 * open));
     // curved hook pincer
     ctx.beginPath();
     ctx.moveTo(0, -s * 6);

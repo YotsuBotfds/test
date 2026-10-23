@@ -133,7 +133,7 @@ const EXP = {
 };
 
 const BOOM = { palette: 'fire', debris: false, cogs: 0, lowSmoke: false, ring: false, embers: true, smoke: false };
-const PUFF = { count: 2, alpha: 0.32, life: 1.1, spread: 26 };
+const PUFF = { count: 2, alpha: 0.3, life: 1, spread: 26, color: '#a39a8e', color1: '#6e665e' };
 
 /**
  * Size-capped explosion visual + a shockwave that matches the gameplay radius (so the AoE still

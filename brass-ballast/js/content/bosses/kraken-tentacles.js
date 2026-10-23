@@ -64,7 +64,7 @@ export function createTentacles(b, w) {
       const tip = i === N_SEG - 1;
       const e = w.spawnEnemy(SEG_DEF, b.x, b.y, {
         parent: b, rawHp: 1e6, r: SEG_R[i], layer: i === 0 ? 1 : -1,
-        contactDamage: tip ? 12 : 10,
+        contactDamage: tip ? 12 : 0, // idle sway shouldn't chip the player; claws still bite
         data: { T, i, mult: i === 0 || tip ? 1.4 : 0.8 },
       });
       T.segs.push(e);
@@ -213,7 +213,7 @@ export function startSlam(T, b, w, tx, ty, warn = 0.8) {
   const L = reachOf(T, T.slamStretch);
   const ex = T.rootX + Math.cos(T.aim) * L;
   const ey = T.rootY + Math.sin(T.aim) * L;
-  w.telegraphLine(T.rootX, T.rootY, ex, ey, 54, T.dur, { color: d.frenzy ? '#ff3d8b' : '#ff4d2e' });
+  w.telegraphLine(T.rootX, T.rootY, ex, ey, 54, T.dur, { color: d.frenzy ? '#ff3d8b' : '#ff4d2e', data: { boss: b, tele: true } });
   w.sfx('wasp_charge', T.rootX, T.rootY, { vol: 0.45, pitch: 0.55 + w.rng.next() * 0.2 });
 }
 
@@ -225,7 +225,7 @@ export function startGrab(T, b, w, p) {
   T.wT = 0.55;
   T.stretchT = 1;
   T.curlT = 0;
-  w.telegraphLine(T.rootX, T.rootY, p.x, p.y, 34, T.dur, { color: '#ff3d8b' });
+  w.telegraphLine(T.rootX, T.rootY, p.x, p.y, 34, T.dur, { color: '#ff3d8b', data: { boss: b, tele: true } });
   w.sfx('tesla_hum', T.rootX, T.rootY, { vol: 0.5, pitch: 0.6 });
   b.data.grabCd = 9;
 }
@@ -239,7 +239,7 @@ function startSweep(T, b, w) {
   for (const off of [0.42, 0.84, 1.2]) {
     const a = T.aim + T.side * off;
     w.telegraphLine(T.rootX, T.rootY, T.rootX + Math.cos(a) * L, T.rootY + Math.sin(a) * L, 44, T.dur, {
-      color: '#ff7a2f', alpha: 0.7,
+      color: '#ff7a2f', alpha: 0.7, data: { boss: b, tele: true },
     });
   }
 }

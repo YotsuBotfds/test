@@ -104,7 +104,7 @@ export default {
     b.y = v.y1 + 300;
     b.vx = 0;
     b.vy = -200;
-    d.orbitA = -Math.PI / 2;
+    d.orbitA = Math.PI / 2; // rises out of the smog into the lower band, then circles
     d.extend = 0.3;
     d.emerge = 0;
     b.invuln = true;
@@ -237,7 +237,7 @@ export default {
     d.deathAt = w.time;
     b.state = 'dead';
     releaseGrab(b, w, false);
-    for (const h of d.inks) h.alive = false;
+    clearHazards(b, w, true);
     taunt(b, w, 'death');
     if (w.game?.camera) w.game.camera.baseZoomMul = 0.88;
     b.vx = 0;
@@ -285,13 +285,33 @@ function damp(b, dt, k) {
   b.vy *= f;
 }
 
-function steerTo(b, tx, ty, maxSp, accel, dt) {
-  const dx = tx - b.x;
-  const dy = ty - b.y;
-  const dist = Math.hypot(dx, dy);
-  const want = Math.min(maxSp, dist * 1.5);
-  const wvx = dist > 0.5 ? (dx / dist) * want : 0;
-  const wvy = dist > 0.5 ? (dy / dist) * want : 0;
+/**
+ * Follow a moving anchor (the view ellipse slides with the camera): feed-forward the anchor's
+ * own velocity plus a proportional pull, so the boss keeps pace with a fleeing player.
+ */
+function followTo(b, w, tx, ty, dt, gain, maxSp, accel) {
+  const d = b.data;
+  let tvx = 0;
+  let tvy = 0;
+  if (d.fT !== undefined && w.time - d.fT < 0.1 && dt > 0) {
+    tvx = (tx - d.ftx) / dt;
+    tvy = (ty - d.fty) / dt;
+    const tl = Math.hypot(tvx, tvy);
+    if (tl > 450) {
+      tvx *= 450 / tl;
+      tvy *= 450 / tl;
+    }
+  }
+  d.ftx = tx;
+  d.fty = ty;
+  d.fT = w.time;
+  let wvx = tvx + (tx - b.x) * gain;
+  let wvy = tvy + (ty - b.y) * gain;
+  const wl = Math.hypot(wvx, wvy);
+  if (wl > maxSp) {
+    wvx *= maxSp / wl;
+    wvy *= maxSp / wl;
+  }
   let ax = wvx - b.vx;
   let ay = wvy - b.vy;
   const al = Math.hypot(ax, ay);
@@ -302,16 +322,24 @@ function steerTo(b, tx, ty, maxSp, accel, dt) {
   }
   b.vx += ax;
   b.vy += ay;
-  return dist;
+}
+
+/** Remove this boss's pending telegraphs (all = also its damaging hazards & clouds). */
+function clearHazards(b, w, all) {
+  for (const h of w.hazards) {
+    if (!h.alive) continue;
+    if (h.data?.boss === b && h.data.tele) h.alive = false;
+    else if (all && (h.owner === b || h.follow === b)) h.alive = false;
+  }
 }
 
 /** A point on an ellipse inscribed in the view (the arms stay on screen), plus a slow bob. */
 function hoverTarget(b, w, out) {
   const d = b.data;
   const v = w.renderer.viewRect(0, d.vr);
-  const rx = Math.max(150, v.w / 2 - 330);
-  const up = Math.max(110, v.h / 2 - 255);
-  const down = Math.max(110, v.h / 2 - 200);
+  const rx = Math.max(150, v.w / 2 - 300);
+  const up = Math.max(110, v.h / 2 - 250);
+  const down = Math.max(110, v.h / 2 - 150);
   const sn = Math.sin(d.orbitA);
   out.x = (v.x0 + v.x1) / 2 + Math.cos(d.orbitA) * rx + Math.sin(d.t * 0.7) * 18;
   out.y = (v.y0 + v.y1) / 2 + sn * (sn < 0 ? up : down) + Math.sin(d.t * 1.1) * 14;
@@ -330,15 +358,15 @@ function hover(b, dt, w, pace) {
   }
   d.orbitA += d.orbitDir * 0.13 * pace * sm * dt;
   hoverTarget(b, w, tgt);
-  const far = Math.hypot(tgt.x - b.x, tgt.y - b.y);
-  steerTo(b, tgt.x, tgt.y, (70 + Math.max(0, far - 100) * 1.4) * sm, 200 * sm, dt);
+  followTo(b, w, tgt.x, tgt.y, dt, 1.0, 330 * sm, 900 * sm);
 }
 
 function updateEnter(b, dt, w) {
   const d = b.data;
   b.timer += dt;
   hoverTarget(b, w, tgt);
-  const dist = steerTo(b, tgt.x, tgt.y, 230, 200, dt);
+  followTo(b, w, tgt.x, tgt.y, dt, 0.8, 260, 400);
+  const dist = Math.hypot(tgt.x - b.x, tgt.y - b.y);
   d.emerge = Math.min(1, d.emerge + dt * 0.5);
   d.extend = 0.3 + 0.7 * easeOutCubic(clamp((b.timer - 0.8) / 2, 0, 1));
   b.scale = 0.72 + 0.28 * easeOutCubic(d.emerge);
@@ -391,7 +419,7 @@ function nextMove(b, w, p) {
       b.state = 'spiral';
       d.mv = { t: 0, warm: 0.7, dur: 2.8, shotT: 0, a: w.rng.angle(), arms: b.phase >= 2 ? 3 : 2, dir: w.rng.sign() };
       d.eyeFlare = 1;
-      w.telegraphCircle(b.x, b.y, 60, 0.7, { color: '#ff3d8b', follow: b });
+      w.telegraphCircle(b.x, b.y, 60, 0.7, { color: '#ff3d8b', follow: b, data: { boss: b, tele: true } });
       w.sfx('tesla_hum', b.x, b.y, { vol: 0.7, pitch: 0.7 });
       break;
     case 'grab': {
@@ -584,7 +612,7 @@ function startCharge(b, w, p) {
   b.state = 'chargeWarn';
   b.timer = 0.9;
   d.eyeFlare = 1;
-  w.telegraphLine(b.x, b.y, b.x + Math.cos(a) * dist, b.y + Math.sin(a) * dist, BODY_R * 2 + 16, 0.9, { color: '#ff3d8b' });
+  w.telegraphLine(b.x, b.y, b.x + Math.cos(a) * dist, b.y + Math.sin(a) * dist, BODY_R * 2 + 16, 0.9, { color: '#ff3d8b', data: { boss: b, tele: true } });
   w.sfx('wasp_charge', b.x, b.y, { vol: 1, pitch: 0.45 });
   // arms sweep back like a squid about to jet
   for (const T of d.tentacles) {
@@ -658,6 +686,7 @@ function startTransition(b, w, phase) {
   w.hitstop(0.12);
   w.flash('#d8b0ff', 0.22);
   w.clearEnemyBullets(b.x, b.y, Infinity);
+  clearHazards(b, w, false);
   d.eyeFlare = 1;
   d.blink = 0;
   w.fx.shockwave?.(b.x, b.y, 340, '#e8b0ff', 0.6);

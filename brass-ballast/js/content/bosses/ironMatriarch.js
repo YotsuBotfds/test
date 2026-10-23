@@ -13,12 +13,13 @@
 // half), the exposed boiler takes ×1.5. Art lives in ironMatriarch-art.js.
 
 import { Sprites } from '../../gfx/sprites.js';
-import { TAU, clamp, angleDiff, rotateToward, easeOutCubic } from '../../core/math.js';
+import { TAU, clamp, angleDiff, rotateToward } from '../../core/math.js';
 import { TAUNTS } from '../codex.js';
 import {
   registerMatriarchArt, hullHalfWidth, TURRET_MOUNTS, PORT_XS, STACKS, HATCH, CORE, HITBOXES,
   FIRE_SPOTS, BRIDGE,
 } from './ironMatriarch-art.js';
+import { drawOverlays, drawWreck } from './ironMatriarch-draw.js';
 
 registerMatriarchArt();
 
@@ -389,6 +390,7 @@ export default {
     b.vx = c * 40;
     b.vy = s * 40;
     taunt(b, w, 'death');
+    clearHazards(b, w, true);
     if (w.game?.camera) w.game.camera.baseZoomMul = 0.88;
     // Flavour on top of the engine's generic boss death: a ripple of magazine detonations
     // marching stern → bow, the stacks blowing out, then the hull snapping in two.
@@ -467,6 +469,54 @@ function steerTo(b, tx, ty, maxSp, accel, dt) {
   return dist;
 }
 
+/**
+ * Follow a moving anchor (the view ellipse slides with the camera): feed-forward the anchor's
+ * own velocity plus a proportional pull, so the boss keeps pace with a fleeing player.
+ */
+function followTo(b, w, tx, ty, dt, gain, maxSp, accel) {
+  const d = b.data;
+  let tvx = 0;
+  let tvy = 0;
+  if (d.fT !== undefined && w.time - d.fT < 0.1 && dt > 0) {
+    tvx = (tx - d.ftx) / dt;
+    tvy = (ty - d.fty) / dt;
+    const tl = Math.hypot(tvx, tvy);
+    if (tl > 450) {
+      tvx *= 450 / tl;
+      tvy *= 450 / tl;
+    }
+  }
+  d.ftx = tx;
+  d.fty = ty;
+  d.fT = w.time;
+  let wvx = tvx + (tx - b.x) * gain;
+  let wvy = tvy + (ty - b.y) * gain;
+  const wl = Math.hypot(wvx, wvy);
+  if (wl > maxSp) {
+    wvx *= maxSp / wl;
+    wvy *= maxSp / wl;
+  }
+  let ax = wvx - b.vx;
+  let ay = wvy - b.vy;
+  const al = Math.hypot(ax, ay);
+  const maxA = accel * dt;
+  if (al > maxA) {
+    ax *= maxA / al;
+    ay *= maxA / al;
+  }
+  b.vx += ax;
+  b.vy += ay;
+}
+
+/** Remove this boss's pending telegraphs (all = also its damaging hazards & clouds). */
+function clearHazards(b, w, all) {
+  for (const h of w.hazards) {
+    if (!h.alive) continue;
+    if (h.data?.boss === b && h.data.tele) h.alive = false;
+    else if (all && (h.owner === b || h.follow === b)) h.alive = false;
+  }
+}
+
 function hold(b, dt, k = 2.5) {
   const f = Math.exp(-k * dt);
   b.vx *= f;
@@ -488,7 +538,7 @@ function orbitTarget(b, w, out) {
   const v = w.renderer.viewRect(0, d.vr || (d.vr = {}));
   const rx = Math.max(170, v.w / 2 - 250);
   // The HUD boss bar covers the top of the screen: sit lower there, closer to the edge below.
-  const up = Math.max(120, v.h / 2 - 235);
+  const up = Math.max(120, v.h / 2 - 260);
   const down = Math.max(120, v.h / 2 - 150);
   const sn = Math.sin(d.orbitA);
   out.x = (v.x0 + v.x1) / 2 + Math.cos(d.orbitA) * rx;
@@ -519,8 +569,7 @@ function cruise(b, dt, w, p, pace) {
   }
   d.orbitA += (d.orbitDir * CRUISE * pace * sm * dt) / ORBIT_R;
   orbitTarget(b, w, tgt);
-  const far = Math.hypot(tgt.x - b.x, tgt.y - b.y);
-  steerTo(b, tgt.x, tgt.y, (90 + Math.max(0, far - 120) * 1.3) * sm, 240 * sm, dt);
+  followTo(b, w, tgt.x, tgt.y, dt, 0.8, 320 * sm, 520 * sm);
   // Keep the broadside toward the player: hull axis ⟂ radius, whichever way is closer.
   const radial = Math.atan2(b.y - p.y, b.x - p.x);
   const h1 = radial + Math.PI / 2;
@@ -538,7 +587,8 @@ function updateEnter(b, dt, w, p) {
     w.game.camera.baseZoomMul = ZOOM;
   }
   orbitTarget(b, w, tgt);
-  const dist = steerTo(b, tgt.x, tgt.y, 260, 160, dt);
+  followTo(b, w, tgt.x, tgt.y, dt, 0.7, 280, 260);
+  const dist = Math.hypot(tgt.x - b.x, tgt.y - b.y);
   // engines at full ahead while she sails in
   if (Math.random() < 0.5) emitExhaust(b, w, 1.2);
   if ((dist < 50 && b.timer > 1.5) || b.timer > 5) {
@@ -614,7 +664,7 @@ function telegraphPorts(b, w, g, time) {
       // follows the hull (translation only: she doesn't turn while a broadside is laid)
       w.addHazard({
         shape: 'line', telegraph: true, life: time, x: ax, y: ay, x2: q.x, y2: q.y, width: 30,
-        color: '#ff7a2f', alpha: 0.75, follow: b, ox: ax - b.x, oy: ay - b.y,
+        color: '#ff7a2f', alpha: 0.75, follow: b, ox: ax - b.x, oy: ay - b.y, data: { boss: b, tele: true },
       });
     }
   }
@@ -682,7 +732,7 @@ function startVent(b, w, double) {
     const q = toWorld(b, st.x, st.y);
     w.addHazard({
       shape: 'circle', telegraph: true, life: 0.85, x: q.x, y: q.y, r: 34, color: '#ff7a2f',
-      follow: b, ox: q.x - b.x, oy: q.y - b.y,
+      follow: b, ox: q.x - b.x, oy: q.y - b.y, data: { boss: b, tele: true },
     });
   }
 }
@@ -795,7 +845,7 @@ function updateRam(b, dt, w, p) {
         d.ram = { dist, speed: 560 * sm, left: dist };
         const c = Math.cos(b.angle);
         const s = Math.sin(b.angle);
-        w.telegraphLine(bx - c * 40, by - s * 40, bx + c * dist, by + s * dist, 176, 1.0, { color: '#ff4d2e' });
+        w.telegraphLine(bx - c * 40, by - s * 40, bx + c * dist, by + s * dist, 176, 1.0, { color: '#ff4d2e', data: { boss: b, tele: true } });
         b.state = 'ramWarn';
         b.timer = 1.0;
         w.sfx('boss_roar', b.x, b.y, { vol: 0.7, pitch: 1.1 });
@@ -877,6 +927,7 @@ function startTransition(b, w, phase) {
   w.hitstop(0.12);
   w.flash('#ffcf9a', 0.25);
   w.clearEnemyBullets(b.x, b.y, Infinity);
+  clearHazards(b, w, false);
   // ripple of hull explosions
   for (let i = 0; i < 6; i++) {
     w.after(0.1 + i * 0.14, () => {
@@ -1043,152 +1094,5 @@ function updateAmbient(b, dt, w) {
         w.fx.smokeTrail?.(q.x, q.y, 1.4, { fire: true });
       }
     }
-  }
-}
-
-// ---- Drawing ---------------------------------------------------------------------------------------
-
-function drawOverlays(ctx, b, w) {
-  const d = b.data;
-  const frac = b.hp / b.maxHp;
-  ctx.save();
-  ctx.translate(b.x, b.y);
-  ctx.rotate(b.angle);
-  ctx.scale(b.scale, b.scale);
-  ctx.globalAlpha = b.alpha;
-  // battle damage decal
-  const dmg = clamp((0.92 - frac) * 1.4, 0, 1);
-  if (dmg > 0) {
-    const s = Sprites.get('boss_ironMatriarch_scorch');
-    ctx.globalAlpha = dmg * b.alpha;
-    ctx.drawImage(s.img, -s.cx, -s.cy, s.w, s.h);
-    ctx.globalAlpha = b.alpha;
-  }
-  // exposed boiler
-  if (d.coreOpen > 0) {
-    const s = Sprites.get('boss_ironMatriarch_core');
-    const k = easeOutCubic(d.coreOpen);
-    ctx.globalAlpha = b.alpha * k;
-    ctx.drawImage(s.img, CORE.x - s.cx * k, CORE.y - s.cy * k, s.w * k, s.h * k);
-    ctx.globalAlpha = b.alpha;
-    // smokestacks sit on top of the boiler
-    for (const st of STACKS) drawStackCap(ctx, st);
-  }
-  // turret wrecks on empty barbettes
-  for (const t of d.turrets) {
-    if (t.alive) continue;
-    const s = Sprites.get('boss_ironMatriarch_turretWreck');
-    ctx.drawImage(s.img, t.data.lx - s.cx, t.data.ly - s.cy, s.w, s.h);
-  }
-  // hatch doors slide apart
-  const door = Sprites.get('boss_ironMatriarch_hatchDoor');
-  const o = d.hatchOpen * 13;
-  ctx.drawImage(door.img, HATCH.x - 15 - o, HATCH.y - 13, 16, 26);
-  ctx.drawImage(door.img, HATCH.x - 1 + o, HATCH.y - 13, 16, 26);
-
-  // additive light: port charge, stack glow, core pulse, nacelles, fires
-  const glowS = Sprites.get('boss_ironMatriarch_glow');
-  ctx.globalCompositeOperation = 'lighter';
-  const flick = 0.85 + 0.15 * Math.sin(d.t * 31);
-  for (let k = 0; k < d.portCharge.length; k++) {
-    const v = Math.max(d.portCharge[k], d.portFlash[k] * 1.3);
-    if (v <= 0.01) continue;
-    const s = k >= PORT_XS.length ? 1 : -1;
-    const lx = PORT_XS[k % PORT_XS.length];
-    const ly = s * (hullHalfWidth(lx) + 8);
-    const r = 10 + 22 * v;
-    ctx.globalAlpha = Math.min(1, v) * flick * b.alpha;
-    ctx.drawImage(glowS.img, lx - r, ly - r, r * 2, r * 2);
-  }
-  if (d.ventGlow > 0) {
-    for (const st of STACKS) {
-      const r = 18 + 22 * d.ventGlow * flick;
-      ctx.globalAlpha = d.ventGlow * 0.9 * b.alpha;
-      ctx.drawImage(glowS.img, st.x - r, st.y - r, r * 2, r * 2);
-    }
-  }
-  if (d.coreOpen > 0) {
-    const r = (40 + 10 * Math.sin(d.t * 6)) * d.coreOpen;
-    ctx.globalAlpha = 0.55 * b.alpha;
-    ctx.drawImage(glowS.img, CORE.x - r * 1.4, CORE.y - r * 0.8, r * 2.8, r * 1.6);
-  }
-  const speed = Math.hypot(b.vx, b.vy);
-  const eng = clamp(0.35 + speed / 400, 0, 1.2) * (b.state === 'ramWarn' ? 1.6 : 1);
-  for (const s of [-1, 1]) {
-    const r = 12 + 10 * eng;
-    ctx.globalAlpha = Math.min(1, 0.5 * eng) * flick * b.alpha;
-    ctx.drawImage(glowS.img, -207 - r, s * 44 - r * 0.6, r * 2, r * 1.2);
-  }
-  if (b.phase >= 2 || frac < 0.5) {
-    const n = b.phase >= 2 ? FIRE_SPOTS.length : Math.ceil(((0.5 - frac) / 0.25) * 3);
-    for (let i = 0; i < Math.min(n, FIRE_SPOTS.length); i++) {
-      const f = FIRE_SPOTS[i];
-      const r = 16 + 5 * Math.sin(d.t * 13 + i * 2.1);
-      ctx.globalAlpha = 0.55 * b.alpha;
-      ctx.drawImage(glowS.img, f.x - r, f.y - r, r * 2, r * 2);
-    }
-  }
-  ctx.restore();
-}
-
-function drawStackCap(ctx, st) {
-  // simple re-draw of the stack throat over the boiler overlay
-  ctx.beginPath();
-  ctx.arc(st.x, st.y, st.r * 1.05, 0, TAU);
-  ctx.fillStyle = '#3a3d44';
-  ctx.fill();
-  ctx.lineWidth = 1.2;
-  ctx.strokeStyle = 'rgba(20,12,6,0.8)';
-  ctx.stroke();
-  ctx.beginPath();
-  ctx.arc(st.x, st.y, st.r * 0.85, 0, TAU);
-  ctx.lineWidth = 2.4;
-  ctx.strokeStyle = '#c0392b';
-  ctx.stroke();
-  ctx.beginPath();
-  ctx.arc(st.x, st.y, st.r * 0.6, 0, TAU);
-  ctx.fillStyle = '#1a0c06';
-  ctx.fill();
-}
-
-/** Death wreck: the hull snaps in two around the boiler room and the halves drift apart. */
-function drawWreck(ctx, b, w) {
-  const d = b.data;
-  const k = clamp((w.time - (d.deathAt ?? w.time)) / 2.4, 0, 1);
-  const split = clamp((k - 0.45) / 0.55, 0, 1);
-  const gap = easeOutCubic(split) * 46;
-  const rot = easeOutCubic(split) * 0.2;
-  const img = Sprites.get('boss_ironMatriarch');
-  for (const half of [-1, 1]) {
-    ctx.save();
-    ctx.translate(b.x, b.y);
-    ctx.rotate(b.angle);
-    ctx.scale(b.scale, b.scale);
-    ctx.translate(half * gap * 0.5, half * gap * 0.12);
-    ctx.rotate(half * rot);
-    ctx.beginPath();
-    // jagged break line near x = -10
-    const edge = half > 0 ? 230 : -230;
-    ctx.moveTo(edge, -120);
-    for (let i = 0; i <= 10; i++) {
-      const y = -100 + i * 20;
-      const x = -10 + ((i * 37) % 11) - 5;
-      ctx.lineTo(x, y);
-    }
-    ctx.lineTo(edge, 120);
-    ctx.closePath();
-    ctx.clip();
-    ctx.globalAlpha = b.alpha;
-    ctx.drawImage(img.img, -img.cx, -img.cy, img.w, img.h);
-    const sc = Sprites.get('boss_ironMatriarch_scorch');
-    ctx.drawImage(sc.img, -sc.cx, -sc.cy, sc.w, sc.h);
-    Sprites.drawTint(ctx, 'boss_ironMatriarch', 0, 0, 0, 1, '#1c120a', 0.25 + 0.5 * k);
-    if (split > 0) {
-      ctx.globalCompositeOperation = 'lighter';
-      const g = Sprites.get('boss_ironMatriarch_glow');
-      ctx.globalAlpha = (1 - k * 0.6) * b.alpha;
-      for (let i = 0; i < 4; i++) ctx.drawImage(g.img, -40, -90 + i * 45, 60, 60);
-    }
-    ctx.restore();
   }
 }

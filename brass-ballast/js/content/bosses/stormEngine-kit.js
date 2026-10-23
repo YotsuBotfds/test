@@ -10,6 +10,7 @@
 import { FONT_BODY } from '../../config.js';
 import { Sprites } from '../../gfx/sprites.js';
 import { TAUNTS } from '../codex.js';
+import { events } from '../../core/events.js';
 import { TAU, clamp } from '../../core/math.js';
 import { PAL, metal, metalRadial, glow, ink, gear, rivetRing } from '../../gfx/drawkit.js';
 
@@ -518,10 +519,27 @@ export function stormWeather(b, w, v) {
   if (!wt?.setIntensity) return;
   if (b.data.weatherWas === undefined) b.data.weatherWas = wt.intensity ?? 1;
   wt.setIntensity(v);
+  touched = { wt, was: b.data.weatherWas };
 }
 
 export function restoreWeather(b, w) {
   if (b.data.weatherWas === undefined) return;
   w.weather?.setIntensity?.(b.data.weatherWas);
   b.data.weatherWas = undefined;
+  touched = null;
 }
+
+// A run can end (or restart) mid-fight without the boss dying: put the sky back regardless.
+let touched = null;
+function resetWeather() {
+  if (!touched) return;
+  try {
+    touched.wt.setIntensity(touched.was);
+  } catch {
+    /* weather is optional */
+  }
+  touched = null;
+}
+events.on('run:end', resetWeather);
+events.on('run:start', resetWeather);
+events.on('stage:start', resetWeather);
