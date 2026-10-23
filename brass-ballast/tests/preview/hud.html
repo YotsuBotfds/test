@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>HUD Preview — Brass &amp; Ballast</title>
+  <style>
+    html, body { margin: 0; height: 100%; overflow: hidden; background: #3b5a6b; }
+    #game { position: fixed; inset: 0; width: 100%; height: 100%; display: block; }
+    #bar { position: fixed; left: 50%; bottom: 60px; transform: translateX(-50%); display: flex; flex-wrap: wrap;
+      gap: 4px; justify-content: center; max-width: 90vw; font: 12px Georgia, serif; z-index: 2; }
+    #bar button { background: #2b1d10; color: #f2d48a; border: 1px solid #c9973f; border-radius: 4px; padding: 3px 7px; cursor: pointer; }
+    body.clean #bar { display: none; }
+  </style>
+</head>
+<body>
+  <!-- HUD preview (WP22). Flags: banner=wave|clear|stage|victory|warning|alert|boss & bt=<sec> (freeze
+       banner at that time), boss=1|2, players=1..4, touch=1, hp=<n>, freeze=<sec> (freeze clock),
+       combo=<chain>, clean=1 (hide buttons), fps=1 -->
+  <canvas id="game"></canvas>
+  <div id="bar"></div>
+  <script type="module" src="./hud-preview.js"></script>
+</body>
+</html>
