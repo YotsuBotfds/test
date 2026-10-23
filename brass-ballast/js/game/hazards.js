@@ -151,7 +151,7 @@ export class HazardSystem {
         if (!p.alive || !this._overlaps(h, p.x, p.y, p.hitR)) continue;
         if (p.iframes > 0) continue;
         if (!this._canHit(h, p, w)) continue;
-        const landed = w.damagePlayer(p, h.damage, { source: h.source, owner: h.owner, element: h.element, angle: Math.atan2(p.y - h.y, p.x - h.x) });
+        const landed = w.damagePlayer(p, h.damage, { source: h.source, owner: h.owner, element: h.element, angle: Math.atan2(p.y - h.y, p.x - h.x), scaled: true });
         if (landed) {
           if (h.slow) p.slowT = Math.max(p.slowT, h.slow.time ?? 1);
           h.onHit?.(h, p, w);

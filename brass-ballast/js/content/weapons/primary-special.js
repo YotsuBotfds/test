@@ -377,6 +377,13 @@ function lanceUpdate(player, wpn, dt, world, input) {
   // Charging motes gather at the emitter as the next bolt readies.
   d.moteT = (d.moteT || 0) - dt;
   const charge = 1 - Math.max(0, Math.min(1, (wpn.cd || 0) / interval));
+  // Capacitor whine rising toward each bolt (world-owned loop: stops itself when idle).
+  world.loopSfx?.(`lance:${player.index}`, 'lance_charge', !!input.firing && player.alive, {
+    vol: 0.16 + 0.1 * charge,
+    pitch: 0.75 + 0.55 * charge,
+    x: player.x,
+    y: player.y,
+  });
   if (d.moteT <= 0) {
     d.moteT = input.firing ? 0.03 : 0.12;
     muzzleAt(player, 'aetherLance', M2, -2);

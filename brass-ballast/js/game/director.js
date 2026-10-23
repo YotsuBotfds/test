@@ -72,9 +72,24 @@ export class Director {
 
   _setStage(pos, first = false) {
     const run = this.run;
-    const stage = this._stageDef(pos);
+    const base = this._stageDef(pos);
+    const slot = STAGES[pos];
+    let stage = base;
+    run.bossHpMult = 1;
+    if (slot && slot !== base) {
+      // Shuffled voyage (Daily Squall): difficulty follows the position in the voyage, not the
+      // stage's own number — Tempest Reach flown second plays like a second stage.
+      stage = {
+        ...base, hpMult: slot.hpMult, dmgMult: slot.dmgMult, xpMult: slot.xpMult,
+        eliteChance: slot.eliteChance, fireRate: slot.fireRate,
+      };
+      const want = BOSSES[slot.boss]?.hp;
+      const have = BOSSES[base.boss]?.hp;
+      if (want > 0 && have > 0) run.bossHpMult = want / have;
+    }
     run.stageIndex = pos;
     run.stage = stage;
+    run.enemyFireRate = stage.fireRate ?? 1;
     run.wave = 0;
     run.waveCount = stage.waves?.length || 0;
     run.stageReached = Math.max(run.stageReached || 0, pos + 1);
@@ -92,6 +107,7 @@ export class Director {
     const stage = STAGES.find((s) => s.boss === id) || STAGES[i % STAGES.length] || STAGES[0];
     run.stageIndex = i;
     run.stage = stage;
+    run.enemyFireRate = 1;
     run.wave = 0;
     run.waveCount = 0;
     run.bossHpMult = this.mode.bossHpMult?.(i, run) ?? 1;
@@ -113,6 +129,7 @@ export class Director {
       dmgMult: 1 + 0.035 * k,
       xpMult: 1 + 0.06 * k,
       eliteChance: Math.min(0.3, 0.02 + 0.006 * k),
+      fireRate: Math.min(1.45, 1 + 0.018 * k),
       boss: null,
     };
   }
@@ -122,6 +139,7 @@ export class Director {
     const stage = this._endlessStage(index);
     const changed = !run.stage || run.stage.biome !== stage.biome;
     run.stage = stage;
+    run.enemyFireRate = stage.fireRate ?? 1;
     run.waveCount = 0;
     if (changed || first) {
       this.game.onStageStart?.(stage, { first, index: run.stageIndex, endless: true });

@@ -102,7 +102,9 @@ export class Nav {
   }
 
   onKey(e) {
-    if (!this.ui.isOpen || e.defaultPrevented) return;
+    // Note: input/keyboard.js preventDefault()s arrows/Space/Tab (so the page never scrolls),
+    // which is why defaultPrevented can't be used to detect "already handled" here.
+    if (!this.ui.isOpen || isTextField(e.target)) return;
     if (e.ctrlKey || e.metaKey || e.altKey) return;
     this.lastKeyAt = performance.now();
     this.setDevice('kbm');
@@ -331,4 +333,13 @@ function reveal(el) {
     }
     n = n.parentElement;
   }
+}
+
+/** Typing into a text field must not drive menu navigation. */
+function isTextField(t) {
+  if (!t || typeof t !== 'object') return false;
+  if (t.isContentEditable) return true;
+  const tag = t.tagName;
+  if (tag === 'TEXTAREA' || tag === 'SELECT') return true;
+  return tag === 'INPUT' && !/^(range|checkbox|radio|button|submit)$/i.test(t.type || '');
 }

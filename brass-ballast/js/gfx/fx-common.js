@@ -1,6 +1,7 @@
 // Shared constants & settings helpers for the particle/FX modules (WP3).
 
 import { Save } from '../core/storage.js';
+import { Quality } from './quality.js';
 
 /** Particle flag bits (also used by fx.js). */
 export const PF = {
@@ -18,13 +19,14 @@ export const PF = {
 export const LAYER = { low: 0, normal: 1, add: 2 };
 export const LAYER_IDX = (name) => (name === 'low' ? 0 : name === 'add' ? 2 : 1);
 
-/** Is the user's quality setting 'low'? Read live so the settings screen applies instantly. */
+/** Is the effective quality tier 'low' (setting or auto governor)? Read live. */
 export function lowQuality() {
-  try {
-    return Save.settings?.quality === 'low';
-  } catch {
-    return false;
-  }
+  return Quality.tier === 0;
+}
+
+/** FX spawn-count multiplier for the effective quality tier (1 high … 0.45 low). */
+export function particleScale() {
+  return Quality.cfg.particles;
 }
 
 /** Multiplier for flash/flare brightness (reduced-flashing accessibility setting). */

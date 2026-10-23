@@ -2,6 +2,7 @@
 // then launch the voyage. Tabs: Airships | Cannons | Workshop.
 
 import { Save } from '../../core/storage.js';
+import { events } from '../../core/events.js';
 import { Sprites } from '../../gfx/sprites.js';
 import { HULLS, HULL_ORDER } from '../../content/hulls.js';
 import { PRIMARIES, PRIMARY_ORDER, AUX } from '../../content/weapons/index.js';
@@ -194,6 +195,7 @@ export default function build(ui, params) {
         Save.unlock(kind, id);
         Save.meta[selKey] = id;
         Save.saveNow?.();
+        events.emit('hangar:unlock', { kind, id });
         sfx('ui_unlock');
         sfx('ui_buy');
         ui.toast(`${s.d.name} is ready for launch.`, { title: isHull ? 'Airship commissioned' : 'Cannon forged', icon: isHull ? null : s.d.icon });
@@ -344,6 +346,7 @@ export default function build(ui, params) {
         Save.meta.workshop ||= {};
         Save.meta.workshop[item.id] = l + 1;
         Save.save();
+        events.emit('workshop:buy', { id: item.id, level: l + 1 });
         sfx('ui_buy');
         for (const x of cards) x.update();
         kick(c, 'bought');

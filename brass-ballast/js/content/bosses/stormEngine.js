@@ -11,6 +11,7 @@
 // chain-arc fences between spheres · 2 (<25%) OVERCHARGE: magnetic pull + rings, everything
 // faster, storm intensifies, the screen crackles.
 
+import { bossHp } from './tuning.js';
 import { Sprites } from '../../gfx/sprites.js';
 import { TAU, clamp } from '../../core/math.js';
 import { SE, ARM_TIP } from './stormEngine-art.js';
@@ -843,7 +844,8 @@ export default {
   boss: true,
   stage: 3,
   music: 'boss',
-  hp: BASE_HP,
+  zoom: 0.86, // camera base zoom for the fight (engine onBossSpawn reads def.zoom)
+  hp: bossHp('stormEngine', BASE_HP), // × campaign toughness (tuning.js)
   hudPhases: [P2, P3],
   r: 92,
   speed: 95,

@@ -27,10 +27,13 @@
 //
 // Storage is struct-of-arrays (typed arrays) per layer with swap-remove; drawing is batched with
 // one setTransform + drawImage per particle (no save/restore). Colour over life uses a small
-// cache of tinted textures (fx-textures.js). Save.settings.quality === 'low' halves the cap and
-// every FX spawn count; Save.settings.flashes === false dims flares/flashes and stops strobing.
+// cache of tinted textures (fx-textures.js). The quality tier (gfx/quality.js: setting or auto
+// governor) scales the cap, every FX spawn count and the largest drawn particle;
+// Save.settings.flashes === false dims flares/flashes and stops strobing. `particles.focus`
+// (living players) fades alpha-blended particles right over a ship so it never vanishes in smoke.
 
-import { PF, LAYER_IDX, lowQuality } from './fx-common.js';
+import { PF, LAYER_IDX } from './fx-common.js';
+import { Quality } from './quality.js';
 import {
   TEX,
   texImage,
@@ -96,9 +99,13 @@ class Pool {
 
 const TEX_BY_NAME = TEX;
 const VIEW = { x0: 0, y0: 0, x1: 0, y1: 0, w: 0, h: 0 };
+/** Largest drawn particle (world units). Huge soft sprites are pure fill-rate. */
+const MAX_DRAW_SIZE = [150, 210, 260];
+/** Radius around a player inside which 'normal'-layer smoke/debris fades (ship stays readable). */
+const CLEAR_R = 70;
 
 export class Particles {
-  /** @param {number} [max] hard cap (halved when quality is 'low') */
+  /** @param {number} [max] hard cap (scaled down by the quality tier) */
   constructor(max = 5000) {
     this.max = Math.max(64, max | 0);
     this.pools = [new Pool(this.max), new Pool(this.max), new Pool(this.max)];
@@ -107,6 +114,8 @@ export class Particles {
     this._lp = null;
     this._li = -1;
     this.drawn = 0;
+    /** Points (players) to keep clear of 'normal'-layer particles: [{x, y}]. */
+    this.focus = [];
   }
 
   /** Live particle count over all layers. */
@@ -114,9 +123,9 @@ export class Particles {
     return this.pools[0].n + this.pools[1].n + this.pools[2].n;
   }
 
-  /** Effective cap (quality-aware). */
+  /** Effective cap (quality-tier aware). */
   get cap() {
-    return lowQuality() ? this.max >> 1 : this.max;
+    return Math.max(64, (this.max * Quality.cfg.cap) | 0);
   }
 
   /** 0..1 how full the system is; FX helpers thin out spawns as this approaches 1. */
@@ -290,6 +299,10 @@ export class Particles {
     }
     let add = L === 2;
     ctx.globalCompositeOperation = add ? 'lighter' : 'source-over';
+    const maxSize = MAX_DRAW_SIZE[Quality.tier];
+    // Players to keep visible through the alpha-blended layer (smoke, debris over the hull).
+    const foc = L === 1 ? this.focus : null;
+    const nf = foc ? foc.length : 0;
     const { x, y, vx, vy, t, life, s0, s1, a, rot, stretch, c0, c1, tex, frame, flags } = P;
     let drawn = 0;
     for (let i = 0, n = P.n; i < n; i++) {
@@ -304,6 +317,7 @@ export class Particles {
       else if (f & PF.SHRINK) size = sa + (sb - sa) * u * u;
       else size = sa + (sb - sa) * u;
       if (size <= 0.05) continue;
+      if (size > maxSize) size = maxSize;
       const px = x[i];
       const py = y[i];
       if (cull) {
@@ -316,6 +330,16 @@ export class Particles {
       else al *= 1 - u;
       if (f & PF.FADEIN && u < 0.15) al *= u / 0.15;
       if (f & PF.FLICKER) al *= 0.6 + 0.4 * Math.sin(t[i] * 37 + i * 1.7);
+      if (nf && !(f & PF.ADD)) {
+        for (let k = 0; k < nf; k++) {
+          const q = foc[k];
+          const rr = CLEAR_R + size * 0.3;
+          const dx = px - q.x;
+          const dy = py - q.y;
+          const d2 = dx * dx + dy * dy;
+          if (d2 < rr * rr) al *= 0.2 + 0.8 * (d2 / (rr * rr));
+        }
+      }
       if (al <= 0.004) continue;
       if (al > 1) al = 1;
       const id = tex[i];

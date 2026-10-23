@@ -139,15 +139,8 @@ export class UI {
   back(source = 'back') {
     const top = this.top;
     if (!top) return;
-    if (top.name === 'pause' && source === 'pause-key') {
-      // The game also sees Esc/P/Start as its pause edge this frame; resume a few frames later
-      // so the same press can't immediately re-pause the run.
-      const inst = top.inst;
-      setTimeout(() => {
-        if (this.top?.inst === inst && (this.game?.state ?? 'paused') === 'paused') inst.back?.();
-      }, 90);
-      return;
-    }
+    // Esc/P/Start on the pause screen resume at once: game.resume() ignores pause edges for a
+    // moment, so the same press (also latched as the game's pause edge) can't re-pause the run.
     if (top.inst.back) top.inst.back(source);
     else if (this.stack.length > 1) {
       sfx('ui_back');
@@ -365,9 +358,11 @@ export class UI {
     const st = this.game?.state;
     if (st && st !== 'title' && st !== 'boot') return;
     let track = null;
+    const playing = audio.currentTrack ?? this._musicReq;
     if (name === 'modes' || name === 'hangar') track = 'hangar';
-    else if (name === 'title' && this._musicReq === 'hangar') track = 'title';
-    if (!track || track === this._musicReq) return;
+    else if (name === 'title' && playing === 'hangar') track = 'title';
+    // Compare with what is actually playing: the game switches tracks behind the UI's back.
+    if (!track || track === playing) return;
     this._musicReq = track;
     try {
       audio.music?.(track, { fade: 1.2 });

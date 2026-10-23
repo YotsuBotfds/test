@@ -95,6 +95,7 @@ export const GyroSaws = {
     const dmg = lv(DMG, i) * dmgScale(p, w);
     slot.cdMax = 0;
     slot.cd = 0;
+    w.loopSfx?.(`saw:${p.index}`, 'saw_whirr', true, { vol: 0.1 + 0.03 * i, pitch: 0.85 + 0.06 * i, x: p.x, y: p.y });
     for (let k = 0; k < list.length; k++) {
       const s = list[k];
       s.a = d.spin + (k / list.length) * TAU;
@@ -178,6 +179,7 @@ export const BuzzsawHalo = {
     const rad = 21 * scale;
     const dmg = EVO_DMG * dmgScale(p, w);
     slot.cdMax = BREATH;
+    w.loopSfx?.(`saw:${p.index}`, 'saw_whirr', true, { vol: 0.24, pitch: 0.8 + 0.5 * (1 - k), x: p.x, y: p.y });
     slot.cd = BREATH - (d.t % BREATH);
     for (let j = 0; j < list.length; j++) {
       const s = list[j];

@@ -74,7 +74,7 @@ const gyroScout = {
   hp: 10,
   r: 14,
   speed: 150,
-  contactDamage: 8,
+  contactDamage: 10,
   mass: 0.6,
   xp: 1,
   cogs: 0.25,
@@ -229,7 +229,7 @@ function dropBomb(w, e, x, y) {
       ww.fx.debris?.(h.x, h.y, 3, 'iron');
     },
   });
-  w.sfx('mine_drop', e.x, e.y, { vol: 0.55, pitch: 1.25 });
+  w.sfx('bomb_whistle', e.x, e.y, { vol: 0.6 });
 }
 
 const kiteBomber = {
@@ -507,8 +507,7 @@ const balloonMine = {
       e.state = 'arm';
       e.timer = MINE.arm;
       d.tele = w.telegraphCircle(e.x, e.y, MINE.radius, MINE.arm, { follow: e, color: '#ff3b2a' });
-      w.sfx('ui_ding', e.x, e.y, { vol: 0.6, pitch: 1.7 });
-      w.sfx('ui_ding', e.x, e.y, { vol: 0.5, pitch: 2.1, delay: 0.2 });
+      w.sfx('mine_arm', e.x, e.y, { vol: 0.75 });
     }
   },
 
@@ -564,7 +563,7 @@ const balloonMine = {
 // Pirate Gunboat
 // ---------------------------------------------------------------------------------------------
 
-const GUN = { every: 2, charge: 0.4, speed: 210, damage: 10, arc: 0.36 };
+const GUN = { every: 1.7, charge: 0.4, speed: 230, damage: 10, arc: 0.36 };
 const RINGS = [300, 365, 430];
 
 const gunboat = {
@@ -733,7 +732,7 @@ const clockWasp = {
           e.state = 'dash';
           e.timer = d.dashT;
           d.trail.length = 0;
-          w.sfx('steam_vent', e.x, e.y, { vol: 0.45, pitch: 2.2 });
+          w.sfx('wasp_dash', e.x, e.y, { vol: 0.7 });
           w.fx.steam?.(e.x, e.y, e.angle + Math.PI, 0.6, { count: 4 });
         }
         break;
@@ -1019,7 +1018,7 @@ const flakIsland = {
       if (marker) marker.alive = false;
       flakBurst(ww, e, x, y);
     };
-    w.fire({
+    const shell = w.fire({
       team: 'enemy',
       owner: e,
       source: 'enemy',
@@ -1046,6 +1045,13 @@ const flakIsland = {
         pop(ww, pr.x, pr.y);
       },
     });
+    if (marker && shell) {
+      // A ballast bomb (or anything else) can wipe the shell without onExpire: drop the reticle.
+      const gen = shell.gen;
+      marker.update = (h) => {
+        if (!shell.alive || shell.dead || shell.gen !== gen) h.alive = false;
+      };
+    }
     w.fx.muzzle?.(mx, my, a, 1.3, '#ff8a3a');
     w.fx.smoke?.(mx, my, 0.7, { count: 3, life: 1, vx: Math.cos(a) * 60, vy: Math.sin(a) * 60, alpha: 0.5 });
     w.sfx('enemy_cannon', mx, my, { pitch: 0.75 });

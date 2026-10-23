@@ -275,8 +275,8 @@ export class Effects {
     const r = e.r0 + (e.r1 - e.r0) * k;
     const a = e.alpha * (1 - u) ** 1.3;
     ctx.globalCompositeOperation = 'lighter';
-    // heat disc
-    if (u < 0.4) {
+    // heat disc (skipped for very wide waves: a screen-sized additive fill for little gain)
+    if (u < 0.4 && e.r1 < 260) {
       const hr = r * 0.8;
       ctx.globalAlpha = a * (0.4 - u) * 0.45;
       ctx.drawImage(texTinted(TEX.soft, 0, toRgb15(e.c)), e.x - hr, e.y - hr, hr * 2, hr * 2);

@@ -165,6 +165,9 @@ export class AchievementTracker {
     on('levelup', (d) => this._onLevelUp(d));
     on('upgrade:take', (d) => this._onUpgradeTake(d));
     on('ui:screen', () => this._onScreen());
+    // Hangar purchases unlock the economy medals on the spot (not on the next screen change).
+    on('workshop:buy', () => this._checkEconomy(false));
+    on('hangar:unlock', () => this._checkEconomy(false));
 
     this._retroactive();
   }

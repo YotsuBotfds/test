@@ -92,12 +92,15 @@ export function createEnemy(w, def, x, y, opts = {}) {
   e.hp = e.maxHp;
   e.dmgMult = (stage.dmgMult ?? 1) * (mods.enemyDmg ?? 1) * (opts.dmgMult ?? 1);
   e.speedMult = (mods.enemySpeed ?? 1) * (opts.speedMult ?? 1);
-  e.fireRateMult = (opts.fireRateMult ?? 1) * (run?.enemyFireRate ?? 1);
+  // Stage fire-rate pressure applies to the rank and file; boss patterns keep their tuning.
+  e.fireRateMult = (opts.fireRateMult ?? 1) * (bossy ? 1 : run?.enemyFireRate ?? 1);
   if (e.elite === 'overclocked') {
     e.speedMult *= 1.4;
     e.fireRateMult *= 1.4;
   }
   e.dmgTakenMult = 1;
+  /** Damage-taken multiplier owned by player debuffs (Scalding Nimbus shred): assign, don't scale. */
+  e.vulnMult = 1;
   e.contactDamage = (opts.contactDamage ?? def.contactDamage ?? 10) * e.dmgMult;
   e.mass = opts.mass ?? def.mass ?? 1;
   e.kbx = 0;

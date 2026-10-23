@@ -3,6 +3,7 @@
 // the systems by weight. Tempest gusts drive `wind` (accel in u/s², read by world.wind);
 // `strike()` draws a lightning bolt to a world point with a flash and thunder.
 
+import { Quality } from './quality.js';
 import { BIOMES, biomeId } from './biomes.js';
 import { makeSystem } from './bg-weather.js';
 import { makeBolt, drawBolt, boltRng } from './bg-lightning.js';
@@ -94,7 +95,7 @@ export class Weather {
     env.dpr = renderer.dpr;
     env.intensity = this.intensity;
     const st = settings();
-    env.q = st.quality === 'low' ? 0.5 : 1;
+    env.q = Quality.cfg.weather;
     env.mild = st.flashes === false;
     // Camera motion in screen px, so particles drift with the world. Big jumps = teleport.
     if (this._cam) {

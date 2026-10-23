@@ -57,6 +57,8 @@ async function boot() {
   const weather = safe('Weather', () => new Weather(renderer), null) || stubWeather();
   const particles = safe('Particles', () => new Particles(5000), null);
   const fx = safe('FX', () => new FX(particles), null);
+  // Pre-tint the common explosion colour ramps so the first big fight never hitches.
+  safe('fx.prewarm', () => fx?.prewarm?.());
 
   const game = new Game({ renderer, input, audio, background, weather, particles, fx });
   game.hud = safe('HUD', () => new HUD(game), null);

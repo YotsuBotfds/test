@@ -5,7 +5,7 @@ import { events } from './events.js';
 
 export function defaultSave() {
   return {
-    version: 1,
+    version: 2,
     settings: {
       master: 0.8,
       music: 0.6,
@@ -19,7 +19,7 @@ export function defaultSave() {
       leftHanded: false,
       touchOpacity: 0.55,
       haptics: true,
-      quality: 'high',
+      quality: 'auto',
     },
     meta: {
       cogs: 0,
@@ -46,6 +46,7 @@ export function defaultSave() {
     },
     highscores: { campaign: [], endless: [], bossRush: [], daily: {} },
     achievements: {},
+    achProgress: { bombKills: 0, bosses: {} },
     tutorialSeen: false,
   };
 }
@@ -77,7 +78,19 @@ function readRaw() {
 class SaveStore {
   constructor() {
     this.data = merge(defaultSave(), readRaw() || {});
+    this._migrate();
     this._timer = 0;
+  }
+
+  /** Upgrade older saves in place. */
+  _migrate() {
+    const d = this.data;
+    if (!(d.version >= 2)) {
+      // v1 stored the old default quality 'high'; 'auto' (governed) is the new default.
+      if (d.settings.quality === 'high') d.settings.quality = 'auto';
+      d.achProgress ||= { bombKills: 0, bosses: {} };
+      d.version = 2;
+    }
   }
 
   get settings() {

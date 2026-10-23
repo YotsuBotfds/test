@@ -12,6 +12,7 @@
 // body; the hull itself is iron-plated (×0.8), turrets are destructible (take damage and forward
 // half), the exposed boiler takes ×1.5. Art lives in ironMatriarch-art.js.
 
+import { bossHp } from './tuning.js';
 import { Sprites } from '../../gfx/sprites.js';
 import { TAU, clamp, angleDiff, rotateToward } from '../../core/math.js';
 import { TAUNTS } from '../codex.js';
@@ -219,7 +220,8 @@ export default {
   boss: true,
   stage: 1,
   music: 'boss',
-  hp: BASE_HP,
+  zoom: ZOOM, // camera base zoom for the fight (engine onBossSpawn reads def.zoom)
+  hp: bossHp('ironMatriarch', BASE_HP), // × campaign toughness (tuning.js)
   r: 84,
   speed: 60,
   contactDamage: 24,
@@ -393,7 +395,6 @@ export default {
     b.vy = s * 40;
     taunt(b, w, 'death');
     clearHazards(b, w, true);
-    if (w.game?.camera) w.game.camera.baseZoomMul = 0.88;
     // Flavour on top of the engine's generic boss death: a ripple of magazine detonations
     // marching stern → bow, the stacks blowing out, then the hull snapping in two.
     const pts = [];
@@ -581,13 +582,7 @@ function cruise(b, dt, w, p, pace) {
 }
 
 function updateEnter(b, dt, w, p) {
-  const d = b.data;
   b.timer += dt;
-  if (!d.zoomSet && w.game?.camera) {
-    // spawnBoss sets its own boss zoom after intro(); widen a little more for this big hull
-    d.zoomSet = true;
-    w.game.camera.baseZoomMul = ZOOM;
-  }
   orbitTarget(b, w, tgt);
   followTo(b, w, tgt.x, tgt.y, dt, 0.7, 280, 260);
   const dist = Math.hypot(tgt.x - b.x, tgt.y - b.y);

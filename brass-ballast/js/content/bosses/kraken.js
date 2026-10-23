@@ -9,6 +9,7 @@
 // Severing arms (empty their pool via any segment; root joint & claw are weak points) jolts the
 // body and removes that arm's attacks. Art: kraken-art.js.
 
+import { bossHp } from './tuning.js';
 import { Sprites } from '../../gfx/sprites.js';
 import { TAU, clamp, easeOutCubic } from '../../core/math.js';
 import { TAUNTS } from '../codex.js';
@@ -54,7 +55,8 @@ export default {
   boss: true,
   stage: 2,
   music: 'boss',
-  hp: BASE_HP,
+  zoom: ZOOM, // camera base zoom for the fight (engine onBossSpawn reads def.zoom)
+  hp: bossHp('kraken', BASE_HP), // × campaign toughness (tuning.js)
   r: BODY_R,
   speed: 70,
   contactDamage: 26,
@@ -123,10 +125,6 @@ export default {
     if (!p) return;
     d.t += dt;
     if (b.state === '') this.intro(b, w);
-    if (!d.zoomSet && w.game?.camera) {
-      d.zoomSet = true;
-      w.game.camera.baseZoomMul = ZOOM;
-    }
 
     const frac = b.hp / b.maxHp;
     if (b.state !== 'transition' && b.state !== 'enter' && !b.state.startsWith('charge')) {
@@ -240,7 +238,6 @@ export default {
     releaseGrab(b, w, false);
     clearHazards(b, w, true);
     taunt(b, w, 'death');
-    if (w.game?.camera) w.game.camera.baseZoomMul = 0.88;
     b.vx = 0;
     b.vy = 0;
     // every arm convulses and blows apart root → tip; the eye overloads; an ink geyser

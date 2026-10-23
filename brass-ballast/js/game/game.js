@@ -11,7 +11,7 @@ import { MAX_DT, flag } from '../config.js';
 import { clamp } from '../core/math.js';
 import { HULLS } from '../content/hulls.js';
 import { PRIMARIES } from '../content/weapons/index.js';
-import { MODES, MODIFIERS, dailySeed } from '../content/modes.js';
+import { MODES, MODIFIERS, dailySeed, dailyKey } from '../content/modes.js';
 import { STAGES } from '../content/stages.js';
 import { BOSSES } from '../content/bosses/index.js';
 import { rollChoices, applyChoice } from '../content/upgrades.js';
@@ -20,6 +20,7 @@ import { World } from './world.js';
 import { Director } from './director.js';
 import { CameraRig } from './camera.js';
 import { Attract } from './attract.js';
+import { Quality } from '../gfx/quality.js';
 
 /** Default run modifiers (DESIGN §2.2). */
 export function defaultMods() {
@@ -104,7 +105,11 @@ export class Game {
     this._errors = new Set();
     this._vig = null;
 
-    events.on('settings:change', () => this.applySettings());
+    events.on('settings:change', () => {
+      Quality.sync();
+      this.applySettings();
+    });
+    events.on('quality:change', () => this.applySettings());
     events.on('achievement:unlock', ({ achievement } = {}) => {
       if (this.run && achievement) this.run.achievements.push(achievement.id ?? achievement);
     });
@@ -150,6 +155,7 @@ export class Game {
     this._setBiome('brassbay', 0);
     this.weather.setBiome?.('brassbay', 0);
     this._music('title', 1.5);
+    this._try('audio.setIntensity', () => this.audio?.setIntensity?.(0));
     this.input?.setGameplayActive?.(false);
     this.ui?.show?.('title');
   }
@@ -164,11 +170,11 @@ export class Game {
       this._err('audio.setVolumes', err);
     }
     this.input?.setTouchLayout?.({ leftHanded: !!s.leftHanded, opacity: s.touchOpacity });
-    const low = s.quality === 'low';
-    const dpr = low ? 1.25 : 2;
-    if (this.renderer.maxDpr !== dpr) this.renderer.setMaxDpr(dpr);
-    // Particles read Save.settings.quality themselves (low halves the cap); optional hook.
-    this.particles?.setQuality?.(s.quality);
+    // Quality tier = explicit setting ('high'/'low') or the auto governor (gfx/quality.js).
+    // Particles, FX, backdrop and weather read Quality live; DPR & smoothing are applied here.
+    const q = Quality.cfg;
+    if (this.renderer.maxDpr !== q.dpr) this.renderer.setMaxDpr(q.dpr);
+    if (this.renderer.smoothing !== q.smoothing) this.renderer.setSmoothing?.(q.smoothing);
     this.weather?.setReducedFlash?.(s.flashes === false);
   }
 
@@ -185,7 +191,8 @@ export class Game {
     const modeDef = MODES[mode];
     const hull = HULLS[opts.hull] ? opts.hull : Save.meta.hull in HULLS ? Save.meta.hull : 'dauntless';
     const weapon = PRIMARIES[opts.weapon] ? opts.weapon : PRIMARIES[Save.meta.weapon] ? Save.meta.weapon : 'brassCannon';
-    const day = new Date().toISOString().slice(0, 10);
+    // Daily highscores are keyed by this UTC 'YYYY-MM-DD' (modes.dailyKey; the UI reads the same).
+    const day = dailyKey(new Date());
     let seed = opts.seed;
     if (mode === 'daily') seed = modeDef.seed?.(new Date()) ?? dailySeed(new Date());
     if (seed === undefined || seed === null || Number.isNaN(Number(seed))) seed = (Math.random() * 2 ** 32) >>> 0;
@@ -256,6 +263,13 @@ export class Game {
     this._startHum();
     events.emit('run:start', { run });
     this.director.start({ stage: opts.stage, wave: opts.wave, boss: opts.boss });
+    // Modes without waves (Gauntlet of Iron) start pre-levelled: the picks open right away.
+    const startLevel = Math.max(1, Math.floor(Number(modeDef.startLevel) || 1));
+    if (startLevel > 1) {
+      run.level = startLevel;
+      run.xpNext = xpForLevel(startLevel);
+      this.pendingLevels += startLevel - 1;
+    }
     // Announce active modifiers (Daily Squall etc.).
     modifiers.forEach((id, i) => {
       const m = MODIFIERS[id];
@@ -352,6 +366,8 @@ export class Game {
     if (this.state !== 'paused') return;
     this.state = this.pausedFrom || 'playing';
     this._stateFrame = this.frameNo;
+    // The key/button that resumed is usually also latched as a pause edge: swallow it.
+    this._pauseGuardT = this.realTime + 0.2;
     this.ui?.hide?.();
     this.input?.setGameplayActive?.(true);
   }
@@ -625,7 +641,7 @@ export class Game {
   }
 
   _music(track, fade = 1.5) {
-    if (this._track === track) return;
+    if (this._track === track && (this.audio?.currentTrack ?? track) === track) return;
     this._track = track;
     try {
       this.audio?.music?.(track, { fade });
@@ -642,8 +658,16 @@ export class Game {
     }
   }
 
-  onBossSpawn() {
-    this.camera.baseZoomMul = 0.88;
+  /** Boss fights widen the view: the boss def's `zoom` (default 0.88); the camera rig then
+   *  leans toward the boss and zooms out further (within limits) to keep both framed. */
+  onBossSpawn(boss) {
+    const z = Number(boss?.def?.zoom);
+    this.camera.baseZoomMul = z > 0.4 && z <= 1.2 ? z : 0.88;
+  }
+
+  /** Last boss down: relax the zoom a little until the stage transition resets it. */
+  onBossKilled() {
+    if (this.world && !this.world.bosses.length) this.camera.baseZoomMul = 0.92;
   }
 
   // ---- Endings -----------------------------------------------------------------------------
@@ -683,6 +707,7 @@ export class Game {
     e.t += dt;
     if (e.t < e.dur) return;
     e.shown = true;
+    this._try('audio.setIntensity', () => this.audio?.setIntensity?.(0));
     const summary = this.endRun(e.victory);
     this.input?.setGameplayActive?.(false);
     try {
@@ -801,6 +826,7 @@ export class Game {
     this.frameNo++;
     this.realTime += rawDt;
     const dt = Math.min(rawDt, MAX_DT);
+    Quality.sample(rawDt, this.state === 'playing' && !this.ending && !this.hitstopT);
     this._try('input.update', () => this.input?.update?.(dt));
     this._try('ui.update', () => this.ui?.update?.(dt));
     this._handleGlobalInput();
@@ -833,6 +859,7 @@ export class Game {
     this.flashA = Math.max(0, this.flashA - dt * 2.5);
 
     if (this.world) {
+      this.world.syncLoops(this.simulating && !this.hitstopT && this.state !== 'paused');
       // A stage transition ends when the director moves on to the next intro.
       if (this.state === 'transition' && this.director && this.director.state !== 'transition') {
         this.state = 'playing';
@@ -840,7 +867,8 @@ export class Game {
       this._processChoices();
       this._autoPick(dt);
       this._updateEnding(dt);
-      this.camera.update(dt, this.world.players);
+      this.camera.insets = this.hud?.safeInsets?.() || null;
+      this.camera.update(dt, this.world.players, this.world.bosses);
     } else if (this.state === 'title') {
       this.attract.update(dt);
     }
@@ -864,13 +892,15 @@ export class Game {
         if (p?.brain) continue;
         if (input.controls?.(i)?.pause) pause = true;
       }
-      if (pause) this.pause();
+      if (pause && this.realTime >= (this._pauseGuardT || 0)) this.pause();
       const pad = input.joinRequested?.();
       if (pad !== null && pad !== undefined && this.world && this.world.players.length < 4) {
         const bound = this.world.players.some((p) => p.padIndex === pad && p.index > 0);
         if (!bound) this.addCoopPlayer(pad);
       }
     } else if (this.state === 'paused' && !this.ui?.isOpen) {
+      // With the pause screen open the UI owns Esc/P/Start (keyboard via DOM keydown, pads via
+      // menu edges); handling it here too would resume and re-pause in one press.
       if (input.controls?.(0)?.pause) this.resume();
     }
   }
@@ -932,7 +962,10 @@ export class Game {
           }
         }
         const boss = w.bosses.length ? 0.45 : 0;
-        const val = clamp(near / 40 + boss + w.eBullets.length / 400, 0, 1);
+        // Combat floor so drums are in during waves (music layers: drums from ~0.15).
+        const st = this.director?.state;
+        const floor = st === 'wave' ? 0.22 : st === 'boss' || st === 'bossWarning' ? 0.5 : 0;
+        const val = clamp(Math.max(floor, near / 40 + boss + w.eBullets.length / 400), 0, 1);
         this._try('audio.setIntensity', () => a.setIntensity?.(val));
       }
     }

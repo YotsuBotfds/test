@@ -31,6 +31,27 @@ export class Projectile {
   }
 }
 
+const DEFAULT_ENEMY_GLOW = '#ff5a2a';
+let rimSprite = null;
+/** Dark soft disc under every enemy shot: the "dark rim" that makes fire pop on bright ground. */
+function enemyRim() {
+  if (rimSprite) return rimSprite;
+  const size = 64;
+  const c =
+    typeof OffscreenCanvas !== 'undefined'
+      ? new OffscreenCanvas(size, size)
+      : Object.assign(document.createElement('canvas'), { width: size, height: size });
+  const g = c.getContext('2d');
+  const grd = g.createRadialGradient(32, 32, 0, 32, 32, 32);
+  grd.addColorStop(0, 'rgba(26,6,10,0.85)');
+  grd.addColorStop(0.55, 'rgba(26,6,10,0.6)');
+  grd.addColorStop(1, 'rgba(26,6,10,0)');
+  g.fillStyle = grd;
+  g.fillRect(0, 0, size, size);
+  rimSprite = { img: c, w: 32, h: 32, cx: 16, cy: 16 };
+  return rimSprite;
+}
+
 const glowCache = new Map();
 /** Soft additive glow sprite for a color (cached). */
 function glowSprite(color) {
@@ -146,7 +167,7 @@ export class ProjectileSystem {
     p.alpha = o.alpha ?? 1;
     p.trail = o.trail || null;
     p.trailT = 0;
-    p.glow = o.glow === undefined ? (team === 'enemy' ? '#ff5a2a' : null) : o.glow;
+    p.glow = o.glow === undefined ? (team === 'enemy' ? DEFAULT_ENEMY_GLOW : null) : o.glow;
     p.glowSize = o.glowSize ?? 2.6;
     p.wave = o.wave || null;
     p.noExplosive = !!o.noExplosive;
@@ -626,6 +647,19 @@ export class ProjectileSystem {
         renderer.blit(ctx, shadow, p.x + p.z * 0.25, p.y + p.z * 0.3, 0, sh * (1 - p.z / (L.height * 2.2)), 0.3);
       }
     }
+    // Enemy fire: dark rim under every shot, then a biome-aware glow (DESIGN §1 readable chaos).
+    const enemy = list === w.eBullets;
+    const tint = enemy ? w.game?.background?.biome?.enemyShotTint : null;
+    if (enemy) {
+      const rim = enemyRim();
+      for (let i = 0; i < list.length; i++) {
+        const p = list[i];
+        if (!p.alive || p.draw) continue;
+        const py = p.y - p.z;
+        if (p.x < x0 || p.x > x1 || py < y0 || py > y1) continue;
+        renderer.blit(ctx, rim, p.x, py, 0, (p.r * p.scale * 2.3) / 16, 0.9 * p.alpha);
+      }
+    }
     // Glow pass.
     ctx.globalCompositeOperation = 'lighter';
     for (let i = 0; i < list.length; i++) {
@@ -633,7 +667,7 @@ export class ProjectileSystem {
       if (!p.glow || !p.alive) continue;
       const py = p.y - p.z;
       if (p.x < x0 || p.x > x1 || py < y0 || py > y1) continue;
-      const gs = glowSprite(p.glow);
+      const gs = glowSprite(tint && p.glow === DEFAULT_ENEMY_GLOW ? tint : p.glow);
       const pulse = 1 + 0.12 * Math.sin(p.t * 18 + p.id);
       renderer.blit(ctx, gs, p.x, py, 0, ((p.r * p.scale * p.glowSize) / 16) * pulse, 0.55 * p.alpha);
     }

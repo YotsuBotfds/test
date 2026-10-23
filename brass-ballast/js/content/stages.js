@@ -21,6 +21,8 @@ const HP_MULT = [1, 1.7, 2.6, 3.7, 5];
 const DMG_MULT = [1, 1.15, 1.3, 1.5, 1.7];
 const XP_MULT = [1, 1.2, 1.4, 1.6, 1.8];
 const ELITE_CHANCE = [0.02, 0.04, 0.06, 0.08, 0.12];
+/** Regular enemies shoot faster in later stages (run.enemyFireRate; bosses are exempt). */
+const FIRE_RATE = [1, 1.08, 1.16, 1.25, 1.35];
 
 /**
  * Spawn group helper.
@@ -63,25 +65,25 @@ const D = (desc) => ({ desc });
 const BRASSBAY_WAVES = [
   W('Scouting Party', 35, 40, [
     G('gyroScout', 3, 1.5, 4, 3, 'front'),
-    G('gyroScout', 6, 9, 3.5, 2, 'edge'),
-    G('gyroScout', 8, 20, 4, 4, 'ring'),
-    G('gyroScout', 4, 29, 1, 4, 'cluster'),
-  ], { gyroScout: 1 }, 4.5, D('A handful of gyro scouts test your guns.')),
+    G('gyroScout', 8, 8, 3, 2, 'edge'),
+    G('gyroScout', 10, 18, 4, 5, 'ring'),
+    G('gyroScout', 6, 28, 1, 6, 'cluster'),
+  ], { gyroScout: 1 }, 3.5, D('A handful of gyro scouts test your guns.')),
 
-  W('Gunboat Picket', 38, 40, [
+  W('Gunboat Picket', 38, 45, [
     G('gunboat', 1, 2, 1, 1, 'front'),
-    G('gyroScout', 6, 4, 4, 3, 'cluster'),
-    G('gunboat', 2, 13, 1, 2, 'flank'),
-    G('gyroScout', 8, 18, 3, 2, 'edge'),
-    G('gunboat', 3, 25, 3, 1, 'edge'),
-    G('gyroScout', 6, 30, 1, 6, 'ring'),
-  ], { gyroScout: 3, gunboat: 0.4 }, 3.5, D('Pirate gunboats hold their range and lob three-shot spreads.')),
+    G('gyroScout', 8, 4, 4, 4, 'cluster'),
+    G('gunboat', 2, 11, 1, 2, 'flank'),
+    G('gyroScout', 10, 16, 3, 2, 'edge'),
+    G('gunboat', 4, 22, 3, 2, 'edge'),
+    G('gyroScout', 8, 29, 1, 8, 'ring'),
+  ], { gyroScout: 3, gunboat: 0.6 }, 3, D('Pirate gunboats hold their range and lob three-shot spreads.')),
 
   W('Mine Field', 40, 45, [
     G('balloonMine', 10, 2, 1, 10, 'ring'),
     G('gyroScout', 6, 7, 4, 2, 'edge'),
     G('balloonMine', 12, 12, 4, 4, 'cluster'),
-    G('gunboat', 2, 19, 6, 1, 'edge'),
+    G('gunboat', 3, 17, 5, 1, 'edge'),
     G('balloonMine', 14, 27, 1, 14, 'ring'),
     G('gyroScout', 6, 31, 2, 3, 'behind'),
   ], { balloonMine: 2, gyroScout: 2 }, 3, SET('Drifting balloon mines close in from every side — shoot a lane through.')),
@@ -90,15 +92,15 @@ const BRASSBAY_WAVES = [
     G('kiteBomber', 3, 2, 1, 3, 'line'),
     G('gyroScout', 6, 6, 4, 3, 'cluster'),
     G('kiteBomber', 4, 12, 4, 2, 'flank'),
-    G('gunboat', 2, 17, 8, 1, 'edge'),
+    G('gunboat', 3, 14, 7, 1, 'edge'),
     G('kiteBomber', 5, 24, 1, 5, 'line'),
     G('balloonMine', 6, 28, 1, 6, 'ring'),
     G('kiteBomber', 4, 32, 2, 2, 'flank'),
   ], { gyroScout: 3, kiteBomber: 1 }, 3, D('Kite bombers strafe across the sky, salting your path with fused bombs.')),
 
-  W('Harbor Blockade', 45, 55, [
-    G('gyroScout', 10, 0.5, 1, 10, 'ring'),
-    G('gunboat', 4, 5, 7, 2, 'flank'),
+  W('Harbor Blockade', 45, 60, [
+    G('gyroScout', 12, 0.5, 1, 12, 'ring'),
+    G('gunboat', 6, 5, 6, 2, 'flank'),
     G('balloonMine', 8, 10, 8, 4, 'cluster'),
     G('kiteBomber', 6, 15, 9, 3, 'line'),
     G('gunboat', 1, 24, 1, 1, 'front', true),
@@ -369,6 +371,7 @@ function stage(i, def) {
     dmgMult: DMG_MULT[i],
     xpMult: XP_MULT[i],
     eliteChance: ELITE_CHANCE[i],
+    fireRate: FIRE_RATE[i],
     number: i + 1,
     ...def,
   };

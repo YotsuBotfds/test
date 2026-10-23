@@ -9,7 +9,7 @@
 // quality is 'low' or the pool is nearly full. See the contract at the top of particles.js.
 
 import { Save } from '../core/storage.js';
-import { PF, lowQuality, flashScale } from './fx-common.js';
+import { PF, lowQuality, flashScale, particleScale } from './fx-common.js';
 import { TEX, parseColor, lerpRgb, texFrames, prewarmTextures, prewarmRamp } from './fx-textures.js';
 import { Effects } from './fx-effects.js';
 import { FloatTexts } from './fx-text.js';
@@ -61,6 +61,18 @@ export const PALETTES = {
   },
 };
 
+/**
+ * Visual scale for an explosion of nominal `size`: linear up to 1.2, then sub-linear and capped.
+ * Gameplay radius is shown by the (cheap, vector) shockwave; fill-rate stays bounded however
+ * big the blast — eight bomb-sized blasts used to stall the frame for whole seconds.
+ */
+export function visualSize(size) {
+  return size <= 1.2 ? size : Math.min(2.4, 1.2 + Math.sqrt(size - 1.2) * 0.75);
+}
+
+/** Explosion "weight" the FX layer will draw at full detail per ~0.1 s before thinning. */
+const BOOM_BUDGET = 6;
+
 const derived = new Map();
 function paletteFor(opts) {
   if (!opts) return PALETTES.fire;
@@ -111,6 +123,9 @@ export class FX {
     this.texts = this.floats.list;
     this.timers = [];
     this.time = 0;
+    /** Recent explosion load (decays); above BOOM_BUDGET new blasts are thinned. */
+    this._boom = 0;
+    this._thin = 1;
   }
 
   /** Total live effects + texts (debug). */
@@ -150,6 +165,8 @@ export class FX {
   update(dt) {
     if (!(dt > 0)) return;
     this.time += dt;
+    this._boom = Math.max(0, this._boom - dt * 40);
+    if (this._boom <= BOOM_BUDGET) this._thin = 1;
     const T = this.timers;
     if (T.length) {
       for (let i = 0; i < T.length; ) {
@@ -186,7 +203,7 @@ export class FX {
 
   /** Scale a nominal spawn count by quality & pool load, with stochastic rounding. */
   _n(k) {
-    let q = lowQuality() ? 0.5 : 1;
+    let q = particleScale() * this._thin;
     const load = this.p.load;
     if (load > 0.9) q *= 0.3;
     else if (load > 0.7) q *= 0.6;
@@ -227,20 +244,27 @@ export class FX {
    * @param {number} [size]
    * @param {{palette?:string|object, color?:string, ring?:boolean, smoke?:boolean,
    *   debris?:false|string, debrisCount?:number, cogs?:number|boolean, sparks?:boolean,
-   *   flash?:boolean, embers?:boolean, lowSmoke?:boolean}} [opts]
+   *   flash?:boolean, embers?:boolean, lowSmoke?:boolean, rings?:boolean}} [opts]
+   *   (rings:false — bigExplosion skips its extra shock rings; world.explode draws its own)
    */
   explosion(x, y, size = 1, opts = {}) {
     const P = this.p;
-    const s = Math.max(0.15, size);
+    const s = visualSize(Math.max(0.15, size));
     const pal = paletteFor(opts);
     const fs = flashScale();
     const sq = Math.sqrt(s);
+    // Per-moment budget: a pile-up of blasts in the same instant gets progressively thinner.
+    this._boom += s;
+    const over = this._boom > BOOM_BUDGET;
+    this._thin = over ? Math.max(0.15, BOOM_BUDGET / this._boom) : 1;
 
     // 1. flash & light bloom (kept modest: additive over a bright sky blows out to white fast)
     if (opts.flash !== false) {
       P.emit(L_ADD, TEX.flare, x, y, 0, 0, 0.06 + 0.03 * sq, 50 * s, 90 * s, pal.flash, pal.mid, 0.75 * fs, GLOW);
       P.ex(0, Math.random() * TAU);
-      P.emit(L_ADD, TEX.soft, x, y, 0, 0, 0.26 + 0.1 * sq, 90 * s, 170 * s, pal.mid, pal.end, 0.32 * fs, GLOW);
+      if (!over) {
+        P.emit(L_ADD, TEX.soft, x, y, 0, 0, 0.26 + 0.1 * sq, 90 * s, 150 * s, pal.mid, pal.end, 0.32 * fs, GLOW);
+      }
     }
     // 2. fireball body: shaded billows, alpha-blended so the fire keeps its colour on any sky
     for (let i = 0, n = this._n(6 + 7 * s); i < n; i++) {
@@ -273,13 +297,14 @@ export class FX {
         const sp = rnd(18, 85) * sq;
         const s0 = rnd(18, 28) * s;
         const shade = rint(3) * 0.15;
-        P.emit(L_NORMAL, TEX.smoke, x + Math.cos(a) * 8 * s, y + Math.sin(a) * 8 * s, Math.cos(a) * sp,
+        // Lingering after-smoke goes under the ships ('low'): over them it hid the player.
+        P.emit(L_LOW, TEX.smoke, x + Math.cos(a) * 8 * s, y + Math.sin(a) * 8 * s, Math.cos(a) * sp,
           Math.sin(a) * sp, rnd(1.2, 2.3) * (0.8 + 0.2 * s), s0, s0 * rnd(2.4, 3.4),
           lerpRgb(pal.smoke, 0x8a7f74, shade), pal.smoke1, rnd(0.45, 0.62), SMOKE);
         P.ex(1.5, Math.random() * TAU, rnd(-0.7, 0.7), rint(3));
       }
       // lingering haze under the ships
-      if (opts.lowSmoke !== false && s >= 0.7) {
+      if (opts.lowSmoke !== false && s >= 0.7 && !over && !lowQuality()) {
         for (let i = 0, n = this._n(1 + s); i < n; i++) {
           const s0 = rnd(40, 60) * s;
           P.emit(L_LOW, TEX.smoke, x + rnd(-15, 15) * s, y + rnd(-15, 15) * s, rnd(-12, 12), rnd(-12, 12),
@@ -315,23 +340,30 @@ export class FX {
   bigExplosion(x, y, size = 1, opts = {}) {
     const s = Math.max(0.3, size);
     const pal = paletteFor(opts);
-    this.explosion(x, y, s * 1.5, { ...opts, cogs: Math.round(3 + 2 * s), debrisCount: Math.round(6 + 5 * s) });
-    this.flare(x, y, 150 * s, pal.flash, 0.2);
-    this.shockwave(x, y, 170 * s, pal.ring, 0.6, { alpha: 0.8 });
-    this.ring(x, y, 120 * s, pal.ring, 0.35, { width: 3 * s, r0: 20 * s });
-    const subs = 4 + Math.round(s);
+    const v = visualSize(s);
+    this.explosion(x, y, s * 1.5, { ...opts, cogs: Math.round(3 + 2 * v), debrisCount: Math.round(6 + 5 * v) });
+    // Extra rings only when not part of a pile-up (or when the caller draws its own wave).
+    const extra = opts.rings !== false && this._thin >= 1;
+    this.flare(x, y, 150 * v, pal.flash, 0.2);
+    if (extra) {
+      this.shockwave(x, y, 170 * v, pal.ring, 0.6, { alpha: 0.8 });
+      this.ring(x, y, 120 * v, pal.ring, 0.35, { width: 3 * v, r0: 20 * v });
+    }
+    const subs = this._thin < 1 ? 2 : 4 + Math.round(v);
     for (let i = 0; i < subs; i++) {
       const a = Math.random() * TAU;
-      const d = rnd(20, 60) * s;
+      const d = rnd(20, 60) * v;
       this._later(0.07 + (i / subs) * 0.42 + rnd(0, 0.05), 'explosion', x + Math.cos(a) * d, y + Math.sin(a) * d,
-        s * rnd(0.5, 0.85), { ...opts, ring: i % 2 === 0, cogs: 0, debris: i % 2 ? false : opts.debris, lowSmoke: false });
+        v * rnd(0.5, 0.85), { ...opts, ring: i % 2 === 0, cogs: 0, debris: i % 2 ? false : opts.debris, lowSmoke: false });
     }
-    this._later(0.3, 'shock', x, y, 230 * s, { color: pal.ring, life: 0.7 });
-    this._later(0.58, 'bigFinale', x, y, s, opts);
+    if (extra) this._later(0.3, 'shock', x, y, 230 * v, { color: pal.ring, life: 0.7 });
+    this._later(0.58, 'bigFinale', x, y, v, opts);
   }
 
   _bigFinale(x, y, s, opts) {
     const P = this.p;
+    this._boom += s;
+    this._thin = this._boom > BOOM_BUDGET ? Math.max(0.15, BOOM_BUDGET / this._boom) : 1;
     const pal = paletteFor(opts);
     const fs = flashScale();
     P.emit(L_ADD, TEX.flare, x, y, 0, 0, 0.16, 110 * s, 220 * s, pal.flash, pal.mid, 0.6 * fs, GLOW);
@@ -342,7 +374,7 @@ export class FX {
       const a = (i / n) * TAU + rnd(-0.1, 0.1);
       const sp = rnd(110, 170) * Math.sqrt(s);
       const s0 = rnd(22, 32) * s;
-      P.emit(L_NORMAL, TEX.smoke, x + Math.cos(a) * 30 * s, y + Math.sin(a) * 30 * s, Math.cos(a) * sp,
+      P.emit(L_LOW, TEX.smoke, x + Math.cos(a) * 30 * s, y + Math.sin(a) * 30 * s, Math.cos(a) * sp,
         Math.sin(a) * sp, rnd(1.4, 2.2), s0, s0 * 2.4, lerpRgb(pal.smoke, 0x9a9088, 0.3), pal.smoke1, 0.38, SMOKE);
       P.ex(1.4, Math.random() * TAU, rnd(-0.5, 0.5), rint(3));
     }

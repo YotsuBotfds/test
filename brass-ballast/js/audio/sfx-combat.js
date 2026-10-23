@@ -792,6 +792,63 @@ export const COMBAT = {
     });
   },
 
+  /** Balloon-mine arming: two quick shrill beeps over a clockwork tick (it is about to blow). */
+  mine_arm(ctx, out, o) {
+    const t = o.t;
+    const p = P(o);
+    click(ctx, out, { t, f: 3200 * p, vol: 0.1 });
+    let end = t;
+    for (let i = 0; i < 2; i++) {
+      const ti = t + 0.03 + i * 0.13;
+      end = Math.max(
+        end,
+        osc(ctx, out, { t: ti, type: 'square', f: 1850 * p, d: 0.075, a: 0.004, vol: 0.075, filter: { type: 'lowpass', f: 5200 } }),
+        osc(ctx, out, { t: ti, f: 3700 * p, d: 0.05, a: 0.003, vol: 0.035 })
+      );
+    }
+    return end;
+  },
+
+  /** Falling bomb from a kite bomber: short descending whistle ending in a soft thunk. */
+  bomb_whistle(ctx, out, o) {
+    const t = o.t;
+    const p = P(o);
+    osc(ctx, out, {
+      t,
+      wave: 'whistle',
+      f: 1900 * p,
+      f2: 900 * p,
+      glide: 0.42,
+      a: 0.05,
+      hold: 0.3,
+      d: 0.14,
+      vol: 0.11,
+      vib: { rate: 11, depth: 9 },
+    });
+    noise(ctx, out, { t, a: 0.08, hold: 0.25, d: 0.15, vol: 0.035, filter: { type: 'bandpass', f: 2200 * p, f2: 1000 * p, glide: 0.4, q: 5 } });
+    return thump(ctx, out, { t: t + 0.46, f: 120 * p, f2: 60, d: 0.1, vol: 0.18 });
+  },
+
+  /** Clockwork wasp dash: spring release clack + a fast doppler buzz whooshing past. */
+  wasp_dash(ctx, out, o) {
+    const t = o.t;
+    const p = P(o);
+    click(ctx, out, { t, f: 2600 * p, vol: 0.16 });
+    noise(ctx, out, { t, a: 0.02, hold: 0.06, d: 0.18, vol: 0.12, filter: { type: 'bandpass', f: 1400 * p, f2: 3800 * p, glide: 0.2, q: 2 } });
+    return osc(ctx, out, {
+      t,
+      type: 'sawtooth',
+      f: 240 * p,
+      f2: 120 * p,
+      glide: 0.28,
+      a: 0.01,
+      hold: 0.08,
+      d: 0.2,
+      vol: 0.2,
+      filter: { type: 'bandpass', f: 1700, f2: 700, q: 1.6 },
+    });
+  },
+
   wraith_phase(ctx, out, o) {
     const t = o.t;
     const p = P(o);

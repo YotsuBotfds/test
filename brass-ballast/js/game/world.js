@@ -25,6 +25,8 @@ import {
 } from './enemies.js';
 
 const NO_INFO = Object.freeze({});
+const NO_FOCUS = Object.freeze([]);
+const RINGLESS = Object.freeze({ rings: false });
 const SIZE_FX = { small: 0.05, medium: 0.15, large: 0.35, huge: 0.6 };
 const CHAIN_CALLOUTS = {
   10: 'Hot Barrels!', 25: 'Brass Fury!', 50: 'Terror of the Skies!', 100: 'Legend of the Clouds!',
@@ -69,8 +71,8 @@ export class World {
 
     // Reused info objects for hot paths (copy them if you need to keep one).
     this._hitInfo = { source: '', crit: false, knockback: 0, angle: 0, owner: null, element: 'kinetic' };
-    this._pHitInfo = { source: 'bullet', owner: null, angle: 0, element: 'kinetic' };
-    this._contactInfo = { source: 'contact', owner: null, angle: 0 };
+    this._pHitInfo = { source: 'bullet', owner: null, angle: 0, element: 'kinetic', scaled: true };
+    this._contactInfo = { source: 'contact', owner: null, angle: 0, scaled: true };
     this._burnInfo = { source: 'burn', element: 'fire', owner: null, small: true, noCombo: false };
     this._drawView = { x0: 0, y0: 0, x1: 0, y1: 0, w: 0, h: 0 };
     this._vr = { x0: 0, y0: 0, x1: 0, y1: 0, w: 0, h: 0 };
@@ -79,6 +81,10 @@ export class World {
     this._sfxOpts = { vol: 1, pitch: 1, x: 0, y: 0 };
     this._warnedTypes = new Set();
     this._errors = new Set();
+    /** Run-owned sound loops: key → {h, step, vol} (see loopSfx). */
+    this._loops = new Map();
+    this._step = 0;
+    this._loopsMuted = false;
   }
 
   // ---- Players -------------------------------------------------------------------------------
@@ -137,10 +143,17 @@ export class World {
 
   /**
    * Damage a player. Respects i-frames, god mode, aether shield, armor, mods.
+   * `amount` is a BASE number, scaled like fire/addHazard/explode: × (info.dmgMult ??
+   * info.owner.dmgMult) when the owner is an enemy. Engine paths that already scaled
+   * (projectiles, hazards, explosions, contact) pass `info.scaled = true`.
    * @returns {boolean} true when the hit was consumed (damage dealt or shield popped)
    */
   damagePlayer(p, amount, info = NO_INFO) {
     if (!p || !p.alive || p.god) return false;
+    if (!info.scaled) {
+      const o = info.owner;
+      amount *= info.dmgMult ?? (o && o.team === 'enemy' ? (o.dmgMult ?? 1) : 1);
+    }
     if (p.iframes > 0 && !info.ignoreIframes) return false;
     if (p.shieldReady) {
       p.shieldReady = false;
@@ -309,11 +322,12 @@ export class World {
       const parent = e.parent;
       if (def.shareDamage === true) {
         if (!parent.alive) return 0;
-        return this.damageEnemy(parent, amount * e.dmgTakenMult, info);
+        return this.damageEnemy(parent, amount * e.dmgTakenMult * e.vulnMult, info);
       }
       if (parent.alive) this.damageEnemy(parent, amount * def.shareDamage, { ...info, silent: true });
     }
-    let amt = amount * e.dmgTakenMult;
+    // dmgTakenMult belongs to the enemy's own logic (weak points…); vulnMult to player debuffs.
+    let amt = amount * e.dmgTakenMult * e.vulnMult;
     let armored = false;
     if (e.elite === 'armored' && e.hp > e.maxHp * 0.5) {
       amt *= 0.5;
@@ -446,6 +460,7 @@ export class World {
       const i = this.bosses.indexOf(e);
       if (i >= 0) this.bosses.splice(i, 1);
       if (run) run.bossKills++;
+      this.game?.onBossKilled?.(e);
       this.events.emit('boss:killed', { boss: e, id: e.type });
     }
   }
@@ -788,7 +803,7 @@ export class World {
         const d = Math.hypot(p.x - x, p.y - y);
         if (d > radius + p.hitR) continue;
         const k = 1 - falloff * clamp(d / radius, 0, 1);
-        this.damagePlayer(p, dmg * k, { source: opts.source || 'explosion', owner, angle: Math.atan2(p.y - y, p.x - x) });
+        this.damagePlayer(p, dmg * k, { source: opts.source || 'explosion', owner, angle: Math.atan2(p.y - y, p.x - x), scaled: true });
         if (opts.knockback !== 0) {
           const kb = (opts.knockback ?? 260) / Math.max(1, d);
           p.vx += (p.x - x) * kb;
@@ -805,8 +820,9 @@ export class World {
         fx.explosion?.(x, y, radius / 40);
         fx.shockwave?.(x, y, radius * 1.1, '#ffcf8a', 0.3);
       } else {
-        fx.bigExplosion?.(x, y, radius / (size === 'huge' ? 90 : 110));
-        fx.shockwave?.(x, y, radius * 1.25, '#fff3c4', 0.45);
+        // One radius-matched wave reads the AoE; the blast's own extra rings would be overdraw.
+        fx.bigExplosion?.(x, y, radius / (size === 'huge' ? 90 : 110), RINGLESS);
+        fx.shockwave?.(x, y, radius * 1.1, '#fff3c4', 0.45);
         if (size === 'huge') this.flash('#ffe8b0', 0.25);
       }
       const snd = opts.sound ?? `explode_${size}`;
@@ -876,6 +892,71 @@ export class World {
       a.play(name, x === undefined ? { vol: o.vol, pitch: o.pitch, delay: o.delay } : o);
     } catch (err) {
       this.contentError(`sfx:${name}`, err);
+    }
+  }
+
+  /**
+   * Keep a positional sound loop (audio.loop name) alive while `on` is true. Call every update
+   * with the same `key`; a loop not refreshed for a simulated step stops by itself, all loops
+   * go silent while the sim is halted (pause, level-up) and stop when the run ends — content
+   * never has to clean up (lance charge whine, saw whirr…).
+   * @param {string} key unique per owner (e.g. `saw:${player.index}`)
+   * @param {string} name loop name (audio.loop)
+   * @param {boolean} on
+   * @param {{vol?:number, pitch?:number, x?:number, y?:number}} [o]
+   */
+  loopSfx(key, name, on, o) {
+    let L = this._loops.get(key);
+    if (!on) {
+      if (L) {
+        this._loops.delete(key);
+        try {
+          L.h.stop(0.12);
+        } catch {
+          /* ignore */
+        }
+      }
+      return;
+    }
+    const vol = o?.vol ?? 1;
+    if (!L) {
+      let h = null;
+      try {
+        h = this.audio?.loop?.(name, { vol: this._loopsMuted ? 0 : vol, pitch: o?.pitch ?? 1, x: o?.x, y: o?.y });
+      } catch (err) {
+        this.contentError(`loop:${name}`, err);
+      }
+      if (!h) return;
+      L = { h, step: this._step, vol };
+      this._loops.set(key, L);
+    }
+    L.step = this._step;
+    L.vol = vol;
+    if (!this._loopsMuted) {
+      try {
+        L.h.set?.({ vol, pitch: o?.pitch, x: o?.x, y: o?.y });
+      } catch {
+        /* ignore */
+      }
+    }
+  }
+
+  /** Per frame from the game: silence loops while the sim is halted, reap stale ones. */
+  syncLoops(active) {
+    if (!this._loops.size) return;
+    if (!active) {
+      if (!this._loopsMuted) {
+        this._loopsMuted = true;
+        for (const L of this._loops.values()) L.h.set?.({ vol: 0 });
+      }
+      return;
+    }
+    if (this._loopsMuted) {
+      this._loopsMuted = false;
+      for (const L of this._loops.values()) L.h.set?.({ vol: L.vol });
+    }
+    for (const [k, L] of this._loops) {
+      if (this._step - L.step > 1) this.loopSfx(k, '', false);
     }
   }
 
@@ -951,6 +1032,7 @@ export class World {
   update(dt) {
     this.dt = dt;
     this.time += dt;
+    this._step++;
     const run = this.run;
     if (run) run.time += dt;
 
@@ -1045,8 +1127,14 @@ export class World {
 
     this.projectiles.draw(ctx, this.pBullets, renderer);
 
+    // Smoke & debris over a living ship fade out so the player never vanishes in the murk.
+    const foc = this._focusPts || (this._focusPts = []);
+    foc.length = 0;
+    for (const p of this.players) if (p.alive) foc.push(p);
+    this.particles.focus = foc;
     renderer.applyWorld(ctx);
     this._particles(ctx, renderer, 'normal');
+    this.particles.focus = NO_FOCUS;
     renderer.applyWorld(ctx);
     ctx.globalCompositeOperation = 'lighter';
     this._particles(ctx, renderer, 'add');
@@ -1060,6 +1148,12 @@ export class World {
     }
     ctx.globalCompositeOperation = 'source-over';
     ctx.globalAlpha = 1;
+
+    // Player locator above the murk (busier screen → stronger), under enemy fire.
+    const busy = clamp((this.particles.count - 250) / 900, 0, 1);
+    const loc = 0.35 + 0.65 * Math.max(busy, this.bosses.length ? 0.6 : 0);
+    renderer.applyWorld(ctx);
+    for (const p of this.players) p.drawLocator(ctx, loc);
 
     this.projectiles.draw(ctx, this.eBullets, renderer);
 
@@ -1125,6 +1219,7 @@ export class World {
 
   /** Release references (called when a run ends). */
   destroy() {
+    for (const k of [...this._loops.keys()]) this.loopSfx(k, '', false);
     this.players.length = 0;
     this.enemies.length = 0;
     this.bosses.length = 0;

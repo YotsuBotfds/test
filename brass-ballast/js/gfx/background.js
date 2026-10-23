@@ -23,7 +23,7 @@ import {
   LOW,
   HIGH,
 } from './bg-clouds.js';
-import { Save } from '../core/storage.js';
+import { Quality } from './quality.js';
 
 export const GROUND_PARALLAX = 0.35;
 const MAX_TILES = 40;
@@ -33,13 +33,15 @@ const MAX_TILES_PER_FRAME = 2;
 
 const now = () => (typeof performance !== 'undefined' ? performance.now() : Date.now());
 
+/**
+ * Backdrop detail for the effective quality tier (gfx/quality.js): 2 = full, 1 = merged
+ * haze/vignette overlay and no cloud shadows, 0 = also half-resolution tiles and sparse anims.
+ */
 function quality() {
-  try {
-    return Save.settings?.quality === 'low' ? 'low' : 'high';
-  } catch {
-    return 'high';
-  }
+  return Quality.cfg.bg;
 }
+
+const ANIM_DETAIL = [0.4, 0.7, 1];
 
 export class Background {
   /** @param {import('./renderer.js').Renderer} renderer */
@@ -55,7 +57,7 @@ export class Background {
     this.time = 0;
     this.frame = 0;
     this.quality = quality();
-    this.res = this.quality === 'low' ? 0.5 : 1;
+    this.res = this.quality === 0 ? 0.5 : 1;
     /** @type {Map<string, any>} LRU: insertion order = recency */
     this.tiles = new Map();
     this.pool = [];
@@ -139,8 +141,11 @@ export class Background {
     const q = quality();
     if (q !== this.quality) {
       this.quality = q;
-      this.res = q === 'low' ? 0.5 : 1;
-      this.purge();
+      const res = q === 0 ? 0.5 : 1;
+      if (res !== this.res) {
+        this.res = res;
+        this.purge();
+      }
     }
     if (this.prevBiome) {
       // Hold the crossfade (briefly) until the incoming ground is painted.
@@ -387,12 +392,19 @@ export class Background {
     if (prev) this._drawGround(ctx, renderer, prev.id, 1);
     this._drawGround(ctx, renderer, this.id, prev ? a : 1);
 
-    const detail = this.quality === 'low' ? 0.4 : 1;
+    const detail = ANIM_DETAIL[this.quality] ?? 1;
+    const full = this.quality >= 2;
     if (prev) this._drawAnims(ctx, renderer, prev.id, 1 - a, detail);
     this._drawAnims(ctx, renderer, this.id, prev ? a : 1, detail);
 
-    if (prev) this._drawAtmosphere(ctx, W, H, prev, 1 - a);
-    this._drawAtmosphere(ctx, W, H, this.biome, prev ? a : 1);
+    if (full) {
+      if (prev) this._drawAtmosphere(ctx, W, H, prev, 1 - a);
+      this._drawAtmosphere(ctx, W, H, this.biome, prev ? a : 1);
+    } else if (this.quality === 1) {
+      // Medium: keep the sun glow; haze is folded into the single overlay pass below.
+      if (prev) this._drawSun(ctx, W, H, prev, 1 - a);
+      this._drawSun(ctx, W, H, this.biome, prev ? a : 1);
+    }
 
     const clouds = (b, alpha, mode) =>
       drawCloudLayer(ctx, {
@@ -409,15 +421,21 @@ export class Background {
         shadowAlpha: b.clouds.shadow,
         isles: b.clouds.isles || 0,
       });
-    if (this.quality !== 'low') {
+    if (full) {
       if (prev) clouds(prev, 1 - a, 'shadow');
       clouds(this.biome, prev ? a : 1, 'shadow');
     }
     if (prev) clouds(prev, 1 - a, 'cloud');
     clouds(this.biome, prev ? a : 1, 'cloud');
 
-    if (prev) this._drawVignette(ctx, W, H, prev, 1 - a);
-    this._drawVignette(ctx, W, H, this.biome, prev ? a : 1);
+    if (full) {
+      if (prev) this._drawVignette(ctx, W, H, prev, 1 - a);
+      this._drawVignette(ctx, W, H, this.biome, prev ? a : 1);
+    } else {
+      // Cheaper paths: haze + vignette baked into one low-res overlay = one full-screen pass.
+      if (prev) this._drawOverlay(ctx, W, H, prev, 1 - a);
+      this._drawOverlay(ctx, W, H, this.biome, prev ? a : 1);
+    }
 
     ctx.globalAlpha = 1;
     ctx.globalCompositeOperation = 'source-over';
@@ -546,6 +564,49 @@ export class Background {
       ctx.fillRect(0, 0, W, H);
       ctx.globalCompositeOperation = 'source-over';
     }
+    ctx.globalAlpha = 1;
+  }
+
+  /** Sun glow alone (medium tier). */
+  _drawSun(ctx, W, H, b, alpha) {
+    if (alpha <= 0.01 || !b.sun) return;
+    const sx = b.sun.x * W;
+    const sy = b.sun.y * H;
+    const R = Math.max(W, H) * 0.95;
+    const sg = ctx.createRadialGradient(sx, sy, 0, sx, sy, R);
+    sg.addColorStop(0, rgba(b.sun.color, b.sun.alpha));
+    sg.addColorStop(0.4, rgba(b.sun.color, b.sun.alpha * 0.35));
+    sg.addColorStop(1, rgba(b.sun.color, 0));
+    ctx.globalAlpha = alpha;
+    ctx.globalCompositeOperation = 'lighter';
+    ctx.fillStyle = sg;
+    ctx.fillRect(0, 0, W, H);
+    ctx.globalCompositeOperation = 'source-over';
+    ctx.globalAlpha = 1;
+  }
+
+  /** Haze gradient + vignette pre-composited into one small canvas, stretched over the screen. */
+  _drawOverlay(ctx, W, H, b, alpha) {
+    if (alpha <= 0.01) return;
+    const ow = Math.max(32, Math.min(320, Math.round(W / 4)));
+    const oh = Math.max(18, Math.round((ow * H) / W));
+    const [color, strength] = b.vignette;
+    const img = cachedSprite(`ovl|${b.id}|${ow}x${oh}`, ow, oh, (c) => {
+      const g = c.createLinearGradient(0, 0, ow * 0.25, oh);
+      g.addColorStop(0, rgba(b.sky[0], b.haze * 1.15));
+      g.addColorStop(1, rgba(b.sky[1], b.haze * 0.8));
+      c.fillStyle = g;
+      c.fillRect(0, 0, ow, oh);
+      const R = Math.max(ow, oh) * 0.71;
+      const v = c.createRadialGradient(ow / 2, oh / 2, R * 0.33, ow / 2, oh / 2, R);
+      v.addColorStop(0, rgba(color, 0));
+      v.addColorStop(0.55, rgba(color, 0.35 * strength));
+      v.addColorStop(1, rgba(color, strength));
+      c.fillStyle = v;
+      c.fillRect(0, 0, ow, oh);
+    });
+    ctx.globalAlpha = alpha;
+    ctx.drawImage(img, 0, 0, W, H);
     ctx.globalAlpha = 1;
   }
 

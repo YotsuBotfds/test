@@ -138,7 +138,7 @@ export const SteamVents = {
   drawUnder(ctx, p, slot) {
     const d = slot.data;
     const R = lv(RADIUS, slot.level) * areaScale(p);
-    drawRing(ctx, p, R, 0.6, 0.42, p.t, false);
+    drawRing(ctx, p, R, 0.48, 0.32, p.t, false);
     if (d.pulse > 0) {
       ctx.globalAlpha = d.pulse * 0.5;
       ctx.strokeStyle = '#ffffff';
@@ -163,7 +163,8 @@ const GEYSER_R = 56;
 let shredTick = 1;
 const GEYSER_FX = { palette: 'steam', debris: false, cogs: 0, smoke: false, lowSmoke: false, embers: false };
 
-/** Armor shred: multiply dmgTakenMult while inside; restore when they leave or on remove. */
+/** Armor shred: e.vulnMult = SHRED while inside (engine debuff slot, so bosses that drive their own
+ *  dmgTakenMult can't clobber it); reset to 1 when they leave or on remove. */
 function shred(p, slot, w, R) {
   const d = slot.data;
   const list = d.shred;
@@ -174,7 +175,7 @@ function shred(p, slot, w, R) {
     e._auxShredT = tick;
     if (!e._auxShred) {
       e._auxShred = true;
-      e.dmgTakenMult = (e.dmgTakenMult ?? 1) * SHRED;
+      e.vulnMult = SHRED;
       list.push(e);
     }
   }
@@ -194,7 +195,7 @@ function shred(p, slot, w, R) {
 function unshred(e) {
   if (!e._auxShred) return;
   e._auxShred = false;
-  e.dmgTakenMult = (e.dmgTakenMult ?? SHRED) / SHRED;
+  e.vulnMult = 1;
 }
 
 export const ScaldingNimbus = {
@@ -250,8 +251,9 @@ export const ScaldingNimbus = {
   drawUnder(ctx, p, slot) {
     const d = slot.data;
     const R = EVO_R * areaScale(p);
-    drawRing(ctx, p, R, 0.62 + 0.2 * d.flare, 0.45, p.t, true);
-    drawRing(ctx, p, R * 0.62, 0.3, 0.22, -p.t * 1.4, true);
+    // Kept translucent: the cloud must never swallow the ship it surrounds.
+    drawRing(ctx, p, R, 0.42 + 0.18 * d.flare, 0.3, p.t, true);
+    drawRing(ctx, p, R * 0.62, 0.18, 0.12, -p.t * 1.4, true);
   },
 
   draw(ctx, p, slot) {

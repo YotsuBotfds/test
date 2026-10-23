@@ -22,6 +22,7 @@
 // Files: sunFurnace-art.js (sprites + geometry), sunFurnace-render.js (draw),
 //        sunFurnace-attacks.js (patterns + hazards), this file (state machine).
 
+import { bossHp } from './tuning.js';
 import { Save } from '../../core/storage.js';
 import { TAUNTS } from '../codex.js';
 import { ENEMIES } from '../enemies/index.js';
@@ -47,7 +48,7 @@ const INTRO_TIME = 3.2;
 const DYING_TIME = 1.7;
 const ELLIPSE_X = 500; // preferred station around the player (world units)
 const ELLIPSE_Y = 330;
-const FIGHT_ZOOM = 0.8; // camera baseZoomMul while the colossus is up (engine default 0.88)
+const FIGHT_ZOOM = 0.8; // def.zoom: camera base zoom while the colossus is up (default 0.88)
 
 // ---- taunts --------------------------------------------------------------------------------
 
@@ -673,7 +674,8 @@ const SUN_FURNACE = {
   boss: true,
   stage: 5,
   music: 'finalBoss',
-  hp: 7500,
+  zoom: FIGHT_ZOOM, // camera base zoom for the fight (engine onBossSpawn reads def.zoom)
+  hp: bossHp('sunFurnace', 7500), // DESIGN 7500 × campaign toughness (tuning.js)
   r: GEO.R,
   speed: 46,
   contactDamage: 24,
@@ -709,9 +711,6 @@ const SUN_FURNACE = {
       return;
     }
     animate(b, dt);
-    // Frame the colossus: wider than the engine's default boss zoom (set after intro()).
-    const cam = w.game?.camera;
-    if (cam && cam.baseZoomMul > FIGHT_ZOOM) cam.baseZoomMul = FIGHT_ZOOM;
     move(b, dt, w);
     updateDebris(b, dt, w);
     ambience(b, dt, w);

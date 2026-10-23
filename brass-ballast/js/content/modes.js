@@ -480,7 +480,7 @@ export const MODES = {
     bosses: BOSS_CYCLE.slice(),
     // No waves means no level-ups before the first fight: bosses are trimmed accordingly.
     bossHpMult: (i) => [0.7, 0.62, 0.56, 0.52, 0.5][i] ?? 0.5,
-    /** Suggested pre-level for the engine to grant at run start (see integration notes). */
+    /** The engine grants these level-up picks at run start (game.startRun). */
     startLevel: 8,
     unlocked: (save) => (save?.stats?.wins || 0) > 0 || !!save?.unlocks?.bossRush,
   },

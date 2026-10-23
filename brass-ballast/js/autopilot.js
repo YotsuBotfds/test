@@ -6,6 +6,7 @@
 
 import { events } from './core/events.js';
 import { angleDiff, clamp, distToSegment2 } from './core/math.js';
+import { AUX } from './content/weapons/auxiliaries.js';
 
 const PASSIVE_PRIORITY = {
   twinBarrels: 48, quickLoader: 46, rifling: 45, plating: 44, repairCrew: 42, piercing: 40,
@@ -42,6 +43,8 @@ export function autoPickCard(cards, choice) {
         break;
       case 'passive':
         s += PASSIVE_PRIORITY[c.id] ?? 28;
+        // The evolution partner of an aux we own: a first level unlocks a legendary card.
+        if (p?.aux?.some((a) => AUX[a.id]?.evolvesWith === c.id)) s += p.passiveLevel?.(c.id) ? 6 : 26;
         if (c.id === 'plating' && p && p.hp < p.stats.maxHp * 0.5) s += 15;
         break;
       case 'repair':
@@ -64,7 +67,10 @@ export function autoPickCard(cards, choice) {
 
 /**
  * Create a brain function for one player: (player, dt, world) => controls.
- * @param {{aggression?:number}} [opts]
+ * `skill` (0..1, default 1 = near-perfect) makes the bot notice only that share of incoming
+ * shots and react later — a rough stand-in for a human when judging difficulty
+ * (URL flag `botskill=0.5`).
+ * @param {{aggression?:number, skill?:number}} [opts]
  */
 export function createBrain(opts = {}) {
   const c = {
@@ -82,6 +88,8 @@ export function createBrain(opts = {}) {
     pickup: null,
   };
   const aggression = opts.aggression ?? 1;
+  const skill = clamp(opts.skill ?? 1, 0.05, 1);
+  const horizon = 0.35 + 0.75 * skill; // seconds of look-ahead for incoming shots
 
   return function brain(p, dt, w) {
     c.boost = false;
@@ -124,6 +132,8 @@ export function createBrain(opts = {}) {
         }
         continue;
       }
+      // Lower skill: some shots simply go unnoticed (stable per bullet).
+      if (skill < 1 && ((b.id * 2654435761) >>> 0) % 1000 >= skill * 1000) continue;
       const rx = b.x - p.x;
       const ry = b.y - p.y;
       const d2 = rx * rx + ry * ry;
@@ -138,12 +148,12 @@ export function createBrain(opts = {}) {
         if (d2 > safe * safe) continue;
         t = 0;
       }
-      if (t > 1.1) continue;
+      if (t > horizon) continue;
       const cx = rx + vx * t;
       const cy = ry + vy * t;
       const miss = Math.hypot(cx, cy);
       if (miss >= safe) continue;
-      const urgency = (1 - t / 1.1) * (1.2 - miss / safe);
+      const urgency = (1 - t / horizon) * (1.2 - miss / safe);
       let ax = -cx;
       let ay = -cy;
       if (miss < 3) {
@@ -388,7 +398,7 @@ export function enableAutopilot(game, opts = {}) {
   const attach = () => {
     const p = game.world?.players?.[0];
     if (p) {
-      p.brain = createBrain();
+      p.brain = createBrain({ skill: opts.skill });
       p.autoPick = autoPickCard;
     }
   };

@@ -25,6 +25,8 @@
  * @property {'gulls'|'soot'|'storm'|'snow'|'embers'} weather
  * @property {string} music
  * @property {number} seed                noise seed for this biome's ground
+ * @property {string} [enemyShotTint]     replaces the default orange enemy-shot glow where the
+ *                                        ground itself is orange/red (Furnace lava)
  */
 
 /** @type {Record<string, Biome>} */
@@ -141,6 +143,7 @@ export const BIOMES = {
     weather: 'embers',
     music: 'furnace',
     seed: 7919,
+    enemyShotTint: '#ff3d8b',
   },
 };
 

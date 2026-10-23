@@ -9,6 +9,7 @@
 // mortar barrages + bullet walls with gaps · 2 (<25%) FLAGSHIP ABLAZE: everything, faster, plus
 // a telegraphed desperate ram.
 
+import { bossHp } from './tuning.js';
 import { Sprites } from '../../gfx/sprites.js';
 import { TAU, clamp, angleDiff } from '../../core/math.js';
 import { ENEMIES } from '../enemies/index.js';
@@ -975,7 +976,8 @@ export default {
   boss: true,
   stage: 4,
   music: 'boss',
-  hp: BASE_HP,
+  zoom: 0.8, // camera base zoom for the fight: a 470-unit carrier (onBossSpawn reads def.zoom)
+  hp: bossHp('behemoth', BASE_HP), // × campaign toughness (tuning.js)
   hudPhases: [P2, P3],
   r: 150,
   speed: 75,

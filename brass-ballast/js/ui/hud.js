@@ -132,7 +132,8 @@ export class HUD {
   update(dt) {
     const g = this.game;
     this.t += dt;
-    const paused = g.state === 'paused';
+    // Banners & sparks hold while the sim is halted by a menu (pause, level-up/refit cards).
+    const paused = g.state === 'paused' || g.state === 'levelup' || g.state === 'refit';
     if (this._cursorHidden && g.state !== 'playing') this._setCursor(false, g.renderer);
     if (g.run !== this._run) this._resetRun(false);
     const run = g.run;
@@ -141,7 +142,7 @@ export class HUD {
     this.reducedFlash = Save.settings?.flashes === false;
     this.modeName = MODES[run.mode]?.name || '';
 
-    // banners advance in real time except while paused
+    // banners advance in real time except while a menu halts the sim
     if (!paused && this.banners.length) {
       const b = this.banners[0];
       b.t += dt;
@@ -272,6 +273,7 @@ export class HUD {
       }
       bossBottom = y;
     }
+    this._bossBottom = bossBottom;
 
     drawPlaque(this, ctx, g, run, L.plaque.x, L.plaque.y);
     if (p0) {
@@ -292,8 +294,8 @@ export class HUD {
     }
     if (Save.settings?.showFps) drawFps(this, ctx, g, L.fps.x, L.fps.y);
 
-    // announcements
-    const b = this.banners[0];
+    // announcements (held, and hidden, while card picks are up: they'd show through the cards)
+    const b = g.state === 'levelup' || g.state === 'refit' ? null : this.banners[0];
     if (b) {
       let y = L.bannerY;
       if (bossBottom && b.variant !== 'warning') y = Math.max(y, bossBottom + 60 * s);
@@ -310,6 +312,19 @@ export class HUD {
     ctx.restore();
     const ms = performance.now() - t0;
     this.perf.ms = this.perf.ms * 0.95 + ms * 0.05;
+  }
+
+  /**
+   * Screen space the instruments cover (CSS px from the top / bottom edge), for the camera's
+   * boss framing so the ship isn't parked under the boss bar. Null before the first layout.
+   */
+  safeInsets() {
+    const L = this.L;
+    if (!L) return null;
+    const ins = this._ins || (this._ins = { top: 0, bottom: 0 });
+    ins.top = Math.max(L.topBand || 0, this._bossBottom || 0);
+    ins.bottom = Math.max(0, this.H - (L.bottomBand ?? this.H));
+    return ins;
   }
 
   // ---- helpers used by the parts ------------------------------------------------------------
@@ -634,6 +649,8 @@ export class HUD {
     L.ptrRect.y0 = Math.min(topBand + 26 * s, H * 0.42);
     L.ptrRect.y1 = Math.max(bottomBand - 26 * s, H * 0.58);
     L.bannerY = clamp(Math.max(H * 0.3, topBand + 70 * s), 0, H * 0.5);
+    L.topBand = topBand;
+    L.bottomBand = bottomBand;
     this.L = L;
   }
 

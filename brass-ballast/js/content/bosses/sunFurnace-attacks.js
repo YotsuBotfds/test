@@ -872,7 +872,7 @@ function novaUpdate(h, dt, w) {
   const D = h.data;
   const b = D.boss;
   h.r = GEO.R + D.speed * h.t;
-  const dmg = 30 * (b.dmgMult || 1);
+  const dmg = 30; // world.damagePlayer scales by the owner's dmgMult
   for (const p of w.players) {
     if (!p.alive || D.hit.has(p)) continue;
     const d = Math.hypot(p.x - h.x, p.y - h.y);
@@ -977,7 +977,7 @@ function domeUpdate(h, dt, w) {
   h.y = b.y + Math.sin(a.ang) * 360;
   D.armed = t >= a.tele && t < a.tele + a.active;
   if (!D.armed || dt <= 0) return;
-  const dmg = 7 * (b.dmgMult || 1);
+  const dmg = 7; // world.damagePlayer scales by the owner's dmgMult
   for (const p of w.players) {
     if (!p.alive) continue;
     const d = Math.hypot(p.x - h.x, p.y - h.y);

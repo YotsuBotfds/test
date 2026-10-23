@@ -615,6 +615,8 @@ export class Player {
 
     for (let i = 0; i < this.aux.length; i++) this._auxDraw(ctx, 'drawUnder', this.aux[i], w);
 
+    // Ink rim keeps the hull legible on any ground (bright fields, lava, snow).
+    Sprites.drawOutline(ctx, sprite, x, y, this.angle, 1, '#1a120a', 0.5 * alpha);
     if (coop) Sprites.drawOutline(ctx, sprite, x, y, this.angle, 1, this.color, 0.55);
     if (this.boostT > 0) Sprites.drawOutline(ctx, sprite, x, y, this.angle, 1, '#f4f1ea', 0.6);
 
@@ -674,6 +676,31 @@ export class Player {
       ctx.fillText(`P${this.index + 1}`, x, y - this.r - 18);
       ctx.restore();
     }
+  }
+
+  /**
+   * Locator drawn above particles & effects (below enemy fire): four faint brass arc ticks
+   * around the ship so it can always be found in smoke, auras or a boss's light show.
+   * Fades in when lots is happening (burst of particles/effects) and stays faint otherwise.
+   */
+  drawLocator(ctx, k = 1) {
+    if (!this.alive || k <= 0.01) return;
+    const r = this.r + 16;
+    const spin = this.t * 0.8;
+    ctx.globalCompositeOperation = 'source-over';
+    ctx.lineCap = 'round';
+    for (let pass = 0; pass < 2; pass++) {
+      ctx.globalAlpha = (pass ? 0.75 : 0.45) * k;
+      ctx.strokeStyle = pass ? this.color : '#1a120a';
+      ctx.lineWidth = pass ? 1.6 : 3.6;
+      for (let i = 0; i < 4; i++) {
+        const a0 = spin + (i * Math.PI) / 2 + 0.28;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, r, a0, a0 + 0.95);
+        ctx.stroke();
+      }
+    }
+    ctx.globalAlpha = 1;
   }
 
   _auxDraw(ctx, hook, slot, w) {

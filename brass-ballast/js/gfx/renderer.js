@@ -11,6 +11,8 @@ export class Renderer {
     this.ctx = canvas.getContext('2d', { alpha: false, desynchronized: true });
     this.dpr = 1;
     this.maxDpr = 2;
+    /** ctx.imageSmoothingQuality ('high' is very costly in software/phone rasterizers). */
+    this.smoothing = 'medium';
     this.cssW = 1;
     this.cssH = 1;
     this.camera = { x: 0, y: 0, zoom: 1, baseZoom: 1, zoomMul: 1, shakeX: 0, shakeY: 0 };
@@ -25,6 +27,12 @@ export class Renderer {
   setMaxDpr(v) {
     this.maxDpr = v;
     this.resize();
+  }
+
+  /** Set the image smoothing quality used for every drawImage on the main canvas. */
+  setSmoothing(q) {
+    this.smoothing = q;
+    this.ctx.imageSmoothingQuality = q;
   }
 
   resize() {
@@ -43,7 +51,7 @@ export class Renderer {
     this.camera.baseZoom = clamp(Math.sqrt((w * h) / (REF_W * REF_H)), 0.5, 2);
     this.updateZoom();
     this.ctx.imageSmoothingEnabled = true;
-    this.ctx.imageSmoothingQuality = 'high';
+    this.ctx.imageSmoothingQuality = this.smoothing;
   }
 
   updateZoom() {

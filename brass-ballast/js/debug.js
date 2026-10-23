@@ -13,6 +13,7 @@ import { PRIMARIES, AUX, EVOLUTIONS } from './content/weapons/index.js';
 import { PASSIVES, cardFor } from './content/upgrades.js';
 import { xpForLevel } from './game/game.js';
 import { createBrain, autoPickCard, enableAutopilot } from './autopilot.js';
+import { Quality } from './gfx/quality.js';
 
 const num = (v, d) => (v === undefined || v === '' || Number.isNaN(Number(v)) ? d : Number(v));
 const list = (v) => (v ? String(v).split(',').map((s) => s.trim()).filter(Boolean) : []);
@@ -25,7 +26,9 @@ const list = (v) => (v ? String(v).split(',').map((s) => s.trim()).filter(Boolea
 export function initDebug(game, deps = {}) {
   if (FLAGS.speed) game.timeScale = Math.max(0.05, num(FLAGS.speed, 1));
   if (flag('god')) game.god = true;
-  if (flag('autopilot')) enableAutopilot(game, { restart: flag('autostart') });
+  if (flag('autopilot')) {
+    enableAutopilot(game, { restart: flag('autostart'), skill: FLAGS.botskill ? num(FLAGS.botskill, 1) : undefined });
+  }
   // Re-apply loadout flags on every run started from autostart (incl. restarts).
   if (flag('autostart')) {
     events.on('run:start', () => queueMicrotask(() => applyLoadoutFlags(game)));
@@ -249,6 +252,7 @@ function makeDebugApi(game) {
         state: game.state,
         fps: Math.round(game.fps),
         frameMs: Math.round(game.loop.frameMs * 10) / 10,
+        quality: `${Quality.setting}:${Quality.cfg.id}`,
         enemies: w?.enemies.length ?? 0,
         pBullets: w?.pBullets.length ?? 0,
         eBullets: w?.eBullets.length ?? 0,

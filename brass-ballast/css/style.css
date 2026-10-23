@@ -2071,3 +2071,11 @@ input[type='range']:focus::-webkit-slider-thumb { transform: scale(1.18); box-sh
 
 /* During play, plain toasts never intercept canvas input (only actionable ones do). */
 .ui-root:not(.open) .toast:not(.has-action) { pointer-events: none; }
+/* During play the HUD's score plaque & radar own the top-right corner: toasts sit below them. */
+.ui-root:not(.open) .toasts { top: calc(var(--safe-t) + 168px); }
+/* Hangar: keep the cogs purse (top-right) visible while purchase toasts show. */
+.ui-root[data-screen='hangar'] .toasts { top: calc(var(--safe-t) + 96px); }
+/* Portrait phones: the HUD is two rows deep, so in-play toasts drop below it. */
+@media (max-aspect-ratio: 3/4) {
+  .ui-root:not(.open) .toasts { top: calc(var(--safe-t) + 340px); }
+}

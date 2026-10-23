@@ -333,7 +333,7 @@ export function releaseGrab(b, w, broke) {
     } else {
       p.vx = Math.cos(a) * 560;
       p.vy = Math.sin(a) * 560;
-      w.damagePlayer(p, 10 * (b.dmgMult ?? 1), { source: 'enemy', owner: b, angle: a });
+      w.damagePlayer(p, 10, { source: 'enemy', owner: b, angle: a }); // scaled by b.dmgMult
       w.sfx('explode_small', p.x, p.y);
     }
   }
@@ -381,7 +381,7 @@ function updateHeld(T, b, dt, w) {
   g.tick -= dt;
   if (g.tick <= 0) {
     g.tick = 0.55;
-    w.damagePlayer(p, 6 * (b.dmgMult ?? 1), { source: 'enemy', owner: b, angle: a });
+    w.damagePlayer(p, 6, { source: 'enemy', owner: b, angle: a }); // scaled by b.dmgMult
     w.fx.sparks?.(p.x, p.y, w.rng.angle(), 4, '#ff9ad0', 1.5, { speed: 200 });
   }
   if (g.t > 1.9) releaseGrab(b, w, false);

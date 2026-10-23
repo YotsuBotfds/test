@@ -19,7 +19,7 @@ const GROUPS = [
       { key: 'shake', type: 'range', label: 'Screen shake', min: 0, max: 1.5, step: 0.1, pct: true },
       { key: 'flashes', type: 'toggle', label: 'Flashing effects', desc: 'Off reduces lightning & bright flashes' },
       { key: 'damageNumbers', type: 'toggle', label: 'Damage numbers' },
-      { key: 'quality', type: 'choice', label: 'Graphics quality', options: [['high', 'High'], ['low', 'Low']], desc: 'Low: fewer particles, lighter rendering' },
+      { key: 'quality', type: 'choice', label: 'Graphics quality', options: [['auto', 'Auto'], ['high', 'High'], ['low', 'Low']], desc: 'Auto lowers detail when the frame rate drops. Low: fewer particles, lighter rendering' },
       { key: 'showFps', type: 'toggle', label: 'Frame counter' },
     ],
   },

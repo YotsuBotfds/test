@@ -2,7 +2,7 @@
 
 import { Save } from '../../core/storage.js';
 import { dateSeed } from '../../core/rng.js';
-import { MODES, MODE_ORDER, MODIFIERS } from '../../content/modes.js';
+import { MODES, MODE_ORDER, MODIFIERS, dailyKey } from '../../content/modes.js';
 import { h, frag, icon, frame, backBtn, glyph, sfx, kick, fmtInt, safe, txt } from '../dom.js';
 import { gearSVG } from '../art.js';
 
@@ -19,19 +19,15 @@ const LOCKS = {
   bossRush: 'Complete The Grand Voyage to unlock',
 };
 
-/** Today's daily key candidates (the engine may key the table by date string or seed). */
-export function dailyBest(seed) {
-  const d = new Date();
-  const iso = `${d.getUTCFullYear()}-${String(d.getUTCMonth() + 1).padStart(2, '0')}-${String(d.getUTCDate()).padStart(2, '0')}`;
-  const loose = `${d.getUTCFullYear()}-${d.getUTCMonth() + 1}-${d.getUTCDate()}`;
+/** Today's Daily Squall best. game.js stores it under run.day = dailyKey() (UTC 'YYYY-MM-DD'). */
+export function dailyBest() {
   const table = Save.data.highscores?.daily || {};
-  for (const k of [iso, loose, String(seed), d.toDateString()]) if (table[k]) return table[k];
-  return null;
+  return table[dailyKey(new Date())] || null;
 }
 
 export function bestFor(id) {
   const hs = Save.data.highscores || {};
-  if (id === 'daily') return dailyBest(todaySeed())?.score || 0;
+  if (id === 'daily') return dailyBest()?.score || 0;
   const list = hs[id];
   return Array.isArray(list) && list.length ? list[0].score || 0 : 0;
 }

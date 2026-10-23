@@ -2,6 +2,7 @@
 // progress, FPS meter and the mouse/gamepad reticle.
 
 import { metalRadial, roundRect, INK, skull } from '../gfx/drawkit.js';
+import { Quality } from '../gfx/quality.js';
 import {
   TAU,
   clamp,
@@ -128,14 +129,17 @@ export function drawScore(H, ctx, run, xRight, y) {
   const mult = R.comboShown;
   const col = mult >= 4.5 ? '#ff6ad5' : mult >= 3 ? '#ff9b2f' : mult >= 2 ? '#ffcf4a' : '#fff3c4';
   const mk = 1 + 0.35 * easeOutBack(clamp(flare, 0, 1)) * flare + 0.4 * big;
+  // Right edge clears the (possibly flaring) ring: the old fixed offset let a popping "×1.7"
+  // run into the ring, notably in narrow portrait layouts.
+  const tx = ringX - 20 * rk - 9;
   ctx.save();
-  ctx.translate(ringX - 26, cy + 1);
+  ctx.translate(tx, cy + 1);
   ctx.scale(mk, mk);
   ctx.textAlign = 'right';
   ctx.font = font(20, 'd');
   engraved(ctx, H.str('mult', `×${mult.toFixed(1)}`), 0, 0, col, 'rgba(10,5,2,0.9)', 1.6);
   ctx.restore();
-  blitText(ctx, H.txt('CHAIN', { size: 6.5, ls: 2, color: 'rgba(242,212,138,0.75)' }), ringX - 26, cy + 15, 'right');
+  blitText(ctx, H.txt('CHAIN', { size: 6.5, ls: 2, color: 'rgba(242,212,138,0.75)' }), ringX - 29, cy + 15, 'right');
   ctx.globalAlpha = 1;
   if (R.breakT > 0) {
     // the multiplier "shatters": red ghost falls away
@@ -143,7 +147,7 @@ export function drawScore(H, ctx, run, xRight, y) {
     ctx.globalAlpha = k;
     ctx.textAlign = 'right';
     ctx.font = font(18, 'd');
-    engraved(ctx, R.breakText, ringX - 26, cy + (1 - k) * 26, '#ff5a3a');
+    engraved(ctx, R.breakText, ringX - 29, cy + (1 - k) * 26, '#ff5a3a');
     ctx.globalAlpha = 1;
   }
   return h + 44;
@@ -319,7 +323,8 @@ export function drawFps(H, ctx, game, xRight, y) {
   ctx.textAlign = 'right';
   ctx.font = font(7, 'm');
   ctx.fillStyle = 'rgba(242,212,138,0.75)';
-  ctx.fillText(H.str('hudms', `hud ${H.perf.ms.toFixed(2)}`), 82, 9.5);
+  const q = Quality.cfg.id[0].toUpperCase();
+  ctx.fillText(H.str('hudms', `${q} · hud ${H.perf.ms.toFixed(1)}`), 82, 9.5);
 }
 
 // ---- reticle --------------------------------------------------------------------------------
