@@ -326,9 +326,10 @@ render:
     enemies (elite aura → sprite → flash overlay), bosses
     players (aux drawUnder → hull → turret → aux draw)
     player projectiles
-    particles 'normal', then particles 'add' (lighter)
+    particles 'normal', then particles 'add' (lighter), then fx.drawEffects(ctx, renderer)
     enemy projectiles (always on top for readability)
-    float texts (damage numbers)
+    fx.drawTexts(ctx, renderer)                 // damage numbers
+  (world.update calls particles.update(dt) and fx.update(dt) every simulated frame)
   [screen transform]
   background.drawFront(ctx, renderer, focusScreenPos)   // high clouds, fade near player
   weather.draw(ctx, renderer)                // rain/snow/embers/aurora, lightning flash
