@@ -10,11 +10,19 @@
 // so tile work is spread over frames under a time budget; visible tiles are prioritized and
 // the ring around the view is prefetched while the player flies.
 
-import { BIOMES, biomeId } from './biomes.js';
+import { BIOMES, BIOME_ORDER, biomeId } from './biomes.js';
 import { TILE, Anchors, makeCanvas, cachedSprite, rgba } from './bg-util.js';
 import { PAINTERS } from './bg-terrain.js';
 import { drawAnchors } from './bg-anim.js';
-import { drawCloudLayer, prewarmClouds, LOW, HIGH } from './bg-clouds.js';
+import {
+  drawCloudLayer,
+  prewarmClouds,
+  cloudSprite,
+  shadowSprite,
+  CLOUD_VARIANTS,
+  LOW,
+  HIGH,
+} from './bg-clouds.js';
 import { Save } from '../core/storage.js';
 
 export const GROUND_PARALLAX = 0.35;
@@ -75,23 +83,27 @@ export class Background {
    */
   setBiome(id, fade = 0) {
     const nid = biomeId(id);
-    if (nid === this.id && !this.prevBiome) return;
-    if (nid === this.id && this.prevBiome) {
-      // Re-targeting the biome we're fading into: just keep going.
+    // Already there (or already fading towards it): keep going.
+    if (nid === this.id) return;
+    if (this.prevBiome && nid === this.prevBiome.id && fade > 0) {
+      // Reversing a fade mid-way: swap ends and continue from the current mix.
+      const tl = this.fadeDur > 0 ? Math.min(1, this.fadeT / this.fadeDur) : 1;
+      [this.prevBiome, this.biome] = [this.biome, this.prevBiome];
+      this.id = nid;
+      this.fadeDur = fade;
+      this.fadeT = (1 - tl) * fade;
+      this.hold = 0;
       return;
     }
-    if (this.prevBiome && this.blend < 0.5) {
-      // Mid-fade back-and-forth: keep the dominant (old) look as the base.
-    } else {
-      this.prevBiome = this.biome;
-    }
+    // Mid-fade to a third biome: the dominant look becomes the base we fade from.
+    if (!this.prevBiome || this.blend >= 0.5) this.prevBiome = this.biome;
     this.id = nid;
     this.biome = BIOMES[nid];
     this.fadeT = 0;
     this.fadeDur = Math.max(0, fade);
     this.hold = 0;
-    prewarmClouds(this.biome);
     if (this.fadeDur <= 0) {
+      prewarmClouds(this.biome);
       this.prevBiome = null;
       this.fadeT = 1;
       this.pregenerate(true);
@@ -168,6 +180,7 @@ export class Background {
     const hw = r.cssW / 2 / cam.zoom;
     const hh = r.cssH / 2 / cam.zoom;
     const out = this._want;
+    const pool = this._wantPool || (this._wantPool = []);
     out.length = 0;
     const pad = TILE * ring;
     const tx0 = Math.floor((gx - hw - pad) / TILE);
@@ -180,11 +193,29 @@ export class Background {
         const y0 = ty * TILE;
         const visible = x0 < gx + hw && x0 + TILE > gx - hw && y0 < gy + hh && y0 + TILE > gy - hh;
         const d = Math.hypot(x0 + TILE / 2 - gx, y0 + TILE / 2 - gy);
-        out.push({ tx, ty, visible, d });
+        const w = pool[out.length] || (pool[out.length] = { tx: 0, ty: 0, visible: false, d: 0 });
+        w.tx = tx;
+        w.ty = ty;
+        w.visible = visible;
+        w.d = d;
+        out.push(w);
       }
     }
     out.sort((a, b) => (a.visible === b.visible ? a.d - b.d : a.visible ? -1 : 1));
     return out;
+  }
+
+  /** Number of ground tiles currently on screen (no allocation, no shared state). */
+  _viewCount() {
+    const r = this.renderer;
+    const cam = r.camera;
+    const gx = cam.x * GROUND_PARALLAX;
+    const gy = cam.y * GROUND_PARALLAX;
+    const hw = r.cssW / 2 / cam.zoom;
+    const hh = r.cssH / 2 / cam.zoom;
+    const nx = Math.floor((gx + hw) / TILE) - Math.floor((gx - hw) / TILE) + 1;
+    const ny = Math.floor((gy + hh) / TILE) - Math.floor((gy - hh) / TILE) + 1;
+    return nx * ny;
   }
 
   _ensure(id, tx, ty) {
@@ -213,8 +244,18 @@ export class Background {
     const anchors = new Anchors(X0, Y0);
     const painter = PAINTERS[id] || PAINTERS.brassbay;
     tile = {
-      key, id, tx, ty, canvas, ctx, anchors, list: null, ready: false, used: this.frame,
-      gen: painter.paint(ctx, X0, Y0, anchors), ms: 0,
+      key,
+      id,
+      tx,
+      ty,
+      canvas,
+      ctx,
+      anchors,
+      list: null,
+      ready: false,
+      used: this.frame,
+      gen: painter.paint(ctx, X0, Y0, anchors),
+      ms: 0,
     };
     this.tiles.set(key, tile);
     this._evict();
@@ -242,15 +283,20 @@ export class Background {
       tile.ctx.setTransform(1, 0, 0, 1, 0, 0);
       this.stats.generated++;
       this.stats.lastGenMs = tile.ms;
-      this.stats.avgGenMs += (tile.ms - this.stats.avgGenMs) * (this.stats.generated === 1 ? 1 : 0.1);
+      this.stats.avgGenMs +=
+        (tile.ms - this.stats.avgGenMs) * (this.stats.generated === 1 ? 1 : 0.1);
     }
     return done;
   }
 
   _evict() {
-    if (this.tiles.size <= MAX_TILES) return;
+    // Zoomed far out (e.g. a boss intro) more tiles are on screen: grow the cap so the
+    // prefetch ring doesn't thrash, but never below the ~40-tile budget.
+    const view = this._viewCount();
+    const cap = Math.max(MAX_TILES, view * (this.prevBiome ? 2 : 1) + 12);
+    if (this.tiles.size <= cap) return;
     for (const [key, t] of this.tiles) {
-      if (this.tiles.size <= MAX_TILES) break;
+      if (this.tiles.size <= cap) break;
       if (t.used >= this.frame - 1) continue; // in use right now
       this.tiles.delete(key);
       if (this.job === t) this.job = null;
@@ -278,7 +324,21 @@ export class Background {
     }
     if (this.prevBiome && this.fadeT === 0) budget = FALLBACK_BUDGET_MS;
     this.stats.pending = pending;
-    if (!target) return;
+    if (!target) {
+      // Idle: pre-render cloud sprites for every biome, one per frame, so a later biome
+      // switch never stalls on them.
+      if (this._cloudQueue === undefined) {
+        this._cloudQueue = [];
+        for (const id of BIOME_ORDER)
+          for (let v = 0; v < CLOUD_VARIANTS; v++) this._cloudQueue.push([id, v]);
+      }
+      const job = this._cloudQueue.pop();
+      if (job) {
+        cloudSprite(BIOMES[job[0]], job[1]);
+        shadowSprite(job[1]);
+      }
+      return;
+    }
     const t0 = now();
     let finished = 0;
     while (now() - t0 < budget && finished < MAX_TILES_PER_FRAME) {
@@ -336,8 +396,18 @@ export class Background {
 
     const clouds = (b, alpha, mode) =>
       drawCloudLayer(ctx, {
-        biome: b, layer: LOW, cam, W, H, dpr, t: this.time, mode,
-        alpha: alpha * b.clouds.lowAlpha, coverage: b.clouds.low, shadowAlpha: b.clouds.shadow,
+        biome: b,
+        layer: LOW,
+        cam,
+        W,
+        H,
+        dpr,
+        t: this.time,
+        mode,
+        alpha: alpha * b.clouds.lowAlpha,
+        coverage: b.clouds.low,
+        shadowAlpha: b.clouds.shadow,
+        isles: b.clouds.isles || 0,
       });
     if (this.quality !== 'low') {
       if (prev) clouds(prev, 1 - a, 'shadow');
@@ -366,8 +436,16 @@ export class Background {
     const a = this.blend;
     const draw = (b, alpha) =>
       drawCloudLayer(ctx, {
-        biome: b, layer: HIGH, cam: renderer.camera, W, H, dpr: renderer.dpr, t: this.time,
-        alpha: alpha * b.clouds.highAlpha, coverage: b.clouds.high, focus,
+        biome: b,
+        layer: HIGH,
+        cam: renderer.camera,
+        W,
+        H,
+        dpr: renderer.dpr,
+        t: this.time,
+        alpha: alpha * b.clouds.highAlpha,
+        coverage: b.clouds.high,
+        focus,
       });
     if (this.prevBiome) draw(this.prevBiome, 1 - a);
     draw(this.biome, this.prevBiome ? a : 1);
@@ -401,6 +479,7 @@ export class Background {
     ctx.globalAlpha = alpha;
     ctx.imageSmoothingEnabled = true;
     const fallback = BIOMES[id].ground;
+    const ov = alpha >= 1 ? 1 : 0;
     for (let ty = ty0; ty <= ty1; ty++) {
       const y0 = Math.floor(ty * TILE * s + m.oy);
       const y1 = Math.floor((ty + 1) * TILE * s + m.oy);
@@ -409,13 +488,14 @@ export class Background {
         const x1 = Math.floor((tx + 1) * TILE * s + m.ox);
         const key = this._key(id, tx, ty);
         const tile = this.tiles.get(key);
+        // Integer rects that share edges exactly; when opaque, a 1 px overlap also hides any
+        // resampling seam (skipped while fading — overlapping translucent tiles would show).
         if (tile && tile.ready) {
           tile.used = this.frame;
-          // +1 px overlap hides resampling seams between neighbours.
-          ctx.drawImage(tile.canvas, x0, y0, x1 - x0 + 1, y1 - y0 + 1);
+          ctx.drawImage(tile.canvas, x0, y0, x1 - x0 + ov, y1 - y0 + ov);
         } else {
           ctx.fillStyle = fallback;
-          ctx.fillRect(x0, y0, x1 - x0 + 1, y1 - y0 + 1);
+          ctx.fillRect(x0, y0, x1 - x0 + ov, y1 - y0 + ov);
         }
       }
     }

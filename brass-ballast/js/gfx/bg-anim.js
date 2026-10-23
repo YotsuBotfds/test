@@ -45,19 +45,41 @@ const SPR = {
     return puff('a|emberSmoke', '#1c1210', '#5a2c1c');
   },
   get warm() {
-    return softDot(32, '#ffb347', [[0, 1], [0.18, 0.85], [0.45, 0.25], [1, 0]]);
+    return softDot(32, '#ffb347', [
+      [0, 1],
+      [0.18, 0.85],
+      [0.45, 0.25],
+      [1, 0],
+    ]);
   },
   get warmCore() {
-    return softDot(16, '#fff2b0', [[0, 1], [0.5, 0.5], [1, 0]]);
+    return softDot(16, '#fff2b0', [
+      [0, 1],
+      [0.5, 0.5],
+      [1, 0],
+    ]);
   },
   get lava() {
-    return softDot(128, '#ff7a1e', [[0, 0.9], [0.3, 0.45], [0.7, 0.1], [1, 0]]);
+    return softDot(128, '#ff7a1e', [
+      [0, 0.9],
+      [0.3, 0.45],
+      [0.7, 0.1],
+      [1, 0],
+    ]);
   },
   get lavaHot() {
-    return softDot(64, '#ffd36b', [[0, 1], [0.4, 0.35], [1, 0]]);
+    return softDot(64, '#ffd36b', [
+      [0, 1],
+      [0.4, 0.35],
+      [1, 0],
+    ]);
   },
   get pool() {
-    return softDot(96, '#ff4a1a', [[0, 0.95], [0.35, 0.5], [1, 0]]);
+    return softDot(96, '#ff4a1a', [
+      [0, 0.95],
+      [0.35, 0.5],
+      [1, 0],
+    ]);
   },
   get cap() {
     return cachedSprite('a|cap', 48, 24, (ctx) => {
@@ -158,8 +180,12 @@ export function drawAnchors(ctx, list, t, m, pass, alpha, detail = 1) {
   for (let i = 0; i < list.length; i += 5) {
     const type = list[i];
     const isAdd =
-      type === A.GLINT || type === A.WINDOW || type === A.LAVA || type === A.POOL ||
-      type === A.BEACON || type === A.FURNACE;
+      type === A.GLINT ||
+      type === A.WINDOW ||
+      type === A.LAVA ||
+      type === A.POOL ||
+      type === A.BEACON ||
+      type === A.FURNACE;
     if (isAdd !== add) continue;
     const x = list[i + 1] * s + m.ox;
     const y = list[i + 2] * s + m.oy;
@@ -178,7 +204,9 @@ export function drawAnchors(ctx, list, t, m, pass, alpha, detail = 1) {
         break;
       }
       case A.WINDOW: {
-        const flick = 0.65 + 0.25 * Math.sin(t * (0.7 + seed * 2) + seed * 40) +
+        const flick =
+          0.65 +
+          0.25 * Math.sin(t * (0.7 + seed * 2) + seed * 40) +
           0.1 * Math.sin(t * 7.3 + seed * 13);
         const off = fract(seed * 7.13 + Math.floor(t / 9 + seed * 3) * 0.37) < 0.08 ? 0.15 : 1;
         const r = 7 * size * s;
@@ -246,8 +274,14 @@ export function drawAnchors(ctx, list, t, m, pass, alpha, detail = 1) {
         const k = (size * s) / 2.4;
         // Crest lies across the wind.
         ctx.globalAlpha = a * alpha * 0.75;
-        ctx.setTransform(-m.windY * k, m.windX * k, -m.windX * k * 0.6, -m.windY * k * 0.6,
-          x + drift * m.windX, y + drift * m.windY);
+        ctx.setTransform(
+          -m.windY * k,
+          m.windX * k,
+          -m.windX * k * 0.6,
+          -m.windY * k * 0.6,
+          x + drift * m.windX,
+          y + drift * m.windY
+        );
         ctx.drawImage(SPR.cap, -24, -12);
         ctx.setTransform(1, 0, 0, 1, 0, 0);
         break;
@@ -255,8 +289,14 @@ export function drawAnchors(ctx, list, t, m, pass, alpha, detail = 1) {
       case A.SMOKE:
       case A.EMBERSMOKE:
       case A.STEAM: {
-        const img = type === A.STEAM ? SPR.steam : type === A.EMBERSMOKE ? SPR.emberSmoke :
-          seed < 0.5 ? SPR.smoke : SPR.smokeDark;
+        const img =
+          type === A.STEAM
+            ? SPR.steam
+            : type === A.EMBERSMOKE
+              ? SPR.emberSmoke
+              : seed < 0.5
+                ? SPR.smoke
+                : SPR.smokeDark;
         const steam = type === A.STEAM;
         const puffs = steam ? 3 : detail > 0.5 ? 5 : 3;
         const rate = steam ? 0.32 : 0.11;

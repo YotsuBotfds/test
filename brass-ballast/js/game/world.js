@@ -255,7 +255,8 @@ export class World {
     const x = opts.x ?? (v.x0 + v.x1) / 2;
     const y = opts.y ?? v.y0 - (def.r ?? 80) - 60;
     const e = this.spawnEnemy(def, x, y, { ...opts, boss: true });
-    this.audio?.music?.(def.music || 'boss', { fade: 1.2 });
+    if (this.game?.music) this.game.music(def.music || 'boss', 1.2);
+    else this.audio?.music?.(def.music || 'boss', { fade: 1.2 });
     this.zoomPunch(0.12);
     this.shake(0.35);
     this.announce(def.name || def.id, def.title || '', { kind: 'boss', time: 3.2 });
@@ -291,6 +292,14 @@ export class World {
   damageEnemy(e, amount, info = NO_INFO) {
     if (!e || !e.alive || !(amount > 0)) return 0;
     const def = e.def;
+    if (e.invuln) {
+      e.flash = Math.max(e.flash, 0.35);
+      if (!info.silent && this.rng.next() < 0.3) {
+        this.sfx('hit_armor', e.x, e.y, { vol: 0.5 });
+        this.fx.sparks?.(info.x ?? e.x, info.y ?? e.y, (info.angle ?? 0) + Math.PI, 3, '#cfd6de', 1);
+      }
+      return 0;
+    }
     if (def.shareDamage && e.parent) {
       e.flash = 1;
       const parent = e.parent;
@@ -299,14 +308,6 @@ export class World {
         return this.damageEnemy(parent, amount * e.dmgTakenMult, info);
       }
       if (parent.alive) this.damageEnemy(parent, amount * def.shareDamage, { ...info, silent: true });
-    }
-    if (e.invuln) {
-      e.flash = Math.max(e.flash, 0.35);
-      if (!info.silent && this.rng.next() < 0.3) {
-        this.sfx('hit_armor', e.x, e.y, { vol: 0.5 });
-        this.fx.sparks?.(info.x ?? e.x, info.y ?? e.y, (info.angle ?? 0) + Math.PI, 3, '#cfd6de', 1);
-      }
-      return 0;
     }
     let amt = amount * e.dmgTakenMult;
     let armored = false;
@@ -361,7 +362,7 @@ export class World {
     const v = e._numAcc;
     e._numAcc = 0;
     e._numT = now;
-    const n = v >= 10 ? Math.round(v) : Math.round(v * 10) / 10;
+    const n = v >= 1 ? Math.round(v) : Math.round(v * 10) / 10;
     if (n <= 0) return;
     const ox = (this.rng.next() - 0.5) * e.r;
     const color = info.crit ? '#ffcf4a' : info.element === 'fire' ? '#ff9b4a' : info.element === 'shock' ? '#9ff3ff' : '#fff3df';
@@ -418,6 +419,8 @@ export class World {
       if (!kb[e.type]) Save.discover(isMainBoss ? 'bosses' : 'enemies', e.type);
       kb[e.type] = (kb[e.type] || 0) + 1;
       if (info.owner?.isPlayer) info.owner.kills++;
+    } else if (run && e.parent && !info.quiet && def.score) {
+      run.score += Math.round(def.score * run.combo); // destructible boss parts
     }
     const volatile = e.elite === 'volatile' || def.volatile || (run?.mods?.volatileAll && !e.isBoss && !e.parent);
     if (volatile) {

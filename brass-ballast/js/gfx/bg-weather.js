@@ -15,7 +15,8 @@ import { softDot, cachedSprite, rgba } from './bg-util.js';
 const TAU = Math.PI * 2;
 const r = new RNG(0x5eed);
 
-const wrap = (v, max, pad) => (v < -pad ? v + max + pad * 2 : v > max + pad ? v - max - pad * 2 : v);
+const wrap = (v, max, pad) =>
+  v < -pad ? v + max + pad * 2 : v > max + pad ? v - max - pad * 2 : v;
 
 /** @typedef {{W:number, H:number, t:number, dx:number, dy:number, intensity:number, q:number,
  *   zoom:number, mild:boolean, host:any}} Env */
@@ -73,7 +74,14 @@ class Gulls {
   constructor() {
     this.flocks = [];
     this.timer = 1.5;
-    this.streaks = Array.from({ length: 10 }, () => ({ x: 0, y: 0, life: 0, max: 1, len: 0, a: 0 }));
+    this.streaks = Array.from({ length: 10 }, () => ({
+      x: 0,
+      y: 0,
+      life: 0,
+      max: 1,
+      len: 0,
+      a: 0,
+    }));
   }
   update(dt, env, w) {
     this.timer -= dt;
@@ -109,20 +117,33 @@ class Gulls {
     const H = env.H;
     const x = edge === 0 ? -80 : edge === 1 ? W + 80 : r.range(0, W);
     const y = edge === 2 ? -80 : edge === 3 ? H + 80 : r.range(0, H);
-    const ang = Math.atan2(H / 2 - y + r.range(-H * 0.3, H * 0.3), W / 2 - x + r.range(-W * 0.3, W * 0.3));
+    const ang = Math.atan2(
+      H / 2 - y + r.range(-H * 0.3, H * 0.3),
+      W / 2 - x + r.range(-W * 0.3, W * 0.3)
+    );
     const n = r.int(3, 9);
     const birds = [];
     const v = r.next() < 0.6;
     for (let i = 0; i < n; i++) {
       const rank = Math.ceil(i / 2);
       const side = i % 2 ? 1 : -1;
-      birds.push(v ? {
-        bx: -rank * 16 + r.range(-3, 3), by: side * rank * 13 + r.range(-3, 3),
-        ph: r.next() * GULL_FRAMES, rate: r.range(7, 10), s: r.range(0.75, 1),
-      } : {
-        bx: r.range(-50, 50), by: r.range(-40, 40),
-        ph: r.next() * GULL_FRAMES, rate: r.range(6, 11), s: r.range(0.7, 1),
-      });
+      birds.push(
+        v
+          ? {
+              bx: -rank * 16 + r.range(-3, 3),
+              by: side * rank * 13 + r.range(-3, 3),
+              ph: r.next() * GULL_FRAMES,
+              rate: r.range(7, 10),
+              s: r.range(0.75, 1),
+            }
+          : {
+              bx: r.range(-50, 50),
+              by: r.range(-40, 40),
+              ph: r.next() * GULL_FRAMES,
+              rate: r.range(6, 11),
+              s: r.range(0.7, 1),
+            }
+      );
     }
     this.flocks.push({ x, y, ang, speed: r.range(55, 85), birds, t: 0, seed: r.next() * 10 });
   }
@@ -164,7 +185,12 @@ class Gulls {
       ctx.globalAlpha = Math.sin(u * Math.PI) * 0.16 * w;
       ctx.beginPath();
       ctx.moveTo(s.x, s.y);
-      ctx.quadraticCurveTo(s.x + s.len * 0.5, s.y - 6, s.x + s.len, s.y + Math.sin(env.t + s.x) * 3);
+      ctx.quadraticCurveTo(
+        s.x + s.len * 0.5,
+        s.y - 6,
+        s.x + s.len,
+        s.y + Math.sin(env.t + s.x) * 3
+      );
       ctx.stroke();
     }
     // Gulls with soft shadows far below.
@@ -178,11 +204,24 @@ class Gulls {
         const img = gullSprite(fr);
         const k = b.s * Math.min(1.3, Math.max(0.8, env.zoom));
         ctx.globalAlpha = 0.16 * w;
-        ctx.setTransform(c * k * env.dpr, s * k * env.dpr, -s * k * env.dpr, c * k * env.dpr,
-          (x + 18) * env.dpr, (y + 24) * env.dpr);
+        ctx.setTransform(
+          c * k * env.dpr,
+          s * k * env.dpr,
+          -s * k * env.dpr,
+          c * k * env.dpr,
+          (x + 18) * env.dpr,
+          (y + 24) * env.dpr
+        );
         ctx.drawImage(softDot(32, '#2b1d10'), -10, -6, 20, 12);
         ctx.globalAlpha = 0.92 * w;
-        ctx.setTransform(c * k * env.dpr, s * k * env.dpr, -s * k * env.dpr, c * k * env.dpr, x * env.dpr, y * env.dpr);
+        ctx.setTransform(
+          c * k * env.dpr,
+          s * k * env.dpr,
+          -s * k * env.dpr,
+          c * k * env.dpr,
+          x * env.dpr,
+          y * env.dpr
+        );
         ctx.drawImage(img, -20, -12);
       }
     }
@@ -197,17 +236,28 @@ class Gulls {
 class Soot {
   constructor() {
     this.p = Array.from({ length: 170 }, () => ({
-      x: r.range(0, 1600), y: r.range(0, 1000), z: r.range(0.4, 1.6), rot: r.angle(),
-      vr: r.range(-2, 2), size: r.range(1, 3), flake: r.next() < 0.3, ph: r.angle(),
+      x: r.range(0, 1600),
+      y: r.range(0, 1000),
+      z: r.range(0.4, 1.6),
+      rot: r.angle(),
+      vr: r.range(-2, 2),
+      size: r.range(1, 3),
+      flake: r.next() < 0.3,
+      ph: r.angle(),
     }));
-    this.banks = Array.from({ length: 4 }, (_, i) => ({ x: r.range(0, 1400), y: r.range(0, 900), s: r.range(0.8, 1.4), i }));
+    this.banks = Array.from({ length: 4 }, (_, i) => ({
+      x: r.range(0, 1400),
+      y: r.range(0, 900),
+      s: r.range(0.8, 1.4),
+      i,
+    }));
   }
   update(dt, env) {
     const W = env.W;
     const H = env.H;
     for (const p of this.p) {
-      p.x += ((22 + Math.sin(env.t * 0.7 + p.ph) * 14) * p.z) * dt - env.dx * p.z;
-      p.y += ((9 + Math.cos(env.t * 0.9 + p.ph * 2) * 10) * p.z) * dt - env.dy * p.z;
+      p.x += (22 + Math.sin(env.t * 0.7 + p.ph) * 14) * p.z * dt - env.dx * p.z;
+      p.y += (9 + Math.cos(env.t * 0.9 + p.ph * 2) * 10) * p.z * dt - env.dy * p.z;
       p.rot += p.vr * dt;
       p.x = wrap(p.x, W, 20);
       p.y = wrap(p.y, H, 20);
@@ -231,14 +281,22 @@ class Soot {
     ctx.fillStyle = g;
     ctx.fillRect(0, 0, W, H);
     // Drifting smog banks.
-    const bank = softDot(256, '#9a8650', [[0, 0.8], [0.5, 0.4], [1, 0]]);
+    const bank = softDot(256, '#9a8650', [
+      [0, 0.8],
+      [0.5, 0.4],
+      [1, 0],
+    ]);
     for (const b of this.banks) {
       const s = 520 * b.s;
       ctx.globalAlpha = 0.16 * w * env.intensity;
       ctx.drawImage(bank, b.x - s / 2, b.y - s * 0.3, s, s * 0.6);
     }
     // Soot specks & tumbling ash flakes.
-    const speck = softDot(16, '#1c160c', [[0, 1], [0.5, 0.7], [1, 0]]);
+    const speck = softDot(16, '#1c160c', [
+      [0, 1],
+      [0.5, 0.7],
+      [1, 0],
+    ]);
     const n = Math.floor(this.p.length * env.q * Math.min(1.5, env.intensity));
     ctx.fillStyle = '#2a2216';
     for (let i = 0; i < n && i < this.p.length; i++) {
@@ -248,7 +306,14 @@ class Soot {
         const c = Math.cos(p.rot) * p.z;
         const s = Math.sin(p.rot) * p.z;
         ctx.globalAlpha = a;
-        ctx.setTransform(c * env.dpr, s * env.dpr, -s * 0.5 * env.dpr, c * 0.5 * env.dpr, p.x * env.dpr, p.y * env.dpr);
+        ctx.setTransform(
+          c * env.dpr,
+          s * env.dpr,
+          -s * 0.5 * env.dpr,
+          c * 0.5 * env.dpr,
+          p.x * env.dpr,
+          p.y * env.dpr
+        );
         ctx.fillRect(-p.size * 1.4, -p.size, p.size * 2.8, p.size * 2);
       } else {
         const sz = p.size * p.z * 1.8;
@@ -268,9 +333,19 @@ class Soot {
 class Storm {
   constructor() {
     this.drops = Array.from({ length: 420 }, () => ({
-      x: r.range(0, 1600), y: r.range(0, 1000), z: r.range(0.5, 1.5), len: r.range(0.7, 1.3),
+      x: r.range(0, 1600),
+      y: r.range(0, 1000),
+      z: r.range(0.5, 1.5),
+      len: r.range(0.7, 1.3),
     }));
-    this.streaks = Array.from({ length: 26 }, () => ({ x: 0, y: 0, life: 0, max: 1, len: 0, wob: 0 }));
+    this.streaks = Array.from({ length: 26 }, () => ({
+      x: 0,
+      y: 0,
+      life: 0,
+      max: 1,
+      len: 0,
+      wob: 0,
+    }));
     this.gustT = r.range(4, 8); // until next gust
     this.gust = null; // {t, dur, ang, str}
     this.windX = 0;
@@ -298,7 +373,12 @@ class Storm {
       this.windY = 0;
       this.gustT -= dt;
       if (this.gustT <= 0 && w > 0.5) {
-        this.gust = { t: 0, dur: r.range(2.8, 4.6), ang: -0.42 + Math.PI + r.range(-0.9, 0.9), str: 120 };
+        this.gust = {
+          t: 0,
+          dur: r.range(2.8, 4.6),
+          ang: -0.42 + Math.PI + r.range(-0.9, 0.9),
+          str: 120,
+        };
         if (r.next() < 0.5) this.gust.ang -= Math.PI;
       }
     }
@@ -337,7 +417,12 @@ class Storm {
     if (this.ambientT <= 0 && w > 0.5) {
       this.ambientT = r.range(4, 11) / Math.max(0.5, env.intensity);
       if (r.next() < 0.55) {
-        this.sheet.push({ x: r.range(0.1, 0.9) * env.W, y: r.range(0.05, 0.7) * env.H, t: 0, s: r.range(0.8, 1.6) });
+        this.sheet.push({
+          x: r.range(0.1, 0.9) * env.W,
+          y: r.range(0.05, 0.7) * env.H,
+          t: 0,
+          s: r.range(0.8, 1.6),
+        });
         host.flash = Math.max(host.flash, env.mild ? 0.08 : 0.28);
         host._thunder(r.range(0.6, 2.2), 0.35);
       } else {
@@ -360,7 +445,11 @@ class Storm {
     ctx.fillRect(0, 0, W, H);
     // Sheet lightning: soft glows that flicker inside the cloud deck.
     if (this.sheet.length) {
-      const glow = softDot(256, '#bcd4ff', [[0, 0.9], [0.4, 0.35], [1, 0]]);
+      const glow = softDot(256, '#bcd4ff', [
+        [0, 0.9],
+        [0.4, 0.35],
+        [1, 0],
+      ]);
       ctx.globalCompositeOperation = 'lighter';
       for (const s of this.sheet) {
         const u = s.t / 0.6;
@@ -382,7 +471,7 @@ class Storm {
       ctx.beginPath();
       for (let i = 0; i < n && i < this.drops.length; i++) {
         const d = this.drops[i];
-        if ((d.z > 1) !== (pass === 1)) continue;
+        if (d.z > 1 !== (pass === 1)) continue;
         const L = (16 + 20 * d.z) * d.len * (1 + this.env * 0.6);
         ctx.moveTo(d.x, d.y);
         ctx.lineTo(d.x - ux * L, d.y - uy * L);
@@ -405,8 +494,12 @@ class Storm {
         ctx.globalAlpha = Math.sin(u * Math.PI) * 0.38 * w * this.env;
         ctx.beginPath();
         ctx.moveTo(st.x, st.y);
-        ctx.quadraticCurveTo(st.x - c * st.len * 0.5 - s * st.wob, st.y - s * st.len * 0.5 + c * st.wob,
-          st.x - c * st.len, st.y - s * st.len);
+        ctx.quadraticCurveTo(
+          st.x - c * st.len * 0.5 - s * st.wob,
+          st.y - s * st.len * 0.5 + c * st.wob,
+          st.x - c * st.len,
+          st.y - s * st.len
+        );
         ctx.stroke();
       }
     }
@@ -420,7 +513,8 @@ class Storm {
 function ribbonStrip(hue) {
   return cachedSprite(`ribbon|${hue}`, 32, 256, (c) => {
     const g = c.createLinearGradient(0, 0, 0, 256);
-    const [top, mid, low] = hue === 0 ? ['#b06cff', '#4dffb0', '#c8ffe8'] : ['#ff6cc8', '#6c9cff', '#d8e8ff'];
+    const [top, mid, low] =
+      hue === 0 ? ['#b06cff', '#4dffb0', '#c8ffe8'] : ['#ff6cc8', '#6c9cff', '#d8e8ff'];
     g.addColorStop(0, rgba(top, 0));
     g.addColorStop(0.45, rgba(top, 0.3));
     g.addColorStop(0.8, rgba(mid, 0.85));
@@ -442,10 +536,18 @@ function ribbonStrip(hue) {
 class Snow {
   constructor() {
     this.flakes = Array.from({ length: 260 }, () => ({
-      x: r.range(0, 1600), y: r.range(0, 1000), z: r.range(0.35, 1.7), ph: r.angle(), s: r.range(0.7, 1.2),
+      x: r.range(0, 1600),
+      y: r.range(0, 1000),
+      z: r.range(0.35, 1.7),
+      ph: r.angle(),
+      s: r.range(0.7, 1.2),
     }));
     this.stars = Array.from({ length: 110 }, () => ({
-      x: r.range(0, 2048), y: r.range(0, 2048), ph: r.angle(), rate: r.range(0.8, 2.6), s: r.range(0.5, 1.2),
+      x: r.range(0, 2048),
+      y: r.range(0, 2048),
+      ph: r.angle(),
+      rate: r.range(0.8, 2.6),
+      s: r.range(0.5, 1.2),
     }));
     this.camX = 0;
     this.camY = 0;
@@ -501,7 +603,10 @@ class Snow {
       for (let k = 0; k <= slices; k++) {
         const u = k * rb.f;
         const x = -120 + k * dxs - ((this.camX * 0.05) % dxs);
-        const y = by + Math.sin(u + env.t * rb.sp + rb.ph) * rb.amp + Math.sin(u * 2.3 - env.t * 0.5) * rb.amp * 0.3;
+        const y =
+          by +
+          Math.sin(u + env.t * rb.sp + rb.ph) * rb.amp +
+          Math.sin(u * 2.3 - env.t * 0.5) * rb.amp * 0.3;
         const shimmer = 0.55 + 0.45 * Math.sin(env.t * 2.2 + k * 0.9 + rb.ph);
         const h = rb.h * (0.75 + 0.35 * Math.sin(u * 1.7 + env.t * 0.4));
         ctx.globalAlpha = 0.11 * shimmer * w;
@@ -510,7 +615,11 @@ class Snow {
     }
     ctx.globalCompositeOperation = 'source-over';
     // Snowflakes.
-    const flake = softDot(16, '#f4f8ff', [[0, 1], [0.45, 0.75], [1, 0]]);
+    const flake = softDot(16, '#f4f8ff', [
+      [0, 1],
+      [0.45, 0.75],
+      [1, 0],
+    ]);
     const n = Math.floor(this.flakes.length * env.q * Math.min(1.5, env.intensity));
     for (let i = 0; i < n && i < this.flakes.length; i++) {
       const f = this.flakes[i];
@@ -528,7 +637,13 @@ class Snow {
 class Embers {
   constructor() {
     this.p = Array.from({ length: 180 }, () => this.reset({}, 1600, 1000, true));
-    this.ash = Array.from({ length: 50 }, () => ({ x: r.range(0, 1600), y: r.range(0, 1000), z: r.range(0.5, 1.4), rot: r.angle(), ph: r.angle() }));
+    this.ash = Array.from({ length: 50 }, () => ({
+      x: r.range(0, 1600),
+      y: r.range(0, 1000),
+      z: r.range(0.5, 1.4),
+      rot: r.angle(),
+      ph: r.angle(),
+    }));
   }
   reset(p, W, H, any) {
     p.x = r.range(-40, W + 40);
@@ -573,8 +688,17 @@ class Embers {
     ctx.globalAlpha = 0.2 * pulse * w * Math.min(1.4, env.intensity);
     ctx.drawImage(vig, 0, 0, W, H);
     // Embers.
-    const hot = softDot(32, '#ffcf6a', [[0, 1], [0.2, 0.9], [0.5, 0.25], [1, 0]]);
-    const warm = softDot(32, '#ff6a20', [[0, 1], [0.25, 0.7], [1, 0]]);
+    const hot = softDot(32, '#ffcf6a', [
+      [0, 1],
+      [0.2, 0.9],
+      [0.5, 0.25],
+      [1, 0],
+    ]);
+    const warm = softDot(32, '#ff6a20', [
+      [0, 1],
+      [0.25, 0.7],
+      [1, 0],
+    ]);
     const n = Math.floor(this.p.length * env.q * Math.min(1.6, env.intensity));
     for (let i = 0; i < n && i < this.p.length; i++) {
       const p = this.p[i];
@@ -592,7 +716,14 @@ class Embers {
       const c = Math.cos(a.rot) * a.z;
       const s = Math.sin(a.rot) * a.z;
       ctx.globalAlpha = 0.5 * w;
-      ctx.setTransform(c * env.dpr, s * env.dpr, -s * 0.4 * env.dpr, c * 0.4 * env.dpr, a.x * env.dpr, a.y * env.dpr);
+      ctx.setTransform(
+        c * env.dpr,
+        s * env.dpr,
+        -s * 0.4 * env.dpr,
+        c * 0.4 * env.dpr,
+        a.x * env.dpr,
+        a.y * env.dpr
+      );
       ctx.fillRect(-2.5, -2, 5, 4);
     }
     ctx.setTransform(env.dpr, 0, 0, env.dpr, 0, 0);

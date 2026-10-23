@@ -5,8 +5,10 @@
 
 import { makeCanvas, rand01, hashInt, rgba } from './bg-util.js';
 import { RNG } from '../core/rng.js';
+import { isleSprite, ISLE_W, ISLE_H, ISLE_VARIANTS } from './bg-isles.js';
 
 const VARIANTS = 8;
+export const CLOUD_VARIANTS = VARIANTS;
 const CW = 440; // sprite size in layer units (1 px per unit)
 const CH = 300;
 
@@ -140,6 +142,7 @@ export const HIGH = { parallax: 1.35, scale: 1.45, cell: 980, salt: 191 };
  * @param {'cloud'|'shadow'} [o.mode]
  * @param {{x:number,y:number}|null} [o.focus]  CSS px
  * @param {number} [o.shadowAlpha]
+ * @param {number} [o.isles]   extra chance per cell of a floating island (low layer)
  * @returns {number} clouds drawn
  */
 export function drawCloudLayer(ctx, o) {
@@ -167,18 +170,22 @@ export function drawCloudLayer(ctx, o) {
   for (let cy = r0; cy <= r1; cy++) {
     for (let cx = c0; cx <= c1; cx++) {
       const h = rand01(cx, cy, layer.salt);
-      if (h >= o.coverage) continue;
+      // Cells just past the cloud coverage may hold a floating island instead (Aurora).
+      const isle = !!o.isles && h >= o.coverage && h < o.coverage + o.isles;
+      if (h >= o.coverage && !isle) continue;
       const lx = (cx + 0.15 + 0.7 * rand01(cx, cy, layer.salt + 1)) * layer.cell;
       const ly = (cy + 0.15 + 0.7 * rand01(cx, cy, layer.salt + 2)) * layer.cell;
       const sc = 0.7 + 0.75 * rand01(cx, cy, layer.salt + 3);
       const variant = hashInt(cx, cy, layer.salt + 4) % VARIANTS;
       const x = (lx - lcx) * zs + cxs;
       const y = (ly - lcy) * zs + cys;
-      const w = CW * sc * zs;
-      const hgt = CH * sc * zs;
+      const w = (isle ? ISLE_W * 0.9 : CW) * sc * zs;
+      const hgt = (isle ? ISLE_H * 0.9 : CH) * sc * zs;
       if (x + w / 2 < 0 || x - w / 2 > W || y + hgt / 2 < 0 || y - hgt / 2 > H) continue;
-      let a = o.alpha * (0.72 + 0.28 * rand01(cx, cy, layer.salt + 5));
-      if (shadow) a = (o.shadowAlpha ?? 0.18) * o.alpha;
+      let a = isle
+        ? o.alpha / (biome.clouds.lowAlpha || 1)
+        : o.alpha * (0.72 + 0.28 * rand01(cx, cy, layer.salt + 5));
+      if (shadow) a = (o.shadowAlpha ?? 0.18) * o.alpha * (isle ? 1.6 : 1);
       if (o.focus) {
         // Fade when the focus is under (or near) the cloud body.
         const R = w * 0.32;
@@ -188,7 +195,11 @@ export function drawCloudLayer(ctx, o) {
       }
       if (a <= 0.01) continue;
       ctx.globalAlpha = a;
-      const img = shadow ? shadowSprite(variant) : cloudSprite(biome, variant);
+      const img = isle
+        ? isleSprite(variant % ISLE_VARIANTS, shadow)
+        : shadow
+          ? shadowSprite(variant)
+          : cloudSprite(biome, variant);
       ctx.drawImage(img, x - w / 2, y - hgt / 2, w, hgt);
       drawn++;
     }

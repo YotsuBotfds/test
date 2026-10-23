@@ -4,9 +4,24 @@
 // (animated twinkle via bg-anim.js) linked by trodden lantern-lit paths.
 
 import {
-  A, fnoise, pridged, sampleField, makeField, fillRows, blitField, strokeContour, forCells,
-  cellRng, rand01, rgb,
-  ramp, putRamp, grainCanvas, touchesTile, fieldAt, TILE,
+  A,
+  fnoise,
+  pridged,
+  sampleField,
+  makeField,
+  fillRows,
+  blitField,
+  strokeContour,
+  forCells,
+  cellRng,
+  rand01,
+  rgb,
+  ramp,
+  putRamp,
+  grainCanvas,
+  touchesTile,
+  fieldAt,
+  TILE,
 } from './bg-util.js';
 import { house, bakedGlow } from './bg-props.js';
 
@@ -51,7 +66,8 @@ function villageAt(cx, cy) {
     const x = (cx + 0.15 + 0.7 * rand01(cx, cy, SEED + 22 + i * 2)) * VC;
     const y = (cy + 0.15 + 0.7 * rand01(cx, cy, SEED + 23 + i * 2)) * VC;
     const h = height(x, y);
-    if (h > LAKE + 0.03 && h < VALLEY) return { cx, cy, x, y, size: rand01(cx, cy, SEED + 25) > 0.6 ? 1 : 0 };
+    if (h > LAKE + 0.03 && h < VALLEY)
+      return { cx, cy, x, y, size: rand01(cx, cy, SEED + 25) > 0.6 ? 1 : 0 };
   }
   return null;
 }
@@ -161,7 +177,10 @@ export function* paint(ctx, X0, Y0, anchors) {
   const byCell = new Map(villages.map((v) => [`${v.cx},${v.cy}`, v]));
   ctx.setLineDash([]);
   for (const v of villages) {
-    for (const [dx, dy] of [[1, 0], [0, 1]]) {
+    for (const [dx, dy] of [
+      [1, 0],
+      [0, 1],
+    ]) {
       const w = byCell.get(`${v.cx + dx},${v.cy + dy}`);
       if (!w) continue;
       // Paths wind along the valley: route through the lower of two candidate midpoints.
@@ -248,7 +267,9 @@ function drawVillage(ctx, v, anchors) {
     const w = r.range(6, 9.5);
     const hh = r.range(4.2, 6);
     house(ctx, hx, hy, w, hh, ang + (r.next() < 0.5 ? 0 : Math.PI / 2), '#e6eeff', {
-      snow: true, height: 2.4, shadow: 'rgba(14,16,50,0.45)',
+      snow: true,
+      height: 2.4,
+      shadow: 'rgba(14,16,50,0.45)',
     });
     // Window glow spilling onto the snow, plus an animated twinkle.
     const wx = hx + r.range(-2, 2) + 3;
@@ -259,10 +280,25 @@ function drawVillage(ctx, v, anchors) {
   }
   // Chapel with a steeple.
   if (v.size) {
-    house(ctx, v.x + 14, v.y - 10, 12, 6, ang, '#e6eeff', { snow: true, height: 4, shadow: 'rgba(14,16,50,0.45)' });
-    house(ctx, v.x + 14 - Math.cos(ang) * 8, v.y - 10 - Math.sin(ang) * 8, 4.5, 4.5, ang, '#e6eeff', {
-      snow: true, height: 9, shadow: 'rgba(14,16,50,0.45)',
+    house(ctx, v.x + 14, v.y - 10, 12, 6, ang, '#e6eeff', {
+      snow: true,
+      height: 4,
+      shadow: 'rgba(14,16,50,0.45)',
     });
+    house(
+      ctx,
+      v.x + 14 - Math.cos(ang) * 8,
+      v.y - 10 - Math.sin(ang) * 8,
+      4.5,
+      4.5,
+      ang,
+      '#e6eeff',
+      {
+        snow: true,
+        height: 9,
+        shadow: 'rgba(14,16,50,0.45)',
+      }
+    );
     anchors.add(A.WINDOW, v.x + 14, v.y - 6, 1, r.next());
   }
   for (let i = 0; i < 6; i++) {

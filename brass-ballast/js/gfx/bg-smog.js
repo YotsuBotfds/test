@@ -4,8 +4,20 @@
 // forests of chimneys whose smoke columns are animated by bg-anim.js.
 
 import {
-  TILE, A, fnoise, sampleField, blitField, strokeContour, cellRng, rand01, rgb, putMix,
-  grainCanvas, fieldAt,
+  TILE,
+  A,
+  fnoise,
+  sampleField,
+  blitField,
+  strokeContour,
+  cellRng,
+  rand01,
+  rgb,
+  putMix,
+  grainCanvas,
+  fieldAt,
+  isoDistance,
+  isoDistanceAt,
 } from './bg-util.js';
 import { house, flatRoof, chimney, tank, ties, tree, bakedGlow } from './bg-props.js';
 
@@ -17,12 +29,12 @@ const B = 96; // block pitch
 const ST = 10; // street width
 const AVE = 5; // every Nth line is an avenue
 const RAIL = 7; // every Nth u-line is a rail corridor
-const CANAL_W = 0.02;
+const CANAL_D = 15; // canal half-width (ground units)
 
 /** Canal field: the canal runs where this is near 0.5. */
 export function canalField(x, y) {
-  const wx = fnoise(x / 2600 + 5, y / 2600, 2, SEED + 7) - 0.5;
-  return fnoise(x / 1900 + wx * 0.9, y / 1900 - wx * 0.6, 3, SEED + 3);
+  const wx = fnoise(x / 2200 + 5, y / 2200, 2, SEED + 7) - 0.5;
+  return fnoise(x / 1250 + wx * 0.9, y / 1250 - wx * 0.6, 3, SEED + 3);
 }
 const district = (x, y) => fnoise(x / 1100 + 9, y / 1100 - 3, 3, SEED + 11);
 const grime = (x, y) => fnoise(x / 160, y / 160, 3, SEED + 13);
@@ -39,8 +51,9 @@ const BASE_LIGHT = rgb('#5e594b');
 const WATER = rgb('#3f4a37');
 const WATER_HI = rgb('#5c6648');
 
+/** True when (x, y) lies within the canal (grown by `pad` ground units). */
 function inCanal(x, y, pad = 0) {
-  return Math.abs(canalField(x, y) - 0.5) < CANAL_W + pad;
+  return isoDistanceAt(canalField, x, y, 0.5) < CANAL_D + pad;
 }
 
 /**
@@ -50,10 +63,13 @@ function inCanal(x, y, pad = 0) {
 export function* paint(ctx, X0, Y0, anchors) {
   const G = sampleField(X0, Y0, 16, 2, grime);
   const C = sampleField(X0, Y0, 8, 3, canalField);
+  const CD = isoDistance(C, 0.5);
   yield;
 
   // 1. Cobbles & soot.
-  blitField(ctx, G, (k, i, j, px, p) => putMix(px, p, BASE_DARK, BASE_LIGHT, G.data[k] * 1.4 - 0.25));
+  blitField(ctx, G, (k, i, j, px, p) =>
+    putMix(px, p, BASE_DARK, BASE_LIGHT, G.data[k] * 1.4 - 0.25)
+  );
 
   // Block range in grid space (u, v), covering the tile corners plus a block of margin.
   const us = [toU(X0, Y0), toU(X0 + TILE, Y0), toU(X0, Y0 + TILE), toU(X0 + TILE, Y0 + TILE)];
@@ -121,23 +137,21 @@ export function* paint(ctx, X0, Y0, anchors) {
   yield;
 
   // 5. The canal cuts through everything: water, embankments, bridges & barges.
-  const cd = C.data;
-  blitField(ctx, C, (k, i, j, px, p) => {
-    const d = Math.abs(cd[k] - 0.5);
-    if (d > CANAL_W + 0.004) {
+  const cd = CD.data;
+  blitField(ctx, CD, (k, i, j, px, p) => {
+    const d = cd[k];
+    if (d > CANAL_D + 3) {
       px[p + 3] = 0;
       return;
     }
-    const edge = Math.min(1, (CANAL_W + 0.004 - d) / 0.004);
-    putMix(px, p, WATER_HI, WATER, 1 - d / CANAL_W, 255 * edge);
+    const edge = Math.min(1, (CANAL_D + 3 - d) / 6);
+    putMix(px, p, WATER_HI, WATER, 1 - d / CANAL_D, 255 * edge);
   });
-  strokeContour(ctx, C, 0.5 - CANAL_W, '#a59c88', 2.2, 0.9);
-  strokeContour(ctx, C, 0.5 + CANAL_W, '#a59c88', 2.2, 0.9);
-  strokeContour(ctx, C, 0.5 - CANAL_W + 0.003, '#202419', 0.8, 0.5);
-  strokeContour(ctx, C, 0.5 + CANAL_W - 0.003, '#202419', 0.8, 0.5);
-  strokeContour(ctx, C, 0.5, '#7c8664', 0.6, 0.25);
+  strokeContour(ctx, CD, CANAL_D, '#a59c88', 2.6, 0.95);
+  strokeContour(ctx, CD, CANAL_D - 2.5, '#202419', 0.9, 0.55);
+  strokeContour(ctx, CD, CANAL_D * 0.35, '#7c8664', 0.6, 0.22);
   drawBridges(ctx, X0, Y0, bu0, bu1, bv0, bv1);
-  drawBarges(ctx, X0, Y0, C);
+  drawBarges(ctx, X0, Y0, C, CD);
   yield;
 
   // 6. Soot blooms & grain.
@@ -174,7 +188,7 @@ function drawBlock(ctx, bu, bv, anchors) {
   ctx.fillRect(u - 1.5, v - 1.5, w + 3, h + 3);
   ctx.fillStyle = '#3a372f';
   ctx.fillRect(u, v, w, h);
-  if (inCanal(cx, cy, 0.006)) return; // embankment lots: left as paved quays
+  if (inCanal(cx, cy, 10)) return; // embankment lots: left as paved quays
   const d = district(cx, cy);
   const roll = r.next();
   if (d > 0.52 || (d > 0.4 && roll < 0.45)) {
@@ -219,8 +233,15 @@ function tenements(ctx, u, v, w, h, r, anchors) {
   }
   ctx.stroke();
   for (let i = 0; i < 4; i++) {
-    flatRoof(ctx, u + depth + r.range(1, iw - 6), v + depth + r.range(1, ih - 6), r.range(3, 6), r.range(3, 5),
-      r.next() < 0.5 ? '#5a4c42' : '#4f4a44', { height: 1.5, ink: 0.4 });
+    flatRoof(
+      ctx,
+      u + depth + r.range(1, iw - 6),
+      v + depth + r.range(1, ih - 6),
+      r.range(3, 6),
+      r.range(3, 5),
+      r.next() < 0.5 ? '#5a4c42' : '#4f4a44',
+      { height: 1.5, ink: 0.4 }
+    );
   }
   const roofBase = ROOFS[r.int(0, ROOFS.length - 1)];
   const row = (x0, y0, len, horiz) => {
@@ -230,7 +251,9 @@ function tenements(ctx, u, v, w, h, r, anchors) {
       const roof = r.next() < 0.7 ? roofBase : ROOFS[r.int(0, ROOFS.length - 1)];
       const hx = horiz ? x0 + s + L / 2 : x0 + depth / 2;
       const hy = horiz ? y0 + depth / 2 : y0 + s + L / 2;
-      house(ctx, hx, hy, horiz ? L - 0.6 : depth - 1, horiz ? depth - 1 : L - 0.6, 0, roof, { height: 4 });
+      house(ctx, hx, hy, horiz ? L - 0.6 : depth - 1, horiz ? depth - 1 : L - 0.6, 0, roof, {
+        height: 4,
+      });
       if (r.next() < 0.35) {
         const ox = horiz ? hx + r.range(-L / 3, L / 3) : hx + r.range(-3, 3);
         const oy = horiz ? hy + r.range(-3, 3) : hy + r.range(-L / 3, L / 3);
@@ -248,7 +271,9 @@ function tenements(ctx, u, v, w, h, r, anchors) {
   row(u + w - depth, v + depth, h - depth * 2, false);
   // Laundry lines & sheds in the courtyard.
   if (r.next() < 0.6) {
-    flatRoof(ctx, u + depth + 3, v + depth + 3, r.range(6, 12), r.range(5, 9), '#4f4a44', { height: 2 });
+    flatRoof(ctx, u + depth + 3, v + depth + 3, r.range(6, 12), r.range(5, 9), '#4f4a44', {
+      height: 2,
+    });
   }
   if (r.next() < 0.15) addSmoke(anchors, u + depth / 2, v + depth / 2, 0.5, r, false);
 }
@@ -259,7 +284,8 @@ function warehouses(ctx, u, v, w, h, r) {
   for (let i = 0; i < n; i++) {
     const t0 = i / n;
     const col = ['#6b4a3a', '#5d6068', '#73685a'][r.int(0, 2)];
-    if (vertical) house(ctx, u + w * (t0 + 0.5 / n), v + h / 2, w / n - 3, h - 6, 0, col, { height: 5 });
+    if (vertical)
+      house(ctx, u + w * (t0 + 0.5 / n), v + h / 2, w / n - 3, h - 6, 0, col, { height: 5 });
     else house(ctx, u + w / 2, v + h * (t0 + 0.5 / n), w - 6, h / n - 3, 0, col, { height: 5 });
   }
 }
@@ -287,7 +313,10 @@ function factory(ctx, u, v, w, h, r, anchors) {
     const vertical = r.next() < 0.5;
     const col = FACT[r.int(0, FACT.length - 1)];
     flatRoof(ctx, x, v + 2, hw, h * r.range(0.55, 0.8), col, {
-      height: 6, stripes: r.int(4, 8), vertical, glass: 'rgba(170,180,160,0.32)',
+      height: 6,
+      stripes: r.int(4, 8),
+      vertical,
+      glass: 'rgba(170,180,160,0.32)',
     });
   }
   // Lean-to sheds along the bottom.
@@ -298,10 +327,20 @@ function factory(ctx, u, v, w, h, r, anchors) {
     const cu = u + r.range(8, w - 8);
     const cv = v + h - r.range(6, 22);
     const rad = r.range(3.2, 5.2);
-    chimney(ctx, cu, cv, rad, { height: 18 + rad * 3, color: r.next() < 0.6 ? '#7a4030' : '#5a5550' });
+    chimney(ctx, cu, cv, rad, {
+      height: 18 + rad * 3,
+      color: r.next() < 0.6 ? '#7a4030' : '#5a5550',
+    });
     addSmoke(anchors, cu, cv, 0.9 + rad * 0.08, r, r.next() < 0.6);
   }
-  if (r.next() < 0.5) anchors.add(A.FURNACE, toX(u + w * 0.5, v + h * 0.4), toY(u + w * 0.5, v + h * 0.4), 0.5, r.next());
+  if (r.next() < 0.5)
+    anchors.add(
+      A.FURNACE,
+      toX(u + w * 0.5, v + h * 0.4),
+      toY(u + w * 0.5, v + h * 0.4),
+      0.5,
+      r.next()
+    );
 }
 
 function gasworks(ctx, u, v, w, h, r, anchors) {
@@ -311,7 +350,14 @@ function gasworks(ctx, u, v, w, h, r, anchors) {
   const rad = Math.min(w, h) / (n === 1 ? 2.6 : 4.2);
   for (let i = 0; i < n; i++) {
     const x = n === 1 ? u + w / 2 : u + rad + 3 + (i % 2) * (w - rad * 2 - 6);
-    const y = n === 1 ? v + h / 2 : v + rad + 3 + Math.floor(i / 2) * (h - rad * 2 - 6) + (n === 2 ? (h - rad * 2 - 6) * 0.5 * i : 0);
+    const y =
+      n === 1
+        ? v + h / 2
+        : v +
+          rad +
+          3 +
+          Math.floor(i / 2) * (h - rad * 2 - 6) +
+          (n === 2 ? (h - rad * 2 - 6) * 0.5 * i : 0);
     tank(ctx, x, y, rad, r.next() < 0.5 ? '#7a5a46' : '#6b6a66', { height: rad * 0.7, ribs: 16 });
   }
   if (n < 3) {
@@ -363,7 +409,8 @@ function drawBridges(ctx, X0, Y0, bu0, bu1, bv0, bv1) {
   ctx.lineCap = 'butt';
   const lines = [];
   for (let bu = bu0; bu <= bu1; bu++) {
-    if (((bu % AVE) + AVE) % AVE === 0 || ((bu % RAIL) + RAIL) % RAIL === 0) lines.push(['u', bu * B - ST / 2, bv0 * B, (bv1 + 1) * B]);
+    if (((bu % AVE) + AVE) % AVE === 0 || ((bu % RAIL) + RAIL) % RAIL === 0)
+      lines.push(['u', bu * B - ST / 2, bv0 * B, (bv1 + 1) * B]);
   }
   for (let bv = bv0; bv <= bv1; bv++) {
     if (((bv % AVE) + AVE) % AVE === 0) lines.push(['v', bv * B - ST / 2, bu0 * B, (bu1 + 1) * B]);
@@ -375,8 +422,13 @@ function drawBridges(ctx, X0, Y0, bu0, bu1, bv0, bv1) {
       const v = axis === 'u' ? s : c;
       const x = toX(u, v);
       const y = toY(u, v);
-      const wet = s <= s1 && x > X0 - 40 && x < X0 + TILE + 40 && y > Y0 - 40 && y < Y0 + TILE + 40 &&
-        inCanal(x, y, 0.004);
+      const wet =
+        s <= s1 &&
+        x > X0 - 40 &&
+        x < X0 + TILE + 40 &&
+        y > Y0 - 40 &&
+        y < Y0 + TILE + 40 &&
+        inCanal(x, y, 4);
       if (wet && runStart === null) runStart = s;
       if (!wet && runStart !== null) {
         const a = runStart - 4;
@@ -408,15 +460,14 @@ function drawBridges(ctx, X0, Y0, bu0, bu1, bv0, bv1) {
   ctx.lineCap = 'round';
 }
 
-function drawBarges(ctx, X0, Y0, C) {
+function drawBarges(ctx, X0, Y0, C, CD) {
   const cell = 140;
   for (let cy = Math.floor(Y0 / cell); cy <= Math.floor((Y0 + TILE) / cell); cy++) {
     for (let cx = Math.floor(X0 / cell); cx <= Math.floor((X0 + TILE) / cell); cx++) {
       if (rand01(cx, cy, SEED + 51) > 0.7) continue;
       const x = (cx + rand01(cx, cy, SEED + 52)) * cell;
       const y = (cy + rand01(cx, cy, SEED + 53)) * cell;
-      const c = fieldAt(C, x, y);
-      if (Math.abs(c - 0.5) > CANAL_W * 0.45) continue;
+      if (fieldAt(CD, x, y) > CANAL_D * 0.4) continue;
       // Align with the canal: perpendicular to the field gradient.
       const gx = fieldAt(C, x + 4, y) - fieldAt(C, x - 4, y);
       const gy = fieldAt(C, x, y + 4) - fieldAt(C, x, y - 4);

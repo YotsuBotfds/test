@@ -37,7 +37,17 @@ export class Weather {
     this.bolts = [];
     this._cam = null;
     this._env = {
-      W: 1, H: 1, t: 0, dx: 0, dy: 0, intensity: 1, q: 1, zoom: 1, dpr: 1, mild: false, host: this,
+      W: 1,
+      H: 1,
+      t: 0,
+      dx: 0,
+      dy: 0,
+      intensity: 1,
+      q: 1,
+      zoom: 1,
+      dpr: 1,
+      mild: false,
+      host: this,
     };
     this.setBiome('brassbay', 0);
   }
@@ -207,15 +217,25 @@ export class Weather {
     if (opts.sound !== false) this._thunder(opts.delay ?? 0, opts.vol ?? 1);
     if (this.bolts.length > 8) this.bolts.shift();
     return {
-      shape, t: 0, life: opts.life ?? BOLT_LIFE, world: false, wx: 0, wy: 0, sx: 0, sy: 0,
-      ox: boltRng.range(-240, 240), color: opts.color || '#9cc4ff', width: opts.width ?? 1,
+      shape,
+      t: 0,
+      life: opts.life ?? BOLT_LIFE,
+      world: false,
+      wx: 0,
+      wy: 0,
+      sx: 0,
+      sy: 0,
+      ox: boltRng.range(-240, 240),
+      color: opts.color || '#9cc4ff',
+      width: opts.width ?? 1,
       alpha: 1,
     };
   }
 
   _thunder(delay = 0, vol = 1) {
     try {
-      if (typeof audio?.play === 'function') audio.play('thunder', { vol, delay, pitch: boltRng.range(0.85, 1.1) });
+      if (typeof audio?.play === 'function')
+        audio.play('thunder', { vol, delay, pitch: boltRng.range(0.85, 1.1) });
     } catch {
       /* audio is optional */
     }

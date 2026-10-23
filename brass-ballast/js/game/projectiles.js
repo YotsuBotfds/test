@@ -147,7 +147,7 @@ export class ProjectileSystem {
     p.trail = o.trail || null;
     p.trailT = 0;
     p.glow = o.glow === undefined ? (team === 'enemy' ? '#ff5a2a' : null) : o.glow;
-    p.glowSize = o.glowSize ?? 3.2;
+    p.glowSize = o.glowSize ?? 2.6;
     p.wave = o.wave || null;
     p.noExplosive = !!o.noExplosive;
     p.noBurnChance = !!o.noBurnChance;

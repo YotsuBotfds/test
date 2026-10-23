@@ -35,7 +35,8 @@ export function makeCanvas(w, h) {
 
 /** 32-bit integer hash of (x, y, salt). */
 export function hashInt(x, y, salt = 0) {
-  let h = Math.imul(x | 0, 0x27d4eb2d) ^ Math.imul(y | 0, 0x165667b1) ^ Math.imul(salt | 0, 0x9e3779b9);
+  let h =
+    Math.imul(x | 0, 0x27d4eb2d) ^ Math.imul(y | 0, 0x165667b1) ^ Math.imul(salt | 0, 0x9e3779b9);
   h = Math.imul(h ^ (h >>> 15), 0x85ebca6b);
   h = Math.imul(h ^ (h >>> 13), 0xc2b2ae35);
   return (h ^ (h >>> 16)) >>> 0;
@@ -231,6 +232,45 @@ export function fillRows(f, fn, j0, j1) {
   }
 }
 
+/**
+ * Approximate distance (ground units) from each sample to the iso-line `level` of field `F`:
+ * |F − level| / |∇F|, optionally divided by `widthFn(x, y)` to vary feature width. Turning a
+ * thresholded noise band into a distance gives rivers/canals a steady width instead of
+ * ballooning wherever the noise happens to be flat.
+ * @param {Field} F
+ * @param {number} level
+ * @param {(x:number, y:number)=>number} [widthFn]
+ * @returns {Field}
+ */
+export function isoDistance(F, level, widthFn) {
+  const n = F.n;
+  const d = F.data;
+  const out = new Float32Array(n * n);
+  const c2 = 2 * F.cell;
+  for (let j = 0; j < n; j++) {
+    const j0 = j > 0 ? j - 1 : j;
+    const j1 = j < n - 1 ? j + 1 : j;
+    for (let i = 0; i < n; i++) {
+      const i0 = i > 0 ? i - 1 : i;
+      const i1 = i < n - 1 ? i + 1 : i;
+      const gx = (d[j * n + i1] - d[j * n + i0]) / (c2 * ((i1 - i0) / 2 || 1));
+      const gy = (d[j1 * n + i] - d[j0 * n + i]) / (c2 * ((j1 - j0) / 2 || 1));
+      let v = Math.abs(d[j * n + i] - level) / Math.max(Math.hypot(gx, gy), 1e-6);
+      if (widthFn) v /= widthFn(F.x0 + i * F.cell, F.y0 + j * F.cell);
+      out[j * n + i] = v > 400 ? 400 : v;
+    }
+  }
+  return { n, cell: F.cell, x0: F.x0, y0: F.y0, data: out };
+}
+
+/** Point version of isoDistance (finite differences of `fn`). */
+export function isoDistanceAt(fn, x, y, level, e = 3) {
+  const f = fn(x, y);
+  const gx = (fn(x + e, y) - fn(x - e, y)) / (2 * e);
+  const gy = (fn(x, y + e) - fn(x, y - e)) / (2 * e);
+  return Math.abs(f - level) / Math.max(Math.hypot(gx, gy), 1e-6);
+}
+
 /** Bilinear lookup into a field at ground coords (clamped to the field). */
 export function fieldAt(f, x, y) {
   let fx = (x - f.x0) / f.cell;
@@ -289,8 +329,22 @@ export function blitField(ctx, f, shade) {
 // Marching squares segment table: corner bits a=1 (top-left), b=2, c=4 (bottom-right), d=8;
 // edges 0 top, 1 right, 2 bottom, 3 left.
 const SEG = [
-  [], [0, 3], [0, 1], [1, 3], [1, 2], [0, 1, 2, 3], [0, 2], [2, 3],
-  [2, 3], [0, 2], [0, 3, 1, 2], [1, 2], [1, 3], [0, 1], [0, 3], [],
+  [],
+  [0, 3],
+  [0, 1],
+  [1, 3],
+  [1, 2],
+  [0, 1, 2, 3],
+  [0, 2],
+  [2, 3],
+  [2, 3],
+  [0, 2],
+  [0, 3, 1, 2],
+  [1, 2],
+  [1, 3],
+  [0, 1],
+  [0, 3],
+  [],
 ];
 
 /**
@@ -310,7 +364,8 @@ export function contour(ctx, f, level) {
       const vb = d[k + 1];
       const vc = d[k + n + 1];
       const vd = d[k + n];
-      const idx = (va > level ? 1 : 0) | (vb > level ? 2 : 0) | (vc > level ? 4 : 0) | (vd > level ? 8 : 0);
+      const idx =
+        (va > level ? 1 : 0) | (vb > level ? 2 : 0) | (vc > level ? 4 : 0) | (vd > level ? 8 : 0);
       if (idx === 0 || idx === 15) continue;
       const seg = SEG[idx];
       const x = f.x0 + i * c;
@@ -419,7 +474,15 @@ const spriteCache = new Map();
  * Radial soft dot sprite, `size` px square. `stops` = [[t, alpha], ...] along the radius.
  * @returns {HTMLCanvasElement|OffscreenCanvas}
  */
-export function softDot(size, color, stops = [[0, 1], [0.35, 0.6], [1, 0]]) {
+export function softDot(
+  size,
+  color,
+  stops = [
+    [0, 1],
+    [0.35, 0.6],
+    [1, 0],
+  ]
+) {
   const key = `dot|${size}|${color}|${stops.join(';')}`;
   let c = spriteCache.get(key);
   if (c) return c;

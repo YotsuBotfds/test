@@ -244,6 +244,14 @@ function buildBench() {
     app.append(el('div', { class: 'loop' }, b, el('label', {}, 'vol', vol), el('label', {}, 'pitch', pitch)));
   }
 
+  // Ambience beds (normally driven by stage:start)
+  const arow = el('div', { class: 'row' });
+  for (const b of ['brassbay', 'smog', 'tempest', 'aurora', 'furnace']) {
+    arow.append(el('button', { onclick: () => setTimeout(() => audio.ambience(b), 0) }, b));
+  }
+  arow.append(el('button', { onclick: () => setTimeout(() => audio.ambience(null), 0) }, '■ none'));
+  app.append(el('h2', {}, 'Ambience'), arow);
+
   // Music
   const mrow = el('div', { class: 'row' });
   for (const tr of TRACKS) {
@@ -316,7 +324,9 @@ function buildBench() {
       pg.arc(m.px, m.py, 6 + (1 - a) * 18, 0, Math.PI * 2);
       pg.fill();
     }
-    stats.textContent = JSON.stringify(audio.stats(), null, 1).replace(/[{}"]/g, '').trim();
+    stats.textContent = Object.entries(audio.stats())
+      .map(([k, v]) => `${k.padEnd(10)} ${typeof v === 'number' ? +v.toFixed(2) : v}`)
+      .join('\n');
     requestAnimationFrame(frame);
   };
   requestAnimationFrame(frame);

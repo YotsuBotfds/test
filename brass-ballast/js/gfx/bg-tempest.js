@@ -3,8 +3,20 @@
 // surf, sea stacks, lighthouses with sweeping beams, storm-tossed ships and the odd wreck.
 
 import {
-  TILE, A, fnoise, sampleField, blitField, strokeContour, forCells, cellRng, rgb, ramp,
-  putRamp, grainCanvas, touchesTile, fieldAt,
+  TILE,
+  A,
+  fnoise,
+  sampleField,
+  blitField,
+  strokeContour,
+  forCells,
+  cellRng,
+  rgb,
+  ramp,
+  putRamp,
+  grainCanvas,
+  touchesTile,
+  fieldAt,
 } from './bg-util.js';
 import { house, boat } from './bg-props.js';
 
@@ -150,26 +162,40 @@ export function* paint(ctx, X0, Y0, anchors) {
   strokeContour(ctx, E, T + 0.07, '#1c1b1a', 0.7, 0.3);
   yield;
 
-  // 4. Sea stacks just offshore.
-  forCells(X0, Y0, 40, 10, (cx, cy) => {
+  // 4. Sea stacks just offshore: little clusters of rock with broken surf on the windward side.
+  forCells(X0, Y0, 56, 12, (cx, cy) => {
     const r = cellRng(cx, cy, SEED + 41);
-    const x = (cx + r.next()) * 40;
-    const y = (cy + r.next()) * 40;
+    const x = (cx + r.next()) * 56;
+    const y = (cy + r.next()) * 56;
     const e = fieldAt(E, x, y);
-    if (e < T - 0.05 || e > T - 0.006 || r.next() > 0.5) return;
-    const rad = r.range(1.6, 3.6);
-    ctx.fillStyle = 'rgba(230,240,248,0.5)';
-    ctx.beginPath();
-    ctx.arc(x, y, rad + 1.6, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.fillStyle = '#3a3936';
-    ctx.beginPath();
-    ctx.arc(x, y, rad, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.fillStyle = '#5c5a52';
-    ctx.beginPath();
-    ctx.arc(x - rad * 0.3, y - rad * 0.3, rad * 0.5, 0, Math.PI * 2);
-    ctx.fill();
+    if (e < T - 0.035 || e > T - 0.008 || r.next() > 0.3) return;
+    const n = r.int(1, 3);
+    for (let i = 0; i < n; i++) {
+      const sx = x + r.range(-4, 4);
+      const sy = y + r.range(-4, 4);
+      const rad = r.range(1.4, 3.2);
+      // Surf: a partial arc facing into the wind.
+      ctx.strokeStyle = 'rgba(235,244,250,0.55)';
+      ctx.lineWidth = 1.2;
+      ctx.beginPath();
+      const a0 = WIND + Math.PI;
+      ctx.arc(sx, sy, rad + 1.5, a0 - 1.2, a0 + 1.2);
+      ctx.stroke();
+      ctx.fillStyle = '#34322f';
+      ctx.beginPath();
+      ctx.moveTo(sx + rad, sy);
+      for (let k = 1; k < 6; k++) {
+        const a = (k / 6) * Math.PI * 2;
+        const rr = rad * r.range(0.7, 1.15);
+        ctx.lineTo(sx + Math.cos(a) * rr, sy + Math.sin(a) * rr);
+      }
+      ctx.closePath();
+      ctx.fill();
+      ctx.fillStyle = '#5c5a52';
+      ctx.beginPath();
+      ctx.arc(sx - rad * 0.3, sy - rad * 0.3, rad * 0.45, 0, Math.PI * 2);
+      ctx.fill();
+    }
   });
 
   // 5. Lighthouses on island summits.
@@ -210,9 +236,19 @@ export function* paint(ctx, X0, Y0, anchors) {
     if (e > T - 0.04) return;
     const ang = WIND + r.range(-1.1, 1.1) + (r.next() < 0.3 ? Math.PI : 0);
     const steam = r.next() < 0.35;
-    boat(ctx, x, y, ang, r.range(14, 22), steam ? '#2f2a28' : '#4a3424', steam ? null : '#cfc8b4', 1.3, {
-      wakeColor: 'rgba(230,240,248,0.45)',
-    });
+    boat(
+      ctx,
+      x,
+      y,
+      ang,
+      r.range(14, 22),
+      steam ? '#2f2a28' : '#4a3424',
+      steam ? null : '#cfc8b4',
+      1.3,
+      {
+        wakeColor: 'rgba(230,240,248,0.45)',
+      }
+    );
     if (steam) anchors.add(A.STEAM, x, y, 0.7, r.next());
   });
 
@@ -298,4 +334,3 @@ function wreck(ctx, x, y, ang, r) {
   ctx.stroke();
   ctx.restore();
 }
-

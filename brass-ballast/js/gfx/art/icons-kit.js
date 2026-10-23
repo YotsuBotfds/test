@@ -648,11 +648,11 @@ export function saw(ctx, x, y, r, o = {}) {
 
 /** Rocket in local frame pointing +x, centred at origin. */
 export function rocket(ctx, len, wid, o = {}) {
-  const { kind = 'brass', nose = 'red', flameOn = true } = o;
+  const { kind = 'brass', nose = 'red', flameOn = true, flameScale = 1 } = o;
   const h = wid / 2;
   const x0 = -len / 2;
   if (flameOn) {
-    at(ctx, x0 - 0.5, 0, Math.PI / 2, 1, (c) => flame(c, 0, 0, len * 0.55, { inner: true }));
+    at(ctx, x0 - 0.5, 0, Math.PI / 2, 1, (c) => flame(c, 0, 0, len * 0.55 * flameScale, { inner: true }));
   }
   // fins
   body(ctx, P.poly([[x0 + 1, -h], [x0 - 2.6, -h - 3.4], [x0 + 5, -h]]), 'red', { d: 0.6, hi: 0, out: 1.5 });

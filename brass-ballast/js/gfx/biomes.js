@@ -18,7 +18,8 @@
  * @property {string} dark                darkest tone (letterbox / fallback)
  * @property {{hi:string, mid:string, lo:string}} cloud  cumulus tints
  * @property {{low:number, high:number, lowAlpha:number, highAlpha:number, shadow:number,
- *            drift:number}} clouds       coverage (0..1), opacity and drift speed (u/s)
+ *            drift:number, isles?:number}} clouds  coverage (0..1), opacity, drift speed (u/s),
+ *            and the chance of a floating island per low-layer cell
  * @property {[string, number]} vignette  edge darkening color & strength
  * @property {{color:string, alpha:number, x:number, y:number}|null} sun  warm glow source
  * @property {'gulls'|'soot'|'storm'|'snow'|'embers'} weather
@@ -105,7 +106,15 @@ export const BIOMES = {
     accent: '#6fffc4',
     dark: '#0b0a22',
     cloud: { hi: '#c8d2f4', mid: '#7a84c0', lo: '#2c2f6a' },
-    clouds: { low: 0.36, high: 0.2, lowAlpha: 0.75, highAlpha: 0.42, shadow: 0.22, drift: 7 },
+    clouds: {
+      low: 0.32,
+      high: 0.2,
+      lowAlpha: 0.75,
+      highAlpha: 0.42,
+      shadow: 0.22,
+      drift: 7,
+      isles: 0.2,
+    },
     vignette: ['#05061a', 0.5],
     sun: { color: '#8fffd0', alpha: 0.1, x: 0.5, y: 0.0 },
     weather: 'snow',

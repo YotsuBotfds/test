@@ -133,7 +133,7 @@ const META_RAW = {
   enemy_zap: { gap: 0.04, max: 3, gain: 0.8 },
   wasp_charge: { gap: 0.08, max: 3 },
   wraith_phase: { gap: 0.1, max: 2 },
-  mortar_whistle: { gap: 0.08, max: 3 },
+  mortar_whistle: { gap: 0.08, max: 3, gain: 0.7 },
   carrier_launch: { gap: 0.1, max: 2 },
   tesla_hum: { gap: 0.15, max: 2 },
   // Pickups.

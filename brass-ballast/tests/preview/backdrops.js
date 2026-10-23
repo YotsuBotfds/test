@@ -4,6 +4,7 @@
 // Query: ?biome=<id>  ?all=1 (cycle every 4 s with crossfades)  ?zoom=<mul>  ?speed=<mul>
 //        ?t=<start seconds>  ?clean=1 (hide HUD)  ?strike=1 (periodic lightning on the ship)
 //        ?still=1 (no camera motion)  ?intensity=<v>  ?quality=low  ?fade=<s>
+//        ?cx=&cy= (centre of the camera circle, world units)  ?clouds=1 (cloud/isle sprite sheet)
 import { Sprites } from '../../js/gfx/sprites.js';
 import { Renderer } from '../../js/gfx/renderer.js';
 import { Background } from '../../js/gfx/background.js';
@@ -60,7 +61,8 @@ setBiome(biomeIdx, 0);
 // Test ship fallback when the hull art isn't registered yet.
 if (!Sprites.has('hull_dauntless')) {
   Sprites.register('hull_dauntless', {
-    w: 96, h: 48,
+    w: 96,
+    h: 48,
     draw(ctx) {
       ctx.fillStyle = '#f3e8c9';
       ctx.strokeStyle = '#1a120a';
@@ -147,7 +149,22 @@ function drawCloudSheet(ctx) {
     const h = (w * img.height) / img.width;
     ctx.drawImage(img, (v % 4) * w, 80 + Math.floor(v / 4) * h, w, h);
   }
+  if (isleMod) {
+    for (let v = 0; v < isleMod.ISLE_VARIANTS; v++) {
+      const img = isleMod.isleSprite(v);
+      const w = renderer.cssW / 4;
+      ctx.drawImage(
+        img,
+        v * w,
+        renderer.cssH - (w * img.height) / img.width,
+        w,
+        (w * img.height) / img.width
+      );
+    }
+  }
 }
+let isleMod = null;
+import('../../js/gfx/bg-isles.js').then((m) => (isleMod = m));
 
 const hud = document.getElementById('hud');
 let hudT = 0;
@@ -160,8 +177,8 @@ function frame(nowMs) {
   const cam = renderer.camera;
   if (!still) {
     const w = 0.11;
-    const nx = Math.cos(t * w) * R;
-    const ny = Math.sin(t * w) * R * 0.7;
+    const nx = num('cx', 0) + Math.cos(t * w) * R;
+    const ny = num('cy', 0) + Math.sin(t * w) * R * 0.7;
     angle = Math.atan2(ny - cam.y, nx - cam.x) || angle;
     cam.x = nx;
     cam.y = ny;
@@ -221,12 +238,22 @@ function frame(nowMs) {
 requestAnimationFrame(frame);
 
 window.BD = {
-  bg, weather, renderer, stats, setBiome: (id, f = 0) => setBiome(BIOME_ORDER.indexOf(id), f),
+  bg,
+  weather,
+  renderer,
+  stats,
+  setBiome: (id, f = 0) => setBiome(BIOME_ORDER.indexOf(id), f),
   report: () => ({
-    biome: bg.id, tiles: bg.tiles.size, gen: { ...bg.stats },
+    biome: bg.id,
+    tiles: bg.tiles.size,
+    gen: { ...bg.stats },
     avgMs: stats.samples ? +(stats.sum / stats.samples).toFixed(3) : null,
-    maxMs: +stats.maxTotal.toFixed(3), emaMs: +stats.total.toFixed(3), fps: +stats.fps.toFixed(1),
-    back: +stats.back.toFixed(3), front: +stats.front.toFixed(3), weather: +stats.wx.toFixed(3),
+    maxMs: +stats.maxTotal.toFixed(3),
+    emaMs: +stats.total.toFixed(3),
+    fps: +stats.fps.toFixed(1),
+    back: +stats.back.toFixed(3),
+    front: +stats.front.toFixed(3),
+    weather: +stats.wx.toFixed(3),
   }),
 };
 console.log('[test] backdrops preview ready');

@@ -94,7 +94,11 @@ export function drawBolt(ctx, shape, x0, y0, x1, y1, a, color, width = 1) {
   ctx.lineWidth = 1.8 * width;
   ctx.stroke();
   // Impact & cloud-base glows.
-  const g = softDot(128, color, [[0, 1], [0.25, 0.5], [1, 0]]);
+  const g = softDot(128, color, [
+    [0, 1],
+    [0.25, 0.5],
+    [1, 0],
+  ]);
   const R = 70 * width;
   ctx.globalAlpha = a * 0.85;
   ctx.drawImage(g, x1 - R, y1 - R, R * 2, R * 2);

@@ -3,8 +3,22 @@
 // patchwork fields with hedgerows, woods, winding roads, villages and windmills.
 
 import {
-  TILE, A, fnoise, sampleField, fieldAt, blitField, strokeContour, forCells, cellRng,
-  rand01, rgb, ramp, putRamp, putMix, grainCanvas, touchesTile,
+  TILE,
+  A,
+  fnoise,
+  sampleField,
+  fieldAt,
+  blitField,
+  strokeContour,
+  forCells,
+  cellRng,
+  rand01,
+  rgb,
+  ramp,
+  putRamp,
+  putMix,
+  grainCanvas,
+  touchesTile,
 } from './bg-util.js';
 import { house, tree, boat, pier } from './bg-props.js';
 
@@ -196,7 +210,11 @@ export function* paint(ctx, X0, Y0, anchors) {
   const byCell = new Map(villages.map((v) => [`${v.cx},${v.cy}`, v]));
   const roads = [];
   for (const v of villages) {
-    for (const [dx, dy] of [[1, 0], [0, 1], [1, 1]]) {
+    for (const [dx, dy] of [
+      [1, 0],
+      [0, 1],
+      [1, 1],
+    ]) {
       if (dx && dy && rand01(v.cx, v.cy, SEED + 25) > 0.3) continue;
       const w = byCell.get(`${v.cx + dx},${v.cy + dy}`);
       if (!w) continue;
@@ -289,7 +307,14 @@ export function* paint(ctx, X0, Y0, anchors) {
     const steam = deep && r.next() < 0.3;
     const sail = steam ? null : r.next() < 0.15 ? '#b5523f' : '#f5ecd6';
     boat(ctx, x, y, ang, len, deep ? '#5a3a22' : '#7a5533', sail, deep ? 1 : 0.5);
-    if (steam) anchors.add(A.STEAM, x - Math.cos(ang) * len * 0.05, y - Math.sin(ang) * len * 0.05, 0.6, r.next());
+    if (steam)
+      anchors.add(
+        A.STEAM,
+        x - Math.cos(ang) * len * 0.05,
+        y - Math.sin(ang) * len * 0.05,
+        0.6,
+        r.next()
+      );
   });
 
   // 8. Paper grain over the whole tile.
@@ -345,7 +370,14 @@ function drawVillage(ctx, v, anchors) {
   for (let i = 0; i < 4 + v.size * 3; i++) {
     const a = r.angle();
     const d = r.range(0.6, 1.3) * spread;
-    tree(ctx, v.x + Math.cos(a) * d, v.y + Math.sin(a) * d, r.range(2.5, 3.8), '#4a6c33', '#6f9446');
+    tree(
+      ctx,
+      v.x + Math.cos(a) * d,
+      v.y + Math.sin(a) * d,
+      r.range(2.5, 3.8),
+      '#4a6c33',
+      '#6f9446'
+    );
   }
 }
 
@@ -396,7 +428,16 @@ function drawHarbor(ctx, v, anchors) {
       const bx = px0 + dx * along + tx * sd;
       const by = py0 + dy * along + ty * sd;
       if (elev(bx, by) > SEA - 0.002) continue;
-      boat(ctx, bx, by, ang + (r.next() < 0.5 ? 0 : Math.PI), r.range(8, 13), '#6a4628', r.next() < 0.7 ? '#efe4cc' : null, 0);
+      boat(
+        ctx,
+        bx,
+        by,
+        ang + (r.next() < 0.5 ? 0 : Math.PI),
+        r.range(8, 13),
+        '#6a4628',
+        r.next() < 0.7 ? '#efe4cc' : null,
+        0
+      );
     }
   }
   // Lighthouse at the harbor mouth.

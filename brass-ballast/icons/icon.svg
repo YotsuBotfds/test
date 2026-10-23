@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <!-- Brass & Ballast app icon (WP5): brass gear ring, cream airship, dark warm sky.
+       tools/gen-icons.cjs renders the PNGs; it rewrites #bg rx (opaque/maskable variants)
+       and scales #art into the maskable safe zone, so keep those ids. -->
+  <defs>
+    <radialGradient id="sky" cx="0.42" cy="0.36" r="0.75">
+      <stop offset="0" stop-color="#6b4220"/>
+      <stop offset="0.55" stop-color="#3a2412"/>
+      <stop offset="1" stop-color="#1b130b"/>
+    </radialGradient>
+    <radialGradient id="sun" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#ffcf6a" stop-opacity="0.55"/>
+      <stop offset="1" stop-color="#ffcf6a" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="brass" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#fff0b8"/>
+      <stop offset="0.35" stop-color="#e2b155"/>
+      <stop offset="0.55" stop-color="#f2d48a"/>
+      <stop offset="0.75" stop-color="#c9973f"/>
+      <stop offset="1" stop-color="#7a5420"/>
+    </linearGradient>
+    <linearGradient id="env" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fffaf0"/>
+      <stop offset="0.6" stop-color="#f1e4c2"/>
+      <stop offset="1" stop-color="#b9a479"/>
+    </linearGradient>
+    <linearGradient id="gond" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f2d48a"/>
+      <stop offset="1" stop-color="#8f6324"/>
+    </linearGradient>
+  </defs>
+  <rect id="bg" x="0" y="0" width="512" height="512" rx="96" fill="url(#sky)"/>
+  <g id="art">
+    <circle cx="256" cy="250" r="150" fill="url(#sun)"/>
+    <!-- gear ring: 16 teeth -->
+    <g fill="url(#brass)" stroke="#1a120a" stroke-width="10" stroke-linejoin="round">
+      <path fill-rule="evenodd" d="M217.0 59.8 L240.3 56.6 L244.3 26.3 L267.7 26.3 L271.7 56.6 L295.0 59.8 L317.8 65.8 L333.1 39.3 L354.7 48.3 L346.8 77.8 L367.1 89.7 L385.9 103.9 L410.1 85.3 L426.7 101.9 L408.1 126.1 L422.3 144.9 L434.2 165.2 L463.7 157.3 L472.7 178.9 L446.2 194.2 L452.2 217.0 L455.4 240.3 L485.7 244.3 L485.7 267.7 L455.4 271.7 L452.2 295.0 L446.2 317.8 L472.7 333.1 L463.7 354.7 L434.2 346.8 L422.3 367.1 L408.1 385.9 L426.7 410.1 L410.1 426.7 L385.9 408.1 L367.1 422.3 L346.8 434.2 L354.7 463.7 L333.1 472.7 L317.8 446.2 L295.0 452.2 L271.7 455.4 L267.7 485.7 L244.3 485.7 L240.3 455.4 L217.0 452.2 L194.2 446.2 L178.9 472.7 L157.3 463.7 L165.2 434.2 L144.9 422.3 L126.1 408.1 L101.9 426.7 L85.3 410.1 L103.9 385.9 L89.7 367.1 L77.8 346.8 L48.3 354.7 L39.3 333.1 L65.8 317.8 L59.8 295.0 L56.6 271.7 L26.3 267.7 L26.3 244.3 L56.6 240.3 L59.8 217.0 L65.8 194.2 L39.3 178.9 L48.3 157.3 L77.8 165.2 L89.7 144.9 L103.9 126.1 L85.3 101.9 L101.9 85.3 L126.1 103.9 L144.9 89.7 L165.2 77.8 L157.3 48.3 L178.9 39.3 L194.2 65.8 Z M256 86 A170 170 0 1 0 256.1 86 Z"/>
+    </g>
+    <circle cx="256" cy="256" r="172" fill="none" stroke="#7a5420" stroke-width="5" opacity="0.7"/>
+    <g fill="#f2d48a" stroke="#4a3112" stroke-width="3">
+      <circle cx="256" cy="66" r="8"/><circle cx="446" cy="256" r="8"/>
+      <circle cx="256" cy="446" r="8"/><circle cx="66" cy="256" r="8"/>
+      <circle cx="390" cy="122" r="7"/><circle cx="390" cy="390" r="7"/>
+      <circle cx="122" cy="390" r="7"/><circle cx="122" cy="122" r="7"/>
+    </g>
+    <!-- airship -->
+    <g stroke="#1a120a" stroke-width="10" stroke-linejoin="round" stroke-linecap="round">
+      <!-- tail fins -->
+      <path d="M140 228 L104 184 L128 182 L172 222 Z" fill="#9c3430"/>
+      <path d="M140 284 L104 328 L128 330 L172 290 Z" fill="#9c3430"/>
+      <!-- rigging -->
+      <path d="M210 300 L222 334 M302 300 L290 334" fill="none" stroke-width="7"/>
+      <!-- gondola -->
+      <path d="M206 330 L306 330 Q300 370 256 370 Q212 370 206 330 Z" fill="url(#gond)"/>
+      <!-- envelope -->
+      <ellipse cx="262" cy="256" rx="124" ry="58" fill="url(#env)"/>
+      <!-- propeller -->
+      <path d="M138 256 L112 256" fill="none" stroke-width="12"/>
+      <ellipse cx="104" cy="256" rx="11" ry="40" fill="url(#brass)"/>
+    </g>
+    <g fill="none" stroke-linecap="round">
+      <path d="M142 262 Q262 290 382 262" stroke="#9c3430" stroke-width="16"/>
+      <path d="M200 204 Q212 256 200 308 M262 199 Q276 256 262 313 M324 204 Q336 256 324 308" stroke="#b9a479" stroke-width="5"/>
+      <path d="M190 222 Q230 206 300 210" stroke="#ffffff" stroke-width="9" opacity="0.75"/>
+    </g>
+    <g fill="#2b1d10">
+      <circle cx="232" cy="348" r="7"/><circle cx="256" cy="348" r="7"/><circle cx="280" cy="348" r="7"/>
+    </g>
+  </g>
+</svg>

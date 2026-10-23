@@ -4,8 +4,24 @@
 // the lava banks. bg-anim.js pulses the lava, pools, furnace mouths and ember smoke.
 
 import {
-  TILE, A, fnoise, sampleField, makeField, fillRows, blitField, strokeContour, forCells,
-  cellRng, rgb, ramp, putRamp, grainCanvas, touchesTile, fieldAt,
+  TILE,
+  A,
+  fnoise,
+  sampleField,
+  makeField,
+  fillRows,
+  blitField,
+  strokeContour,
+  forCells,
+  cellRng,
+  rgb,
+  ramp,
+  putRamp,
+  grainCanvas,
+  touchesTile,
+  fieldAt,
+  isoDistance,
+  isoDistanceAt,
 } from './bg-util.js';
 import { flatRoof, chimney, tank, bakedGlow } from './bg-props.js';
 
@@ -33,33 +49,7 @@ const widthMul = (x, y) => 0.7 + 0.75 * fnoise(x / 520 + 3, y / 520, 2, SEED + 1
  * instead of ballooning into lakes where the noise is flat.
  */
 export function riverDist(x, y) {
-  const e = 3;
-  const f = river(x, y);
-  const gx = (river(x + e, y) - river(x - e, y)) / (2 * e);
-  const gy = (river(x, y + e) - river(x, y - e)) / (2 * e);
-  return Math.abs(f - 0.5) / Math.max(Math.hypot(gx, gy), 1e-6) / widthMul(x, y);
-}
-
-/** Distance field from a sampled river field (same grid). */
-function distField(R) {
-  const n = R.n;
-  const d = R.data;
-  const out = new Float32Array(n * n);
-  const inv = 1 / (2 * R.cell);
-  for (let j = 0; j < n; j++) {
-    const j0 = j > 0 ? j - 1 : j;
-    const j1 = j < n - 1 ? j + 1 : j;
-    for (let i = 0; i < n; i++) {
-      const i0 = i > 0 ? i - 1 : i;
-      const i1 = i < n - 1 ? i + 1 : i;
-      const gx = (d[j * n + i1] - d[j * n + i0]) * inv * (2 / (i1 - i0 || 1));
-      const gy = (d[j1 * n + i] - d[j0 * n + i]) * inv * (2 / (j1 - j0 || 1));
-      const g = Math.max(Math.hypot(gx, gy), 1e-6);
-      const w = widthMul(R.x0 + i * R.cell, R.y0 + j * R.cell);
-      out[j * n + i] = Math.min(400, Math.abs(d[j * n + i] - 0.5) / g / w);
-    }
-  }
-  return { n, cell: R.cell, x0: R.x0, y0: R.y0, data: out };
+  return isoDistanceAt(river, x, y, 0.5) / widthMul(x, y);
 }
 
 const rock = (x, y) => fnoise(x / 180, y / 180, 4, SEED + 5);
@@ -99,7 +89,7 @@ export function* paint(ctx, X0, Y0, anchors) {
     fillRows(R, river, j, j + 50);
     yield;
   }
-  const D = distField(R);
+  const D = isoDistance(R, 0.5, widthMul);
   yield;
   const K = makeField(X0, Y0, 4, 6);
   for (let j = 0; j < K.n; j += 70) {
@@ -234,7 +224,10 @@ function foundry(ctx, x, y, r, anchors) {
   ctx.stroke();
   // Main casting hall with a glowing roof vent.
   flatRoof(ctx, -40, -28, 50, 32, '#3a3434', {
-    height: 7, stripes: 5, vertical: true, glass: 'rgba(255,120,40,0.35)',
+    height: 7,
+    stripes: 5,
+    vertical: true,
+    glass: 'rgba(255,120,40,0.35)',
   });
   bakedGlow(ctx, -15, -12, 26, '#ff6a1a', 0.35);
   anchors.add(A.FURNACE, ...rot(x, y, ang, -15, -12), 1.2, r.next());

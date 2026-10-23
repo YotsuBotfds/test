@@ -18,6 +18,17 @@ const FALLOFF_SPAN = 1100; // …reaching the floor this much further out
 const FALLOFF_MIN = 0.15;
 const REVERB_SEND = 0.14;
 
+/** Per-biome ambience beds: [loop, vol, pitch]. Unknown biomes get a light breeze. */
+const AMBIENCE = {
+  brassbay: [['wind_loop', 0.22, 0.9]],
+  smog: [['wind_loop', 0.18, 0.7]],
+  tempest: [['wind_loop', 0.4, 1.25], ['rain_loop', 0.55, 1]],
+  aurora: [['wind_loop', 0.32, 1.35]],
+  furnace: [['wind_loop', 0.16, 0.6]],
+  default: [['wind_loop', 0.2, 1]],
+};
+const MENU_SCREENS = new Set(['title', 'hangar', 'modes', 'workshop', 'codex', 'credits']);
+
 const clamp = (v, a, b) => (v < a ? a : v > b ? b : v);
 const num = (v, d) => (typeof v === 'number' && Number.isFinite(v) ? v : d);
 
@@ -112,11 +123,23 @@ class LoopHandle {
       if (o.x !== undefined) this.x = o.x;
       if (o.y !== undefined) this.y = o.y;
       if (!this.def) return;
+      // Callers update every frame; only schedule automation when something audibly changed so
+      // AudioParam event lists stay short.
       const now = this.engine.ctx.currentTime;
       const { vol, pan } = this._target();
-      this.gain.gain.setTargetAtTime(vol, now, 0.06);
-      this.panner?.pan.setTargetAtTime(clamp(pan, -1, 1), now, 0.06);
-      if (o.pitch !== undefined) this.def.pitch?.(this.pitch, now);
+      const ap = this._applied || (this._applied = { vol: -1, pan: 9, pitch: -1 });
+      if (Math.abs(vol - ap.vol) > 0.003) {
+        this.gain.gain.setTargetAtTime(vol, now, 0.06);
+        ap.vol = vol;
+      }
+      if (this.panner && Math.abs(pan - ap.pan) > 0.01) {
+        this.panner.pan.setTargetAtTime(clamp(pan, -1, 1), now, 0.06);
+        ap.pan = pan;
+      }
+      if (Math.abs(this.pitch - ap.pitch) > 0.004) {
+        this.def.pitch?.(this.pitch, now);
+        ap.pitch = this.pitch;
+      }
     } catch {
       /* never throw from audio */
     }
@@ -187,6 +210,8 @@ class AudioEngine {
     this._duckUntil = 0;
     this._duckLevel = 1;
     this._stats = { played: 0, throttled: 0, stolen: 0, dropped: 0 };
+    this._ambience = null;
+    this._ambienceLoops = [];
     this._wire();
   }
 
@@ -312,6 +337,14 @@ class AudioEngine {
     this._wired = true;
     try {
       events.on('settings:change', () => this._applySettings());
+      // Gameplay hooks that no other module owns. Same-name throttling makes a duplicate call
+      // from elsewhere harmless.
+      events.on('achievement:unlock', () => this.play('achievement'));
+      events.on('stage:start', (e) => this.ambience(e?.stage?.biome || e?.stage?.id || 'default'));
+      events.on('run:end', () => this.ambience(null, 3));
+      events.on('ui:screen', (e) => {
+        if (MENU_SCREENS.has(e?.name)) this.ambience(null, 1.5);
+      });
     } catch {
       /* events optional */
     }
@@ -448,7 +481,15 @@ class AudioEngine {
         if (oldestSame < 0) oldestSame = i;
       }
     }
-    if (same >= meta.max) this._kill(oldestSame, now);
+    if (same >= meta.max) {
+      // Steal the oldest instance only once it has had its attack heard; otherwise drop the
+      // newcomer so rapid-fire sounds don't chop each other into clicks.
+      if (now - voices[oldestSame].start < 0.06) {
+        this._stats.dropped++;
+        return false;
+      }
+      this._kill(oldestSame, now);
+    }
     if (voices.length >= MAX_VOICES) {
       let victim = -1;
       for (let i = 0; i < voices.length; i++) {
@@ -551,6 +592,27 @@ class AudioEngine {
   /** Stop every loop (e.g. when leaving a run). */
   stopLoops(fade = 0.3) {
     for (const h of [...this._loops]) h.stop(fade);
+  }
+
+  /**
+   * Switch the ambience bed (wind / rain loops) for a biome; null fades it out.
+   * Driven automatically by stage:start / run:end / menu screens.
+   * @param {string|null} biome
+   * @param {number} [fade]
+   */
+  ambience(biome, fade = 2) {
+    try {
+      if (biome === this._ambience) return;
+      this._ambience = biome;
+      for (const h of this._ambienceLoops) h.stop(fade);
+      this._ambienceLoops = [];
+      if (!biome) return;
+      for (const [name, vol, pitch] of AMBIENCE[biome] || AMBIENCE.default) {
+        this._ambienceLoops.push(this.loop(name, { vol, pitch }));
+      }
+    } catch (err) {
+      this._warn('ambience', err);
+    }
   }
 
   // ---- Music ---------------------------------------------------------------------------------
@@ -665,11 +727,13 @@ class AudioEngine {
   }
 
   stats() {
+    if (this.ctx) this._prune(this.ctx.currentTime);
     return {
       state: this.ctx?.state ?? 'none',
       unlocked: this.unlocked,
       voices: this._voices.length,
       loops: this._loops.size,
+      ambience: this._ambience,
       track: this.currentTrack,
       intensity: this.intensity,
       ...this._stats,

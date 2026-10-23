@@ -149,7 +149,7 @@ export class Game {
     this.fx.clear?.();
     this._setBiome('brassbay', 0);
     this.weather.setBiome?.('brassbay', 0);
-    this.audio?.music?.('title', { fade: 1.5 });
+    this._music('title', 1.5);
     this.input?.setGameplayActive?.(false);
     this.ui?.show?.('title');
   }
@@ -256,6 +256,14 @@ export class Game {
     this._startHum();
     events.emit('run:start', { run });
     this.director.start({ stage: opts.stage, wave: opts.wave, boss: opts.boss });
+    // Announce active modifiers (Daily Squall etc.).
+    modifiers.forEach((id, i) => {
+      const m = MODIFIERS[id];
+      if (!m) return;
+      setTimeout(() => {
+        if (this.run === run) this.ui?.toast?.(`${m.name} — ${m.desc}`, { kind: 'warning', icon: 'icon_star', time: 4.5 });
+      }, 1200 + i * 700);
+    });
     Save.save();
     return run;
   }
@@ -586,9 +594,12 @@ export class Game {
     this.weather.setBiome?.(stage.biome || stage.id, info.first ? 0 : 3);
     this.camera.baseZoomMul = 1;
     if (!info.silent) {
-      this.audio?.music?.(stage.music || stage.biome, { fade: 1.5 });
-      const label = info.endless ? 'Endless Gale' : info.bossRush ? `Gauntlet ${info.index + 1}` : `Stage ${info.index + 1}`;
-      this.hud?.announce?.(stage.name || label, `${label} — ${stage.subtitle || ''}`, { kind: 'stage', time: 3 });
+      this._music(stage.music || stage.biome, 1.5);
+      if (this._announced !== stage) {
+        const label = info.endless ? 'Endless Gale' : info.bossRush ? `Gauntlet ${info.index + 1}` : `Stage ${info.index + 1}`;
+        this.hud?.announce?.(stage.name || label, `${label} — ${stage.subtitle || ''}`, { kind: 'stage', time: 3 });
+      }
+      this._announced = null;
     }
   }
 
@@ -599,8 +610,28 @@ export class Game {
     this._setBiome(next.biome || next.id, 3);
     this.weather.setBiome?.(next.biome || next.id, 3);
     this.camera.baseZoomMul = 1;
-    this.audio?.music?.(next.music || next.biome, { fade: 3 });
-    this.world?.sfx('stage_clear');
+    this._music(next.music || next.biome, 3);
+    const run = this.run;
+    const label = run?.mode === 'endless' ? 'Endless Gale' : run?.mode === 'bossRush' ? `Gauntlet ${index + 1}` : `Stage ${index + 1}`;
+    if (!(run?.mode === 'endless' && next.biome === run.stage?.biome)) {
+      this.hud?.announce?.(next.name || label, `${label} — ${next.subtitle || 'Full steam ahead'}`, { kind: 'stage', time: 3.4 });
+      this._announced = next;
+    }
+  }
+
+  /** Switch music unless that track is already playing (null stops). */
+  music(track, fade = 1.5) {
+    this._music(track, fade);
+  }
+
+  _music(track, fade = 1.5) {
+    if (this._track === track) return;
+    this._track = track;
+    try {
+      this.audio?.music?.(track, { fade });
+    } catch (err) {
+      this._err('audio.music', err);
+    }
   }
 
   onWaveClear() {
@@ -626,7 +657,7 @@ export class Game {
     this.choiceQueue.length = 0;
     this.choice = null;
     this._stopHum();
-    this.audio?.music?.('gameover', { fade: 0.8 });
+    this._music('gameover', 0.8);
     this.world.sfx('game_over');
     this.input?.setGameplayActive?.(false);
   }
@@ -639,7 +670,7 @@ export class Game {
     this.slowmo(0.5, 1.5);
     this.choiceQueue.length = 0;
     this._stopHum();
-    this.audio?.music?.('victory', { fade: 0.8 });
+    this._music('victory', 0.8);
     this.world.sfx('victory');
     this.hud?.announce?.('Victory!', 'The Iron Syndicate is broken', { kind: 'stage', time: 4 });
     this.world.vacuumPickups(true);
@@ -787,6 +818,12 @@ export class Game {
           if (!this.simulating) break;
         }
       }
+    } else if (this.ending?.shown && this.world) {
+      // Behind the results screen: let smoke & sparks settle instead of freezing mid-blast.
+      this._try('particles.update', () => {
+        this.particles.update(dt * 0.5);
+        this.fx.update(dt * 0.5);
+      });
     }
     if (this.slowT > 0) {
       this.slowT -= dt;
@@ -948,10 +985,10 @@ export class Game {
     if (run?.mods?.fog) {
       const fx = focus?.x ?? W / 2;
       const fy = focus?.y ?? H / 2;
-      const g = ctx.createRadialGradient(fx, fy, Math.min(W, H) * 0.18, fx, fy, Math.max(W, H) * 0.62);
-      g.addColorStop(0, 'rgba(120,110,95,0)');
-      g.addColorStop(0.55, 'rgba(120,112,98,0.55)');
-      g.addColorStop(1, 'rgba(105,98,86,0.93)');
+      const g = ctx.createRadialGradient(fx, fy, Math.min(W, H) * 0.14, fx, fy, Math.max(W, H) * 0.55);
+      g.addColorStop(0, 'rgba(126,118,104,0.08)');
+      g.addColorStop(0.45, 'rgba(122,114,100,0.62)');
+      g.addColorStop(1, 'rgba(104,98,88,0.97)');
       ctx.fillStyle = g;
       ctx.fillRect(0, 0, W, H);
     }

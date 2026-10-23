@@ -151,7 +151,7 @@ export class Director {
           time: WARNING_TIME,
         });
         w.sfx('boss_warning');
-        w.audio?.music?.(null, { fade: 2 });
+        this.game.music?.(null, 2);
         // Leftover small fry scatter before the boss arrives.
         for (const e of w.enemies) if (e.alive && !e.isBoss && !e.parent) e.fleeing = true;
         break;
