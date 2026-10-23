@@ -26,6 +26,10 @@ import {
 
 const NO_INFO = Object.freeze({});
 const SIZE_FX = { small: 0.05, medium: 0.15, large: 0.35, huge: 0.6 };
+const CHAIN_CALLOUTS = {
+  10: 'Hot Barrels!', 25: 'Brass Fury!', 50: 'Terror of the Skies!', 100: 'Legend of the Clouds!',
+  200: 'The Syndicate Trembles!',
+};
 
 export class World {
   /**
@@ -413,6 +417,12 @@ export class World {
         run.combo = Math.min(5, 1 + 0.1 * run.chain);
         if (run.chain > run.bestCombo) run.bestCombo = run.chain;
         if (run.chain >= 5 && run.chain % 5 === 0) this.events.emit('combo', { value: run.combo, chain: run.chain });
+        const callout = CHAIN_CALLOUTS[run.chain];
+        if (callout) {
+          const p = info.owner?.isPlayer ? info.owner : this.players[0];
+          if (p) this.floatText(p.x, p.y - 64, `${callout} ×${run.chain}`, { color: '#ffcf4a', size: 22, life: 1.4, crit: true });
+          this.sfx('upgrade_pick', p?.x, p?.y, { pitch: 1.3, vol: 0.6 });
+        }
       }
       run.score += Math.round(e.score * run.combo);
       const kb = (run.killsByType ||= {});
