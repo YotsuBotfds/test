@@ -1,0 +1,10 @@
+{
+  "name": "Brass & Ballast",
+  "short_name": "Brass&Ballast",
+  "start_url": "./",
+  "scope": "./",
+  "display": "fullscreen",
+  "background_color": "#1b130b",
+  "theme_color": "#2b1d10",
+  "icons": []
+}

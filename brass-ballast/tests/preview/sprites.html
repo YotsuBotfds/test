@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Sprite Gallery — Brass &amp; Ballast</title>
+  <style>
+    body { margin: 0; font: 12px Georgia, serif; color: #f1e3c0; background: #3b2a18; }
+    header { padding: 8px 12px; background: #2b1d10; position: sticky; top: 0; z-index: 1; }
+    #grid { display: flex; flex-wrap: wrap; gap: 10px; padding: 12px; }
+    figure { margin: 0; padding: 6px; border: 1px solid rgba(242,212,138,.3); text-align: center; }
+    figcaption { margin-top: 4px; max-width: 220px; word-break: break-all; }
+    canvas { display: block; margin: 0 auto; }
+  </style>
+</head>
+<body>
+  <header>Sprite gallery · <code>?filter=prefix,prefix2&amp;scale=2&amp;bg=%23hex&amp;frames=1</code> · <span id="count"></span></header>
+  <div id="grid"></div>
+  <script type="module" src="./sprites.js"></script>
+</body>
+</html>
