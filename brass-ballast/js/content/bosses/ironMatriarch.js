@@ -221,6 +221,7 @@ export default {
   stage: 1,
   music: 'boss',
   zoom: ZOOM, // camera base zoom for the fight (engine onBossSpawn reads def.zoom)
+  frameR: 170, // camera boss-framing radius: the 376-unit hull, not just its hit circle
   hp: bossHp('ironMatriarch', BASE_HP), // × campaign toughness (tuning.js)
   r: 84,
   speed: 60,

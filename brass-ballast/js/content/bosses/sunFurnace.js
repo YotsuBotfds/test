@@ -675,6 +675,7 @@ const SUN_FURNACE = {
   stage: 5,
   music: 'finalBoss',
   zoom: FIGHT_ZOOM, // camera base zoom for the fight (engine onBossSpawn reads def.zoom)
+  frameR: 190, // camera boss-framing radius: sphere + gantry ring
   hp: bossHp('sunFurnace', 7500), // DESIGN 7500 × campaign toughness (tuning.js)
   r: GEO.R,
   speed: 46,

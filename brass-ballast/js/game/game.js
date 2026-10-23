@@ -731,6 +731,8 @@ export class Game {
     if (run.over) return run.summary;
     run.over = true;
     run.victory = victory;
+    // Results are up: no aux whirr / lance whine may linger under them.
+    this._try('world.stopLoops', () => this.world?.stopLoops?.());
     const unlocks = [];
     const meta = Save.meta;
     const st = Save.data.stats;

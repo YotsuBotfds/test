@@ -349,6 +349,8 @@ export function createBrain(opts = {}) {
       const base = Math.atan2(ay, ax) + err;
       c.aimX = Math.cos(base);
       c.aimY = Math.sin(base);
+      // Stick deflection = range for lobbed weapons (mortar: × 520), like a pad player would.
+      c.aimMag = clamp(Math.hypot(ax, ay) / 520, 0.3, 1);
       c.fire = d < 820;
     } else if (boss) {
       const ax = boss.x - p.x;
@@ -357,8 +359,8 @@ export function createBrain(opts = {}) {
       c.aimX = ax / al;
       c.aimY = ay / al;
       c.fire = true;
-    }
-    c.aimMag = 1;
+      c.aimMag = clamp(al / 520, 0.3, 1);
+    } else c.aimMag = 1;
 
     // --- 6. Boost & bomb.
     if (imminent && st.boostCd <= 0 && p.steam >= p.stats.boostCost) {

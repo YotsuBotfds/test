@@ -941,6 +941,11 @@ export class World {
     }
   }
 
+  /** Stop every run-owned loop now (run end, teardown). */
+  stopLoops() {
+    for (const k of [...this._loops.keys()]) this.loopSfx(k, '', false);
+  }
+
   /** Per frame from the game: silence loops while the sim is halted, reap stale ones. */
   syncLoops(active) {
     if (!this._loops.size) return;
@@ -962,6 +967,13 @@ export class World {
 
   /** Floating text in world space (fx.text). */
   floatText(x, y, text, opts = {}) {
+    if (opts.callout && this.renderer) {
+      // Callouts (boss hints, taunts) are anchored above big bosses; keep them inside the view
+      // and below the HUD's boss bar instead of half-hidden under the instruments.
+      const v = this.renderer.viewRect(0, this._vr);
+      x = clamp(x, v.x0 + v.w * 0.12, v.x1 - v.w * 0.12);
+      y = clamp(y, v.y0 + v.h * 0.24, v.y1 - v.h * 0.12);
+    }
     this.fx.text?.(x, y, text, opts);
   }
 
@@ -1219,7 +1231,7 @@ export class World {
 
   /** Release references (called when a run ends). */
   destroy() {
-    for (const k of [...this._loops.keys()]) this.loopSfx(k, '', false);
+    this.stopLoops();
     this.players.length = 0;
     this.enemies.length = 0;
     this.bosses.length = 0;

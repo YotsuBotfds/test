@@ -845,6 +845,7 @@ export default {
   stage: 3,
   music: 'boss',
   zoom: 0.86, // camera base zoom for the fight (engine onBossSpawn reads def.zoom)
+  frameR: 130, // camera boss-framing radius: tower plus truss arms
   hp: bossHp('stormEngine', BASE_HP), // × campaign toughness (tuning.js)
   hudPhases: [P2, P3],
   r: 92,

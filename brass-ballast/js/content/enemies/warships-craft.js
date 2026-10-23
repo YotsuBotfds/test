@@ -435,7 +435,7 @@ function setPhased(e, on) {
 function pickDest(e, w, p) {
   const base = Math.atan2(e.y - p.y, e.x - p.x);
   const a = base + w.rng.range(-1.3, 1.3);
-  const r = w.rng.range(150, 210);
+  const r = w.rng.range(185, 240); // far enough that the ring has opened into dodgeable gaps
   e.data.ox = Math.cos(a) * r;
   e.data.oy = Math.sin(a) * r;
 }
@@ -495,7 +495,8 @@ const steamWraith = {
         }
         e.vx *= 0.2;
         e.vy *= 0.2;
-        AI.setState(e, 'form', FORM_TIME / Math.max(0.5, e.fireRateMult));
+        // The materialise telegraph is never shortened by fire-rate scaling: the ring must stay fair.
+        AI.setState(e, 'form', FORM_TIME);
         e.angle = Math.atan2(p.y - e.y, p.x - e.x);
         w.sfx('wraith_phase', e.x, e.y);
         w.fx.steamBurst?.(e.x, e.y, 1.1, 12);
@@ -543,7 +544,7 @@ const steamWraith = {
       if (AI.timerDone(e, dt)) {
         setPhased(e, true);
         pickDest(e, w, p);
-        AI.setState(e, 'phase', PHASE_TIME);
+        AI.setState(e, 'phase', PHASE_TIME / Math.max(0.5, e.fireRateMult));
         w.fx.steamBurst?.(e.x, e.y, 0.9, 10);
       }
     }

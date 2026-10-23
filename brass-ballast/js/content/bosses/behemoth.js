@@ -977,6 +977,7 @@ export default {
   stage: 4,
   music: 'boss',
   zoom: 0.8, // camera base zoom for the fight: a 470-unit carrier (onBossSpawn reads def.zoom)
+  frameR: 210, // camera boss-framing radius (the whole carrier)
   hp: bossHp('behemoth', BASE_HP), // × campaign toughness (tuning.js)
   hudPhases: [P2, P3],
   r: 150,

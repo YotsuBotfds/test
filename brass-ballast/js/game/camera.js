@@ -130,23 +130,27 @@ export class CameraRig {
         this.bossY = boss.y;
       }
       if (this.bossK > 0.01) {
-        const br = boss ? Math.min(280, (boss.r || 80) * (boss.scale || 1)) * 0.75 : 0;
+        const br = boss ? Math.min(300, boss.def?.frameR ?? (boss.r || 80) * 0.75) * (boss.scale || 1) : 0;
         const ux0 = Math.min(minX, this.bossX - br);
         const ux1 = Math.max(maxX, this.bossX + br);
         const uy0 = Math.min(minY, this.bossY - br);
         const uy1 = Math.max(maxY, this.bossY + br);
         // Usable screen: minus the HUD bands (portrait phones stack instruments 300+ px deep).
-        const eTop = Math.max(EDGE_Y, (this.insets?.top || 0) + 50);
-        const eBot = Math.max(EDGE_Y * 0.7, (this.insets?.bottom || 0) + 40);
+        // Capped so small/portrait screens (HUD 400 px deep, translucent touch sticks) still keep
+        // ~40% of the height for the fight; the edge margins shrink with the screen too.
+        const edgeX = Math.min(EDGE_X, r.cssW * 0.16);
+        const edgeY = Math.min(EDGE_Y, r.cssH * 0.14);
+        const eTop = Math.max(edgeY, Math.min((this.insets?.top || 0) + 50, r.cssH * 0.36));
+        const eBot = Math.max(edgeY * 0.7, Math.min((this.insets?.bottom || 0) + 40, r.cssH * 0.22));
         const usableH = Math.max(120, r.cssH - eTop - eBot);
         const z = c.baseZoom * this.baseZoomMul;
-        const fitB = clamp(Math.min(r.cssW / (z * (ux1 - ux0 + 2 * EDGE_X)), usableH / (z * (uy1 - uy0))), BOSS_MIN_FIT, 1);
+        const fitB = clamp(Math.min(r.cssW / (z * (ux1 - ux0) + 2 * edgeX), usableH / (z * (uy1 - uy0))), BOSS_MIN_FIT, 1);
         const k = this.bossK;
         fitMul = Math.min(fitMul, 1 - (1 - fitB) * k);
         // Aim for the middle of player(s) + boss (centred in the usable band), but never push a
         // player past the safe edges: screen y of a player must stay within [eTop, H - eBot].
         const zf = c.baseZoom * Math.max(MIN_ZOOM_MUL, this.baseZoomMul * fitMul);
-        const hx = Math.max(0, r.cssW / 2 / zf - EDGE_X);
+        const hx = Math.max(0, (r.cssW / 2 - edgeX) / zf);
         const mx = clamp((ux0 + ux1) / 2, maxX - hx, minX + hx);
         const bandShift = (eTop - eBot) / 2 / zf; // centre of the usable band vs screen centre
         const yLo = maxY - (r.cssH / 2 - eBot) / zf;

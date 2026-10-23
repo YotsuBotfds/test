@@ -56,6 +56,7 @@ export default {
   stage: 2,
   music: 'boss',
   zoom: ZOOM, // camera base zoom for the fight (engine onBossSpawn reads def.zoom)
+  frameR: 170, // camera boss-framing radius: dome plus the inner reach of the arms
   hp: bossHp('kraken', BASE_HP), // × campaign toughness (tuning.js)
   r: BODY_R,
   speed: 70,

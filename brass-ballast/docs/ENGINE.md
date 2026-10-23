@@ -270,7 +270,8 @@ const CORE_DEF = { id: 'imCore', hp: 1, r: 40, manualMove: true, shareDamage: tr
   cog shower (`def.cogs × mods.cogs × max(1, bossHpMult)`), XP, 2 repairs + a bomb,
   `boss:killed`. Don't spawn your own death sequence (add flavor in `onDeath` if you like).
 - Lightning: `w.weather.strike?.(x, y)` (visual + thunder); pair it with a telegraph/hazard.
-- Optional def fields read by the engine/HUD: `zoom` (camera base zoom for the fight, set by
+- Optional def fields read by the engine/HUD: `frameR` (camera framing radius, default 0.75·r),
+  `zoom` (camera base zoom for the fight, set by
   `game.onBossSpawn`; default 0.88 — never poke `camera.baseZoomMul` from `update`), `hudPhases`
   (hp fractions of the phase changes, drawn as boss-bar markers), `noFrame` (camera won't lean
   toward it). While a boss lives the camera leans toward it and zooms out (≥ 0.78 × `zoom`) to
