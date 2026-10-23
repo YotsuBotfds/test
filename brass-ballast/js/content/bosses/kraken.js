@@ -64,6 +64,7 @@ export default {
   score: 8000,
   alt: 1.3,
   sprite: 'boss_kraken',
+  hudPhases: [PHASE2, PHASE3], // boss-bar phase ticks (HUD)
   manualMove: true,
   noSeparation: true,
   noKnockback: true,

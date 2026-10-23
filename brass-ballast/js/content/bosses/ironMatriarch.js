@@ -228,6 +228,7 @@ export default {
   score: 5000,
   alt: 1.5,
   sprite: 'boss_ironMatriarch',
+  hudPhases: [PHASE2, PHASE3], // boss-bar phase ticks (HUD)
   manualMove: true,
   noSeparation: true,
   noKnockback: true,
