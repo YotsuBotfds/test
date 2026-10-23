@@ -416,7 +416,7 @@ function atkMagnet(b, w) {
   }
   if (!D.pulledOnce) {
     D.pulledOnce = true;
-    K.sayTaunt(b, w, 'phase', 0);
+    K.sayTaunt(b, w, 'phase', 0, undefined, true);
   }
   w.sfx('tesla_hum', b.x, b.y, { vol: 1, pitch: 0.55 });
   w.fx.ring?.(b.x, b.y, 90, VIOLET, 0.9, { r0: 620, width: 5 });
@@ -961,6 +961,8 @@ export default {
 
   modifyDamage(b, amt, info, w) {
     const D = b.data;
+    amt = K.ledger(b, amt, info, w);
+    if (amt <= 0) return 0;
     if (D.spheresAlive > 0) {
       D.shieldHit = 1;
       if (D.shieldTxt <= 0) {

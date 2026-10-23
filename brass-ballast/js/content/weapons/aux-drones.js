@@ -236,6 +236,7 @@ export const DroneArmada = {
 
   update(p, slot, dt, w) {
     const d = slot.data;
+    if (d.dive === undefined) DroneArmada.init(p, slot);
     const n = Math.min(MAX_DRONES, EVO_COUNT + extraProj(p));
     const list = ensureDrones(p, slot, n);
     d.orbit = (d.orbit || 0) + dt * 0.7;

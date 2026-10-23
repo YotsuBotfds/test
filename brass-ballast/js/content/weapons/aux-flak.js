@@ -4,7 +4,7 @@
 
 import { Sprites } from '../../gfx/sprites.js';
 import { angleDiff, rotateToward } from '../../core/math.js';
-import { dmgScale, cdScale, areaScale, extraProj, lv, nearestN, mount, glowAt } from './aux-common.js';
+import { dmgScale, cdScale, areaScale, extraProj, lv, decayKick, nearestN, mount, glowAt } from './aux-common.js';
 
 const SRC = 'aux:flakTurret';
 const SRC_EVO = 'aux:flakStorm';
@@ -93,6 +93,7 @@ function fireShell(p, slot, w, tur, m, e, evo, stats) {
     if (k === 0) w.fx.muzzle?.(bx, by, tur.aim, evo ? 0.42 : 0.3, '#ffd36b');
   }
   tur.kick = 1;
+  slot.kick = Math.max(slot.kick || 0, 0.6);
   w.sfx('flak_fire', m.x, m.y, { vol: evo ? 0.55 : 0.45, pitch: 0.95 + Math.random() * 0.15 });
 }
 
@@ -100,6 +101,7 @@ const ST = { rate: 3, dmg: 6, range: 420, burst: 30, shards: 0 };
 
 function updateTurrets(p, slot, dt, w, evo) {
   const d = slot.data;
+  decayKick(slot, dt);
   const st = ST;
   const sc = dmgScale(p, w);
   if (evo) {

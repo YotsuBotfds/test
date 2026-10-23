@@ -576,20 +576,31 @@ function drawPlate(ctx, w, h, frame) {
       ctx.lineWidth = 1.6;
       ctx.stroke();
     }
+    // Heat fractures: start on a slit edge or seam and wander inward, glowing.
     const rnd = K.seeded(5);
-    ctx.strokeStyle = 'rgba(255,214,130,0.95)';
-    ctx.lineWidth = 1.1;
-    for (let i = 0; i < 5; i++) {
-      let r = 40 + rnd() * 90;
-      let a = (rnd() * 2 - 1) * hw;
-      ctx.beginPath();
-      ctx.moveTo(Math.cos(a) * r, Math.sin(a) * r);
-      for (let k = 0; k < 5; k++) {
-        r += (rnd() - 0.3) * 12;
-        a += (rnd() - 0.5) * 0.12;
-        ctx.lineTo(Math.cos(a) * r, Math.sin(a) * r);
+    const cracks = [];
+    for (let i = 0; i < 6; i++) {
+      const side = i % 2 ? 1 : -1;
+      let r = 45 + rnd() * 85;
+      let a = side * (hw - 0.01);
+      const pts = [[Math.cos(a) * r, Math.sin(a) * r]];
+      for (let k = 0; k < 6; k++) {
+        r += (rnd() - 0.5) * 10;
+        a -= side * (0.035 + rnd() * 0.05);
+        pts.push([Math.cos(a) * r, Math.sin(a) * r]);
       }
-      ctx.stroke();
+      cracks.push(pts);
+    }
+    for (const [col, lw] of [
+      ['rgba(255,90,20,0.55)', 3.4],
+      ['rgba(255,220,140,0.95)', 1],
+    ]) {
+      ctx.strokeStyle = col;
+      ctx.lineWidth = lw;
+      for (const pts of cracks) {
+        K.polygon(ctx, pts, false);
+        ctx.stroke();
+      }
     }
     ctx.restore();
   }

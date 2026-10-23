@@ -17,7 +17,8 @@ function fig(canvas, label) {
 }
 
 async function sprites() {
-  for (const name of Sprites.list().filter((n) => n.startsWith('boss_sunFurnace')).sort()) {
+  const only = q.get('filter') || '';
+  for (const name of Sprites.list().filter((n) => n.startsWith('boss_sunFurnace' + only)).sort()) {
     for (let fr = 0; fr < Sprites.frames(name); fr++) {
       const s = Sprites.get(name, fr);
       const c = document.createElement('canvas');

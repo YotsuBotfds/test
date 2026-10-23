@@ -125,10 +125,11 @@ function move(b, dt, w) {
     const dy = b.y - p.y;
     const dist = Math.hypot(dx, dy) || 1;
     if (d.intro > 0) {
-      // Descend into frame above the player.
-      tx = p.x;
-      ty = p.y - 330;
-      maxSp = 280;
+      // Sweep down into its station beside the player (clear of the HUD's top plaques).
+      d.introSide ??= b.x >= p.x ? 1 : -1;
+      tx = p.x + d.introSide * ELLIPSE_X * 0.95;
+      ty = p.y - 110;
+      maxSp = 300;
     } else {
       // Hold station on a screen-shaped ellipse around the player (wide, short), so the
       // colossus stays framed however the player kites; the bearing drifts with the player.
@@ -640,7 +641,7 @@ function onDeath(b, w) {
     w.fx.flare?.(x, y, 900, '#ffe08a', 0.6);
     w.fx.shockwave?.(x, y, 1500, '#fff3c4', 1.6);
     w.fx.shockwave?.(x, y, 900, '#ffb04a', 1.1);
-    w.fx.bigExplosion?.(x, y, 3.2);
+    w.fx.bigExplosion?.(x, y, 2.4);
     w.fx.embers?.(x, y, 60, { speed: 900 });
     w.fx.debris?.(x, y, 30, 'metal', { speed: 700, scale: 1.5 });
     w.fx.cogs?.(x, y, 50, { speed: 820, scale: 1.4 });
@@ -688,6 +689,8 @@ const SUN_FURNACE = {
   noRecycle: true,
   noElite: true,
   immune: { slow: true },
+  /** HUD boss-bar markers: shell breaks, desperation, forced supernova. */
+  hudPhases: [P2_AT, P3_AT, NOVA_AT],
 
   init(b) {
     init(b);

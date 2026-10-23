@@ -254,7 +254,7 @@ const AURORA_WAVES = [
   W('Elite Squadron', 42, 60, [
     G('gyroScout', 12, 1, 6, 6, 'ring'),
     G('ornithopter', 4, 4, 1, 4, 'flank', 'overclocked'),
-    G('gunboat', 3, 12, 1, 3, 'pair', 'armored'),
+    G('gunboat', 3, 12, 1, 3, 'flank', 'armored'),
     G('clockWasp', 8, 17, 4, 4, 'cluster'),
     G('frigate', 1, 22, 1, 1, 'front', 'volatile'),
     G('steamWraith', 2, 27, 1, 2, 'cluster', true),

@@ -4,7 +4,8 @@
 
 import { Sprites } from '../../gfx/sprites.js';
 import {
-  TAU, dmgScale, cdScale, areaScale, durScale, lv, ready, strike, inRange, nearestN, glowAt, blast,
+  TAU, dmgScale, cdScale, areaScale, durScale, lv, ready, decayKick, strike, inRange, nearestN, glowAt, blast,
+  NO_DASH, DASH,
 } from './aux-common.js';
 
 const SRC = 'aux:steamVents';
@@ -75,12 +76,14 @@ function drawRing(ctx, p, R, alphaA, alphaB, t, warm) {
   ctx.globalAlpha = 0.32 + 0.1 * Math.sin(t * 4);
   ctx.strokeStyle = warm ? '#ffe6d0' : '#f4f1ea';
   ctx.lineWidth = 2.5;
-  ctx.setLineDash([R * 0.18, R * 0.12]);
+  DASH[0] = R * 0.18;
+  DASH[1] = R * 0.12;
+  ctx.setLineDash(DASH);
   ctx.lineDashOffset = -t * 30;
   ctx.beginPath();
   ctx.arc(p.x, p.y, R, 0, TAU);
   ctx.stroke();
-  ctx.setLineDash([]);
+  ctx.setLineDash(NO_DASH);
   ctx.globalAlpha = 1;
 }
 
@@ -99,6 +102,8 @@ export const SteamVents = {
 
   update(p, slot, dt, w) {
     const d = slot.data;
+    if (d.tick === undefined) SteamVents.init(p, slot);
+    decayKick(slot, dt);
     const i = slot.level;
     const R = lv(RADIUS, i) * areaScale(p);
     d.pulse = Math.max(0, d.pulse - dt * 2.2);
@@ -111,6 +116,7 @@ export const SteamVents = {
       if (d.blow <= 0) {
         d.blow = BLOWOUT_EVERY * cdScale(p);
         d.pulse = 1;
+        slot.kick = 1;
         aura(p, slot, w, R * 1.1, lv(DPS, i), lv(SLOW, i) + 0.1, SRC, 260, 3);
         w.fx.steamBurst?.(p.x, p.y, R / 60, 16);
         w.sfx('steam_vent', p.x, p.y, { vol: 0.9, pitch: 0.8 });
@@ -206,6 +212,7 @@ export const ScaldingNimbus = {
 
   update(p, slot, dt, w) {
     const d = slot.data;
+    if (!d.shred) ScaldingNimbus.init(p, slot);
     const area = areaScale(p);
     const R = EVO_R * area;
     d.flare = Math.max(0, d.flare - dt * 3);

@@ -43,12 +43,18 @@ export function lv(table, level) {
  * Publishes `slot.cdMax` so the HUD can draw a cooldown sweep.
  */
 export function ready(slot, dt, secs) {
+  decayKick(slot, dt);
   slot.cdMax = secs;
   if (slot.cd > secs) slot.cd = secs; // cooldown stat improved mid-countdown
   slot.cd -= dt;
   if (slot.cd > 0) return false;
   slot.cd = secs;
   return true;
+}
+
+/** HUD icon pulse: `slot.kick` (0..1) is set on fire and decays here. */
+export function decayKick(slot, dt) {
+  if (slot.kick > 0) slot.kick = Math.max(0, slot.kick - dt * 5);
 }
 
 // ---- Damage ------------------------------------------------------------------------------------
@@ -240,6 +246,10 @@ export function mount(p, fx, fy, out, withBob = false) {
 }
 
 // ---- Drawing -----------------------------------------------------------------------------------
+
+/** Shared line-dash arrays (setLineDash copies, so these can be mutated & reused per frame). */
+export const NO_DASH = [];
+export const DASH = [0, 0];
 
 /** Additive soft glow using one of the aux glow sprites (see aux-art.js). */
 export function glowAt(ctx, sprite, x, y, radius, alpha) {

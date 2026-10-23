@@ -48,6 +48,7 @@ export function drawFurnace(ctx, b, w) {
   const pulse = 0.5 + 0.5 * Math.sin(time * (3 + heat * 9));
   const flick = 0.85 + 0.15 * Math.sin(time * 37.1) * Math.sin(time * 23.7);
   const alpha = b.alpha;
+  const calm = !!w.reducedFlash; // reduced-flashing setting: no strobing lights
 
   // 1. Heat bloom beneath everything.
   ctx.globalCompositeOperation = 'lighter';
@@ -154,7 +155,7 @@ export function drawFurnace(ctx, b, w) {
   // 8. Warning lamps & chimney throats.
   if (!dead) {
     const alarm = d.alarm || 0;
-    const rate = 2 + heat * 4 + alarm * 6;
+    const rate = calm ? 1.2 : 2 + heat * 4 + alarm * 6;
     for (let i = 0; i < GEO.LAMPS.length; i++) {
       const a = GEO.LAMPS[i];
       const lx = x + Math.cos(a) * GEO.LAMP_R * s;
@@ -180,10 +181,10 @@ export function drawFurnace(ctx, b, w) {
 
   // 9. Overlays: safe lanes of the corona pattern, supernova charge ring, dying cracks.
   if (d.lanes && d.lanes.show > 0) drawLanes(ctx, b, d.lanes, time);
-  if (nova > 0) drawNovaCharge(ctx, b, nova, time);
+  if (nova > 0) drawNovaCharge(ctx, b, nova, time, calm);
   if (dying > 0) {
     ctx.globalCompositeOperation = 'lighter';
-    glow(ctx, x, y, 380 * s, GLOW.white, dying * (0.25 + 0.25 * Math.sin(time * 60)));
+    glow(ctx, x, y, 380 * s, GLOW.white, dying * (calm ? 0.3 : 0.25 + 0.25 * Math.sin(time * 60)));
     ctx.globalCompositeOperation = 'source-over';
   }
 
@@ -236,7 +237,7 @@ function drawLanes(ctx, b, L, time) {
   ctx.globalCompositeOperation = 'source-over';
 }
 
-function drawNovaCharge(ctx, b, k, time) {
+function drawNovaCharge(ctx, b, k, time, calm) {
   const x = b.x;
   const y = b.y;
   ctx.globalCompositeOperation = 'lighter';
@@ -250,7 +251,7 @@ function drawNovaCharge(ctx, b, k, time) {
     ctx.arc(x, y, r, 0, TAU);
     ctx.stroke();
   }
-  glow(ctx, x, y, 300 + 500 * k, GLOW.white, k * (0.3 + 0.2 * Math.sin(time * 30)));
+  glow(ctx, x, y, 300 + 500 * k, GLOW.white, k * (calm ? 0.35 : 0.3 + 0.2 * Math.sin(time * 30)));
   ctx.globalCompositeOperation = 'source-over';
 }
 

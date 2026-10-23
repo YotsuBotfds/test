@@ -4,7 +4,7 @@
 
 import { Sprites } from '../../gfx/sprites.js';
 import {
-  dmgScale, cdScale, areaScale, extraProj, lv, ready, hullDims, bob, glowAt, onScreen,
+  dmgScale, cdScale, areaScale, extraProj, lv, ready, decayKick, hullDims, bob, glowAt, onScreen,
 } from './aux-common.js';
 
 const SRC = 'aux:broadside';
@@ -41,8 +41,10 @@ const BALL = {
   pierce: 0, owner: null, source: SRC, scale: 1, knockback: 120, trail: ballTrail,
   glow: '#ffcf8a', glowSize: 2.2, explode: null,
 };
-const SHELL = { radius: 34, damage: 9, falloff: 0.3, visual: 'small', sound: 'explode_small', shake: 0.02, onExpire: false, knockback: 120 };
-const SHELL_EVO = { radius: 46, damage: 16, falloff: 0.3, visual: 'small', sound: 'explode_small', shake: 0.03, onExpire: false, knockback: 160 };
+/** Per-volley shell spec (balls in flight keep a reference, so never mutate a live one). */
+function shellSpec(radius, damage, evo) {
+  return { radius, damage, falloff: 0.3, visual: 'small', sound: 'explode_small', shake: evo ? 0.03 : 0.02, onExpire: false, knockback: evo ? 160 : 120 };
+}
 
 /** Hull-local x positions (fraction of length) of the guns in a row of `n`. */
 function gunX(i, n, evo) {
@@ -83,7 +85,7 @@ function fireGun(p, slot, w, i, n, side, evo, pass) {
   o.pierce = d.pierce;
   o.owner = p;
   o.source = evo ? SRC_EVO : SRC;
-  o.explode = d.shell ? (evo ? SHELL_EVO : SHELL) : null;
+  o.explode = d.shell || null;
   o.knockback = evo ? 170 : 120;
   w.fire(o);
   o.owner = null;
@@ -106,6 +108,7 @@ function startVolley(p, slot, w, evo, n, passes) {
   d.total = n * passes;
   d.rT = 0;
   d.volleys = (d.volleys || 0) + 1;
+  slot.kick = 1;
   w.sfx('broadside_fire', p.x, p.y, { vol: evo ? 1 : 0.85, pitch: 0.95 + w.rng.next() * 0.1 });
   if (passes > 1) w.sfx('broadside_fire', p.x, p.y, { vol: 0.9, pitch: 0.8, delay: n * RIPPLE });
   w.shake(evo ? (passes > 1 ? 0.2 : 0.12) : 0.06);
@@ -113,6 +116,7 @@ function startVolley(p, slot, w, evo, n, passes) {
 
 function stepVolley(p, slot, dt, w, evo) {
   const d = slot.data;
+  decayKick(slot, dt);
   for (let k = 0; k < d.kick.length; k++) if (d.kick[k] > 0) d.kick[k] = Math.max(0, d.kick[k] - dt * 5);
   if (d.idx >= d.total) return false;
   d.rT -= dt;
@@ -181,9 +185,7 @@ export const Broadside = {
     const sc = dmgScale(p, w);
     d.dmg = lv(DMG, i) * sc;
     d.pierce = lv(PIERCE, i);
-    d.shell = lv(SHELLS, i);
-    SHELL.radius = 34 * areaScale(p);
-    SHELL.damage = d.dmg * 0.5;
+    d.shell = lv(SHELLS, i) ? shellSpec(34 * areaScale(p), d.dmg * 0.5, false) : null;
     startVolley(p, slot, w, false, Math.min(MAX_GUNS, lv(PER_SIDE, i) + extraProj(p)), 1);
     stepVolley(p, slot, 0, w, false);
   },
@@ -219,9 +221,7 @@ export const ShipOfTheLine = {
     }
     d.dmg = EVO_DMG * dmgScale(p, w);
     d.pierce = 2;
-    d.shell = 1;
-    SHELL_EVO.radius = 46 * areaScale(p);
-    SHELL_EVO.damage = d.dmg * 0.6;
+    d.shell = shellSpec(46 * areaScale(p), d.dmg * 0.6, true);
     const grand = ((d.volleys + 1) % 4) === 0;
     startVolley(p, slot, w, true, Math.min(MAX_GUNS, EVO_PER_SIDE + extraProj(p)), grand ? 2 : 1);
     if (grand) {

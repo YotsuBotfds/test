@@ -771,7 +771,10 @@ function drawBody(ctx, b, w) {
   }
   const x = b.x + ox;
   const y = b.y + oy;
+  const f = b.flash;
+  b.flash = f * 0.35; // soft flash so sustained fire doesn't bleach the dome
   w.drawEnemySprite(ctx, b, 'boss_kraken', 0, b.angle, x, y, b.scale);
+  b.flash = f;
   const dead = !alive;
   const sc = b.scale;
   if (dead) Sprites.drawTint(ctx, 'boss_kraken', x, y, b.angle, sc, '#1c120a', 0.55 * b.alpha);

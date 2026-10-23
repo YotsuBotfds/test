@@ -4,7 +4,7 @@
 import { Sprites } from '../../gfx/sprites.js';
 import {
   TAU, dmgScale, cdScale, areaScale, durScale, extraProj, lv, ready, strike, nearestN, newMark,
-  mount, glowAt, crackle,
+  mount, glowAt, crackle, NO_DASH, DASH,
 } from './aux-common.js';
 
 const SRC = 'aux:teslaCoil';
@@ -98,6 +98,7 @@ export const TeslaCoil = {
 
   update(p, slot, dt, w) {
     const d = slot.data;
+    if (d.flash === undefined) TeslaCoil.init(p, slot);
     const i = slot.level;
     const c = coilPos(p, slot);
     d.flash = Math.max(0, (d.flash || 0) - dt * 4);
@@ -119,6 +120,7 @@ export const TeslaCoil = {
     }
     PRIMARY.length = 0;
     d.flash = 1;
+    slot.kick = 1;
     w.fx.flare?.(c.x, c.y, 34, ARC, 0.14);
     w.sfx('tesla_zap', c.x, c.y, { vol: 0.75, pitch: 0.92 + w.rng.next() * 0.16 });
   },
@@ -176,6 +178,7 @@ export const Thunderhead = {
 
   update(p, slot, dt, w) {
     const d = slot.data;
+    if (d.storm === undefined) Thunderhead.init(p, slot);
     const c = coilPos(p, slot);
     const area = areaScale(p);
     const scale = dmgScale(p, w);
@@ -228,6 +231,7 @@ export const Thunderhead = {
     w.sfx('tesla_zap', c.x, c.y, { vol: 1, pitch: 0.6 });
     w.shake(0.22);
     d.storm = 1;
+    slot.kick = 1;
   },
 
   draw(ctx, p, slot, w) {
@@ -248,12 +252,14 @@ export const Thunderhead = {
     ctx.strokeStyle = ARC;
     ctx.globalAlpha = 0.07 + 0.05 * pulse + 0.15 * d.storm;
     ctx.lineWidth = 2;
-    ctx.setLineDash([14, 18]);
+    DASH[0] = 14;
+    DASH[1] = 18;
+    ctx.setLineDash(DASH);
     ctx.lineDashOffset = -p.t * 40;
     ctx.beginPath();
     ctx.arc(p.x, p.y, R, 0, TAU);
     ctx.stroke();
-    ctx.setLineDash([]);
+    ctx.setLineDash(NO_DASH);
     // Constant crackle around the globe.
     ctx.globalAlpha = 0.55 + 0.45 * Math.random();
     ctx.lineWidth = 1.3;

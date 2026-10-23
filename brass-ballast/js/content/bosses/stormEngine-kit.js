@@ -84,6 +84,50 @@ export function outsideView(w, x, y, m) {
   return x < v.x0 + m.x || x > v.x1 - m.x || y < v.y0 + 120 * k + m.y || y > v.y1 - 50 * k - m.y;
 }
 
+// ---- Multi-part damage ledger -------------------------------------------------------------
+
+/**
+ * When several parts forward the SAME hit to the boss (an explosion overlapping hitboxes, a
+ * piercing or bouncing shot passing through several parts, a chain zap hopping between them),
+ * the boss takes it once — the largest share — instead of once per part. Projectile hits are
+ * keyed by projectile + pool generation; everything else by owner + source within one sim
+ * step. Call from the boss def's `modifyDamage`; returns the amount to actually apply.
+ */
+export function ledger(b, amt, info, w) {
+  const D = b.data;
+  const L = D._ledger || (D._ledger = { t: -1, step: new Map(), proj: new Map() });
+  if (L.t !== w.time) {
+    L.t = w.time;
+    L.step.clear();
+  }
+  const p = info?.projectile;
+  if (p) {
+    if (L.proj.size > 600) L.proj.clear();
+    const rec = L.proj.get(p);
+    if (rec && rec.gen === p.gen) {
+      if (amt <= rec.amt) return 0;
+      const extra = amt - rec.amt;
+      rec.amt = amt;
+      return extra;
+    }
+    if (rec) {
+      rec.gen = p.gen;
+      rec.amt = amt;
+    } else L.proj.set(p, { gen: p.gen, amt });
+    return amt;
+  }
+  const o = info?.owner;
+  const key = `${o ? (o.index ?? o.id ?? '?') : '-'}|${info?.source ?? ''}`;
+  const prev = L.step.get(key);
+  if (prev === undefined) {
+    L.step.set(key, amt);
+    return amt;
+  }
+  if (amt <= prev) return 0;
+  L.step.set(key, amt);
+  return amt - prev;
+}
+
 // ---- Comms portraits ----------------------------------------------------------------------
 
 export const PORTRAIT = { vex: 'boss_wp15_vex', crew: 'boss_wp15_crew' };
@@ -207,10 +251,14 @@ export function tauntLine(w, id, kind, index) {
   return list[(w.rng.next() * list.length) | 0];
 }
 
-/** Show a line on the boss's speech plaque (and as an announce fallback when no talker). */
-export function say(b, w, text, time = 4.2) {
+/**
+ * Show a line on the boss's comms panel (floating text fallback when there's no talker).
+ * `soft` lines never interrupt one that is still being shown.
+ */
+export function say(b, w, text, time = 4.2, soft = false) {
   if (!text) return;
-  const t = b.data.talk || (b.data.talk = { text: '', start: 0, time: 0, lines: null, who: '' });
+  const t = b.data.talk || (b.data.talk = { text: '', start: -99, time: 0, lines: null, who: '' });
+  if (soft && t.text && w.time - t.start < t.time - 0.5) return;
   const i = text.indexOf(':');
   t.who = i > 0 && i < 18 ? text.slice(0, i).trim() : '';
   t.text = i > 0 && i < 18 ? text.slice(i + 1).trim() : text;
@@ -221,8 +269,8 @@ export function say(b, w, text, time = 4.2) {
 }
 
 /** say() a taunt from TAUNTS[id][kind]. */
-export function sayTaunt(b, w, kind, index, time) {
-  say(b, w, tauntLine(w, b.type, kind, index), time);
+export function sayTaunt(b, w, kind, index, time, soft = false) {
+  say(b, w, tauntLine(w, b.type, kind, index), time, soft);
 }
 
 const TALKER_DEF = {

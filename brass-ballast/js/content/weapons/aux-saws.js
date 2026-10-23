@@ -4,7 +4,7 @@
 
 import { Sprites } from '../../gfx/sprites.js';
 import {
-  TAU, dmgScale, cdScale, areaScale, extraProj, lv, strike, glowAt, onScreen,
+  TAU, dmgScale, cdScale, areaScale, extraProj, lv, strike, glowAt, onScreen, NO_DASH, DASH,
 } from './aux-common.js';
 
 const SRC = 'aux:gyroSaws';
@@ -217,10 +217,12 @@ export const BuzzsawHalo = {
     ctx.globalAlpha = 0.55;
     ctx.strokeStyle = '#c9973f';
     ctx.lineWidth = 2.5;
-    ctx.setLineDash([10, 6]);
+    DASH[0] = 10;
+    DASH[1] = 6;
+    ctx.setLineDash(DASH);
     ctx.lineDashOffset = -d.spin * R * 0.5;
     ctx.stroke();
-    ctx.setLineDash([]);
+    ctx.setLineDash(NO_DASH);
     ctx.globalAlpha = 1;
   },
 

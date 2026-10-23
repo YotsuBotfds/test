@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Stage Timelines</title>
+<style>
+  :root { --bg: #1b1410; --panel: #2a1f17; --ink: #f3e3c3; --dim: #b39b78; --brass: #e0b04a; --bad: #ff6a4a; }
+  * { box-sizing: border-box; }
+  body { margin: 0; padding: 16px; background: var(--bg); color: var(--ink); font: 13px/1.4 Georgia, serif; }
+  h1 { margin: 0 0 4px; color: var(--brass); letter-spacing: .06em; }
+  h2 { margin: 22px 0 8px; color: var(--brass); border-bottom: 1px solid #5a4430; padding-bottom: 4px; }
+  .sub { color: var(--dim); margin-bottom: 12px; }
+  .wave { background: var(--panel); border: 1px solid #4a3828; border-radius: 6px; padding: 8px 10px; margin: 6px 0; }
+  .wave.set { border-color: var(--brass); box-shadow: 0 0 0 1px #e0b04a44 inset; }
+  .head { display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: baseline; }
+  .head b { font-size: 14px; }
+  .tag { color: #1b1410; background: var(--brass); border-radius: 3px; padding: 0 5px; font-size: 11px; }
+  .meta { color: var(--dim); }
+  .desc { color: var(--dim); font-style: italic; margin: 2px 0 6px; }
+  .track { position: relative; height: 0; margin: 4px 0 2px; }
+  .lane { position: relative; height: 16px; border-bottom: 1px dashed #4a3828; }
+  .lane span.lbl { position: absolute; left: 0; width: 120px; top: 0; font-size: 11px; color: var(--dim); white-space: nowrap; overflow: hidden; }
+  .bar { position: absolute; top: 3px; height: 10px; border-radius: 2px; opacity: .85; }
+  .dot { position: absolute; top: 1px; width: 6px; height: 14px; border-radius: 2px; transform: translateX(-3px); color: #000; font-size: 9px; text-align: center; line-height: 14px; }
+  .dot.elite { outline: 2px solid #ffd860; }
+  .lanes { margin-left: 124px; position: relative; }
+  .err { color: var(--bad); font-weight: bold; }
+  .ok { color: #8fdc8f; }
+  canvas { width: 100%; max-width: 900px; height: 220px; background: var(--panel); border-radius: 6px; display: block; }
+  table { border-collapse: collapse; }
+  td, th { padding: 2px 8px; border-bottom: 1px solid #3a2c20; text-align: left; }
+  .legend span { display: inline-block; margin: 0 10px 4px 0; }
+  .legend i { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 4px; vertical-align: -1px; }
+</style>
+</head>
+<body>
+<h1>Brass &amp; Ballast — Stages &amp; Modes</h1>
+<div class="sub">WP20 preview: every hand-tuned wave schedule, the Endless generator and the Daily Squall calendar.
+  Bars run from a group's first to last batch; dots are batches (size in the dot). Gold border = set-piece.</div>
+<div id="status"></div>
+<div class="legend" id="legend"></div>
+<div id="stages"></div>
+<h2>Endless Gale</h2>
+<canvas id="budget" width="900" height="220"></canvas>
+<div id="endless"></div>
+<h2>Daily Squall — next 7 days</h2>
+<div id="daily"></div>
+<script type="module" src="./stages-timeline.js"></script>
+</body>
+</html>

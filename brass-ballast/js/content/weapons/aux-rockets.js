@@ -4,7 +4,7 @@
 
 import { Sprites } from '../../gfx/sprites.js';
 import {
-  dmgScale, cdScale, areaScale, durScale, extraProj, lv, ready, nearestN, mount, glowAt, boom,
+  dmgScale, cdScale, areaScale, durScale, extraProj, lv, ready, decayKick, nearestN, mount, glowAt, boom,
 } from './aux-common.js';
 
 const SRC = 'aux:rocketPods';
@@ -46,15 +46,16 @@ function rocketTrail(p, w) {
 }
 
 // Reused fire options (world.fire copies scalars; explode/burn objects are read-only here).
-const EXPL = { radius: 40, damage: 16, falloff: 0.4, visual: false, sound: false, shake: 0.04, knockback: 90 };
-const EXPL_EVO = {
-  radius: 80, damage: 30, falloff: 0.3, visual: false, sound: false, shake: 0.09,
-  knockback: 200, burn: { dps: 10, time: 3 },
-};
+// Explode specs live per slot (rockets keep a reference while in flight; co-op safe).
+function explSpec(evo) {
+  return evo
+    ? { radius: 80, damage: 30, falloff: 0.3, visual: false, sound: false, shake: 0.09, knockback: 200, burn: { dps: 10, time: 3 } }
+    : { radius: 40, damage: 16, falloff: 0.4, visual: false, sound: false, shake: 0.04, knockback: 90 };
+}
 const ROCKET = {
   team: 'player', kind: 'rocket', x: 0, y: 0, angle: 0, speed: 240, accel: 1100, maxSpeed: 700,
   homing: 6.5, homingDelay: 0.12, homingRange: 650, target: null, r: 6, damage: 8, life: 2.4,
-  owner: null, source: SRC, explode: EXPL, trail: rocketTrail, glow: '#ffb347', glowSize: 2.4,
+  owner: null, source: SRC, explode: null, trail: rocketTrail, glow: '#ffb347', glowSize: 2.4,
   scale: 1, knockback: 40, onHit: null, onExpire: null,
 };
 
@@ -151,7 +152,7 @@ function launch(p, slot, w, evo) {
   o.target = t && t.alive ? t : null;
   o.owner = p;
   o.source = evo ? SRC_EVO : SRC;
-  o.explode = evo ? EXPL_EVO : EXPL;
+  o.explode = d.expl;
   o.damage = d.direct;
   o.scale = (evo ? 1.3 : 1) * Math.sqrt(area);
   o.r = 6 * o.scale;
@@ -182,6 +183,7 @@ function makeData(slot) {
 
 function tickVolley(p, slot, dt, w, evo) {
   const d = slot.data;
+  decayKick(slot, dt);
   d.kick[0] = Math.max(0, d.kick[0] - dt * 5);
   d.kick[1] = Math.max(0, d.kick[1] - dt * 5);
   d.empty = Math.max(0, d.empty - dt);
@@ -207,6 +209,7 @@ export const RocketPods = {
   },
 
   update(p, slot, dt, w) {
+    if (!slot.data.kick) makeData(slot);
     if (tickVolley(p, slot, dt, w, false)) return;
     const i = slot.level;
     if (!ready(slot, dt, lv(INTERVAL, i) * cdScale(p))) return;
@@ -220,14 +223,17 @@ export const RocketPods = {
     const area = areaScale(p);
     const sc = dmgScale(p, w);
     const dmg = lv(DMG, i) * sc;
-    EXPL.radius = lv(AOE, i) * area;
-    EXPL.damage = dmg;
+    // Fresh spec per volley: rockets still in flight keep the stats they launched with.
+    d.expl = explSpec(false);
+    d.expl.radius = lv(AOE, i) * area;
+    d.expl.damage = dmg;
     d.direct = dmg * 0.5; // blast does the heavy lifting
     d.cluster = lv(CLUSTER, i);
     d.clusterDmg = dmg * 0.4;
     d.queue = n;
     d.qT = 0;
     d.fired = 0;
+    slot.kick = 1;
     tickVolley(p, slot, 0, w, false);
   },
 
@@ -270,6 +276,7 @@ export const Hellfire = {
   },
 
   update(p, slot, dt, w) {
+    if (!slot.data.kick) makeData(slot);
     if (tickVolley(p, slot, dt, w, true)) return;
     if (!ready(slot, dt, EVO_INTERVAL * cdScale(p))) return;
     const n = EVO_COUNT + extraProj(p) * 2;
@@ -281,15 +288,17 @@ export const Hellfire = {
     const d = slot.data;
     const area = areaScale(p);
     const sc = dmgScale(p, w);
-    EXPL_EVO.radius = EVO_AOE * area;
-    EXPL_EVO.damage = EVO_DMG * sc;
-    EXPL_EVO.burn.dps = 10 * sc;
-    EXPL_EVO.burn.time = 3 * durScale(p);
+    d.expl = explSpec(true);
+    d.expl.radius = EVO_AOE * area;
+    d.expl.damage = EVO_DMG * sc;
+    d.expl.burn.dps = 10 * sc;
+    d.expl.burn.time = 3 * durScale(p);
     d.direct = EVO_DMG * sc * 0.4;
     d.patchDmg = 6 * sc;
     d.queue = n;
     d.qT = 0;
     d.fired = 0;
+    slot.kick = 1;
     w.shake(0.12);
     tickVolley(p, slot, 0, w, true);
   },

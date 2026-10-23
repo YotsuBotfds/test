@@ -322,7 +322,7 @@ export const ATTACKS = {
     update(b, a, dt, w) {
       a.tick -= dt;
       if (a.tick <= 0) {
-        a.tick += rate(b, 0.2);
+        a.tick += rate(b, 0.17);
         const d = b.data;
         for (let i = 0; i < GEO.PLATES; i++) {
           if ((i + a.n) % 2) continue;
@@ -447,7 +447,7 @@ export const ATTACKS = {
       a.aB -= 0.72 * dt;
       a.tick -= dt;
       if (a.tick <= 0) {
-        a.tick += rate(b, 0.19);
+        a.tick += rate(b, 0.17);
         for (let i = 0; i < 4; i++) {
           rimShot(w, b, a.aA + (i / 4) * TAU, 178, { damage: 9 }, GEO.R - 6);
           rimShot(w, b, a.aB + (i / 4) * TAU + 0.39, 204, { damage: 8, kind: 'orb', r: 6 }, GEO.R - 6);

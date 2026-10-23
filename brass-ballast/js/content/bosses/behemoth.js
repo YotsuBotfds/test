@@ -68,6 +68,7 @@ const HULL_DEF = {
   noScore: true,
   shareDamage: true,
   contactDamage: 22,
+  immune: { burn: true, slow: true }, // burns/slows would tick once per hitbox
   shadow: false,
   alt: 0,
   layer: 0,
@@ -385,7 +386,7 @@ function atkMortar(b, w, p) {
   D.dur = waves * 1.3 + tgts.length * 0.14 + 1.6;
   if (!D.mortarSaid) {
     D.mortarSaid = true;
-    K.sayTaunt(b, w, 'phase', 0);
+    K.sayTaunt(b, w, 'phase', 0, undefined, true);
   }
 }
 
@@ -429,7 +430,7 @@ function atkWalls(b, w) {
   D.dur = n * gap + 1.2;
   if (!D.wallSaid) {
     D.wallSaid = true;
-    K.sayTaunt(b, w, 'phase', 1);
+    K.sayTaunt(b, w, 'phase', 1, undefined, true);
   }
 }
 
@@ -537,7 +538,7 @@ function launchTick(b, w, dt) {
   D.launchT -= dt * b.fireRateMult;
   if (D.launchT > 0) return;
   D.launchT = [11, 15, 12][b.phase] + w.rng.next() * 3;
-  const cap = b.phase >= 2 ? 7 : 6;
+  const cap = b.phase >= 2 ? 6 : 5;
   const room = cap - minionsAlive(D);
   if (room <= 0) return;
   D.launchQ = Math.min(room, b.phase >= 2 ? 4 : 3);
@@ -746,7 +747,7 @@ function move(b, w, dt, p) {
   if (Math.abs(dy) > 90) D.side = dy < 0 ? -1 : 1;
   if (D.state === 'enter') D.side = -1;
   const tgt = K.clampToView(w, p.x + Math.sin(D.t * 0.17) * 170, p.y + D.side * 255, MARGIN, _t);
-  let max = 75;
+  let max = 105;
   if (D.state === 'enter') max = 230;
   else if (D.state === 'rake' || D.state === 'mortar') max = 18;
   const d = Math.hypot(p.x - b.x, p.y - b.y);
@@ -1105,6 +1106,11 @@ export default {
     drawDoors(ctx, b, w, s);
     drawGlows(ctx, b, w, s);
     ctx.restore();
+  },
+
+  /** Every hit arrives through a part; count each shot/blast once however many parts it hit. */
+  modifyDamage(b, amt, info, w) {
+    return K.ledger(b, amt, info, w);
   },
 
   drawShadow(ctx, b, w, ox, oy) {

@@ -366,7 +366,11 @@ export default {
       drawWreck(ctx, b, w);
       return;
     }
+    // soft hit flash: sustained fire on a hull this size would otherwise bleach it white
+    const f = b.flash;
+    b.flash = f * 0.3;
     w.drawEnemySprite(ctx, b);
+    b.flash = f;
     drawOverlays(ctx, b, w);
   },
 

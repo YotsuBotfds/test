@@ -219,6 +219,7 @@ export const MineLayer = {
 
   update(p, slot, dt, w) {
     const d = slot.data;
+    if (!d.mines) MineLayer.init(p, slot);
     const i = slot.level;
     d.dmg = lv(DMG, i) * dmgScale(p, w);
     d.radius = lv(RADIUS, i);
@@ -253,6 +254,7 @@ export const MineLayer = {
       m.z = 0;
     }
     d.chute = 1;
+    slot.kick = 1;
     w.fx.smoke?.(st.x, st.y, 0.3, LAND_PUFF);
     w.sfx('mine_drop', st.x, st.y, { vol: 0.7 });
   },
@@ -312,13 +314,14 @@ export const DevilsMinefield = {
 
   init(p, slot) {
     slot.data.mines = [];
-    slot.data.ring = RING_EVERY;
+    slot.data.ring = 0.8; // open with a ring of mines for a dramatic entrance
     slot.data.burn = { dps: 8, time: 2 };
     slot.cd = 0.3;
   },
 
   update(p, slot, dt, w) {
     const d = slot.data;
+    if (!d.mines || !d.burn) DevilsMinefield.init(p, slot);
     const sc = dmgScale(p, w);
     d.dmg = EVO_DMG * sc;
     d.radius = EVO_R;
