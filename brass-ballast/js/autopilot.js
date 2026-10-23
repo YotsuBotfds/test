@@ -68,8 +68,8 @@ export function autoPickCard(cards, choice) {
 /**
  * Create a brain function for one player: (player, dt, world) => controls.
  * `skill` (0..1, default 1 = near-perfect) makes the bot notice only that share of incoming
- * shots and react later — a rough stand-in for a human when judging difficulty
- * (URL flag `botskill=0.5`).
+ * shots, react later, lead targets less and aim with a wandering error — a rough stand-in for
+ * a human when judging difficulty and boss fight length (URL flag `botskill=0.5`).
  * @param {{aggression?:number, skill?:number}} [opts]
  */
 export function createBrain(opts = {}) {
@@ -319,7 +319,7 @@ export function createBrain(opts = {}) {
 
     // --- 5. Aim & fire.
     if (st.retarget <= 0 || !st.target?.alive) {
-      st.retarget = 0.25;
+      st.retarget = 0.25 + (1 - skill) * 0.5;
       let best = null;
       let bscore = Infinity;
       for (let i = 0; i < E.length; i++) {
@@ -342,11 +342,13 @@ export function createBrain(opts = {}) {
     if (tg && tg.alive) {
       const d = Math.hypot(tg.x - p.x, tg.y - p.y);
       const lead = Math.min(0.6, d / 750);
-      const ax = tg.x + (tg.vx || 0) * lead - p.x;
-      const ay = tg.y + (tg.vy || 0) * lead - p.y;
-      const al = Math.hypot(ax, ay) || 1;
-      c.aimX = ax / al;
-      c.aimY = ay / al;
+      const ax = tg.x + (tg.vx || 0) * lead * skill - p.x;
+      const ay = tg.y + (tg.vy || 0) * lead * skill - p.y;
+      // Lower skill: a slowly wandering aim error (a human's hand), up to ±0.3 rad at skill 0.
+      const err = (1 - skill) * 0.3 * Math.sin(p.t * 1.7 + Math.sin(p.t * 0.63) * 2.1);
+      const base = Math.atan2(ay, ax) + err;
+      c.aimX = Math.cos(base);
+      c.aimY = Math.sin(base);
       c.fire = d < 820;
     } else if (boss) {
       const ax = boss.x - p.x;

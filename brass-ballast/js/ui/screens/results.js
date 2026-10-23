@@ -22,11 +22,15 @@ export default function build(ui, params) {
   const rows = [
     ['Score', s.score || 0, fmtInt, true],
     ['Time aloft', s.time || 0, fmtTime],
-    ['Furthest skies', s.stageReached || 0, (v) => (s.mode === 'endless' ? `Wave ${fmtInt(s.wave || v)}` : `Stage ${fmtInt(v)}`)],
+    ['Furthest skies', s.stageReached || 0, (v) => (s.mode === 'endless' ? `Wave ${fmtInt(s.wave || v)}` : s.mode === 'bossRush' ? `Titan ${fmtInt(v)} of 5` : `Stage ${fmtInt(v)}`)],
     ['Level reached', s.level || 1, fmtInt],
     ['Foes downed', s.kills || 0, fmtInt],
     ['Bosses sunk', s.bossKills || 0, fmtInt],
-    ['Best combo', s.bestCombo || 0, (v) => `×${(Number(v) || 0).toFixed(1).replace(/\.0$/, '')}`],
+    // run.bestCombo is the longest kill chain; the score multiplier it reached is 1 + 0.1/kill (max ×5).
+    ['Best chain', s.bestCombo || 0, (v) => {
+      const n = Math.round(Number(v) || 0);
+      return n ? `${n} (×${Math.min(5, 1 + 0.1 * n).toFixed(1).replace(/\.0$/, '')})` : '—';
+    }],
     ['Damage dealt', s.damageDealt || 0, fmtInt],
     ['Damage taken', s.damageTaken || 0, fmtInt],
   ];

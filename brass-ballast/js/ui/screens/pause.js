@@ -27,7 +27,9 @@ export default function build(ui) {
   const rows = [
     ['Voyage', mode?.name || 'The Grand Voyage'],
     ['Skies', stage ? `${stage.name || stage.id}` : '—'],
-    ['Wave', run.endlessWave ? fmtInt(run.endlessWave) : run.wave ? `${run.wave} / ${run.waveCount || '?'}` : '—'],
+    run.mode === 'bossRush'
+      ? ['Gauntlet', `${(run.stageIndex ?? 0) + 1} / ${run.stageOrder?.length || 5}`]
+      : ['Wave', run.endlessWave ? fmtInt(run.endlessWave) : run.wave ? (run.waveCount ? `${run.wave} / ${run.waveCount}` : fmtInt(run.wave)) : '—'],
     ['Time aloft', fmtTime(run.time || 0)],
     ['Score', fmtInt(run.score || 0)],
     ['Foes downed', fmtInt(run.kills || 0)],

@@ -1228,6 +1228,11 @@ svg.silhouette { filter: grayscale(1) brightness(0.35); }
 /* ===================================================================== 10. settings */
 .settings-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); gap: clamp(12px, 2vw, 26px); align-items: start; }
 .set-group { display: flex; flex-direction: column; gap: 4px; }
+/* Three columns: Spectacle & Controls run two rows tall so the short Sound column takes the
+   ledger right under it (instead of a gap and a ledger pushed off the bottom). */
+@media (min-width: 1200px) {
+  .settings-grid > .set-group:nth-child(2), .settings-grid > .set-group:nth-child(3) { grid-row: span 2; }
+}
 .set-h { margin-bottom: 0.3em; }
 .set-row {
   display: flex;

@@ -37,23 +37,29 @@ shared; each living player picks their own upgrade card on level-up.
 
 ### Features
 
-- Twin-stick airship handling with momentum, boosts, ballast bombs and a steam gauge.
-- Primary cannons and auxiliary weapon systems that evolve into legendary forms.
-- Roguelite level-ups offering upgrade cards, plus a persistent Workshop that buys permanent
-  upgrades with cogs earned in every run.
-- Five biomes with their own weather and skies, and five boss fights with telegraphed attacks.
-- Codex, achievements and per-mode highscores.
+- Twin-stick airship handling with momentum, boost dashes (with i-frames), ballast bombs and a
+  steam gauge.
+- 5 hulls, 6 primary cannons (levelled with Calibrate cards), 8 auxiliary systems that evolve
+  into 8 legendary forms when paired with the right passive, and 20 passives.
+- Roguelite level-ups (rarity-framed cards, rerolls), a refit after every boss, armory crates,
+  and a persistent Workshop (12 upgrades) bought with cogs earned in every run.
+- 12 Iron Syndicate enemy types with elite affixes, five biomes with their own weather, and five
+  multi-phase boss fights with telegraphed attacks and destructible parts.
+- Codex, 32 achievements (4 of them secret), per-mode highscores and a daily best.
 - Juicy combat feedback (screen shake, hit-stop, smoke and sparks), with accessibility options
   for shake, flashing and damage numbers.
+- Graphics quality `Auto` (default) lowers resolution, particle density and backdrop detail by
+  itself when the frame rate drops, and raises it again when there is headroom; `High` and
+  `Low` pin it.
 - Installable and offline. Install from the browser menu or the title screen; updates arrive
   as a "new rigging available" prompt.
 
 ## Running locally
 
-From this folder:
+From this folder (Node 18+; no `npm install` needed):
 
 ```sh
-node tools/serve.mjs            # http://127.0.0.1:8080
+npm start                       # = node tools/serve.mjs → http://127.0.0.1:8080
 node tools/serve.mjs 9000       # or pick a port
 ```
 
@@ -62,19 +68,30 @@ not registered on `localhost` or `127.0.0.1` by default, which keeps stale cache
 way while developing. Add `?sw=1` to a URL to test the service worker locally, or `?nosw=1`
 to make sure it stays off.
 
-Useful URL flags (see `docs/DESIGN.md` §10): `debug=1`, `autostart=1`, `autopilot=1`,
-`mode=`, `hull=`, `weapon=`, `stage=N`, `boss=<id>`, `seed=N`, `god=1`, `mute=1`.
+Useful URL flags (full list in `docs/ENGINE.md` §14): `debug=1` (exposes `window.BB`),
+`autostart=1`, `autopilot=1`, `god=1`, `mute=1`, `mode=campaign|endless|daily|bossRush`,
+`hull=`, `weapon=`, `stage=N`, `wave=N`, `boss=<id>`, `level=N`, `aux=teslaCoil:5,saws`,
+`passives=boiler:2`, `mods=gale,fog`, `speed=N`, `seed=N`, `quality=auto|high|medium|low`,
+`botskill=0..1`.
 
 ## Testing
 
+The browser checks use a globally installed `playwright` package (headless Chromium).
+
 ```sh
-node tests/smoke.cjs --help             # headless Chromium smoke run, prints a JSON report
+npm test                                # = node tests/soak.cjs: autopilot soak matrix over every
+                                        #   stage, boss, mode, co-op and mobile viewports
+node tests/soak.cjs --only boss-kraken,coop --jobs 2 --scale 0.5 --out /tmp/soak
+node tests/smoke.cjs --help             # one headless run → JSON report (+ screenshots)
 node tests/pwa-check.cjs                # service worker install, precache and offline reload
 node tests/input-check.cjs              # keyboard, mouse, gamepad and touch input harness
-eslint js sw.js precache-manifest.js    # lint (flat config in eslint.config.mjs)
+npm run lint                            # eslint js sw.js precache-manifest.js
 ```
 
-The Playwright-based checks use a globally installed `playwright` package.
+Preview pages under `tests/preview/` show each subsystem on its own (open them through the dev
+server): `sprites.html` (every sprite, `?filter=boss_kraken`), `audio.html` (every sound;
+`?check=1` renders all of them offline and reports PASS/FAIL), `music.html`, `fx.html`,
+`backdrops.html`, `hud.html`, `ui.html`, `icons-board.html` and more.
 
 ## Architecture
 
@@ -99,7 +116,7 @@ The game is a static folder with no build step.
    the old cached version:
 
    ```sh
-   node tools/gen-precache.mjs
+   npm run precache                # = node tools/gen-precache.mjs
    ```
 
    It writes `precache-manifest.js` with a version hash of every file under `index.html`,
@@ -107,8 +124,9 @@ The game is a static folder with no build step.
 2. Upload the folder to any static host. Serve it over HTTPS, because service workers require a
    secure context (localhost is the one exception).
 
-Do not deploy `tests/`, `tools/` or `docs/`; they are not precached, but they are not needed to
-play either.
+Only `index.html`, `manifest.webmanifest`, `sw.js`, `precache-manifest.js`, `css/`, `js/` and
+`icons/` are needed to play. `tests/`, `tools/`, `docs/`, `package.json` and
+`eslint.config.mjs` are development files; they are never precached.
 
 ## Credits
 

@@ -563,7 +563,7 @@ const balloonMine = {
 // Pirate Gunboat
 // ---------------------------------------------------------------------------------------------
 
-const GUN = { every: 1.7, charge: 0.4, speed: 230, damage: 10, arc: 0.36 };
+const GUN = { every: 1.7, first: 0.7, charge: 0.4, speed: 230, damage: 10, arc: 0.36 };
 const RINGS = [300, 365, 430];
 
 const gunboat = {
@@ -624,9 +624,18 @@ const gunboat = {
         d.charge = 0;
         this.fire(e, w, tx, ty);
       }
-    } else if (AI.cooldown(e, 'gun', GUN.every, dt) && dist < 640 && onScreen(w, e, -10)) {
-      e.state = 'charge';
-      e.timer = GUN.charge;
+    } else {
+      const vis = onScreen(w, e, -10);
+      // Sailing into view with a loaded gun: the first volley comes quickly (after the usual
+      // 0.4 s muzzle-glow telegraph) instead of on a random off-screen schedule.
+      if (vis && !d.seen) {
+        d.seen = true;
+        if (!(e.data.gun < GUN.first)) e.data.gun = GUN.first * (0.6 + 0.4 * w.rng.next());
+      }
+      if (AI.cooldown(e, 'gun', GUN.every, dt) && dist < 680 && vis) {
+        e.state = 'charge';
+        e.timer = GUN.charge;
+      }
     }
     // Sooty stacks — thicker when damaged.
     const hurt = e.hp < e.maxHp * 0.5;

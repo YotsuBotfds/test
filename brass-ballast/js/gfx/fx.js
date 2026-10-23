@@ -764,13 +764,13 @@ export class FX {
   // text
 
   /**
-   * Floating text. Numeric strings are damage numbers (hidden when the damageNumbers setting is
-   * off unless opts.force). opts: {color, size, life, rise, crit, key (merge rapid hits on the
+   * Floating text. Bare numeric strings are damage numbers (hidden when the damageNumbers setting
+   * is off unless opts.force); '+N' callouts (heals, score bonuses) always show. opts: {color, size, life, rise, crit, key (merge rapid hits on the
    * same target), callout, force}
    */
   text(x, y, str, opts = {}) {
     const s = String(str);
-    const isDamage = opts.damage ?? /^[+-]?\d[\d,.]*!?$/.test(s);
+    const isDamage = opts.damage ?? /^-?\d[\d,.]*!?$/.test(s);
     if (isDamage && !opts.force) {
       try {
         if (Save.settings?.damageNumbers === false) return null;

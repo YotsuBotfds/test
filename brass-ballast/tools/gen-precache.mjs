@@ -4,8 +4,8 @@
 //   node brass-ballast/tools/gen-precache.mjs
 //
 // Included: index.html, manifest.webmanifest, and everything under css/, js/, icons/.
-// Excluded: tests/, tools/, docs/, *.md, eslint.config.mjs, sw.js, precache-manifest.js,
-// dotfiles. The version is the first 12 hex chars of a SHA-256 over every included path and
+// Excluded (never listed): tests/, tools/, docs/, *.md, package.json, eslint.config.mjs, sw.js,
+// precache-manifest.js, dotfiles. The version is the first 12 hex chars of a SHA-256 over every included path and
 // its bytes, so any change to a shipped file yields a new cache name.
 
 import crypto from 'node:crypto';

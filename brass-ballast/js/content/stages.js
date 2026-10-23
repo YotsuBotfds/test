@@ -16,13 +16,14 @@ export const ENEMY_IDS = [
   'carrier', 'teslaBuoy', 'frigate', 'ornithopter', 'steamWraith', 'mortarBarge',
 ];
 
-/** Per-stage scaling (DESIGN §2.10). */
-const HP_MULT = [1, 1.7, 2.6, 3.7, 5];
+/** Per-stage scaling (DESIGN §2.10; mid stages nudged up in integration play-tests so foes live
+ *  long enough to shoot back — the player's build snowballs fastest through stages 2–4). */
+const HP_MULT = [1, 1.75, 2.9, 4.1, 5.2];
 const DMG_MULT = [1, 1.15, 1.3, 1.5, 1.7];
 const XP_MULT = [1, 1.2, 1.4, 1.6, 1.8];
 const ELITE_CHANCE = [0.02, 0.04, 0.06, 0.08, 0.12];
 /** Regular enemies shoot faster in later stages (run.enemyFireRate; bosses are exempt). */
-const FIRE_RATE = [1, 1.08, 1.16, 1.25, 1.35];
+const FIRE_RATE = [1, 1.1, 1.22, 1.3, 1.35];
 
 /**
  * Spawn group helper.

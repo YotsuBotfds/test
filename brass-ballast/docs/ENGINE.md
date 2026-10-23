@@ -54,7 +54,14 @@ world.addHazard(h) -> Hazard              // §6
 world.telegraphCircle(x, y, r, time, {color, onDone(world, h), follow, ox, oy, team})
 world.telegraphLine(x1, y1, x2, y2, width, time, {color, onDone(world, h), follow})
 world.damageEnemy(e, amount, info?) -> dealt
-world.damagePlayer(p, amount, info?) -> bool   // true = hit consumed (damage or shield)
+world.damagePlayer(p, amount, info?) -> bool   // true = hit consumed (damage or shield).
+                                          // `amount` is a BASE number scaled like fire/explode/
+                                          // addHazard: × (info.dmgMult ?? info.owner.dmgMult) when
+                                          // the owner is an enemy. Don't pre-multiply; pass
+                                          // info.scaled=true only if you already did.
+world.loopSfx(key, name, on, {vol,pitch,x,y}?)   // run-owned audio loop: call every update while
+                                          // on; stops when not refreshed, mutes while the sim is
+                                          // halted (pause/level-up) and dies with the run
 world.applyBurn(e, dps, time=3, owner?)   world.applySlow(e, amt 0..0.8, time=1.5)
 world.clearEnemyBullets(x, y, r=Infinity, toXp=false) -> count
 
@@ -263,6 +270,13 @@ const CORE_DEF = { id: 'imCore', hp: 1, r: 40, manualMove: true, shareDamage: tr
   cog shower (`def.cogs × mods.cogs × max(1, bossHpMult)`), XP, 2 repairs + a bomb,
   `boss:killed`. Don't spawn your own death sequence (add flavor in `onDeath` if you like).
 - Lightning: `w.weather.strike?.(x, y)` (visual + thunder); pair it with a telegraph/hazard.
+- Optional def fields read by the engine/HUD: `zoom` (camera base zoom for the fight, set by
+  `game.onBossSpawn`; default 0.88 — never poke `camera.baseZoomMul` from `update`), `hudPhases`
+  (hp fractions of the phase changes, drawn as boss-bar markers), `noFrame` (camera won't lean
+  toward it). While a boss lives the camera leans toward it and zooms out (≥ 0.78 × `zoom`) to
+  keep player and boss framed. Campaign toughness: `hp: bossHp(id, BASE_HP)` from
+  `content/bosses/tuning.js` (one table for all five bosses; modes scale on top via
+  `run.bossHpMult`).
 
 ## 8. Player (`js/game/player.js`)
 
@@ -384,7 +398,8 @@ telegraphs → particles `low` → pickups → wrecks → enemies (layer −1, 0
 ## 14. Debug (`?debug=1` → `window.BB`)
 
 URL flags: `debug autostart autopilot mode hull weapon stage=N wave=N boss=<id> seed=N god mute
-level=N aux=a,b[:lvl] passives=a,b[:lvl] mods=gale,fog speed=N nosw sw`.
+level=N aux=a,b[:lvl] passives=a,b[:lvl] mods=gale,fog speed=N nosw sw quality=auto|high|medium|low
+botskill=0..1` (autopilot dodge skill, for difficulty checks).
 ```js
 BB.game BB.world BB.run BB.Sprites BB.audio BB.events BB.Save BB.ENEMIES BB.BOSSES …
 BB.debug.spawn(type, n=1, {dist, x, y, elite, …})   BB.debug.boss(id)   BB.debug.stage(n)

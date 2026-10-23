@@ -19,6 +19,7 @@ import { VOICES, ROLL_RATE, resources, reverbImpulse } from './music-instruments
 import { smoothstep, clamp, hash } from './music-theory.js';
 import { Save } from '../core/storage.js';
 import { events } from '../core/events.js';
+import { Quality } from '../gfx/quality.js';
 
 /** Layer weight vs effective intensity. */
 const LAYERS = {
@@ -356,6 +357,8 @@ export class Music {
       this._syncQuality();
       try {
         this._offSettings = events?.on?.('settings:change', () => this._syncQuality()) || null;
+        // The auto quality governor (gfx/quality.js) can drop to 'low' on its own.
+        this._offQuality = events?.on?.('quality:change', () => this._syncQuality()) || null;
       } catch {
         /* events stub */
       }
@@ -364,7 +367,8 @@ export class Music {
 
   _syncQuality() {
     try {
-      this.setLite(Save?.data?.settings?.quality === 'low');
+      // Effective tier: explicit 'low' or the auto governor having stepped down to low.
+      this.setLite(Save?.data?.settings?.quality === 'low' || Quality.tier === 0);
     } catch {
       /* storage stub */
     }
@@ -531,6 +535,7 @@ export class Music {
     this._stopTimer();
     try {
       if (typeof this._offSettings === 'function') this._offSettings();
+      if (typeof this._offQuality === 'function') this._offQuality();
     } catch {
       /* ignore */
     }
