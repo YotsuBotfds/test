@@ -6,7 +6,8 @@ import { pwa } from '../../pwa.js';
 import { ACHIEVEMENTS } from '../../content/achievements.js';
 import { ENEMY_ORDER } from '../../content/enemies/index.js';
 import { BOSS_ORDER } from '../../content/bosses/index.js';
-import { h, frag, cogChip, sfx, safe } from '../dom.js';
+import * as Lore from '../../content/codex.js';
+import { h, frag, cogChip, sfx, safe, txt } from '../dom.js';
 import { emblemSVG, gearSVG } from '../art.js';
 
 const TAGLINES = [
@@ -86,6 +87,23 @@ export default function build(ui, params) {
   const menu = h('nav', { class: 'title-menu', 'aria-label': 'Main menu' }, sail, hangar, codex, ach, settings, credits);
   const tag = TAGLINES[(Save.data.stats?.runs || 0) % TAGLINES.length];
 
+  const tips = Array.isArray(Lore.TIPS) ? Lore.TIPS.filter(Boolean) : [];
+  let tipIdx = Math.floor(Math.random() * Math.max(1, tips.length));
+  const tipText = h('span', { class: 'title-tip-text' }, tips.length ? txt(tips[tipIdx]) : '');
+  const tip = tips.length
+    ? h('div', { class: 'title-tip' }, frag(gearSVG(8, '', 0.3)), h('div', null, h('b', null, 'Sky-sailor’s tip'), tipText))
+    : null;
+  const tipTimer = tips.length > 1
+    ? setInterval(() => {
+        tipText.classList.add('fade');
+        setTimeout(() => {
+          tipIdx = (tipIdx + 1) % tips.length;
+          tipText.textContent = txt(tips[tipIdx]);
+          tipText.classList.remove('fade');
+        }, 420);
+      }, 9000)
+    : 0;
+
   const el = h(
     'div',
     { class: 'title-screen' },
@@ -105,6 +123,7 @@ export default function build(ui, params) {
     ),
     h('div', { class: 'title-side' }, menu, h('div', { class: 'title-aux' }, howto, install)),
     h('div', { class: 'title-top' }, best, chip.el),
+    tip,
     h('div', { class: 'title-ver' }, `v${VERSION}`),
   );
 
@@ -130,6 +149,9 @@ export default function build(ui, params) {
     onReveal: refresh,
     back() {
       /* the title is the root; nothing to go back to */
+    },
+    destroy() {
+      clearInterval(tipTimer);
     },
   };
 }

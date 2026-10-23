@@ -48,19 +48,33 @@ function gallery() {
 }
 
 function drawShip(ctx, hull, turret, x, y, angle, aim, sc, frame) {
-  const s = Sprites.get(`hull_${hull}`);
-  // engine-style shadow: tinted silhouette offset down-right
-  Sprites.drawTint(ctx, `hull_${hull}`, x + 26 * 0.5 * sc, y + 34 * 0.5 * sc, angle, sc, '#000000', 0.22);
+  // engine-style shadow (alt 0.5): cached blurred silhouette offset down-right
+  Sprites.drawShadow(ctx, `hull_${hull}`, x + 26 * 0.5 * sc, y + 34 * 0.5 * sc, angle, sc, 0.3);
   Sprites.draw(ctx, `hull_${hull}`, x, y, angle, sc);
   const m = HULL_MOUNTS[hull];
   const ca = Math.cos(angle);
   const sa = Math.sin(angle);
   for (const [px, py] of m.props) {
-    Sprites.draw(ctx, 'prop', x + (px * ca - py * sa) * sc, y + (px * sa + py * ca) * sc, angle, sc, 1, frame);
+    Sprites.draw(
+      ctx,
+      'prop',
+      x + (px * ca - py * sa) * sc,
+      y + (px * sa + py * ca) * sc,
+      angle,
+      sc,
+      1,
+      frame
+    );
   }
   const [tx, ty] = m.turret;
-  Sprites.draw(ctx, `turret_${turret}`, x + (tx * ca - ty * sa) * sc, y + (tx * sa + ty * ca) * sc, aim, sc);
-  void s;
+  Sprites.draw(
+    ctx,
+    `turret_${turret}`,
+    x + (tx * ca - ty * sa) * sc,
+    y + (tx * sa + ty * ca) * sc,
+    aim,
+    sc
+  );
 }
 
 function scene() {
@@ -101,7 +115,9 @@ function scene() {
     drawShip(ctx, h, turrets[i % 6], x, y, 0, 0.35, 2, i % 4);
   });
   // ordnance & pickups at 1× and 2×
-  const small = Sprites.list().filter((n) => /^(pb_|eb_|pk_)/.test(n)).sort();
+  const small = Sprites.list()
+    .filter((n) => /^(pb_|eb_|pk_)/.test(n))
+    .sort();
   ctx.fillText('ordnance & pickups 1× / 2×', 10, 960);
   small.forEach((n, i) => {
     const x = 30 + (i % 30) * 46;

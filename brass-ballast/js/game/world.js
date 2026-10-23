@@ -125,7 +125,8 @@ export class World {
     p.hp += gained;
     if (gained >= 1) {
       this.floatText(p.x, p.y - 34, `+${Math.round(gained)}`, { color: '#7dff8a', size: 16 });
-      this.fx.sparks?.(p.x, p.y, -Math.PI / 2, 6, '#9dff9a', TAU);
+      if (this.fx.heal) this.fx.heal(p.x, p.y, 1);
+      else this.fx.sparks?.(p.x, p.y, -Math.PI / 2, 6, '#9dff9a', TAU);
     }
     return gained;
   }
@@ -324,7 +325,8 @@ export class World {
     if (!(amt > 0)) return 0;
     const dealt = Math.min(amt, e.hp);
     e.hp -= amt;
-    e.flash = 1;
+    // Big hulls flash softer so sustained fire doesn't bleach them white.
+    e.flash = e.isBoss || e.r > 40 ? Math.max(e.flash, 0.5) : 1;
     if (info.knockback && !e.isBoss && !e.parent && !def.noKnockback) {
       const kb = (info.knockback * (info.owner?.stats?.knockback ?? 1)) / Math.max(0.2, e.mass);
       const a = info.angle ?? 0;
@@ -946,6 +948,7 @@ export class World {
     for (let i = 0; i < list.length; i++) if (list[i].alive) sp.insert(list[i]);
 
     for (let i = 0; i < this.players.length; i++) this.players[i].update(dt, this.input);
+    if (this.players.length > 1) this._leash(dt);
     updateEnemies(this, dt);
     this.projectiles.updateList(this.pBullets, dt);
     this.projectiles.updateList(this.eBullets, dt);
@@ -982,6 +985,12 @@ export class World {
       }
     }
 
+    const pw = this.particles.wind;
+    if (pw) {
+      const wind = this.wind;
+      pw.x = wind.x;
+      pw.y = wind.y;
+    }
     this.particles.update(dt);
     this.fx.update(dt);
   }
@@ -1052,6 +1061,45 @@ export class World {
     }
     ctx.globalCompositeOperation = 'source-over';
     ctx.globalAlpha = 1;
+  }
+
+  /** Co-op: keep living players inside what the camera can frame at its widest zoom. */
+  _leash(dt) {
+    let n = 0;
+    let cx = 0;
+    let cy = 0;
+    for (const p of this.players) {
+      if (!p.alive) continue;
+      cx += p.x;
+      cy += p.y;
+      n++;
+    }
+    if (n < 2) return;
+    cx /= n;
+    cy /= n;
+    const r = this.renderer;
+    const z = r.camera.baseZoom * 0.55;
+    const hx = Math.max(200, r.cssW / 2 / z - 130);
+    const hy = Math.max(160, r.cssH / 2 / z - 110);
+    for (const p of this.players) {
+      if (!p.alive) continue;
+      const dx = p.x - cx;
+      const dy = p.y - cy;
+      const k = Math.hypot(dx / hx, dy / hy);
+      if (k <= 1) continue;
+      const tx = cx + dx / k;
+      const ty = cy + dy / k;
+      const s = Math.min(1, dt * 10);
+      p.x += (tx - p.x) * s;
+      p.y += (ty - p.y) * s;
+      // Remove the outward velocity component.
+      const l = Math.hypot(dx, dy) || 1;
+      const out = (p.vx * dx + p.vy * dy) / l;
+      if (out > 0) {
+        p.vx -= (dx / l) * out;
+        p.vy -= (dy / l) * out;
+      }
+    }
   }
 
   _particles(ctx, renderer, layer) {

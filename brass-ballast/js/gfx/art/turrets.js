@@ -4,9 +4,29 @@
 
 import { Sprites } from '../sprites.js';
 import {
-  PAL, ringMount, cannon, cylinder, coil, crystal, glow, glowEllipse, metal, metalRadial,
-  cylinderGrad, ink, polygon, roundRect, rivet, rivetLine, propeller, ropeLine, plate, alpha,
-  smoothPath, bolt, mix,
+  PAL,
+  ringMount,
+  cannon,
+  cylinder,
+  coil,
+  crystal,
+  glow,
+  glowEllipse,
+  metal,
+  metalRadial,
+  cylinderGrad,
+  ink,
+  polygon,
+  roundRect,
+  rivet,
+  rivetLine,
+  propeller,
+  ropeLine,
+  plate,
+  alpha,
+  smoothPath,
+  bolt,
+  mix,
 } from '../drawkit.js';
 
 const TAU = Math.PI * 2;
@@ -15,6 +35,19 @@ const TH = 22;
 const PX = 12;
 const PY = 11;
 const TURRET_SCALE = 3;
+
+/**
+ * Distance (world units, at scale 1) from the turret pivot to the muzzle along +x, per primary.
+ * Use for muzzle flashes and projectile spawn points: pivot + (cos aim, sin aim) × distance.
+ */
+export const TURRET_MUZZLE = {
+  brassCannon: 29.5,
+  gatling: 30.5,
+  blunderbuss: 31,
+  mortar: 21.5,
+  aetherLance: 30,
+  harpoon: 31.5,
+};
 
 function registerTurret(id, draw) {
   Sprites.register(`turret_${id}`, {
@@ -75,7 +108,12 @@ registerTurret('gatling', (ctx) => {
     ctx.fillStyle = 'rgba(30,14,6,0.45)';
     ctx.fillRect(x, PY + 3.4, 0.4, 5.8);
   }
-  polygon(ctx, [[12.5, PY + 4], [17.5, PY + 2.6], [17.5, PY + 4.6], [13.5, PY + 6.4]]);
+  polygon(ctx, [
+    [12.5, PY + 4],
+    [17.5, PY + 2.6],
+    [17.5, PY + 4.6],
+    [13.5, PY + 6.4],
+  ]);
   ctx.fillStyle = metal(ctx, 12, PY + 2, 18, PY + 7, 'brass');
   ctx.fill();
   ink(ctx, 0.5);
@@ -88,7 +126,10 @@ registerTurret('gatling', (ctx) => {
     ctx.fill();
   }
   // clamps
-  for (const [x, wdt] of [[27, 1.6], [37.5, 2]]) {
+  for (const [x, wdt] of [
+    [27, 1.6],
+    [37.5, 2],
+  ]) {
     roundRect(ctx, x, PY - 5.2, wdt, 10.4, 0.6);
     ctx.fillStyle = cylinderGrad(ctx, 0, PY - 5.2, 0, PY + 5.2, 'brass');
     ctx.fill();
@@ -118,7 +159,14 @@ registerTurret('gatling', (ctx) => {
 registerTurret('blunderbuss', (ctx) => {
   ringMount(ctx, PX, PY, 9, { kind: 'brass', table: 'iron' });
   // stock
-  smoothPath(ctx, [[3, PY - 2.4], [8, PY - 3.4], [15, PY - 2.4], [15, PY + 2.4], [8, PY + 3.4], [3, PY + 2.4]]);
+  smoothPath(ctx, [
+    [3, PY - 2.4],
+    [8, PY - 3.4],
+    [15, PY - 2.4],
+    [15, PY + 2.4],
+    [8, PY + 3.4],
+    [3, PY + 2.4],
+  ]);
   ctx.fillStyle = metal(ctx, 3, PY - 3, 15, PY + 3, 'wood', { polish: true });
   ctx.fill();
   ink(ctx, 0.7);
@@ -167,7 +215,12 @@ registerTurret('blunderbuss', (ctx) => {
 // --- Siege Mortar: stubby wide tube tilted skyward on a riveted bed ---------------------------
 registerTurret('mortar', (ctx) => {
   ringMount(ctx, PX, PY, 9.6, { kind: 'brass', table: 'iron', bolts: 12 });
-  plate(ctx, 5, PY - 6.6, 15, 13.2, 2, 'iron', { rivets: 3.4, rivetR: 0.45, rivetKind: 'brass', ink: 0.8 });
+  plate(ctx, 5, PY - 6.6, 15, 13.2, 2, 'iron', {
+    rivets: 3.4,
+    rivetR: 0.45,
+    rivetKind: 'brass',
+    ink: 0.8,
+  });
   // tube body, wide and short
   polygon(ctx, [
     [11, PY - 6.2],
@@ -213,7 +266,11 @@ registerTurret('aetherLance', (ctx) => {
   ringMount(ctx, PX, PY, 9, { kind: 'brass', table: 'steel' });
   // capacitor canisters
   for (const s of [-1, 1]) {
-    cylinder(ctx, 5.5, PY + s * 5, 15.5, PY + s * 5, 3.4, 3.4, 'copper', { capStart: true, capEnd: true, ink: 0.6 });
+    cylinder(ctx, 5.5, PY + s * 5, 15.5, PY + s * 5, 3.4, 3.4, 'copper', {
+      capStart: true,
+      capEnd: true,
+      ink: 0.6,
+    });
     ctx.fillStyle = alpha(PAL.aether[0], 0.9);
     ctx.fillRect(9.5, PY + s * 5 - 0.5, 2.2, 1);
   }
@@ -233,9 +290,9 @@ registerTurret('aetherLance', (ctx) => {
     ctx.fill();
     ink(ctx, 0.5);
   }
-  glow(ctx, 39, PY, 8, PAL.aether[0], 0.8, { core: 0.12 });
-  crystal(ctx, 39, PY, 3.6, { rot: 0, width: 0.5, color: PAL.aether[0], ink: 0.45 });
-  glowEllipse(ctx, 39.5, PY, 4.5, 1.2, '#ffffff', 0.7);
+  glow(ctx, 38.5, PY, 5.4, PAL.aether[0], 0.85, { core: 0.15 });
+  crystal(ctx, 38.5, PY, 3.6, { rot: 0, width: 0.5, color: PAL.aether[0], ink: 0.45 });
+  glowEllipse(ctx, 39, PY, 4.2, 1.1, '#ffffff', 0.7);
 });
 
 // --- Harpoon Gun: rail launcher, loaded barbed harpoon, cable drum ----------------------------
@@ -257,7 +314,8 @@ registerTurret('harpoon', (ctx) => {
   }
   ctx.restore();
   // rails & ties
-  for (const s of [-1, 1]) cylinder(ctx, 9, PY + s * 2.7, 35, PY + s * 2.7, 1.7, 1.5, 'iron', { ink: 0.5 });
+  for (const s of [-1, 1])
+    cylinder(ctx, 9, PY + s * 2.7, 35, PY + s * 2.7, 1.7, 1.5, 'iron', { ink: 0.5 });
   for (const x of [14, 22, 30]) {
     roundRect(ctx, x - 0.7, PY - 3.8, 1.4, 7.6, 0.4);
     ctx.fillStyle = metal(ctx, x - 1, PY - 4, x + 1, PY + 4, 'brass');
@@ -304,6 +362,10 @@ Sprites.register('prop', {
   frames: 4,
   scale: 3,
   draw(ctx, w, h, frame) {
-    propeller(ctx, 10, 10, 9.6, 3, (frame * (TAU / 3)) / 4, { blur: 0.85, kind: 'brass', tip: PAL.oxblood });
+    propeller(ctx, 10, 10, 9.6, 3, (frame * (TAU / 3)) / 4, {
+      blur: 0.85,
+      kind: 'brass',
+      tip: PAL.oxblood,
+    });
   },
 });

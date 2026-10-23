@@ -350,6 +350,25 @@ export class Director {
     w.events.emit('wave:start', { run, wave: run.wave, index });
   }
 
+  /**
+   * Wave progress for the HUD: {t, duration, spawned, total, alive, frac} or null between waves.
+   * frac blends time and kills so the bar fills smoothly and completes on wave clear.
+   */
+  get progress() {
+    const W = this.wave;
+    if (!W || this.state !== 'wave') return null;
+    let spawned = 0;
+    let total = 0;
+    for (const G of W.groups) {
+      spawned += G.spawned;
+      total += G.count;
+    }
+    const alive = this.aliveInWave();
+    const tf = Math.min(1, W.t / Math.max(1, W.duration));
+    const kf = total ? Math.min(1, (spawned - alive) / total) : tf;
+    return { t: W.t, duration: W.duration, spawned, total, alive, frac: Math.min(0.99, tf * 0.5 + kf * 0.5) };
+  }
+
   /** Number of living (non-fleeing) enemies from the current wave. */
   aliveInWave() {
     const tok = this.wave?.token;

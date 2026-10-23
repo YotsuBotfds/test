@@ -4,26 +4,138 @@
 
 import { Sprites } from '../sprites.js';
 import {
-  PAL, envelope, envelopeGeo, envelopeStripePath, fin, nacelle, cylinder, rivet,
-  rivetLine, rivetRing, rivetedBand, nameplate, flag, porthole, ventGrille, dome, deck, railing,
-  rigging, ropeLine, grime, smokestack, plate, gear, balloon, coil, gauge, lamp, spike, bone, skull,
-  hazardStripes, metal, metalRadial, cylinderGrad, ink, polygon, roundRect, shadeOverlay, glow,
-  pipe, crest, canvasPatch, mix, alpha, cannon, smoothPath, chain, stitching,
+  PAL,
+  ambientOcclusion,
+  envelope,
+  envelopeGeo,
+  envelopeStripePath,
+  fin,
+  nacelle,
+  cylinder,
+  rivet,
+  rivetLine,
+  rivetRing,
+  rivetedBand,
+  nameplate,
+  flag,
+  porthole,
+  ventGrille,
+  dome,
+  deck,
+  rigging,
+  ropeLine,
+  grime,
+  smokestack,
+  gear,
+  balloon,
+  gauge,
+  lamp,
+  spike,
+  bone,
+  skull,
+  hazardStripes,
+  metal,
+  metalRadial,
+  cylinderGrad,
+  ink,
+  polygon,
+  roundRect,
+  shadeOverlay,
+  glow,
+  pipe,
+  canvasPatch,
+  alpha,
+  cannon,
+  smoothPath,
 } from '../drawkit.js';
-import './turrets.js';
+export { TURRET_MUZZLE } from './turrets.js';
 
 const TAU = Math.PI * 2;
 
 /**
- * Mount points per hull, relative to the sprite CENTRE in world units (sprite faces +x).
- * `props`: where the engine draws the animated 'prop' sprite; `turret`: turret pivot.
+ * Mount points per hull, relative to the sprite CENTRE in world units (sprite faces +x; rotate
+ * with the hull angle). Contract fields used by the engine (WP1):
+ *  - `props`: where to draw the animated 'prop' sprite (4 frames; spin faster with speed)
+ *  - `turret`: turret pivot
+ *  - `propScale`: per-prop sprite scale (same order as `props`)
+ *  - `stern`: rear point for boost steam / wake
+ * Optional juice hooks (safe to ignore):
+ *  - `stacks`: smokestack mouths — emit soot/smoke puffs here (more when damaged)
+ *  - `exhausts`: engine exhaust points — emit steam/heat trail toward -x when moving/boosting
+ *  - `sparks`: tesla coil tips etc. — occasional aether sparks
  */
 export const HULL_MOUNTS = {
-  dauntless: { props: [[-10, -20.5], [-10, 20.5]], turret: [6, 0] },
-  cormorant: { props: [[-19, -13.5], [-19, 13.5]], turret: [8, 0] },
-  bulwark: { props: [[-45, -21], [-45, 21]], turret: [18, 0] },
-  tinker: { props: [[-24, -21], [24, -21], [-24, 21], [24, 21]], turret: [14, 0] },
-  bane: { props: [[-16, -18.5], [-16, 18.5]], turret: [10, 0] },
+  dauntless: {
+    props: [
+      [-10, -20.5],
+      [-10, 20.5],
+    ],
+    propScale: [1, 1],
+    turret: [6, 0],
+    stern: [-46, 0],
+    exhausts: [
+      [-14, -20.5],
+      [-14, 20.5],
+    ],
+  },
+  cormorant: {
+    props: [
+      [-19, -13.5],
+      [-19, 13.5],
+    ],
+    propScale: [0.9, 0.9],
+    turret: [8, 0],
+    stern: [-51, 0],
+    exhausts: [
+      [-23, -13.5],
+      [-23, 13.5],
+    ],
+  },
+  bulwark: {
+    props: [
+      [-45, -21],
+      [-45, 21],
+    ],
+    propScale: [1.15, 1.15],
+    turret: [20, 0],
+    stern: [-52, 0],
+    stacks: [
+      [-22, -9.5],
+      [-22, 9.5],
+    ],
+    exhausts: [
+      [-49, -21],
+      [-49, 21],
+    ],
+  },
+  tinker: {
+    props: [
+      [-24, -21],
+      [24, -21],
+      [-24, 21],
+      [24, 21],
+    ],
+    propScale: [0.95, 0.95, 0.95, 0.95],
+    turret: [14, 0],
+    stern: [-38, 0],
+    sparks: [
+      [-15, -15.5],
+      [-15, 15.5],
+    ],
+  },
+  bane: {
+    props: [
+      [-16, -18.5],
+      [-16, 18.5],
+    ],
+    propScale: [0.95, 0.95],
+    turret: [10, 0],
+    stern: [-52, 0],
+    exhausts: [
+      [-21, -18.5],
+      [-21, 18.5],
+    ],
+  },
 };
 
 /** Sprite sizes (contract, DESIGN §12 WP4). */
@@ -48,6 +160,15 @@ const mirrorY = (pts, cy) => pts.map(([x, y]) => [x, cy * 2 - y]);
 /** Dorsal gun platform under a turret: deck disc, brass coaming, railing posts. */
 function gunDeck(ctx, x, y, r, opts = {}) {
   const { kind = 'brass', wood = true, rivets = 12 } = opts;
+  ambientOcclusion(
+    ctx,
+    () => {
+      ctx.beginPath();
+      ctx.arc(x, y, r, 0, TAU);
+    },
+    0.35,
+    2.2
+  );
   ctx.beginPath();
   ctx.arc(x, y, r, 0, TAU);
   ctx.fillStyle = metal(ctx, x - r, y - r, x + r, y + r, kind, { polish: true });
@@ -58,7 +179,12 @@ function gunDeck(ctx, x, y, r, opts = {}) {
     ctx.beginPath();
     ctx.arc(x, y, r * 0.84, 0, TAU);
     ctx.clip();
-    deck(ctx, x - r, y - r, r * 2, r * 2, { radius: 0, plank: 1.8, ink: 0, seed: Math.round(x * 7) });
+    deck(ctx, x - r, y - r, r * 2, r * 2, {
+      radius: 0,
+      plank: 1.8,
+      ink: 0,
+      seed: Math.round(x * 7),
+    });
     ctx.restore();
     ctx.beginPath();
     ctx.arc(x, y, r * 0.84, 0, TAU);
@@ -189,7 +315,11 @@ function drawDauntless(ctx, w, h) {
   ctx.fill();
   ink(ctx, 0.8);
   rivetLine(ctx, rx0 - 2, cy, 6, cy, 3.5, 0.4, 'brass');
-  flag(ctx, 9.5, cy - 4.4, 7.5, 3.8, [PAL.oxblood, PAL.canvas[0], PAL.navy], { dir: -1, wave: 0.8, swallow: true });
+  flag(ctx, 9.5, cy - 4.4, 7.5, 3.8, [PAL.oxblood, PAL.canvas[0], PAL.navy], {
+    dir: -1,
+    wave: 0.8,
+    swallow: true,
+  });
 
   // --- dorsal fittings ---
   nameplate(ctx, 36.5, cy, 11.5, 3.4, 'DAUNTLESS');
@@ -214,7 +344,12 @@ function drawCormorant(ctx, w, h) {
     ctx.fillStyle = metal(ctx, 35, cy - 15, 60, cy + 15, 'navy');
     ctx.fill();
     ink(ctx, 0.8);
-    nacelle(ctx, 44, py, 22, 6.4, { kind: 'brass', band: PAL.navy, nose: 'brass', glow: '#ffb347' });
+    nacelle(ctx, 44, py, 22, 6.4, {
+      kind: 'brass',
+      band: PAL.navy,
+      nose: 'brass',
+      glow: '#ffb347',
+    });
     // racing stripe on the pod
     ctx.fillStyle = alpha(PAL.canvas[0], 0.85);
     ctx.fillRect(38, py - 0.4, 14, 0.8);
@@ -363,7 +498,7 @@ function drawBulwark(ctx, w, h) {
       for (const bx of [sx - 3.2, sx + 3.2]) {
         ctx.save();
         ctx.translate(bx, cy + s * 27);
-        ctx.rotate(s * Math.PI / 2);
+        ctx.rotate((s * Math.PI) / 2);
         cannon(ctx, 0, 0, 5, 2.8, 'gunmetal', { bands: [0.45], knob: false, taper: 0.85 });
         ctx.restore();
       }
@@ -398,7 +533,11 @@ function drawBulwark(ctx, w, h) {
       for (const t of [-0.66, -0.38, -0.1, 0.18, 0.46]) {
         const x = g.x(t);
         const hw = g.hw(t);
-        rivetedBand(c, x, cy - hw - 1, x, cy + hw + 1, 6, 'iron', { curved: true, rivets: 3.2, rows: 2 });
+        rivetedBand(c, x, cy - hw - 1, x, cy + hw + 1, 6, 'iron', {
+          curved: true,
+          rivets: 3.2,
+          rows: 2,
+        });
       }
       // dorsal spine
       rivetedBand(c, g.x(-0.95), cy, g.x(0.72), cy, 5, 'gunmetal', { rivets: 4, rows: 2 });
@@ -407,7 +546,8 @@ function drawBulwark(ctx, w, h) {
       c.fillStyle = metal(c, g.x(0.7), cy - 23, g.x(1), cy + 23, 'iron', { polish: true });
       c.fill();
       ink(c, 0.9);
-      for (let k = -0.9; k <= 0.91; k += 0.15) rivet(c, g.x(0.71) + 0.9, g.y(0.71, k), 0.55, 'iron');
+      for (let k = -0.9; k <= 0.91; k += 0.15)
+        rivet(c, g.x(0.71) + 0.9, g.y(0.71, k), 0.55, 'iron');
       for (let k = -0.75; k <= 0.76; k += 0.25) rivet(c, g.x(0.86), g.y(0.86, k), 0.5, 'iron');
     },
   });
@@ -426,7 +566,8 @@ function drawBulwark(ctx, w, h) {
   hazardStripes(ctx, geo.x(0.96) - 1, cy - 9, 7, 18, { usePath: false, stripe: 1.6, ink: 0.6 });
 
   // stacks & deck furniture
-  for (const s of [-1, 1]) smokestack(ctx, 36, cy + s * 9.5, 4.6, 'iron', { band: PAL.oxblood, soot: 12 });
+  for (const s of [-1, 1])
+    smokestack(ctx, 36, cy + s * 9.5, 4.6, 'iron', { band: PAL.oxblood, soot: 12 });
   ventGrille(ctx, 50, cy - 4.5, 7, 9, { slots: 4, kind: 'iron', vertical: true });
   ventGrille(ctx, 92, cy - 6.5, 6, 4.5, { slots: 2, kind: 'iron' });
   ventGrille(ctx, 92, cy + 2, 6, 4.5, { slots: 2, kind: 'iron' });
@@ -532,17 +673,32 @@ function drawTinker(ctx, w, h) {
 
   // headlamps
   for (const s of [-1, 1]) {
-    const lx = cx + Math.cos(s * 0.78) * 16;
-    const ly = cy + Math.sin(s * 0.78) * 16;
-    cylinder(ctx, lx - 2.5, ly, lx + 1.8, ly, 3.2, 3.8, 'brass', { ink: 0.6 });
-    lamp(ctx, lx + 2.2, ly, 1.5, '#fff0b0', { halo: 2.6, cage: false });
+    const a = s * 0.98;
+    const lx = cx + Math.cos(a) * 16.5;
+    const ly = cy + Math.sin(a) * 16.5;
+    const da = s * 0.45;
+    const dx = Math.cos(da);
+    const dy = Math.sin(da);
+    cylinder(ctx, lx - dx * 2.6, ly - dy * 2.6, lx + dx * 1.8, ly + dy * 1.8, 3, 3.8, 'brass', {
+      ink: 0.6,
+    });
+    lamp(ctx, lx + dx * 2.2, ly + dy * 2.2, 1.5, '#fff0b0', { halo: 2.6, cage: false });
   }
 
   // tesla coils (seen from above: stacked copper rings and an aether ball)
   for (const s of [-1, 1]) {
     const tx = cx - 15;
     const ty = cy + s * 15.5;
-    pipe(ctx, [[tx + 3, ty], [cx - 4, cy + s * 11]], 1.3, 'copper', { flanges: false });
+    pipe(
+      ctx,
+      [
+        [tx + 3, ty],
+        [cx - 4, cy + s * 11],
+      ],
+      1.3,
+      'copper',
+      { flanges: false }
+    );
     for (let i = 0; i < 4; i++) {
       ctx.beginPath();
       ctx.arc(tx, ty, 4.4 - i * 0.8, 0, TAU);
@@ -570,13 +726,20 @@ function drawTinker(ctx, w, h) {
   // net lines holding it down
   for (let i = 0; i < 6; i++) {
     const a = (i / 6) * TAU + 0.5;
-    rigging(ctx, cx - 6 + Math.cos(a) * 13.8, cy + Math.sin(a) * 13.8, cx - 6 + Math.cos(a) * 16.5, cy + Math.sin(a) * 16.5, { width: 0.45 });
+    rigging(
+      ctx,
+      cx - 6 + Math.cos(a) * 13.8,
+      cy + Math.sin(a) * 13.8,
+      cx - 6 + Math.cos(a) * 16.5,
+      cy + Math.sin(a) * 16.5,
+      { width: 0.45 }
+    );
   }
 
   // gauges & valve wheel on the foredeck
-  gauge(ctx, cx + 11, cy - 11.5, 2.4, { value: 0.82 });
-  gauge(ctx, cx + 11, cy + 11.5, 2.4, { value: 0.4 });
-  gear(ctx, cx - 5, cy + 18.8, 1.8, 6, { kind: 'iron', hole: 0.5 });
+  gauge(ctx, cx - 1.5, cy - 17.4, 2.3, { value: 0.82 });
+  gauge(ctx, cx - 1.5, cy + 17.4, 2.3, { value: 0.4 });
+  gear(ctx, cx + 9.5, cy + 15.4, 1.8, 6, { kind: 'iron', hole: 0.5 });
 }
 
 // ---------------------------------------------------------------------------------------------
@@ -596,13 +759,26 @@ function drawBane(ctx, w, h) {
     ctx.fillStyle = metal(ctx, 38, cy - 19, 58, cy + 19, 'blackiron');
     ctx.fill();
     ink(ctx, 0.8);
-    nacelle(ctx, 47, py, 17, 5.6, { kind: 'blackiron', band: PAL.oxblood, nose: 'iron', glow: '#ff5a2a' });
+    nacelle(ctx, 47, py, 17, 5.6, {
+      kind: 'blackiron',
+      band: PAL.oxblood,
+      nose: 'iron',
+      glow: '#ff5a2a',
+    });
     spike(ctx, 55.2, py, 4, 2, 0, 'iron');
     lamp(ctx, 47, py + s * 2.9, 0.8, '#ff3b2a', { halo: 3, cage: false });
   }
 
   // bat-wing fins
-  const finTop = [geo.at(-0.42, -0.72), geo.at(-0.93, -0.5), [3.5, 4.5], [8.5, 1.3], [13, 5], [18, 1.6], [24, 6.5]];
+  const finTop = [
+    geo.at(-0.42, -0.72),
+    geo.at(-0.93, -0.5),
+    [3.5, 4.5],
+    [8.5, 1.3],
+    [13, 5],
+    [18, 1.6],
+    [24, 6.5],
+  ];
   for (const pts of [finTop, mirrorY(finTop, cy)]) {
     fin(ctx, pts, { fill: '#4a1618', edge: null, spars: 3, kind: 'iron' });
     // spar tips are iron claws
@@ -725,7 +901,12 @@ function drawBane(ctx, w, h) {
   ctx.fill();
   ink(ctx, 0.8);
   for (let x = rx0 - 3; x > 6; x -= 4.5) spike(ctx, x, cy, 3.4, 1.6, Math.PI, 'iron');
-  flag(ctx, 10.5, cy - 4.6, 8, 4.2, ['#151112', '#151112'], { dir: -1, wave: 1, swallow: true, emblem: '#d9ccb0' });
+  flag(ctx, 10.5, cy - 4.6, 8, 4.2, ['#151112', '#151112'], {
+    dir: -1,
+    wave: 1,
+    swallow: true,
+    emblem: '#d9ccb0',
+  });
 
   // gun deck in blackened iron
   gunDeck(ctx, 66, cy, 10.2, { kind: 'bronze', rivets: 10 });
@@ -741,6 +922,3 @@ registerHull('cormorant', drawCormorant);
 registerHull('bulwark', drawBulwark);
 registerHull('tinker', drawTinker);
 registerHull('bane', drawBane);
-
-// Unused-import guard for helpers kept available to hull authors.
-void [rivetLine, railing, coil, crest, chain, stitching, plate, roundRect];

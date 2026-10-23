@@ -26,7 +26,13 @@ export class Nav {
     window.addEventListener('keydown', this._onKey);
     window.addEventListener('pointerdown', this._onPointer, true);
     ui.root.addEventListener('pointerover', this._onHover);
-    this.setDevice('kbm');
+    let coarse = false;
+    try {
+      coarse = matchMedia('(pointer: coarse)').matches && !matchMedia('(pointer: fine)').matches;
+    } catch {
+      /* ignore */
+    }
+    this.setDevice(coarse ? 'touch' : 'kbm');
   }
 
   destroy() {
@@ -150,7 +156,8 @@ export class Nav {
     if (ld === 'pad' || ld === 'touch') this.setDevice(ld);
     const m = input.menu;
     if (!m) return;
-    if (performance.now() - this.lastKeyAt < 160) return;
+    // Keyboard is handled from DOM events; only gamepad edges are taken from input.menu.
+    if (ld === 'kbm' || performance.now() - this.lastKeyAt < 160) return;
     const any = m.up || m.down || m.left || m.right || m.confirm || m.back || m.tabL || m.tabR || m.start;
     if (!any) return;
     if (ld !== 'touch') this.setDevice(ld === 'kbm' ? 'kbm' : 'pad');
@@ -257,7 +264,8 @@ export class Nav {
         ? Math.abs(r.top + r.height / 2 - (r0.top + r0.height / 2))
         : Math.abs(r.left + r.width / 2 - (r0.left + r0.width / 2));
       const score = Math.max(0, primary) + gap * 3 + centerOff * 0.2;
-      if (score < bestScore) {
+      // Near-ties go to the earlier element in reading order (list is in DOM order).
+      if (score < bestScore - 0.5) {
         bestScore = score;
         best = el;
       }

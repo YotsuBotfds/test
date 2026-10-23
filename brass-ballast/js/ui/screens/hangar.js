@@ -250,7 +250,7 @@ export default function build(ui, params) {
           statRow('Damage', n.damage * n.count, Math.max(1, ...all.map((o) => o.damage * o.count)) * 1.05, n.count > 1 ? `${fmtInt(n.damage)} × ${n.count}` : fmtInt(n.damage), r ? r.damage * r.count : null),
           statRow('Fire rate', n.rate, mx('rate'), `${(+n.rate).toFixed(1)}/s`, r?.rate),
           statRow('Velocity', n.speed, mx('speed'), n.speed ? fmtInt(n.speed) : 'Lobbed', r?.speed),
-          statRow('Volley power', n.dps, mx('dps'), `${fmtInt(n.dps)} dps`, r?.dps),
+          statRow('Output', n.dps, mx('dps'), `${fmtInt(n.dps)} dps`, r?.dps),
         ];
         preview = h(
           'div',
@@ -286,8 +286,8 @@ export default function build(ui, params) {
           d.perk ? h('div', { class: 'perk' }, h('b', null, 'Perk '), txt(d.perk)) : null,
           h('div', { class: 'stats' }, stats),
           extra,
-          lore ? h('p', { class: 'detail-lore' }, lore) : null,
           h('div', { class: 'detail-actions' }, action),
+          lore ? h('p', { class: 'detail-lore' }, lore) : null,
         ),
       );
       detail.classList.toggle('is-locked', !s.unlocked);
@@ -313,8 +313,7 @@ export default function build(ui, params) {
         'button',
         { type: 'button', class: 'ws-card', dataset: { id: item.id } },
         h('div', { class: 'ws-icon' }, icon(item.icon || `icon_ws_${item.id}`, 64)),
-        h('div', { class: 'ws-text' }, h('div', { class: 'ws-name' }, item.name), desc, lvlPips),
-        price,
+        h('div', { class: 'ws-text' }, h('div', { class: 'ws-name' }, item.name), desc, h('div', { class: 'ws-foot' }, lvlPips, price)),
       );
       c.update = () => {
         const l = level(item.id);

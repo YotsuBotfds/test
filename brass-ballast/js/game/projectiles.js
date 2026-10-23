@@ -106,7 +106,7 @@ export class ProjectileSystem {
       if (speed === undefined) speed = Math.hypot(vx, vy);
       if (angle === undefined) angle = Math.atan2(vy, vx);
     }
-    speed = speed ?? 400;
+    speed = speed ?? (team === 'player' ? 600 : 220);
     angle = angle ?? 0;
     let damage = o.damage ?? 10;
     p.dmgMult = 1;
@@ -122,7 +122,7 @@ export class ProjectileSystem {
     p.vx = Math.cos(angle) * speed;
     p.vy = Math.sin(angle) * speed;
     p.t = 0;
-    p.life = o.range && speed > 0 ? o.range / speed : (o.life ?? 2);
+    p.life = o.range && speed > 0 ? o.range / speed : (o.life ?? (team === 'player' ? 2 : 6));
     p.pierce = o.pierce ?? 0;
     p.pierceLeft = p.pierce;
     p.bounce = o.bounce ?? 0;

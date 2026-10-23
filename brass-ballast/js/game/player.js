@@ -19,7 +19,6 @@ const BOOST_SPEED = 650;
 const BOOST_TIME = 0.18;
 const BOOST_IFRAMES = 0.35;
 const BOOST_CD = 0.25;
-const HIT_IFRAMES = 0.6;
 const TURN_RATE = 4;
 
 const NO_CONTROLS = Object.freeze({
@@ -242,6 +241,7 @@ export class Player {
       propScale: custom?.propScale || [1.1, 0.8, 0.8],
       turret: custom?.turret || [w * 0.1, 0],
       stern: custom?.stern || [-w * 0.45, 0],
+      exhausts: custom?.exhausts || null,
     };
     this._mounts = m;
     return m;
@@ -426,6 +426,18 @@ export class Player {
       }
     }
 
+    // --- Engine exhaust puffs scale with speed.
+    const m = this.mounts();
+    if (m.exhausts && sp > 90) {
+      this.exhaustT = (this.exhaustT || 0) - dt * (sp / 240);
+      if (this.exhaustT <= 0) {
+        this.exhaustT = 0.16;
+        const ex = m.exhausts[(this.t * 7) & 1 ? 1 % m.exhausts.length : 0];
+        const q = this.local(ex[0], ex[1], this._tmp3 || (this._tmp3 = { x: 0, y: 0 }));
+        w.fx.smokeTrail?.(q.x, q.y, 0.35, { alpha: 0.22, life: 0.6 });
+      }
+    }
+
     // --- Damage feedback
     const low = this.hp < s.maxHp * 0.25;
     if (low) {
@@ -500,8 +512,9 @@ export class Player {
     if (w.run) w.run.boosts++;
     w.sfx('boost', this.x, this.y);
     w.input?.vibrate?.(0.25, 60, this.index);
-    for (let i = 0; i < 6; i++) {
-      w.fx.steam?.(this.x, this.y, this.boostDir + Math.PI + (Math.random() - 0.5) * 1.2, 1.2);
+    if (w.fx.steamBurst) w.fx.steamBurst(this.x, this.y, 0.8, 8);
+    else {
+      for (let i = 0; i < 6; i++) w.fx.steam?.(this.x, this.y, this.boostDir + Math.PI + (Math.random() - 0.5) * 1.2, 1.2);
     }
     w.events.emit('player:boost', { player: this });
   }

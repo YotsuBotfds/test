@@ -2,7 +2,7 @@
 
 import { Save } from '../../core/storage.js';
 import { audio } from '../../audio/audio.js';
-import { h, frame, backBtn, btn, glyph, sfx, kick } from '../dom.js';
+import { h, frame, backBtn, btn, glyph, sfx } from '../dom.js';
 
 const GROUPS = [
   {
@@ -208,7 +208,6 @@ export default function build(ui, params) {
     ],
   });
   const el = h('div', { class: ['settings-screen', params.fromPause && 'over-run'] }, f.el);
-  void kick;
   return {
     el,
     focus: content.querySelector('input, button'),

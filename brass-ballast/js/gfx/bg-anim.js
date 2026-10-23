@@ -61,18 +61,23 @@ const SPR = {
   },
   get cap() {
     return cachedSprite('a|cap', 48, 24, (ctx) => {
-      ctx.strokeStyle = 'rgba(240,248,255,0.95)';
+      // Foam smear: bright broken crest with a soft wash behind it.
+      const g = ctx.createRadialGradient(24, 12, 0, 24, 12, 22);
+      g.addColorStop(0, 'rgba(235,245,252,0.55)');
+      g.addColorStop(1, 'rgba(235,245,252,0)');
+      ctx.fillStyle = g;
+      ctx.save();
+      ctx.scale(1, 0.5);
+      ctx.fillRect(0, 0, 48, 48);
+      ctx.restore();
+      ctx.strokeStyle = 'rgba(245,250,255,0.95)';
       ctx.lineCap = 'round';
-      ctx.lineWidth = 3;
+      ctx.lineWidth = 2;
       ctx.beginPath();
-      ctx.moveTo(4, 16);
-      ctx.quadraticCurveTo(22, 2, 44, 12);
-      ctx.stroke();
-      ctx.strokeStyle = 'rgba(240,248,255,0.4)';
-      ctx.lineWidth = 6;
-      ctx.beginPath();
-      ctx.moveTo(10, 18);
-      ctx.quadraticCurveTo(24, 10, 38, 15);
+      ctx.moveTo(8, 13);
+      ctx.lineTo(19, 11);
+      ctx.moveTo(23, 10.5);
+      ctx.lineTo(38, 12);
       ctx.stroke();
     });
   },
@@ -236,11 +241,15 @@ export function drawAnchors(ctx, list, t, m, pass, alpha, detail = 1) {
       case A.CAP: {
         const ph = Math.sin(t * (0.9 + seed * 0.8) + seed * 40);
         if (ph < 0.1) break;
-        const a = ph < 0.4 ? (ph - 0.1) / 0.3 : 1;
+        const a = ph < 0.4 ? (ph - 0.1) / 0.3 : 1 - (ph - 0.4) * 0.6;
         const drift = fract(t * 0.05 + seed) * 10 * s;
-        const w = 16 * size * s;
-        ctx.globalAlpha = a * alpha * 0.7;
-        ctx.drawImage(SPR.cap, x - w + drift * m.windX, y - w / 4 + drift * m.windY, w * 2, w);
+        const k = (size * s) / 2.4;
+        // Crest lies across the wind.
+        ctx.globalAlpha = a * alpha * 0.75;
+        ctx.setTransform(-m.windY * k, m.windX * k, -m.windX * k * 0.6, -m.windY * k * 0.6,
+          x + drift * m.windX, y + drift * m.windY);
+        ctx.drawImage(SPR.cap, -24, -12);
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
         break;
       }
       case A.SMOKE:
@@ -249,7 +258,7 @@ export function drawAnchors(ctx, list, t, m, pass, alpha, detail = 1) {
         const img = type === A.STEAM ? SPR.steam : type === A.EMBERSMOKE ? SPR.emberSmoke :
           seed < 0.5 ? SPR.smoke : SPR.smokeDark;
         const steam = type === A.STEAM;
-        const puffs = steam ? 3 : detail > 0.5 ? 6 : 3;
+        const puffs = steam ? 3 : detail > 0.5 ? 5 : 3;
         const rate = steam ? 0.32 : 0.11;
         const reach = (steam ? 34 : 130) * size;
         const grow = (steam ? 12 : 40) * size;

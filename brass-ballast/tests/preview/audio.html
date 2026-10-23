@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Audio Preview — Brass &amp; Ballast</title>
+  <style>
+    :root { --ink: #f1e3c0; --brass: #f2d48a; --brass2: #c9973f; --dark: #1b130b; --panel: #2b1d10;
+      --line: rgba(242,212,138,.3); --bad: #e0573a; --good: #9fd36b; }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; background: var(--dark); color: var(--ink); }
+    body { font: 13px Georgia, serif; padding: 12px 16px 40px; }
+    h1 { font-size: 20px; margin: 0 0 4px; color: var(--brass); letter-spacing: .04em; }
+    h2 { font-size: 13px; margin: 14px 0 6px; color: var(--brass); text-transform: uppercase;
+      letter-spacing: .12em; border-bottom: 1px solid var(--line); padding-bottom: 3px; }
+    .sub { opacity: .7; margin-bottom: 10px; }
+    .row { display: flex; flex-wrap: wrap; gap: 5px; align-items: center; }
+    button { font: 12px Georgia, serif; color: #2b1d10; background: linear-gradient(#f2d48a, #c9973f);
+      border: 1px solid #4a3112; border-radius: 3px; padding: 4px 8px; cursor: pointer; }
+    button:hover { filter: brightness(1.12); }
+    button.on { background: linear-gradient(#9fd36b, #5f8f34); }
+    button.flash { filter: brightness(1.4); }
+    label { display: inline-flex; align-items: center; gap: 4px; margin-right: 10px; }
+    input[type=range] { width: 110px; accent-color: var(--brass2); }
+    #top { display: grid; grid-template-columns: 1fr 340px; gap: 14px; }
+    @media (max-width: 800px) { #top { grid-template-columns: 1fr; } }
+    canvas { background: #120c06; border: 1px solid var(--line); border-radius: 4px; display: block; }
+    #scope { width: 100%; height: 120px; }
+    #pad { width: 340px; height: 200px; cursor: crosshair; max-width: 100%; }
+    #stats { font: 12px "Courier New", monospace; white-space: pre; opacity: .85; }
+    .loop { display: flex; gap: 6px; align-items: center; padding: 3px 0; }
+    .loop button { min-width: 110px; }
+    #check { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 6px; }
+    .cell { background: var(--panel); border: 1px solid var(--line); border-radius: 4px; padding: 4px; }
+    .cell.bad { border-color: var(--bad); }
+    .cell .n { font-weight: bold; color: var(--brass); }
+    .cell .m { font: 11px "Courier New", monospace; opacity: .85; }
+    .cell canvas { width: 100%; height: 44px; margin-top: 3px; }
+    #summary { font: 14px "Courier New", monospace; margin: 8px 0; }
+    #summary.ok { color: var(--good); } #summary.fail { color: var(--bad); }
+  </style>
+</head>
+<body>
+  <h1>Brass &amp; Ballast — Audio Bench</h1>
+  <div class="sub">WP7 synthesized SFX, loops &amp; WP8 music. Click anything to unlock audio.
+    Shift-click a sound to fire it at a random world position. <a style="color:var(--brass)" href="?check=1">Run offline check</a></div>
+  <div id="app"></div>
+  <script type="module" src="./audio.js"></script>
+</body>
+</html>

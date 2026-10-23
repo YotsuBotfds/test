@@ -169,15 +169,16 @@ export function emblemSVG() {
   }
   const cannon = (flip) => `<g transform="${flip ? 'translate(320 0) scale(-1 1)' : ''}">
       <g transform="rotate(-38 160 124)">
-        <rect x="40" y="114" width="250" height="20" rx="6" fill="url(#${iron})" stroke="#0e0f12" stroke-width="2"/>
-        <rect x="270" y="110" width="22" height="28" rx="4" fill="url(#${brass2})" stroke="#2b1a08" stroke-width="2"/>
-        <rect x="200" y="112" width="10" height="24" rx="2" fill="url(#${brass2})" stroke="#2b1a08" stroke-width="1.5"/>
-        <rect x="120" y="111" width="10" height="26" rx="2" fill="url(#${brass2})" stroke="#2b1a08" stroke-width="1.5"/>
-        <circle cx="40" cy="124" r="14" fill="url(#${brass2})" stroke="#2b1a08" stroke-width="2"/>
-        <circle cx="40" cy="124" r="5" fill="#4a3112"/>
-        <ellipse class="emb-muzzle" cx="292" cy="124" rx="4" ry="9" fill="#1a120a"/>
+        <rect x="8" y="112" width="300" height="24" rx="7" fill="url(#${iron})" stroke="#0e0f12" stroke-width="2"/>
+        <rect x="8" y="117" width="300" height="5" rx="2" fill="#c8d0d8" opacity=".35"/>
+        <rect x="290" y="107" width="24" height="34" rx="5" fill="url(#${brass2})" stroke="#2b1a08" stroke-width="2"/>
+        <rect x="226" y="109" width="11" height="30" rx="2" fill="url(#${brass2})" stroke="#2b1a08" stroke-width="1.5"/>
+        <rect x="84" y="108" width="12" height="32" rx="2" fill="url(#${brass2})" stroke="#2b1a08" stroke-width="1.5"/>
+        <circle cx="8" cy="124" r="15" fill="url(#${brass2})" stroke="#2b1a08" stroke-width="2"/>
+        <circle cx="8" cy="124" r="5.5" fill="#4a3112"/>
+        <ellipse class="emb-muzzle" cx="314" cy="124" rx="4" ry="11" fill="#1a120a"/>
       </g></g>`;
-  return `<svg class="emblem" viewBox="0 0 320 250" role="img" aria-label="Brass and Ballast emblem">
+  return `<svg class="emblem" viewBox="-10 -14 340 268" role="img" aria-label="Brass and Ballast emblem">
   <defs>
     ${brassGrad(brass, 60)}${brassGrad(brass2, 100)}
     <radialGradient id="${sky}" cx=".42" cy=".3" r=".85"><stop offset="0" stop-color="#3d5f86"/>
@@ -190,8 +191,8 @@ export function emblemSVG() {
   </defs>
   <g class="emb-cannons">${cannon(false)}${cannon(true)}</g>
   <g class="emb-smoke" fill="#f4f1ea">
-    <circle class="puff p1" cx="290" cy="18" r="9"/><circle class="puff p2" cx="30" cy="18" r="9"/>
-    <circle class="puff p3" cx="298" cy="8" r="6"/><circle class="puff p4" cx="22" cy="8" r="6"/>
+    <circle class="puff p1" cx="290" cy="16" r="10"/><circle class="puff p2" cx="30" cy="16" r="10"/>
+    <circle class="puff p3" cx="302" cy="4" r="7"/><circle class="puff p4" cx="18" cy="4" r="7"/>
   </g>
   <g class="emb-gear-wrap"><g class="emb-gear">
     <path d="${gearPath(160, 124, 104, 30, 14)}" fill="url(#${brass})" stroke="#2b1a08" stroke-width="2.5"/>

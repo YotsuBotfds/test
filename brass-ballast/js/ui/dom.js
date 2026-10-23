@@ -123,8 +123,8 @@ export function icon(name, px = 64, opts = {}) {
   return el;
 }
 
-function glyphFor(name = '') {
-  const n = name.replace(/^(icon_|enemy_|boss_|hull_|turret_)/, '');
+function glyphFor(name) {
+  const n = String(name || '').replace(/^(icon_|enemy_|boss_|hull_|turret_)/, '');
   return (n[0] || '?').toUpperCase();
 }
 
@@ -278,7 +278,11 @@ export function tabBar(labels, onSelect, start = 0) {
         b.setAttribute('aria-selected', String(j === i));
       });
       if (user) sfx('ui_move', { pitch: 1.1 });
-      onSelect(i);
+      try {
+        onSelect(i);
+      } catch (err) {
+        console.error('[ui] tab failed to render', err);
+      }
     },
     step(dir) {
       api.select(api.index + dir, true);

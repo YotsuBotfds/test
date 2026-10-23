@@ -8,6 +8,7 @@
 import { events } from '../core/events.js';
 import { audio } from '../audio/audio.js';
 import { pwa } from '../pwa.js';
+import { Sprites } from '../gfx/sprites.js';
 import { Nav } from './nav.js';
 import { h, icon, sfx, kick, frag } from './dom.js';
 import { medalSVG } from './art.js';
@@ -64,6 +65,7 @@ export class UI {
       }
     };
     this.root.addEventListener('pointerdown', unlock);
+    if (pwa?.updateReady) setTimeout(() => this.updateToast(), 0);
   }
 
   // ------------------------------------------------------------------ state
@@ -223,7 +225,7 @@ export class UI {
       label = label || 'Achievement Unlocked';
     }
     let ic = null;
-    if (opts.icon) ic = icon(opts.icon, 64, { cls: 'toast-icon' });
+    if (opts.icon && (kind !== 'achievement' || Sprites.has(opts.icon))) ic = icon(opts.icon, 64, { cls: 'toast-icon' });
     else if (kind === 'achievement') {
       ic = frag(medalSVG('gold'));
       ic.classList.add('toast-icon');
@@ -315,7 +317,7 @@ export class UI {
     el.dataset.screen = name;
     const prev = this.top;
     if (prev) {
-      prev.lastFocus = document.activeElement;
+      if (!prev.el.classList.contains('covered')) prev.lastFocus = document.activeElement;
       prev.el.setAttribute('inert', '');
       prev.el.classList.add(inst.modal ? 'under-modal' : 'covered');
     }

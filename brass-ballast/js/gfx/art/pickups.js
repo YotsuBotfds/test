@@ -3,8 +3,22 @@
 
 import { Sprites } from '../sprites.js';
 import {
-  PAL, glow, crystal, gear, metal, metalRadial, cylinderGrad, cylinder, ink, polygon, roundRect,
-  rivet, star, gauge, deck, alpha, mix, crest,
+  PAL,
+  glow,
+  crystal,
+  gear,
+  metal,
+  metalRadial,
+  cylinderGrad,
+  ink,
+  polygon,
+  roundRect,
+  rivet,
+  star,
+  gauge,
+  deck,
+  alpha,
+  crest,
 } from '../drawkit.js';
 
 const TAU = Math.PI * 2;
@@ -22,15 +36,39 @@ function twinkle(ctx, x, y, r, color = '#ffffff') {
 
 reg('pk_xp', 14, 14, (ctx) => {
   glow(ctx, 7, 7, 7, PAL.xp, 0.75);
-  crystal(ctx, 7, 7.2, 5.6, { color: '#4fe3d0', dark: '#0b4f4a', rot: -Math.PI / 2, width: 0.56, ink: 0.6 });
+  crystal(ctx, 7, 7.2, 5.6, {
+    color: '#4fe3d0',
+    dark: '#0b4f4a',
+    rot: -Math.PI / 2,
+    width: 0.56,
+    ink: 0.6,
+  });
   twinkle(ctx, 9.6, 3.6, 1.6);
 });
 
 reg('pk_xp_big', 22, 22, (ctx) => {
   glow(ctx, 11, 11, 11, PAL.xp, 0.8);
-  crystal(ctx, 6.6, 13, 4.6, { color: '#3fd3c4', dark: '#0b4f4a', rot: -Math.PI / 2 - 0.55, width: 0.55, ink: 0.55 });
-  crystal(ctx, 15.6, 13.2, 4.2, { color: '#3fd3c4', dark: '#0b4f4a', rot: -Math.PI / 2 + 0.6, width: 0.55, ink: 0.55 });
-  crystal(ctx, 11, 10.4, 8, { color: '#5ff0de', dark: '#0b4f4a', rot: -Math.PI / 2, width: 0.52, ink: 0.7 });
+  crystal(ctx, 6.6, 13, 4.6, {
+    color: '#3fd3c4',
+    dark: '#0b4f4a',
+    rot: -Math.PI / 2 - 0.55,
+    width: 0.55,
+    ink: 0.55,
+  });
+  crystal(ctx, 15.6, 13.2, 4.2, {
+    color: '#3fd3c4',
+    dark: '#0b4f4a',
+    rot: -Math.PI / 2 + 0.6,
+    width: 0.55,
+    ink: 0.55,
+  });
+  crystal(ctx, 11, 10.4, 8, {
+    color: '#5ff0de',
+    dark: '#0b4f4a',
+    rot: -Math.PI / 2,
+    width: 0.52,
+    ink: 0.7,
+  });
   twinkle(ctx, 14.4, 4.6, 2.2);
   twinkle(ctx, 5, 8.4, 1.2);
 });
@@ -48,7 +86,15 @@ reg('pk_cog', 14, 14, (ctx) => {
 
 reg('pk_cog_big', 22, 22, (ctx) => {
   glow(ctx, 11, 11, 11, PAL.gold, 0.55);
-  gear(ctx, 11, 11, 9.2, 12, { kind: 'gold', toothDepth: 1.8, hole: 1.6, spokes: 5, hub: true, outline: 0.8, polish: true });
+  gear(ctx, 11, 11, 9.2, 12, {
+    kind: 'gold',
+    toothDepth: 1.8,
+    hole: 1.6,
+    spokes: 5,
+    hub: true,
+    outline: 0.8,
+    polish: true,
+  });
   // ruby set in the hub
   ctx.beginPath();
   ctx.arc(11, 11, 1.2, 0, TAU);
@@ -72,9 +118,18 @@ reg('pk_repair', 22, 22, (ctx) => {
   ctx.fillStyle = '#fbf5e6';
   ctx.fill();
   polygon(ctx, [
-    [c - 1.6, c - 4.6], [c + 1.6, c - 4.6], [c + 1.6, c - 1.6], [c + 4.6, c - 1.6], [c + 4.6, c + 1.6],
-    [c + 1.6, c + 1.6], [c + 1.6, c + 4.6], [c - 1.6, c + 4.6], [c - 1.6, c + 1.6], [c - 4.6, c + 1.6],
-    [c - 4.6, c - 1.6], [c - 1.6, c - 1.6],
+    [c - 1.6, c - 4.6],
+    [c + 1.6, c - 4.6],
+    [c + 1.6, c - 1.6],
+    [c + 4.6, c - 1.6],
+    [c + 4.6, c + 1.6],
+    [c + 1.6, c + 1.6],
+    [c + 1.6, c + 4.6],
+    [c - 1.6, c + 4.6],
+    [c - 1.6, c + 1.6],
+    [c - 4.6, c + 1.6],
+    [c - 4.6, c - 1.6],
+    [c - 1.6, c - 1.6],
   ]);
   ctx.fillStyle = '#d23a2a';
   ctx.fill();
@@ -114,7 +169,11 @@ reg('pk_repair', 22, 22, (ctx) => {
 reg('pk_steam', 20, 22, (ctx) => {
   glow(ctx, 10, 12, 10, PAL.steamGauge, 0.6);
   // steam wisp from the valve
-  for (const [x, y, r] of [[13.5, 2.6, 1.8], [15.6, 1.6, 1.4], [11.6, 1.8, 1.2]]) {
+  for (const [x, y, r] of [
+    [13.5, 2.6, 1.8],
+    [15.6, 1.6, 1.4],
+    [11.6, 1.8, 1.2],
+  ]) {
     glow(ctx, x, y, r * 1.8, '#ffffff', 0.85);
   }
   // canister body (side view, vertical)
@@ -215,8 +274,20 @@ reg('pk_crate', 24, 24, (ctx) => {
   roundRect(ctx, x, y, s, s, 1.2);
   ink(ctx, 1);
   // brass corners
-  for (const [cx, cy, sx, sy] of [[x, y, 1, 1], [x + s, y, -1, 1], [x, y + s, 1, -1], [x + s, y + s, -1, -1]]) {
-    polygon(ctx, [[cx, cy], [cx + sx * 5, cy], [cx + sx * 5, cy + sy * 1.6], [cx + sx * 1.6, cy + sy * 1.6], [cx + sx * 1.6, cy + sy * 5], [cx, cy + sy * 5]]);
+  for (const [cx, cy, sx, sy] of [
+    [x, y, 1, 1],
+    [x + s, y, -1, 1],
+    [x, y + s, 1, -1],
+    [x + s, y + s, -1, -1],
+  ]) {
+    polygon(ctx, [
+      [cx, cy],
+      [cx + sx * 5, cy],
+      [cx + sx * 5, cy + sy * 1.6],
+      [cx + sx * 1.6, cy + sy * 1.6],
+      [cx + sx * 1.6, cy + sy * 5],
+      [cx, cy + sy * 5],
+    ]);
     ctx.fillStyle = metal(ctx, cx - 2, cy - 2, cx + 4, cy + 4, 'brass', { polish: true });
     ctx.fill();
     ink(ctx, 0.5);
@@ -225,9 +296,16 @@ reg('pk_crate', 24, 24, (ctx) => {
   // stencilled crest
   crest(ctx, 12, 12, 3.4, { emblem: 'cog', field: PAL.oxblood, kind: 'gold', color: '#ffe8a8' });
   twinkle(ctx, 19.5, 4.6, 2);
-  void mix;
 });
 
-// expose a list for debugging/preview tools
-export const PICKUP_SPRITES = ['pk_xp', 'pk_xp_big', 'pk_cog', 'pk_cog_big', 'pk_repair', 'pk_steam', 'pk_bomb', 'pk_crate'];
-void cylinder;
+/** Every pickup sprite this module registers (for previews / prewarm checks). */
+export const PICKUP_SPRITES = [
+  'pk_xp',
+  'pk_xp_big',
+  'pk_cog',
+  'pk_cog_big',
+  'pk_repair',
+  'pk_steam',
+  'pk_bomb',
+  'pk_crate',
+];

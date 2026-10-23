@@ -9,16 +9,19 @@ import {
 import { house, boat } from './bg-props.js';
 
 const SEED = 4111;
-const T = 0.655; // islet threshold
+const T = 0.712; // islet threshold (~5% of the sea is rock)
 const WIND = -0.42; // prevailing wind direction (radians) — swells run across it
 const WX = Math.cos(WIND);
 const WY = Math.sin(WIND);
 
 /** Islet height: sparse clusters of rocks in open water. */
 export function isle(x, y) {
-  const cluster = fnoise(x / 2600 + 3, y / 2600 - 8, 2, SEED + 1) - 0.5;
-  return fnoise(x / 520, y / 520, 5, SEED) + cluster * 0.75 - 0.04;
+  const cluster = fnoise(x / 2200 + 3, y / 2200 - 8, 2, SEED + 1) - 0.5;
+  return fnoise(x / 300, y / 300, 5, SEED) + cluster * 0.22;
 }
+
+/** High-frequency crag detail for rock texture. */
+const crag = (x, y) => fnoise(x / 26, y / 26, 3, SEED + 9);
 
 /** Swell: long crests perpendicular to the wind. */
 function swell(x, y) {
@@ -49,7 +52,9 @@ const ROCK = ramp([
  */
 export function* paint(ctx, X0, Y0, anchors) {
   const S = sampleField(X0, Y0, 8, 3, swell);
-  const E = sampleField(X0, Y0, 8, 3, isle);
+  yield;
+  const E = sampleField(X0, Y0, 4, 6, isle);
+  const K = sampleField(X0, Y0, 4, 6, crag);
   yield;
 
   // 1. Storm sea: swell bands, darker troughs, teal shallows around the rocks.
@@ -58,7 +63,7 @@ export function* paint(ctx, X0, Y0, anchors) {
   blitField(ctx, S, (k, i, j, px, p) => {
     const v = (sd[k] - 0.3) / 0.45;
     putRamp(px, p, SEA, v);
-    const e = ed[k];
+    const e = fieldAt(E, S.x0 + i * S.cell, S.y0 + j * S.cell);
     if (e > T - 0.09) {
       const t = Math.min(1, (e - (T - 0.09)) / 0.09) * 0.75;
       px[p] += (SHALLOW[0] - px[p]) * t;
@@ -94,13 +99,13 @@ export function* paint(ctx, X0, Y0, anchors) {
     const sv = fieldAt(S, x, y);
     if (r.next() > (sv - 0.45) * 2.2) return;
     if (fieldAt(E, x, y) > T - 0.01) return;
-    const L = r.range(3, 9);
+    const L = r.range(1.5, 5);
     const path = caps[r.int(0, 2)];
-    // Crescent across the wind.
+    // Broken foam dash lying along the crest.
     path.moveTo(x - WY * L, y + WX * L);
-    path.quadraticCurveTo(x + WX * 2.5, y + WY * 2.5, x + WY * L, y - WX * L);
+    path.lineTo(x + WY * L, y - WX * L);
   });
-  ctx.lineWidth = 1.2;
+  ctx.lineWidth = 0.9;
   ['rgba(235,245,250,0.55)', 'rgba(235,245,250,0.35)', 'rgba(235,245,250,0.2)'].forEach((c, i) => {
     ctx.strokeStyle = c;
     ctx.stroke(caps[i]);
@@ -123,10 +128,12 @@ export function* paint(ctx, X0, Y0, anchors) {
     }
     const gx = ed[Math.min(k + 1, ed.length - 1)] - ed[Math.max(k - 1, 0)];
     const gy = ed[Math.min(k + n, ed.length - 1)] - ed[Math.max(k - n, 0)];
-    const h = (e - T) / 0.16;
+    const h = (e - T) / 0.08 + (K.data[k] - 0.5) * 0.9;
     putRamp(px, p, ROCK, h);
-    const sh = Math.max(-1, Math.min(1, -(gx + gy) * 28));
-    const f = 1 + sh * 0.45;
+    const kx = K.data[Math.min(k + 1, ed.length - 1)] - K.data[Math.max(k - 1, 0)];
+    const ky = K.data[Math.min(k + n, ed.length - 1)] - K.data[Math.max(k - n, 0)];
+    const sh = Math.max(-1, Math.min(1, -(gx + gy) * 22 - (kx + ky) * 5));
+    const f = 1 + sh * 0.5;
     px[p] *= f;
     px[p + 1] *= f;
     px[p + 2] *= f;
@@ -139,8 +146,8 @@ export function* paint(ctx, X0, Y0, anchors) {
   strokeContour(ctx, E, T - 0.03, '#d6e4ee', 1.1, 0.22);
   strokeContour(ctx, E, T - 0.052, '#c8d8e4', 0.9, 0.1);
   // Cliff relief lines on the bigger islands.
-  strokeContour(ctx, E, T + 0.05, '#1c1b1a', 0.8, 0.35);
-  strokeContour(ctx, E, T + 0.1, '#1c1b1a', 0.7, 0.3);
+  strokeContour(ctx, E, T + 0.035, '#1c1b1a', 0.8, 0.35);
+  strokeContour(ctx, E, T + 0.07, '#1c1b1a', 0.7, 0.3);
   yield;
 
   // 4. Sea stacks just offshore.
@@ -182,7 +189,7 @@ export function* paint(ctx, X0, Y0, anchors) {
         by = y;
       }
     }
-    if (best < T + 0.035 || !touchesTile(X0, Y0, bx, by, 40)) return;
+    if (best < T + 0.03 || !touchesTile(X0, Y0, bx, by, 40)) return;
     lighthouse(ctx, bx, by, r);
     anchors.add(A.BEACON, bx, by, 1, r.next());
   });

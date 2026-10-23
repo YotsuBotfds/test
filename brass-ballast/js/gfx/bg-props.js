@@ -27,7 +27,7 @@ export const SHADOW_DY = 1;
  */
 export function house(ctx, x, y, w, h, ang, roof, o = {}) {
   const ht = o.height ?? 2.2;
-  const [lit, base, dark] = o.snow ? ['#f4f8ff', '#d9e3f5', '#8d9cc4'] : shades(roof);
+  const [lit, base, dark] = o.snow ? ['#c4d0f6', '#8e9ccc', '#4a5590'] : shades(roof);
   ctx.save();
   ctx.translate(x, y);
   ctx.rotate(ang);

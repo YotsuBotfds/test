@@ -111,6 +111,59 @@ export function fnoise(x, y, octaves = 4, seed = 0) {
   return sum / norm;
 }
 
+// 2D gradient (Perlin) noise: smoother, less blobby than value noise — used where ridge
+// networks matter (mountains). Gradients from a hashed set of 16 directions.
+const GX = new Float32Array(16);
+const GY = new Float32Array(16);
+for (let i = 0; i < 16; i++) {
+  GX[i] = Math.cos((i / 16) * Math.PI * 2);
+  GY[i] = Math.sin((i / 16) * Math.PI * 2);
+}
+function grad(ix, iy, seed, dx, dy) {
+  let h = Math.imul(ix, 374761393) + Math.imul(iy, 668265263) + Math.imul(seed, 1442695041);
+  h = Math.imul(h ^ (h >>> 13), 1274126177);
+  const g = (h ^ (h >>> 16)) & 15;
+  return GX[g] * dx + GY[g] * dy;
+}
+
+/** Perlin noise in ~[-0.7, 0.7]. */
+export function pnoise(x, y, seed = 0) {
+  const xi = Math.floor(x);
+  const yi = Math.floor(y);
+  const xf = x - xi;
+  const yf = y - yi;
+  const u = xf * xf * xf * (xf * (xf * 6 - 15) + 10);
+  const v = yf * yf * yf * (yf * (yf * 6 - 15) + 10);
+  const a = grad(xi, yi, seed, xf, yf);
+  const b = grad(xi + 1, yi, seed, xf - 1, yf);
+  const c = grad(xi, yi + 1, seed, xf, yf - 1);
+  const d = grad(xi + 1, yi + 1, seed, xf - 1, yf - 1);
+  const top = a + (b - a) * u;
+  return top + (c + (d - c) * u - top) * v;
+}
+
+/** Ridged multifractal on Perlin noise: crisp branching ridgelines, ~[0,1). */
+export function pridged(x, y, octaves = 6, seed = 0) {
+  let amp = 0.5;
+  let sum = 0;
+  let norm = 0;
+  let weight = 1;
+  for (let i = 0; i < octaves; i++) {
+    let n = 1 - Math.abs(pnoise(x, y, seed + i * 41) * 1.6);
+    n = n < 0 ? 0 : n;
+    n *= n;
+    n *= weight;
+    weight = n * 1.4 > 1 ? 1 : n * 1.4;
+    sum += n * amp;
+    norm += amp;
+    amp *= 0.52;
+    const nx = x * 1.9 + y * 0.62;
+    y = y * 1.9 - x * 0.62;
+    x = nx + 5.3;
+  }
+  return sum / norm;
+}
+
 /** Ridged fractal noise (sharp crests) in ~[0,1). */
 export function ridged(x, y, octaves = 5, seed = 0) {
   let amp = 0.5;
@@ -159,6 +212,23 @@ export function sampleField(X0, Y0, cell, margin, fn) {
     for (let i = 0; i < n; i++) data[k++] = fn(x0 + i * cell, y);
   }
   return { n, cell, x0, y0, data };
+}
+
+/** Allocate an unfilled field (fill it with `fillRows`, yielding between chunks). */
+export function makeField(X0, Y0, cell, margin) {
+  const n = Math.round(TILE / cell) + 1 + margin * 2;
+  return { n, cell, x0: X0 - margin * cell, y0: Y0 - margin * cell, data: new Float32Array(n * n) };
+}
+
+/** Fill rows [j0, j1) of a field. */
+export function fillRows(f, fn, j0, j1) {
+  const n = f.n;
+  j1 = Math.min(j1, n);
+  for (let j = j0; j < j1; j++) {
+    const y = f.y0 + j * f.cell;
+    let k = j * n;
+    for (let i = 0; i < n; i++) f.data[k++] = fn(f.x0 + i * f.cell, y);
+  }
 }
 
 /** Bilinear lookup into a field at ground coords (clamped to the field). */
@@ -410,15 +480,20 @@ export const A = {
   STEAM: 10, // white steam plume (aurora/brassbay village chimneys, harbor steamers)
 };
 
+/** Per-tile caps keep the per-frame animation cost bounded whatever a painter records. */
+const ANCHOR_CAP = [30, 9, 40, 12, 6, 26, 2, 4, 16, 8, 8];
+
 export class Anchors {
   constructor(X0, Y0) {
     this.X0 = X0;
     this.Y0 = Y0;
     this.list = [];
+    this.counts = new Uint16Array(ANCHOR_CAP.length);
   }
   /** Record an animated spot at ground (x, y). */
   add(type, x, y, size = 1, seed = 0) {
     if (x < this.X0 || y < this.Y0 || x >= this.X0 + TILE || y >= this.Y0 + TILE) return;
+    if (this.counts[type]++ >= ANCHOR_CAP[type]) return;
     this.list.push(type, x, y, size, seed);
   }
   /** Packed [type, x, y, size, seed]* array. */

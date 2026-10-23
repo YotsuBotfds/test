@@ -148,7 +148,7 @@ export class Game {
     this.particles.clear?.();
     this.fx.clear?.();
     this._setBiome('brassbay', 0);
-    this.weather.setBiome?.('brassbay');
+    this.weather.setBiome?.('brassbay', 0);
     this.audio?.music?.('title', { fade: 1.5 });
     this.input?.setGameplayActive?.(false);
     this.ui?.show?.('title');
@@ -167,10 +167,8 @@ export class Game {
     const low = s.quality === 'low';
     const dpr = low ? 1.25 : 2;
     if (this.renderer.maxDpr !== dpr) this.renderer.setMaxDpr(dpr);
-    if (this.particles) {
-      if (this.particles.setQuality) this.particles.setQuality(s.quality);
-      else this.particles.max = low ? 2500 : 5000;
-    }
+    // Particles read Save.settings.quality themselves (low halves the cap); optional hook.
+    this.particles?.setQuality?.(s.quality);
     this.weather?.setReducedFlash?.(s.flashes === false);
   }
 
@@ -399,7 +397,8 @@ export class Game {
   }
 
   _canOpenChoice() {
-    return (SIM_STATES.has(this.state) || this.state === 'refit') && !this.ending && !this.choice;
+    const st = this.state;
+    return (SIM_STATES.has(st) || st === 'refit' || st === 'levelup') && !this.ending && !this.choice;
   }
 
   _processChoices() {
@@ -413,10 +412,14 @@ export class Game {
     }
     if (this.choice || !this.choiceQueue.length || !this._canOpenChoice()) {
       if (!this.choice && !this.choiceQueue.length && this.state === 'refit' && this.refitCb) this._finishRefit();
+      else if (!this.choice && !this.choiceQueue.length && this.state === 'levelup') {
+        this.state = this.resumeState === 'transition' ? 'transition' : 'playing';
+        this.input?.setGameplayActive?.(true);
+      }
       return;
     }
     const req = this.choiceQueue.shift();
-    if (!req.player?.alive && req.kind !== 'refit') return;
+    if (!req.player?.alive) return;
     this._openChoice(req);
   }
 
@@ -436,19 +439,17 @@ export class Game {
     const p = req.player;
     const run = this.run;
     const w = this.world;
-    if (this.state !== 'refit') this.resumeState = this.state;
+    if (SIM_STATES.has(this.state)) this.resumeState = this.state;
     this.state = req.kind === 'refit' ? 'refit' : 'levelup';
     this._stateFrame = this.frameNo;
     this.input?.setGameplayActive?.(false);
     const extra = p.stats.extraChoices || 0;
     const count = req.kind === 'crate' ? 3 : 3 + extra;
     const cards = this.rollCards(p, req.kind, count);
-    const coop = w.players.length > 1;
-    const who = coop ? ` · Captain ${p.index + 1}` : '';
     const titles = {
-      level: ['Level Up!', `Aether level ${run.level}${who}`],
-      refit: ['Refit', `Choose a fine upgrade — hull repaired 40%${who}`],
-      crate: ['Armory Crate', `Bonus upgrade${who}`],
+      level: ['Level Up!', `Aether level ${run.level}`],
+      refit: ['Refit', 'Choose a fine upgrade — hull repaired 40%'],
+      crate: ['Armory Crate', 'A bonus upgrade from the Syndicate stores'],
     };
     const [title, subtitle] = titles[req.kind] || titles.level;
     const choice = {
@@ -464,8 +465,8 @@ export class Game {
     this.choice = choice;
     if (req.kind === 'level') {
       w.sfx('level_up', p.x, p.y);
-      w.fx.shockwave?.(p.x, p.y, 200, '#7ff3ff', 0.6);
-      w.fx.flare?.(p.x, p.y, 160, '#7ff3ff');
+      if (w.fx.levelUp) w.fx.levelUp(p.x, p.y, '#4fe3d0');
+      else w.fx.shockwave?.(p.x, p.y, 200, '#7ff3ff', 0.6);
     } else if (req.kind === 'refit') {
       w.sfx('upgrade_pick', p.x, p.y);
     }
@@ -509,8 +510,8 @@ export class Game {
     this.world.sfx('upgrade_pick');
     // More choices queued? They open next frame. Otherwise return to play.
     if (this.choiceQueue.length) return;
-    if (this.state === 'refit') {
-      if (this.refitCb) this._finishRefit();
+    if (this.refitCb) {
+      this._finishRefit();
       return;
     }
     this.state = this.resumeState === 'transition' ? 'transition' : 'playing';
@@ -582,7 +583,7 @@ export class Game {
   onStageStart(stage, info = {}) {
     if (!stage) return;
     this._setBiome(stage.biome || stage.id, info.first ? 0 : 3);
-    this.weather.setBiome?.(stage.biome || stage.id);
+    this.weather.setBiome?.(stage.biome || stage.id, info.first ? 0 : 3);
     this.camera.baseZoomMul = 1;
     if (!info.silent) {
       this.audio?.music?.(stage.music || stage.biome, { fade: 1.5 });
@@ -596,7 +597,7 @@ export class Game {
     this.state = 'transition';
     this._stateFrame = this.frameNo;
     this._setBiome(next.biome || next.id, 3);
-    this.weather.setBiome?.(next.biome || next.id);
+    this.weather.setBiome?.(next.biome || next.id, 3);
     this.camera.baseZoomMul = 1;
     this.audio?.music?.(next.music || next.biome, { fade: 3 });
     this.world?.sfx('stage_clear');
@@ -642,7 +643,7 @@ export class Game {
     this.world.sfx('victory');
     this.hud?.announce?.('Victory!', 'The Iron Syndicate is broken', { kind: 'stage', time: 4 });
     this.world.vacuumPickups(true);
-    for (const p of this.world.players) p.iframes = 99;
+    for (const p of this.world.players) p.god = true;
   }
 
   _updateEnding(dt) {
@@ -811,6 +812,7 @@ export class Game {
     this._try('weather.update', () => this.weather.update?.(dt, this.renderer, this.world));
     this._try('hud.update', () => this.hud?.update?.(dt));
     this._audioFrame(dt);
+    this._touchStatus();
     this.render();
   }
 
@@ -849,6 +851,24 @@ export class Game {
     }
     if (this.choice !== c) return; // autoPick may have rerolled/picked itself
     c.pick(card || c.cards[0]);
+  }
+
+  /** Boost charge & bomb count hints on the touch buttons. */
+  _touchStatus() {
+    const inp = this.input;
+    if (!inp?.setTouchStatus) return;
+    const p = this.world?.players?.[0];
+    if (!p || !this.simulating) {
+      if (this._touchShown) inp.setTouchStatus({ boost: -1 });
+      this._touchShown = false;
+      return;
+    }
+    this._touchShown = true;
+    const st = this._ts || (this._ts = { boost: 0, bombs: 0, bombsMax: 0 });
+    st.boost = clamp(p.steam / Math.max(1, p.stats.boostCost), 0, 1);
+    st.bombs = p.bombs;
+    st.bombsMax = p.stats.bombsMax;
+    inp.setTouchStatus(st);
   }
 
   _audioFrame(dt) {

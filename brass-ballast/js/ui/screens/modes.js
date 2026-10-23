@@ -13,6 +13,8 @@ const DETAILS = {
   bossRush: ['5 bosses', 'Back to back'],
 };
 
+const GLYPH = { campaign: '⚓', endless: '∞', daily: '☼', bossRush: '☠' };
+
 const LOCKS = {
   bossRush: 'Complete The Grand Voyage to unlock',
 };
@@ -78,7 +80,7 @@ export default function build(ui) {
         dataset: { id },
         onclick: () => pick(id, unlocked, card),
       },
-      h('div', { class: 'mode-medal' }, frag(gearSVG(16, 'mode-gear', 0.62)), icon(m.icon || `icon_mode_${id}`, 96, { cls: 'mode-icon', glyph: m.name?.[4] })),
+      h('div', { class: 'mode-medal' }, frag(gearSVG(16, 'mode-gear', 0.62)), icon(m.icon || `icon_mode_${id}`, 96, { cls: 'mode-icon', glyph: GLYPH[id] || '✦' })),
       h('div', { class: 'mode-name' }, m.name || id),
       h('div', { class: 'mode-desc' }, txt(m.desc)),
       h('div', { class: 'mode-tags' }, (DETAILS[id] || []).map((t) => h('span', null, t))),

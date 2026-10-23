@@ -27,7 +27,8 @@ function badgeFor(card) {
 }
 
 export default function build(ui, params) {
-  let cards = Array.isArray(params.cards) ? params.cards.filter(Boolean) : [];
+  let raw = params.cards;
+  let cards = Array.isArray(raw) ? raw.filter(Boolean) : [];
   let rerolls = Math.max(0, params.rerolls | 0);
   let lockUntil = performance.now() + LOCKOUT_MS;
   let picked = false;
@@ -127,11 +128,12 @@ export default function build(ui, params) {
     } catch (err) {
       console.error('[ui] onReroll failed', err);
     }
-    if (!Array.isArray(next) || !next.length) {
+    if (!Array.isArray(next) || !next.length || next === raw) {
       sfx('ui_error');
       return;
     }
     rerolls--;
+    raw = next;
     cards = next.filter(Boolean);
     row.classList.add('rerolling');
     setTimeout(() => {

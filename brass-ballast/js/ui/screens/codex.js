@@ -1,7 +1,6 @@
 // Codex: catalogue of foes, bosses, arsenal and lore. Undiscovered entries are silhouettes.
 
 import { Save } from '../../core/storage.js';
-import { Sprites } from '../../gfx/sprites.js';
 import { ENEMIES, ENEMY_ORDER } from '../../content/enemies/index.js';
 import { BOSSES, BOSS_ORDER } from '../../content/bosses/index.js';
 import { PRIMARIES, PRIMARY_ORDER, AUX, AUX_ORDER, EVOLUTIONS } from '../../content/weapons/index.js';
@@ -9,12 +8,12 @@ import { PASSIVES } from '../../content/upgrades.js';
 import { HULLS, HULL_ORDER } from '../../content/hulls.js';
 import { STAGES } from '../../content/stages.js';
 import * as Lore from '../../content/codex.js';
-import { h, icon, frame, backBtn, glyph, tabBar, sfx, kick, fmtInt, txt, safe } from '../dom.js';
+import { h, icon, frame, backBtn, glyph, tabBar, sfx, kick, fmtInt, txt } from '../dom.js';
 
 const CODEX = Lore.CODEX || {};
 
 function portrait(name, px, known) {
-  const el = icon(Sprites.has(name) ? name : null, px, { cls: 'cx-img', glyph: known ? undefined : '?' });
+  const el = icon(name, px, { cls: 'cx-img', glyph: known ? undefined : '?' });
   if (!known) el.classList.add('silhouette');
   return el;
 }
@@ -153,7 +152,7 @@ export default function build(ui, params) {
         if (e.tip) body.push(h('div', { class: 'cx-tip' }, h('b', null, "Captain's advice"), h('span', null, txt(e.tip))));
         if (!e.lore && !e.text && !e.tips && !e.desc) body.push(h('p', { class: 'cx-lore muted' }, 'The archivists are still inking this page.'));
         if (facts.length) {
-          body.push(h('dl', { class: 'cx-facts' }, facts.map(([k, v]) => [h('dt', null, k), h('dd', null, typeof v === 'number' ? fmtInt(v) : String(v))])));
+          body.push(h('dl', { class: 'cx-facts' }, facts.map(([k, v]) => h('div', { class: 'cx-fact' }, h('dt', null, k), h('dd', null, typeof v === 'number' ? fmtInt(v) : String(v))))));
         }
       } else {
         body.push(h('p', { class: 'cx-lore muted' }, e.hint || 'Undiscovered.'));
@@ -203,6 +202,5 @@ export default function build(ui, params) {
     ],
   });
   inst = { el: h('div', { class: 'codex-screen' }, f.el), focus: current?.focus, tabs };
-  void safe;
   return inst;
 }

@@ -4,9 +4,27 @@
 
 import { Sprites } from '../sprites.js';
 import {
-  PAL, glow, glowEllipse, metal, metalRadial, cylinderGrad, ink, polygon, smoothPath, star, rivet,
-  rivetRing, gear, gearPath, crystal, hotOrb, spike, propeller, alpha, lighten, darken, seeded,
-  cylinder, ropeLine,
+  PAL,
+  glow,
+  glowEllipse,
+  metal,
+  metalRadial,
+  cylinderGrad,
+  ink,
+  polygon,
+  smoothPath,
+  star,
+  rivet,
+  rivetRing,
+  gear,
+  hotOrb,
+  spike,
+  propeller,
+  alpha,
+  darken,
+  seeded,
+  cylinder,
+  ropeLine,
 } from '../drawkit.js';
 
 const TAU = Math.PI * 2;
@@ -47,7 +65,11 @@ reg('pb_bullet', 10, 6, (ctx) => {
   g.addColorStop(0, alpha(GOLD, 0));
   g.addColorStop(1, alpha(GOLD_HOT, 0.9));
   ctx.fillStyle = g;
-  polygon(ctx, [[0, 3], [6, 1.5], [6, 4.5]]);
+  polygon(ctx, [
+    [0, 3],
+    [6, 1.5],
+    [6, 4.5],
+  ]);
   ctx.fill();
   glowEllipse(ctx, 6.5, 3, 4, 2.6, GOLD, 0.5);
   ctx.beginPath();
@@ -143,7 +165,12 @@ reg('pb_harpoon', 40, 10, (ctx) => {
   ropeLine(ctx, 0.3, 5.6, 4.5, 5, 0.8, { sag: 0.6 });
   // fletching vanes
   for (const s of [-1, 1]) {
-    polygon(ctx, [[4, 5], [9, 5 + s * 0.8], [6, 5 + s * 3.6], [3, 5 + s * 3.4]]);
+    polygon(ctx, [
+      [4, 5],
+      [9, 5 + s * 0.8],
+      [6, 5 + s * 3.6],
+      [3, 5 + s * 3.4],
+    ]);
     ctx.fillStyle = metal(ctx, 3, 1, 9, 9, 'brass', { polish: true });
     ctx.fill();
     ink(ctx, 0.45);
@@ -187,7 +214,12 @@ reg('pb_rocket', 24, 10, (ctx) => {
   ctx.fill();
   // fins
   for (const s of [-1, 1]) {
-    polygon(ctx, [[6.2, 5 + s * 1.6], [11, 5 + s * 1.8], [8.6, 5 + s * 4.4], [5.6, 5 + s * 4.4]]);
+    polygon(ctx, [
+      [6.2, 5 + s * 1.6],
+      [11, 5 + s * 1.8],
+      [8.6, 5 + s * 4.4],
+      [5.6, 5 + s * 4.4],
+    ]);
     ctx.fillStyle = metal(ctx, 5, 0, 11, 10, 'oxblood');
     ctx.fill();
     ink(ctx, 0.45);
@@ -246,7 +278,12 @@ reg('pb_bomb', 22, 22, (ctx) => {
   glow(ctx, c + 1, c, 11, GOLD, 0.35);
   // box tail fins at -x
   for (const s of [-1, 1]) {
-    polygon(ctx, [[c - 4, c + s * 1.4], [c - 9.6, c + s * 2.2], [c - 10.2, c + s * 5.6], [c - 6.2, c + s * 5.2]]);
+    polygon(ctx, [
+      [c - 4, c + s * 1.4],
+      [c - 9.6, c + s * 2.2],
+      [c - 10.2, c + s * 5.6],
+      [c - 6.2, c + s * 5.2],
+    ]);
     ctx.fillStyle = metal(ctx, 0, 0, 22, 22, 'brass');
     ctx.fill();
     ink(ctx, 0.5);
@@ -341,7 +378,14 @@ reg('pb_saw', 28, 28, (ctx) => {
 
 reg('pb_flak', 10, 10, (ctx) => {
   glow(ctx, 5, 5, 5, GOLD, 0.7);
-  polygon(ctx, [[8.6, 5], [6, 2.2], [2.6, 3], [1.6, 5.6], [3.6, 7.8], [6.6, 7.6]]);
+  polygon(ctx, [
+    [8.6, 5],
+    [6, 2.2],
+    [2.6, 3],
+    [1.6, 5.6],
+    [3.6, 7.8],
+    [6.6, 7.6],
+  ]);
   ctx.fillStyle = metal(ctx, 1.5, 2, 8.5, 8, 'gold', { polish: true });
   ctx.fill();
   ink(ctx, 0.5);
@@ -352,27 +396,37 @@ reg('pb_flak', 10, 10, (ctx) => {
 });
 
 reg('pb_spark', 12, 12, (ctx) => {
-  glow(ctx, 6, 6, 6, AETHER, 0.85);
+  glow(ctx, 6, 6, 6, PAL.aether[1], 0.9);
   const rnd = seeded(77);
-  ctx.strokeStyle = '#e8ffff';
-  ctx.lineWidth = 0.7;
-  ctx.lineCap = 'round';
+  const arcs = [];
   for (let i = 0; i < 5; i++) {
     const a = (i / 5) * TAU + rnd() * 0.5;
-    ctx.beginPath();
-    ctx.moveTo(6, 6);
-    let x = 6;
-    let y = 6;
+    const pts = [[6, 6]];
     for (let s = 1; s <= 3; s++) {
-      const r = s * 1.75;
       const aa = a + (rnd() - 0.5) * 0.9;
-      x = 6 + Math.cos(aa) * r;
-      y = 6 + Math.sin(aa) * r;
-      ctx.lineTo(x, y);
+      pts.push([6 + Math.cos(aa) * s * 1.75, 6 + Math.sin(aa) * s * 1.75]);
     }
-    ctx.stroke();
+    arcs.push(pts);
   }
-  glow(ctx, 6, 6, 2.6, '#ffffff', 1, { core: 0.4 });
+  ctx.lineCap = 'round';
+  ctx.lineJoin = 'round';
+  // dark teal casing first so the bolt reads on pale skies, then the white-hot filament
+  for (const [color, width] of [['#0d4f4c', 1.5], [AETHER, 0.95], ['#ffffff', 0.45]]) {
+    ctx.strokeStyle = color;
+    ctx.lineWidth = width;
+    for (const pts of arcs) {
+      polygon(ctx, pts, false);
+      ctx.stroke();
+    }
+  }
+  ctx.beginPath();
+  ctx.arc(6, 6, 1.9, 0, TAU);
+  ctx.fillStyle = '#0d4f4c';
+  ctx.fill();
+  ctx.beginPath();
+  ctx.arc(6, 6, 1.4, 0, TAU);
+  ctx.fillStyle = '#f2ffff';
+  ctx.fill();
 });
 
 /** Clockwork drone: brass body, gun, aether eye; frames spin the rotor. */
@@ -408,7 +462,11 @@ reg(
     ctx.fill();
     ink(ctx, 0.35);
     // rotor
-    propeller(ctx, c - 0.8, c, 7.6, 2, frame * (Math.PI / 2) + 0.4, { blur: 0.7, kind: 'brass', width: 0.24 });
+    propeller(ctx, c - 0.8, c, 7.6, 2, frame * (Math.PI / 2) + 0.4, {
+      blur: 0.7,
+      kind: 'brass',
+      width: 0.24,
+    });
     void h;
     void w;
   },
@@ -458,41 +516,62 @@ reg('eb_shell', 18, 12, (ctx) => {
 
 reg('eb_needle', 20, 6, (ctx) => {
   glowEllipse(ctx, 10, 3, 10, 3, E_MAG, 0.55);
-  polygon(ctx, [[19.6, 3], [6, 0.7], [0.6, 3], [6, 5.3]]);
+  polygon(ctx, [
+    [19.6, 3],
+    [6, 0.7],
+    [0.6, 3],
+    [6, 5.3],
+  ]);
   ctx.fillStyle = '#2e0418';
   ctx.fill();
-  polygon(ctx, [[18.2, 3], [6.4, 1.5], [2.2, 3], [6.4, 4.5]]);
+  polygon(ctx, [
+    [18.2, 3],
+    [6.4, 1.5],
+    [2.2, 3],
+    [6.4, 4.5],
+  ]);
   const g = ctx.createLinearGradient(2, 0, 18, 0);
   g.addColorStop(0, darken(E_MAG, 0.2));
   g.addColorStop(1, '#ff8fc0');
   ctx.fillStyle = g;
   ctx.fill();
-  polygon(ctx, [[16.5, 3], [7, 2.4], [5, 3], [7, 3.6]]);
+  polygon(ctx, [
+    [16.5, 3],
+    [7, 2.4],
+    [5, 3],
+    [7, 3.6],
+  ]);
   ctx.fillStyle = '#fff0f7';
   ctx.fill();
 });
 
 reg('eb_spark', 14, 14, (ctx) => {
-  glow(ctx, 7, 7, 7, E_MAG, 0.75);
+  glow(ctx, 7, 7, 7, E_MAG, 0.8);
   const rnd = seeded(31);
-  ctx.lineCap = 'round';
-  for (let i = 0; i < 6; i++) {
-    const a = (i / 6) * TAU + rnd() * 0.6;
-    ctx.beginPath();
-    ctx.moveTo(7, 7);
-    for (let s = 1; s <= 3; s++) {
-      const r = s * 2;
-      const aa = a + (rnd() - 0.5) * 1;
-      ctx.lineTo(7 + Math.cos(aa) * r, 7 + Math.sin(aa) * r);
-    }
-    ctx.strokeStyle = '#3a0620';
-    ctx.lineWidth = 1.5;
-    ctx.stroke();
-    ctx.strokeStyle = '#ffc2dd';
-    ctx.lineWidth = 0.6;
-    ctx.stroke();
+  const zaps = [];
+  for (let i = 0; i < 9; i++) {
+    const a = (i / 9) * TAU + rnd() * 0.5;
+    const r0 = 3.2;
+    const r1 = 4.6 + rnd() * 1.2;
+    const r2 = r1 + 0.8 + rnd() * 1.1;
+    const k = (rnd() - 0.5) * 0.7;
+    zaps.push([
+      [7 + Math.cos(a) * r0, 7 + Math.sin(a) * r0],
+      [7 + Math.cos(a + k) * r1, 7 + Math.sin(a + k) * r1],
+      [7 + Math.cos(a - k * 0.6) * r2, 7 + Math.sin(a - k * 0.6) * r2],
+    ]);
   }
-  hotOrb(ctx, 7, 7, 3.3, { body: E_MAG, core: '#ffd6ea', rim: '#2e0418', halo: 0 });
+  ctx.lineCap = 'round';
+  ctx.lineJoin = 'round';
+  for (const [color, width] of [['#4a0828', 1.1], ['#ffb0d4', 0.5]]) {
+    ctx.strokeStyle = color;
+    ctx.lineWidth = width;
+    for (const pts of zaps) {
+      polygon(ctx, pts, false);
+      ctx.stroke();
+    }
+  }
+  hotOrb(ctx, 7, 7, 3.6, { body: E_MAG, core: '#ffd6ea', rim: '#2e0418', halo: 0 });
 });
 
 reg('eb_slag', 18, 18, (ctx) => {
@@ -523,7 +602,12 @@ reg('eb_slag', 18, 18, (ctx) => {
   ctx.fill();
   // dark crust plates with glowing cracks between them
   ctx.fillStyle = 'rgba(60,16,6,0.75)';
-  for (const [x, y, r] of [[5.6, 11, 1.7], [12.4, 12.2, 1.5], [6.6, 6, 1.2], [12.6, 6.2, 1.1]]) {
+  for (const [x, y, r] of [
+    [5.6, 11, 1.7],
+    [12.4, 12.2, 1.5],
+    [6.6, 6, 1.2],
+    [12.6, 6.2, 1.1],
+  ]) {
     ctx.beginPath();
     ctx.ellipse(x, y, r * 1.2, r, 0.4, 0, TAU);
     ctx.fill();
@@ -532,10 +616,24 @@ reg('eb_slag', 18, 18, (ctx) => {
 
 reg('eb_flak', 12, 12, (ctx) => {
   glow(ctx, 6, 6, 6, '#ff7a2f', 0.7);
-  polygon(ctx, [[11, 6], [7.4, 2], [3.2, 2.6], [1, 6.4], [3.8, 9.8], [8, 9.4]]);
+  polygon(ctx, [
+    [11, 6],
+    [7.4, 2],
+    [3.2, 2.6],
+    [1, 6.4],
+    [3.8, 9.8],
+    [8, 9.4],
+  ]);
   ctx.fillStyle = E_RIM;
   ctx.fill();
-  polygon(ctx, [[9.6, 6], [7, 3.2], [3.8, 3.6], [2.4, 6.3], [4.4, 8.6], [7.6, 8.3]]);
+  polygon(ctx, [
+    [9.6, 6],
+    [7, 3.2],
+    [3.8, 3.6],
+    [2.4, 6.3],
+    [4.4, 8.6],
+    [7.6, 8.3],
+  ]);
   const g = ctx.createRadialGradient(6, 6, 0, 6, 6, 4.4);
   g.addColorStop(0, '#fffbe8');
   g.addColorStop(0.4, '#ffc06a');
@@ -555,7 +653,12 @@ reg('eb_mortar', 20, 20, (ctx) => {
   ctx.stroke();
   // fins at the tail (-x)
   for (const s of [-1, 1]) {
-    polygon(ctx, [[c - 3, c + s * 1.2], [c - 7.6, c + s * 2], [c - 8, c + s * 4.8], [c - 4.6, c + s * 4.4]]);
+    polygon(ctx, [
+      [c - 3, c + s * 1.2],
+      [c - 7.6, c + s * 2],
+      [c - 8, c + s * 4.8],
+      [c - 4.6, c + s * 4.4],
+    ]);
     ctx.fillStyle = metal(ctx, 0, 0, 20, 20, 'syndicate');
     ctx.fill();
     ink(ctx, 0.5);
@@ -608,6 +711,3 @@ reg('eb_bomb', 22, 22, (ctx) => {
   ctx.fillStyle = '#ffffff';
   ctx.fill();
 });
-
-// keep helper imports tidy for future additions
-void [lighten, gearPath, crystal];

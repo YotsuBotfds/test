@@ -200,7 +200,12 @@ export class PickupSystem {
         break;
     }
     if (run) run.pickups++;
-    if (p.type !== 'xp' && p.type !== 'cog') w.fx.flare?.(p.x, p.y, 30, '#fff3c4');
+    if (p.type === 'xp' || p.type === 'cog') {
+      if (p.value >= 5 || Math.random() < 0.35) w.fx.pickup?.(p.x, p.y, p.type === 'xp' ? '#4fe3d0' : '#ffcf4a');
+    } else {
+      w.fx.flare?.(p.x, p.y, 30, '#fff3c4');
+      w.fx.pickup?.(p.x, p.y, p.type === 'repair' ? '#7dff8a' : p.type === 'steam' ? '#9fe6ff' : '#ffcf4a');
+    }
     w.events.emit('pickup:collect', { player: pl, type: p.type, value });
   }
 

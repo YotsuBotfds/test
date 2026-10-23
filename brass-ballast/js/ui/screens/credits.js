@@ -31,12 +31,13 @@ function render(text) {
       out.push(h('div', { class: 'cr-gap' }));
       continue;
     }
+    if (l.toUpperCase() === 'BRASS & BALLAST') continue;
     const isHead = /:$/.test(l) || (/^[^a-z]{3,}$/.test(l) && /[A-Z]/.test(l));
     if (isHead) {
       out.push(h('h3', { class: 'cr-head' }, l.replace(/:$/, '')));
       continue;
     }
-    const m = l.match(/^(.+?)\s+[—–-]\s+(.+)$/);
+    const m = l.match(/^(.+?)\s*(?:\.{3,}|\s[—–-]\s|:\s)\s*(.+)$/);
     if (m && m[1].length < 40) out.push(h('div', { class: 'cr-pair' }, h('span', null, m[1]), h('b', null, m[2])));
     else out.push(h('p', { class: 'cr-line' }, l));
   }

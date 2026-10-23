@@ -201,8 +201,11 @@ function stepEnemy(w, e, dt, players) {
     b.tick -= dt;
     e._burnFx -= dt;
     if (e._burnFx <= 0) {
-      e._burnFx = 0.12;
-      w.fx.embers?.(e.x + (Math.random() - 0.5) * e.r, e.y + (Math.random() - 0.5) * e.r, 1);
+      e._burnFx = w.fx.burn ? 0.05 : 0.12;
+      const bx = e.x + (Math.random() - 0.5) * e.r;
+      const by = e.y + (Math.random() - 0.5) * e.r;
+      if (w.fx.burn) w.fx.burn(bx, by, 0.5 + e.r / 40);
+      else w.fx.embers?.(bx, by, 1);
     }
     if (b.tick <= 0) {
       b.tick += 0.3;

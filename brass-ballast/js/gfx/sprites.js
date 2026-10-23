@@ -8,6 +8,7 @@ const cache = new Map(); // `${name}#${frame}` -> sprite
 const flashCache = new Map(); // white silhouettes
 const tintCache = new Map(); // `${key}|${color}`
 const outlineCache = new Map();
+const shadowCache = new Map(); // blurred black silhouettes
 const iconCache = new Map();
 const warned = new Set();
 
@@ -107,7 +108,7 @@ export const Sprites = {
    */
   register(name, def) {
     defs.set(name, { frames: 1, ...def });
-    for (const store of [cache, flashCache, outlineCache]) {
+    for (const store of [cache, flashCache, outlineCache, shadowCache]) {
       for (const k of store.keys()) if (k.startsWith(`${name}#`)) store.delete(k);
     }
     for (const k of tintCache.keys()) if (k.startsWith(`${name}#`)) tintCache.delete(k);
@@ -202,6 +203,48 @@ export const Sprites = {
   },
 
   /**
+   * Soft drop shadow shaped like the sprite (cached blurred black silhouette, baked once — the
+   * blur never runs per frame). Draw it *before* the sprite, offset down-right for altitude
+   * (e.g. x + SHADOW_OFFSET.x·alt, y + SHADOW_OFFSET.y·alt). A sharper alternative to the generic
+   * `fx_shadow` ellipse for hulls, bosses and big enemies.
+   * @param {CanvasRenderingContext2D} ctx
+   * @param {string} name
+   * @param {number} x @param {number} y @param {number} [angle] @param {number} [scale]
+   * @param {number} [alpha] overall opacity (≈0.28 matches the engine's ellipse shadows)
+   * @param {number} [frame]
+   * @param {number} [blur] blur radius in world units (cache key; keep to a few distinct values)
+   */
+  drawShadow(ctx, name, x, y, angle = 0, scale = 1, alpha = 0.3, frame = 0, blur = 3) {
+    if (alpha <= 0) return;
+    const base = this.get(name, frame);
+    const key = `${name}#${frame}|${blur}`;
+    let s = shadowCache.get(key);
+    if (!s) {
+      const sc = base.img.width / base.w;
+      const pad = Math.ceil(blur * 2);
+      const c = makeCanvas(Math.ceil(base.img.width + pad * 2 * sc), Math.ceil(base.img.height + pad * 2 * sc));
+      const sctx = c.getContext('2d');
+      const sil = silhouette(base, '#000000');
+      if ('filter' in sctx) {
+        sctx.filter = `blur(${(blur * sc * 0.5).toFixed(2)}px)`;
+        sctx.drawImage(sil.img, pad * sc, pad * sc);
+        sctx.filter = 'none';
+      } else {
+        // fallback: accumulate offset copies for a soft edge
+        const steps = 10;
+        sctx.globalAlpha = 1 / 4;
+        for (let i = 0; i < steps; i++) {
+          const a = (i / steps) * Math.PI * 2;
+          sctx.drawImage(sil.img, pad * sc + Math.cos(a) * blur * sc * 0.4, pad * sc + Math.sin(a) * blur * sc * 0.4);
+        }
+      }
+      s = { img: c, w: base.w + pad * 2, h: base.h + pad * 2, cx: base.cx + pad, cy: base.cy + pad };
+      shadowCache.set(key, s);
+    }
+    blit(ctx, s, x, y, angle, scale, alpha);
+  },
+
+  /**
    * Data URL of a sprite fitted into a square icon (for DOM <img>).
    * @param {string} name
    * @param {number} [px]
@@ -252,6 +295,7 @@ export const Sprites = {
     flashCache.clear();
     tintCache.clear();
     outlineCache.clear();
+    shadowCache.clear();
     iconCache.clear();
   },
 };

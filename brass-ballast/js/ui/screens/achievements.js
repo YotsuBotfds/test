@@ -55,7 +55,7 @@ export default function build(ui) {
     'div',
     { class: 'ach-summary' },
     h('div', { class: 'ach-gauge', html: gaugeSVG(pct, 'HONOUR') }),
-    h('div', { class: 'ach-count' }, h('b', null, `${earned}`), h('span', null, ` of ${list.length} medals`)),
+    h('div', { class: 'ach-count' }, h('b', null, `${earned}`), h('span', null, ` / ${list.length}`), h('small', null, ' medals')),
   );
 
   const f = frame({

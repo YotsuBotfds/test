@@ -104,8 +104,8 @@ export class Attract {
     const cy = (v.y0 + v.y1) / 2;
     const bob = Math.sin(this.t * 1.7) * 8;
     return {
-      x: cx - v.w * 0.16 + Math.sin(this.t * 0.4) * 30,
-      y: cy + v.h * 0.12 + bob,
+      x: cx - v.w * 0.02 + Math.sin(this.t * 0.4) * 40,
+      y: cy + v.h * 0.3 + bob + Math.sin(this.t * 0.23) * 12,
       a: -0.12 + Math.sin(this.t * 0.6) * 0.06,
     };
   }
