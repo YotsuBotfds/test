@@ -216,7 +216,8 @@ export function boot() {
   const app = new App(canvas);
   window.hellbore = app;
   try {
-    if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
+    const installable = document.querySelector('link[rel="manifest"]');
+    if (installable && 'serviceWorker' in navigator && location.protocol.startsWith('http')) {
       navigator.serviceWorker.register('./sw.js').catch(() => {});
     }
   } catch {
