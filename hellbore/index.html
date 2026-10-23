@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no" />
+    <title>Hellbore</title>
+    <meta name="description" content="Tunnel boring to hell. A twin-stick shooter where you drill through six strata of the underworld." />
+    <meta name="theme-color" content="#1a0604" />
+    <link rel="manifest" href="manifest.webmanifest" />
+    <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png" />
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="Hellbore" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <style>
+      html,
+      body {
+        margin: 0;
+        height: 100%;
+        background: #050304;
+        overflow: hidden;
+        overscroll-behavior: none;
+        touch-action: none;
+        -webkit-user-select: none;
+        user-select: none;
+        -webkit-touch-callout: none;
+        -webkit-tap-highlight-color: transparent;
+      }
+      #stage {
+        position: fixed;
+        top: env(safe-area-inset-top, 0px);
+        right: env(safe-area-inset-right, 0px);
+        bottom: env(safe-area-inset-bottom, 0px);
+        left: env(safe-area-inset-left, 0px);
+        overflow: hidden;
+      }
+      canvas {
+        display: block;
+        image-rendering: crisp-edges;
+        image-rendering: pixelated;
+        touch-action: none;
+        outline: none;
+      }
+      noscript {
+        color: #e8d8c8;
+        font: 16px monospace;
+        display: block;
+        padding: 24px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="stage"><canvas id="game" tabindex="0" aria-label="Hellbore game"></canvas></div>
+    <noscript>Hellbore needs JavaScript to dig.</noscript>
+    <script type="module" src="src/main.js"></script>
+  </body>
+</html>
