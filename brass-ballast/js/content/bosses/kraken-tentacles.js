@@ -24,7 +24,7 @@ for (let i = 0; i < N_SEG; i++) {
 }
 export const BASE_LEN = SPACING.reduce((a, b) => a + b, 0);
 const TIP_EXTRA = 24; // claw reaches past the last segment centre
-const TENT_HP = 820; // at the kraken's base hp; scaled with the body's actual maxHp
+const TENT_HP = 650; // at the kraken's base hp; scaled with the body's actual maxHp
 const FORWARD = 0.3;
 const SEVER_BONUS = 0.03;
 const GRAB_SPEED = 340;
@@ -51,7 +51,7 @@ export function createTentacles(b, w) {
   const d = b.data;
   return ROOT_ANGLES.map((base, k) => {
     const T = {
-      k, base, segs: [], ids: new Set(), alive: true, dying: false,
+      k, base, segs: [], ids: new Set(), alive: true, dying: false, grow: 1,
       maxHp: Math.max(1, Math.round(TENT_HP * d.k)), hp: 0,
       state: 'idle', st: 0, dur: 0, cd: 1 + k * 0.4,
       ph: w.rng.next() * TAU, curlSign: k % 2 ? 1 : -1,
@@ -60,18 +60,56 @@ export function createTentacles(b, w) {
       gx: 0, gy: 0, side: 1, said: false, dupT: -1, dupSrc: null, dupOwner: null,
     };
     T.hp = T.maxHp;
-    for (let i = 0; i < N_SEG; i++) {
-      const tip = i === N_SEG - 1;
-      const e = w.spawnEnemy(SEG_DEF, b.x, b.y, {
-        parent: b, rawHp: 1e6, r: SEG_R[i], layer: i === 0 ? 1 : -1,
-        contactDamage: tip ? 12 : 0, // idle sway shouldn't chip the player; claws still bite
-        data: { T, i, mult: i === 0 || tip ? 1.4 : 0.8 },
-      });
-      T.segs.push(e);
-      T.ids.add(e.id);
-    }
+    spawnSegments(T, b, w);
     return T;
   });
+}
+
+function spawnSegments(T, b, w) {
+  T.segs = [];
+  T.ids = new Set();
+  for (let i = 0; i < N_SEG; i++) {
+    const tip = i === N_SEG - 1;
+    const e = w.spawnEnemy(SEG_DEF, b.x, b.y, {
+      parent: b, rawHp: 1e6, r: SEG_R[i], layer: i === 0 ? 1 : -1,
+      contactDamage: tip ? 12 : 0, // idle sway shouldn't chip the player; claws still bite
+      data: { T, i, mult: i === 0 || tip ? 1.4 : 0.8 },
+    });
+    T.segs.push(e);
+    T.ids.add(e.id);
+  }
+}
+
+/**
+ * Sprout fresh arms from empty sockets (phase transitions) until `minAlive` arms are up again.
+ * New arms unfurl from the socket with `hpFrac` of a full arm's hp. Returns how many grew.
+ */
+export function regrowTentacles(b, w, minAlive, hpFrac) {
+  const d = b.data;
+  let alive = d.tentacles.filter((T) => T.alive).length;
+  let grown = 0;
+  for (const T of d.tentacles) {
+    if (alive >= minAlive) break;
+    if (T.alive) continue;
+    for (const s of T.segs) if (s.alive) w.removeEnemy(s);
+    T.alive = true;
+    T.dying = false;
+    T.grow = 0;
+    T.hp = Math.max(1, Math.round(T.maxHp * hpFrac));
+    T.state = 'retract';
+    T.st = 0;
+    T.dur = 2;
+    T.w = 0;
+    T.wT = 0;
+    T.stretch = T.stretchT = 1;
+    T.curl = T.curlT = 0;
+    T.vuln = 1;
+    T.hz = null;
+    spawnSegments(T, b, w);
+    alive++;
+    grown++;
+  }
+  return grown;
 }
 
 // ---- Damage ----------------------------------------------------------------------------------------
@@ -295,7 +333,7 @@ export function releaseGrab(b, w, broke) {
     } else {
       p.vx = Math.cos(a) * 560;
       p.vy = Math.sin(a) * 560;
-      w.damagePlayer(p, 10, { source: 'enemy', owner: b, angle: a });
+      w.damagePlayer(p, 10 * (b.dmgMult ?? 1), { source: 'enemy', owner: b, angle: a });
       w.sfx('explode_small', p.x, p.y);
     }
   }
@@ -343,7 +381,7 @@ function updateHeld(T, b, dt, w) {
   g.tick -= dt;
   if (g.tick <= 0) {
     g.tick = 0.55;
-    w.damagePlayer(p, 6, { source: 'enemy', owner: b, angle: a });
+    w.damagePlayer(p, 6 * (b.dmgMult ?? 1), { source: 'enemy', owner: b, angle: a });
     w.fx.sparks?.(p.x, p.y, w.rng.angle(), 4, '#ff9ad0', 1.5, { speed: 200 });
   }
   if (g.t > 1.9) releaseGrab(b, w, false);
@@ -368,6 +406,7 @@ export function updateTentacles(b, dt, w, p) {
     }
     if (!T.alive) continue;
     T.flash = Math.max(0, T.flash - dt * 4);
+    if (T.grow < 1) T.grow = Math.min(1, T.grow + dt * 0.6);
     T.cd -= dt;
     T.st += dt;
     stepState(T, b, dt, w, p);
@@ -523,7 +562,7 @@ function poseTentacle(T, b, dt, d) {
       th += (0.12 * s1 + 0.07 * s2 + 0.05 * s3) * (0.45 + u) + T.curlSign * 0.03;
       const att = T.aim + T.curl * (u * 1.9 - 0.35) + 0.035 * s2 * (1 - T.w * 0.7);
       ang = th + angleDiff(th, att) * T.w;
-      const sp = SPACING[i] * ext * (1 + (T.stretch - 1) * T.w) * sc;
+      const sp = SPACING[i] * ext * T.grow * (1 + (T.stretch - 1) * T.w) * sc;
       x += Math.cos(ang) * sp;
       y += Math.sin(ang) * sp;
     }

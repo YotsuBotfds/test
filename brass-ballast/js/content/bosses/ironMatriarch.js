@@ -23,10 +23,11 @@ import { drawOverlays, drawWreck } from './ironMatriarch-draw.js';
 
 registerMatriarchArt();
 
-// DESIGN §2.11 lists 1500; measured fights at that value lasted ~30 s even for a level-3 ship,
-// so the dreadnought carries twice the design figure to land the intended ~2 min first boss.
+// DESIGN §2.11 lists 1500; measured fights at that value lasted ~30 s even for a level-3 ship.
+// ×1.5 (plus armour plate & weak points below) lands a ~1.5–2 min first boss while keeping the
+// campaign's boss-hp progression monotonic (2250 < kraken 3640 < stormEngine 3800 < …).
 const DESIGN_HP = 1500;
-const HP_SCALE = 2;
+const HP_SCALE = 1.5;
 const BASE_HP = DESIGN_HP * HP_SCALE;
 const PHASE2 = 0.6;
 const PHASE3 = 0.25;
@@ -94,7 +95,7 @@ function weakPointOnLine(b, proj) {
   const dy = proj.vy / sp;
   const pr = proj.r * (proj.scale || 1);
   let best = null;
-  let bt = 280 * b.scale;
+  let bt = 100 * b.scale; // only what the shell would reach just past the plate it struck
   const test = (x, y, r, ref) => {
     const rx = x - proj.x;
     const ry = y - proj.y;

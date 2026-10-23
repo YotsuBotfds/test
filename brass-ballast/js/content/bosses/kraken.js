@@ -15,15 +15,15 @@ import { TAUNTS } from '../codex.js';
 import { registerKrakenArt, BODY_R, PORTHOLES, VENTS } from './kraken-art.js';
 import {
   createTentacles, updateTentacles, pickTentacle, startSlam, startGrab, releaseGrab, reachOf,
-  N_SEG,
+  regrowTentacles, N_SEG,
 } from './kraken-tentacles.js';
 
 registerKrakenArt();
 
-// DESIGN §2.11 lists 2600; doubled for the same reason as the Iron Matriarch (measured fights
-// were ~25–30 s), keeping the design ratio between the two bosses.
+// DESIGN §2.11 lists 2600; raised ×1.4 for the same reason as the Iron Matriarch (measured
+// fights were ~25–30 s) while staying below the stage-3 Storm Engine's 3800.
 const DESIGN_HP = 2600;
-const HP_SCALE = 2;
+const HP_SCALE = 1.4;
 const BASE_HP = DESIGN_HP * HP_SCALE;
 const PHASE2 = 0.6;
 const PHASE3 = 0.25;
@@ -714,6 +714,19 @@ function startTransition(b, w, phase) {
     T.vuln = 1;
     T.ph += 2;
   }
+  // the clockwork heals itself: fresh arms unfurl from empty sockets (fewer, weaker ones later)
+  w.after(0.9, () => {
+    if (!b.alive) return;
+    const n = regrowTentacles(b, w, phase === 1 ? 3 : 4, phase === 1 ? 0.6 : 0.45);
+    if (n > 0) {
+      // opposite side of the hull from where taunts appear, so the two never overlap
+      const below = b.y < (w.renderer?.camera?.y ?? b.y);
+      w.floatText(b.x, below ? b.y - 130 : b.y + 130, n > 1 ? 'THE ARMS GROW BACK!' : 'AN ARM GROWS BACK!', {
+        color: '#ff9ad0', size: 18, life: 1.6, callout: true,
+      });
+      w.sfx('steam_vent', b.x, b.y, { vol: 0.9, pitch: 0.6 });
+    }
+  });
   if (phase === 1) {
     d.swayMul = 1.4;
     d.rage = 1.12;
