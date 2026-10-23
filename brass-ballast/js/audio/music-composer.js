@@ -16,11 +16,15 @@ const DRUM = {
   L: [1, 'l'], v: [0.75, 'v'], V: [1, 'v'],
 };
 
-/** Velocity accents: downbeat, beat, off-beat. */
+/** Phrase arc over 4 bars: lean in, swell into bar 3, relax on the cadence. */
+const PHRASE = [0.94, 1, 1.06, 0.9];
+
+/** Velocity accents: downbeat, beat, off-beat — shaped by the phrase arc. */
 function accent(x, at) {
-  if (at === 0) return 1;
-  if (at % x.sub === 0) return 0.86;
-  return 0.74;
+  const arc = PHRASE[x.b % 4];
+  if (at === 0) return arc;
+  if (at % x.sub === 0) return 0.86 * arc;
+  return 0.74 * arc;
 }
 
 /** Choose this bar's pattern from tiers / fills / alternatives. */
@@ -52,7 +56,7 @@ const GEN = {
       if (n.rest) continue;
       const midi = key.midi(tonic, n.d, n.acc) + (p.tr || 0);
       ev.push({
-        at: n.at, len: n.len * (p.legato ?? 0.92), ch: p.ch, midi,
+        at: n.at, len: n.len * (p.legato ?? 0.92), ch: p.ch, midi, lead: true,
         vel: (p.vel ?? 0.9) * accent(x, n.at) * (n.v ?? 1) * (0.94 + x.r() * 0.1),
       });
     }
@@ -163,7 +167,7 @@ const GEN = {
       const vel = (p.vel ?? 0.7) * (DRUM[e.c]?.[0] ?? 0.8);
       const strum = p.strum || 0;
       st.v.forEach((m, k) => {
-        ev.push({ at: e.at + k * strum, len: e.len * (p.legato ?? 0.9) - k * strum, ch: p.ch, midi: m + (p.tr || 0), vel: vel * (k ? 0.88 : 1) });
+        ev.push({ at: e.at + k * strum, len: e.len * (p.legato ?? 0.9) - k * strum, ch: p.ch, midi: m + (p.tr || 0), vel: vel * (k ? 0.88 : 1), soft: true });
       });
     }
   },
@@ -184,7 +188,7 @@ const GEN = {
       }
       const midi = st.v[idx % n] + 12 * Math.floor(idx / n);
       ev.push({
-        at: e.at, len: e.len * (p.legato ?? 0.9), ch: p.ch, midi: midi + (p.tr || 0),
+        at: e.at, len: e.len * (p.legato ?? 0.9), ch: p.ch, midi: midi + (p.tr || 0), soft: true,
         vel: (p.vel ?? 0.6) * accent(x, e.at) * (0.92 + x.r() * 0.12),
       });
     }
@@ -279,6 +283,27 @@ function counterLine(p, x, ev, st) {
     } else {
       ev.push({ at: seg.at, len: len * 0.97, ch: p.ch, midi: m + (p.tr || 0), vel: p.vel ?? 0.7 });
       st.prev = m;
+    }
+  }
+}
+
+/**
+ * Comping yields to the tune: drop chord/arp notes that would start a semitone (or minor 9th)
+ * against a melody note that is sounding at that moment (e.g. a stab under a passing tone).
+ */
+function yieldToLead(ev) {
+  const leads = ev.filter((e) => e.lead);
+  if (!leads.length) return;
+  for (let i = ev.length - 1; i >= 0; i--) {
+    const e = ev[i];
+    if (!e.soft) continue;
+    for (const l of leads) {
+      if (e.at < l.at || e.at >= l.at + l.len) continue;
+      const iv = Math.abs(e.midi - l.midi) % 12;
+      if (iv === 1 || iv === 11) {
+        ev.splice(i, 1);
+        break;
+      }
     }
   }
 }
@@ -394,7 +419,9 @@ const OPS = {
     if (!idx.length) return null;
     const a = notes[pick(r, idx)];
     const h = Math.ceil(a.len / 2);
-    const tail = { at: a.at + h, len: a.len - h, d: a.d + (r() < 0.5 ? 7 : 2), acc: a.acc, gen: true, v: 0.8 };
+    // Low notes leap up the octave; high ones fall back a fourth so the line stays in range.
+    const d = a.d <= 3 ? a.d + (r() < 0.6 ? 7 : 2) : a.d - (r() < 0.5 ? 3 : 2);
+    const tail = { at: a.at + h, len: a.len - h, d, acc: d === a.d + 7 ? a.acc : 0, gen: true, v: 0.8 };
     a.len = h;
     notes.splice(notes.indexOf(a) + 1, 0, tail);
     return notes;
@@ -406,7 +433,8 @@ const OPS = {
     const i = pick(r, idx);
     const prev = notes[i - 1];
     const rs = notes[i];
-    notes[i] = { at: rs.at, len: Math.min(rs.len, 2), d: prev.d + (r() < 0.5 ? 7 : 2), acc: 0, gen: true, v: 0.6 };
+    const d = prev.d <= 3 && r() < 0.5 ? prev.d + 7 : prev.d + (r() < 0.5 ? 2 : -2);
+    notes[i] = { at: rs.at, len: Math.min(rs.len, 2), d, acc: 0, gen: true, v: 0.6 };
     if (rs.len > 2) notes.splice(i + 1, 0, { at: rs.at + 2, len: rs.len - 2, rest: true });
     return notes;
   },
@@ -554,15 +582,17 @@ export class Composer {
     return id;
   }
 
-  _key(sd) {
-    return makeKey(sd.key || this.def.key, sd.mode || this.def.mode);
+  _key(sd, pass = 0) {
+    // `lift`: every other pass the section modulates up (the shanty-chorus key change).
+    const shift = sd.lift && pass % 2 === 1 ? sd.lift : 0;
+    return makeKey(sd.key || this.def.key, sd.mode || this.def.mode, shift);
   }
 
   _enter(id) {
     const def = this.def;
     const sd = def.sections[id];
     const pass = (this.passes[id] = (this.passes[id] ?? -1) + 1);
-    const key = this._key(sd);
+    const key = this._key(sd, pass);
     const progStr = pass % 2 === 1 && sd.prog2 ? sd.prog2 : sd.prog;
     const chords = parseProg(progStr, key, def.beats, def.sub);
     const r = rng(this.seed ^ hash(id) ^ Math.imul(pass + 1, 0x9e3779b1));
@@ -585,7 +615,7 @@ export class Composer {
   _peekChord() {
     const id = this._nextId(true);
     const sd = this.def.sections[id];
-    const key = this._key(sd);
+    const key = this._key(sd, (this.passes[id] ?? -1) + 1);
     return parseProg(sd.prog, key, this.def.beats, this.def.sub)[0][0].chord;
   }
 
@@ -622,6 +652,7 @@ export class Composer {
       if (p.maxI != null && si > p.maxI) continue;
       GEN[p.gen]?.(this, p, x, ev, this.state[i]);
     }
+    yieldToLead(ev);
     const sd = s.stepDur;
     const swing = this.def.swing || 0;
     for (const e of ev) {

@@ -17,17 +17,22 @@ import { TAU, clamp, angleDiff, rotateToward, easeOutCubic } from '../../core/ma
 import { TAUNTS } from '../codex.js';
 import {
   registerMatriarchArt, hullHalfWidth, TURRET_MOUNTS, PORT_XS, STACKS, HATCH, CORE, HITBOXES,
-  FIRE_SPOTS,
+  FIRE_SPOTS, BRIDGE,
 } from './ironMatriarch-art.js';
 
 registerMatriarchArt();
 
-const BASE_HP = 1500;
+// DESIGN §2.11 lists 1500; measured fights at that value lasted ~30 s even for a level-3 ship,
+// so the dreadnought carries twice the design figure to land the intended ~2 min first boss.
+const DESIGN_HP = 1500;
+const HP_SCALE = 2;
+const BASE_HP = DESIGN_HP * HP_SCALE;
 const PHASE2 = 0.6;
 const PHASE3 = 0.25;
-const HULL_ARMOR = 0.8; // damage multiplier for shots on plain hull plating
-const CORE_MULT = 1.5; // exposed boiler
-const TURRET_HP = 150;
+const HULL_ARMOR = 0.45; // damage multiplier for shots on plain iron plate
+const BRIDGE_MULT = 0.95; // the bridge tower is a soft spot all fight long
+const CORE_MULT = 1.3; // exposed boiler (phase 2+)
+const TURRET_HP = 200;
 const ORBIT_R = 320; // nominal radius for the orbit's angular speed
 const ZOOM = 0.82;
 const CRUISE = 46; // u/s along the orbit
@@ -73,15 +78,58 @@ function taunt(b, w, kind, index) {
 
 // ---- Parts --------------------------------------------------------------------------------------
 
+const BRIDGE_REF = { id: -1, r: 30 };
+
+/**
+ * Bullets meet the big hull circles before they reach anything sitting on the deck, so trace the
+ * shot onward over the deck: the first weak point on its line (turret, exposed boiler, bridge)
+ * within reach takes the hit instead of the armour plate. Returns the target or null.
+ */
+function weakPointOnLine(b, proj) {
+  const d = b.data;
+  const sp = Math.hypot(proj.vx, proj.vy);
+  if (sp < 1) return null;
+  const dx = proj.vx / sp;
+  const dy = proj.vy / sp;
+  const pr = proj.r * (proj.scale || 1);
+  let best = null;
+  let bt = 280 * b.scale;
+  const test = (x, y, r, ref) => {
+    const rx = x - proj.x;
+    const ry = y - proj.y;
+    const t = rx * dx + ry * dy;
+    if (t < -r || t > bt) return;
+    if (Math.abs(rx * dy - ry * dx) > r + pr) return;
+    bt = t;
+    best = ref;
+  };
+  for (const tu of d.turrets) if (tu.alive) test(tu.x, tu.y, tu.r + 2, tu);
+  if (d.core && !d.core.untargetable) test(d.core.x, d.core.y, 36 * b.scale, d.core);
+  const q = toWorld(b, BRIDGE.x, BRIDGE.y);
+  test(q.x, q.y, BRIDGE_REF.r * b.scale, BRIDGE_REF);
+  return best;
+}
+
 /** Forward a hit on a hull part to the boss — once per projectile / per AoE source per frame. */
 function forwardToBoss(part, amount, info, w) {
   const b = part.parent;
   if (!b || !b.alive) return;
   const d = b.data;
   const proj = info.projectile;
+  let mult = part.data.mult;
   if (proj) {
     const hs = proj.hitSet;
     for (let i = 0; i < hs.length; i++) if (d.groupIds.has(hs[i])) return;
+    const wp = weakPointOnLine(b, proj);
+    if (wp && wp !== BRIDGE_REF && wp !== d.core) {
+      // a deck gun: it takes the shell itself (and forwards its share to the boss)
+      hs.push(wp.id);
+      w.fx.hitSpark?.(wp.x, wp.y, (info.angle ?? 0) + Math.PI, !!info.crit);
+      w.damageEnemy(wp, amount, info);
+      return;
+    }
+    if (wp === d.core) mult = CORE_MULT;
+    else if (wp === BRIDGE_REF) mult = BRIDGE_MULT;
   } else {
     if (d.dupT === w.time && d.dupSrc === info.source && d.dupOwner === info.owner) return;
     d.dupT = w.time;
@@ -89,7 +137,19 @@ function forwardToBoss(part, amount, info, w) {
     d.dupOwner = info.owner;
   }
   part.flash = 1;
-  w.damageEnemy(b, amount * part.data.mult, info);
+  if (mult < 0.6 && !info.silent) {
+    // armour plate: clink, grey sparks, and a hint once the player keeps plinking at it
+    d.hullHits = (d.hullHits || 0) + 1;
+    if (w.rng.next() < 0.25) {
+      w.sfx('hit_armor', info.x ?? part.x, info.y ?? part.y, { vol: 0.35 });
+      w.fx.sparks?.(info.x ?? part.x, info.y ?? part.y, (info.angle ?? 0) + Math.PI, 3, '#cfd6de', 1);
+    }
+    if (d.hullHits === 45 || d.hullHits === 400) {
+      const msg = b.phase >= 1 ? 'IRON PLATE! HIT THE BOILER!' : 'IRON PLATE! HIT HER GUNS & BRIDGE!';
+      w.floatText(b.x, b.y - 40, msg, { color: '#cfd6de', size: 17, life: 2.2, callout: true });
+    }
+  }
+  w.damageEnemy(b, amount * mult, info);
 }
 
 const HULL_DEF = {

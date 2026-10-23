@@ -8,7 +8,7 @@
 import { Sprites } from '../../gfx/sprites.js';
 import {
   TAU, metal, metalRadial, cylinderGrad, polygon, ink, shadeOverlay, rimLight, glow, rivet,
-  rivetRing, gear, porthole, cylinder, pipe, smokestack, grime, ringMount, seeded, mix, dome,
+  rivetRing, gear, porthole, pipe, smokestack, grime, ringMount, seeded, dome,
   ambientOcclusion, spike, bolt, lamp,
 } from '../../gfx/drawkit.js';
 
@@ -25,7 +25,6 @@ export const VENTS = [
 export const PORTHOLES = 10;
 
 const PATINA = '#3f8f80';
-const PATINA_D = '#1f4a44';
 
 // ---- Body ----------------------------------------------------------------------------------------
 

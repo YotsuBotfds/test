@@ -768,6 +768,47 @@ Sprites.register('boss_sunFurnace_ray', { w: 250, h: 130, cx: 0, cy: 65, scale: 
 Sprites.register('boss_sunFurnace_glow', { w: 64, h: 64, frames: GLOW_COLORS.length, scale: 1.5, draw: drawGlow });
 Sprites.register('boss_sunFurnace_shadow', { w: 64, h: 64, scale: 1, draw: (ctx, w) => drawShadowSprite(ctx, w) });
 
+/**
+ * Furnace ordnance, tuned to read over molten-river backdrops: a thick soot-black rim around a
+ * white-hot core. Frame 0 = slag (gold/crimson), frame 1 = plasma (magenta).
+ */
+Sprites.register('boss_sunFurnace_shot', {
+  w: 22,
+  h: 22,
+  frames: 2,
+  draw(ctx, w, h, frame) {
+    const c = w / 2;
+    const body = frame === 1 ? '#ff3d8b' : '#ff5a1a';
+    const mid = frame === 1 ? '#ffb0d8' : '#ffd23f';
+    K.glow(ctx, c, c, 10.5, body, 0.5);
+    ctx.beginPath();
+    ctx.arc(c, c, 7.4, 0, TAU);
+    ctx.fillStyle = '#160402';
+    ctx.fill();
+    ctx.beginPath();
+    ctx.arc(c, c, 5.8, 0, TAU);
+    const g = ctx.createRadialGradient(c - 1.2, c - 1.2, 0.4, c, c, 5.8);
+    g.addColorStop(0, '#ffffff');
+    g.addColorStop(0.32, '#fff6d8');
+    g.addColorStop(0.55, mid);
+    g.addColorStop(1, body);
+    ctx.fillStyle = g;
+    ctx.fill();
+    if (frame === 0) {
+      ctx.fillStyle = 'rgba(60,12,4,0.55)';
+      for (const [x, y, r] of [
+        [c + 3, c + 2.4, 1.3],
+        [c - 3.2, c + 2.6, 1.1],
+        [c + 2.6, c - 3.1, 0.9],
+      ]) {
+        ctx.beginPath();
+        ctx.arc(x, y, r, 0, TAU);
+        ctx.fill();
+      }
+    }
+  },
+});
+
 /** Composite portrait (codex, icons, fallbacks) — the whole furnace, shell closed. */
 Sprites.register('boss_sunFurnace', {
   w: 520,

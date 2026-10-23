@@ -672,13 +672,18 @@ function move(b, w, dt, p) {
   if (d > 640) max = Math.max(max, 340);
   else if (D.state !== 'enter' && K.outsideView(w, b.x, b.y, MARGIN_OUT)) max = Math.max(max, 290);
   max *= b.speedMult;
-  let dvx = (ax - b.x) * 0.9;
-  let dvy = (ay - b.y) * 0.9;
+  // Track the anchor: a speed-limited proportional term plus the player's own velocity, so a
+  // kiting player can't drag the tower out of frame (hold states only follow loosely).
+  const ff = max < 40 ? 0.3 : 0.85;
+  let dvx = (ax - b.x) * 1.1;
+  let dvy = (ay - b.y) * 1.1;
   const m = Math.hypot(dvx, dvy);
   if (m > max) {
     dvx *= max / m;
     dvy *= max / m;
   }
+  dvx += (p.vx || 0) * ff;
+  dvy += (p.vy || 0) * ff;
   const k = Math.min(1, dt * 2.2);
   b.vx += (dvx - b.vx) * k;
   b.vy += (dvy - b.vy) * k;
@@ -892,15 +897,7 @@ export default {
       D.spheres.push(w.spawnEnemy(SPHERE_DEF, b.x, b.y, { parent: b, rawHp: hp, data: { i, cd: 2.5 + i * 1.1 } }));
     }
     D.spheresAlive = N_SPH;
-    K.spawnTalker(
-      w,
-      b,
-      (bb, out) => {
-        out.x = bb.x;
-        out.y = bb.y;
-      },
-      150
-    );
+    K.spawnTalker(w, b);
     placeSpheres(b);
   },
 

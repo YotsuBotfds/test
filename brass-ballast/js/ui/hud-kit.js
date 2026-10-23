@@ -86,9 +86,10 @@ function makeCanvas(w, h) {
  * (resize / DPR / uiScale change) drops the whole cache so everything re-renders crisply.
  */
 export class LayerCache {
-  constructor() {
+  constructor(max = 160) {
     this.map = new Map();
     this.px = 1;
+    this.max = max;
   }
 
   setPx(px) {
@@ -119,11 +120,16 @@ export class LayerCache {
     } catch (err) {
       console.error(`[hud] layer "${key}" failed`, err);
     }
-    L = { img: c, w, h, pad };
+    L = { img: c, w, h, pad, px };
     // Keep the cache bounded (keys that include live values like maxHp may churn).
-    if (this.map.size > 160) this.map.delete(this.map.keys().next().value);
+    if (this.map.size > this.max) this.map.delete(this.map.keys().next().value);
     this.map.set(key, L);
     return L;
+  }
+
+  /** Cached layer or undefined (no render). */
+  peek(key) {
+    return this.map.get(key);
   }
 
   /** Blit a layer with its top-left at (x, y) UI units. */
@@ -131,6 +137,79 @@ export class LayerCache {
     const p = L.pad;
     ctx.drawImage(L.img, x - p * scale, y - p * scale, (L.w + p * 2) * scale, (L.h + p * 2) * scale);
   }
+}
+
+// ---- cached text --------------------------------------------------------------------------
+
+let scratch = null;
+function measureCtx() {
+  if (!scratch) scratch = makeCanvas(4, 4).getContext('2d');
+  return scratch;
+}
+
+/**
+ * Text pre-rendered to a layer (engraved: dark drop + face). Letter-spaced display text and
+ * width fitting cost measureText + font churn every frame otherwise.
+ * @param {LayerCache} cache
+ * @param {string} text
+ * @param {{size?:number, kind?:string, weight?:string, style?:string, color?:string,
+ *          shadow?:string|null, dy?:number, ls?:number, maxW?:number}} [o]
+ * @returns {{img:HTMLCanvasElement, w:number, h:number, pad:number}}
+ */
+export function textLayer(cache, text, o = {}) {
+  const {
+    size = 12,
+    kind = 'd',
+    weight = 'bold',
+    style = '',
+    color = '#fff3c4',
+    shadow = 'rgba(20,10,4,0.85)',
+    dy = 1.2,
+    ls = 0,
+    maxW = 0,
+    outline = null,
+  } = o;
+  const key = `t|${text}|${size}|${kind}|${weight}|${style}|${color}|${shadow}|${dy}|${ls}|${maxW}|${outline}`;
+  const hit = cache.peek(key);
+  if (hit) return hit;
+  const m = measureCtx();
+  let fs = size;
+  m.font = font(fs, kind, weight, style);
+  spacing(m, ls);
+  let w = m.measureText(text).width;
+  if (maxW > 0 && w > maxW) {
+    fs = Math.max(5, size * (maxW / w));
+    m.font = font(fs, kind, weight, style);
+    w = m.measureText(text).width;
+  }
+  spacing(m, 0);
+  const h = Math.ceil(fs * 1.45 + Math.abs(dy));
+  // letter-spacing also trails the last glyph: trim it so centred text stays centred
+  return cache.get(key, Math.ceil(Math.max(1, w - ls) + 2), h, (c) => {
+    c.font = font(fs, kind, weight, style);
+    spacing(c, ls);
+    c.textAlign = 'left';
+    c.textBaseline = 'middle';
+    const x = 1;
+    if (shadow) {
+      c.fillStyle = shadow;
+      c.fillText(text, x, h / 2 + dy);
+    }
+    if (outline) {
+      c.lineJoin = 'round';
+      c.lineWidth = Math.max(1, fs * 0.3);
+      c.strokeStyle = outline;
+      c.strokeText(text, x, h / 2);
+    }
+    c.fillStyle = color;
+    c.fillText(text, x, h / 2);
+  }, 2);
+}
+
+/** Draw a text layer anchored at (x, y=vertical middle) with align left|center|right. */
+export function blitText(ctx, L, x, y, align = 'center', scale = 1) {
+  const ox = align === 'center' ? L.w / 2 : align === 'right' ? L.w : 0;
+  LayerCache.draw(ctx, L, x - ox * scale, y - (L.h / 2) * scale, scale);
 }
 
 // ---- brass painters (used inside cached layers) ------------------------------------------
@@ -299,7 +378,7 @@ export function drawOdometer(ctx, strip, value, x, y, cw, ch, minDigits = 6, dim
   const whole = Math.floor(v);
   const len = Math.max(minDigits, String(whole).length);
   const img = strip.img;
-  const px = img.width / strip.w; // pixels per unit in the strip
+  const px = strip.px; // device pixels per UI unit the strip was rendered at
   const sw = cw * px;
   const sh = ch * px;
   let pow = 1;

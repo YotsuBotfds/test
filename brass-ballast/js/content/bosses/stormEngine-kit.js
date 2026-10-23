@@ -2,8 +2,8 @@
 // boss only because WP15 owns `stormEngine-*.js` / `behemoth-*.js`).
 //
 //  - part helpers: proportional part hp, local → world transforms, hazard bookkeeping
-//  - the "talker": an overlay part that draws a parchment speech plaque (boss taunts from
-//    TAUNTS[id]) plus any boss overlay (screen crackle…) above every other enemy
+//  - the "talker": an overlay part that draws a docked comms panel with speaker portraits (boss
+//    taunts from TAUNTS[id]) plus any boss overlay (screen crackle…) above every other enemy
 //  - phase-shift juice (banner, invuln window, hit-stop, slow-mo, bullet clear, shockwave)
 //  - small drawing helpers for runtime jagged electric arcs and stretched sprites
 
@@ -11,6 +11,7 @@ import { FONT_BODY } from '../../config.js';
 import { Sprites } from '../../gfx/sprites.js';
 import { TAUNTS } from '../codex.js';
 import { TAU, clamp } from '../../core/math.js';
+import { PAL, metal, metalRadial, glow, ink, gear, rivetRing } from '../../gfx/drawkit.js';
 
 /**
  * Part hp proportional to the boss's scaled max hp (bossHpMult, co-op, mods all honoured):
@@ -83,6 +84,116 @@ export function outsideView(w, x, y, m) {
   return x < v.x0 + m.x || x > v.x1 - m.x || y < v.y0 + 120 * k + m.y || y > v.y1 - 50 * k - m.y;
 }
 
+// ---- Comms portraits ----------------------------------------------------------------------
+
+export const PORTRAIT = { vex: 'boss_wp15_vex', crew: 'boss_wp15_crew' };
+
+function portraitFrame(ctx, c, field) {
+  ctx.beginPath();
+  ctx.arc(c, c, 23, 0, TAU);
+  ctx.fillStyle = metal(ctx, c - 23, c - 23, c + 23, c + 23, 'brass', { polish: true });
+  ctx.fill();
+  ink(ctx, 1.2);
+  ctx.beginPath();
+  ctx.arc(c, c, 19, 0, TAU);
+  const g = ctx.createRadialGradient(c - 5, c - 6, 2, c, c, 19);
+  g.addColorStop(0, field[0]);
+  g.addColorStop(1, field[1]);
+  ctx.fillStyle = g;
+  ctx.fill();
+  ink(ctx, 0.9);
+}
+
+Sprites.register(PORTRAIT.vex, {
+  w: 48,
+  h: 48,
+  scale: 3,
+  draw(ctx) {
+    const c = 24;
+    portraitFrame(ctx, c, ['#b8433a', '#3a0c0a']);
+    ctx.save();
+    ctx.beginPath();
+    ctx.arc(c, c, 19, 0, TAU);
+    ctx.clip();
+    // greatcoat + epaulettes
+    ctx.fillStyle = '#1c1f26';
+    ctx.beginPath();
+    ctx.ellipse(c, c + 21, 17, 11, 0, 0, TAU);
+    ctx.fill();
+    for (const s of [-1, 1]) {
+      ctx.fillStyle = metal(ctx, c + s * 13 - 4, c + 10, c + s * 13 + 4, c + 16, 'gold');
+      ctx.beginPath();
+      ctx.ellipse(c + s * 12, c + 13, 5, 2.6, s * 0.3, 0, TAU);
+      ctx.fill();
+    }
+    // face
+    ctx.fillStyle = '#e9c6a0';
+    ctx.beginPath();
+    ctx.ellipse(c, c + 2, 7.5, 9, 0, 0, TAU);
+    ctx.fill();
+    ink(ctx, 0.6);
+    // moustache
+    ctx.strokeStyle = '#2a1a10';
+    ctx.lineWidth = 1.6;
+    ctx.beginPath();
+    ctx.moveTo(c - 6.5, c + 4);
+    ctx.quadraticCurveTo(c - 3, c + 6.5, c, c + 4.6);
+    ctx.quadraticCurveTo(c + 3, c + 6.5, c + 6.5, c + 4);
+    ctx.stroke();
+    // monocle + glint
+    ctx.beginPath();
+    ctx.arc(c + 3.2, c, 2.6, 0, TAU);
+    ctx.lineWidth = 0.9;
+    ctx.strokeStyle = '#ffcf4a';
+    ctx.stroke();
+    glow(ctx, c + 2.2, c - 1, 2.2, '#ffffff', 0.9);
+    ctx.fillStyle = '#1a120a';
+    ctx.fillRect(c - 4.6, c - 0.6, 2.2, 1.2);
+    // bicorne hat with a crimson cockade
+    ctx.fillStyle = '#121318';
+    ctx.beginPath();
+    ctx.moveTo(c - 15, c - 4);
+    ctx.quadraticCurveTo(c, c - 19, c + 15, c - 4);
+    ctx.quadraticCurveTo(c, c - 9, c - 15, c - 4);
+    ctx.fill();
+    ctx.strokeStyle = '#c9973f';
+    ctx.lineWidth = 0.9;
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.arc(c + 5, c - 8.5, 2.2, 0, TAU);
+    ctx.fillStyle = PAL.syndicate[2];
+    ctx.fill();
+    ctx.restore();
+    rivetRing(ctx, c, c, 21, 10, 0.7, 'brass');
+  },
+});
+
+Sprites.register(PORTRAIT.crew, {
+  w: 48,
+  h: 48,
+  scale: 3,
+  draw(ctx) {
+    const c = 24;
+    portraitFrame(ctx, c, ['#4d74a0', '#13202f']);
+    // brass speaking-tube horn over a cog
+    gear(ctx, c, c + 2, 12, 10, { kind: 'brass', hole: 3.5, spokes: 4 });
+    ctx.beginPath();
+    ctx.moveTo(c - 3, c - 13);
+    ctx.lineTo(c + 3, c - 13);
+    ctx.lineTo(c + 7, c - 4);
+    ctx.lineTo(c - 7, c - 4);
+    ctx.closePath();
+    ctx.fillStyle = metal(ctx, c - 7, c - 13, c + 7, c - 4, 'copper', { polish: true });
+    ctx.fill();
+    ink(ctx, 0.7);
+    ctx.beginPath();
+    ctx.arc(c, c + 2, 3, 0, TAU);
+    ctx.fillStyle = metalRadial(ctx, c, c + 2, 3, 'iron');
+    ctx.fill();
+    rivetRing(ctx, c, c, 21, 10, 0.7, 'brass');
+  },
+});
+
 // ---- Taunts ------------------------------------------------------------------------------------
 
 /**
@@ -151,19 +262,12 @@ const TALKER_DEF = {
   },
 };
 
-/**
- * Spawn the overlay/talker part. `anchor(b, out)` returns the speaker's centre; the plaque sits
- * `clear` units above or below it (whichever faces the middle of the screen).
- */
-export function spawnTalker(w, b, anchor, clear = 60) {
+/** Spawn the overlay/talker part (comms panel + the boss's `drawOverlay`). */
+export function spawnTalker(w, b) {
   const e = w.spawnEnemy(TALKER_DEF, b.x, b.y, { parent: b, untargetable: true, rawHp: 1 });
-  e.data.anchor = anchor;
-  e.data.clear = clear;
   b.data.talker = e;
   return e;
 }
-
-const _pt = { x: 0, y: 0 };
 
 function wrap(ctx, text, maxW) {
   const words = text.split(/\s+/);
@@ -180,116 +284,97 @@ function wrap(ctx, text, maxW) {
   return lines.slice(0, 4);
 }
 
-/** Parchment speech plaque with a brass frame, speaker tab and a pointer toward the speaker. */
+/**
+ * Comms panel: a parchment plaque docked at the left edge under the HUD, sliding in with the
+ * speaker's portrait and name tab. Drawn in world space but sized in CSS px (scaled by the
+ * current zoom) so it reads the same at every zoom and never covers the fight.
+ */
 function drawPlaque(ctx, b, w, alphaMul = 1) {
   const t = b.data.talk;
   if (!t || !t.text) return;
   const el = w.time - t.start;
   if (el >= t.time || el < 0) return;
-  const tal = b.data.talker;
-  const clear = tal?.data?.clear ?? 60;
-  const anchor = tal?.data?.anchor;
-  if (anchor) anchor(b, _pt);
-  else {
-    _pt.x = b.x;
-    _pt.y = b.y - b.r;
-  }
-  const fadeIn = clamp(el / 0.25, 0, 1);
+  const fadeIn = clamp(el / 0.3, 0, 1);
   const fadeOut = clamp((t.time - el) / 0.45, 0, 1);
-  const a = Math.min(fadeIn, fadeOut) * alphaMul;
+  const a = Math.min(1, fadeOut * 1.5) * alphaMul;
   if (a <= 0.01) return;
-  const size = 13;
+  const size = 14;
+  const textX = 64;
   ctx.font = `italic ${size}px ${FONT_BODY}`;
   if (!t.lines) {
-    t.lines = wrap(ctx, `“${t.text}”`, 270);
+    t.lines = wrap(ctx, `“${t.text}”`, 236);
     let mw = 0;
     for (const l of t.lines) mw = Math.max(mw, ctx.measureText(l).width);
-    t.w = mw + 26;
-    t.h = t.lines.length * (size + 4) + 16 + (t.who ? 6 : 0);
+    t.w = Math.max(170, mw + textX + 14);
+    t.h = Math.max(58, t.lines.length * (size + 4) + 26);
   }
   const bw = t.w;
   const bh = t.h;
   const v = w.renderer.viewRect(0, w._vrP || (w._vrP = {}));
-  // Keep clear of the HUD (top plaques/boss bar, bottom aether bar): insets in CSS px → world.
   const k = v.h / Math.max(1, w.renderer.cssH || 720);
-  const top = v.y0 + 132 * k;
-  const bot = v.y1 - 70 * k;
-  // Put the plaque on the side of the speaker that faces the middle of the screen.
-  let px = _pt.x - bw / 2;
-  let py = _pt.y < (top + bot) / 2 ? _pt.y + clear : _pt.y - bh - clear;
-  px = clamp(px, v.x0 + 14 * k, Math.max(v.x0, v.x1 - bw - 14 * k));
-  py = clamp(py, top, Math.max(top, bot - bh));
-  const pop = 1 + 0.12 * (1 - fadeIn);
+  const ease = 1 - (1 - fadeIn) ** 3;
+  const slide = (1 - ease) * (bw + 30);
   ctx.save();
+  ctx.translate(v.x0 + (14 - slide) * k, v.y0 + 104 * k);
+  ctx.scale(k, k);
   ctx.globalAlpha = a;
-  ctx.translate(px + bw / 2, py + bh / 2);
-  ctx.scale(pop, pop);
-  ctx.translate(-bw / 2, -bh / 2);
-  // pointer
-  const tx = clamp(_pt.x - px, 18, bw - 18);
-  const below = py > _pt.y;
-  ctx.beginPath();
-  if (below) {
-    ctx.moveTo(tx - 9, 1);
-    ctx.lineTo(_pt.x - px, Math.max(-30, _pt.y - py + 10));
-    ctx.lineTo(tx + 9, 1);
-  } else {
-    ctx.moveTo(tx - 9, bh - 1);
-    ctx.lineTo(_pt.x - px, Math.min(bh + 30, _pt.y - py - 10));
-    ctx.lineTo(tx + 9, bh - 1);
-  }
-  ctx.closePath();
-  ctx.fillStyle = '#e9d9ae';
-  ctx.fill();
-  ctx.lineWidth = 2;
-  ctx.strokeStyle = '#7a5420';
-  ctx.stroke();
   // shadow + body
-  ctx.fillStyle = 'rgba(15,8,3,0.35)';
-  rr(ctx, 4, 5, bw, bh, 7);
+  ctx.fillStyle = 'rgba(15,8,3,0.4)';
+  rr(ctx, 4, 5, bw, bh, 8);
   ctx.fill();
   const g = ctx.createLinearGradient(0, 0, 0, bh);
   g.addColorStop(0, '#f6ebcb');
-  g.addColorStop(1, '#dcc796');
+  g.addColorStop(1, '#d8c290');
   ctx.fillStyle = g;
-  rr(ctx, 0, 0, bw, bh, 7);
+  rr(ctx, 0, 0, bw, bh, 8);
   ctx.fill();
-  ctx.lineWidth = 2.6;
+  ctx.lineWidth = 3;
   ctx.strokeStyle = '#a8782c';
   ctx.stroke();
   ctx.lineWidth = 1;
   ctx.strokeStyle = 'rgba(58,36,16,0.8)';
-  rr(ctx, 3.5, 3.5, bw - 7, bh - 7, 5);
+  rr(ctx, 4, 4, bw - 8, bh - 8, 5);
   ctx.stroke();
-  // corner rivets
   ctx.fillStyle = '#c9973f';
-  for (const [cx, cy] of [[5, 5], [bw - 5, 5], [5, bh - 5], [bw - 5, bh - 5]]) {
+  for (const [cx, cy] of [[6, 6], [bw - 6, 6], [6, bh - 6], [bw - 6, bh - 6]]) {
     ctx.beginPath();
-    ctx.arc(cx, cy, 2, 0, TAU);
+    ctx.arc(cx, cy, 2.2, 0, TAU);
     ctx.fill();
   }
+  // portrait + a little "transmitting" pulse
+  const vex = /vex/i.test(t.who);
+  const pr = Sprites.get(vex ? PORTRAIT.vex : PORTRAIT.crew);
+  const py = Math.min(bh / 2, 34);
+  ctx.drawImage(pr.img, 32 - 24, py - 24, 48, 48);
+  const talking = el < t.time - 0.6 && (el * 6) % 1 < 0.6;
+  ctx.fillStyle = talking ? '#ff6a3a' : '#5a1b18';
+  ctx.beginPath();
+  ctx.arc(50, py + 18, 3.2, 0, TAU);
+  ctx.fill();
   // speaker tab
-  let y0 = 10;
-  if (t.who) {
-    ctx.font = `bold ${size - 2}px ${FONT_BODY}`;
-    const ww = ctx.measureText(t.who.toUpperCase()).width + 14;
-    ctx.fillStyle = '#8c2f2b';
-    rr(ctx, 10, -9, ww, 16, 4);
-    ctx.fill();
-    ctx.lineWidth = 1.2;
-    ctx.strokeStyle = '#3a1210';
-    ctx.stroke();
-    ctx.fillStyle = '#ffe8c0';
-    ctx.textBaseline = 'middle';
-    ctx.textAlign = 'left';
-    ctx.fillText(t.who.toUpperCase(), 17, -1);
-    y0 = 14;
-  }
+  const who = (t.who || 'COMMS').toUpperCase();
+  ctx.font = `bold ${size - 3}px ${FONT_BODY}`;
+  const ww = ctx.measureText(who).width + 14;
+  ctx.fillStyle = vex ? '#8c2f2b' : '#2e4a6b';
+  rr(ctx, textX - 2, -8, ww, 16, 4);
+  ctx.fill();
+  ctx.lineWidth = 1.2;
+  ctx.strokeStyle = '#2a1208';
+  ctx.stroke();
+  ctx.fillStyle = '#ffe8c0';
+  ctx.textBaseline = 'middle';
+  ctx.textAlign = 'left';
+  ctx.fillText(who, textX + 5, 0);
+  // the line, typed out
   ctx.font = `italic ${size}px ${FONT_BODY}`;
   ctx.fillStyle = '#2d1b0c';
-  ctx.textAlign = 'left';
   ctx.textBaseline = 'top';
-  for (let i = 0; i < t.lines.length; i++) ctx.fillText(t.lines[i], 13, y0 + i * (size + 4));
+  let chars = Math.floor(el * 55);
+  for (let i = 0; i < t.lines.length && chars > 0; i++) {
+    const line = t.lines[i];
+    ctx.fillText(chars >= line.length ? line : line.slice(0, chars), textX, 14 + i * (size + 4));
+    chars -= line.length;
+  }
   ctx.restore();
 }
 

@@ -17,17 +17,26 @@ import {
   glassSheen,
   rivets,
   easeOutCubic,
+  blitText,
 } from './hud-kit.js';
 
 export const RADAR_R = 55;
 const RADAR_RANGE = 1700;
 const DEFAULT_PHASES = [2 / 3, 1 / 3];
+/** Phase thresholds mirrored from the boss files (a def's `hudPhases` wins when present). */
+const KNOWN_PHASES = {
+  ironMatriarch: [0.6, 0.25],
+  kraken: [0.6, 0.25],
+  stormEngine: [0.6, 0.25],
+  sunFurnace: [0.65, 0.3],
+};
+const EMPTY = Object.freeze([]);
 
 // ---- boss view state --------------------------------------------------------------------------
 
 export function makeBossView(b) {
   const def = b.def || {};
-  let marks = def.phases ?? def.phaseAt ?? def.hudPhases ?? DEFAULT_PHASES;
+  let marks = def.hudPhases ?? def.phases ?? def.phaseAt ?? KNOWN_PHASES[def.id ?? b.type] ?? DEFAULT_PHASES;
   if (!Array.isArray(marks)) marks = DEFAULT_PHASES;
   return {
     boss: b,
@@ -66,7 +75,12 @@ export function updateBossView(v, dt) {
   }
   v.hitT = Math.max(0, v.hitT - dt * 6);
   v.phaseFlashT = Math.max(0, v.phaseFlashT - dt * 1.5);
-  if (!b.alive || b.dead) v.deadT += dt;
+  if (!b.alive || b.dead) {
+    v.deadT += dt;
+    v.hold = 0;
+    v.shown = 0;
+    v.lag = approach(v.lag, 0, 7, dt);
+  }
 }
 
 /** Record an actual phase change: flash and add a marker at the current hp if none is near. */
@@ -95,35 +109,37 @@ export function drawBossBar(H, ctx, v, xCenter, y, w, small) {
   const totalH = nameH + bh + 14;
   H.at(ctx, xCenter - (w / 2) * H.s, y - (1 - slide) * 30 * H.s);
   ctx.globalAlpha = fade * slide;
-  // name & title
-  ctx.textBaseline = 'alphabetic';
-  ctx.textAlign = 'center';
-  const name = v.name.toUpperCase();
-  spacing(ctx, small ? 1.5 : 3);
-  const ns = fitFont(ctx, name, small ? 10 : 15, w * (v.title ? 0.62 : 0.95), 'd');
-  const nw = ctx.measureText(name).width;
-  let tw = 0;
-  if (v.title && !small) {
-    ctx.font = font(9.5, 'b', 'normal', 'italic');
-    spacing(ctx, 0.5);
-    tw = ctx.measureText(`— ${v.title}`).width + 8;
-  }
-  const x0 = w / 2 - (nw + tw) / 2;
-  // dark backing so the name reads over bright skies and dark hulls alike
-  ctx.fillStyle = 'rgba(16,8,4,0.55)';
-  roundRect(ctx, x0 - 12, nameH - 4 - ns * 0.95, nw + tw + 24, ns * 1.25, ns * 0.6);
-  ctx.fill();
-  ctx.textAlign = 'left';
-  ctx.font = font(ns, 'd');
-  spacing(ctx, small ? 1.5 : 3);
+  // name & title on a dark backing, pre-rendered once per boss/width
   const pf = v.phaseFlashT;
-  engraved(ctx, name, x0, nameH - 4, pf > 0 ? '#ffffff' : '#ffd9c8', 'rgba(10,2,0,0.9)', 1.5);
-  if (tw) {
-    ctx.font = font(9.5, 'b', 'normal', 'italic');
-    spacing(ctx, 0.5);
-    engraved(ctx, `— ${v.title}`, x0 + nw + 8, nameH - 4, 'rgba(242,212,138,0.9)');
-  }
-  spacing(ctx, 0);
+  const label = H.cache.get(`bossName|${v.name}|${v.title}|${small ? 1 : 0}|${Math.round(w)}|${pf > 0 ? 1 : 0}`, w, nameH, (c) => {
+    const name = v.name.toUpperCase();
+    c.textBaseline = 'alphabetic';
+    spacing(c, small ? 1.5 : 3);
+    const ns = fitFont(c, name, small ? 10 : 15, w * (v.title && !small ? 0.62 : 0.95), 'd');
+    const nw = c.measureText(name).width;
+    let tw = 0;
+    if (v.title && !small) {
+      c.font = font(9.5, 'b', 'normal', 'italic');
+      spacing(c, 0.5);
+      tw = c.measureText(`— ${v.title}`).width + 8;
+    }
+    const x0 = w / 2 - (nw + tw) / 2;
+    // dark backing so the name reads over bright skies and dark hulls alike
+    c.fillStyle = 'rgba(16,8,4,0.55)';
+    roundRect(c, x0 - 12, nameH - 4 - ns * 0.95, nw + tw + 24, ns * 1.25, ns * 0.6);
+    c.fill();
+    c.textAlign = 'left';
+    c.font = font(ns, 'd');
+    spacing(c, small ? 1.5 : 3);
+    engraved(c, name, x0, nameH - 4, pf > 0 ? '#ffffff' : '#ffd9c8', 'rgba(10,2,0,0.9)', 1.5);
+    if (tw) {
+      c.font = font(9.5, 'b', 'normal', 'italic');
+      spacing(c, 0.5);
+      engraved(c, `— ${v.title}`, x0 + nw + 8, nameH - 4, 'rgba(242,212,138,0.9)');
+    }
+    spacing(c, 0);
+  }, 4);
+  LayerCache.draw(ctx, label, 0, 0);
 
   // frame
   const by = nameH;
@@ -261,12 +277,7 @@ export function drawBossBar(H, ctx, v, xCenter, y, w, small) {
     }
   }
   if (v.deadT > 0) {
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.font = font(small ? 10 : 14, 'd');
-    spacing(ctx, 4);
-    engraved(ctx, 'DESTROYED', w / 2, by + bh / 2 + 0.5, '#ffcf4a');
-    spacing(ctx, 0);
+    blitText(ctx, H.txt('DESTROYED', { size: small ? 10 : 14, ls: 4, color: '#ffcf4a' }), w / 2, by + bh / 2 + 0.5);
   }
   ctx.globalAlpha = 1;
   return totalH;
@@ -298,6 +309,9 @@ export function drawPointers(H, ctx, list, rect, r) {
     const it = list[i];
     r.worldToScreen(it.x, it.y, pt);
     if (pt.x > rect.x0 && pt.x < rect.x1 && pt.y > rect.y0 && pt.y < rect.y1) continue;
+    // a big hull poking into view needs no pointer
+    const m = (it.r || 0) * r.camera.zoom * 0.6;
+    if (m > 0 && pt.x > -m && pt.x < r.cssW + m && pt.y > -m && pt.y < r.cssH + m) continue;
     const dx = pt.x - cx;
     const dy = pt.y - cy;
     if (!dx && !dy) continue;
@@ -497,15 +511,23 @@ export function drawRadar(H, ctx, world, renderer, focus, cx, cy) {
   const scale = rr / RADAR_RANGE;
   const fx = focus.x;
   const fy = focus.y;
-  ctx.save();
-  ctx.beginPath();
-  ctx.arc(0, 0, rr, 0, TAU);
-  ctx.clip();
-  // camera view frame
+  // camera view frame (clip only in the rare case it spills past the scope)
   const vr = renderer.viewRect(0, H._vr);
+  const vx0 = (vr.x0 - fx) * scale;
+  const vy0 = (vr.y0 - fy) * scale;
+  const vw = vr.w * scale;
+  const vh = vr.h * scale;
+  const spill = vx0 * vx0 + vy0 * vy0 > rr * rr || (vx0 + vw) ** 2 + (vy0 + vh) ** 2 > rr * rr;
+  if (spill) {
+    ctx.save();
+    ctx.beginPath();
+    ctx.arc(0, 0, rr, 0, TAU);
+    ctx.clip();
+  }
   ctx.strokeStyle = 'rgba(150,255,200,0.22)';
   ctx.lineWidth = 0.8;
-  ctx.strokeRect((vr.x0 - fx) * scale, (vr.y0 - fy) * scale, vr.w * scale, vr.h * scale);
+  ctx.strokeRect(vx0, vy0, vw, vh);
+  if (spill) ctx.restore();
   // sweep
   ctx.save();
   ctx.rotate(sweepA);
@@ -515,8 +537,8 @@ export function drawRadar(H, ctx, world, renderer, focus, cx, cy) {
   ctx.globalCompositeOperation = 'source-over';
 
   // enemies
-  const enemies = world.enemies;
-  const lim2 = (RADAR_RANGE * 1.02) ** 2;
+  const enemies = world.enemies || EMPTY;
+  const lim2 = (RADAR_RANGE * 0.97) ** 2;
   for (let i = 0; i < enemies.length; i++) {
     const e = enemies[i];
     if (!e.alive || e.parent || e.isBoss) continue;
@@ -540,7 +562,7 @@ export function drawRadar(H, ctx, world, renderer, focus, cx, cy) {
   }
   ctx.globalAlpha = 1;
   // crates
-  const pk = world.pickups;
+  const pk = world.pickups || EMPTY;
   ctx.fillStyle = '#f2d48a';
   for (let i = 0; i < pk.length; i++) {
     const p = pk[i];
@@ -557,7 +579,7 @@ export function drawRadar(H, ctx, world, renderer, focus, cx, cy) {
     ctx.fill();
   }
   // bosses (clamped to the rim when out of range)
-  for (const b of world.bosses) {
+  for (const b of world.bosses || EMPTY) {
     if (!b.alive) continue;
     let dx = (b.x - fx) * scale;
     let dy = (b.y - fy) * scale;
@@ -579,11 +601,16 @@ export function drawRadar(H, ctx, world, renderer, focus, cx, cy) {
     ctx.stroke();
   }
   // players
-  const players = world.players;
+  const players = world.players || EMPTY;
   for (let i = players.length - 1; i >= 0; i--) {
     const p = players[i];
-    const dx = (p.x - fx) * scale;
-    const dy = (p.y - fy) * scale;
+    let dx = (p.x - fx) * scale;
+    let dy = (p.y - fy) * scale;
+    const d = Math.hypot(dx, dy);
+    if (d > rr - 5) {
+      dx *= (rr - 5) / d;
+      dy *= (rr - 5) / d;
+    }
     ctx.save();
     ctx.translate(dx, dy);
     ctx.rotate(p.angle || 0);
@@ -600,6 +627,5 @@ export function drawRadar(H, ctx, world, renderer, focus, cx, cy) {
     ctx.stroke();
     ctx.restore();
   }
-  ctx.restore();
   LayerCache.draw(ctx, radarGlass(H), -R, -R);
 }

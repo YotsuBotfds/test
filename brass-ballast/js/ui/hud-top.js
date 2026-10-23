@@ -8,13 +8,13 @@ import {
   font,
   spacing,
   engraved,
-  fitFont,
   LayerCache,
   brassPanel,
   rivets,
   digitStrip,
   drawOdometer,
   easeOutBack,
+  blitText,
 } from './hud-kit.js';
 
 export const SCORE = { w: 184, h: 46 };
@@ -33,34 +33,30 @@ export function drawScore(H, ctx, run, xRight, y) {
   const R = H.run;
   H.at(ctx, xRight - SCORE.w * H.s, y);
   const { w, h } = SCORE;
-  const frame = H.cache.get('scoreFrame', w, h, (c) => {
+  const frame = H.cache.get(`scoreFrame${H.modeName}`, w, h, (c) => {
     brassPanel(c, 0, 0, w, h, { r: 8, rim: 4, well: '#140d07' });
     rivets(c, 30, h - 2.2, w - 30, h - 2.2, 6, 0.9);
+    c.textBaseline = 'middle';
+    c.textAlign = 'left';
+    c.font = font(7, 'd');
+    spacing(c, 2.5);
+    engraved(c, 'SCORE', 10, 11.5, 'rgba(242,212,138,0.9)');
+    spacing(c, 0);
+    if (H.modeName) {
+      c.textAlign = 'right';
+      c.font = font(6.5, 'b', 'normal', 'italic');
+      c.fillStyle = 'rgba(242,212,138,0.55)';
+      c.fillText(H.modeName, w - 10, 11.5);
+    }
+    roundRect(c, 7, 17, w - 14, DIG_H + 1, 3);
+    c.fillStyle = '#060402';
+    c.fill();
   }, 3);
   LayerCache.draw(ctx, frame, 0, 0);
-  ctx.textBaseline = 'middle';
-  ctx.textAlign = 'left';
-  ctx.font = font(7, 'd');
-  spacing(ctx, 2.5);
-  engraved(ctx, 'SCORE', 10, 11.5, 'rgba(242,212,138,0.9)');
-  spacing(ctx, 0);
-  if (run.mode) {
-    ctx.textAlign = 'right';
-    ctx.font = font(6.5, 'b', 'normal', 'italic');
-    ctx.fillStyle = 'rgba(242,212,138,0.55)';
-    ctx.fillText(H.modeName, w - 10, 11.5);
-  }
-  // odometer window
+  // odometer drums (each source window maps exactly onto its cell: no clip needed)
   const strip = digitStrip(H.cache, 'digits', DIG_W, DIG_H, 19, '#fff3c4', 'rgba(0,0,0,0.85)');
-  ctx.save();
-  roundRect(ctx, 7, 17, w - 14, DIG_H + 1, 3);
-  ctx.fillStyle = '#060402';
-  ctx.fill();
-  ctx.clip();
-  const pop = R.scorePopT;
   drawOdometer(ctx, strip, R.score, w - 9, 17.5, DIG_W, DIG_H, 9);
-  // shading on the drum
-  ctx.drawImage(H.drumShade.img, 7, 17, w - 14, DIG_H + 1);
+  const pop = R.scorePopT;
   if (pop > 0) {
     ctx.globalCompositeOperation = 'lighter';
     ctx.globalAlpha = pop * 0.35;
@@ -69,10 +65,20 @@ export function drawScore(H, ctx, run, xRight, y) {
     ctx.globalCompositeOperation = 'source-over';
     ctx.globalAlpha = 1;
   }
-  ctx.restore();
-  // separators between drums
-  ctx.fillStyle = 'rgba(80,52,20,0.55)';
-  for (let i = 1; i < 9; i++) ctx.fillRect(w - 9 - i * DIG_W - 0.4, 18, 0.8, DIG_H - 1);
+  // drum shading + separators
+  const glass = H.cache.get('scoreGlass', w - 14, DIG_H + 1, (c) => {
+    const gr = c.createLinearGradient(0, 0, 0, DIG_H + 1);
+    gr.addColorStop(0, 'rgba(0,0,0,0.85)');
+    gr.addColorStop(0.28, 'rgba(0,0,0,0)');
+    gr.addColorStop(0.42, 'rgba(255,240,200,0.08)');
+    gr.addColorStop(0.72, 'rgba(0,0,0,0)');
+    gr.addColorStop(1, 'rgba(0,0,0,0.85)');
+    c.fillStyle = gr;
+    c.fillRect(0, 0, w - 14, DIG_H + 1);
+    c.fillStyle = 'rgba(80,52,20,0.55)';
+    for (let i = 1; i < 9; i++) c.fillRect(w - 16 - i * DIG_W - 0.4, 1, 0.8, DIG_H - 1);
+  });
+  LayerCache.draw(ctx, glass, 7, 17);
 
   // ---- combo row
   const vis = R.comboVis;
@@ -129,11 +135,7 @@ export function drawScore(H, ctx, run, xRight, y) {
   ctx.font = font(20, 'd');
   engraved(ctx, H.str('mult', `×${mult.toFixed(1)}`), 0, 0, col, 'rgba(10,5,2,0.9)', 1.6);
   ctx.restore();
-  ctx.textAlign = 'right';
-  ctx.font = font(6.5, 'd');
-  spacing(ctx, 2);
-  engraved(ctx, 'CHAIN', ringX - 26, cy + 15, 'rgba(242,212,138,0.75)');
-  spacing(ctx, 0);
+  blitText(ctx, H.txt('CHAIN', { size: 6.5, ls: 2, color: 'rgba(242,212,138,0.75)' }), ringX - 26, cy + 15, 'right');
   ctx.globalAlpha = 1;
   if (R.breakT > 0) {
     // the multiplier "shatters": red ghost falls away
@@ -169,17 +171,10 @@ export function drawPlaque(H, ctx, game, run, xCenter, y) {
   const d = game.director;
   const st = d?.state || run.director || '';
   const P = H.plaqueInfo(run, st);
-  ctx.textBaseline = 'middle';
-  ctx.textAlign = 'center';
-  spacing(ctx, 1.8);
-  fitFont(ctx, P.top, 7.5, w - 30, 'd');
-  engraved(ctx, P.top, w / 2, 11, 'rgba(242,212,138,0.9)');
-  spacing(ctx, 1);
-  ctx.font = font(15, 'd');
+  blitText(ctx, H.txt(P.top, { size: 7.5, ls: 1.8, color: 'rgba(242,212,138,0.9)', maxW: w - 30 }), w / 2, 11);
   const warn = st === 'bossWarning' || st === 'boss';
   const col = warn ? (Math.sin(H.t * 6) > -0.2 ? '#ff6a4a' : '#ffb090') : '#fff3c4';
-  engraved(ctx, P.main, w / 2, 28.5, col);
-  spacing(ctx, 0);
+  blitText(ctx, H.txt(P.main, { size: 15, ls: 1, color: col, maxW: w - 40 }), w / 2, 28.5);
 
   // segmented progress bar
   const segs = P.segs;

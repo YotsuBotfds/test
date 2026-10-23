@@ -30,8 +30,9 @@ const TURN = 14;
 
 const TGT = [];
 const TMP = { x: 0, y: 0 };
-const PUFF = { count: 3, dark: true, alpha: 0.65, color: '#2c2723', color1: '#14110f', life: 1.1, spread: 18 };
-const PUFF_BIG = { count: 5, dark: true, alpha: 0.7, color: '#2c2723', color1: '#14110f', life: 1.3, spread: 30 };
+const PUFF = { count: 2, alpha: 0.42, color: '#3a3430', color1: '#6e665e', life: 0.8, spread: 14 };
+const PUFF_BIG = { count: 3, alpha: 0.45, color: '#3a3430', color1: '#6e665e', life: 0.9, spread: 22 };
+const MIN_RANGE = 70; // flak is for mid range; point-blank bursts would smother the ship
 const BOOM = { palette: 'brass', debris: false, cogs: 0, smoke: false, lowSmoke: false };
 
 function flakBurst(p, w) {
@@ -41,7 +42,7 @@ function flakBurst(p, w) {
   const big = d.big;
   const s = p.explode?.radius ? p.explode.radius / 34 : 1;
   w.fx.explosion?.(p.x, p.y, (big ? 0.55 : 0.36) * s, BOOM);
-  w.fx.smoke?.(p.x, p.y, (big ? 0.7 : 0.5) * s, big ? PUFF_BIG : PUFF);
+  w.fx.smoke?.(p.x, p.y, (big ? 0.55 : 0.4) * s, big ? PUFF_BIG : PUFF);
   if (big) w.fx.shockwave?.(p.x, p.y, p.explode.radius * 1.15, '#ffd9a0', 0.25);
   if (Math.random() < (big ? 0.5 : 0.3)) w.sfx('explode_small', p.x, p.y, { vol: big ? 0.45 : 0.28, pitch: 1.4 });
   const n = d.shards;
@@ -89,7 +90,7 @@ function fireShell(p, slot, w, tur, m, e, evo, stats) {
       update: flakProx, onHit: flakHit, onExpire: flakBurst,
       data: { prox: Math.max(18, stats.burst * area * 0.55), shards: stats.shards, shardDmg: stats.dmg * 0.35, big: evo, burst: false },
     });
-    if (k === 0) w.fx.muzzle?.(bx, by, tur.aim, evo ? 0.6 : 0.42, '#ffd36b');
+    if (k === 0) w.fx.muzzle?.(bx, by, tur.aim, evo ? 0.42 : 0.3, '#ffd36b');
   }
   tur.kick = 1;
   w.sfx('flak_fire', m.x, m.y, { vol: evo ? 0.55 : 0.45, pitch: 0.95 + Math.random() * 0.15 });
@@ -119,13 +120,16 @@ function updateTurrets(p, slot, dt, w, evo) {
   slot.cdMax = interval;
   const turrets = d.turrets;
   const mx = turrets[0];
-  nearestN(w, p.x, p.y, st.range, turrets.length, TGT);
+  nearestN(w, p.x, p.y, st.range, turrets.length + 4, TGT);
+  // Drop targets hugging the hull (TGT is sorted nearest-first; keep at least one).
+  let skip = 0;
+  while (skip < TGT.length - 1 && TGT[skip]._auxD < MIN_RANGE * MIN_RANGE) skip++;
   for (let t = 0; t < turrets.length; t++) {
     const tur = turrets[t];
     const m = mount(p, FX_X, FX_Y * tur.side, TMP);
     tur.kick = Math.max(0, tur.kick - dt * 7);
     tur.cd -= dt;
-    const e = TGT.length ? TGT[Math.min(t, TGT.length - 1)] : null;
+    const e = TGT.length ? TGT[Math.min(skip + t, TGT.length - 1)] : null;
     if (!e) {
       // Idle: settle facing outward from the flank.
       tur.aim = rotateToward(tur.aim, p.angle + tur.side * 1.2, 3 * dt);

@@ -28,6 +28,7 @@ const RANGE = 420;
 const BULLET_SPEED = 820;
 const TGT = [];
 const MAX_DRONES = 10;
+const SPARK = { speed: 300, life: 0.12, size: 2 };
 
 const BULLET = {
   team: 'player', kind: 'bullet', x: 0, y: 0, angle: 0, speed: BULLET_SPEED, r: 4, damage: 6,
@@ -70,7 +71,9 @@ function shoot(p, w, dr, e, dmg, pierce, src, scale) {
   w.fire(o);
   o.owner = null;
   dr.kick = 1;
-  w.fx.muzzle?.(o.x, o.y, a, 0.32, src === SRC_EVO ? '#ffe08a' : '#7ff3ff');
+  // Small-calibre flash: no smoke (a dozen drones would fog the ship).
+  w.fx.flare?.(o.x, o.y, 14, src === SRC_EVO ? '#ffe08a' : '#7ff3ff', 0.06);
+  w.fx.sparks?.(o.x, o.y, a, 2, src === SRC_EVO ? '#ffe08a' : '#bff8ff', 0.5, SPARK);
   w.sfx('drone_fire', dr.x, dr.y, { vol: 0.35, pitch: 0.95 + Math.random() * 0.2 });
 }
 
@@ -156,16 +159,16 @@ export const ClockDrones = {
     const n = Math.min(MAX_DRONES, lv(COUNT, i) + Math.min(2, extraProj(p)));
     const list = ensureDrones(p, slot, n);
     d.orbit = (d.orbit || 0) + dt * 1.5;
-    const scale = Math.sqrt(areaScale(p)) * 1.05;
+    const scale = Math.sqrt(areaScale(p)) * 1.2;
     driveDrones(p, slot, dt, w, list, orbitFormation, lv(RATE, i), lv(DMG, i) * dmgScale(p, w), lv(PIERCE, i), SRC, scale);
   },
 
   drawUnder(ctx, p, slot) {
-    if (slot.data.drones) drawDroneShadows(ctx, slot.data.drones, 1.05);
+    if (slot.data.drones) drawDroneShadows(ctx, slot.data.drones, 1.2);
   },
 
   draw(ctx, p, slot, w) {
-    if (slot.data.drones) drawDrones(ctx, p, slot.data.drones, Math.sqrt(areaScale(p)) * 1.05, false, w);
+    if (slot.data.drones) drawDrones(ctx, p, slot.data.drones, Math.sqrt(areaScale(p)) * 1.2, false, w);
   },
 
   remove(p, slot, w) {
@@ -236,7 +239,7 @@ export const DroneArmada = {
     const n = Math.min(MAX_DRONES, EVO_COUNT + extraProj(p));
     const list = ensureDrones(p, slot, n);
     d.orbit = (d.orbit || 0) + dt * 0.7;
-    const scale = Math.sqrt(areaScale(p)) * 1.2;
+    const scale = Math.sqrt(areaScale(p)) * 1.35;
 
     // Kamikaze scheduling.
     d.dive -= dt;
@@ -305,7 +308,7 @@ export const DroneArmada = {
   drawUnder(ctx, p, slot) {
     const list = slot.data.drones;
     if (!list) return;
-    drawDroneShadows(ctx, list, 1.2);
+    drawDroneShadows(ctx, list, 1.35);
     // Formation links: faint aether lines between neighbours in formation.
     ctx.globalCompositeOperation = 'lighter';
     ctx.strokeStyle = '#ffe08a';
@@ -326,7 +329,7 @@ export const DroneArmada = {
   draw(ctx, p, slot, w) {
     const list = slot.data.drones;
     if (!list) return;
-    drawDrones(ctx, p, list, Math.sqrt(areaScale(p)) * 1.2, true, w);
+    drawDrones(ctx, p, list, Math.sqrt(areaScale(p)) * 1.35, true, w);
     for (let i = 0; i < list.length; i++) {
       const dr = list[i];
       if (dr.state !== 'dive') continue;

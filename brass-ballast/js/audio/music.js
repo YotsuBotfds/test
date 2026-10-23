@@ -17,11 +17,13 @@ import { TRACKS, TRACK_NAMES } from './music-tracks.js';
 import { Composer } from './music-composer.js';
 import { VOICES, ROLL_RATE, resources, reverbImpulse } from './music-instruments.js';
 import { smoothstep, clamp, hash } from './music-theory.js';
+import { Save } from '../core/storage.js';
+import { events } from '../core/events.js';
 
 /** Layer weight vs effective intensity. */
 const LAYERS = {
   core: () => 1,
-  drums: (e) => smoothstep(0.2, 0.5, e),
+  drums: (e) => smoothstep(0.15, 0.45, e),
   counter: (e) => smoothstep(0.55, 0.85, e),
   full: (e) => smoothstep(0.78, 1, e),
   calm: (e) => 1 - smoothstep(0.45, 0.8, e),
@@ -57,6 +59,7 @@ class Performer {
     this.q = [];
     this.qh = 0;
     this.notes = 0;
+    this.dropped = 0;
     this.energy = 0;
     this.si = null;
     this.endAt = Infinity;
@@ -205,6 +208,7 @@ class Performer {
   }
 
   _audible(layer, t) {
+    if (layer === 'full' && this.m.lite) return false;
     const st = this.ls[layer];
     return !st || st.to > 0.003 || this._est(st, t) > 0.003;
   }
@@ -240,7 +244,10 @@ class Performer {
       const e = q[this.qh];
       if (e.t >= limit) break;
       this.qh++;
-      if (e.t < now - 0.05) continue; // too late to be musical — drop it
+      if (e.t < now - 0.05) {
+        this.dropped++; // too late to be musical — drop it
+        continue;
+      }
       this._play(e, Math.max(e.t, now));
     }
     if (this.qh > 512) {
@@ -332,6 +339,8 @@ export class Music {
     this._ahead = LOOKAHEAD;
     this._lastWall = 0;
     this._ok = false;
+    this.lite = false;
+    this._offSettings = null;
     /** Optional observer (preview / visualisers): (track, channel, inst, midi, t, dur, vel, layer). */
     this.onNote = null;
     this.offline = !!ctx && typeof OfflineAudioContext !== 'undefined' && ctx instanceof OfflineAudioContext;
@@ -341,6 +350,36 @@ export class Music {
       this._ok = true;
     } catch (err) {
       warn('build', err);
+    }
+    if (this._ok && !this.offline) {
+      // Low graphics quality also means a lighter score: no convolver, no 'full' layer.
+      this._syncQuality();
+      try {
+        this._offSettings = events?.on?.('settings:change', () => this._syncQuality()) || null;
+      } catch {
+        /* events stub */
+      }
+    }
+  }
+
+  _syncQuality() {
+    try {
+      this.setLite(Save?.data?.settings?.quality === 'low');
+    } catch {
+      /* storage stub */
+    }
+  }
+
+  /** Lite mode for weak devices: bypasses the reverb and skips the 'full' layer. */
+  setLite(on) {
+    on = !!on;
+    if (on === this.lite || !this._ok) return;
+    this.lite = on;
+    try {
+      if (on) this.reverb.disconnect();
+      else if (this.conv) this.reverb.connect(this.conv);
+    } catch (err) {
+      warn('lite', err);
     }
   }
 
@@ -368,6 +407,7 @@ export class Music {
       const ret = ctx.createGain();
       ret.gain.value = REVERB_RETURN;
       this.reverb.connect(conv).connect(ret).connect(comp);
+      this.conv = conv;
     } catch (err) {
       warn('reverb', err);
     }
@@ -409,6 +449,9 @@ export class Music {
         this.cur = new Performer(this, track, def, now + 0.05, fadeIn, seed);
       }
       this.track = track;
+      // Track changes coincide with heavy main-thread work (stage loads): queue further ahead
+      // for the first few seconds; the lookahead decays back toward 0.15 s on its own.
+      this._ahead = Math.max(this._ahead, 0.35);
       this._startTimer();
       if (!this.offline) this._tick();
     } catch (err) {
@@ -467,7 +510,10 @@ export class Music {
   /** Debug snapshot: track, form position, intensity, layer levels. */
   info() {
     const p = this.cur;
-    const out = { track: this.track, intensity: this.intensity, dying: this.dying.length, notes: p?.notes ?? 0 };
+    const out = {
+      track: this.track, intensity: this.intensity, dying: this.dying.length, notes: p?.notes ?? 0,
+      dropped: p?.dropped ?? 0, lookahead: +this._ahead.toFixed(3), lite: this.lite,
+    };
     if (p) {
       out.section = p.where?.section ?? null;
       out.bar = p.where?.bar ?? 0;
@@ -483,6 +529,11 @@ export class Music {
   /** Stop everything immediately and release the graph. */
   dispose() {
     this._stopTimer();
+    try {
+      if (typeof this._offSettings === 'function') this._offSettings();
+    } catch {
+      /* ignore */
+    }
     for (const p of [this.cur, ...this.dying]) p?.dispose();
     this.cur = null;
     this.dying = [];

@@ -6,10 +6,7 @@ import { roundRect, INK, skull } from '../gfx/drawkit.js';
 import {
   TAU,
   clamp,
-  font,
-  spacing,
-  engraved,
-  fitFont,
+  blitText,
   LayerCache,
   brassPanel,
   rivets,
@@ -99,17 +96,12 @@ function drawWave(H, ctx, b, W, y) {
     ctx.restore();
   }
   LayerCache.draw(ctx, L, -pw / 2, -ph / 2);
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'middle';
-  spacing(ctx, 4);
-  fitFont(ctx, b.title.toUpperCase(), 30, pw - 90, 'd');
-  engraved(ctx, b.title.toUpperCase(), 0, -8, '#fff3c4', 'rgba(0,0,0,0.9)', 2);
-  spacing(ctx, 0.5);
+  const tl = H.txt(b.title.toUpperCase(), { size: 30, ls: 4, color: '#fff3c4', shadow: 'rgba(0,0,0,0.9)', dy: 2, maxW: pw - 90 });
+  blitText(ctx, tl, 0, -8);
   if (b.sub) {
-    fitFont(ctx, b.sub, 13, pw - 90, 'b', 'normal', 'italic');
-    engraved(ctx, b.sub, 0, 22, 'rgba(242,212,138,0.95)');
+    const sl = H.txt(b.sub, { size: 13, kind: 'b', weight: 'normal', style: 'italic', ls: 0.5, color: 'rgba(242,212,138,0.95)', maxW: pw - 90 });
+    blitText(ctx, sl, 0, 22);
   }
-  spacing(ctx, 0);
 }
 
 function gearLayer(H, r, teeth) {
@@ -172,30 +164,16 @@ function drawClear(H, ctx, b, W, y) {
     ctx.drawImage(H.shimmer.img, sx - 30, -rh / 2, 60, rh);
     ctx.restore();
   }
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'middle';
-  spacing(ctx, 3);
-  const title = b.title.toUpperCase();
-  fitFont(ctx, title, 24, rw - 90, 'd');
-  ctx.fillStyle = 'rgba(255,248,220,0.6)';
-  ctx.fillText(title, 0, -2);
-  ctx.fillStyle = '#3a2208';
-  ctx.fillText(title, 0, -3.2);
-  spacing(ctx, 0);
+  // dark ink stamped into the gold, with a pale lower lip
+  const tl = H.txt(b.title.toUpperCase(), { size: 24, ls: 3, color: '#3a2208', shadow: 'rgba(255,248,220,0.6)', dy: 1.2, maxW: rw - 90 });
+  blitText(ctx, tl, 0, -3.2);
   if (b.sub) {
     const bonus = /^\+\d/.test(b.sub);
     const pop = 1 + 0.4 * (1 - clamp((b.t - 0.25) / 0.3, 0, 1));
-    ctx.save();
-    ctx.translate(0, rh / 2 + 14);
-    ctx.scale(pop, pop);
-    if (bonus) {
-      ctx.font = font(18, 'm');
-      engraved(ctx, b.sub, 0, 0, '#ffe08a', 'rgba(0,0,0,0.9)', 1.6);
-    } else {
-      fitFont(ctx, b.sub, 13, rw, 'b', 'normal', 'italic');
-      engraved(ctx, b.sub, 0, 0, '#fff3c4', 'rgba(0,0,0,0.9)', 1.4);
-    }
-    ctx.restore();
+    const sl = bonus
+      ? H.txt(b.sub, { size: 18, kind: 'm', color: '#ffe08a', shadow: 'rgba(0,0,0,0.9)', dy: 1.6 })
+      : H.txt(b.sub, { size: 13, kind: 'b', weight: 'normal', style: 'italic', color: '#fff3c4', shadow: 'rgba(0,0,0,0.9)', dy: 1.4, maxW: rw });
+    blitText(ctx, sl, 0, rh / 2 + 14, 'center', pop);
   }
   ctx.globalAlpha = 1;
 }
@@ -267,16 +245,13 @@ function drawStage(H, ctx, b, W, y) {
     ctx.globalCompositeOperation = 'source-over';
     ctx.globalAlpha = a;
   }
-  // title with letter-spacing that settles in
+  // title settles in: slight zoom-out while the band opens
   const title = b.title.toUpperCase();
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'middle';
-  const ls = 4 + 16 * (1 - easeOutCubic(tin));
-  spacing(ctx, ls);
-  const fs = fitFont(ctx, title, victory ? 50 : 42, ww - 140, 'd');
-  const tw = ctx.measureText(title).width;
-  engraved(ctx, title, ww / 2, -10, victory ? '#ffe08a' : '#fff3c4', 'rgba(0,0,0,0.95)', 2.5);
-  spacing(ctx, 0);
+  const tl = H.txt(title, { size: victory ? 50 : 42, ls: 5, color: victory ? '#ffe08a' : '#fff3c4', shadow: 'rgba(0,0,0,0.95)', dy: 2.5, maxW: ww - 140 });
+  const tz = 1 + 0.18 * (1 - easeOutCubic(tin));
+  blitText(ctx, tl, ww / 2, -10, 'center', tz);
+  const tw = tl.w * tz;
+  const fs = tl.h / 1.45;
   // gear ornaments flanking the title
   const gl = gearLayer(H, 15, 10);
   for (const sx of [-1, 1]) {
@@ -288,10 +263,8 @@ function drawStage(H, ctx, b, W, y) {
   }
   if (b.sub) {
     ctx.globalAlpha = a * clamp((b.t - 0.25) / 0.4, 0, 1);
-    spacing(ctx, 1);
-    fitFont(ctx, b.sub, 15, ww - 80, 'b', 'normal', 'italic');
-    engraved(ctx, b.sub, ww / 2, fs * 0.5 + 16, 'rgba(242,212,138,0.95)');
-    spacing(ctx, 0);
+    const sl = H.txt(b.sub, { size: 15, kind: 'b', weight: 'normal', style: 'italic', ls: 1, color: 'rgba(242,212,138,0.95)', maxW: ww - 80 });
+    blitText(ctx, sl, ww / 2, fs * 0.5 + 16);
   }
   ctx.globalAlpha = 1;
 }
@@ -391,10 +364,7 @@ function drawWarning(H, ctx, b, W, y) {
   }
   // WARNING text
   const on = reduced ? 1 : Math.sin(b.t * TAU * 2.4) > -0.35 ? 1 : 0.35;
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'middle';
-  spacing(ctx, 10);
-  fitFont(ctx, 'WARNING', 52, Math.min(ww - 60, 2 * Math.min(ww * 0.36, 260) - 70), 'd');
+  const wl = H.txt('WARNING', { size: 52, ls: 10, color: '#ff3a20', shadow: 'rgba(0,0,0,0.95)', dy: 3, maxW: Math.min(ww - 60, 2 * Math.min(ww * 0.36, 260) - 70) });
   ctx.globalAlpha = on;
   if (!reduced) {
     ctx.globalCompositeOperation = 'lighter';
@@ -403,14 +373,11 @@ function drawWarning(H, ctx, b, W, y) {
     ctx.globalCompositeOperation = 'source-over';
     ctx.globalAlpha = on;
   }
-  engraved(ctx, 'WARNING', ww / 2 + 5, -14, '#ff3a20', 'rgba(0,0,0,0.95)', 3);
-  spacing(ctx, 0);
+  blitText(ctx, wl, ww / 2, -14);
   ctx.globalAlpha = 1;
   if (b.sub) {
-    spacing(ctx, 2);
-    fitFont(ctx, b.sub.toUpperCase(), 16, ww - 80, 'd');
-    engraved(ctx, b.sub.toUpperCase(), ww / 2, 30, '#ffd9c8', 'rgba(0,0,0,0.95)', 1.5);
-    spacing(ctx, 0);
+    const sl = H.txt(b.sub.toUpperCase(), { size: 16, ls: 2, color: '#ffd9c8', shadow: 'rgba(0,0,0,0.95)', dy: 1.5, maxW: ww - 80 });
+    blitText(ctx, sl, ww / 2, 30);
   }
 }
 
@@ -437,16 +404,11 @@ function drawAlert(H, ctx, b, W, y) {
     brassPanel(c, 9, 7, pw - 18, ph - 14, { kind: 'crimson', r: 6, rim: 2.5, well: '#1a0605', rivets: false });
   }, 3);
   LayerCache.draw(ctx, L, -pw / 2, -ph / 2);
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'middle';
-  spacing(ctx, 2);
-  const title = b.title.toUpperCase();
-  fitFont(ctx, title, b.sub ? 17 : 20, pw - 50, 'd');
-  engraved(ctx, title, 0, b.sub ? -6 : 0, '#ffb090', 'rgba(0,0,0,0.9)', 1.6);
-  spacing(ctx, 0);
+  const tl = H.txt(b.title.toUpperCase(), { size: b.sub ? 17 : 20, ls: 2, color: '#ffb090', shadow: 'rgba(0,0,0,0.9)', dy: 1.6, maxW: pw - 50 });
+  blitText(ctx, tl, 0, b.sub ? -6 : 0);
   if (b.sub) {
-    fitFont(ctx, b.sub, 10, pw - 50, 'b', 'normal', 'italic');
-    engraved(ctx, b.sub, 0, 13, '#f3e8c9');
+    const sl = H.txt(b.sub, { size: 10, kind: 'b', weight: 'normal', style: 'italic', color: '#f3e8c9', maxW: pw - 50 });
+    blitText(ctx, sl, 0, 13);
   }
   ctx.globalAlpha = 1;
 }
@@ -482,34 +444,23 @@ function drawBossName(H, ctx, b, W, y) {
   LayerCache.draw(ctx, band, 0, -60);
   const title = b.title.toUpperCase();
   const zoom = 1 + 0.35 * (1 - easeOutCubic(tin));
-  ctx.save();
-  ctx.translate(ww / 2, -12);
-  ctx.scale(zoom, zoom);
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'middle';
-  spacing(ctx, 6);
-  fitFont(ctx, title, 42, ww - 120, 'd');
-  const tw = ctx.measureText(title).width;
-  engraved(ctx, title, 0, 0, '#ffe6d8', 'rgba(0,0,0,0.95)', 3);
+  const tl = H.txt(title, { size: 42, ls: 6, color: '#ffe6d8', shadow: 'rgba(0,0,0,0.95)', dy: 3, maxW: ww - 120 });
+  blitText(ctx, tl, ww / 2, -12, 'center', zoom);
+  const tw = tl.w;
   if (tin < 1) {
+    // white-hot flash on the reveal
+    const fl = H.txt(title, { size: 42, ls: 6, color: '#ffffff', shadow: null, dy: 3, maxW: ww - 120 });
     ctx.globalCompositeOperation = 'lighter';
     ctx.globalAlpha = a * (1 - tin);
-    ctx.fillStyle = '#ffffff';
-    ctx.fillText(title, 0, 0);
+    blitText(ctx, fl, ww / 2, -12, 'center', zoom);
     ctx.globalCompositeOperation = 'source-over';
     ctx.globalAlpha = a;
   }
-  spacing(ctx, 0);
-  ctx.restore();
   if (b.sub) {
     ctx.globalAlpha = a * clamp((b.t - 0.35) / 0.4, 0, 1);
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    spacing(ctx, 1);
-    fitFont(ctx, b.sub, 16, ww - 160, 'b', 'normal', 'italic');
-    const sw = ctx.measureText(b.sub).width;
-    engraved(ctx, b.sub, ww / 2, 28, '#ffcf4a');
-    spacing(ctx, 0);
+    const sl = H.txt(b.sub, { size: 16, kind: 'b', weight: 'normal', style: 'italic', ls: 1, color: '#ffcf4a', maxW: ww - 160 });
+    const sw = sl.w;
+    blitText(ctx, sl, ww / 2, 28);
     const sk = H.cache.get('banSkull', 20, 20, (c) => skull(c, 10, 10, 8), 2);
     for (const sx of [-1, 1]) LayerCache.draw(ctx, sk, ww / 2 + sx * (sw / 2 + 18) - 10, 18);
   }

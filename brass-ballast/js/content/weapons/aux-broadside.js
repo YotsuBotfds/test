@@ -29,7 +29,7 @@ const RIPPLE = 0.05;
 const RANGE = 560;
 const FLANK = 0.4;
 const TMP = { x: 0, y: 0 };
-const SMOKE = { count: 1, alpha: 0.5, life: 1.2, spread: 12, vx: 0, vy: 0 };
+const SMOKE = { count: 1, alpha: 0.38, life: 0.9, spread: 10, vx: 0, vy: 0, color: '#efe8dc', color1: '#b8b0a4' };
 
 function ballTrail(p, w) {
   if (Math.random() < 0.3) w.fx.smokeTrail?.(p.x, p.y, 0.3 * p.scale, TRAIL);
@@ -89,10 +89,13 @@ function fireGun(p, slot, w, i, n, side, evo, pass) {
   o.owner = null;
   d.kick[(side > 0 ? MAX_GUNS : 0) + i] = 1;
   if (onScreen(w, mx, my)) {
-    w.fx.muzzle?.(mx, my, out, evo ? 0.95 : 0.75);
-    SMOKE.vx = Math.cos(out) * 40 + p.vx * 0.5;
-    SMOKE.vy = Math.sin(out) * 40 + p.vy * 0.5;
-    w.fx.smoke?.(mx, my, evo ? 0.6 : 0.45, SMOKE);
+    w.fx.muzzle?.(mx, my, out, evo ? 0.8 : 0.62);
+    // A puff of white gunsmoke from every other port, blown clear of the hull.
+    if ((i & 1) === 0) {
+      SMOKE.vx = Math.cos(out) * 110 + p.vx * 0.6;
+      SMOKE.vy = Math.sin(out) * 110 + p.vy * 0.6;
+      w.fx.smoke?.(mx + Math.cos(out) * 10, my + Math.sin(out) * 10, evo ? 0.5 : 0.4, SMOKE);
+    }
   }
 }
 
@@ -147,7 +150,7 @@ function drawGuns(ctx, p, slot, n, sprite, evo) {
       const k = d.kick[(side > 0 ? MAX_GUNS : 0) + i] || 0;
       const rx = g.x - c * k * 4;
       const ry = g.y - sn * k * 4;
-      Sprites.draw(ctx, sprite, rx, ry, out, 1);
+      Sprites.draw(ctx, sprite, rx, ry, out, evo ? 0.92 : 0.85);
       if (k > 0.35) {
         const L = evo ? 20 : 15;
         glowAt(ctx, 'aux_glow_fire', rx + c * L, ry + sn * L, (evo ? 12 : 9) * k, 0.8 * k);
@@ -222,7 +225,7 @@ export const ShipOfTheLine = {
     const grand = ((d.volleys + 1) % 4) === 0;
     startVolley(p, slot, w, true, Math.min(MAX_GUNS, EVO_PER_SIDE + extraProj(p)), grand ? 2 : 1);
     if (grand) {
-      w.fx.flare?.(p.x, p.y, 70, '#ffcf8a', 0.2);
+      w.fx.ring?.(p.x, p.y, 90, '#ffcf8a', 0.35, { width: 3 });
       w.floatText(p.x, p.y - 44, 'FULL BROADSIDE!', { color: '#ffcf4a', size: 14, life: 0.8 });
     }
     stepVolley(p, slot, 0, w, true);

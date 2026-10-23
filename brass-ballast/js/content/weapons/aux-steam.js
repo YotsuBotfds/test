@@ -61,13 +61,20 @@ function puffs(p, d, dt, w, R, rate, big) {
 
 function drawRing(ctx, p, R, alphaA, alphaB, t, warm) {
   const s = (R / 54) * 1.02;
+  // Faint scald tint over the whole area so the zone reads at a glance.
+  ctx.globalAlpha = warm ? 0.1 : 0.07;
+  ctx.fillStyle = warm ? '#ffe2cc' : '#eef8ff';
+  ctx.beginPath();
+  ctx.arc(p.x, p.y, R, 0, TAU);
+  ctx.fill();
+  ctx.globalAlpha = 1;
   if (warm) glowAt(ctx, 'aux_glow_fire', p.x, p.y, R * 0.85, 0.12 + 0.04 * Math.sin(t * 2.3));
   Sprites.draw(ctx, 'aux_steam_ring', p.x, p.y, t * 0.55, s, alphaA);
   Sprites.draw(ctx, 'aux_steam_ring', p.x, p.y, -t * 0.85 + 1.3, s * 0.93, alphaB);
   // A crisp rim so the danger edge reads on bright skies.
-  ctx.globalAlpha = 0.16 + 0.06 * Math.sin(t * 4);
+  ctx.globalAlpha = 0.32 + 0.1 * Math.sin(t * 4);
   ctx.strokeStyle = warm ? '#ffe6d0' : '#f4f1ea';
-  ctx.lineWidth = 2;
+  ctx.lineWidth = 2.5;
   ctx.setLineDash([R * 0.18, R * 0.12]);
   ctx.lineDashOffset = -t * 30;
   ctx.beginPath();
@@ -125,7 +132,7 @@ export const SteamVents = {
   drawUnder(ctx, p, slot) {
     const d = slot.data;
     const R = lv(RADIUS, slot.level) * areaScale(p);
-    drawRing(ctx, p, R, 0.34, 0.22, p.t, false);
+    drawRing(ctx, p, R, 0.6, 0.42, p.t, false);
     if (d.pulse > 0) {
       ctx.globalAlpha = d.pulse * 0.5;
       ctx.strokeStyle = '#ffffff';
@@ -148,6 +155,7 @@ const GEYSER_DMG = 34;
 const GEYSER_R = 56;
 
 let shredTick = 1;
+const GEYSER_FX = { palette: 'steam', debris: false, cogs: 0, smoke: false, lowSmoke: false, embers: false };
 
 /** Armor shred: multiply dmgTakenMult while inside; restore when they leave or on remove. */
 function shred(p, slot, w, R) {
@@ -227,7 +235,7 @@ export const ScaldingNimbus = {
       visual: false, sound: false, element: 'steam', knockback: 200, falloff: 0.2,
     });
     w.fx.steamBurst?.(e.x, e.y, r / 45, 14);
-    w.fx.explosion?.(e.x, e.y, 0.6, { palette: 'steam', debris: false, cogs: 0 });
+    w.fx.explosion?.(e.x, e.y, 0.6, GEYSER_FX);
     w.sfx('steam_vent', e.x, e.y, { vol: 0.6, pitch: 1.3 });
     d.flare = 1;
   },
@@ -235,8 +243,8 @@ export const ScaldingNimbus = {
   drawUnder(ctx, p, slot) {
     const d = slot.data;
     const R = EVO_R * areaScale(p);
-    drawRing(ctx, p, R, 0.4 + 0.15 * d.flare, 0.3, p.t, true);
-    drawRing(ctx, p, R * 0.62, 0.22, 0.16, -p.t * 1.4, true);
+    drawRing(ctx, p, R, 0.62 + 0.2 * d.flare, 0.45, p.t, true);
+    drawRing(ctx, p, R * 0.62, 0.3, 0.22, -p.t * 1.4, true);
   },
 
   draw(ctx, p, slot) {

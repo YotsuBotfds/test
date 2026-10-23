@@ -52,7 +52,7 @@ export function drawFurnace(ctx, b, w) {
   // 1. Heat bloom beneath everything.
   ctx.globalCompositeOperation = 'lighter';
   const bloom = (0.32 + 0.12 * pulse + heat * 0.25 + nova * 0.3 - vented * 0.2) * (1 - implode * 0.5);
-  glow(ctx, x, y, 760 * s * (1 + 0.04 * pulse), GLOW.orange, bloom * alpha);
+  glow(ctx, x, y, 640 * s * (1 + 0.04 * pulse), GLOW.orange, bloom * alpha);
   if (heat > 0) glow(ctx, x, y, 520 * s, GLOW.hot, heat * 0.35 * alpha);
   ctx.globalCompositeOperation = 'source-over';
 
@@ -85,7 +85,7 @@ export function drawFurnace(ctx, b, w) {
   const fk = f - f0;
   const crot = d.coreRot || 0;
   Sprites.draw(ctx, 'boss_sunFurnace_core', x, y, crot, coreScale, alpha, f0);
-  Sprites.draw(ctx, 'boss_sunFurnace_core', x, y, crot, coreScale, fk * alpha, (f0 + 1) % 3);
+  if (fk > 0.02) Sprites.draw(ctx, 'boss_sunFurnace_core', x, y, crot, coreScale, fk * alpha, (f0 + 1) % 3);
   const hot = clamp(heat * (0.55 + 0.45 * pulse) + nova * 0.8 + implode, 0, 1);
   if (hot > 0.01) {
     const hf = (time * 0.6) % 2;
@@ -196,7 +196,7 @@ function drawLanes(ctx, b, L, time) {
   const n = L.count;
   const half = L.half;
   const r0 = GEO.R + 16;
-  const r1 = 900;
+  const r1 = 720;
   ctx.globalCompositeOperation = 'lighter';
   for (let i = 0; i < n; i++) {
     const a = L.a + (i / n) * TAU;

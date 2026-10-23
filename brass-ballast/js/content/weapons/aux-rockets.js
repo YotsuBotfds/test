@@ -4,7 +4,7 @@
 
 import { Sprites } from '../../gfx/sprites.js';
 import {
-  dmgScale, cdScale, areaScale, durScale, extraProj, lv, ready, nearestN, mount, glowAt,
+  dmgScale, cdScale, areaScale, durScale, extraProj, lv, ready, nearestN, mount, glowAt, boom,
 } from './aux-common.js';
 
 const SRC = 'aux:rocketPods';
@@ -25,7 +25,7 @@ const LEVELS = [
 ];
 
 const POD_FX = 0.27;
-const POD_FY = 0.62;
+const POD_FY = 0.56;
 const RIPPLE = 0.09;
 const RIPPLE_EVO = 0.045;
 
@@ -39,14 +39,16 @@ function rocketTrail(p, w) {
   const bx = p.x - Math.cos(a) * 10 * p.scale;
   const by = p.y - Math.sin(a) * 10 * p.scale;
   const big = p.source === SRC_EVO;
-  w.fx.smokeTrail?.(bx, by, (big ? 0.55 : 0.4) * p.scale, big ? SMOKE_BIG : SMOKE);
   w.fx.trail?.(bx, by, big ? '#ff7a2f' : '#ffb347', 9 * p.scale, 0.12);
+  // Smoke on every other trail tick keeps the overdraw sane with many rockets aloft.
+  p._auxTrail = (p._auxTrail | 0) + 1;
+  if (p._auxTrail & 1) w.fx.smokeTrail?.(bx, by, (big ? 0.5 : 0.38) * p.scale, big ? SMOKE_BIG : SMOKE);
 }
 
 // Reused fire options (world.fire copies scalars; explode/burn objects are read-only here).
-const EXPL = { radius: 40, damage: 16, falloff: 0.4, visual: 'small', sound: 'explode_small', shake: 0.04, knockback: 90 };
+const EXPL = { radius: 40, damage: 16, falloff: 0.4, visual: false, sound: false, shake: 0.04, knockback: 90 };
 const EXPL_EVO = {
-  radius: 80, damage: 30, falloff: 0.3, visual: 'medium', sound: 'explode_medium', shake: 0.09,
+  radius: 80, damage: 30, falloff: 0.3, visual: false, sound: false, shake: 0.09,
   knockback: 200, burn: { dps: 10, time: 3 },
 };
 const ROCKET = {
@@ -56,7 +58,10 @@ const ROCKET = {
   scale: 1, knockback: 40, onHit: null, onExpire: null,
 };
 
-function clusterBurst(p, w) {
+/** Rocket impact/expiry: capped visual burst, then cluster bomblets at L5. */
+function rocketBurst(p, w) {
+  const r = p.explode?.radius ?? 40;
+  boom(w, p.x, p.y, r, 'fire', r >= 52 ? 'explode_medium' : 'explode_small');
   if (!p.data?.cluster) return;
   const n = p.data.cluster;
   const owner = p.owner;
@@ -75,6 +80,7 @@ function clusterBurst(p, w) {
 
 function hellPatch(p, w) {
   const d = p.data;
+  boom(w, p.x, p.y, p.explode?.radius ?? 80, 'fire', 'explode_medium', true);
   const slot = d?.slot;
   if (!slot || slot.data.patches >= 14) return;
   const owner = p.owner;
@@ -88,8 +94,8 @@ function hellPatch(p, w) {
   });
 }
 
-function clusterHit(p, target, w) {
-  clusterBurst(p, w);
+function rocketHit(p, target, w) {
+  rocketBurst(p, w);
 }
 
 function hellHit(p, target, w) {
@@ -99,7 +105,7 @@ function hellHit(p, target, w) {
 function patchFx(h, dt, w) {
   h.data.fx -= dt;
   if (h.data.fx <= 0) {
-    h.data.fx = 0.07;
+    h.data.fx = 0.13;
     const a = Math.random() * Math.PI * 2;
     const r = Math.random() * h.r * 0.8;
     w.fx.burn?.(h.x + Math.cos(a) * r, h.y + Math.sin(a) * r, 0.8 + h.r / 80);
@@ -130,7 +136,7 @@ function launch(p, slot, w, evo) {
   const area = areaScale(p);
   const side = d.side;
   d.side = -d.side;
-  const m = mount(p, evo ? POD_FX - 0.02 : POD_FX, (evo ? 0.66 : POD_FY) * side, TMP);
+  const m = mount(p, evo ? POD_FX - 0.02 : POD_FX, (evo ? 0.6 : POD_FY) * side, TMP);
   const k = d.fired++;
   const t = TGT[k % Math.max(1, TGT.length)] || null;
   const o = ROCKET;
@@ -150,8 +156,8 @@ function launch(p, slot, w, evo) {
   o.scale = (evo ? 1.3 : 1) * Math.sqrt(area);
   o.r = 6 * o.scale;
   o.glow = evo ? '#ff7a2f' : '#ffb347';
-  o.onHit = evo ? hellHit : d.cluster ? clusterHit : null;
-  o.onExpire = evo ? hellPatch : d.cluster ? clusterBurst : null;
+  o.onHit = evo ? hellHit : rocketHit;
+  o.onExpire = evo ? hellPatch : rocketBurst;
   o.data = evo ? { slot, patchDmg: d.patchDmg } : d.cluster ? { cluster: d.cluster, cluster2: d.clusterDmg } : null;
   w.fire(o);
   o.owner = null;
@@ -216,7 +222,6 @@ export const RocketPods = {
     const dmg = lv(DMG, i) * sc;
     EXPL.radius = lv(AOE, i) * area;
     EXPL.damage = dmg;
-    EXPL.visual = EXPL.radius >= 52 ? 'medium' : 'small';
     d.direct = dmg * 0.5; // blast does the heavy lifting
     d.cluster = lv(CLUSTER, i);
     d.clusterDmg = dmg * 0.4;
@@ -291,12 +296,12 @@ export const Hellfire = {
 
   draw(ctx, p, slot) {
     const d = slot.data;
-    drawPods(ctx, p, slot, 'aux_pod_hell', POD_FX - 0.02, 0.66, 1);
+    drawPods(ctx, p, slot, 'aux_pod_hell', POD_FX - 0.02, 0.6, 1);
     // Heat shimmer on the pods while reloading.
     const heat = slot.cdMax ? Math.max(0, slot.cd) / slot.cdMax : 0;
     if (heat > 0.05 && !d.queue) {
       for (let s = -1; s <= 1; s += 2) {
-        const m = mount(p, POD_FX - 0.06, 0.66 * s, TMP, true);
+        const m = mount(p, POD_FX - 0.06, 0.6 * s, TMP, true);
         glowAt(ctx, 'aux_glow_fire', m.x, m.y, 12, 0.35 * heat * (0.7 + 0.3 * Math.sin(p.t * 20)));
       }
     }

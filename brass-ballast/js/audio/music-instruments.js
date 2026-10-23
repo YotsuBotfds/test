@@ -44,7 +44,7 @@ function makeNoise(ctx, secs) {
 }
 
 /** Stereo reverb impulse: exponentially decaying noise with a soft pre-delay and darkening tail. */
-export function reverbImpulse(ctx, secs = 1.9) {
+export function reverbImpulse(ctx, secs = 1.4) {
   const r = resources(ctx);
   if (r.impulse) return r.impulse;
   const sr = ctx.sampleRate;
@@ -277,7 +277,7 @@ function pizz(r, t, midi, dur, vel, chan) {
   lp.frequency.exponentialRampToValueAtTime(Math.max(f * 1.2, 120), t + 0.18);
   const g = gain(ctx);
   const dec = clamp(0.55 - (midi - 48) * 0.006, 0.18, 0.6);
-  const end = perc(g.gain, t, vel * 0.42, 0.004, dec);
+  const end = perc(g.gain, t, vel * 0.36, 0.004, dec);
   a.connect(lp).connect(g).connect(chan.input);
   a.stop(end);
   done(a, [a, lp, g]);
@@ -438,7 +438,7 @@ function hat(r, t, midi, dur, vel, chan, v) {
   const n = noiseSrc(r, t);
   const f = chan.opt.shaker ? filter(ctx, 'bandpass', 6200, 1.1) : filter(ctx, 'highpass', 7200, 0.6);
   const g = gain(ctx);
-  const end = perc(g.gain, t, vel * 0.17, chan.opt.shaker ? 0.014 : 0.001, open ? 0.3 : chan.opt.shaker ? 0.06 : 0.045);
+  const end = perc(g.gain, t, vel * 0.24, chan.opt.shaker ? 0.014 : 0.001, open ? 0.3 : chan.opt.shaker ? 0.06 : 0.045);
   n.connect(f).connect(g).connect(chan.input);
   n.stop(end);
   done(n, [n, f, g]);

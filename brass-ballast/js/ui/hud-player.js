@@ -19,6 +19,7 @@ import {
   rivets,
   cog,
   easeOutBack,
+  blitText,
 } from './hud-kit.js';
 
 const MAX_AUX = 4;
@@ -98,9 +99,12 @@ export function updatePlayerView(pv, p, dt, H) {
     if (!c) pv.cd.set(slot.id, (c = { max: 0, prev: slot.cd || 0, readyT: 0, kick: 0 }));
     const cd = +slot.cd || 0;
     const explicit = slot.cdMax ?? slot.period ?? slot.data?.cdMax ?? slot.data?.period;
+    const fired = cd > c.prev + 0.02;
     if (explicit > 0) c.max = explicit;
-    else if (cd > c.prev + 0.02) c.max = cd;
-    if (c.prev > 0.001 && cd <= 0.001) c.readyT = 1;
+    else if (fired) c.max = cd;
+    if (fired && c.max >= 0.8) c.readyT = Math.max(c.readyT, 0.6);
+    // "ready" glint only for weapons with a real wind-up (rapid-fire guns would strobe)
+    if (c.prev > 0.001 && cd <= 0.001 && c.max >= 0.8) c.readyT = 1;
     c.prev = cd;
     c.readyT = Math.max(0, c.readyT - dt * 3);
     c.kick = Math.max(c.kick * Math.exp(-10 * dt), +slot.kick || 0);
@@ -409,16 +413,12 @@ export function drawPlayerPanel(H, ctx, p, pv, run, x, y) {
   ctx.textBaseline = 'middle';
   ctx.textAlign = 'right';
   const hpTxt = H.str('hp' + p.index, Math.ceil(p.hp));
-  ctx.font = font(9, 'b');
-  engraved(ctx, `/ ${maxHp}`, barX + barW - 9, barY + barH / 2 + 1, '#f6e7c2');
-  const w2 = ctx.measureText(`/ ${maxHp}`).width;
+  const maxL = H.txt(H.str('hpMax' + p.index, `/ ${maxHp}`), { size: 9, kind: 'b', color: '#f6e7c2' });
+  blitText(ctx, maxL, barX + barW - 8, barY + barH / 2 + 1, 'right');
   ctx.font = font(14, 'm');
-  engraved(ctx, hpTxt, barX + barW - 12 - w2, barY + barH / 2 + 1, low ? '#ffe0b0' : '#fff6dc');
-  ctx.textAlign = 'left';
-  ctx.font = font(8, 'd');
-  spacing(ctx, 1.5);
-  engraved(ctx, 'HULL', fx0 + 5, barY + barH / 2 + 1, low ? '#ffb3a0' : 'rgba(255,236,200,0.85)');
-  spacing(ctx, 0);
+  engraved(ctx, hpTxt, barX + barW - 11 - maxL.w, barY + barH / 2 + 1, low ? '#ffe0b0' : '#fff6dc');
+  const hullL = H.txt('HULL', { size: 8, ls: 1.5, color: low ? '#ffb3a0' : 'rgba(255,236,200,0.85)' });
+  blitText(ctx, hullL, fx0 + 5, barY + barH / 2 + 1, 'left');
 
   // ---- row 2: bombs + cogs (+ shield / balloon)
   const rowY = barY + barH + 6;
@@ -566,13 +566,9 @@ export function drawPlayerPanel(H, ctx, p, pv, run, x, y) {
     roundRect(ctx, 0, 0, PANEL.w, PANEL.h - 8, 10);
     ctx.fill();
     ctx.globalAlpha = 1;
-    ctx.textAlign = 'center';
-    ctx.font = font(15, 'd');
-    spacing(ctx, 3);
-    engraved(ctx, 'SHIP DOWN', PANEL.w / 2, 26, '#ff8a6a');
-    spacing(ctx, 0);
-    ctx.font = font(9, 'b', 'normal', 'italic');
-    engraved(ctx, 'Your crew will patch her up at wave end', PANEL.w / 2, 46, '#f3e8c9');
+    blitText(ctx, H.txt('SHIP DOWN', { size: 15, ls: 3, color: '#ff8a6a' }), PANEL.w / 2, 26);
+    const sub = H.txt('Your crew will patch her up at wave end', { size: 9, kind: 'b', weight: 'normal', style: 'italic', color: '#f3e8c9' });
+    blitText(ctx, sub, PANEL.w / 2, 46);
   }
 }
 
@@ -622,7 +618,7 @@ function drawSlot(H, ctx, x, y, kind, icon, level, maxLevel, cd, kick, slot) {
   }
   LayerCache.draw(ctx, L, ox, oy, k);
   // cooldown sweep
-  if (cd && cd.max > 0.05 && slot && slot.cd > 0.001) {
+  if (cd && cd.max >= 0.35 && slot && slot.cd > 0.001) {
     const frac = clamp(slot.cd / cd.max, 0, 1);
     const cxp = x + SLOT / 2;
     const cyp = y + SLOT / 2 - 2;
@@ -656,27 +652,26 @@ function drawSlot(H, ctx, x, y, kind, icon, level, maxLevel, cd, kick, slot) {
   // level pips
   const n = Math.min(8, Math.max(1, maxLevel));
   if (kind === 'evo' || n <= 1) {
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.font = font(6.5, 'd');
-    spacing(ctx, 1);
-    engraved(ctx, 'EVO', x + SLOT / 2, y + SLOT - 6.5, '#ffe08a');
-    spacing(ctx, 0);
+    blitText(ctx, H.txt('EVO', { size: 6.5, ls: 1, color: '#ffe08a' }), x + SLOT / 2, y + SLOT - 6.5);
     return;
   }
   const gap = n > 5 ? 4.6 : 6.4;
   const r = n > 5 ? 1.6 : 2;
-  const px0 = x + SLOT / 2 - ((n - 1) * gap) / 2;
-  const py = y + SLOT - 6.5;
-  ctx.fillStyle = 'rgba(10,6,2,0.85)';
-  roundRect(ctx, px0 - r - 2, py - r - 1.5, (n - 1) * gap + r * 2 + 4, r * 2 + 3, r + 1.5);
-  ctx.fill();
-  for (let i = 0; i < n; i++) {
-    ctx.beginPath();
-    ctx.arc(px0 + i * gap, py, r, 0, TAU);
-    ctx.fillStyle = i < level ? (kind === 'primary' ? '#ffb070' : '#ffd36b') : '#3a2a18';
-    ctx.fill();
-  }
+  const pw = (n - 1) * gap + r * 2 + 4;
+  const ph = r * 2 + 3;
+  const lv = Math.min(level, n);
+  const pips = H.cache.get(`pips${n}_${lv}_${kind}`, pw, ph, (c) => {
+    c.fillStyle = 'rgba(10,6,2,0.85)';
+    roundRect(c, 0, 0, pw, ph, r + 1.5);
+    c.fill();
+    for (let i = 0; i < n; i++) {
+      c.beginPath();
+      c.arc(r + 2 + i * gap, ph / 2, r, 0, TAU);
+      c.fillStyle = i < lv ? (kind === 'primary' ? '#ffb070' : '#ffd36b') : '#3a2a18';
+      c.fill();
+    }
+  }, 1);
+  LayerCache.draw(ctx, pips, x + SLOT / 2 - pw / 2, y + SLOT - 6.5 - ph / 2);
 }
 
 /**
@@ -749,11 +744,8 @@ export function drawXpBar(H, ctx, run, x, y, w) {
   }
   // labels
   ctx.textBaseline = 'middle';
-  ctx.textAlign = 'left';
-  ctx.font = font(7, 'd');
-  spacing(ctx, 2);
-  engraved(ctx, 'AETHER', fx0 + 14, h / 2 + 0.5, 'rgba(225,255,250,0.9)', 'rgba(0,20,20,0.9)', 1);
-  spacing(ctx, 0);
+  const aeL = H.txt('AETHER', { size: 7, ls: 2, color: '#eafffd', shadow: null, outline: 'rgba(0,38,36,0.9)' });
+  blitText(ctx, aeL, fx0 + 14, h / 2 + 0.5, 'left');
   ctx.textAlign = 'right';
   ctx.font = font(8, 'm');
   engraved(ctx, H.str('xpTxt', `${Math.floor(run.xp)} / ${run.xpNext}`), bx + bw - 8, h / 2 + 0.5, 'rgba(225,255,250,0.9)', 'rgba(0,20,20,0.9)', 1);
@@ -809,24 +801,27 @@ export function drawMiniPanel(H, ctx, p, pv, x, y) {
   LayerCache.draw(ctx, frame, 0, 0);
   const s = p.stats || {};
   const col = p.color || '#7ff3ff';
-  // player badge
-  ctx.beginPath();
-  ctx.arc(20, h / 2, 12, 0, TAU);
-  ctx.fillStyle = metalRadial(ctx, 20, h / 2, 12, 'brass');
-  ctx.fill();
-  ctx.lineWidth = 1;
-  ctx.strokeStyle = INK;
-  ctx.stroke();
-  ctx.beginPath();
-  ctx.arc(20, h / 2, 8.5, 0, TAU);
-  ctx.fillStyle = col;
-  ctx.fill();
-  ctx.stroke();
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'middle';
-  ctx.font = font(9, 'd');
-  ctx.fillStyle = '#1a120a';
-  ctx.fillText(`P${p.index + 1}`, 20, h / 2 + 0.5);
+  // player badge (brass ring + player colour + number), cached per player
+  const badge = H.cache.get(`miniBadge${p.index}${col}`, 26, 26, (c) => {
+    c.beginPath();
+    c.arc(13, 13, 12, 0, TAU);
+    c.fillStyle = metalRadial(c, 13, 13, 12, 'brass');
+    c.fill();
+    c.lineWidth = 1;
+    c.strokeStyle = INK;
+    c.stroke();
+    c.beginPath();
+    c.arc(13, 13, 8.5, 0, TAU);
+    c.fillStyle = col;
+    c.fill();
+    c.stroke();
+    c.textAlign = 'center';
+    c.textBaseline = 'middle';
+    c.font = font(9, 'd');
+    c.fillStyle = '#1a120a';
+    c.fillText(`P${p.index + 1}`, 13, 13.5);
+  }, 2);
+  LayerCache.draw(ctx, badge, 7, h / 2 - 13);
   const g = G(ctx);
   const bx = 38;
   const bw = w - bx - 10;
@@ -885,13 +880,9 @@ export function drawMiniPanel(H, ctx, p, pv, x, y) {
     roundRect(ctx, 3, 3, w - 6, h - 6, 6);
     ctx.fill();
     ctx.globalAlpha = 1;
-    ctx.textAlign = 'center';
-    ctx.font = font(11, 'd');
-    spacing(ctx, 2);
-    engraved(ctx, 'DOWN', w / 2 + 10, h / 2 - 4, '#ff8a6a');
-    spacing(ctx, 0);
-    ctx.font = font(7, 'b', 'normal', 'italic');
-    engraved(ctx, 'revives at wave end', w / 2 + 10, h / 2 + 9, '#f3e8c9');
+    blitText(ctx, H.txt('DOWN', { size: 11, ls: 2, color: '#ff8a6a' }), w / 2 + 10, h / 2 - 4);
+    const sub = H.txt('revives at wave end', { size: 7, kind: 'b', weight: 'normal', style: 'italic', color: '#f3e8c9' });
+    blitText(ctx, sub, w / 2 + 10, h / 2 + 9);
   }
 }
 

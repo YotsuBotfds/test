@@ -59,9 +59,10 @@ export const pick = (r, arr) => arr[Math.floor(r() * arr.length) % arr.length];
  * Key context. `d` is a diatonic index (0 = tonic, 7 = tonic an octave up, -1 = leading tone below).
  * @param {string} key e.g. 'D', 'Bb'
  * @param {string} mode key of MODES
+ * @param {number} [shift] semitone transposition (key "lifts")
  */
-export function makeKey(key, mode = 'major') {
-  const pc = PC[key] ?? 0;
+export function makeKey(key, mode = 'major', shift = 0) {
+  const pc = mod((PC[key] ?? 0) + shift, 12);
   const scale = MODES[mode] || MODES.major;
   const inScale = new Array(12).fill(false);
   for (const s of scale) inScale[(pc + s) % 12] = true;

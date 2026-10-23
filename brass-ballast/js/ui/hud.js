@@ -18,6 +18,7 @@ import {
   HudSparks,
   groupDigits,
   glowDot,
+  textLayer,
   TAU,
 } from './hud-kit.js';
 import {
@@ -46,12 +47,14 @@ import { bannerVariant, drawBanner, updateBanner } from './hud-banner.js';
 const LOADOUT_W = SLOT + 12 + 4 * (SLOT + 6) - 6;
 const XP_H = 16;
 const MAX_POINTERS = 10;
+const EMPTY = Object.freeze([]);
 
 export class HUD {
   /** @param {*} game */
   constructor(game) {
     this.game = game;
     this.cache = new LayerCache();
+    this.tcache = new LayerCache(240); // text layers (values churn; kept apart from brass)
     this.safe = new SafeArea();
     this.sparks = new HudSparks(140);
     this.s = 1;
@@ -130,6 +133,7 @@ export class HUD {
     const g = this.game;
     this.t += dt;
     const paused = g.state === 'paused';
+    if (this._cursorHidden && g.state !== 'playing') this._setCursor(false, g.renderer);
     if (g.run !== this._run) this._resetRun(false);
     const run = g.run;
     const world = g.world;
@@ -148,7 +152,7 @@ export class HUD {
     this.sparks.update(paused ? 0 : dt);
 
     // players
-    const players = world.players;
+    const players = world.players || EMPTY;
     for (let i = 0; i < players.length; i++) {
       const p = players[i];
       let v = this.pv[i];
@@ -206,12 +210,13 @@ export class HUD {
     X.spinV *= Math.exp(-2.5 * dt);
 
     // bosses (views linger briefly after death for the "DESTROYED" fade)
-    for (const b of world.bosses) {
-      if (!this.bossViews.has(b)) this.bossViews.set(b, makeBossView(b));
+    const bosses = world.bosses || EMPTY;
+    for (const b of bosses) {
+      if (b && !this.bossViews.has(b)) this.bossViews.set(b, makeBossView(b));
     }
     for (const [b, v] of this.bossViews) {
       updateBossView(v, dt);
-      const gone = !world.bosses.includes(b) || !b.alive;
+      const gone = !bosses.includes(b) || !b.alive;
       if (gone && v.deadT <= 0) v.deadT = 0.0001;
       if (v.deadT > 1.5) this.bossViews.delete(b);
     }
@@ -233,7 +238,7 @@ export class HUD {
     ctx.globalCompositeOperation = 'source-over';
     ctx.imageSmoothingEnabled = true;
     this._sharedLayers();
-    const players = world.players;
+    const players = world.players || EMPTY;
     const p0 = players[0];
     const focus = p0 || renderer.camera;
 
@@ -324,6 +329,11 @@ export class HUD {
       e.s = group ? groupDigits(value) : String(value);
     }
     return e.s;
+  }
+
+  /** Cached engraved text layer (see hud-kit textLayer). */
+  txt(text, opts) {
+    return textLayer(this.tcache, text, opts);
   }
 
   plaqueInfo(run, st) {
@@ -461,16 +471,6 @@ export class HUD {
       x.fillStyle = gr;
       x.fillRect(0, 0, 60, 20);
     });
-    this.drumShade = c.get('drumShade', 20, 23, (x) => {
-      const gr = x.createLinearGradient(0, 0, 0, 23);
-      gr.addColorStop(0, 'rgba(0,0,0,0.85)');
-      gr.addColorStop(0.28, 'rgba(0,0,0,0)');
-      gr.addColorStop(0.42, 'rgba(255,240,200,0.08)');
-      gr.addColorStop(0.72, 'rgba(0,0,0,0)');
-      gr.addColorStop(1, 'rgba(0,0,0,0.85)');
-      x.fillStyle = gr;
-      x.fillRect(0, 0, 20, 23);
-    });
   }
 
   /** Recompute positions when the screen, scale, device or player count changes. */
@@ -495,6 +495,7 @@ export class HUD {
     const s = clamp(Math.min(W, H) / 720, 0.7, 1.35);
     this.s = s;
     this.cache.setPx(s * dpr);
+    this.tcache.setPx(s * dpr);
     const m = 10 * s;
     const gap = 12 * s;
     const left = sa.l + (touch ? Math.max(66, m) : m);
@@ -640,33 +641,34 @@ export class HUD {
     const out = this._ptrs;
     const pool = this._ptrPool;
     while (out.length) pool.push(out.pop());
-    const add = (kind, x, y, dist) => {
+    const add = (kind, x, y, dist, r = 0) => {
       if (out.length >= MAX_POINTERS) return;
       const it = pool.pop() || {};
       it.kind = kind;
       it.x = x;
       it.y = y;
       it.dist = dist;
+      it.r = r;
       out.push(it);
     };
     const fx = focus.x;
     const fy = focus.y;
-    for (const b of world.bosses) {
-      if (b.alive) add('boss', b.x, b.y, Math.hypot(b.x - fx, b.y - fy));
+    for (const b of world.bosses || EMPTY) {
+      if (b.alive) add('boss', b.x, b.y, Math.hypot(b.x - fx, b.y - fy), b.r || 80);
     }
     // nearest few elites
     const el = this._elites;
     el.length = 0;
-    for (const e of world.enemies) {
+    for (const e of world.enemies || EMPTY) {
       if (e.alive && e.elite && !e.parent && !e.isBoss) el.push(e);
     }
     if (el.length > 5) el.sort((a, b) => (a.x - fx) ** 2 + (a.y - fy) ** 2 - ((b.x - fx) ** 2 + (b.y - fy) ** 2));
-    for (let i = 0; i < Math.min(5, el.length); i++) add('elite', el[i].x, el[i].y, 0);
+    for (let i = 0; i < Math.min(5, el.length); i++) add('elite', el[i].x, el[i].y, 0, el[i].r || 0);
     let crates = 0;
-    for (const p of world.pickups) {
+    for (const p of world.pickups || EMPTY) {
       if (crates >= 3) break;
       if (p.alive && p.type === 'crate') {
-        add('crate', p.x, p.y, 0);
+        add('crate', p.x, p.y, 0, 16);
         crates++;
       }
     }
@@ -689,13 +691,15 @@ export class HUD {
       }
     }
     // the brass sight replaces the OS cursor over the playfield
-    if (show !== this._cursorHidden) {
-      this._cursorHidden = show;
-      try {
-        if (renderer.canvas?.style) renderer.canvas.style.cursor = show ? 'none' : '';
-      } catch {
-        /* ignore */
-      }
+    if (show !== this._cursorHidden) this._setCursor(show, renderer);
+  }
+
+  _setCursor(hidden, renderer) {
+    this._cursorHidden = hidden;
+    try {
+      if (renderer?.canvas?.style) renderer.canvas.style.cursor = hidden ? 'none' : '';
+    } catch {
+      /* ignore */
     }
   }
 }

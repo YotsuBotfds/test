@@ -36,7 +36,8 @@ const approach = (v, t, step) => (v < t ? Math.min(t, v + step) : Math.max(t, v 
 
 const P2_AT = 0.65;
 const P3_AT = 0.3;
-const SHELL_SPLASH = 0.5; // non-projectile damage multiplier while the shell is closed
+const SHELL_SPLASH = 0.4; // non-projectile damage multiplier while the shell is closed
+const NOVA_AT = 0.15; // the climactic supernova is forced once when phase 3 crosses this
 const VENT_BONUS = 1.25;
 const VENTED_BONUS = 1.4;
 const ESCORTS = ['ornithopter', 'steamWraith', 'frigate', 'clockWasp', 'gunboat'];
@@ -44,6 +45,9 @@ const MAX_ESCORTS_ALIVE = 2;
 const MAX_ESCORTS_TOTAL = 8;
 const INTRO_TIME = 3.2;
 const DYING_TIME = 1.7;
+const ELLIPSE_X = 500; // preferred station around the player (world units)
+const ELLIPSE_Y = 330;
+const FIGHT_ZOOM = 0.8; // camera baseZoomMul while the colossus is up (engine default 0.88)
 
 // ---- taunts --------------------------------------------------------------------------------
 
@@ -117,19 +121,28 @@ function move(b, dt, w) {
   let ty = b.y;
   let maxSp = 0;
   if (p && !d.anchored && !d.dying) {
-    const dx = p.x - b.x;
-    const dy = p.y - b.y;
+    const dx = b.x - p.x;
+    const dy = b.y - p.y;
     const dist = Math.hypot(dx, dy) || 1;
-    const want = d.intro > 0 ? 420 : [440, 420, 400][b.phase] ?? 420;
     if (d.intro > 0) {
       // Descend into frame above the player.
       tx = p.x;
-      ty = p.y - want;
-      maxSp = 260;
-    } else if (dist > want + 60) {
-      tx = p.x - (dx / dist) * want;
-      ty = p.y - (dy / dist) * want;
-      maxSp = dist > 1100 ? 260 : 46 + b.phase * 10;
+      ty = p.y - 330;
+      maxSp = 280;
+    } else {
+      // Hold station on a screen-shaped ellipse around the player (wide, short), so the
+      // colossus stays framed however the player kites; the bearing drifts with the player.
+      let th = Math.atan2(dy / ELLIPSE_Y, dx / ELLIPSE_X);
+      // Ease round toward the wide sides of the screen, where the whole colossus fits in view.
+      const sn = Math.sin(th);
+      if (Math.abs(sn) > 0.45) th += (Math.cos(th) >= 0 ? -1 : 1) * Math.sign(sn) * 0.5;
+      const k = 1 - 0.06 * b.phase;
+      tx = p.x + Math.cos(th) * ELLIPSE_X * k;
+      ty = p.y + Math.sin(th) * ELLIPSE_Y * k;
+      const off = Math.hypot(tx - b.x, ty - b.y);
+      // Only chase when the player pulls away; never shove into a player who closes in.
+      const outside = Math.hypot(dx / (ELLIPSE_X * k), dy / (ELLIPSE_Y * k)) > 1.02;
+      maxSp = dist > 1100 ? 300 : outside && off > 260 ? 120 : 52;
     }
   }
   const ddx = tx - b.x;
@@ -288,7 +301,7 @@ function updateShatter(b, tr, dt, w) {
     shove(w, b, R + 360, 520);
     d.transition = null;
     d.rest = 1.4;
-    d.escortT = 0.5;
+    d.escortT = 16;
     w.after(1.2, () => {
       if (b.alive && !b.data.dying) summonEscorts(b, w, 2);
     });
@@ -579,6 +592,10 @@ function onDeath(b, w) {
   d.novaCharge = 0;
   d.lanes = null;
   clearHazards(b);
+  // The dead boss gets no more updates; a harmless hazard keeps its flying debris moving.
+  if (d.debris.length) {
+    w.addHazard({ x: b.x, y: b.y, r: 1, team: 'player', damage: 0, life: 2.4, update: (h, dt, wd) => updateDebris(b, dt, wd), draw: () => {} });
+  }
   const x = b.x;
   const y = b.y;
   const reduced = Save.settings?.flashes === false;
@@ -689,6 +706,9 @@ const SUN_FURNACE = {
       return;
     }
     animate(b, dt);
+    // Frame the colossus: wider than the engine's default boss zoom (set after intro()).
+    const cam = w.game?.camera;
+    if (cam && cam.baseZoomMul > FIGHT_ZOOM) cam.baseZoomMul = FIGHT_ZOOM;
     move(b, dt, w);
     updateDebris(b, dt, w);
     ambience(b, dt, w);
@@ -718,6 +738,12 @@ const SUN_FURNACE = {
       d.midTaunt = true;
       taunt(b, w, 'phase', 1);
     }
+    if (b.phase === 2 && !d.novaCount && b.hp <= b.maxHp * NOVA_AT + 1 && d.atk?.name !== 'supernova') {
+      cancelAttack(b, w);
+      const a = { name: 'supernova', t: 0 };
+      d.atk = a;
+      ATTACKS.supernova.start(b, a, w);
+    }
     updateEscorts(b, dt, w);
     updateAttacks(b, dt, w);
   },
@@ -725,13 +751,14 @@ const SUN_FURNACE = {
   /** Phase floors (no skipping transitions), shell splash reduction, vent bonuses, meltdown. */
   modifyDamage(b, amt, info) {
     const d = b.data;
-    if (d.dying || d.transition || d.intro > 0) return 0;
+    if (d.dying || d.transition || d.intro > 0 || d.novaCharge > 0) return 0;
     let a = amt;
     if (d.shellUp && !info.projectile) a *= SHELL_SPLASH;
     if (d.vent > 0.5) a *= VENT_BONUS;
     if (d.vented > 0) a *= VENTED_BONUS;
     if (b.phase === 0) a = Math.min(a, Math.max(0, b.hp - b.maxHp * P2_AT));
     else if (b.phase === 1) a = Math.min(a, Math.max(0, b.hp - b.maxHp * P3_AT));
+    else if (!d.novaCount) a = Math.min(a, Math.max(0, b.hp - b.maxHp * NOVA_AT));
     else if (b.hp - a <= 0) {
       a = Math.max(0, b.hp - 1);
       d.dying = { t: 0, dur: DYING_TIME, started: false };

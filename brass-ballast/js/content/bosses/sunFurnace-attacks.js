@@ -56,7 +56,9 @@ function slag(w, b, x, y, angle, speed, o = {}) {
     team: 'enemy',
     owner: b,
     source: 'enemy',
-    kind: o.kind || 'slag',
+    sprite: o.sprite || 'boss_sunFurnace_shot',
+    frame: o.kind === 'orb' ? 1 : 0,
+    glow: o.glow ?? (o.kind === 'orb' ? '#ff3d8b' : '#ff6a1f'),
     x,
     y,
     angle,
@@ -67,7 +69,6 @@ function slag(w, b, x, y, angle, speed, o = {}) {
     scale: o.scale ?? 1,
     spin: o.spin ?? 5,
     trail: o.trail,
-    glow: o.glow,
     homing: o.homing,
     homingDelay: o.homingDelay,
     homingRange: o.homingRange,
@@ -612,6 +613,7 @@ export const ATTACKS = {
           const c = cruciblePos(b, i);
           const aim = p ? Math.atan2(p.y - c.y, p.x - c.x) : GEO.ARMS[i];
           slag(w, b, c.x, c.y, aim + (Math.random() - 0.5) * 0.5, 172, {
+            sprite: 'eb_slag',
             r: 11,
             scale: 1.9,
             damage: 13,
@@ -747,9 +749,16 @@ export const ATTACKS = {
       // Bullets are sucked back into the core: the field is clear to reach shelter.
       w.clearEnemyBullets(b.x, b.y, Infinity, false);
       w.fx.ring?.(b.x, b.y, GEO.R, '#fff3c4', 0.6, { r0: 700, width: 6 });
+      // Shelter: off to one side of the player's bearing (a short dash away) and on screen.
       const side = Math.random() < 0.5 ? -1 : 1;
-      const th = (p ? bearing(b, p) : Math.PI / 2) + side * (0.45 + Math.random() * 0.4);
-      a.pocket = { x: b.x + Math.cos(th) * 360, y: b.y + Math.sin(th) * 360, r: 105 };
+      const base = p ? bearing(b, p) : Math.PI / 2;
+      a.pocket = { x: b.x, y: b.y, r: 105 };
+      for (const spread of [0.5 + Math.random() * 0.25, 0.35, -0.4, 0]) {
+        const th = base + side * spread;
+        a.pocket.x = b.x + Math.cos(th) * 380;
+        a.pocket.y = b.y + Math.sin(th) * 380;
+        if (w.isVisible(a.pocket.x, a.pocket.y, -a.pocket.r * 0.8)) break;
+      }
       a.ph = track(b, w.addHazard({
         x: a.pocket.x,
         y: a.pocket.y,
@@ -766,6 +775,7 @@ export const ATTACKS = {
       w.floatText(a.pocket.x, a.pocket.y - a.pocket.r - 26, 'SHELTER', { color: '#9ff3ff', size: 22, life: a.charge, callout: true });
       d.alarm = 1;
       a.pull = 0;
+      b.invuln = true; // the collapsing core swallows shots while it charges
     },
     update(b, a, dt, w) {
       const d = b.data;
@@ -806,6 +816,7 @@ export const ATTACKS = {
       if (!a.blown) {
         a.blown = true;
         d.novaCharge = 0;
+        b.invuln = false;
         detonate(b, a, w);
       }
       if (a.t > a.charge + 1.9 && !a.cooled) {
@@ -819,6 +830,7 @@ export const ATTACKS = {
     end(b) {
       b.data.novaCharge = 0;
       b.data.anchored = false;
+      if (!b.data.dying && !b.data.transition) b.invuln = false;
     },
   },
 };
@@ -860,7 +872,7 @@ function novaUpdate(h, dt, w) {
   const D = h.data;
   const b = D.boss;
   h.r = GEO.R + D.speed * h.t;
-  const dmg = 34 * (b.dmgMult || 1);
+  const dmg = 30 * (b.dmgMult || 1);
   for (const p of w.players) {
     if (!p.alive || D.hit.has(p)) continue;
     const d = Math.hypot(p.x - h.x, p.y - h.y);
@@ -960,9 +972,9 @@ function domeUpdate(h, dt, w) {
   const t = a.t;
   const k = clamp((t - a.tele) / a.active, 0, 1);
   const ease = k * k * (3 - 2 * k);
-  h.r = t < a.tele ? 620 - 40 * (t / a.tele) : 580 - 360 * ease;
-  h.x = b.x + Math.cos(a.ang) * 250;
-  h.y = b.y + Math.sin(a.ang) * 250;
+  h.r = t < a.tele ? 640 - 40 * (t / a.tele) : 600 - 410 * ease;
+  h.x = b.x + Math.cos(a.ang) * 360;
+  h.y = b.y + Math.sin(a.ang) * 360;
   D.armed = t >= a.tele && t < a.tele + a.active;
   if (!D.armed || dt <= 0) return;
   const dmg = 7 * (b.dmgMult || 1);
@@ -1005,14 +1017,19 @@ function domeDraw(ctx, h, w) {
   const end = a.tele + a.active;
   const fade = a.t > end ? clamp(1 - (a.t - end) / 0.4, 0, 1) : 1;
   const pulse = 0.5 + 0.5 * Math.sin(w.time * 9);
-  // Scorching outside: a wide band beyond the wall.
+  // Scorching outside: darken (reads on bright lava) + a pulsing crimson heat wash.
   const outer = h.r + 1500;
-  ctx.globalAlpha = fade * (tele ? 0.05 + 0.1 * (a.t / a.tele) : 0.16 + 0.04 * pulse);
-  ctx.fillStyle = '#ff5a1a';
+  const k = tele ? a.t / a.tele : 1;
+  ctx.globalAlpha = fade * k;
+  ctx.fillStyle = 'rgba(40,4,0,0.34)';
   ctx.beginPath();
   ctx.arc(h.x, h.y, outer, 0, TAU);
   ctx.arc(h.x, h.y, h.r, 0, TAU, true);
   ctx.fill();
+  ctx.globalCompositeOperation = 'lighter';
+  ctx.fillStyle = `rgba(255,40,10,${tele ? 0.05 : 0.08 + 0.06 * pulse})`;
+  ctx.fill();
+  ctx.globalCompositeOperation = 'source-over';
   if (tele) {
     ctx.globalAlpha = 0.6 + 0.4 * pulse;
     ctx.strokeStyle = '#ffb04a';

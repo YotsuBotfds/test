@@ -36,6 +36,7 @@ const SR = 44100;
 
 if (q.get('check') === '1') runCheck();
 else if (q.get('check') === 'mix') runMix(q.get('track') || 'brassbay');
+else if (q.get('check') === 'wav') runWav(q.get('track') || 'title', Number(q.get('i') ?? 1), Number(q.get('secs') || 20));
 else buildHall();
 
 // ---- Offline helpers --------------------------------------------------------------------------
@@ -257,6 +258,41 @@ async function runMix(track) {
     drawWave(cv, buf, false);
   }
   for (const k of Object.keys(def.ch)) def.ch[k].vol = vols[k];
+  document.title = 'DONE';
+}
+
+// ---- ?check=wav — render to a base64 16-bit stereo WAV on window.__wav (analysis tooling) -------
+
+async function runWav(track, inten, secs) {
+  const t0 = performance.now();
+  const { buf, m } = await renderTrack(track, secs, inten);
+  const ms = Math.round(performance.now() - t0);
+  const n = buf.length;
+  const bytes = new Uint8Array(44 + n * 4);
+  const dv = new DataView(bytes.buffer);
+  const str = (o, s) => [...s].forEach((c, i) => dv.setUint8(o + i, c.charCodeAt(0)));
+  str(0, 'RIFF');
+  dv.setUint32(4, 36 + n * 4, true);
+  str(8, 'WAVEfmt ');
+  dv.setUint32(16, 16, true);
+  dv.setUint16(20, 1, true);
+  dv.setUint16(22, 2, true);
+  dv.setUint32(24, SR, true);
+  dv.setUint32(28, SR * 4, true);
+  dv.setUint16(32, 4, true);
+  dv.setUint16(34, 16, true);
+  str(36, 'data');
+  dv.setUint32(40, n * 4, true);
+  const L = buf.getChannelData(0);
+  const R = buf.getChannelData(1);
+  for (let i = 0; i < n; i++) {
+    dv.setInt16(44 + i * 4, Math.max(-1, Math.min(1, L[i])) * 32767, true);
+    dv.setInt16(46 + i * 4, Math.max(-1, Math.min(1, R[i])) * 32767, true);
+  }
+  let bin = '';
+  for (let i = 0; i < bytes.length; i += 0x8000) bin += String.fromCharCode.apply(null, bytes.subarray(i, i + 0x8000));
+  window.__wav = btoa(bin);
+  console.log('[test] ' + JSON.stringify({ wav: track, secs, ms, realtimeX: +((secs * 1000) / ms).toFixed(1), notes: m.noteCount, ...analyse(buf) }));
   document.title = 'DONE';
 }
 

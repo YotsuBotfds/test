@@ -98,7 +98,11 @@ export function strike(w, p, e, amount, source, element = 'kinetic', knockback =
   return dealt;
 }
 
-/** Explosion owned by the player with a crit roll. */
+/**
+ * Explosion owned by the player with a crit roll. Visuals come from boom() (size-capped) rather
+ * than the engine's radius-scaled ones: aux blasts are frequent and often chain, and the stock
+ * large/huge explosions are far too fill-rate heavy at that rate. opts.visual === false = silent.
+ */
 export function blast(w, p, x, y, radius, damage, source, opts) {
   const o = EXP;
   o.team = 'player';
@@ -106,9 +110,7 @@ export function blast(w, p, x, y, radius, damage, source, opts) {
   o.source = source;
   o.falloff = opts?.falloff ?? 0.35;
   o.knockback = opts?.knockback ?? radius * 1.6;
-  o.visual = opts?.visual ?? undefined;
-  o.sound = opts?.sound ?? undefined;
-  o.shake = opts?.shake ?? undefined;
+  o.shake = opts?.shake ?? 0;
   o.burn = opts?.burn ?? undefined;
   o.element = opts?.element ?? 'fire';
   const c = critRoll(p, w);
@@ -116,12 +118,34 @@ export function blast(w, p, x, y, radius, damage, source, opts) {
   const n = w.explode(x, y, radius, damage, o);
   o.owner = null;
   o.burn = undefined;
+  if (opts?.visual !== false) boom(w, x, y, radius, opts?.palette, opts?.sound, opts?.big);
   return n;
 }
 const EXP = {
-  team: 'player', owner: null, source: '', falloff: 0.35, knockback: 0, visual: undefined,
-  sound: undefined, shake: undefined, burn: undefined, element: 'fire', crit: undefined,
+  team: 'player', owner: null, source: '', falloff: 0.35, knockback: 0, visual: false,
+  sound: false, shake: 0, burn: undefined, element: 'fire', crit: undefined,
 };
+
+const BOOM = { palette: 'fire', debris: false, cogs: 0, lowSmoke: false, ring: false, embers: true, smoke: false };
+const PUFF = { count: 2, alpha: 0.32, life: 1.1, spread: 26 };
+
+/**
+ * Size-capped explosion visual + a shockwave that matches the gameplay radius (so the AoE still
+ * reads) + sound. `sound` false = none, undefined = picked by radius.
+ */
+export function boom(w, x, y, radius, palette = 'fire', sound, big = false) {
+  const fx = w.fx;
+  const s = Math.max(0.35, Math.min(big ? 1.35 : 1.1, radius / 70));
+  BOOM.palette = palette || 'fire';
+  BOOM.debris = big ? 'metal' : false;
+  BOOM.debrisCount = 3;
+  fx.explosion?.(x, y, s, BOOM);
+  // Light after-smoke (the stock billows are big dark discs that pile up under chained blasts).
+  fx.smoke?.(x, y, 0.45 + s * 0.35, PUFF);
+  fx.shockwave?.(x, y, radius * 1.1, palette === 'aether' ? '#7ff3ff' : '#ffd9a0', 0.32);
+  if (sound !== false) w.sfx(sound || (radius >= 70 ? 'explode_medium' : 'explode_small'), x, y, SFX);
+}
+const SFX = { vol: 0.8 };
 
 // ---- Targeting ---------------------------------------------------------------------------------
 
