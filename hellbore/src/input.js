@@ -207,7 +207,13 @@ export class Input {
       }
       P.held[i] = down;
     }
-    P.axes = [0, 1, 2, 3].map((i) => pad.axes[i] || 0);
+    // Some non-standard mappings put triggers on these axes, resting at -1 or +1.
+    // Record each axis's resting value the first time we see the pad and measure from there.
+    if (!P.rest || P.restId !== pad.id) {
+      P.restId = pad.id;
+      P.rest = [0, 1, 2, 3].map((i) => (Math.abs(pad.axes[i] || 0) > 0.6 ? pad.axes[i] : 0));
+    }
+    P.axes = [0, 1, 2, 3].map((i) => clamp((pad.axes[i] || 0) - P.rest[i], -1, 1));
     if (P.axes.some((a) => Math.abs(a) > 0.4)) active = true;
     if (active) {
       this.setMode('pad');

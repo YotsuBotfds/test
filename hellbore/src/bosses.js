@@ -35,6 +35,7 @@ class Boss {
     this.flash = 0;
     this.flashCd = 0;
     this.intro = 2.2;
+    this.stagger = 0;
     this.busy = 1.2;
     this.parts = [];
     this.events = [];
@@ -55,7 +56,7 @@ class Boss {
   }
 
   hitTest(x, y, r) {
-    if (this.intro > 0 || !this.alive) return null;
+    if (this.intro > 0 || this.stagger > 0 || !this.alive) return null;
     for (const p of this.parts) {
       if (p.shield) continue;
       const rr = p.r + r;
@@ -65,7 +66,7 @@ class Boss {
   }
 
   takeDamage(amount, part) {
-    if (this.intro > 0 || !this.alive) return 0;
+    if (this.intro > 0 || this.stagger > 0 || !this.alive) return 0;
     const dmg = amount * (part ? part.mult : 1);
     this.hp -= dmg;
     if (this.flashCd <= 0) {
@@ -76,7 +77,7 @@ class Boss {
     const np = f < 0.33 ? 2 : f < 0.66 ? 1 : 0;
     if (np > this.phase && this.hp > 0) {
       this.phase = np;
-      this.intro = 1.0;
+      this.stagger = 1.0;
       this.events.length = 0;
       this.busy = 1.4;
       audio.play('roar', { pan: this.g.panOf(this.x) });
@@ -102,6 +103,11 @@ class Boss {
     if (this.intro > 0) {
       this.intro -= dt;
       this.updateIntro?.(dt);
+      this.syncParts();
+      return;
+    }
+    if (this.stagger > 0) {
+      this.stagger -= dt;
       this.syncParts();
       return;
     }
@@ -788,7 +794,7 @@ class Magmaw extends Boss {
               },
             })
           );
-          this.shot({ kind: 'fire', x: this.x, y: this.y, vx: (tx - this.x) * 1, vy: (ty - this.y) * 1, r: 5, dmg: 0, ghost: true, life: 0.95 });
+          this.shot({ kind: 'fire', x: this.x, y: this.y, vx: tx - this.x, vy: ty - this.y, r: 5, dmg: 0, ghost: true, life: 0.95, harmless: true });
         });
       }
     } else if (a === 'geyser') {
@@ -1009,7 +1015,7 @@ class Ossuarch extends Boss {
 
   takeDamage(amount, part) {
     if (part && part.bone) {
-      if (this.intro > 0) return 0;
+      if (this.intro > 0 || this.stagger > 0) return 0;
       part.bone.hp -= amount;
       this.g.particles.sparks(part.x, part.y, [230, 225, 200], 2, 80);
       if (part.bone.hp <= 0) {

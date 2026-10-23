@@ -560,6 +560,7 @@ export class ForgeScreen {
     this.t += dt;
     this.msgT -= dt;
     this.game.particles.update(dt);
+    if (this.t < 0.7) return;
     if (input.out.menu.back) {
       this.menu.idx = this.menu.items.length - 1;
       audio.play('ui');
@@ -648,8 +649,8 @@ export class GameOverScreen {
     this.t = 0;
     const rig = RIGS.find((r) => r.id === summary.rig) || RIGS[0];
     this.menu = new Menu([
-      { label: 'DESCEND AGAIN', action: () => app.startRun(rig), color: C.hot },
-      { label: 'RIG BAY', action: () => app.setScreen(new RigScreen(app)) },
+      { label: 'DESCEND AGAIN', action: () => app.startRun(rig, { daily: summary.daily }), color: C.hot },
+      { label: 'RIG BAY', action: () => app.setScreen(new RigScreen(app, { daily: summary.daily })) },
       { label: 'SURFACE', action: () => app.setScreen(new TitleScreen(app)) },
     ]);
   }

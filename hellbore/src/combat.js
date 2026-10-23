@@ -371,7 +371,7 @@ export class Shot {
     const b = g.boss;
     if (b && b.alive) {
       const part = b.hitTest(this.x, this.y, this.r);
-      if (part && !(this.hits && this.hits.has(part))) {
+      if (part && !(this.hits && this.hits.has(b))) {
         g.damageBoss(part, this.dmg, this);
         if (this.blast) {
           g.explode(this.x, this.y, this.blast, this.dmg * 0.5, { terrain: this.terrain, color: this.color, small: true, noBoss: true });
@@ -379,7 +379,7 @@ export class Shot {
         }
         if (this.pierce > 0) {
           this.pierce--;
-          (this.hits ||= new Set()).add(part);
+          (this.hits ||= new Set()).add(b);
           return false;
         }
         return true;
@@ -563,7 +563,7 @@ export class EShot {
       return false;
     }
     const p = g.player;
-    if (!p.dead && p.inv <= 0 && p.dashT <= 0) {
+    if (!this.harmless && !p.dead && p.inv <= 0 && p.dashT <= 0) {
       const rr = this.r + p.r * 0.6;
       if (dist2(this.x, this.y, p.x, p.y) < rr * rr) {
         p.hurt(this.dmg);

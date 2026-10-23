@@ -109,7 +109,7 @@ export function drawHUD(ctx, g, input, W, H) {
     const byy = touch ? 40 : H - 24;
     const name = g.loop ? `${b.name} +${g.loop}` : b.name;
     drawText(ctx, name, W / 2, byy - 10, { color: '#ff8a70', align: 'center' });
-    bar(ctx, bx, byy, bw, 5, b.frac, b.intro > 0 ? '#ffffff' : '#e03030', 'rgba(60,0,0,0.7)');
+    bar(ctx, bx, byy, bw, 5, b.frac, b.intro > 0 || b.stagger > 0 ? '#ffffff' : '#e03030', 'rgba(60,0,0,0.7)');
     for (const t of [0.33, 0.66]) {
       ctx.fillStyle = 'rgba(0,0,0,0.8)';
       ctx.fillRect(bx + Math.round(bw * t), byy, 1, 5);

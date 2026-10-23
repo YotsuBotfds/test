@@ -37,7 +37,7 @@ class App {
     this.resize();
     window.addEventListener('resize', () => this.resize());
     window.visualViewport?.addEventListener('resize', () => this.resize());
-    if (window.ResizeObserver && canvas.parentElement) new ResizeObserver(() => this.resize()).observe(canvas.parentElement);
+    if (window.ResizeObserver && canvas.parentElement) new window.ResizeObserver(() => this.resize()).observe(canvas.parentElement);
     document.addEventListener('visibilitychange', () => {
       if (document.hidden) {
         if (this.screen instanceof PlayScreen && !this.game?.player.dead) this.setScreen(new PauseScreen(this));

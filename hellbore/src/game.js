@@ -61,6 +61,16 @@ const BLOOD = {
   demon: [180, 20, 30],
 };
 
+/** Filter a list in place. Items pushed while it runs are kept (and updated this frame). */
+function updateInPlace(list, keep) {
+  let w = 0;
+  for (let i = 0; i < list.length; i++) {
+    const it = list[i];
+    if (keep(it)) list[w++] = it;
+  }
+  list.length = w;
+}
+
 export class Game {
   constructor(app, opts = {}) {
     this.app = app;
@@ -85,6 +95,7 @@ export class Game {
     this.flash = null;
     this.pulse = 0;
     this.queue = [];
+    this.pendingChunks = [];
     this.vacuum = false;
     this.forgeT = 0;
     this.deathT = 0;
@@ -177,7 +188,7 @@ export class Game {
 
   clearEShots(x, y, r) {
     const r2 = r * r;
-    this.eshots = this.eshots.filter((s) => {
+    updateInPlace(this.eshots, (s) => {
       if (dist2(s.x, s.y, x, y) < r2) {
         this.particles.spawn({ kind: 'ember', x: s.x, y: s.y, life: 0.3, size: 2, color: s.color, drag: 0 });
         return false;
@@ -472,6 +483,16 @@ export class Game {
     const row0 = cy * CHUNK_H;
     if (row0 < 24) return;
     const si = stratumIndexOfRow(row0);
+    if (!this.attract && si > this.stratum) {
+      // Rendering peeks below the seal; populate those chunks once the borer gets there.
+      this.pendingChunks.push(cy);
+      return;
+    }
+    this.populateChunk(cy, si);
+  }
+
+  populateChunk(cy, si) {
+    const row0 = cy * CHUNK_H;
     const local = row0 - si * STRATUM_LEN;
     if (local < 14 || local > STRATUM_LEN - SEAL_H - ARENA_H - CHUNK_H) return;
     const def = stratumDef(si);
@@ -603,8 +624,10 @@ export class Game {
     const p = this.player;
     const others = WEAPON_IDS.filter((w) => w !== p.weapon);
     this.pickups.push(new Pickup('weapon', b.x, b.y + 10, { weapon: pick(others), vx: 0, vy: 0, life: 60 }));
-    this.pickups.push(new Pickup('health', b.x - 16, b.y + 10, { vx: 0, vy: 0 }));
-    this.pickups.push(new Pickup('health', b.x + 16, b.y + 10, { vx: 0, vy: 0 }));
+    if (!p.pacts.has('blood')) {
+      this.pickups.push(new Pickup('health', b.x - 16, b.y + 10, { vx: 0, vy: 0 }));
+      this.pickups.push(new Pickup('health', b.x + 16, b.y + 10, { vx: 0, vy: 0 }));
+    }
     const name = this.loop ? `${b.name} +${this.loop}` : b.name;
     this.showBanner('WARDEN SLAIN', name, [255, 220, 120], 3.5);
     this.app.onBossDefeated?.(si % STRATA.length, this);
@@ -632,6 +655,13 @@ export class Game {
 
   enterStratum(si) {
     this.stratum = si;
+    const later = [];
+    for (const cy of this.pendingChunks) {
+      const csi = stratumIndexOfRow(cy * CHUNK_H);
+      if (csi === si) this.populateChunk(cy, csi);
+      else if (csi > si) later.push(cy);
+    }
+    this.pendingChunks = later;
     const def = this.sdef;
     const name = this.loop ? `${def.name} +${this.loop}` : def.name;
     const n = si + 1;
@@ -674,6 +704,7 @@ export class Game {
       stratum: this.stratum,
       stratumName: this.sdef.name,
       rig: this.rig.id,
+      daily: this.daily,
     };
   }
 
@@ -797,9 +828,9 @@ export class Game {
     }
 
     // Projectiles.
-    this.shots = this.shots.filter((s) => s.update(this, dt));
-    this.eshots = this.eshots.filter((s) => s.update(this, dt));
-    this.hazards = this.hazards.filter((h) => h.update(this, dt));
+    updateInPlace(this.shots, (s) => s.update(this, dt));
+    updateInPlace(this.eshots, (s) => s.update(this, dt));
+    updateInPlace(this.hazards, (h) => h.update(this, dt));
 
     // Queued explosions (gas chains, boss death).
     for (let i = this.queue.length - 1; i >= 0; i--) {
@@ -817,7 +848,7 @@ export class Game {
     this.updateCamera(dt);
 
     // Post-boss: vacuum up spoils then open the forge.
-    if (this.forgeT > 0) {
+    if (this.forgeT > 0 && !p.dead) {
       this.forgeT -= dt;
       if (this.forgeT < 2.6) this.vacuum = true;
       if (this.forgeT <= 0) {

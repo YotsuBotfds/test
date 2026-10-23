@@ -97,7 +97,7 @@ export class Player {
   /** Apply damage. opts.dot = continuous damage that ignores i-frames. Returns true if it landed. */
   hurt(amount, opts = {}) {
     const g = this.game;
-    if (this.dead || g.attract) return false;
+    if (this.dead || g.attract || !(amount > 0)) return false;
     if (opts.dot) {
       this.hp -= amount * this.stats.taken;
       this.hurtFlash = Math.max(this.hurtFlash, 0.08);
