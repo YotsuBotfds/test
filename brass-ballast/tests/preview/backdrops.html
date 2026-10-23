@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+  <title>Backdrops &amp; Weather — Brass &amp; Ballast</title>
+  <style>
+    html, body { margin: 0; height: 100%; overflow: hidden; background: #1b130b; }
+    #game { position: fixed; inset: 0; width: 100vw; height: 100vh; display: block; touch-action: none; }
+    #hud { position: fixed; left: 8px; top: 8px; font: 12px/1.35 "Courier New", monospace; color: #f8ecc8;
+      background: rgba(20,12,4,.62); padding: 6px 9px; border: 1px solid rgba(242,212,138,.4);
+      border-radius: 4px; white-space: pre; pointer-events: none; }
+    #bar { position: fixed; right: 8px; top: 8px; display: flex; flex-wrap: wrap; gap: 4px; max-width: 60vw; justify-content: flex-end; }
+    #bar button { font: 12px Georgia, serif; background: #4a3112; color: #f2d48a; border: 1px solid #c9973f;
+      border-radius: 3px; padding: 3px 7px; cursor: pointer; }
+    #bar button.on { background: #c9973f; color: #2b1d10; }
+    body.clean #hud, body.clean #bar { display: none; }
+  </style>
+</head>
+<body>
+  <canvas id="game"></canvas>
+  <div id="hud"></div>
+  <div id="bar"></div>
+  <script type="module" src="./backdrops.js"></script>
+</body>
+</html>

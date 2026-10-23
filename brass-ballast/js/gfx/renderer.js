@@ -14,6 +14,8 @@ export class Renderer {
     this.cssW = 1;
     this.cssH = 1;
     this.camera = { x: 0, y: 0, zoom: 1, baseZoom: 1, zoomMul: 1, shakeX: 0, shakeY: 0 };
+    /** Last world transform [scale, tx, ty] in device px (set by applyWorld). WP1 extension. */
+    this.wm = [1, 0, 0];
     this._onResize = () => this.resize();
     window.addEventListener('resize', this._onResize);
     window.visualViewport?.addEventListener('resize', this._onResize);
@@ -57,14 +59,35 @@ export class Renderer {
   applyWorld(ctx = this.ctx) {
     const c = this.camera;
     const z = c.zoom * this.dpr;
-    ctx.setTransform(
-      z,
-      0,
-      0,
-      z,
-      (this.cssW / 2 + c.shakeX) * this.dpr - c.x * z,
-      (this.cssH / 2 + c.shakeY) * this.dpr - c.y * z
-    );
+    const tx = (this.cssW / 2 + c.shakeX) * this.dpr - c.x * z;
+    const ty = (this.cssH / 2 + c.shakeY) * this.dpr - c.y * z;
+    this.wm[0] = z;
+    this.wm[1] = tx;
+    this.wm[2] = ty;
+    ctx.setTransform(z, 0, 0, z, tx, ty);
+  }
+
+  /**
+   * Fast sprite draw in world space without save/restore (WP1 extension). Uses the transform
+   * captured by the last applyWorld(); leaves ctx.globalAlpha at `alpha` and the transform
+   * rotated — call applyWorld(ctx) after a batch before regular drawing.
+   * @param {CanvasRenderingContext2D} ctx
+   * @param {{img:CanvasImageSource,w:number,h:number,cx:number,cy:number}} s from Sprites.get
+   */
+  blit(ctx, s, x, y, angle = 0, scale = 1, alpha = 1) {
+    const m = this.wm;
+    const z = m[0];
+    const px = m[1] + x * z;
+    const py = m[2] + y * z;
+    if (angle) {
+      const c = Math.cos(angle) * z;
+      const sn = Math.sin(angle) * z;
+      ctx.setTransform(c, sn, -sn, c, px, py);
+    } else {
+      ctx.setTransform(z, 0, 0, z, px, py);
+    }
+    ctx.globalAlpha = alpha;
+    ctx.drawImage(s.img, -s.cx * scale, -s.cy * scale, s.w * scale, s.h * scale);
   }
 
   worldToScreen(x, y, out = { x: 0, y: 0 }) {

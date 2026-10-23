@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>WP4 Art Preview — Brass &amp; Ballast</title>
+  <style>
+    body { margin: 0; font: 12px Georgia, serif; color: #f1e3c0; background: #3b2a18; }
+    header { padding: 6px 12px; background: #2b1d10; }
+    header a { color: #f2d48a; margin-right: 10px; }
+    #grid { display: flex; flex-wrap: wrap; gap: 8px; padding: 10px; align-items: flex-end; }
+    figure { margin: 0; padding: 4px; border: 1px solid rgba(242,212,138,.25); text-align: center; }
+    figcaption { margin-top: 3px; max-width: 260px; word-break: break-all; font-size: 11px; }
+    canvas { display: block; margin: 0 auto; }
+  </style>
+</head>
+<body>
+  <header>
+    WP4 art ·
+    <code>?view=gallery|scene&amp;filter=a,b&amp;scale=n&amp;bg=%23hex&amp;dot=0</code> ·
+    <a href="?view=scene">scene</a>
+    <a href="?filter=hull_,prop,turret_&amp;scale=3">ships</a>
+    <a href="?filter=pb_,eb_&amp;scale=4&amp;bg=%23e9b07a">ordnance</a>
+    <a href="?filter=pk_&amp;scale=4&amp;bg=%23e9b07a">pickups</a>
+    <a href="?filter=fx_&amp;scale=3&amp;bg=%23222">fx</a>
+    <span id="count"></span>
+  </header>
+  <div id="grid"></div>
+  <script type="module" src="./art-wp4.js"></script>
+</body>
+</html>
