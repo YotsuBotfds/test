@@ -26,8 +26,8 @@ import { sayTaunt, spawnTalker } from './stormEngine-kit.js';
 registerMatriarchArt();
 
 // DESIGN §2.11 lists 1500; measured fights at that value lasted ~30 s even for a level-3 ship.
-// ×1.5 (plus armour plate & weak points below) lands a ~1.5–2 min first boss while keeping the
-// campaign's boss-hp progression monotonic (2250 < kraken 3640 < stormEngine 3800 < …).
+// ×1.5 keeps the designed base-hp progression monotonic (2250 < kraken 3640 < stormEngine 3800
+// < …); the campaign fight length itself comes from tuning.js (BOSS_TOUGHNESS).
 const DESIGN_HP = 1500;
 const HP_SCALE = 1.5;
 const BASE_HP = DESIGN_HP * HP_SCALE;
@@ -541,7 +541,7 @@ function orbitTarget(b, w, out) {
   // a radius taken from that wider view pushed her further out, which zoomed out more — she
   // ended up 550–850 u away, out of reach of the short-range guns (Blunderbuss, Mortar).
   const zm = Math.min(1, w.renderer.camera.zoomMul || 1);
-  const rx = Math.max(170, (v.w * zm) / 2 - 250);
+  const rx = Math.max(170, (v.w * zm) / 2 - 310);
   // The HUD boss bar covers the top of the screen: sit lower there, closer to the edge below.
   const up = Math.max(120, (v.h * zm) / 2 - 260);
   const down = Math.max(120, (v.h * zm) / 2 - 150);

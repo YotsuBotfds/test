@@ -28,7 +28,7 @@ const M2 = { x: 0, y: 0 };
 // =============================================================================================
 
 const cannonLv = levelTable(
-  { damage: 14, rate: 4, speed: 720, count: 1, spread: 0.1, r: 6, pierce: 0, knockback: 90, size: 1, battery: false },
+  { damage: 14, rate: 4, speed: 820, count: 1, spread: 0.1, r: 6, pierce: 0, knockback: 90, size: 1, battery: false },
   'Reliable brass cannonballs: 14 dmg, 4 shots/s.',
   [
     { desc: '+15% damage', apply: mul('damage', 1.15) },
@@ -140,15 +140,15 @@ function cannonVolley(player, wpn, world, aim, b, sc) {
 // =============================================================================================
 
 const gatlingLv = levelTable(
-  { damage: 6.5, rate: 14, speed: 920, count: 1, spread: 0.08, spinTime: 0.6, pierce: 0, knockback: 22 },
-  'Spins up to a hail of slugs: 6.5 dmg, 14 shots/s at full spin.',
+  { damage: 6, rate: 14, speed: 920, count: 1, spread: 0.08, spinTime: 0.6, pierce: 0, knockback: 22 },
+  'Spins up to a hail of slugs: 6 dmg, 14 shots/s at full spin.',
   [
     { desc: '+25% damage', apply: mul('damage', 1.25) },
-    { desc: '+15% fire rate', apply: mul('rate', 1.15) },
+    { desc: 'Armour-piercing slugs: +1 pierce, +15% damage', apply: all(add('pierce', 1), mul('damage', 1.15)) },
     { desc: 'Oiled bearings: +20% fire rate, spin-up 0.6 s → 0.35 s, −30% spread', apply: all(mul('rate', 1.2), set('spinTime', 0.35), mul('spread', 0.7)) },
     { desc: '+25% damage', apply: mul('damage', 1.25) },
-    { desc: 'Armour-piercing slugs: +1 pierce, +15% damage', apply: all(add('pierce', 1), mul('damage', 1.15)) },
-    { desc: '+20% fire rate', apply: mul('rate', 1.2) },
+    { desc: '+25% fire rate', apply: mul('rate', 1.25) },
+    { desc: '+15% fire rate', apply: mul('rate', 1.15) },
     { desc: 'Twin Repeater: +1 slug per shot (−30% slug damage)', apply: all(add('count', 1), mul('damage', 0.7)) },
   ],
 );
@@ -244,7 +244,7 @@ function gatlingShot(player, wpn, world, aim, b, sc) {
 // =============================================================================================
 
 const blunderLv = levelTable(
-  { damage: 10, rate: 1.9, speed: 860, count: 6, spread: 0.55, life: 0.55, drag: 3.2, pierce: 0, knockback: 150, burn: false },
+  { damage: 10, rate: 1.9, speed: 860, count: 6, spread: 0.55, life: 0.75, drag: 2, pierce: 0, knockback: 150, burn: false },
   'Point-blank pellet storm: 6 pellets × 10 dmg, huge knockback.',
   [
     { desc: '+2 pellets', apply: add('count', 2) },

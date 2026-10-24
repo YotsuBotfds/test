@@ -3,7 +3,9 @@
 // Each stage = 5 waves (~35–45 s) → boss. Pacing rules used throughout:
 //  - A wave's groups are scheduled so the last batch lands ≥ ~4 s before `duration`, so a wave
 //    ends shortly after its timer once the sky is clear (the director also force-ends it 25 s
-//    after `duration` — nothing can stall).
+//    after `duration` — nothing can stall). When the sky runs nearly empty the director pulls the
+//    next batch forward and hurries the trickle, and a fully spawned wave may clear from 60% of
+//    its timer, so a strong build plays a shorter, denser wave rather than dead air.
 //  - Every new enemy gets a showcase wave where it is the star, then joins the mix.
 //  - Set-pieces ('Mine Field', 'Wasp Swarm', 'Carrier Wave', 'Tesla Gauntlet', 'Elite Squadron',
 //    'Wraith Fog') are flagged `setPiece` and announced by name (the director shows `wave.name`).
@@ -17,10 +19,11 @@ export const ENEMY_IDS = [
 ];
 
 /** Per-stage scaling (DESIGN §2.10; mid stages nudged up in integration play-tests so foes live
- *  long enough to shoot back — the player's build snowballs fastest through stages 2–4). */
+ *  long enough to shoot back — the player's build snowballs fastest through stages 2–4). XP_MULT
+ *  is flatter than the DESIGN suggestion so level-ups spread ≈ 8/5/4/4/5 over the stages. */
 const HP_MULT = [1, 1.75, 2.9, 4.1, 5.2];
 const DMG_MULT = [1, 1.15, 1.3, 1.5, 1.7];
-const XP_MULT = [1, 1.2, 1.4, 1.6, 1.8];
+const XP_MULT = [1, 1.3, 1.5, 1.6, 1.7];
 const ELITE_CHANCE = [0.02, 0.04, 0.06, 0.08, 0.12];
 /** Regular enemies shoot faster in later stages (run.enemyFireRate; bosses are exempt). */
 const FIRE_RATE = [1, 1.1, 1.22, 1.3, 1.35];

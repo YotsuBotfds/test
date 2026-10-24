@@ -62,7 +62,9 @@ world.damagePlayer(p, amount, info?) -> bool   // true = hit consumed (damage or
 world.loopSfx(key, name, on, {vol,pitch,x,y}?)   // run-owned audio loop: call every update while
                                           // on; stops when not refreshed, mutes while the sim is
                                           // halted (pause/level-up) and dies with the run
-world.applyBurn(e, dps, time=3, owner?)   world.applySlow(e, amt 0..0.8, time=1.5)
+world.applyBurn(e, dps, time=3, owner?, heat=0)   world.applySlow(e, amt 0..0.8, time=1.5)
+// burn: dps refreshes (max), plus optional stacking `heat` (total damage, decays with
+// BURN_HEAT_TAU 2.5 s; Incendiary adds INCENDIARY_HEAT 0.5 × the hit — config.js)
 world.clearEnemyBullets(x, y, r=Infinity, toXp=false) -> count
 
 // Players & pickups
@@ -79,7 +81,10 @@ world.offscreenPoint(margin=80, angle?) -> {x,y}   // just outside the view, alo
 world.wind -> {x,y}                                 // accel u/s² (weather gusts + Gale mod)
 
 // Feel & presentation
-world.shake(trauma 0..1)  world.hitstop(s ≤ .2)  world.slowmo(scale, s)  world.zoomPunch(±a)
+world.shake(trauma 0..1, own=false)  world.kick(angle, px)  world.hitstop(s ≤ .2)  world.slowmo(scale, s)  world.zoomPunch(±a)
+// own = the player's own guns/blasts/kills: ×0.6 and only up to trauma 0.4 (~3.5 px), so being
+// hit (uncapped) still reads as danger. kick = directional recoil (px opposite the shot, ~80 ms,
+// ≤ 4 px, × shake setting) — primaries kick instead of shaking. Player-team explode() is own.
 world.flash(color, alpha)            // capped when reduced flashing is on
 world.sfx(name, x?, y?, {vol, pitch, delay}?)      // positional
 world.floatText(x, y, text, {color, size, life, crit}?)   world.announce(title, sub, {kind, time})
@@ -176,7 +181,9 @@ Enemy instance:
   `def.draw` can reuse it: `world.drawEnemySprite(ctx, e, 'enemy_x_turret', 0, e.data.aim)`.
 - Death: `def.onDeath` → parts die with parent (no drops) → explosion sized by `r` (r ≥ 36 also
   leaves a falling wreck) → drops (xp × stage.xpMult × mods.xp; cogs × mods.cogs; small chance
-  repair/steam/bomb (× mods.bombDrops); elites 50% Armory Crate) → combo & score → codex →
+  repair/steam/bomb (× mods.bombDrops); Armory Crate from elites: 35% forced / 10% random (×2
+  under Elite Hunt), at most 1 per wave — 2 under Elite Hunt — via `run.waveCrates`) → combo &
+  score → codex →
   `enemy:killed`.
 - Wave formations: `pair` sets `e.partner` / `e.data.partner` right after spawn (available from
   the first `update`, not in `init`).
@@ -277,7 +284,8 @@ const CORE_DEF = { id: 'imCore', hp: 1, r: 40, manualMove: true, shareDamage: tr
   toward it). While a boss lives the camera leans toward it and zooms out (≥ 0.78 × `zoom`) to
   keep player and boss framed. Campaign toughness: `hp: bossHp(id, BASE_HP)` from
   `content/bosses/tuning.js` (one table for all five bosses; modes scale on top via
-  `run.bossHpMult`).
+  `run.bossHpMult`). The same file's `BOSS_DAMAGE` / `bossDamage(id)` multiplies the `dmgMult`
+  of a boss body and its parts at spawn (createEnemy), so every shot, hazard and contact scales.
 
 ## 8. Player (`js/game/player.js`)
 
@@ -337,17 +345,22 @@ Run modifiers are **not** folded into stats (`run.mods.playerDmg` is applied by 
 ## 11. Run, director, game
 
 `game.run` (DESIGN §4.10) plus: `day, cogFrac, killsByType, achievements[], stageReached,
-summary, enemyFireRate`. XP curve: `xpForLevel(L) = round(6 + 7(L−1) + 0.9(L−1)²)`.
+summary, enemyFireRate, waveCrates`. XP curve: `xpForLevel(L) = round(10 + 8(L−1) + 0.85(L−1)²)`
+(steeper start, same late curve as before the balance pass).
 
 Director (`game.director`, `world.director`): `state` ∈ intro | wave | breather | bossWarning |
 boss | bossDown | refit | transition | victory. `progress` → `{t, duration, spawned, total,
 alive, frac}` during waves (HUD wave bar). `formation(name, n, r, target)` → spawn points.
 `forceBoss(id)`, `gotoStage(pos)`, `gotoWave(i)`, `skipWave()`.
-- Waves end when every group has spawned, `t ≥ duration` and no wave enemy is alive; 25 s
-  after `duration` leftovers flee. Counts × `mods.spawnRate`; `maxAlive` × min(1.5, spawnRate).
+- Waves end when every group has spawned, `t ≥ 0.6 × duration` (`EARLY_CLEAR`) and no wave enemy
+  is alive; 25 s after `duration` leftovers flee. Counts × `mods.spawnRate`; `maxAlive` ×
+  min(1.5, spawnRate). Dead-air guard: with ≤ 2 wave foes alive after the first 3 s, the next
+  scheduled batch is pulled to within 1.2 s and the trickle fires every 0.7 s, so strong builds
+  get a shorter, denser wave instead of an empty sky (`LULL_*` in director.js).
 - Formations: `edge` (biased ahead of travel), `ring`, `line`, `cluster`, `flank`, `pair`,
-  `front`, `behind`. Elite roll per spawn: `stage.eliteChance + mods.eliteChance` (or group
-  `elite: true|'armored'|…`).
+  `front`, `behind`. Elite roll per spawn: `stage.eliteChance + mods.eliteChance`, halved for light
+  craft (`def.xp ≤ 2`) (or group `elite: true|'armored'|…`, which also sets `e.forcedElite`).
+  `run.waveCrates` resets at each wave start (crate cap, §3).
 - Endless: `MODES.endless.makeWave(index, rng, run)`, `bossFor(index)`, `biomeFor(index)`,
   optional `stageFor(index, run)` and `bossHpMult(index, run)`; default scaling
   hp `1 + .16k + .004k²`, dmg `1 + .035k`, xp `1 + .06k` (k = wave − 1).

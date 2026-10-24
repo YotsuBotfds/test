@@ -32,8 +32,8 @@ const MORTAR_MIN = 120;
 const MORTAR_MAX = 520;
 
 const mortarLv = levelTable(
-  { damage: 38, rate: 1.4, speed: 0, count: 1, radius: 70, flight: 1, burn: false, cluster: false, aoe: 70 },
-  'Lobbed shells burst on landing: 38 dmg in a 70 radius.',
+  { damage: 42, rate: 1.4, speed: 0, count: 1, radius: 70, flight: 1, burn: false, cluster: false, aoe: 70 },
+  'Lobbed shells burst on landing: 42 dmg in a 70 radius.',
   [
     { desc: '+20% damage', apply: mul('damage', 1.2) },
     { desc: '+20% blast radius, +10% damage', apply: all(mul('radius', 1.2), mul('aoe', 1.2), mul('damage', 1.1)) },
@@ -228,11 +228,11 @@ function shellLandCluster(p, w) {
       angle: a,
       r: 4,
       scale: 0.65 * (p.data.area || 1),
-      damage: p.data.dmg * 0.45,
+      damage: p.data.dmg * 0.6,
       lob: { tx: p.x + Math.cos(a) * d, ty: p.y + Math.sin(a) * d, time: 0.32 + rng.next() * 0.12, height: 50, marker: false },
       explode: {
         radius: br,
-        damage: p.data.dmg * 0.45,
+        damage: p.data.dmg * 0.6,
         visual: 'small',
         sound: 'explode_small',
         shake: 0.02,
@@ -547,7 +547,7 @@ const harpoonLv = levelTable(
   [
     { desc: '+20% damage', apply: mul('damage', 1.2) },
     { desc: '+1 pierce, +15% damage', apply: all(add('pierce', 1), mul('damage', 1.15)) },
-    { desc: '+15% fire rate', apply: mul('rate', 1.15) },
+    { desc: '+15% fire rate, +1 pierce', apply: all(mul('rate', 1.15), add('pierce', 1)) },
     { desc: '+20% damage, +30% knockback', apply: all(mul('damage', 1.2), mul('knockback', 1.3)) },
     { desc: '+1 harpoon per shot', apply: add('count', 1) },
     { desc: '+1 pierce, +15% damage, +15% harpoon speed', apply: all(add('pierce', 1), mul('damage', 1.15), mul('speed', 1.15)) },

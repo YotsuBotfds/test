@@ -143,8 +143,8 @@ export const CODEX = {
         'factory smog. She sways, she slams, and she spits ink clouds so thick that the sky ' +
         'forgets which way is up. Her tentacles are fine engineering, which is why they can be ' +
         'cut off, and why she will grow angrier when you do.',
-      tip: 'Tentacles slam along telegraphed lines and can be severed. Watch each telegraph and step ' +
-        'off the line before the slam lands.',
+      tip: 'Tentacles slam along telegraphed lines and can be severed. Hits on an arm still reach ' +
+        'her body, and her armoured dome softens when the great eye blazes.',
     },
     stormEngine: {
       title: 'Thunder Made Iron',
@@ -359,7 +359,7 @@ export const TIPS = [
   'Steam refills about 14 a second, so a boost every couple of seconds is sustainable.',
   'Kills within 2.5 seconds of each other build a combo, worth 10% more per link, up to five times.',
   'Taking damage resets your combo chain. A clean run pays better than a greedy one.',
-  'Elite enemies drop Armory Crates half the time. Opening one gives you a bonus card on the spot.',
+  'Elites can drop an Armory Crate (at most one per wave). Open it for a bonus card on the spot.',
   'An evolution needs its auxiliary at level 5 and its partner passive. Boilers pair with Tesla Coils.',
   'Siege Mortar shells fly over enemies and only land at the aim point. They ignore collisions in flight.',
   'Workshop upgrades are permanent. Every cog you spend in the Hangar stays spent for every future run.',
@@ -373,9 +373,9 @@ export const TIPS = [
   'Ornithopters sidestep straight shots. Wide spreads and Flak Blunderbuss volleys hit them more often.',
   'The Aether Shield blocks one hit every 20 minus 4 times its level in seconds.',
   'Second gamepad? Press Start mid-run to drop into co-op as Player 2.',
-  'The Harpoon Gun pierces three enemies in a line and knocks each one back hard.',
+  'Harpoons skewer three enemies in a line, more as you calibrate, and knock each one back hard.',
   'The Aether Lance pierces forever. A line of enemies is a line of targets.',
-  'Blunderbuss pellets lose their speed fast. Fire at close range for the full punch.',
+  'Blunderbuss pellets lose their speed fast. Close in, even on bosses, for the full punch.',
   'Pickups are magnetised within 90 units of you. A Lodestone Magnet widens that reach.',
   'Storms in Tempest Reach push your airship with gusts. Counter-steer or boost clear of them.',
   'The Emergency Balloon in the Workshop revives you once per run at 30% hull.',

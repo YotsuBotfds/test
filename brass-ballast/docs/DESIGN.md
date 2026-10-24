@@ -119,27 +119,39 @@ living player picks their own card on level-up (sequentially).
 ### 2.6 Primary cannons (`js/content/weapons/primaries.js`) — levels 1..8 via "Calibrate" cards
 | id | name | L1 base | notes | unlock |
 |---|---|---|---|---|
-| `brassCannon` | Brass Cannon | dmg 14, 4.0/s, speed 720, r 6 | Reliable. L3,L6 +1 ball. | free |
-| `gatling` | Gatling Repeater | dmg 5, 14/s, speed 920, spread .08 | Spin-up 0.6 s from 40% rate; slight jitter. | 300 |
-| `blunderbuss` | Flak Blunderbuss | 6 pellets × dmg 6, 1.6/s, spread .55 | Pellets decelerate, life .45 s, big knockback. | 400 |
-| `mortar` | Siege Mortar | dmg 30 AoE r 70, 1.4/s | Lobbed to aim point (dist 120–520). Ignores collision in flight. | 600 |
-| `aetherLance` | Aether Lance | dmg 22, 2.2/s, speed 1400 | Infinite pierce cyan bolt, thin. | 800 |
-| `harpoon` | Harpoon Gun | dmg 28, 1.5/s, speed 800 | Pierce 3, heavy knockback, chain-tether visual. | 700 |
+| `brassCannon` | Brass Cannon | dmg 14, 4.0/s, speed 820, r 6 | Reliable generalist. L3 +1 ball, L6 +25% dmg, L7 +1 pierce, L8 Grand Battery. | free |
+| `gatling` | Gatling Repeater | dmg 6, 14/s, speed 920, spread .08 | Spin-up 0.6 s from 40% rate; slight jitter. Best sustained single-target; +1 pierce from L3. | 300 |
+| `blunderbuss` | Flak Blunderbuss | 6 pellets × dmg 10, 1.9/s, spread .55 | Pellets decelerate (drag 2, life .75 s ≈ 330 u reach), big knockback. Best point-blank. | 400 |
+| `mortar` | Siege Mortar | dmg 42 AoE r 70, 1.4/s | Lobbed to aim point (dist 120–520). Ignores collision in flight. Best vs packs. | 600 |
+| `aetherLance` | Aether Lance | dmg 22, 2.2/s, speed 1400 | Infinite pierce cyan bolt, thin; arcs (L4/L7) jump to foes off its line. Best vs lines. | 800 |
+| `harpoon` | Harpoon Gun | dmg 40, 1.5/s, speed 800 | Skewers 3 foes (pierce 2, +1 at L3/L4/L7), heavy knockback, chain-tether visual; L8 tips burst on the first hit and at the end. | 700 |
+
+Balance pass (dummy DPS, `tests`-style fixed targets): every paid gun beats the free cannon
+somewhere at every level and none is dominated by another — Gatling single-target/range,
+Blunderbuss point-blank, Mortar packs, Lance lines, Harpoon heavy hits + lines. L8 single-target
+≈ 350 (cannon/gatling/harpoon ±10%, lance ≈ 300); blunderbuss (≈ 450 point-blank) and mortar
+(≈ 1300 vs a pack) trade single-target for their niche.
 
 ### 2.7 Auxiliary systems (`js/content/weapons/auxiliaries.js`) — max 4 equipped, levels 1..5
 | id | name | L1 behavior | evolves with → into |
 |---|---|---|---|
-| `teslaCoil` | Tesla Coil | every 1.6 s zap up to 3 enemies within 260, chain 2, dmg 12 | `boiler` → `thunderhead` Thunderhead Dynamo |
+| `teslaCoil` | Tesla Coil | every 1.6 s zap up to 3 enemies within 260, chain 2, dmg 12 (×2.5 main bolt on the nearest) | `boiler` → `thunderhead` Thunderhead Dynamo |
 | `rocketPods` | Rocket Pods | every 2.5 s 2 homing rockets dmg 16 AoE 40 | `explosiveTips` → `hellfire` Hellfire Barrage |
 | `flakTurret` | Flak Turret | auto-aims nearest within 420, 3/s dmg 6 | `quickLoader` → `flakStorm` Flak Storm |
 | `clockDrones` | Clockwork Drones | 1 orbiting drone, fires 2/s dmg 6 | `clockwork` → `droneArmada` Clockwork Armada |
 | `mineLayer` | Mine Layer | mine every 1.5 s, prox AoE r 60 dmg 25, max 8 | `extraBallast` → `devilsMinefield` Devil's Minefield |
-| `steamVents` | Scalding Vents | aura r 90, 10 dps, slows 20% | `ironHide` → `scaldingNimbus` Scalding Nimbus |
+| `steamVents` | Scalding Vents | aura r 130, 14 dps, slows 20% (L5: r 165, 28 dps) | `ironHide` → `scaldingNimbus` Scalding Nimbus |
 | `broadside` | Broadside Battery | every 2 s, 3 balls from each flank ⟂ hull | `rifling` → `shipOfTheLine` Ship of the Line |
-| `gyroSaws` | Gyro-Saws | 2 saws orbit r 110, dmg 10/hit (0.4 s per-enemy cd) | `bigBore` → `buzzsawHalo` Grand Buzzsaw Halo |
+| `gyroSaws` | Gyro-Saws | 2 saws orbit r 135, dmg 10/hit (0.35 s per-enemy cd; L5 4 saws × 22) | `bigBore` → `buzzsawHalo` Grand Buzzsaw Halo |
 
 An evolution card appears (legendary) when the aux is L5 and the partner passive is ≥ L1. It
 replaces the aux in its slot.
+
+Balance pass (dummy DPS, aux alone, in each weapon's intended use — single target or a pack
+around the ship): L5 aux ≈ 95–145 (mine layer lower vs stationary targets), evolutions ≈ 260–390.
+Flak (L5 dmg 9, Flak Storm 8.5/shell) and Hellfire (24/rocket) were trimmed; Tesla/Thunderhead
+got a main bolt on the nearest foe (×2.5) so they work on bosses; Vents, Nimbus (45 dps) and
+Saws reach further and hit harder.
 
 ### 2.8 Passives (`js/content/upgrades.js`) — max level 5 unless noted
 | id | name | per level |
@@ -153,10 +165,10 @@ replaces the aux in its slot.
 | `fins` | Aerodynamic Fins | +8% speed, +6% accel |
 | `repairCrew` | Repair Crew | +0.5 hpRegen/s |
 | `extraBallast` | Extra Ballast (max 3) | +1 bombsMax |
-| `twinBarrels` | Twin Barrels (max 3) | +1 projCount |
+| `twinBarrels` | Twin Barrels (max 3) | +1 projCount; each extra shot adds 25% of the base volley's damage, shared across the volley (`EXTRA_SHOT_DMG`) |
 | `ricochet` | Ricochet Rounds (max 3) | +1 bounce |
 | `piercing` | Armor-Piercing Shot (max 3) | +1 pierce |
-| `incendiary` | Incendiary Shells | +10% burnChance (burn 6 dps × 3 s, scales with damage) |
+| `incendiary` | Incendiary Shells | +12% burnChance (burn 6 dps × damage for 3 s, plus stacking heat worth 50% of the hit, decaying over ~2.5 s) |
 | `explosiveTips` | Explosive Tips | primary hits explode r 26+6/L for 35% dmg |
 | `clockwork` | Clockwork Precision | −8% aux cooldown |
 | `bigBore` | Big Bore | +15% area (AoE radius, projectile size) |
@@ -166,7 +178,7 @@ replaces the aux in its slot.
 | `vengeance` | Vengeful Boilers (rare, max 3) | when hit, release 8·L shells ring dmg 15 |
 
 Card rarities: passives `common` (aetherShield/vengeance `rare`), new aux / aux level `rare`,
-primary calibrate `rare` (`epic` at L≥5), evolutions `legendary`. Weights: common 60, rare 30,
+primary calibrate `rare` (`epic` at L≥7), evolutions `legendary`. Weights: common 60, rare 30,
 epic 9, legendary 100 (when eligible, always shown if possible). `luck` shifts weight toward
 rarer cards. If nothing is available: `repair` (heal 30%) and `cogs` (+40 cogs) cards.
 
@@ -194,15 +206,19 @@ Base numbers at stage 1. `speedMult`/`fireRateMult` must be applied by every beh
 | `steamWraith` | Steam Wraith | 60 | 28 | 140 | 6 | 2 s phased (invuln, translucent) → materialize near player → 12-bullet ring | 4 |
 | `mortarBarge` | Mortar Barge | 110 | 34 | 60 | 8 | keeps far; lobs shells at player position with telegraph circle | 4 |
 
-**Elites** (chance per stage def): ×2.5 hp, ×3 xp, gold rim glow, 50% chance to drop an
-**Armory Crate** (`crate` pickup → immediate bonus card pick). Affixes: `armored` (takes 50%
+**Elites** (chance per stage def; light swarm craft with xp ≤ 2 roll at half the chance): ×2.5 hp,
+×3 xp, gold rim glow. An elite may drop an **Armory Crate** (`crate` pickup → immediate bonus card
+pick): 35% for a set-piece (forced) elite, 10% for a randomly rolled one (×2 under Elite Hunt), at
+most one crate per wave (two under Elite Hunt) — about 8–12 per campaign, a treat rather than a
+flood. With level-ups that is ≈ 6–9 picks per stage. Affixes: `armored` (takes 50%
 damage until below half hp), `overclocked` (speedMult & fireRateMult ×1.4), `volatile`
 (explodes on death r 90, enemy team).
 
 **Scaling**: enemy hp × `stage.hpMult` × `run.mods.enemyHp` (× 1.5 per extra co-op player);
 damage × `stage.dmgMult` × `run.mods.enemyDmg`. Suggested stage hpMult `[1, 1.7, 2.6, 3.7, 5]`,
 dmgMult `[1, 1.15, 1.3, 1.5, 1.7]`, eliteChance `[.02,.04,.06,.08,.12]`, xpMult `[1,1.2,1.4,1.6,1.8]`.
-As tuned (stages.js): hpMult `[1, 1.75, 2.9, 4.1, 5.2]`, plus `fireRate` `[1, 1.1, 1.22, 1.3, 1.35]`
+As tuned (stages.js): hpMult `[1, 1.75, 2.9, 4.1, 5.2]`, xpMult `[1, 1.3, 1.5, 1.6, 1.7]`, plus
+`fireRate` `[1, 1.1, 1.22, 1.3, 1.35]`
 (→ `run.enemyFireRate`, regular enemies only; telegraphs shrink by at most 20%).
 
 ### 2.11 Bosses (each its own file under `js/content/bosses/`)
@@ -220,8 +236,12 @@ Patterns must be dodgeable; bullet speed 160–320 u/s; telegraph ≥ 0.6 s for 
 | `sunFurnace` | The Sun Furnace — *Heart of the Syndicate* | 5 | 7500 | Colossal spherical foundry with rotating armored shell plates (shoot through gaps), molten slag spirals, flame jets; sheds shell in phase 2; desperation pattern in phase 3. |
 
 The hp column is each boss's designed **base**; the campaign spawns it × a toughness factor from
-`js/content/bosses/tuning.js` (integration play-tests: fights of ~2.5 min at stage 1 rising to
-~4–5 min for the finale against a typical build). Endless/boss-rush scale on top by
+`js/content/bosses/tuning.js` (balance pass, measured over 24+ full autopilot campaigns: median
+fights ≈ 2.3 / 2.6 / 3.5 / 4 / 4.7 min from stage 1 to the finale, every phase reached), and its
+damage × a per-boss factor (`BOSS_DAMAGE`: Matriarch 0.65, Kraken 0.6, Storm Engine 0.55,
+Behemoth 1.6, Sun Furnace 0.85) so the threat rises stage by stage. The Matriarch and Kraken orbit
+at a radius taken from the view at gameplay zoom (not the boss-framing zoom-out), so short-range
+guns can reach them. Endless/boss-rush scale on top by
 `run.bossHpMult` (boss rush trims to ×0.7…0.42 since the player arrives under-levelled).
 
 ### 2.12 Stages & biomes (`js/content/stages.js`, visuals in `js/gfx/biomes.js`)

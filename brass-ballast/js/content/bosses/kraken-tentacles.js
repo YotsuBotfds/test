@@ -2,9 +2,10 @@
 // from layered sinusoids (idle sway) blended toward an attack pose (aim / stretch / curl).
 //
 // Damage model: every segment forwards hits into its tentacle's own hp pool (root joint & claw
-// ×1.4, armoured middle ×0.8, ×1.4 more while the arm lies exposed after a slam) and 35% of that
-// into the body. A tentacle whose pool empties is SEVERED: segments pop root → tip, the body
-// takes a 4.5%-of-max-hp jolt, and that arm's attacks are gone for good.
+// ×1.4, armoured middle ×0.8, ×1.4 more while the arm lies exposed after a slam) and 75% of that
+// into the body (arms are a bonus target, not a shield). A tentacle whose pool empties is SEVERED:
+// segments pop root → tip, the body takes a 5%-of-max-hp jolt, and that arm's attacks are gone
+// (until the next phase regrows some).
 //
 // Attacks: slam (0.8 s telegraph line → lunge → line hazard → exposed hold), sweep (follow-up
 // from a hold in later phases, telegraphed fan), grab (reach for the player; boost to escape).
