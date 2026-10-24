@@ -193,6 +193,9 @@ export class Director {
   }
 
   update(dt) {
+    // Once an ending begins (defeat slow-mo / victory) the run flow freezes: no late
+    // 'Stage Clear', refit revives, wave bonuses or music changes behind the results.
+    if (this.game?.ending) return;
     this.t += dt;
     const run = this.run;
     switch (this.state) {

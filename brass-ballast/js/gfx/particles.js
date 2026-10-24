@@ -40,6 +40,7 @@ import {
   texTinted,
   texForSprite,
   isTintable,
+  isSpinless,
   parseColor,
   parseAlpha,
   lerpRgb15,
@@ -109,6 +110,20 @@ const CLEAR_R = 70;
  * stays a pile-up instead of a slideshow. Small sparks/debris are never thinned.
  */
 const FILL_BUDGET = [1.5, 2.5, 3.5];
+/**
+ * Per-frame drawn-count budget (all layers so far), per tier. Past it, every 2nd small
+ * 'normal'-layer particle (smoke wisps, debris) is skipped: thousands of tiny blits are what a
+ * boss fight's particle cost is made of, and halving the far-too-many still reads the same.
+ */
+const COUNT_BUDGET = [400, 800, 1400];
+/**
+ * Arbitrary rotation forces the rasterizer's general affine sampler (~2-4x a scale-only blit).
+ * Spinless textures (soft smoke/steam/glows) are mirrored instead of rotated below the high
+ * tier, and at high while a busy layer holds more than SPIN_ON live particles (until it falls
+ * under SPIN_OFF: hysteresis so puffs don't flip back and forth at the threshold).
+ */
+const SPIN_ON = 450;
+const SPIN_OFF = 300;
 
 export class Particles {
   /** @param {number} [max] hard cap (scaled down by the quality tier) */
@@ -124,6 +139,10 @@ export class Particles {
     this.focus = [];
     /** Overdraw accumulated this frame (device px², see FILL_BUDGET). */
     this._fill = 0;
+    /** Particles drawn so far this frame, all layers (see COUNT_BUDGET). */
+    this._count = 0;
+    /** Per layer: spinless textures are mirrored instead of rotated (see SPIN_ON). */
+    this._flip = [false, false, false];
   }
 
   /** Live particle count over all layers. */
@@ -290,9 +309,16 @@ export class Particles {
   draw(ctx, renderer, layer = 'normal') {
     const L = LAYER_IDX(layer);
     // 'low' is drawn first each frame: the fill budget restarts there.
-    if (L === 0) this._fill = 0;
+    if (L === 0) {
+      this._fill = 0;
+      this._count = 0;
+    }
     const P = this.pools[L];
+    if (Quality.tier < 2) this._flip[L] = true;
+    else if (P.n > SPIN_ON) this._flip[L] = true;
+    else if (P.n < SPIN_OFF) this._flip[L] = false;
     if (!P.n) return;
+    const flip = this._flip[L];
     const m = ctx.getTransform();
     const ma = m.a;
     const mb = m.b;
@@ -322,6 +348,7 @@ export class Particles {
     const budget = FILL_BUDGET[Quality.tier] * screenPx;
     const big = screenPx * 0.0015;
     let fill = this._fill || 0;
+    const countBudget = L === 1 ? COUNT_BUDGET[Quality.tier] - this._count : Infinity;
     for (let i = 0, n = P.n; i < n; i++) {
       const u = t[i] / life[i];
       const f = flags[i];
@@ -361,6 +388,7 @@ export class Particles {
       if (al > 1) al = 1;
       const area = size * size * k2;
       if (fill > budget && area > big && (fill > budget * 2 ? (i & 3) !== 0 : (i & 1) !== 0)) continue;
+      if (drawn > countBudget && area <= big && (i & 1) !== 0) continue;
       fill += area;
       const id = tex[i];
       // colour over life in 8 steps: smooth enough, and bounds the tinted-texture variants
@@ -385,7 +413,14 @@ export class Particles {
           sx = size * asp;
           sy = size;
         }
-        ang = f & PF.ALIGN ? Math.atan2(vy[i], vx[i]) + rot[i] : rot[i];
+        if (f & PF.ALIGN) ang = Math.atan2(vy[i], vx[i]) + rot[i];
+        else if (flip && rot[i] !== 0 && isSpinless(id)) {
+          // Mirror per particle instead (bits from its fixed life/size: stable over its life).
+          const h = (life[i] * 1000 + s1[i] * 7) | 0;
+          if (h & 1) sx = -sx;
+          if (h & 2) sy = -sy;
+          ang = 0;
+        } else ang = rot[i];
       }
       const wantAdd = (f & PF.ADD) !== 0;
       if (wantAdd !== add) {
@@ -420,6 +455,7 @@ export class Particles {
     ctx.globalCompositeOperation = prevComp;
     this.drawn = drawn;
     this._fill = fill;
+    this._count += drawn;
   }
 
   clear() {

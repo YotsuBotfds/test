@@ -521,6 +521,8 @@ export class World {
     this.flash('#fff3c4', 0.5);
     this.hitstop(0.12);
     this.sfx('boss_death', e.x, e.y);
+    // Keep the camera on the wreck until the final blast (t 2.25) has played out.
+    this.game?.camera?.holdFocus?.(e, this.time + 2.6);
     addWreck(this, e, 2.4);
     const r = e.r * e.scale;
     for (let i = 0; i < 12; i++) {

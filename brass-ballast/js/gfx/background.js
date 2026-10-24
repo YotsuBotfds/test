@@ -17,6 +17,7 @@ import { drawAnchors } from './bg-anim.js';
 import {
   drawCloudLayer,
   prewarmClouds,
+  retainClouds,
   cloudSprite,
   shadowSprite,
   CLOUD_VARIANTS,
@@ -26,7 +27,10 @@ import {
 import { Quality } from './quality.js';
 
 export const GROUND_PARALLAX = 0.35;
-const MAX_TILES = 40;
+/** Ground-tile cache floor per quality tier (512² canvases; low-tier tiles are half-res). */
+const MAX_TILES = [24, 24, 40];
+/** Above this many device px, the cached full-screen vignette is baked at half resolution. */
+const VIGNETTE_FULL_PX = 4e6;
 const FALLBACK_BUDGET_MS = 10; // when visible tiles are missing
 const PREFETCH_BUDGET_MS = 3.5;
 const MAX_TILES_PER_FRAME = 2;
@@ -122,8 +126,20 @@ export class Background {
       prewarmClouds(this.biome);
       this.prevBiome = null;
       this.fadeT = 1;
+      retainClouds(this._cloudBiomes());
       this.pregenerate(true);
     }
+  }
+
+  /**
+   * Biomes whose cloud sprites are kept (and idle-prewarmed): the current one, the one being
+   * faded from, and the next stage's (BIOME_ORDER is the campaign order; endless wraps).
+   */
+  _cloudBiomes() {
+    const i = BIOME_ORDER.indexOf(this.id);
+    const out = [this.id, BIOME_ORDER[(i + 1) % BIOME_ORDER.length]];
+    if (this.prevBiome) out.push(this.prevBiome.id);
+    return out;
   }
 
   /**
@@ -171,6 +187,7 @@ export class Background {
           this.prevBiome = null;
           this.fadeT = 1;
           this.fadeDur = 0;
+          retainClouds(this._cloudBiomes());
         }
       }
     }
@@ -330,7 +347,7 @@ export class Background {
     // Zoomed far out (e.g. a boss intro) more tiles are on screen: grow the cap so the
     // prefetch ring doesn't thrash, but never below the ~40-tile budget.
     const view = this._viewCount();
-    const cap = Math.max(MAX_TILES, view * (this.prevBiome ? 2 : 1) + 12, (this._wantN || 0) + 8);
+    const cap = Math.max(MAX_TILES[this.quality] ?? MAX_TILES[2], view * (this.prevBiome ? 2 : 1) + 12, (this._wantN || 0) + 8);
     if (this.tiles.size <= cap) return;
     for (const [key, t] of this.tiles) {
       if (this.tiles.size <= cap) break;
@@ -368,12 +385,15 @@ export class Background {
     // Everything wanted is painted at the current resolution: stand-ins are no longer needed.
     if (!pending && this.stale.size) this.stale.clear();
     if (!target) {
-      // Idle: pre-render cloud sprites for every biome, one per frame, so a later biome
-      // switch never stalls on them.
-      if (this._cloudQueue === undefined) {
+      // Idle: pre-render cloud sprites for this biome and the next stage's, one per frame, so
+      // the coming biome switch never stalls on them. Other biomes' sprites are not kept
+      // (retainClouds): ~4 MB each.
+      if (this._cloudFor !== this.id) {
+        this._cloudFor = this.id;
         this._cloudQueue = [];
-        for (const id of BIOME_ORDER)
-          for (let v = 0; v < CLOUD_VARIANTS; v++) this._cloudQueue.push([id, v]);
+        // pop() takes from the end: the current biome's variants come first.
+        for (const id of this._cloudBiomes().slice(0, 2).reverse())
+          for (let v = CLOUD_VARIANTS - 1; v >= 0; v--) this._cloudQueue.push([id, v]);
       }
       const job = this._cloudQueue.pop();
       if (job) {
@@ -411,6 +431,18 @@ export class Background {
 
   /** Screen-space backdrop behind the world (DESIGN §4.2). */
   drawBack(ctx, renderer = this.renderer) {
+    // Every pass here upscales smooth images (tiles at s >= ~1, gradients, soft sprites):
+    // mipmapped smoothing adds nothing visible but costs ~3.5x per blit in software rasterizers.
+    const sq = ctx.imageSmoothingQuality;
+    ctx.imageSmoothingQuality = 'low';
+    try {
+      this._drawBack(ctx, renderer);
+    } finally {
+      ctx.imageSmoothingQuality = sq;
+    }
+  }
+
+  _drawBack(ctx, renderer) {
     this.frame++;
     const W = renderer.canvas.width;
     const H = renderer.canvas.height;
@@ -472,6 +504,7 @@ export class Background {
       this._drawVignette(ctx, W, H, this.biome, prev ? a : 1);
     } else {
       // Cheaper paths: haze + vignette baked into one low-res overlay = one full-screen pass.
+      this._dropVignette();
       if (prev) this._drawOverlay(ctx, W, H, prev, 1 - a);
       this._drawOverlay(ctx, W, H, this.biome, prev ? a : 1);
     }
@@ -486,6 +519,16 @@ export class Background {
    * @param {{x:number,y:number}|null} [focus]
    */
   drawFront(ctx, renderer = this.renderer, focus = null) {
+    const sq = ctx.imageSmoothingQuality;
+    ctx.imageSmoothingQuality = 'low'; // soft, half-res cloud sprites (see drawBack)
+    try {
+      this._drawFront(ctx, renderer, focus);
+    } finally {
+      ctx.imageSmoothingQuality = sq;
+    }
+  }
+
+  _drawFront(ctx, renderer, focus) {
     const W = renderer.canvas.width;
     const H = renderer.canvas.height;
     ctx.setTransform(1, 0, 0, 1, 0, 0);
@@ -549,7 +592,11 @@ export class Background {
         // resampling seam (skipped while fading — overlapping translucent tiles would show).
         if (tile && tile.ready) {
           tile.used = this.frame;
-          ctx.drawImage(tile.canvas, x0, y0, x1 - x0 + ov, y1 - y0 + ov);
+          const cw = tile.canvas.width;
+          // An exact 1:1 copy cannot seam, and the overlap would force a filtered rescale
+          // (~14x the cost of a plain copy in software rasterizers).
+          const o = x1 - x0 === cw && y1 - y0 === cw ? 0 : ov;
+          ctx.drawImage(tile.canvas, x0, y0, x1 - x0 + o, y1 - y0 + o);
         } else {
           ctx.fillStyle = fallback;
           ctx.fillRect(x0, y0, x1 - x0 + ov, y1 - y0 + ov);
@@ -652,6 +699,17 @@ export class Background {
   _drawVignette(ctx, W, H, b, alpha) {
     if (alpha <= 0.01) return;
     const [color, strength] = b.vignette;
+    if (b === this.biome) {
+      // The current biome's vignette is baked at canvas resolution and copied 1:1: a stretched
+      // 256 px sprite costs ~15x more per frame in software rasterizers. (A biome being faded
+      // from keeps the stretched sprite rather than holding a second full-screen canvas.)
+      const img = this._vignetteCanvas(W, H, color);
+      ctx.globalAlpha = alpha * strength;
+      if (img.width === W) ctx.drawImage(img, 0, 0);
+      else ctx.drawImage(img, 0, 0, W, H);
+      ctx.globalAlpha = 1;
+      return;
+    }
     const img = cachedSprite(`vig|${color}`, 256, 256, (c) => {
       const g = c.createRadialGradient(128, 128, 60, 128, 128, 182);
       g.addColorStop(0, rgba(color, 0));
@@ -663,5 +721,39 @@ export class Background {
     ctx.globalAlpha = alpha * strength;
     ctx.drawImage(img, 0, 0, W, H);
     ctx.globalAlpha = 1;
+  }
+
+  /**
+   * Full-screen vignette for `color`, same shape as the stretched `vig|` sprite (an ellipse
+   * fitted to the view). One canvas, re-baked on resize or biome change; half-res on very
+   * large canvases to bound memory (W·H·4 bytes).
+   */
+  _vignetteCanvas(W, H, color) {
+    const k = W * H > VIGNETTE_FULL_PX ? 0.5 : 1;
+    const cw = Math.max(1, Math.round(W * k));
+    const ch = Math.max(1, Math.round(H * k));
+    let v = this._vig;
+    if (v && v.color === color && v.cv.width === cw && v.cv.height === ch) return v.cv;
+    if (!v) v = this._vig = { color: '', cv: makeCanvas(cw, ch) };
+    const cv = v.cv;
+    cv.width = cw; // also clears it
+    cv.height = ch;
+    v.color = color;
+    const c = cv.getContext('2d');
+    c.setTransform(cw / 256, 0, 0, ch / 256, 0, 0);
+    const g = c.createRadialGradient(128, 128, 60, 128, 128, 182);
+    g.addColorStop(0, rgba(color, 0));
+    g.addColorStop(0.55, rgba(color, 0.35));
+    g.addColorStop(1, rgba(color, 1));
+    c.fillStyle = g;
+    c.fillRect(0, 0, 256, 256);
+    return cv;
+  }
+
+  /** Free the full-screen vignette (lower tiers use the merged low-res overlay instead). */
+  _dropVignette() {
+    if (!this._vig) return;
+    this._vig.cv.width = this._vig.cv.height = 1;
+    this._vig = null;
   }
 }

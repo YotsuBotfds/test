@@ -154,7 +154,7 @@ export class HazardSystem {
         const landed = w.damagePlayer(p, h.damage, { source: h.source, owner: h.owner, element: h.element, angle: Math.atan2(p.y - h.y, p.x - h.x), scaled: true });
         if (landed) {
           if (h.slow) p.slowT = Math.max(p.slowT, h.slow.time ?? 1);
-          h.onHit?.(h, p, w);
+          if (h.onHit) this._onHit(h, p, w);
         }
       }
     }
@@ -186,8 +186,17 @@ export class HazardSystem {
         });
         if (h.burn) w.applyBurn(e, h.burn.dps, h.burn.time ?? 3, h.owner);
         if (h.slow) w.applySlow(e, h.slow.amt ?? 0.3, h.slow.time ?? 1);
-        h.onHit?.(h, e, w);
+        if (h.onHit) this._onHit(h, e, w);
       }
+    }
+  }
+
+  _onHit(h, target, w) {
+    try {
+      h.onHit(h, target, w);
+    } catch (err) {
+      w.contentError('hazard:onHit', err);
+      h.onHit = null;
     }
   }
 

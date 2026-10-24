@@ -307,7 +307,13 @@ function stepEnemy(w, e, dt, players) {
         e.y = pt.y;
         e.vx = 0;
         e.vy = 0;
-        def.onRecycle?.(e, w);
+        if (def.onRecycle) {
+          try {
+            def.onRecycle(e, w);
+          } catch (err) {
+            w.contentError(`enemy:${e.type}:onRecycle`, err);
+          }
+        }
       }
     }
   }

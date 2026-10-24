@@ -4,6 +4,14 @@
 import { REF_W, REF_H } from '../config.js';
 import { clamp } from '../core/math.js';
 
+/**
+ * World scale (device px per world unit) below which a 'medium' smoothing tier really uses
+ * 'medium'. Sprites are baked at SPRITE_SCALE 2 (small craft 3), so mipmaps only pay off for
+ * strong downscales; above this, bilinear 'low' looks the same and software rasterizers draw
+ * every scaled/rotated image ~3.5x faster.
+ */
+const MEDIUM_BELOW = 0.75;
+
 export class Renderer {
   /** @param {HTMLCanvasElement} canvas */
   constructor(canvas) {
@@ -11,8 +19,12 @@ export class Renderer {
     this.ctx = canvas.getContext('2d', { alpha: false, desynchronized: true });
     this.dpr = 1;
     this.maxDpr = 2;
-    /** ctx.imageSmoothingQuality ('high' is very costly in software/phone rasterizers). */
+    /**
+     * Tier smoothing quality ('low' | 'medium'; 'high' is very costly in software/phone
+     * rasterizers). `ctxSmoothing` is what the main canvas uses right now (see MEDIUM_BELOW).
+     */
     this.smoothing = 'medium';
+    this.ctxSmoothing = 'low';
     this.cssW = 1;
     this.cssH = 1;
     this.camera = { x: 0, y: 0, zoom: 1, baseZoom: 1, zoomMul: 1, shakeX: 0, shakeY: 0 };
@@ -32,6 +44,14 @@ export class Renderer {
   /** Set the image smoothing quality used for every drawImage on the main canvas. */
   setSmoothing(q) {
     this.smoothing = q;
+    this._syncSmoothing();
+  }
+
+  /** Pick the main canvas smoothing for the tier and the current world scale. */
+  _syncSmoothing(force = false) {
+    const q = this.smoothing !== 'low' && this.camera.zoom * this.dpr < MEDIUM_BELOW ? this.smoothing : 'low';
+    if (q === this.ctxSmoothing && !force) return;
+    this.ctxSmoothing = q;
     this.ctx.imageSmoothingQuality = q;
   }
 
@@ -49,13 +69,15 @@ export class Renderer {
       this.canvas.height = ph;
     }
     this.camera.baseZoom = clamp(Math.sqrt((w * h) / (REF_W * REF_H)), 0.5, 2);
-    this.updateZoom();
+    this.camera.zoom = this.camera.baseZoom * this.camera.zoomMul;
+    // A canvas resize resets the context state: re-apply smoothing unconditionally.
     this.ctx.imageSmoothingEnabled = true;
-    this.ctx.imageSmoothingQuality = this.smoothing;
+    this._syncSmoothing(true);
   }
 
   updateZoom() {
     this.camera.zoom = this.camera.baseZoom * this.camera.zoomMul;
+    this._syncSmoothing();
   }
 
   /** Screen-space transform: 1 unit = 1 CSS px. */

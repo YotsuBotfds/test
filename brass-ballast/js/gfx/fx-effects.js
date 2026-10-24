@@ -3,9 +3,19 @@
 // particles. Owned and advanced by FX (fx.update → effects.update, fx.drawEffects → draw).
 
 import { TEX, texTinted, texImage, parseColor, toRgb15, lerpRgb } from './fx-textures.js';
+import { Quality } from './quality.js';
 
 const TAU = Math.PI * 2;
 const MAX_EFFECTS = 160;
+/** Live lightning cap (evolved Tesla builds fire 16+ arcs at once); the most faded go first. */
+const MAX_LIGHTNING = 24;
+/**
+ * The widest, faintest lightning glow stroke (alpha 0.16) is ~40% of a bolt's raster cost: it
+ * is drawn only at the high tier and while at most this many bolts are alive.
+ */
+const LIGHTNING_GLOW_MAX = 12;
+/** Past this many live shockwaves their additive heat discs are skipped (fill-rate). */
+const SHOCK_DISC_MAX = 6;
 
 export const EK = { RING: 0, SHOCK: 1, LIGHTNING: 2, BEAM: 3, CHAIN: 4 };
 
@@ -64,6 +74,9 @@ export class Effects {
     /** @type {object[]} */
     this.list = [];
     this.reduceFlashes = false;
+    /** Per-frame load switches, set by draw() (see LIGHTNING_GLOW_MAX / SHOCK_DISC_MAX). */
+    this._boltGlow = true;
+    this._shockDisc = true;
   }
 
   get count() {
@@ -107,6 +120,7 @@ export class Effects {
   }
 
   lightning(x1, y1, x2, y2, o) {
+    this._capLightning();
     const e = this._push({
       k: EK.LIGHTNING,
       x1,
@@ -159,6 +173,25 @@ export class Effects {
       link: o?.link ?? 7,
       sag: o?.sag ?? 0.08,
     });
+  }
+
+  /** Make room under MAX_LIGHTNING by dropping the most faded live bolt. */
+  _capLightning() {
+    const L = this.list;
+    let n = 0;
+    let oldest = -1;
+    let oldestU = -1;
+    for (let i = 0; i < L.length; i++) {
+      const e = L[i];
+      if (e.k !== EK.LIGHTNING) continue;
+      n++;
+      const u = e.t / e.life;
+      if (u > oldestU) {
+        oldestU = u;
+        oldest = i;
+      }
+    }
+    if (n >= MAX_LIGHTNING && oldest >= 0) L.splice(oldest, 1);
   }
 
   _regenBolt(e) {
@@ -224,6 +257,14 @@ export class Effects {
     const prevJoin = ctx.lineJoin;
     ctx.lineCap = 'round';
     ctx.lineJoin = 'round';
+    let bolts = 0;
+    let shocks = 0;
+    for (const e of this.list) {
+      if (e.k === EK.LIGHTNING) bolts++;
+      else if (e.k === EK.SHOCK) shocks++;
+    }
+    this._boltGlow = bolts <= LIGHTNING_GLOW_MAX && Quality.tier >= 2;
+    this._shockDisc = shocks <= SHOCK_DISC_MAX;
     for (const e of this.list) {
       const u = Math.min(1, e.t / e.life);
       switch (e.k) {
@@ -276,7 +317,7 @@ export class Effects {
     const a = e.alpha * (1 - u) ** 1.3;
     ctx.globalCompositeOperation = 'lighter';
     // heat disc (skipped for very wide waves: a screen-sized additive fill for little gain)
-    if (u < 0.4 && e.r1 < 260) {
+    if (u < 0.4 && e.r1 < 260 && this._shockDisc) {
       const hr = r * 0.8;
       ctx.globalAlpha = a * (0.4 - u) * 0.45;
       ctx.drawImage(texTinted(TEX.soft, 0, toRgb15(e.c)), e.x - hr, e.y - hr, hr * 2, hr * 2);
@@ -330,9 +371,11 @@ export class Effects {
       const w = e.width * (li === 0 ? 1 : 0.55);
       const pts = lines[li];
       ctx.strokeStyle = css;
-      ctx.globalAlpha = a * 0.16;
-      ctx.lineWidth = w * 6;
-      this._strokePolyline(ctx, pts);
+      if (this._boltGlow) {
+        ctx.globalAlpha = a * 0.16;
+        ctx.lineWidth = w * 6;
+        this._strokePolyline(ctx, pts);
+      }
       ctx.globalAlpha = a * 0.45;
       ctx.lineWidth = w * 2.4;
       this._strokePolyline(ctx, pts);

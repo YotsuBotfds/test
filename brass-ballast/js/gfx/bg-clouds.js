@@ -103,6 +103,13 @@ export function shadowSprite(variant) {
   return c;
 }
 
+/** Drop cached cloud sprites of every biome not in `ids` (shadows are shared and stay). */
+export function retainClouds(ids) {
+  for (const key of spriteCache.keys()) {
+    if (!ids.includes(key.slice(0, key.indexOf('|')))) spriteCache.delete(key);
+  }
+}
+
 /** Render all variants for a biome now (avoids a hitch on first sight). */
 export function prewarmClouds(biome) {
   for (let v = 0; v < VARIANTS; v++) {

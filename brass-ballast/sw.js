@@ -51,14 +51,26 @@ self.addEventListener('fetch', (event) => {
   event.respondWith(handleAsset(event, req));
 });
 
-/** Navigations: serve the cached shell regardless of query string (?debug=1 etc.). */
+/** The app's own pages: the scope root and index.html (any query string, e.g. ?debug=1). */
+const SHELL_PATHS = new Set([new URL('./', self.location.href).pathname, new URL(INDEX_URL).pathname]);
+
+/**
+ * Navigations to the app: serve the cached shell first. Any other in-scope page (dev previews,
+ * docs, a mistyped path) goes to the network, so it shows the real page or 404; the shell is
+ * only its offline fallback.
+ */
 async function handleNavigation(req) {
   const cache = await caches.open(CACHE);
-  const shell = await cache.match(INDEX_URL, { ignoreSearch: true });
-  if (shell) return shell;
+  const isShell = SHELL_PATHS.has(new URL(req.url).pathname);
+  if (isShell) {
+    const shell = await cache.match(INDEX_URL, { ignoreSearch: true });
+    if (shell) return shell;
+  }
   try {
     return await fetch(req);
   } catch {
+    const shell = isShell ? null : await cache.match(INDEX_URL, { ignoreSearch: true });
+    if (shell) return shell;
     return new Response('Brass & Ballast is not cached yet. Reconnect once to install it.', {
       status: 503,
       headers: { 'Content-Type': 'text/plain; charset=utf-8' },

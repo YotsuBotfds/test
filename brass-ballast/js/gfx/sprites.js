@@ -271,12 +271,17 @@ export const Sprites = {
   },
 
   /**
-   * Render every registered sprite (all frames) so gameplay never hitches.
+   * Render every registered sprite (all frames) so gameplay never hitches. `filter(name)`
+   * limits it, e.g. to leave the bosses' large art for a time-sliced warm-up at their stage.
    * @param {(done:number,total:number)=>void} [onProgress]
+   * @param {(name:string)=>boolean} [filter]
    */
-  async prewarm(onProgress) {
+  async prewarm(onProgress, filter = null) {
     const jobs = [];
-    for (const [name, def] of defs) for (let f = 0; f < (def.frames || 1); f++) jobs.push([name, f]);
+    for (const [name, def] of defs) {
+      if (filter && !filter(name)) continue;
+      for (let f = 0; f < (def.frames || 1); f++) jobs.push([name, f]);
+    }
     let last = performance.now();
     for (let i = 0; i < jobs.length; i++) {
       this.get(jobs[i][0], jobs[i][1]);
@@ -287,6 +292,24 @@ export const Sprites = {
       }
     }
     onProgress?.(jobs.length, jobs.length);
+  },
+
+  /**
+   * Drop the rendered canvases (all frames and variants) of every sprite whose name starts with
+   * `prefix`, e.g. a defeated boss's art. Defs stay registered: a later get() re-renders.
+   * @returns {number} cache entries dropped
+   */
+  evict(prefix) {
+    let n = 0;
+    for (const store of [cache, flashCache, tintCache, outlineCache, shadowCache]) {
+      for (const k of store.keys()) {
+        if (k.startsWith(prefix)) {
+          store.delete(k);
+          n++;
+        }
+      }
+    }
+    return n;
   },
 
   /** Drop rendered caches (e.g. after a quality change). Defs stay registered. */

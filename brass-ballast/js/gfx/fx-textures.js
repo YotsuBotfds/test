@@ -6,6 +6,7 @@
 // colour, so colour-over-life costs one Map lookup per particle and no per-frame compositing.
 
 import { Sprites } from './sprites.js';
+import { Quality } from './quality.js';
 import { RNG } from '../core/rng.js';
 
 const TAU = Math.PI * 2;
@@ -462,13 +463,22 @@ function def(name, d) {
   return id;
 }
 
-/** Logical texture ids (stable small integers). */
+/**
+ * Logical texture ids (stable small integers). `spinless`: a soft, near-radial texture whose
+ * rotation barely shows; the particle renderer may mirror it instead of rotating it (a
+ * scale-only transform stays on the rasterizer's fast path).
+ */
 export const TEX = {
-  glow: def('glow', { sprite: 'fx_glow', paint: (c, w) => paintGlow(c, w) }),
-  soft: def('soft', { sprite: 'fx_glow_soft', paint: (c, w) => paintSoft(c, w) }),
-  core: def('core', { w: 32, h: 32, paint: (c, w) => paintCore(c, w) }),
-  smoke: def('smoke', { sprite: 'fx_smoke', frames: 3, paint: (c, w, h, f) => paintPuff(c, w, f, false) }),
-  steam: def('steam', { sprite: 'fx_steam', paint: (c, w) => paintPuff(c, w, 1, true) }),
+  glow: def('glow', { sprite: 'fx_glow', spinless: true, paint: (c, w) => paintGlow(c, w) }),
+  soft: def('soft', { sprite: 'fx_glow_soft', spinless: true, paint: (c, w) => paintSoft(c, w) }),
+  core: def('core', { w: 32, h: 32, spinless: true, paint: (c, w) => paintCore(c, w) }),
+  smoke: def('smoke', {
+    sprite: 'fx_smoke',
+    frames: 3,
+    spinless: true,
+    paint: (c, w, h, f) => paintPuff(c, w, f, false),
+  }),
+  steam: def('steam', { sprite: 'fx_steam', spinless: true, paint: (c, w) => paintPuff(c, w, 1, true) }),
   streak: def('streak', { w: 64, h: 16, paint: (c, w, h) => paintStreak(c, w, h) }),
   glint: def('glint', { sprite: 'fx_spark', w: 32, h: 32, paint: (c, w) => paintFlare(c, w) }),
   flare: def('flare', { sprite: 'fx_flare', w: 128, h: 128, paint: (c, w) => paintFlare(c, w) }),
@@ -496,6 +506,11 @@ export function isTintable(id) {
   return DEFS[id].tint;
 }
 
+/** Rotation-insensitive texture (see TEX): may be mirrored instead of rotated. */
+export function isSpinless(id) {
+  return DEFS[id].spinless === true;
+}
+
 let preferOwn = false;
 /** Force our own painted textures even when fx_* sprites exist (preview comparison). */
 export function setPreferOwnTextures(v) {
@@ -505,9 +520,14 @@ export function setPreferOwnTextures(v) {
 
 const baseCache = []; // id*16+frame -> CanvasImageSource
 const tintCache = new Map(); // numeric key -> canvas
-const TINT_CAP = 900;
-/** Counters for profiling (preview page / debug). */
-export const texStats = { tints: 0, flushes: 0, byTex: {} };
+/**
+ * Tinted-variant cap per quality tier (a scene's working set is far smaller: colours are
+ * bounded to 8 lerp steps per particle). Past it the oldest ~10% are evicted (FIFO), never the
+ * whole cache: a wholesale clear made every visible colour re-tint on the next frames.
+ */
+const TINT_CAP = [400, 600, 900];
+/** Counters for profiling (preview page / debug). `flushes` counts eviction passes. */
+export const texStats = { tints: 0, flushes: 0, evicted: 0, byTex: {} };
 
 /**
  * Register an arbitrary sprite (from `p.sprite`) as a texture so the pool can store it as an
@@ -577,8 +597,15 @@ export function texTinted(id, frame, rgb15) {
   ctx.drawImage(src, 0, 0);
   texStats.tints++;
   texStats.byTex[DEFS[id].name] = (texStats.byTex[DEFS[id].name] || 0) + 1;
-  if (tintCache.size >= TINT_CAP) {
-    tintCache.clear();
+  const cap = TINT_CAP[Quality.tier] ?? TINT_CAP[2];
+  if (tintCache.size >= cap) {
+    // Insertion order = age. No recency refresh on hits: this is the per-particle hot path.
+    let drop = tintCache.size - cap + Math.ceil(cap * 0.1);
+    for (const k of tintCache.keys()) {
+      if (drop-- <= 0) break;
+      tintCache.delete(k);
+      texStats.evicted++;
+    }
     texStats.flushes++;
   }
   tintCache.set(key, c);

@@ -252,7 +252,7 @@ export class ProjectileSystem {
     p.t += dt;
     if (p.spin) p.rot += p.spin * dt;
     if (p.update) {
-      p.update(p, dt, w);
+      this._hook(p, 'update', w, dt, w);
       if (p.dead || !p.alive) return;
     }
 
@@ -314,7 +314,10 @@ export class ProjectileSystem {
       p.y += p.vy * dt;
     }
 
-    if (p.trail) this._trail(p, dt, w);
+    if (p.trail) {
+      this._trail(p, dt, w);
+      if (p.dead) return;
+    }
 
     if (p.t >= p.life) {
       p.dead = true;
@@ -419,7 +422,7 @@ export class ProjectileSystem {
       });
     }
     w.fx.hitSpark?.(ix, iy, ang + PI, p.crit);
-    if (p.onHit) p.onHit(p, e, w);
+    if (p.onHit) this._hook(p, 'onHit', w, e, w);
   }
 
   _bounce(p, e, w) {
@@ -475,7 +478,7 @@ export class ProjectileSystem {
       info.owner = null;
       if (!landed) continue; // i-frames: shots pass through a boosting ship
       if (p.slow) pl.slowT = Math.max(pl.slowT, p.slow.time ?? 1);
-      if (p.onHit) p.onHit(p, pl, w);
+      if (p.onHit) this._hook(p, 'onHit', w, pl, w);
       if (p.pierceLeft > 0) {
         p.pierceLeft--;
         p.hitSet.push(-pl.index - 1);
@@ -490,10 +493,11 @@ export class ProjectileSystem {
   _land(p, w) {
     p.dead = true;
     p.z = 0;
-    if (p.onLand) p.onLand(p, w);
+    const custom = !!p.onLand;
+    if (custom) this._hook(p, 'onLand', w, w);
     if (p.explode) {
       this._explode(p, w);
-    } else if (!p.onLand) {
+    } else if (!custom) {
       // Plain lobbed shot: direct impact damage where it lands.
       if (p.team === 'player') {
         const near = this._near;
@@ -532,6 +536,21 @@ export class ProjectileSystem {
     });
   }
 
+  /**
+   * Run content hook `p[name](p, a, b)`. A throw logs once, drops that hook and kills the shot,
+   * so a broken hook can't re-throw every frame (and a shot that never reaches its life check
+   * can't linger forever).
+   */
+  _hook(p, name, w, a, b) {
+    try {
+      p[name](p, a, b);
+    } catch (err) {
+      w.contentError(`projectile:${p.source}:${name}`, err);
+      p[name] = null;
+      p.dead = true;
+    }
+  }
+
   /** Projectile ends: hooks + optional explosion. */
   _finish(p, allowExplode, w, expired = false) {
     if (!p.alive) return;
@@ -540,7 +559,7 @@ export class ProjectileSystem {
       // Killed in flight: just fizzle.
       return;
     }
-    if (expired && p.onExpire) p.onExpire(p, w);
+    if (expired && p.onExpire) this._hook(p, 'onExpire', w, w);
     if (allowExplode && p.explode) this._explode(p, w);
   }
 
@@ -550,7 +569,7 @@ export class ProjectileSystem {
     const tr = p.trail;
     if (typeof tr === 'function') {
       p.trailT = 0.03;
-      tr(p, w);
+      this._hook(p, 'trail', w, w);
       return;
     }
     p.trailT = TRAIL_EVERY[tr] ?? 0.03;

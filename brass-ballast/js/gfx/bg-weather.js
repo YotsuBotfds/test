@@ -726,11 +726,26 @@ class Embers {
     });
     // A full-screen stretched additive blit is the single most expensive thing a software
     // rasterizer does (~9 ms at 720p): the low tier relies on the biome's own red vignette in
-    // the backdrop overlay, medium composites it normally (about half the cost).
+    // the backdrop overlay, medium composites it normally (about half the cost), and high
+    // copies a canvas-resolution bake 1:1 (only the alpha pulses), ~5x cheaper than stretching.
     if (env.q >= 0.6) {
       ctx.globalCompositeOperation = env.q < 1 ? 'source-over' : 'lighter';
       ctx.globalAlpha = (env.q < 1 ? 0.14 : 0.2) * pulse * w * Math.min(1.4, env.intensity);
-      ctx.drawImage(vig, 0, 0, W, H);
+      if (env.q >= 1) {
+        const dw = Math.round(W * env.dpr);
+        const dh = Math.round(H * env.dpr);
+        let cv = this._vig;
+        if (!cv || cv.width !== dw || cv.height !== dh) {
+          cv = this._vig = makeCanvas(dw, dh);
+          cv.getContext('2d').drawImage(vig, 0, 0, dw, dh);
+        }
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
+        ctx.drawImage(cv, 0, 0);
+        ctx.setTransform(env.dpr, 0, 0, env.dpr, 0, 0);
+      } else {
+        this._vig = null;
+        ctx.drawImage(vig, 0, 0, W, H);
+      }
     }
     ctx.globalCompositeOperation = 'lighter';
     // Embers.
@@ -756,22 +771,26 @@ class Embers {
       ctx.drawImage(p.hot > 0.5 ? hot : warm, p.x - sz * 2, p.y - sz * 2, sz * 4, sz * 4);
     }
     ctx.globalCompositeOperation = 'source-over';
-    // Falling ash.
+    // Falling ash: tumbling flakes (5×4 rects squashed to 40% on their minor axis), all in
+    // one path and one fill instead of a transform + fillRect each.
     ctx.fillStyle = '#2a201c';
+    ctx.globalAlpha = 0.5 * w;
+    ctx.beginPath();
     for (const a of this.ash) {
       const c = Math.cos(a.rot) * a.z;
       const s = Math.sin(a.rot) * a.z;
-      ctx.globalAlpha = 0.5 * w;
-      ctx.setTransform(
-        c * env.dpr,
-        s * env.dpr,
-        -s * 0.4 * env.dpr,
-        c * 0.4 * env.dpr,
-        a.x * env.dpr,
-        a.y * env.dpr
-      );
-      ctx.fillRect(-2.5, -2, 5, 4);
+      // Corners (±2.5, ±2) through [c, s, -0.4s, 0.4c]: half-extent vectors u (x) and v (y).
+      const ux = c * 2.5;
+      const uy = s * 2.5;
+      const vx = -s * 0.8;
+      const vy = c * 0.8;
+      ctx.moveTo(a.x - ux - vx, a.y - uy - vy);
+      ctx.lineTo(a.x + ux - vx, a.y + uy - vy);
+      ctx.lineTo(a.x + ux + vx, a.y + uy + vy);
+      ctx.lineTo(a.x - ux + vx, a.y - uy + vy);
+      ctx.closePath();
     }
+    ctx.fill();
     ctx.setTransform(env.dpr, 0, 0, env.dpr, 0, 0);
     ctx.globalAlpha = 1;
   }

@@ -3,15 +3,25 @@
 import { STORAGE_KEY } from '../config.js';
 import { events } from './events.js';
 
+/** OS-level "reduce motion": a fresh save starts with shake & flashes off (players can re-enable). */
+function prefersReducedMotion() {
+  try {
+    return typeof matchMedia === 'function' && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  } catch {
+    return false;
+  }
+}
+
 export function defaultSave() {
+  const calm = prefersReducedMotion();
   return {
     version: 2,
     settings: {
       master: 0.8,
       music: 0.6,
       sfx: 0.8,
-      shake: 1,
-      flashes: true,
+      shake: calm ? 0 : 1,
+      flashes: !calm,
       damageNumbers: true,
       autoFire: false,
       aimAssist: true,
@@ -51,25 +61,36 @@ export function defaultSave() {
   };
 }
 
-/** Deep-merge saved values over defaults so new fields appear after updates. */
-function merge(base, saved) {
-  if (saved === null || typeof saved !== 'object' || Array.isArray(saved)) return saved ?? base;
-  const out = Array.isArray(base) ? [] : { ...base };
+const isObj = (v) => v !== null && typeof v === 'object' && !Array.isArray(v);
+
+/**
+ * Deep-merge saved values over defaults so new fields appear after updates. A saved value whose
+ * type doesn't match its default (old build, hand-edited or damaged save) keeps the default;
+ * keys the defaults lack pass through as saved. `bad` counts the values dropped.
+ */
+function merge(base, saved, bad = { n: 0 }) {
+  if (!isObj(saved)) {
+    if (saved !== null && saved !== undefined) bad.n++;
+    return base;
+  }
+  const out = { ...base };
   for (const k of Object.keys(saved)) {
-    const b = base?.[k];
+    const b = base[k];
     const s = saved[k];
-    out[k] =
-      b && typeof b === 'object' && !Array.isArray(b) && s && typeof s === 'object' && !Array.isArray(s)
-        ? merge(b, s)
-        : s;
+    let ok = true;
+    if (isObj(b)) ok = isObj(s);
+    else if (Array.isArray(b)) ok = Array.isArray(s);
+    else if (typeof b === 'number') ok = Number.isFinite(s);
+    else if (b !== null && b !== undefined) ok = typeof s === typeof b;
+    if (!ok) bad.n++;
+    out[k] = !ok ? b : isObj(b) ? merge(b, s, bad) : s;
   }
   return out;
 }
 
 function readRaw() {
   try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    return raw ? JSON.parse(raw) : null;
+    return localStorage.getItem(STORAGE_KEY);
   } catch {
     return null;
   }
@@ -77,9 +98,35 @@ function readRaw() {
 
 class SaveStore {
   constructor() {
-    this.data = merge(defaultSave(), readRaw() || {});
-    this._migrate();
     this._timer = 0;
+    /** True when the stored save was damaged and (partly) reset at load. */
+    this.repaired = false;
+    const raw = readRaw();
+    const bad = { n: 0 };
+    try {
+      let saved = null;
+      try {
+        saved = raw ? JSON.parse(raw) : null;
+      } catch {
+        bad.n++;
+      }
+      this.data = merge(defaultSave(), saved, bad);
+      this._migrate();
+    } catch (err) {
+      console.error('[save] load failed, starting fresh', err);
+      bad.n++;
+      this.data = defaultSave();
+    }
+    if (bad.n && raw) {
+      // Keep the damaged original so progress can be recovered by hand.
+      this.repaired = true;
+      console.warn(`[save] repaired ${bad.n} damaged value(s); original kept as ${STORAGE_KEY}.corrupt-*`);
+      try {
+        localStorage.setItem(`${STORAGE_KEY}.corrupt-${Date.now()}`, raw);
+      } catch {
+        /* storage full or blocked */
+      }
+    }
   }
 
   /** Upgrade older saves in place. */

@@ -249,6 +249,7 @@ export class Game {
     this.camera.baseZoomMul = 1;
     this.camera.trauma = 0;
     this.camera.punch = 0;
+    this.camera.hold = null;
 
     const p = world.addPlayer({ hull, weapon, x: 0, y: 0 });
     this.setupPlayer(p);
@@ -275,7 +276,7 @@ export class Game {
       const m = MODIFIERS[id];
       if (!m) return;
       setTimeout(() => {
-        if (this.run === run) this.ui?.toast?.(`${m.name} — ${m.desc}`, { kind: 'warning', icon: 'icon_star', time: 4.5 });
+        if (this.run === run && !run.over && this.state !== 'title') this.ui?.toast?.(`${m.name} — ${m.desc}`, { kind: 'warning', icon: 'icon_star', time: 4.5 });
       }, 1200 + i * 700);
     });
     Save.save();
@@ -403,6 +404,7 @@ export class Game {
 
   /** Called by the director after a boss: heal, revive, refit picks, then cb(). */
   beginRefit(cb) {
+    if (this.ending) return;
     const w = this.world;
     this.refitCb = cb;
     for (const p of w.players) {
@@ -426,7 +428,10 @@ export class Game {
     const st = this.state;
     // Level-ups banked from the boss's XP wait out the stage-transition crossfade (a few seconds)
     // so the new skies aren't revealed behind a card screen; they open as the next stage begins.
-    if (st === 'transition' && this.choiceQueue[0]?.kind === 'level') return false;
+    // Between queued cards (e.g. after an Armory Crate pick) the state reads 'levelup': test the
+    // state play resumes in. Refits are exempt: their picks run before the crossfade starts.
+    const flow = st === 'levelup' && !this.refitCb ? this.resumeState : st;
+    if (flow === 'transition' && this.choiceQueue[0]?.kind === 'level') return false;
     return (SIM_STATES.has(st) || st === 'refit' || st === 'levelup') && !this.ending && !this.choice;
   }
 
@@ -441,7 +446,8 @@ export class Game {
     }
     if (this.choice || !this.choiceQueue.length || !this._canOpenChoice()) {
       if (!this.choice && !this.choiceQueue.length && this.state === 'refit' && this.refitCb) this._finishRefit();
-      else if (!this.choice && !this.choiceQueue.length && this.state === 'levelup') {
+      else if (!this.choice && this.state === 'levelup') {
+        // Queue drained, or what's left is deferred (level-ups held through a crossfade): resume.
         this.state = this.resumeState === 'transition' ? 'transition' : 'playing';
         this.input?.setGameplayActive?.(true);
       }
@@ -657,7 +663,7 @@ export class Game {
 
   onWaveClear() {
     const w = this.world;
-    if (!w) return;
+    if (!w || this.ending) return;
     if (w.alivePlayerCount() > 0) {
       for (const p of w.players) if (!p.alive) w.revivePlayer(p, 0.4);
     }
@@ -851,12 +857,22 @@ export class Game {
       } else {
         let sim = dt * this.timeScale * this.slowScale;
         let guard = 0;
-        while (sim > 1e-6 && guard++ < 8) {
-          const step = Math.min(sim, MAX_DT);
-          this.world.update(step);
-          sim -= step;
-          if (!this.simulating) break;
+        // Backstop: an unguarded throw in the sim must not also skip choices, camera & render.
+        try {
+          while (sim > 1e-6 && guard++ < 8) {
+            const step = Math.min(sim, MAX_DT);
+            this.world.update(step);
+            sim -= step;
+            if (!this.simulating) break;
+          }
+        } catch (err) {
+          this._err('world.update', err);
         }
+      }
+      if (this.slowT > 0) {
+        this.slowT -= dt;
+      } else if (this.slowScale < 1) {
+        this.slowScale = Math.min(1, this.slowScale + dt * 1.5);
       }
     } else if (this.ending?.shown && this.world) {
       // Behind the results screen: let smoke & sparks settle instead of freezing mid-blast.
@@ -864,11 +880,6 @@ export class Game {
         this.particles.update(dt * 0.5);
         this.fx.update(dt * 0.5);
       });
-    }
-    if (this.slowT > 0) {
-      this.slowT -= dt;
-    } else if (this.slowScale < 1) {
-      this.slowScale = Math.min(1, this.slowScale + dt * 1.5);
     }
     this.flashA = Math.max(0, this.flashA - dt * 2.5);
 
@@ -883,7 +894,7 @@ export class Game {
       this._autoPick(dt);
       this._updateEnding(dt);
       this.camera.insets = this.hud?.safeInsets?.() || null;
-      this.camera.update(dt, this.world.players, this.world.bosses);
+      this.camera.update(dt, this.world.players, this.world.bosses, this.world.time);
     } else if (this.state === 'title') {
       this.attract.update(dt);
     }

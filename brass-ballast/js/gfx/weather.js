@@ -141,6 +141,18 @@ export class Weather {
 
   /** @param {CanvasRenderingContext2D} ctx */
   draw(ctx, renderer = this.renderer) {
+    // Screen overlays: soft dots and gradients drawn at or above their size, where mipmapped
+    // smoothing adds nothing visible but costs ~3.5x per blit in software rasterizers.
+    const sq = ctx.imageSmoothingQuality;
+    ctx.imageSmoothingQuality = 'low';
+    try {
+      this._draw(ctx, renderer);
+    } finally {
+      ctx.imageSmoothingQuality = sq;
+    }
+  }
+
+  _draw(ctx, renderer) {
     const env = this._env;
     renderer.applyScreen(ctx);
     ctx.globalCompositeOperation = 'source-over';

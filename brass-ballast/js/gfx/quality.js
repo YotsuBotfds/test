@@ -14,7 +14,8 @@ import { FLAGS } from '../config.js';
 
 /**
  * Tier table. dpr = canvas DPR cap; particles = spawn-count scale; cap = particle-pool fraction;
- * smoothing = ctx.imageSmoothingQuality (SwiftShader/phones pay a lot for 'high');
+ * smoothing = best ctx.imageSmoothingQuality (SwiftShader/phones pay a lot for 'high'; the
+ *   renderer only uses 'medium' when sprites are strongly downscaled, see renderer.js);
  * bg = backdrop detail (2 full, 1 merged overlay + no cloud shadows, 0 also half-res tiles).
  */
 export const TIERS = [
@@ -27,6 +28,10 @@ const DOWN_FPS = 45;
 const DOWN_SECS = 4;
 const UP_FPS = 57;
 const UP_SECS = 10;
+/** After a menu/pause/level-up card: skip this long before timing again (resume hitches). */
+const RESUME_SETTLE = 0.5;
+/** A step-up that stays out of the slow zone this long has held (clears the failure flag). */
+const HOLD_SECS = 20;
 
 class QualityGovernor {
   constructor() {
@@ -34,9 +39,20 @@ class QualityGovernor {
     this.autoTier = 2;
     /** Smoothed gameplay fps (EMA over ~1 s). */
     this.fps = 60;
+    /**
+     * Display refresh estimate: the highest ~1 s average frame rate seen over all frames (menus
+     * are cheap, so they run at vsync). 0 until measured. A 50 Hz display (TVs, some laptops)
+     * lowers the step-up threshold, which 57 fps would otherwise make unreachable. Only a peak
+     * that sits on 50 counts: a 60 Hz device that never beats 55 fps must not step up at 52.
+     */
+    this.refresh = 0;
+    this._rate = 60;
+    this._seen = 0;
     this._slowT = 0;
     this._fastT = 0;
+    this._heldT = 0;
     this._settle = 0;
+    this._resume = 0;
     /** Failed step-ups per tier: each one doubles the wait before trying that tier again. */
     this._fails = [0, 0, 0];
     this._lastDropFrom = -1;
@@ -86,23 +102,40 @@ class QualityGovernor {
   sample(rawDt, active) {
     if (!(rawDt > 0) || rawDt > 0.5) return;
     const inst = 1 / rawDt;
-    this.fps += (inst - this.fps) * Math.min(1, rawDt * 1.5);
-    if (!active || this.setting !== 'auto') {
+    const k = Math.min(1, rawDt * 1.5);
+    this._rate += (inst - this._rate) * k;
+    this._seen += rawDt;
+    if (this._seen > 3 && this._rate > this.refresh) this.refresh = Math.min(240, this._rate);
+    if (this.setting !== 'auto') {
       this._slowT = 0;
       this._fastT = 0;
       return;
     }
+    if (!active) {
+      // Menus, pauses, level-up cards: freeze the timers and the fps average rather than
+      // resetting them. Late in a run cards come every few seconds, and a reset each time
+      // meant a tier dropped during one spike could never step back up.
+      this._resume = RESUME_SETTLE;
+      return;
+    }
+    if (this._resume > 0) {
+      this._resume -= rawDt;
+      return;
+    }
+    this.fps += (inst - this.fps) * k;
     if (this._settle > 0) {
       // Just changed tier (canvas resize, tile repaint): let the numbers settle first.
       this._settle -= rawDt;
       return;
     }
+    const upFps = Math.abs(this.refresh - 50) < 1.5 ? 47.5 : UP_FPS;
     if (this.fps < DOWN_FPS) {
       this._slowT += rawDt;
       this._fastT = 0;
     } else {
       this._slowT = Math.max(0, this._slowT - rawDt * 0.5);
-      this._fastT = this.fps > UP_FPS ? this._fastT + rawDt : Math.max(0, this._fastT - rawDt);
+      this._fastT = this.fps > upFps ? this._fastT + rawDt : Math.max(0, this._fastT - rawDt);
+      this._heldT += rawDt;
     }
     if (this._slowT >= DOWN_SECS && this.autoTier > 0) {
       // A step-up that immediately turns slow again counts as a failure for that tier.
@@ -114,8 +147,8 @@ class QualityGovernor {
       this.autoTier++;
       this._lastDropFrom = -2;
       this._changed('fast');
-    } else if (this._lastDropFrom === -2 && this._fastT > 20) {
-      this._lastDropFrom = -1; // the step-up held
+    } else if (this._lastDropFrom === -2 && this._heldT > HOLD_SECS) {
+      this._lastDropFrom = -1; // the step-up held (a drop much later is not its failure)
     }
   }
 
@@ -130,6 +163,7 @@ class QualityGovernor {
   _changed(reason) {
     this._slowT = 0;
     this._fastT = 0;
+    this._heldT = 0;
     this._settle = 1.5;
     this.fps = 50;
     this._emitIfChanged(reason);

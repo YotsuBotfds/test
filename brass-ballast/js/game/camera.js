@@ -1,6 +1,7 @@
 // Camera rig: smoothed follow with aim/velocity lead, co-op framing (zoom out to fit every
 // living player), boss framing (lean toward the nearest live boss and zoom out — within
-// limits — so player and boss share the screen), trauma-based shake (scaled by
+// limits — so player and boss share the screen; a dying boss stays framed through its death
+// show), trauma-based shake (scaled by
 // Save.settings.shake) and zoom punches. Writes renderer.camera {x, y, zoomMul, shakeX, shakeY}.
 
 import { Save } from '../core/storage.js';
@@ -40,6 +41,16 @@ export class CameraRig {
     this.insets = null;
     /** 0..1 how much boss framing is applied (eases in/out). */
     this.bossK = 0;
+    /** Boss-death hold {target, until (world seconds)}: see holdFocus(). */
+    this.hold = null;
+  }
+
+  /**
+   * Keep framing `target` — a boss that just died, i.e. its wreck and death show — as if it
+   * were still a live boss until world time `until`, instead of snapping back to the player.
+   */
+  holdFocus(target, until) {
+    this.hold = target && !target.def?.noFrame ? { target, until } : null;
   }
 
   /** Add shake trauma (0..1, squared for falloff). */
@@ -66,9 +77,11 @@ export class CameraRig {
    * @param {number} dt real (unscaled) seconds
    * @param {any[]} players
    * @param {any[]} [bosses] live main boss bodies (world.bosses)
+   * @param {number} [now] world time (expires the boss-death hold)
    */
-  update(dt, players, bosses) {
+  update(dt, players, bosses, now = 0) {
     this.t += dt;
+    if (this.hold && !(now < this.hold.until)) this.hold = null;
     const r = this.renderer;
     const c = r.camera;
     // Focus: average of living players (fall back to everyone).
@@ -127,7 +140,7 @@ export class CameraRig {
       tx += this.leadX;
       ty += this.leadY;
       // Boss framing: lean toward the boss and zoom out so both stay on screen.
-      const boss = pickBoss(bosses, tx, ty);
+      const boss = this.hold?.target || pickBoss(bosses, tx, ty);
       this.bossK = damp(this.bossK, boss ? 1 : 0, 2, dt);
       if (boss) {
         this.bossX = boss.x;
