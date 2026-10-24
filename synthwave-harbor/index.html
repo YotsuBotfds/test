@@ -2277,7 +2277,7 @@ function resize() {
   const w = RENDER ? RENDER_W : window.innerWidth;
   const h = RENDER ? RENDER_H : window.innerHeight;
   viewW = w; viewH = h;
-  pixelRatio = RENDER ? 1 : Math.min(window.devicePixelRatio || 1, MOBILE ? 1.5 : 1.75) * quality.scale;
+  pixelRatio = RENDER ? 1 : Math.min(window.devicePixelRatio || 1, 1.5) * quality.scale;
   renderer.setPixelRatio(pixelRatio);
   renderer.setSize(w, h, !RENDER);
   if (RENDER) { canvas.style.width = `${w}px`; canvas.style.height = `${h}px`; }
@@ -2294,9 +2294,10 @@ function resize() {
   stars.material.uniforms.uDpr.value = pixelRatio * (h / 1080 > 1 ? h / 1080 : 1);
 }
 
-const quality = { scale: 1, frames: 0, acc: 0 };
+const quality = { scale: 1, frames: 0, acc: 0, warmup: 120 };
 function adaptQuality(dt) {
-  if (RENDER) return;
+  if (RENDER || !clock.playing) return;
+  if (quality.warmup > 0) { quality.warmup--; return; }
   quality.frames++;
   quality.acc += dt;
   if (quality.frames < 90) return;
@@ -2328,7 +2329,7 @@ async function init() {
   const w = RENDER ? RENDER_W : window.innerWidth;
   const h = RENDER ? RENDER_H : window.innerHeight;
   makeWater(Math.round(w * 0.5), Math.round(h * 0.5));
-  setupComposer(w, h, RENDER ? 1 : Math.min(window.devicePixelRatio || 1, MOBILE ? 1.5 : 1.75));
+  setupComposer(w, h, RENDER ? 1 : Math.min(window.devicePixelRatio || 1, 1.5));
   if (RENDER) {
     finalPass.uniforms.tTitle.value = makeTitleTexture(RENDER_W, RENDER_H);
     finalPass.uniforms.uGrain.value = 0.007;   // static dither: keeps gradients smooth and the encode small
