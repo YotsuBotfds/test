@@ -17,7 +17,7 @@ import { HUD } from './ui/hud.js';
 import { UI } from './ui/ui.js';
 import { AchievementTracker } from './content/achievements.js';
 import { initPWA } from './pwa.js';
-import { Game } from './game/game.js';
+import { Game, isBossArt } from './game/game.js';
 import { initDebug, autostartRun } from './debug.js';
 
 function setBoot(frac, label) {
@@ -42,7 +42,11 @@ async function boot() {
   const renderer = new Renderer(canvas);
 
   try {
-    await Sprites.prewarm((done, total) => setBoot(0.05 + 0.85 * (done / Math.max(1, total)), 'Painting the skies…'));
+    // Boss art (the largest canvases) is warmed per stage instead: see Game.onStageStart.
+    await Sprites.prewarm(
+      (done, total) => setBoot(0.05 + 0.85 * (done / Math.max(1, total)), 'Painting the skies…'),
+      (n) => !isBossArt(n),
+    );
   } catch (err) {
     console.error('[boot] sprite prewarm failed', err);
   }

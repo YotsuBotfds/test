@@ -1,5 +1,6 @@
-// WP15 shared boss kit — used by both stormEngine.js and behemoth.js (named after the first
-// boss only because WP15 owns `stormEngine-*.js` / `behemoth-*.js`).
+// WP15 shared boss kit — used by stormEngine.js and behemoth.js (named after the first boss only
+// because WP15 owns `stormEngine-*.js` / `behemoth-*.js`). Every titan's taunts go through its
+// comms talker (sayTaunt + spawnTalker), so boss dialogue looks the same in every fight.
 //
 //  - part helpers: proportional part hp, local → world transforms, hazard bookkeeping
 //  - the "talker": an overlay part that draws a docked comms panel with speaker portraits (boss
@@ -269,9 +270,11 @@ export function say(b, w, text, time = 4.2, soft = false) {
   if (!b.data.talker?.alive) w.floatText(b.x, b.y - b.r - 30, text, { color: '#ffe8b0', size: 15, life: 3 });
 }
 
-/** say() a taunt from TAUNTS[id][kind]. */
+/** say() a taunt from TAUNTS[id][kind]. Returns the line (or null when there is none). */
 export function sayTaunt(b, w, kind, index, time, soft = false) {
-  say(b, w, tauntLine(w, b.type, kind, index), time, soft);
+  const line = tauntLine(w, b.type, kind, index);
+  say(b, w, line, time, soft);
+  return line;
 }
 
 const TALKER_DEF = {

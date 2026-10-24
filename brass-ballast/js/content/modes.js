@@ -483,7 +483,8 @@ export const MODES = {
     bossHpMult: (i) => [0.7, 0.6, 0.45, 0.4, 0.42][i] ?? 0.42,
     /** The engine grants these level-up picks at run start (game.startRun). */
     startLevel: 8,
-    unlocked: (save) => (save?.stats?.wins || 0) > 0 || !!save?.unlocks?.bossRush,
+    // Set by game.endRun on a campaign victory (a Daily Squall win does not count).
+    unlocked: (save) => !!save?.unlocks?.bossRush,
   },
 };
 

@@ -34,6 +34,8 @@ const fontCache = new Map();
  * @param {number} size UI units (the transform scales it)
  */
 export function font(size, kind = 'd', weight = 'bold', style = '') {
+  // Half-unit steps keep the cache bounded when a caller passes an animated size.
+  size = Math.round(size * 2) / 2;
   const key = `${kind}${size}${weight}${style}`;
   let f = fontCache.get(key);
   if (!f) {
@@ -43,6 +45,13 @@ export function font(size, kind = 'd', weight = 'bold', style = '') {
   }
   return f;
 }
+
+/**
+ * Font size (UI units) that renders at no less than `minPx` CSS px at HUD scale `s`. Phones run
+ * at s = 0.7, which shrank the smallest labels to 4-5 px; panels keep their size, only the text
+ * floor rises.
+ */
+export const legible = (size, s, minPx) => Math.max(size, minPx / (s || 1));
 
 const HAS_LS = typeof CanvasRenderingContext2D !== 'undefined' &&
   'letterSpacing' in CanvasRenderingContext2D.prototype;
@@ -178,7 +187,7 @@ export function textLayer(cache, text, o = {}) {
   spacing(m, ls);
   let w = m.measureText(text).width;
   if (maxW > 0 && w > maxW) {
-    fs = Math.max(5, size * (maxW / w));
+    fs = Math.max(5, Math.floor(size * (maxW / w) * 2) / 2); // font() steps by halves: round down
     m.font = font(fs, kind, weight, style);
     w = m.measureText(text).width;
   }

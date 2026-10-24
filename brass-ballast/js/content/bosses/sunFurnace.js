@@ -24,10 +24,10 @@
 
 import { bossHp } from './tuning.js';
 import { Save } from '../../core/storage.js';
-import { TAUNTS } from '../codex.js';
 import { ENEMIES } from '../enemies/index.js';
 import { GEO } from './sunFurnace-art.js';
 import { drawFurnace, drawFurnaceShadow } from './sunFurnace-render.js';
+import { sayTaunt, spawnTalker } from './stormEngine-kit.js';
 import { ATTACKS, PLANS, clearHazards, sfx } from './sunFurnace-attacks.js';
 
 const TAU = Math.PI * 2;
@@ -52,12 +52,9 @@ const FIGHT_ZOOM = 0.8; // def.zoom: camera base zoom while the colossus is up (
 
 // ---- taunts --------------------------------------------------------------------------------
 
-function taunt(b, w, kind, i) {
-  const lines = TAUNTS?.sunFurnace?.[kind];
-  if (!lines || !lines.length) return null;
-  const line = lines[i ?? (w.rng.next() * lines.length) | 0] || lines[0];
-  w.floatText(b.x, b.y - GEO.R - 92, line, { color: '#ffd2a0', size: 17, life: 3.6, rise: 12, callout: true });
-  return line;
+/** Taunts go to the shared comms panel (spawnTalker in init). Returns the line said. */
+function taunt(b, w, kind, i, time) {
+  return sayTaunt(b, w, kind, i, time);
 }
 
 // ---- lifecycle -----------------------------------------------------------------------------
@@ -594,6 +591,7 @@ function onDeath(b, w) {
   d.novaCharge = 0;
   d.lanes = null;
   clearHazards(b);
+  taunt(b, w, 'death', undefined, 5);
   // The dead boss gets no more updates; a harmless hazard keeps its flying debris moving.
   if (d.debris.length) {
     w.addHazard({ x: b.x, y: b.y, r: 1, team: 'player', damage: 0, life: 2.4, update: (h, dt, wd) => updateDebris(b, dt, wd), draw: () => {} });
@@ -659,9 +657,6 @@ function onDeath(b, w) {
       w.fx.ring?.(x, y, 700 + i * 220, '#ffe08a', 0.8, { r0: 80, width: 5 });
     });
   }
-  w.after(3.4, () => {
-    taunt({ x, y }, w, 'death');
-  });
 }
 
 // ---- def -----------------------------------------------------------------------------------
@@ -695,8 +690,9 @@ const SUN_FURNACE = {
   /** HUD boss-bar markers: shell breaks, desperation, forced supernova. */
   hudPhases: [P2_AT, P3_AT, NOVA_AT],
 
-  init(b) {
+  init(b, w) {
     init(b);
+    spawnTalker(w, b);
   },
 
   intro(b, w) {

@@ -14,6 +14,7 @@ import { Sprites } from '../../gfx/sprites.js';
 import { TAU, clamp, easeOutCubic } from '../../core/math.js';
 import { TAUNTS } from '../codex.js';
 import { registerKrakenArt, BODY_R, PORTHOLES, VENTS } from './kraken-art.js';
+import { sayTaunt, spawnTalker } from './stormEngine-kit.js';
 import {
   createTentacles, updateTentacles, pickTentacle, startSlam, startGrab, releaseGrab, reachOf,
   regrowTentacles, N_SEG,
@@ -29,7 +30,7 @@ const BASE_HP = DESIGN_HP * HP_SCALE;
 const PHASE2 = 0.6;
 const PHASE3 = 0.25;
 const ZOOM = 0.84;
-const DOME_ARMOR = 0.55;
+const DOME_ARMOR = 0.75;
 const DOME_OPEN = 1.15;
 const SLAM_CD = [2.5, 1.8, 1.5];
 const REST = [[1.4, 2.0], [1.0, 1.5], [0.7, 1.1]];
@@ -39,13 +40,9 @@ const MOVES = [
   ['frenzy', 'charge', 'ink', 'spiral', 'frenzy', 'charge', 'ring'],
 ];
 
+/** Taunts go to the shared comms panel (spawnTalker in init). */
 function taunt(b, w, kind, index) {
-  const lines = TAUNTS?.kraken?.[kind];
-  if (!lines || !lines.length) return;
-  const line = index !== undefined ? lines[index % lines.length] : lines[(w.rng.next() * lines.length) | 0];
-  const cy = w.renderer?.camera?.y ?? b.y;
-  const y = b.y < cy ? b.y + 140 : b.y - 140;
-  w.floatText(b.x, y, line, { color: '#e8d2ff', size: 16, life: 3.8, rise: 18, callout: true });
+  sayTaunt(b, w, kind, index);
 }
 
 export default {
@@ -114,6 +111,7 @@ export default {
     b.invuln = true;
     b.state = 'enter';
     b.timer = 0;
+    spawnTalker(w, b);
     w.sfx('steam_vent', b.x, b.y, { vol: 0.9, pitch: 0.45 });
     w.after(1.6, () => {
       if (b.alive) taunt(b, w, 'intro');

@@ -58,9 +58,10 @@ export class CameraRig {
     this.trauma = Math.min(1, this.trauma + amount);
   }
 
-  /** Positive = zoom in briefly, negative = zoom out. */
+  /** Positive = zoom in briefly, negative = zoom out. Follows the shake setting (0 = none). */
   zoomPunch(amount) {
-    this.punch = clamp(this.punch + amount, -0.4, 0.4);
+    const scale = Math.min(1, Save.settings.shake ?? 1);
+    this.punch = clamp(this.punch + amount * scale, -0.4, 0.4);
   }
 
   snap(x, y) {

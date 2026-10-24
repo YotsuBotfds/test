@@ -12,7 +12,7 @@
 
 export const BOSS_TOUGHNESS = {
   ironMatriarch: 2.3, //  5175 hp → bot ~2.1–2.6 min at L6
-  kraken: 2.7, //  9828 hp → ~2.7 min at L10
+  kraken: 1.6, //  9828 hp → ~2.7 min at L10
   stormEngine: 9.2, // 34960 hp → ~2.4–3.6 min at L14
   behemoth: 9.4, // 48880 hp → ~2.6–4.6 min at L18 (weak points: bridge ×2, hull hitboxes)
   sunFurnace: 4.6, // 34500 hp → ~4.1–4.3 min at L22 (shell plates halve most phase-1 hits)

@@ -32,6 +32,12 @@ const KNOWN_PHASES = {
 };
 const EMPTY = Object.freeze([]);
 
+// Radar blips are batched: one path per (sweep-glow bucket, colour) instead of a fillStyle /
+// globalAlpha change and fillRect per enemy (150+ blips in a swarm). Each list holds x, y, size.
+const BLIP_BUCKETS = 5;
+const BLIP_COLORS = ['#ff4d2e', '#a05050', '#ffcf4a'];
+const blipLists = Array.from({ length: BLIP_BUCKETS * BLIP_COLORS.length }, () => []);
+
 // ---- boss view state --------------------------------------------------------------------------
 
 export function makeBossView(b) {
@@ -545,6 +551,7 @@ export function drawRadar(H, ctx, world, renderer, focus, cx, cy) {
   // enemies
   const enemies = world.enemies || EMPTY;
   const lim2 = (RADAR_RANGE * 0.97) ** 2;
+  for (let i = 0; i < blipLists.length; i++) blipLists[i].length = 0;
   for (let i = 0; i < enemies.length; i++) {
     const e = enemies[i];
     if (!e.alive || e.parent || e.isBoss) continue;
@@ -553,17 +560,24 @@ export function drawRadar(H, ctx, world, renderer, focus, cx, cy) {
     if (dx * dx + dy * dy > lim2) continue;
     let da = sweepA - Math.atan2(dy, dx);
     da -= Math.floor(da / TAU) * TAU;
-    const glow = 1 - da / TAU;
-    ctx.globalAlpha = 0.3 + 0.7 * glow * glow;
-    const bx = dx * scale;
-    const by = dy * scale;
-    if (e.elite) {
-      ctx.fillStyle = '#ffcf4a';
-      ctx.fillRect(bx - 2.2, by - 2.2, 4.4, 4.4);
-    } else {
-      ctx.fillStyle = e.phased ? '#a05050' : '#ff4d2e';
-      const sz = e.r > 30 ? 3.6 : 2.6;
-      ctx.fillRect(bx - sz / 2, by - sz / 2, sz, sz);
+    const bucket = Math.min(BLIP_BUCKETS - 1, Math.floor((1 - da / TAU) * BLIP_BUCKETS));
+    const col = e.elite ? 2 : e.phased ? 1 : 0;
+    const sz = e.elite ? 4.4 : e.r > 30 ? 3.6 : 2.6;
+    blipLists[col * BLIP_BUCKETS + bucket].push(dx * scale, dy * scale, sz);
+  }
+  for (let col = 0; col < BLIP_COLORS.length; col++) {
+    ctx.fillStyle = BLIP_COLORS[col];
+    for (let b = 0; b < BLIP_BUCKETS; b++) {
+      const list = blipLists[col * BLIP_BUCKETS + b];
+      if (!list.length) continue;
+      const glow = (b + 0.5) / BLIP_BUCKETS;
+      ctx.globalAlpha = 0.3 + 0.7 * glow * glow;
+      ctx.beginPath();
+      for (let j = 0; j < list.length; j += 3) {
+        const sz = list[j + 2];
+        ctx.rect(list[j] - sz / 2, list[j + 1] - sz / 2, sz, sz);
+      }
+      ctx.fill();
     }
   }
   ctx.globalAlpha = 1;

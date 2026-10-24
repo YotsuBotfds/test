@@ -663,6 +663,15 @@ img { -webkit-user-drag: none; }
   animation: hero-in 1s cubic-bezier(0.2, 0.9, 0.3, 1) both;
 }
 @keyframes hero-in { from { opacity: 0; transform: translateY(-24px) scale(0.96); } }
+/* Soft dark backing so attract-mode ships passing beneath don't muddy the logo & tagline. */
+.title-hero::before {
+  content: '';
+  position: absolute;
+  inset: 18% -14% -10%;
+  z-index: -1;
+  background: radial-gradient(ellipse 50% 50% at 50% 60%, rgba(20, 12, 6, 0.55), rgba(20, 12, 6, 0.3) 55%, transparent 100%);
+  pointer-events: none;
+}
 .emblem-wrap {
   width: clamp(170px, 36vmin, 380px);
   margin-bottom: -2%;
@@ -1116,6 +1125,10 @@ img { -webkit-user-drag: none; }
   white-space: nowrap;
 }
 .ws-cost .cog-glyph { width: 1.2em; height: 1.2em; }
+/* first press arms a purchase; the pill asks before the second press spends */
+.ws-card.armed { box-shadow: inset 0 0 0 2px var(--gold), 0 0 14px rgba(255, 207, 74, 0.45); }
+.ws-card.armed:hover, .ws-card.armed:focus { box-shadow: inset 0 0 0 2px var(--gold), var(--focus); }
+.ws-cost.ws-confirm { color: #2b1a08; background: linear-gradient(#ffe08a, #d9a748); box-shadow: 0 0 0 1.5px #7a5420, 0 2px 0 #000, 0 0 12px rgba(255, 207, 74, 0.6); }
 .ws-card.poor .ws-cost { color: #f0a090; box-shadow: 0 0 0 1.5px #8c2f2b, 0 2px 0 #000; }
 .ws-max { font-family: var(--font-display); font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.35em 0.6em; border-radius: 8px; background: linear-gradient(#5fd9cf, #1f8f87); color: #06221f; }
 .ws-card.maxed { background: linear-gradient(180deg, rgba(220, 255, 250, 0.4), rgba(150, 210, 200, 0.25)); }
@@ -2189,6 +2202,17 @@ input[type='range']:focus::-webkit-slider-thumb { transform: scale(1.18); box-sh
   .ui-root:not(.open) .toast-label { font-size: max(10px, 0.62rem); letter-spacing: 0.12em; }
   .ui-root:not(.open) .toast-text { font-size: 0.88rem; line-height: 1.2; }
   .ui-root:not(.open) .toast-desc { display: none; }
+}
+/* Narrower landscape phones (667x375, 568x320) get the HUD's narrow layout: the stage plaque and
+   score share the second row, so the strip moves up into the gap between the ship panel and the
+   radar instead. */
+@media (max-height: 520px) and (min-width: 560px) and (max-width: 679px) {
+  .ui-root:not(.open) .toasts {
+    top: calc(var(--safe-t) + 8px);
+    right: calc(var(--safe-r) + 96px);
+    transform: none;
+    width: min(280px, calc(100vw - 390px));
+  }
 }
 @keyframes toast-drop { from { transform: translateY(-80%); opacity: 0; } }
 @keyframes toast-lift { to { transform: translateY(-80%); opacity: 0; } }

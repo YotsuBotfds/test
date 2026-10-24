@@ -3,6 +3,7 @@
 // baked once per size so the per-frame overlay is just a handful of drawImage calls.
 
 import { PAL, FONT_DISPLAY } from '../config.js';
+import { RADAR_R } from '../ui/hud-boss.js';
 
 const TAU = Math.PI * 2;
 const STICK_DZ = 0.08; // small radial dead zone so a resting thumb reads as zero
@@ -548,11 +549,43 @@ export class TouchControls {
     this.boost.y = Math.max(s.t + br + 70, baseY);
     this.bomb.x = bx2;
     this.bomb.y = Math.max(s.t + br + 40, baseY - br * 1.25);
+    this._clearRadar(W, H, br, aimX, restY);
     this.pause.r = 22;
     this.pause.x = s.l + 16 + 22;
     this.pause.y = s.t + 16 + 22;
     this.restMove = { x: lh ? rightX : leftX, y: restY };
     this.restAim = { x: lh ? leftX : rightX, y: restY };
+  }
+
+  /**
+   * Keep BOOST/BOMB clear of the HUD radar disc in the top-right corner (placed by ui/hud.js:
+   * radius RADAR_R × HUD scale, 10 × scale in from the safe edges). Short landscape screens
+   * (568×320) put BOOST over its lower rim. Drop the button below the disc unless that crowds
+   * the aim ring it sits above; then slide both buttons left of it instead.
+   */
+  _clearRadar(W, H, br, aimX, restY) {
+    const s = this.safe;
+    const hs = clamp(Math.min(W, H) / 720, 0.7, 1.35);
+    const rr = RADAR_R * hs;
+    const rx = W - s.r - 10 * hs - rr;
+    const ry = s.t + 10 * hs + rr;
+    const need = rr + br + 8;
+    const R = this.R;
+    for (const b of [this.boost, this.bomb]) {
+      const dx = b.x - rx;
+      const dy = b.y - ry;
+      if (dx * dx + dy * dy >= need * need) continue;
+      const downY = ry + Math.sqrt(Math.max(0, need * need - dx * dx));
+      const overAim = Math.abs(b.x - aimX) < R + br + 12;
+      const maxY = overAim ? restY - R - 12 - br - 28 : H - s.b - br - 8;
+      if (downY <= maxY) {
+        b.y = downY;
+        continue;
+      }
+      const shift = b.x - (rx - Math.sqrt(Math.max(0, need * need - dy * dy)));
+      this.boost.x -= shift;
+      this.bomb.x -= shift;
+    }
   }
 
   setLayout({ leftHanded, opacity } = {}) {

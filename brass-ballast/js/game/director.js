@@ -16,6 +16,15 @@ const WARNING_TIME = 3;
 const BOSS_DOWN_TIME = 3.6;
 const TRANSITION_TIME = 3.5;
 const LEFTOVER_GRACE = 25;
+/** Dead-air guard (balance pass): with ≤ LULL_ALIVE foes up after the opening seconds, the next
+ *  scheduled batch is pulled to within LULL_PULL s and the trickle fires every LULL_TRICKLE s, so
+ *  a strong build plays a shorter, denser wave instead of an empty sky. */
+const LULL_ALIVE = 2;
+const LULL_PULL = 1.2;
+const LULL_TRICKLE = 0.7;
+/** Once every group has spawned and the sky is clear, the wave may end this fraction into its
+ *  timer (the trickle alone does not hold it open). */
+const EARLY_CLEAR = 0.6;
 
 let waveToken = 1;
 
@@ -370,6 +379,7 @@ export class Director {
       trickleT: def.trickle ? (def.trickle.every ?? 3) / spawnRate : Infinity,
       fled: false,
     };
+    run.waveCrates = 0;
     this._enter('wave');
     const label = this.endless ? `Wave ${run.endlessWave}` : `Wave ${index + 1}`;
     const sub = def.name || (this.endless ? 'Endless Gale' : index + 1 === run.waveCount ? 'Final wave' : run.stage?.name || '');
@@ -413,6 +423,13 @@ export class Director {
     W.t += dt;
     let alive = this.aliveInWave();
     let scheduleDone = true;
+    const lull = alive <= LULL_ALIVE && W.t > 3;
+    if (lull) {
+      let soon = null;
+      for (const G of W.groups) if (G.spawned < G.count && (!soon || G.next < soon.next)) soon = G;
+      if (soon && soon.next > W.t + LULL_PULL) soon.next = W.t + LULL_PULL;
+      if (W.trickleT > LULL_TRICKLE) W.trickleT = LULL_TRICKLE;
+    }
     for (const G of W.groups) {
       if (G.spawned >= G.count) continue;
       scheduleDone = false;
@@ -443,7 +460,7 @@ export class Director {
         }
       }
     }
-    if (W.t < W.duration) scheduleDone = false;
+    if (W.t < W.duration * EARLY_CLEAR) scheduleDone = false;
     if (scheduleDone && alive === 0) {
       this._waveClear();
       return;
@@ -510,13 +527,16 @@ export class Director {
     for (let i = 0; i < pts.length; i++) {
       const pt = pts[i];
       let elite = forceElite;
-      if (!elite && !def?.noElite && rng.next() < chance) elite = true;
+      // Light swarm craft (xp ≤ 2: scouts, mines, wasps, kites) roll elite at half the chance.
+      const roll = (def?.xp ?? 3) <= 2 ? chance * 0.5 : chance;
+      if (!elite && !def?.noElite && rng.next() < roll) elite = true;
       const e = w.spawnEnemy(type, pt.x, pt.y, {
         wave: token,
         elite,
         angle: Math.atan2(target.y - pt.y, target.x - pt.x),
         data: g?.data,
       });
+      if (forceElite) e.forcedElite = true;
       made.push(e);
     }
     if (formation === 'pair') {

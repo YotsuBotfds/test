@@ -384,7 +384,8 @@ Summary (`run:end`, results): DESIGN §4.11 fields plus `rank, elitesKilled, sho
 bombsUsed, boosts, hull, weapon, modifiers, abandoned, upgrades`.
 
 Persistence at run end: cogs banked, `Save.data.stats` updated, `Save.addHighscore(mode, …)`,
-codex counts, unlocks (`tinker` when stage 3 reached in campaign/daily, `bane` on campaign win).
+codex counts, unlocks (`tinker` when stage 3 reached in campaign/daily; `bane`, `stats.campaignWins++`
+and `Save.data.unlocks.bossRush` on a campaign win; a Daily Squall win only counts in `stats.wins`).
 
 ## 13. Rendering order & helpers
 

@@ -368,6 +368,15 @@ export function drawEnemyShadows(w, ctx, renderer) {
     renderer.applyWorld(ctx);
     ctx.globalAlpha = 1;
   }
+  // renderer.blit leaves its own transform/alpha behind: put the world transform back once,
+  // before the next draw that needs it (or after the loop), not after every blob.
+  let raw = false;
+  const toWorld = () => {
+    if (!raw) return;
+    renderer.applyWorld(ctx);
+    ctx.globalAlpha = 1;
+    raw = false;
+  };
   for (let i = 0; i < list.length; i++) {
     const e = list[i];
     if (!e.alive || e.alt <= 0 || e.def.shadow === false) continue;
@@ -377,15 +386,19 @@ export function drawEnemyShadows(w, ctx, renderer) {
     const sy = e.y + oy;
     if (sx < v.x0 - e.r || sx > v.x1 + e.r || sy < v.y0 - e.r || sy > v.y1 + e.r) continue;
     if (e.def.drawShadow) {
+      toWorld();
       safeDraw(w, e, 'drawShadow', ctx, ox, oy);
-    } else if (e.sprite && !e.def.draw) {
+    } else if (e.sprite && !e.def.draw && e.r * e.scale >= 30) {
+      // Large craft keep a true silhouette; small ones (the swarm) read the same as a soft blob,
+      // which skips a tinted-silhouette draw per enemy.
+      toWorld();
       Sprites.drawTint(ctx, e.sprite, sx, sy, e.angle, e.scale, '#000000', 0.28 * e.alpha, e.frame);
     } else {
       renderer.blit(ctx, shadow, sx, sy, 0, (e.r * 2.6 * e.scale) / 32, 0.3 * e.alpha);
-      renderer.applyWorld(ctx);
-      ctx.globalAlpha = 1;
+      raw = true;
     }
   }
+  toWorld();
   for (let i = 0; i < w.wrecks.length; i++) {
     const wr = w.wrecks[i];
     const e = wr.e;

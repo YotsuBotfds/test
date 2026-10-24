@@ -20,6 +20,7 @@ import {
   cog,
   easeOutBack,
   blitText,
+  legible,
 } from './hud-kit.js';
 
 const MAX_AUX = 4;
@@ -258,14 +259,17 @@ function dialFace(H, cost) {
     // labels
     c.textAlign = 'center';
     c.textBaseline = 'middle';
-    c.font = font(5.6, 'd');
+    c.font = font(legible(6.5, H.s, 6.5), 'd');
     spacing(c, 1);
-    c.fillStyle = '#5a3a18';
+    c.fillStyle = '#4a2e12';
     c.fillText('STEAM', cx, cy - fr * 0.42);
     spacing(c, 0);
-    c.font = font(4.6, 'b', 'bold', 'italic');
-    c.fillStyle = '#7a5420';
-    c.fillText('psi', cx, cy + fr * 0.7);
+    // decorative unit label: dropped where it would be unreadably small (phones)
+    if (H.s >= 0.85) {
+      c.font = font(4.6, 'b', 'bold', 'italic');
+      c.fillStyle = '#7a5420';
+      c.fillText('psi', cx, cy + fr * 0.7);
+    }
   }, 2);
 }
 
@@ -417,7 +421,13 @@ export function drawPlayerPanel(H, ctx, p, pv, run, x, y) {
   blitText(ctx, maxL, barX + barW - 8, barY + barH / 2 + 1, 'right');
   ctx.font = font(14, 'm');
   engraved(ctx, hpTxt, barX + barW - 11 - maxL.w, barY + barH / 2 + 1, low ? '#ffe0b0' : '#fff6dc');
-  const hullL = H.txt('HULL', { size: 8, ls: 1.5, color: low ? '#ffb3a0' : 'rgba(255,236,200,0.85)' });
+  // dark outline: light text on the red fill otherwise all but vanished
+  const hullL = H.txt('HULL', {
+    size: legible(8, H.s, 7.5),
+    ls: 1.5,
+    color: low ? '#ffd2c4' : '#fff1d6',
+    outline: 'rgba(40,8,4,0.9)',
+  });
   blitText(ctx, hullL, fx0 + 5, barY + barH / 2 + 1, 'left');
 
   // ---- row 2: bombs + cogs (+ shield / balloon)
@@ -504,8 +514,14 @@ export function drawPlayerPanel(H, ctx, p, pv, run, x, y) {
     ctx.restore();
     ctx.textAlign = 'right';
     ctx.textBaseline = 'middle';
-    ctx.font = font(12 + pop * 3, 'm');
-    engraved(ctx, H.str('cogs', run.cogs, true), cx + 85, rowY + 12.5, pop > 0.05 ? '#fff3c4' : '#f2d48a');
+    // The pop scales a fixed-size font (an animated font size built a new font string a frame).
+    const tk = 1 + pop * 0.25;
+    ctx.save();
+    ctx.translate(cx + 85, rowY + 12.5);
+    ctx.scale(tk, tk);
+    ctx.font = font(12, 'm');
+    engraved(ctx, H.str('cogs', run.cogs, true), 0, 0, pop > 0.05 ? '#fff3c4' : '#f2d48a');
+    ctx.restore();
   }
 
   // ---- steam dial (drawn last: overlaps the bar's end cap)
@@ -517,7 +533,7 @@ export function drawPlayerPanel(H, ctx, p, pv, run, x, y) {
   const ready = p.steam >= (s.boostCost || 30);
   // digital readout
   ctx.textAlign = 'center';
-  ctx.font = font(7.5, 'm');
+  ctx.font = font(legible(7.5, H.s, 8.5), 'm');
   ctx.fillStyle = ready ? '#2b1a0c' : '#8c2f2b';
   ctx.fillText(H.str('st' + p.index, Math.floor(p.steam)), PANEL.dialX, PANEL.dialY + 11);
   // needle
@@ -744,10 +760,10 @@ export function drawXpBar(H, ctx, run, x, y, w) {
   }
   // labels
   ctx.textBaseline = 'middle';
-  const aeL = H.txt('AETHER', { size: 7, ls: 2, color: '#eafffd', shadow: null, outline: 'rgba(0,38,36,0.9)' });
+  const aeL = H.txt('AETHER', { size: legible(7, H.s, 7), ls: 2, color: '#eafffd', shadow: null, outline: 'rgba(0,38,36,0.9)' });
   blitText(ctx, aeL, fx0 + 14, h / 2 + 0.5, 'left');
   ctx.textAlign = 'right';
-  ctx.font = font(8, 'm');
+  ctx.font = font(legible(8, H.s, 8), 'm');
   engraved(ctx, H.str('xpTxt', `${Math.floor(run.xp)} / ${run.xpNext}`), bx + bw - 8, h / 2 + 0.5, 'rgba(225,255,250,0.9)', 'rgba(0,20,20,0.9)', 1);
 
   // level badge (cog medallion)
@@ -782,7 +798,7 @@ export function drawXpBar(H, ctx, run, x, y, w) {
     ctx.globalCompositeOperation = 'source-over';
   }
   ctx.textAlign = 'center';
-  ctx.font = font(6, 'd');
+  ctx.font = font(legible(6, H.s, 6.5), 'd');
   ctx.fillStyle = 'rgba(200,255,250,0.85)';
   ctx.fillText('LV', 0, -6.5);
   const lvl = Math.floor(xs.shown);

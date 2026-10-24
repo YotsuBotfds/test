@@ -571,9 +571,10 @@ unlocks:[text]}`.
   meta:{ cogs:0, totalCogs:0, workshop:{}, unlockedHulls:['dauntless'],
     unlockedWeapons:['brassCannon'], hull:'dauntless', weapon:'brassCannon' },
   codex:{ enemies:{}, bosses:{}, weapons:{}, upgrades:{} },
-  stats:{ runs:0, wins:0, kills:0, bossKills:0, deaths:0, playTime:0, bestScore:0,
-    bestCombo:0, maxStage:0, cogsEarned:0, bestEndlessWave:0 },
+  stats:{ runs:0, wins:0, campaignWins:0, kills:0, bossKills:0, deaths:0, playTime:0,
+    bestScore:0, bestCombo:0, maxStage:0, cogsEarned:0, bestEndlessWave:0 },
   highscores:{ campaign:[], endless:[], bossRush:[], daily:{} },
+  unlocks:{ bossRush?:true },  // set by the first Grand Voyage victory
   achievements:{}, tutorialSeen:false }
 ```
 API: `Save.data`, `Save.save()` (debounced), `Save.saveNow()`, `Save.reset()`,

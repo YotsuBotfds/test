@@ -569,12 +569,21 @@ export class HUD {
       rightColBottom = top + Math.max(radarD, (SCORE.h + 46) * s);
     } else {
       // narrow / portrait: panel + radar on row 1, plaque under the panel, score under radar
-      L.score.x = right;
-      L.score.y = top + radarD + 6 * s;
       L.plaque.x = left + plaqueW / 2;
       L.plaque.y = top + panelH + 2 * s;
+      // Touch, landscape (667x375, 568x320): the BOMB/BOOST buttons ride high on the right edge
+      // (input/touch.js) and covered a score under the radar, so it moves beside the plaque.
+      const besidePlaque = touch && W > H && left + plaqueW + gap + scoreW <= right - radarD - gap;
+      if (besidePlaque) {
+        L.score.x = left + plaqueW + gap + scoreW;
+        L.score.y = L.plaque.y;
+        rightColBottom = top + radarD;
+      } else {
+        L.score.x = right;
+        L.score.y = top + radarD + 6 * s;
+        rightColBottom = L.score.y + (SCORE.h + 46) * s;
+      }
       topBand = Math.max(L.plaque.y + plaqueH, L.score.y + (SCORE.h + 46) * s);
-      rightColBottom = L.score.y + (SCORE.h + 46) * s;
       L.boss.x = W / 2;
       L.boss.y = topBand + 8 * s;
       L.boss.w = Math.min(620, (right - left) / s - 40);
@@ -610,7 +619,7 @@ export class HUD {
         L.loadout.y = top + panelH + 2 * s;
       } else {
         L.loadout.y = L.plaque.y + plaqueH + 4 * s;
-        if (left + (LOADOUT_W + 8) * s > right - scoreW) L.loadout.y = topBand + 4 * s;
+        if (L.score.x === right && left + (LOADOUT_W + 8) * s > right - scoreW) L.loadout.y = topBand + 4 * s;
         topBand = Math.max(topBand, L.loadout.y + (SLOT + 4) * s);
       }
       // co-op panels stack down the right column under the score

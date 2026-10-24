@@ -25,8 +25,8 @@ for (let i = 0; i < N_SEG; i++) {
 export const BASE_LEN = SPACING.reduce((a, b) => a + b, 0);
 const TIP_EXTRA = 24; // claw reaches past the last segment centre
 const TENT_HP = 650; // at the kraken's base hp; scaled with the body's actual maxHp
-const FORWARD = 0.3;
-const SEVER_BONUS = 0.03;
+const FORWARD = 0.75;
+const SEVER_BONUS = 0.05;
 const GRAB_SPEED = 340;
 
 const FWD = { source: '', owner: null, silent: true, crit: false, element: 'kinetic', fwd: true };

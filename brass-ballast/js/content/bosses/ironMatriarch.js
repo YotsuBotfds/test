@@ -21,6 +21,7 @@ import {
   FIRE_SPOTS, BRIDGE,
 } from './ironMatriarch-art.js';
 import { drawOverlays, drawWreck } from './ironMatriarch-draw.js';
+import { sayTaunt, spawnTalker } from './stormEngine-kit.js';
 
 registerMatriarchArt();
 
@@ -69,14 +70,9 @@ function localY(b, x, y) {
   return -s * (x - b.x) + c * (y - b.y);
 }
 
+/** Taunts go to the shared comms panel (spawnTalker in init). */
 function taunt(b, w, kind, index) {
-  const lines = TAUNTS?.ironMatriarch?.[kind];
-  if (!lines || !lines.length) return;
-  const line = index !== undefined ? lines[index % lines.length] : lines[(w.rng.next() * lines.length) | 0];
-  // keep the speech clear of the HUD: below the hull when she's in the upper half of the view
-  const cy = w.renderer?.camera?.y ?? b.y;
-  const y = b.y < cy ? b.y + 125 : b.y - 125;
-  w.floatText(b.x, y, line, { color: '#ffe2b8', size: 16, life: 3.8, rise: 18, callout: true });
+  sayTaunt(b, w, kind, index);
 }
 
 // ---- Parts --------------------------------------------------------------------------------------
@@ -298,6 +294,7 @@ export default {
     b.state = 'enter';
     b.timer = 0;
     placeParts(b);
+    spawnTalker(w, b);
     w.sfx('steam_vent', b.x, b.y, { vol: 0.8, pitch: 0.6 });
     w.after(1.4, () => {
       if (b.alive) taunt(b, w, 'intro');

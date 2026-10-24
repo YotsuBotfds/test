@@ -15,7 +15,7 @@ function prefersReducedMotion() {
 export function defaultSave() {
   const calm = prefersReducedMotion();
   return {
-    version: 2,
+    version: 3,
     settings: {
       master: 0.8,
       music: 0.6,
@@ -44,6 +44,8 @@ export function defaultSave() {
     stats: {
       runs: 0,
       wins: 0,
+      /** Grand Voyage (campaign) victories only; `wins` counts every mode. */
+      campaignWins: 0,
       kills: 0,
       bossKills: 0,
       deaths: 0,
@@ -55,6 +57,8 @@ export function defaultSave() {
       bestEndlessWave: 0,
     },
     highscores: { campaign: [], endless: [], bossRush: [], daily: {} },
+    /** Milestone unlocks that are not hull/cannon lists (e.g. bossRush: Grand Voyage won). */
+    unlocks: {},
     achievements: {},
     achProgress: { bombKills: 0, bosses: {} },
     tutorialSeen: false,
@@ -137,6 +141,14 @@ class SaveStore {
       if (d.settings.quality === 'high') d.settings.quality = 'auto';
       d.achProgress ||= { bombKills: 0, bosses: {} };
       d.version = 2;
+    }
+    if (!(d.version >= 3)) {
+      // v2 unlocked the Gauntlet / Bane on any victory (Daily too): players who already had one
+      // keep the Gauntlet; campaign wins are recounted from the records board.
+      const camp = (d.highscores?.campaign || []).filter((e) => e?.victory).length;
+      d.stats.campaignWins = Math.max(d.stats.campaignWins || 0, camp);
+      if ((d.stats.wins || 0) > 0) d.unlocks.bossRush = true;
+      d.version = 3;
     }
   }
 

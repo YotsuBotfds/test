@@ -23,7 +23,7 @@ function condMet(u) {
   const st = Save.data.stats || {};
   if (u.cogs) return false;
   if (u.stage) return (st.maxStage || 0) >= u.stage;
-  if (u.win) return (st.wins || 0) > 0;
+  if (u.win) return (st.campaignWins || 0) > 0; // the Grand Voyage, not a Daily Squall
   if (u.kills) return (st.kills || 0) >= u.kills;
   if (u.achievement) return !!Save.data.achievements?.[u.achievement];
   return false;
@@ -309,6 +309,18 @@ export default function build(ui, params) {
   function workshop() {
     const cards = [];
     const level = (id) => Save.meta.workshop?.[id] || 0;
+    // Purchases take two presses (like the airship/cannon "Commission?" dialog, but lighter): the
+    // first arms the card and its price pill asks "Buy?", the second within ARM_MS spends.
+    // Only a click/confirm arms; hovering or moving focus away disarms.
+    const ARM_MS = 2500;
+    let armed = null;
+    let armTimer = 0;
+    const disarm = () => {
+      clearTimeout(armTimer);
+      const c = armed;
+      armed = null;
+      if (c?.isConnected) c.update();
+    };
     for (const item of WORKSHOP || []) {
       const lvlPips = h('div', { class: 'ws-pips' });
       const price = h('div', { class: 'ws-price' });
@@ -331,11 +343,21 @@ export default function build(ui, params) {
         lvlPips.replaceChildren(pips(l, max));
         c.classList.toggle('maxed', maxed);
         c.classList.toggle('poor', !maxed && (Save.meta.cogs || 0) < cost);
+        const isArmed = armed === c && !maxed;
+        c.classList.toggle('armed', isArmed);
         price.replaceChildren(
-          maxed ? h('span', { class: 'ws-max' }, 'Mastered') : h('span', { class: 'ws-cost' }, cog(), fmtInt(cost)),
+          maxed
+            ? h('span', { class: 'ws-max' }, 'Mastered')
+            : isArmed
+              ? h('span', { class: 'ws-cost ws-confirm' }, 'Buy? ', fmtInt(cost))
+              : h('span', { class: 'ws-cost' }, cog(), fmtInt(cost)),
         );
-        c.setAttribute('aria-label', `${item.name}, level ${l} of ${max}${maxed ? ', mastered' : `, costs ${cost} cogs`}`);
+        const what = maxed ? ', mastered' : isArmed ? `, press again to buy for ${cost} cogs` : `, costs ${cost} cogs`;
+        c.setAttribute('aria-label', `${item.name}, level ${l} of ${max}${what}`);
       };
+      c.addEventListener('blur', () => {
+        if (armed === c) disarm();
+      });
       c.addEventListener('click', () => {
         const l = level(item.id);
         if (l >= (item.maxLevel || 1)) {
@@ -344,6 +366,15 @@ export default function build(ui, params) {
           return;
         }
         const cost = safe(() => workshopCost(item, l), 0);
+        if (armed !== c && (Save.meta.cogs || 0) >= cost) {
+          disarm();
+          armed = c;
+          armTimer = setTimeout(disarm, ARM_MS);
+          sfx('ui_select', { vol: 0.6 });
+          c.update();
+          return;
+        }
+        disarm();
         if (!spend(cost)) {
           kick(c, 'shake');
           return;
@@ -380,12 +411,14 @@ export default function build(ui, params) {
         for (const c of cards) c.update();
         upd();
       },
+      destroy: disarm,
     };
   }
 
   // ------------------------------------------------------------ assembly
   const views = [() => roster('hull'), () => roster('weapon'), () => workshop()];
   const tabs = tabBar(['Airships', 'Cannons', 'Workshop'], (i) => {
+    current?.destroy?.();
     current = views[i]();
     content.replaceChildren(current.el);
     content.dataset.tab = String(i);

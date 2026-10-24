@@ -33,6 +33,12 @@ const RINGLESS = Object.freeze({ rings: false });
  */
 const SMALL_BLAST = Object.freeze({ debris: false, embers: false, lowSmoke: false });
 const SIZE_FX = { small: 0.05, medium: 0.15, large: 0.35, huge: 0.6 };
+/** Armory Crates are a treat, not a flood (balance pass): a set-piece (forced) elite drops one
+ *  CRATE_FORCED of the time, a randomly rolled elite CRATE_RANDOM (Elite Hunt raises it), and a
+ *  wave gives at most CRATE_CAP (run.waveCrates, reset by the director at wave start). */
+const CRATE_FORCED = 0.4;
+const CRATE_RANDOM = 0.1;
+const CRATE_CAP = 1;
 const CHAIN_CALLOUTS = {
   10: 'Hot Barrels!', 25: 'Brass Fury!', 50: 'Terror of the Skies!', 100: 'Legend of the Clouds!',
   200: 'The Syndicate Trembles!',
@@ -587,7 +593,15 @@ export class World {
     if (rng.next() < (e.elite ? 0.08 : 0.012) * (lowHp ? 2 : 1)) this.dropPickup('repair', x, y);
     if (rng.next() < (e.elite ? 0.06 : 0.012)) this.dropPickup('steam', x, y);
     if (rng.next() < (e.elite ? 0.05 : 0.006) * (mods.bombDrops ?? 1)) this.dropPickup('bomb', x, y);
-    if (e.elite && rng.next() < 0.5) this.dropPickup('crate', x, y);
+    if (e.elite && run) {
+      const hunt = (mods.eliteChance ?? 0) > 0;
+      const cap = CRATE_CAP + (hunt ? 1 : 0);
+      const p = e.forcedElite ? CRATE_FORCED : CRATE_RANDOM * (hunt ? 2 : 1);
+      if ((run.waveCrates ?? 0) < cap && rng.next() < p) {
+        run.waveCrates = (run.waveCrates ?? 0) + 1;
+        this.dropPickup('crate', x, y);
+      }
+    }
   }
 
   /** Scatter `total` XP as shards (25 / 5 / remainder). */

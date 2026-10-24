@@ -13,7 +13,8 @@ import { HULLS } from '../content/hulls.js';
 import { PRIMARIES } from '../content/weapons/index.js';
 import { MODES, MODIFIERS, dailySeed, dailyKey } from '../content/modes.js';
 import { STAGES } from '../content/stages.js';
-import { BOSSES } from '../content/bosses/index.js';
+import { BOSSES, BOSS_ORDER } from '../content/bosses/index.js';
+import { Sprites } from '../gfx/sprites.js';
 import { rollChoices, applyChoice } from '../content/upgrades.js';
 import { Loop } from '../core/loop.js';
 import { World } from './world.js';
@@ -35,6 +36,16 @@ export function defaultMods() {
 export function xpForLevel(level) {
   const l = level - 1;
   return Math.round(6 + l * 7 + l * l * 0.9);
+}
+
+/**
+ * True for a boss's sprite art: `boss_<id>` and `boss_<id>_*` (any boss when `id` is omitted).
+ * Boot leaves it out of the prewarm; each stage warms only its own boss (see onStageStart).
+ */
+export function isBossArt(name, id = null) {
+  if (!name.startsWith('boss_')) return false;
+  const is = (b) => name === `boss_${b}` || name.startsWith(`boss_${b}_`);
+  return id ? is(id) : BOSS_ORDER.some(is);
 }
 
 const SIM_STATES = new Set(['playing', 'transition']);
@@ -617,6 +628,7 @@ export class Game {
 
   onStageStart(stage, info = {}) {
     if (!stage) return;
+    this._try('bossArt', () => this._prepBossArt(stage, info));
     this._setBiome(stage.biome || stage.id, info.first ? 0 : 3);
     this.weather.setBiome?.(stage.biome || stage.id, info.first ? 0 : 3);
     this.camera.baseZoomMul = 1;
@@ -677,6 +689,23 @@ export class Game {
   }
 
   /** Last boss down: relax the zoom a little until the stage transition resets it. */
+  /**
+   * Time-slice the warm-up of the boss this stage leads to, and drop the rendered art of every
+   * other boss (a downed boss's wreck keeps drawing until the stage ends, so eviction waits for
+   * the next stage rather than 'boss:killed'). Keeps at most ~one boss's canvases resident.
+   */
+  _prepBossArt(stage, info) {
+    let id = stage.boss || null;
+    if (info.endless) {
+      const i = Math.max(1, this.run?.endlessWave || 1);
+      id = (this.director?.mode || MODES.endless)?.bossFor?.(Math.ceil(i / 5) * 5) || null;
+    }
+    for (const b of BOSS_ORDER) if (b !== id) Sprites.evict(`boss_${b}`);
+    if (id && BOSSES[id]) {
+      Sprites.prewarm(null, (n) => isBossArt(n, id)).catch((err) => this._err('bossArt.prewarm', err));
+    }
+  }
+
   onBossKilled() {
     if (this.world && !this.world.bosses.length) this.camera.baseZoomMul = 0.92;
   }
@@ -777,7 +806,12 @@ export class Game {
     }
     if (victory && run.mode === 'campaign') {
       if (Save.unlock('hull', 'bane')) unlocks.push(`${HULLS.bane?.name || "The Leviathan's Bane"} hull unlocked!`);
-      if (st.wins === 1) unlocks.push(`${MODES.bossRush?.name || 'Gauntlet of Iron'} mode unlocked!`);
+      st.campaignWins = (st.campaignWins || 0) + 1;
+      const ul = (Save.data.unlocks ||= {});
+      if (!ul.bossRush) {
+        ul.bossRush = true;
+        unlocks.push(`${MODES.bossRush?.name || 'Gauntlet of Iron'} mode unlocked!`);
+      }
     }
     // Codex: first kill was recorded live; add the remaining counts now.
     for (const [type, n] of Object.entries(run.killsByType || {})) {
@@ -1080,7 +1114,11 @@ export class Game {
       // scaled blit instead of a full-screen radial gradient every frame.
       const cx = Math.min(W, Math.max(0, fx));
       const cy = Math.min(H, Math.max(0, fy));
+      // A 4x upscale of a soft gradient: 'low' filtering is indistinguishable and far cheaper.
+      const sq = ctx.imageSmoothingQuality;
+      ctx.imageSmoothingQuality = 'low';
       ctx.drawImage(this._fogSprite(W, H), cx - W, cy - H, W * 2, H * 2);
+      ctx.imageSmoothingQuality = sq;
     }
     const p = this.world.players[0];
     if (p && p.alive && p.hp < p.stats.maxHp * 0.25) {

@@ -16,6 +16,7 @@ import {
   drawOdometer,
   easeOutBack,
   blitText,
+  legible,
 } from './hud-kit.js';
 
 export const SCORE = { w: 184, h: 46 };
@@ -39,14 +40,22 @@ export function drawScore(H, ctx, run, xRight, y) {
     rivets(c, 30, h - 2.2, w - 30, h - 2.2, 6, 0.9);
     c.textBaseline = 'middle';
     c.textAlign = 'left';
-    c.font = font(7, 'd');
+    c.font = font(legible(7, H.s, 7), 'd');
     spacing(c, 2.5);
     engraved(c, 'SCORE', 10, 11.5, 'rgba(242,212,138,0.9)');
     spacing(c, 0);
-    if (H.modeName) {
+    // the mode name is decoration: on phones it would be ~4 px, so it is left out there
+    if (H.modeName && H.s >= 0.85) {
       c.textAlign = 'right';
-      c.font = font(6.5, 'b', 'normal', 'italic');
-      c.fillStyle = 'rgba(242,212,138,0.55)';
+      // cream over a 1 px dark drop: the old 6.5-unit, 55 % gold line read as texture at 720p
+      let fs = legible(8, H.s, 7.5);
+      c.font = font(fs, 'b', 'normal', 'italic');
+      const room = w - 10 - 64; // clear of the engraved 'SCORE'
+      const tw = c.measureText(H.modeName).width;
+      if (tw > room) c.font = font((fs = Math.max(6.5, Math.floor(fs * (room / tw) * 2) / 2)), 'b', 'normal', 'italic');
+      c.fillStyle = 'rgba(10,5,2,0.85)';
+      c.fillText(H.modeName, w - 10, 12.5);
+      c.fillStyle = 'rgba(243,232,201,0.85)';
       c.fillText(H.modeName, w - 10, 11.5);
     }
     roundRect(c, 7, 17, w - 14, DIG_H + 1, 3);
@@ -139,7 +148,7 @@ export function drawScore(H, ctx, run, xRight, y) {
   ctx.font = font(20, 'd');
   engraved(ctx, H.str('mult', `×${mult.toFixed(1)}`), 0, 0, col, 'rgba(10,5,2,0.9)', 1.6);
   ctx.restore();
-  blitText(ctx, H.txt('CHAIN', { size: 6.5, ls: 2, color: 'rgba(242,212,138,0.75)' }), ringX - 29, cy + 15, 'right');
+  blitText(ctx, H.txt('CHAIN', { size: legible(7.5, H.s, 7.5), ls: 2, color: 'rgba(243,232,201,0.85)', dy: 1 }), ringX - 29, cy + 15, 'right');
   ctx.globalAlpha = 1;
   if (R.breakT > 0) {
     // the multiplier "shatters": red ghost falls away
@@ -175,7 +184,7 @@ export function drawPlaque(H, ctx, game, run, xCenter, y) {
   const d = game.director;
   const st = d?.state || run.director || '';
   const P = H.plaqueInfo(run, st);
-  blitText(ctx, H.txt(P.top, { size: 7.5, ls: 1.8, color: 'rgba(242,212,138,0.9)', maxW: w - 30 }), w / 2, 11);
+  blitText(ctx, H.txt(P.top, { size: legible(7.5, H.s, 7), ls: 1.8, color: 'rgba(242,212,138,0.9)', maxW: w - 30 }), w / 2, 11);
   const warn = st === 'bossWarning' || st === 'boss';
   const col = warn ? (Math.sin(H.t * 6) > -0.2 ? '#ff6a4a' : '#ffb090') : '#fff3c4';
   blitText(ctx, H.txt(P.main, { size: 15, ls: 1, color: col, maxW: w - 40 }), w / 2, 28.5);
