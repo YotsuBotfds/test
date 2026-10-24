@@ -322,7 +322,10 @@ export default function build(ui, params) {
         const max = item.maxLevel || 1;
         const maxed = l >= max;
         const cost = maxed ? 0 : safe(() => workshopCost(item, l), 0);
-        desc.textContent = txt(item.desc, Math.min(max, l + 1)) || '';
+        // The pips show what is owned; the text previews the next purchase, so say so.
+        const next = txt(item.desc, Math.min(max, l + 1)) || '';
+        if (maxed) desc.textContent = next;
+        else desc.replaceChildren(h('b', { class: 'ws-next' }, 'Next: '), next);
         lvlPips.replaceChildren(pips(l, max));
         c.classList.toggle('maxed', maxed);
         c.classList.toggle('poor', !maxed && (Save.meta.cogs || 0) < cost);
@@ -432,7 +435,11 @@ export default function build(ui, params) {
 
   inst = {
     el: h('div', { class: 'hangar-screen' }, f.el),
-    focus: current?.focus,
+    // Live: the tab's preferred element (a stale one would send a lost-focus arrow key to
+    // the tab bar, and Enter would then switch tabs).
+    get focus() {
+      return current?.focus;
+    },
     tabs,
     refresh() {
       chip.set(Save.meta.cogs || 0, false);

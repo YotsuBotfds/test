@@ -6,8 +6,12 @@
 import { Save } from '../core/storage.js';
 import { clamp, damp, valueNoise } from '../core/math.js';
 
-/** Boss framing may zoom out to this fraction of the fight's base zoom, never further. */
-const BOSS_MIN_FIT = 0.78;
+/**
+ * Boss framing may zoom out to this fraction of the fight's base zoom, never further. Low
+ * enough that a player kiting a big boss (kraken, ~650 u away) still sees its core above the
+ * bottom HUD; MIN_ZOOM_MUL below remains the absolute readability floor.
+ */
+const BOSS_MIN_FIT = 0.7;
 /** Absolute floor for the gameplay zoom multiplier (sprites stay readable on phones). */
 const MIN_ZOOM_MUL = 0.6;
 /** Keep players at least this far (screen px) inside the view edge while leaning to a boss. */
@@ -140,7 +144,7 @@ export class CameraRig {
         // ~40% of the height for the fight; the edge margins shrink with the screen too.
         const edgeX = Math.min(EDGE_X, r.cssW * 0.16);
         const edgeY = Math.min(EDGE_Y, r.cssH * 0.14);
-        const eTop = Math.max(edgeY, Math.min((this.insets?.top || 0) + 50, r.cssH * 0.36));
+        const eTop = Math.max(edgeY, Math.min((this.insets?.top || 0) + 40, r.cssH * 0.36));
         const eBot = Math.max(edgeY * 0.7, Math.min((this.insets?.bottom || 0) + 40, r.cssH * 0.22));
         const usableH = Math.max(120, r.cssH - eTop - eBot);
         const z = c.baseZoom * this.baseZoomMul;

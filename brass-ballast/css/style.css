@@ -216,9 +216,10 @@ img { -webkit-user-drag: none; }
 @keyframes screen-in { from { opacity: 0; transform: scale(1.025); } to { opacity: 1; transform: none; } }
 @keyframes screen-fade { from { opacity: 0.4; } to { opacity: 1; } }
 @keyframes screen-out { to { opacity: 0; transform: scale(0.985); } }
-/* screens shown over a paused run let the frozen battle show through a little */
-.over-run { background: none; }
-.screen:has(> .over-run) { background: rgba(8, 5, 2, 0.82); }
+/* screens shown over a paused run let the frozen battle show through a little (the class sits
+   on the screen element itself; the pause screen beneath is hidden while covered, so this scrim
+   is what keeps the live HUD from showing through at full brightness) */
+.screen.over-run { background: rgba(8, 5, 2, 0.84); }
 
 /* scrollbars: thin brass */
 .screen * { scrollbar-width: thin; scrollbar-color: #a87a30 rgba(60, 40, 15, 0.25); }
@@ -1088,6 +1089,7 @@ img { -webkit-user-drag: none; }
 .ws-icon .icon, .ws-icon svg { width: 58px; height: 58px; filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.35)); }
 .ws-name { font-family: var(--font-display); font-weight: 700; letter-spacing: 0.05em; font-size: 0.98rem; }
 .ws-desc { font-size: 0.82rem; line-height: 1.3; margin: 2px 0 6px; color: #4a3418; }
+.ws-next { font-family: var(--font-display); font-size: 0.72rem; letter-spacing: 0.06em; text-transform: uppercase; color: #7a4a10; }
 .ws-foot { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
 .ws-price { display: flex; align-items: center; }
 .ws-cost {
@@ -1816,10 +1818,11 @@ input[type='range']:focus::-webkit-slider-thumb { transform: scale(1.18); box-sh
   color: var(--cream);
   background: linear-gradient(180deg, rgba(58, 42, 24, 0.97), rgba(28, 19, 10, 0.97));
   box-shadow: inset 0 0 0 1.5px #c9973f, inset 0 0 0 3px #1a120a, 0 10px 24px rgba(0, 0, 0, 0.55);
-  pointer-events: auto;
-  cursor: pointer;
+  /* Plain toasts are notices, never targets: taps go through to the card or button beneath. */
+  pointer-events: none;
   animation: toast-in 0.45s cubic-bezier(0.2, 1.3, 0.4, 1) both;
 }
+.toast.has-action { pointer-events: auto; }
 .toast.out { animation: toast-out 0.35s ease-in forwards; }
 @keyframes toast-in { from { transform: translateX(110%); opacity: 0; } }
 @keyframes toast-out { to { transform: translateX(110%); opacity: 0; } }
@@ -2074,12 +2077,23 @@ input[type='range']:focus::-webkit-slider-thumb { transform: scale(1.18); box-sh
   .boot-needle { transition: none; }
 }
 
-/* During play, plain toasts never intercept canvas input (only actionable ones do). */
-.ui-root:not(.open) .toast:not(.has-action) { pointer-events: none; }
 /* During play the HUD's score plaque & radar own the top-right corner: toasts sit below them. */
 .ui-root:not(.open) .toasts { top: calc(var(--safe-t) + 168px); }
-/* Hangar: keep the cogs purse (top-right) visible while purchase toasts show. */
-.ui-root[data-screen='hangar'] .toasts { top: calc(var(--safe-t) + 96px); }
+/* Hangar: purchase toasts dock in the footer between Back and Set Sail, clear of the purse,
+   the tab bar and the cards. */
+.ui-root[data-screen='hangar'] .toasts {
+  top: auto;
+  left: auto;
+  bottom: calc(var(--safe-b) + 8px);
+  right: 50%;
+  transform: translateX(50%);
+  width: min(360px, calc(100vw - 360px));
+  align-items: center;
+}
+.ui-root[data-screen='hangar'] .toast { animation-name: toast-up; }
+.ui-root[data-screen='hangar'] .toast.out { animation-name: toast-down; }
+@keyframes toast-up { from { transform: translateY(120%); opacity: 0; } }
+@keyframes toast-down { to { transform: translateY(120%); opacity: 0; } }
 /* Portrait phones: the HUD is two rows deep, so in-play toasts drop below it. */
 @media (max-aspect-ratio: 3/4) {
   .ui-root:not(.open) .toasts { top: calc(var(--safe-t) + 340px); }

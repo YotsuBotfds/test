@@ -165,7 +165,10 @@ class Gulls {
     });
     ctx.globalCompositeOperation = 'lighter';
     const L = Math.hypot(env.W, env.H) * 1.1;
-    for (let i = 0; i < 4; i++) {
+    // Faint (≈4% alpha) but they cover more than a screen of rotated additive fill, which
+    // software rasterizers pay ~5 ms for: high tier only.
+    const rays = env.q >= 1 ? 4 : 0;
+    for (let i = 0; i < rays; i++) {
       const a = 0.045 * w * (0.6 + 0.4 * Math.sin(env.t * 0.21 + i * 1.9));
       if (a <= 0.003) continue;
       ctx.globalAlpha = a;
@@ -511,8 +514,11 @@ class Storm {
 // Aurora — snow, aurora ribbons, stars
 
 function ribbonStrip(hue) {
-  return cachedSprite(`ribbon|${hue}`, 32, 256, (c) => {
-    const g = c.createLinearGradient(0, 0, 0, 256);
+  // Small: it is drawn into the quarter-resolution ribbon buffer (~50 px per slice).
+  const SW = 16;
+  const SH = 64;
+  return cachedSprite(`ribbon|${hue}|${SW}`, SW, SH, (c) => {
+    const g = c.createLinearGradient(0, 0, 0, SH);
     const [top, mid, low] =
       hue === 0 ? ['#b06cff', '#4dffb0', '#c8ffe8'] : ['#ff6cc8', '#6c9cff', '#d8e8ff'];
     g.addColorStop(0, rgba(top, 0));
@@ -521,15 +527,15 @@ function ribbonStrip(hue) {
     g.addColorStop(0.94, rgba(low, 1));
     g.addColorStop(1, rgba(low, 0));
     c.fillStyle = g;
-    c.fillRect(0, 0, 32, 256);
+    c.fillRect(0, 0, SW, SH);
     // Feather the sides so neighbouring slices melt into one curtain.
     c.globalCompositeOperation = 'destination-in';
-    const h = c.createLinearGradient(0, 0, 32, 0);
+    const h = c.createLinearGradient(0, 0, SW, 0);
     h.addColorStop(0, 'rgba(0,0,0,0)');
     h.addColorStop(0.5, 'rgba(0,0,0,1)');
     h.addColorStop(1, 'rgba(0,0,0,0)');
     c.fillStyle = h;
-    c.fillRect(0, 0, 32, 256);
+    c.fillRect(0, 0, SW, SH);
   });
 }
 
@@ -642,6 +648,9 @@ class Snow {
         }
       }
       ctx.globalAlpha = Math.min(1, w);
+      // Additive is ~2x the cost of a plain blit on software rasterizers; the reduced tiers
+      // composite the (already luminous) buffer normally.
+      ctx.globalCompositeOperation = env.q < 1 ? 'source-over' : 'lighter';
       ctx.drawImage(buf, 0, 0, bw, bh, 0, y0, bw / RS, bh / RS);
     }
     ctx.globalCompositeOperation = 'source-over';
@@ -715,9 +724,15 @@ class Embers {
       c.fillStyle = g;
       c.fillRect(0, 0, 256, 256);
     });
+    // A full-screen stretched additive blit is the single most expensive thing a software
+    // rasterizer does (~9 ms at 720p): the low tier relies on the biome's own red vignette in
+    // the backdrop overlay, medium composites it normally (about half the cost).
+    if (env.q >= 0.6) {
+      ctx.globalCompositeOperation = env.q < 1 ? 'source-over' : 'lighter';
+      ctx.globalAlpha = (env.q < 1 ? 0.14 : 0.2) * pulse * w * Math.min(1.4, env.intensity);
+      ctx.drawImage(vig, 0, 0, W, H);
+    }
     ctx.globalCompositeOperation = 'lighter';
-    ctx.globalAlpha = 0.2 * pulse * w * Math.min(1.4, env.intensity);
-    ctx.drawImage(vig, 0, 0, W, H);
     // Embers.
     const hot = softDot(32, '#ffcf6a', [
       [0, 1],

@@ -22,10 +22,15 @@ export class Nav {
     this.device = 'kbm';
     this._onKey = (e) => this.onKey(e);
     this._onPointer = (e) => this.onPointer(e);
-    this._onHover = (e) => this.onHover(e);
+    this._onMove = (e) => this.onMove(e);
+    /** Last mouse position (screen px) and when it last really moved (ms). */
+    this._mx = NaN;
+    this._my = NaN;
+    this._movedAt = -1e9;
     window.addEventListener('keydown', this._onKey);
     window.addEventListener('pointerdown', this._onPointer, true);
-    ui.root.addEventListener('pointerover', this._onHover);
+    window.addEventListener('pointermove', this._onMove, { passive: true });
+
     let coarse = false;
     try {
       coarse = matchMedia('(pointer: coarse)').matches && !matchMedia('(pointer: fine)').matches;
@@ -38,7 +43,7 @@ export class Nav {
   destroy() {
     window.removeEventListener('keydown', this._onKey);
     window.removeEventListener('pointerdown', this._onPointer, true);
-    this.ui.root.removeEventListener('pointerover', this._onHover);
+    window.removeEventListener('pointermove', this._onMove);
   }
 
   setDevice(d) {
@@ -88,9 +93,27 @@ export class Nav {
     this.setDevice(e.pointerType === 'touch' || e.pointerType === 'pen' ? 'touch' : 'kbm');
   }
 
-  onHover(e) {
-    if (e.pointerType !== 'mouse' || !this.ui.isOpen) return;
-    const el = e.target.closest?.(FOCUSABLE);
+  /**
+   * Real mouse motion. Browsers also fire pointerover (and sometimes pointermove) when the DOM
+   * changes under a still cursor — e.g. the next screen appearing after a click — so hover may
+   * only move focus when the pointer's screen position actually changed. Otherwise whatever
+   * lands under the cursor would steal the screen's intended initial focus. (pointermove, not
+   * pointerover, drives hover focus: every real move reports the element under the cursor.)
+   */
+  onMove(e) {
+    if (e.pointerType !== 'mouse') return;
+    if (e.screenX === this._mx && e.screenY === this._my) return;
+    const first = Number.isNaN(this._mx);
+    this._mx = e.screenX;
+    this._my = e.screenY;
+    if (first) return; // no reference yet: can't tell motion from a synthetic event
+    this._movedAt = performance.now();
+    this.hover(e.target);
+  }
+
+  hover(target) {
+    if (!this.ui.isOpen) return;
+    const el = target?.closest?.(FOCUSABLE);
     if (!el || !this.ui.scope?.contains(el) || el === document.activeElement) return;
     if (el.matches('input[type=range]')) return;
     try {

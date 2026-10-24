@@ -60,6 +60,12 @@ export class Background {
     this.res = this.quality === 0 ? 0.5 : 1;
     /** @type {Map<string, any>} LRU: insertion order = recency */
     this.tiles = new Map();
+    /**
+     * Ready tiles from before a resolution change, keyed like `tiles`. They stand in for their
+     * key until the re-painted tile is ready, so a quality step never flashes flat ground.
+     * @type {Map<string, any>}
+     */
+    this.stale = new Map();
     this.pool = [];
     this.job = null;
     /** Smoke drift direction (unit). */
@@ -144,7 +150,7 @@ export class Background {
       const res = q === 0 ? 0.5 : 1;
       if (res !== this.res) {
         this.res = res;
-        this.purge();
+        this.purge(true);
       }
     }
     if (this.prevBiome) {
@@ -163,11 +169,23 @@ export class Background {
     this._schedule();
   }
 
-  /** Drop every cached tile (e.g. after a quality change). */
-  purge() {
+  /**
+   * Drop every cached tile (e.g. after a quality change). `keepStale` keeps the ready ones as
+   * stand-ins (drawn scaled) until their replacements at the new resolution are painted.
+   */
+  purge(keepStale = false) {
+    this.stale.clear();
+    if (keepStale) for (const [key, t] of this.tiles) if (t.ready) this.stale.set(key, t);
     this.tiles.clear();
     this.pool.length = 0;
     this.job = null;
+  }
+
+  /** Ready tile for a key: the current one, else a pre-resolution-change stand-in. */
+  _readyTile(key) {
+    const t = this.tiles.get(key);
+    if (t && t.ready) return t;
+    return this.stale.size ? this.stale.get(key) || null : null;
   }
 
   // --- Tile cache --------------------------------------------------------------------------
@@ -282,6 +300,7 @@ export class Background {
     if (dtm > this.stats.maxStepMs) this.stats.maxStepMs = dtm;
     if (done) {
       tile.ready = true;
+      this.stale.delete(tile.key);
       tile.list = tile.anchors.finish();
       tile.gen = null;
       tile.anchors = null;
@@ -329,6 +348,8 @@ export class Background {
     }
     if (this.prevBiome && this.fadeT === 0) budget = FALLBACK_BUDGET_MS;
     this.stats.pending = pending;
+    // Everything wanted is painted at the current resolution: stand-ins are no longer needed.
+    if (!pending && this.stale.size) this.stale.clear();
     if (!target) {
       // Idle: pre-render cloud sprites for every biome, one per frame, so a later biome
       // switch never stalls on them.
@@ -505,7 +526,7 @@ export class Background {
         const x0 = Math.floor(tx * TILE * s + m.ox);
         const x1 = Math.floor((tx + 1) * TILE * s + m.ox);
         const key = this._key(id, tx, ty);
-        const tile = this.tiles.get(key);
+        const tile = this._readyTile(key);
         // Integer rects that share edges exactly; when opaque, a 1 px overlap also hides any
         // resampling seam (skipped while fading — overlapping translucent tiles would show).
         if (tile && tile.ready) {
@@ -532,8 +553,8 @@ export class Background {
       ctx.globalCompositeOperation = pass === 'add' ? 'lighter' : 'source-over';
       for (let ty = ty0; ty <= ty1; ty++) {
         for (let tx = tx0; tx <= tx1; tx++) {
-          const tile = this.tiles.get(this._key(id, tx, ty));
-          if (!tile || !tile.ready || !tile.list.length) continue;
+          const tile = this._readyTile(this._key(id, tx, ty));
+          if (!tile || !tile.list.length) continue;
           drawAnchors(ctx, tile.list, this.time, m, pass, alpha, detail);
         }
       }

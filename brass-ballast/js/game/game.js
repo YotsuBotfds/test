@@ -787,6 +787,9 @@ export class Game {
     };
     run.summary = summary;
     events.emit('run:end', { run, victory, summary });
+    // Run-end medals (Grand Voyage, Ill Omen, lifetime totals…) are unlocked by run:end
+    // listeners, after the snapshot above: refresh it so the results screen lists them.
+    summary.achievements = [...new Set(run.achievements)];
     return summary;
   }
 
@@ -1011,7 +1014,9 @@ export class Game {
     ctx.globalAlpha = 1;
     ctx.globalCompositeOperation = 'source-over';
     if (this.world && this.state !== 'title') this._post(ctx, r, focus);
-    if (this.run && this.state !== 'title') {
+    // The results screen replaces the HUD: its banner, ship-down strip and gauges would
+    // otherwise show through (and collide with) the results layout.
+    if (this.run && this.state !== 'title' && !this.ui?.stack?.some((s) => s.name === 'results')) {
       this._try('hud.draw', () => this.hud?.draw?.(ctx, r));
       r.applyScreen(ctx);
       ctx.globalAlpha = 1;

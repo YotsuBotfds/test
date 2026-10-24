@@ -26,6 +26,12 @@ import levelup from './screens/levelup.js';
 import results from './screens/results.js';
 import confirm from './screens/confirm.js';
 
+/**
+ * Screens that own the whole view with a choice to make: plain toasts wait until they close
+ * (they would cover the card titles, the results banner or the dialog otherwise).
+ */
+const TOAST_HOLD = new Set(['levelup', 'results', 'confirm']);
+
 const SCREENS = {
   title, modes, hangar, codex, achievements, settings, credits, howto, pause, levelup, results, confirm,
 };
@@ -46,6 +52,8 @@ export class UI {
     this.root.append(this.layer, this.toastBox);
     /** @type {{name:string, params:any, inst:any, el:HTMLElement, lastFocus?:Element}[]} */
     this.stack = [];
+    /** Toasts deferred while a TOAST_HOLD screen is up: [text, opts][]. */
+    this._heldToasts = [];
     this.lastMode = 'campaign';
     this.installable = !!pwa?.canInstall;
     this._musicReq = null;
@@ -191,6 +199,8 @@ export class UI {
   /** Run results. */
   showResults(summary, opts = {}) {
     this.show('results', { summary: summary || {}, ...opts });
+    // The results list this run's medals: their (just raised) toasts would only cover it.
+    this._heldToasts = this._heldToasts.filter(([, o]) => (o?.kind || 'info') !== 'achievement');
   }
 
   /**
@@ -210,6 +220,17 @@ export class UI {
    */
   toast(text, opts = {}) {
     const kind = opts.kind || 'info';
+    if (TOAST_HOLD.has(this.current) && kind !== 'update' && !opts.action) {
+      const held = [text, opts];
+      this._heldToasts.push(held);
+      return {
+        el: null,
+        close: () => {
+          const i = this._heldToasts.indexOf(held);
+          if (i >= 0) this._heldToasts.splice(i, 1);
+        },
+      };
+    }
     const time = opts.time ?? (kind === 'achievement' ? 4.5 : kind === 'update' ? 0 : 3.2);
     let body = String(text ?? '');
     let label = opts.title;
@@ -263,6 +284,7 @@ export class UI {
         : null,
       time > 0 ? h('i', { class: 'toast-timer' }) : null,
     );
+    el._toastArgs = [text, opts];
     this.toastBox.append(el);
     const all = this.toastBox.querySelectorAll('.toast:not(.out)');
     if (all.length > 4) all[0].classList.add('out');
@@ -351,6 +373,20 @@ export class UI {
   _sync() {
     this.root.classList.toggle('open', this.stack.length > 0);
     this.root.dataset.screen = this.current || '';
+    this._gateToasts();
+  }
+
+  /** Park visible plain toasts while a TOAST_HOLD screen is up; replay them once it closes. */
+  _gateToasts() {
+    if (TOAST_HOLD.has(this.current)) {
+      for (const el of this.toastBox.querySelectorAll('.toast:not(.out):not(.has-action)')) {
+        if (!el._toastArgs) continue;
+        this._heldToasts.push(el._toastArgs);
+        el.remove();
+      }
+    } else if (this._heldToasts.length) {
+      for (const [text, opts] of this._heldToasts.splice(0)) this.toast(text, opts);
+    }
   }
 
   /** Menu music between title and hangar (only while no run is active). */
