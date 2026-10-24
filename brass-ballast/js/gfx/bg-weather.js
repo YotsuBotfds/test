@@ -10,7 +10,7 @@
 // are shifted by the camera's screen motion × a depth factor so they feel in-world.
 
 import { RNG } from '../core/rng.js';
-import { softDot, cachedSprite, rgba } from './bg-util.js';
+import { softDot, cachedSprite, rgba, makeCanvas } from './bg-util.js';
 
 const TAU = Math.PI * 2;
 const r = new RNG(0x5eed);
@@ -593,25 +593,56 @@ class Snow {
       ctx.globalAlpha = a;
       ctx.drawImage(star, x - sz, y - sz, sz * 2, sz * 2);
     }
-    // Aurora ribbons: curtains of vertical light slices along a slow wave.
-    const slices = env.q < 1 ? 36 : 64;
+    // Aurora ribbons: curtains of vertical light slices along a slow wave. The slices are soft
+    // and overlap heavily (~2.5 screens of additive fill at full res), so they are accumulated
+    // into a quarter-resolution buffer covering just the ribbon band and blitted once.
+    const slices = env.q < 1 ? 28 : 48;
     const span = W + 240;
     const dxs = span / slices;
+    let y0 = Infinity;
+    let y1 = -Infinity;
     for (const rb of this.ribbons) {
-      const img = ribbonStrip(rb.hue);
       const by = rb.y * H - this.camY * 0.05;
-      for (let k = 0; k <= slices; k++) {
-        const u = k * rb.f;
-        const x = -120 + k * dxs - ((this.camX * 0.05) % dxs);
-        const y =
-          by +
-          Math.sin(u + env.t * rb.sp + rb.ph) * rb.amp +
-          Math.sin(u * 2.3 - env.t * 0.5) * rb.amp * 0.3;
-        const shimmer = 0.55 + 0.45 * Math.sin(env.t * 2.2 + k * 0.9 + rb.ph);
-        const h = rb.h * (0.75 + 0.35 * Math.sin(u * 1.7 + env.t * 0.4));
-        ctx.globalAlpha = 0.11 * shimmer * w;
-        ctx.drawImage(img, x - dxs * 1.5, y - h, dxs * 4, h);
+      y0 = Math.min(y0, by - rb.amp * 1.3 - rb.h * 1.1);
+      y1 = Math.max(y1, by + rb.amp * 1.3);
+    }
+    y0 = Math.max(0, Math.floor(y0));
+    y1 = Math.min(H, Math.ceil(y1));
+    if (y1 > y0 && w > 0.005) {
+      const RS = 0.25;
+      const bw = Math.max(1, Math.ceil(W * RS));
+      const bh = Math.max(1, Math.ceil((y1 - y0) * RS));
+      if (!this.buf) this.buf = makeCanvas(bw, bh);
+      const buf = this.buf;
+      if (buf.width < bw || buf.height < bh) {
+        buf.width = Math.max(buf.width, bw);
+        buf.height = Math.max(buf.height, bh);
       }
+      const bc = buf.getContext('2d');
+      bc.setTransform(1, 0, 0, 1, 0, 0);
+      bc.globalAlpha = 1;
+      bc.globalCompositeOperation = 'source-over';
+      bc.clearRect(0, 0, bw + 1, bh + 1);
+      bc.setTransform(RS, 0, 0, RS, 0, -y0 * RS);
+      bc.globalCompositeOperation = 'lighter';
+      for (const rb of this.ribbons) {
+        const img = ribbonStrip(rb.hue);
+        const by = rb.y * H - this.camY * 0.05;
+        for (let k = 0; k <= slices; k++) {
+          const u = k * rb.f * (36 / slices);
+          const x = -120 + k * dxs - ((this.camX * 0.05) % dxs);
+          const y =
+            by +
+            Math.sin(u + env.t * rb.sp + rb.ph) * rb.amp +
+            Math.sin(u * 2.3 - env.t * 0.5) * rb.amp * 0.3;
+          const shimmer = 0.55 + 0.45 * Math.sin(env.t * 2.2 + k * 0.9 * (36 / slices) + rb.ph);
+          const h = rb.h * (0.75 + 0.35 * Math.sin(u * 1.7 + env.t * 0.4));
+          bc.globalAlpha = 0.11 * shimmer * (36 / slices);
+          bc.drawImage(img, x - dxs * 1.5, y - h, dxs * 4, h);
+        }
+      }
+      ctx.globalAlpha = Math.min(1, w);
+      ctx.drawImage(buf, 0, 0, bw, bh, 0, y0, bw / RS, bh / RS);
     }
     ctx.globalCompositeOperation = 'source-over';
     // Snowflakes.
