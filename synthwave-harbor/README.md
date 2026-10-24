@@ -1,10 +1,12 @@
 # Neon Harbor Run
 
+![The sailboat races under a neon suspension bridge toward a striped synthwave sun](poster.jpg)
+
 A real-time synthwave scene: a sailboat with glowing sails races through a neon harbor at night, toward a striped sun setting between wireframe mountains. It runs in the browser with Three.js and comes with a synthesized soundtrack. The same page renders the frame-exact video in `neon-harbor.mp4`.
 
 ## Watch it
 
-- **Video:** `neon-harbor.mp4` (48 s, 1920×1080, 60 fps, with soundtrack).
+- **Video:** `neon-harbor.mp4` (48 s, 1920×1080, 60 fps, H.264 at 7 Mbps with AAC soundtrack).
 - **Live scene:** serve the repo and open `synthwave-harbor/index.html`. The repo's dev server works:
 
   ```bash
@@ -54,7 +56,13 @@ node render.mjs --stills 2,10,17,25,31,37 --out stills      # PNG stills at thos
 
 Options: `--width`, `--height`, `--fps`, `--seconds`, `--crf`, `--workers` (parallel pages), `--subframes` (motion blur, averaged across a 180° shutter) and `--start` (resume from a time). Frames already on disk are skipped, so an interrupted render picks up where it left off. If `three` is installed locally, the script serves it instead of the CDN.
 
-On a machine without a GPU, Chromium falls back to SwiftShader, at about 1.4 s per 1080p frame.
+On a machine without a GPU, Chromium falls back to SwiftShader. The committed video took about an hour on 4 CPU cores with two workers, roughly 1.3 s per 1080p frame. The scene is full of fine moving detail, so expect large files: CRF 20 comes out near 36 Mbps. Two-pass encoding at 7 to 12 Mbps holds up well:
+
+```bash
+ffmpeg -framerate 60 -i neon-harbor.mp4.frames/f%05d.png -c:v libx264 -preset slow -b:v 7M -pass 1 -an -f null /dev/null
+ffmpeg -framerate 60 -i neon-harbor.mp4.frames/f%05d.png -i neon-harbor.mp4.wav -c:v libx264 -preset slow -b:v 7M \
+  -maxrate 14M -bufsize 28M -pass 2 -pix_fmt yuv420p -c:a aac -b:a 192k -shortest -movflags +faststart neon-harbor.mp4
+```
 
 ## How it works
 
