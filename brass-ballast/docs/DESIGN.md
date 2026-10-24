@@ -208,16 +208,17 @@ Base numbers at stage 1. `speedMult`/`fireRateMult` must be applied by every beh
 
 **Elites** (chance per stage def; light swarm craft with xp ≤ 2 roll at half the chance): ×2.5 hp,
 ×3 xp, gold rim glow. An elite may drop an **Armory Crate** (`crate` pickup → immediate bonus card
-pick): 35% for a set-piece (forced) elite, 10% for a randomly rolled one (×2 under Elite Hunt), at
-most one crate per wave (two under Elite Hunt) — about 8–12 per campaign, a treat rather than a
-flood. With level-ups that is ≈ 6–9 picks per stage. Affixes: `armored` (takes 50%
+pick): 45% for a set-piece (forced) elite, 10% for a randomly rolled one (×2 under Elite Hunt),
+×0.6 for every crate already found this stage (an Endless leg counts as a stage), at most one crate
+per wave (two under Elite Hunt) — about 9 (5–13) per campaign, a treat rather than a flood. With
+level-ups that is ≈ 9 / 6 / 5 / 6 / 8 picks over the five stages. Affixes: `armored` (takes 50%
 damage until below half hp), `overclocked` (speedMult & fireRateMult ×1.4), `volatile`
 (explodes on death r 90, enemy team).
 
 **Scaling**: enemy hp × `stage.hpMult` × `run.mods.enemyHp` (× 1.5 per extra co-op player);
 damage × `stage.dmgMult` × `run.mods.enemyDmg`. Suggested stage hpMult `[1, 1.7, 2.6, 3.7, 5]`,
 dmgMult `[1, 1.15, 1.3, 1.5, 1.7]`, eliteChance `[.02,.04,.06,.08,.12]`, xpMult `[1,1.2,1.4,1.6,1.8]`.
-As tuned (stages.js): hpMult `[1, 1.75, 2.9, 4.1, 5.2]`, xpMult `[1, 1.3, 1.5, 1.6, 1.7]`, plus
+As tuned (stages.js): hpMult `[1, 2, 3.1, 4.1, 5.2]`, xpMult `[1, 1.3, 1.5, 1.6, 1.7]`, plus
 `fireRate` `[1, 1.1, 1.22, 1.3, 1.35]`
 (→ `run.enemyFireRate`, regular enemies only; telegraphs shrink by at most 20%).
 
@@ -236,13 +237,13 @@ Patterns must be dodgeable; bullet speed 160–320 u/s; telegraph ≥ 0.6 s for 
 | `sunFurnace` | The Sun Furnace — *Heart of the Syndicate* | 5 | 7500 | Colossal spherical foundry with rotating armored shell plates (shoot through gaps), molten slag spirals, flame jets; sheds shell in phase 2; desperation pattern in phase 3. |
 
 The hp column is each boss's designed **base**; the campaign spawns it × a toughness factor from
-`js/content/bosses/tuning.js` (balance pass, measured over 24+ full autopilot campaigns: median
-fights ≈ 2.3 / 2.6 / 3.5 / 4 / 4.7 min from stage 1 to the finale, every phase reached), and its
+`js/content/bosses/tuning.js` (balance pass, measured over 48 full autopilot campaigns: median
+fights ≈ 2.4 / 2.7 / 3.6 / 4.2 / 4.8 min from stage 1 to the finale, every phase reached), and its
 damage × a per-boss factor (`BOSS_DAMAGE`: Matriarch 0.65, Kraken 0.6, Storm Engine 0.55,
 Behemoth 1.6, Sun Furnace 0.85) so the threat rises stage by stage. The Matriarch and Kraken orbit
 at a radius taken from the view at gameplay zoom (not the boss-framing zoom-out), so short-range
 guns can reach them. Endless/boss-rush scale on top by
-`run.bossHpMult` (boss rush trims to ×0.7…0.42 since the player arrives under-levelled).
+`run.bossHpMult` (boss rush trims to ×0.6…0.15 since the player arrives under-levelled and without crate picks).
 
 ### 2.12 Stages & biomes (`js/content/stages.js`, visuals in `js/gfx/biomes.js`)
 | # | stage id = biome id | name | look | weather | new enemies | boss |

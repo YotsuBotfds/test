@@ -21,7 +21,7 @@ export const ENEMY_IDS = [
 /** Per-stage scaling (DESIGN §2.10; mid stages nudged up in integration play-tests so foes live
  *  long enough to shoot back — the player's build snowballs fastest through stages 2–4). XP_MULT
  *  is flatter than the DESIGN suggestion so level-ups spread ≈ 8/5/4/4/5 over the stages. */
-const HP_MULT = [1, 1.75, 2.9, 4.1, 5.2];
+const HP_MULT = [1, 2.0, 3.1, 4.1, 5.2];
 const DMG_MULT = [1, 1.15, 1.3, 1.5, 1.7];
 const XP_MULT = [1, 1.3, 1.5, 1.6, 1.7];
 const ELITE_CHANCE = [0.02, 0.04, 0.06, 0.08, 0.12];

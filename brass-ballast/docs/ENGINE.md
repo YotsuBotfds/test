@@ -181,9 +181,9 @@ Enemy instance:
   `def.draw` can reuse it: `world.drawEnemySprite(ctx, e, 'enemy_x_turret', 0, e.data.aim)`.
 - Death: `def.onDeath` → parts die with parent (no drops) → explosion sized by `r` (r ≥ 36 also
   leaves a falling wreck) → drops (xp × stage.xpMult × mods.xp; cogs × mods.cogs; small chance
-  repair/steam/bomb (× mods.bombDrops); Armory Crate from elites: 35% forced / 10% random (×2
-  under Elite Hunt), at most 1 per wave — 2 under Elite Hunt — via `run.waveCrates`) → combo &
-  score → codex →
+  repair/steam/bomb (× mods.bombDrops); Armory Crate from elites: 45% forced / 10% random (×2
+  under Elite Hunt), × 0.6 per crate already found this stage (`run.stageCrates`), at most 1 per
+  wave — 2 under Elite Hunt — via `run.waveCrates`) → combo & score → codex →
   `enemy:killed`.
 - Wave formations: `pair` sets `e.partner` / `e.data.partner` right after spawn (available from
   the first `update`, not in `init`).
@@ -345,7 +345,7 @@ Run modifiers are **not** folded into stats (`run.mods.playerDmg` is applied by 
 ## 11. Run, director, game
 
 `game.run` (DESIGN §4.10) plus: `day, cogFrac, killsByType, achievements[], stageReached,
-summary, enemyFireRate, waveCrates`. XP curve: `xpForLevel(L) = round(10 + 8(L−1) + 0.85(L−1)²)`
+summary, enemyFireRate, waveCrates, stageCrates, crateStage`. XP curve: `xpForLevel(L) = round(10 + 8(L−1) + 0.85(L−1)²)`
 (steeper start, same late curve as before the balance pass).
 
 Director (`game.director`, `world.director`): `state` ∈ intro | wave | breather | bossWarning |

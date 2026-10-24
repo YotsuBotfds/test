@@ -480,9 +480,10 @@ export const MODES = {
     icon: 'icon_mode_bossRush',
     rules: ['5 bosses in a row', 'Refit after each', 'Boss hulls trimmed for a fresh ship'],
     bosses: BOSS_CYCLE.slice(),
-    // No waves means few level-ups (start at L8, ~1 level per titan): bosses are trimmed against
-    // their campaign toughness so each fight runs ~1.5–3 min (measured with the autopilot).
-    bossHpMult: (i) => [0.7, 0.6, 0.45, 0.4, 0.42][i] ?? 0.42,
+    // No waves means few level-ups (start at L8, ~1 level per titan) and no Armory Crates: bosses
+    // are trimmed against their campaign toughness (tuning.js, balanced for full-campaign builds)
+    // so each fight runs ~2–3 min (measured with the autopilot).
+    bossHpMult: (i) => [0.6, 0.55, 0.37, 0.18, 0.15][i] ?? 0.15,
     /** The engine grants these level-up picks at run start (game.startRun). */
     startLevel: 8,
     // Set by game.endRun on a campaign victory (a Daily Squall win does not count).
