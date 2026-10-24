@@ -422,6 +422,9 @@ export class Game {
 
   _canOpenChoice() {
     const st = this.state;
+    // Level-ups banked from the boss's XP wait out the stage-transition crossfade (a few seconds)
+    // so the new skies aren't revealed behind a card screen; they open as the next stage begins.
+    if (st === 'transition' && this.choiceQueue[0]?.kind === 'level') return false;
     return (SIM_STATES.has(st) || st === 'refit' || st === 'levelup') && !this.ending && !this.choice;
   }
 
@@ -828,7 +831,9 @@ export class Game {
     this.frameNo++;
     this.realTime += rawDt;
     const dt = Math.min(rawDt, MAX_DT);
-    Quality.sample(rawDt, this.state === 'playing' && !this.ending && !this.hitstopT);
+    // The title's attract scene counts too: it is the same backdrop + ships, and a slow device
+    // should not have to start its first run at a tier it cannot hold.
+    Quality.sample(rawDt, (this.state === 'playing' && !this.ending && !this.hitstopT) || this.state === 'title');
     this._try('input.update', () => this.input?.update?.(dt));
     this._try('ui.update', () => this.ui?.update?.(dt));
     this._handleGlobalInput();

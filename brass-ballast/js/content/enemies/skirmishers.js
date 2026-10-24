@@ -44,6 +44,8 @@ function spriteShadow(ctx, e, sprite, ox, oy, angle = e.angle, a = 0.28, scale =
 
 /** Visible (with margin) — enemies never open fire from off-screen. */
 const onScreen = (w, e, m = 30) => w.isVisible(e.x, e.y, m);
+/** Fire-rate scaling for telegraph timers: faster cycles, but a warning never shrinks > 20%. */
+const teleRate = (e) => Math.max(0.2, Math.min(1.25, e.fireRateMult ?? 1));
 
 /** Counter-based particle emitter: true roughly every `every` seconds. */
 function tick(e, key, every, dt) {
@@ -617,7 +619,7 @@ const gunboat = {
     d.aim += clamp(angleDiff(d.aim, want), -3 * dt, 3 * dt);
     const dist = Math.hypot(p.x - e.x, p.y - e.y);
     if (e.state === 'charge') {
-      e.timer -= dt * e.fireRateMult;
+      e.timer -= dt * teleRate(e);
       d.charge = 1 - Math.max(0, e.timer) / GUN.charge;
       if (e.timer <= 0) {
         e.state = '';
@@ -958,7 +960,7 @@ const flakIsland = {
     d.aim += clamp(angleDiff(d.aim, goal), -1.5 * dt, 1.5 * dt);
     const dist = Math.hypot(p.x - e.x, p.y - e.y);
     if (e.state === 'lock') {
-      e.timer -= dt * e.fireRateMult;
+      e.timer -= dt * teleRate(e);
       if (e.timer <= 0) {
         e.state = '';
         this.fire(e, w, tx, ty);
@@ -990,7 +992,7 @@ const flakIsland = {
     }
     d.tx = px;
     d.ty = py;
-    const lock = FLAK.lock / Math.max(0.2, e.fireRateMult);
+    const lock = FLAK.lock / teleRate(e);
     const travel = Math.hypot(px - tx, py - ty) / (FLAK.shell * (w.run?.mods?.enemyBulletSpeed ?? 1));
     d.marker = w.addHazard({
       x: px,

@@ -1,10 +1,11 @@
 // Graphics quality tiers + the automatic quality governor (DESIGN §8).
 //
 // Save.settings.quality is 'auto' (default), 'high' or 'low'. 'high'/'low' pin a tier; 'auto'
-// starts at high and lets the governor step down when gameplay runs slowly (smoothed fps < 45
-// for 4 s) and back up when it is comfortably fast again. Everything that scales with quality
-// reads `Quality.tier` / `Quality.cfg` live, so a change applies on the next frame; consumers
-// that must rebuild something (DPR, background tiles) listen for 'quality:change'.
+// starts at high and lets the governor step down when gameplay (or the title attract scene)
+// runs slowly (smoothed fps < 45 for 4 s) and back up when it is comfortably fast again.
+// Everything that scales with quality reads `Quality.tier` / `Quality.cfg` live, so a change
+// applies on the next frame; consumers that must rebuild something (DPR, background tiles)
+// listen for 'quality:change'.
 // A `quality=auto|high|medium|low` URL flag overrides the saved setting (tests/benchmarks).
 
 import { Save } from '../core/storage.js';

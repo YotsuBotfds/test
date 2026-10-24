@@ -103,6 +103,12 @@ const VIEW = { x0: 0, y0: 0, x1: 0, y1: 0, w: 0, h: 0 };
 const MAX_DRAW_SIZE = [150, 210, 260];
 /** Radius around a player inside which 'normal'-layer smoke/debris fades (ship stays readable). */
 const CLEAR_R = 70;
+/**
+ * Per-frame fill budget (all layers), in full-screen equivalents of particle overdraw, per tier.
+ * Past it, big particles are thinned (every 2nd, then 3 of 4): a pile-up of bomb-sized blasts
+ * stays a pile-up instead of a slideshow. Small sparks/debris are never thinned.
+ */
+const FILL_BUDGET = [1.5, 2.5, 3.5];
 
 export class Particles {
   /** @param {number} [max] hard cap (scaled down by the quality tier) */
@@ -116,6 +122,8 @@ export class Particles {
     this.drawn = 0;
     /** Points (players) to keep clear of 'normal'-layer particles: [{x, y}]. */
     this.focus = [];
+    /** Overdraw accumulated this frame (device px², see FILL_BUDGET). */
+    this._fill = 0;
   }
 
   /** Live particle count over all layers. */
@@ -281,6 +289,8 @@ export class Particles {
    */
   draw(ctx, renderer, layer = 'normal') {
     const L = LAYER_IDX(layer);
+    // 'low' is drawn first each frame: the fill budget restarts there.
+    if (L === 0) this._fill = 0;
     const P = this.pools[L];
     if (!P.n) return;
     const m = ctx.getTransform();
@@ -305,6 +315,13 @@ export class Particles {
     const nf = foc ? foc.length : 0;
     const { x, y, vx, vy, t, life, s0, s1, a, rot, stretch, c0, c1, tex, frame, flags } = P;
     let drawn = 0;
+    // Fill budget in device px² (world size² × scale²); `big` = a particle worth thinning.
+    const cvs = ctx.canvas;
+    const screenPx = (cvs?.width || 1280) * (cvs?.height || 720);
+    const k2 = ma * ma + mb * mb;
+    const budget = FILL_BUDGET[Quality.tier] * screenPx;
+    const big = screenPx * 0.0015;
+    let fill = this._fill || 0;
     for (let i = 0, n = P.n; i < n; i++) {
       const u = t[i] / life[i];
       const f = flags[i];
@@ -342,6 +359,9 @@ export class Particles {
       }
       if (al <= 0.004) continue;
       if (al > 1) al = 1;
+      const area = size * size * k2;
+      if (fill > budget && area > big && (fill > budget * 2 ? (i & 3) !== 0 : (i & 1) !== 0)) continue;
+      fill += area;
       const id = tex[i];
       // colour over life in 8 steps: smooth enough, and bounds the tinted-texture variants
       const img =
@@ -399,6 +419,7 @@ export class Particles {
     ctx.globalAlpha = prevAlpha;
     ctx.globalCompositeOperation = prevComp;
     this.drawn = drawn;
+    this._fill = fill;
   }
 
   clear() {

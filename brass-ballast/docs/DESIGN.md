@@ -202,6 +202,8 @@ damage until below half hp), `overclocked` (speedMult & fireRateMult ×1.4), `vo
 **Scaling**: enemy hp × `stage.hpMult` × `run.mods.enemyHp` (× 1.5 per extra co-op player);
 damage × `stage.dmgMult` × `run.mods.enemyDmg`. Suggested stage hpMult `[1, 1.7, 2.6, 3.7, 5]`,
 dmgMult `[1, 1.15, 1.3, 1.5, 1.7]`, eliteChance `[.02,.04,.06,.08,.12]`, xpMult `[1,1.2,1.4,1.6,1.8]`.
+As tuned (stages.js): hpMult `[1, 1.75, 2.9, 4.1, 5.2]`, plus `fireRate` `[1, 1.1, 1.22, 1.3, 1.35]`
+(→ `run.enemyFireRate`, regular enemies only; telegraphs shrink by at most 20%).
 
 ### 2.11 Bosses (each its own file under `js/content/bosses/`)
 All bosses: intro (camera zoom punch, `boss_warning` 3 s klaxon + banner with name and title,
@@ -217,7 +219,10 @@ Patterns must be dodgeable; bullet speed 160–320 u/s; telegraph ≥ 0.6 s for 
 | `behemoth` | Admiral Vex's Behemoth — *The Admiral's Fist* | 4 | 5200 | Carrier-battleship: launches ornithopters, mortar barrages with telegraphs, bullet walls with gaps; Vex taunts (text). |
 | `sunFurnace` | The Sun Furnace — *Heart of the Syndicate* | 5 | 7500 | Colossal spherical foundry with rotating armored shell plates (shoot through gaps), molten slag spirals, flame jets; sheds shell in phase 2; desperation pattern in phase 3. |
 
-Endless/boss-rush scale boss hp by `run.bossHpMult`.
+The hp column is each boss's designed **base**; the campaign spawns it × a toughness factor from
+`js/content/bosses/tuning.js` (integration play-tests: fights of ~2.5 min at stage 1 rising to
+~4–5 min for the finale against a typical build). Endless/boss-rush scale on top by
+`run.bossHpMult` (boss rush trims to ×0.7…0.42 since the player arrives under-levelled).
 
 ### 2.12 Stages & biomes (`js/content/stages.js`, visuals in `js/gfx/biomes.js`)
 | # | stage id = biome id | name | look | weather | new enemies | boss |
@@ -724,8 +729,9 @@ left-handed touch layout, touch opacity, haptics, quality (`auto` default / `hig
 Quality tiers live in `js/gfx/quality.js` (high → medium → low: DPR cap 2/1.5/1, particle spawn
 ×1/0.7/0.45 and pool cap, image smoothing, backdrop detail — merged haze/vignette overlay, no
 cloud shadows, half-res ground tiles — weather density, lite music). `auto` starts high; the
-governor steps down one tier when smoothed gameplay fps stays < 45 for 4 s and back up after
-~10 s > 57 fps (each failed step-up doubles that wait). `high`/`low` pin the tier. Pause on blur/visibility loss. Full keyboard and gamepad menu navigation.
+governor steps down one tier when smoothed fps (gameplay or the title scene) stays < 45 for 4 s
+and back up after ~10 s > 57 fps (each failed step-up doubles that wait). `high`/`low` pin the
+tier. Pause on blur/visibility loss. Full keyboard and gamepad menu navigation.
 
 ## 9. PWA
 `manifest.webmanifest` (name, short_name "Brass&Ballast", start_url `./`, scope `./`, display

@@ -478,8 +478,9 @@ export const MODES = {
     icon: 'icon_mode_bossRush',
     rules: ['5 bosses in a row', 'Refit after each', 'Boss hulls trimmed for a fresh ship'],
     bosses: BOSS_CYCLE.slice(),
-    // No waves means no level-ups before the first fight: bosses are trimmed accordingly.
-    bossHpMult: (i) => [0.7, 0.62, 0.56, 0.52, 0.5][i] ?? 0.5,
+    // No waves means few level-ups (start at L8, ~1 level per titan): bosses are trimmed against
+    // their campaign toughness so each fight runs ~1.5–3 min (measured with the autopilot).
+    bossHpMult: (i) => [0.7, 0.6, 0.45, 0.4, 0.42][i] ?? 0.42,
     /** The engine grants these level-up picks at run start (game.startRun). */
     startLevel: 8,
     unlocked: (save) => (save?.stats?.wins || 0) > 0 || !!save?.unlocks?.bossRush,

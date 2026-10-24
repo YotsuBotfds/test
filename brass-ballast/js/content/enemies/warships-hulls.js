@@ -290,7 +290,7 @@ const frigate = {
         d.ready = true;
         if (lined && dist < 620) {
           d.ready = false;
-          AI.setState(e, 'aim', AIM_TIME / e.fireRateMult);
+          AI.setState(e, 'aim', AIM_TIME / Math.min(1.25, e.fireRateMult)); // telegraph shrinks ≤ 20%
           w.sfx('hit_armor', e.x, e.y, { vol: 0.4, pitch: 0.55 }); // gunport shutters clank open
           for (let i = 0; i < FRIGATE.ports.length; i++) {
             const m = local(e, FRIGATE.ports[i], d.side * (FRIGATE.portY + 2));
@@ -312,7 +312,7 @@ const frigate = {
         w.sfx('enemy_shot', m.x, m.y, { vol: 0.7, pitch: 0.8 });
       }
     } else if (e.state === 'aim') {
-      d.glow = Math.min(1, d.glow + dt / Math.max(0.2, AIM_TIME / e.fireRateMult));
+      d.glow = Math.min(1, d.glow + dt / Math.max(0.2, AIM_TIME / Math.min(1.25, e.fireRateMult)));
       if (AI.timerDone(e, dt)) {
         fireBroadside(e, w, p);
         AI.setState(e, 'reload', 0.6);
