@@ -402,7 +402,7 @@ URL flags: `debug autostart autopilot mode hull weapon stage=N wave=N boss=<id> 
 level=N aux=a,b[:lvl] passives=a,b[:lvl] mods=gale,fog speed=N nosw sw quality=auto|high|medium|low
 botskill=0..1` (autopilot dodge skill, for difficulty checks).
 ```js
-BB.game BB.world BB.run BB.Sprites BB.audio BB.events BB.Save BB.ENEMIES BB.BOSSES …
+BB.game BB.world BB.run BB.Sprites BB.audio BB.events BB.Save BB.ENEMIES BB.BOSSES BB.Quality …
 BB.debug.spawn(type, n=1, {dist, x, y, elite, …})   BB.debug.boss(id)   BB.debug.stage(n)
 BB.debug.wave(n)  BB.debug.skipWave()  BB.debug.god(on)  BB.debug.give(id)  BB.debug.level(n)
 BB.debug.xp(n)  BB.debug.heal()  BB.debug.killAll()  BB.debug.killBoss()  BB.debug.win()

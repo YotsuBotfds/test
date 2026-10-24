@@ -54,6 +54,7 @@ export function initDebug(game, deps = {}) {
       AUX,
       EVOLUTIONS,
       PASSIVES,
+      Quality,
       debug,
     };
     console.info('[debug] window.BB ready — try BB.debug.report()');

@@ -833,14 +833,16 @@ export class Game {
     const dt = Math.min(rawDt, MAX_DT);
     // The title's attract scene counts too: it is the same backdrop + ships, and a slow device
     // should not have to start its first run at a tier it cannot hold.
-    Quality.sample(rawDt, (this.state === 'playing' && !this.ending && !this.hitstopT) || this.state === 'title');
+    // Hit-stop frames are skipped (not counted as "inactive"): heavy fights trigger them so often
+    // that resetting the slow timer there would stop the governor from ever stepping down.
+    if (!(this.hitstopT > 0)) Quality.sample(rawDt, (this.state === 'playing' && !this.ending) || this.state === 'title');
     this._try('input.update', () => this.input?.update?.(dt));
     this._try('ui.update', () => this.ui?.update?.(dt));
     this._handleGlobalInput();
 
     if (this.simulating && this.world) {
       if (this.hitstopT > 0) {
-        this.hitstopT -= dt;
+        this.hitstopT = Math.max(0, this.hitstopT - dt);
       } else {
         let sim = dt * this.timeScale * this.slowScale;
         let guard = 0;
@@ -866,7 +868,8 @@ export class Game {
     this.flashA = Math.max(0, this.flashA - dt * 2.5);
 
     if (this.world) {
-      this.world.syncLoops(this.simulating && !this.hitstopT && this.state !== 'paused');
+      // Loops mute under menus/pause only — not for 0.05–0.2 s hit-stops (that would stutter).
+      this.world.syncLoops(this.simulating && this.state !== 'paused');
       // A stage transition ends when the director moves on to the next intro.
       if (this.state === 'transition' && this.director && this.director.state !== 'transition') {
         this.state = 'playing';

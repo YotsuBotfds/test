@@ -758,7 +758,13 @@ rigging available — reload" toast; clicking posts `SKIP_WAITING`. SW is **not*
   (skip menus, start a run), `autopilot=1` (bot plays), `mode=`, `hull=`, `weapon=`, `stage=N`
   (1-based), `wave=N`, `boss=<id>` (spawn boss immediately), `seed=N`, `god=1`, `mute=1`,
   `level=N` (pre-level with random cards), `aux=a,b` & `passives=a,b` (give these),
-  `speed=N` (time scale), `nosw=1`, `sw=1`.
+  `speed=N` (time scale), `nosw=1`, `sw=1`, `mods=a,b` (run modifiers), `quality=auto|high|
+  medium|low` (pin a graphics tier), `botskill=0..1` (autopilot dodge/aim skill; 0.6–0.8 is a
+  rough stand-in for a human when judging difficulty or boss fight length).
+- Soak matrix: `node brass-ballast/tests/soak.cjs [--only a,b] [--jobs 2] [--scale 1] [--out dir]`
+  runs the harness over every stage, boss, mode, co-op, a max build and mobile viewports with the
+  autopilot and fails on any page/console error. `package.json` scripts: `npm start` (dev
+  server), `npm test` (soak), `npm run lint`, `npm run precache`.
 - `window.BB` (debug): `{game, world, Sprites, audio, events, Save, debug:{spawn(type, n, opts),
   boss(id), stage(n), wave(n), god(on), give(cardIdOrUpgradeId), level(n), killAll(), win(),
   lose(), timeScale(s), report()}}`. `report()` returns `{state, fps, enemies, pBullets,
