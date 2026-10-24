@@ -316,7 +316,11 @@ function slamImpact(T, b, w) {
 
 // ---- Grab ------------------------------------------------------------------------------------------
 
-/** Let go of a held player. broke = the player boosted free (arm is stunned & exposed). */
+/**
+ * Let go of a held player. broke = the player boosted free (arm is stunned & exposed).
+ * broke = 'drop' = a harmless release (boss death / phase change): the arm just retracts and the
+ * player gets a gentle, damage-free push clear of the body instead of the damaging slam.
+ */
 export function releaseGrab(b, w, broke) {
   const d = b.data;
   const g = d.grab;
@@ -330,6 +334,9 @@ export function releaseGrab(b, w, broke) {
       w.fx.steamBurst?.(p.x, p.y, 1.2, 14);
       w.floatText(p.x, p.y - 40, 'BROKE FREE!', { color: '#9fe6ff', size: 18, life: 1.2, callout: true });
       w.sfx('steam_vent', p.x, p.y, { vol: 0.8, pitch: 1.3 });
+    } else if (broke === 'drop') {
+      p.vx = Math.cos(a) * 260;
+      p.vy = Math.sin(a) * 260;
     } else {
       p.vx = Math.cos(a) * 560;
       p.vy = Math.sin(a) * 560;
@@ -338,7 +345,7 @@ export function releaseGrab(b, w, broke) {
     }
   }
   if (T?.alive) {
-    if (broke) {
+    if (broke === true) {
       T.state = 'stunned';
       T.st = 0;
       T.dur = 1.3;

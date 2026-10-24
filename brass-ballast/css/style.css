@@ -857,6 +857,9 @@ img { -webkit-user-drag: none; }
   gap: clamp(10px, 1.6vw, 20px);
   align-items: stretch;
   min-height: 100%;
+  /* room for a focused card's 6px lift and focus ring inside the scrolling board (it was clipped
+     at the top on short phone screens) */
+  padding-top: 8px;
 }
 .mode-card {
   position: relative;
@@ -1797,6 +1800,20 @@ input[type='range']:focus::-webkit-slider-thumb { transform: scale(1.18); box-sh
 .res-medal svg, .res-medal .icon { width: 36px; height: 36px; }
 .res-unlocks { margin: 0; padding-left: 1.2em; line-height: 1.5; color: var(--aether); }
 .res-foot { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; padding-bottom: 4px; }
+/* When the results overflow (phones), the action row stays pinned to the bottom so the screen can
+   open at the top, headline first (nav.js does not scroll to reveal a sticky element). */
+@media (max-width: 720px), (max-height: 700px) {
+  .res-foot {
+    position: sticky;
+    /* sticky insets count from inside the scroller's padding: reach down over it to the edge */
+    bottom: calc(-1 * (var(--safe-b) + var(--gutter)));
+    z-index: 3;
+    align-self: stretch;
+    margin: 0 calc(-1 * var(--gutter)) calc(-1 * (var(--safe-b) + var(--gutter)));
+    padding: 14px var(--gutter) calc(var(--safe-b) + var(--gutter));
+    background: linear-gradient(180deg, rgba(8, 5, 2, 0), rgba(8, 5, 2, 0.88) 14px, rgba(8, 5, 2, 0.94));
+  }
+}
 
 /* ===================================================================== 16. confirm dialog */
 .screen-confirm { background: rgba(6, 4, 2, 0.55); }
@@ -2085,6 +2102,19 @@ input[type='range']:focus::-webkit-slider-thumb { transform: scale(1.18); box-sh
   .bank { padding: 10px 14px; }
   .bank-cog { width: 54px; height: 54px; }
   .bank-num { font-size: 1.6rem; }
+}
+
+/* Narrow portrait: tabs (How to Fly, Hangar) must fit the board without a clipped last tab. */
+@media (max-width: 559px) {
+  .tab { padding-inline: 0.75em; letter-spacing: 0.05em; }
+  .tab-more { display: none; }
+}
+
+/* Narrow portrait: the plaque leaves too little room for the gauge and count side by side (the
+   "/ 32" ran off the right edge), so the count tucks under the gauge. */
+@media (max-width: 559px) {
+  .ach-summary { flex-direction: column; gap: 0; }
+  .ach-count { line-height: 1.1; }
 }
 
 /* very short and narrow: let the board scroll as a whole */

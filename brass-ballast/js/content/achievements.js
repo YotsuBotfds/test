@@ -56,7 +56,7 @@ export const ACHIEVEMENTS = [
   { id: 'gale', group: 'modes', name: 'Gale Warden', desc: 'Reach wave 10 of the Endless Gale.', icon: 'icon_wave', tier: 'silver' },
   { id: 'eyeOfGale', group: 'modes', name: 'Eye of the Gale', desc: 'Reach wave 20 of the Endless Gale.', icon: 'icon_wave', tier: 'gold' },
   { id: 'squallChaser', group: 'modes', name: 'Squall Chaser', desc: 'Win a Daily Squall.', icon: 'icon_clock', tier: 'silver' },
-  { id: 'doubleSquall', group: 'modes', name: 'Double Squall', desc: 'Win a Daily Squall carrying two modifiers.', icon: 'icon_medal_silver', tier: 'silver' },
+  { id: 'doubleSquall', group: 'modes', name: 'Squall Season', desc: 'Win the Daily Squall on 3 different days.', icon: 'icon_medal_silver', tier: 'silver' },
   { id: 'gauntlet', group: 'modes', name: 'Gauntlet Cleared', desc: 'Clear the Gauntlet of Iron: all five titans, back to back.', icon: 'icon_boss', tier: 'gold' },
 
   // ---- Secret fun ones
@@ -93,7 +93,7 @@ const GOAL = {
   workshopLevels: 10,
   endlessWaves: 10,
   endlessWavesLong: 20,
-  squallMods: 2,
+  squallDays: 3,
   loseWithin: 20,
   abandonWithin: 10,
 };
@@ -104,13 +104,30 @@ function progress() {
   const p = (Save.data.achProgress ||= {});
   if (typeof p.bombKills !== 'number') p.bombKills = 0;
   if (!p.bosses || typeof p.bosses !== 'object') p.bosses = {};
+  if (!Array.isArray(p.dailyWins)) p.dailyWins = [];
   return p;
+}
+
+/**
+ * Distinct days with a Daily Squall victory. Tracked in achProgress because the daily highscore
+ * table keeps only the best-scoring run per day (a higher-scoring loss can replace a win there);
+ * the table is still read so wins banked before this counter existed are counted too.
+ */
+function dailyWinDays() {
+  const days = new Set(progress().dailyWins);
+  for (const [day, e] of Object.entries(Save.data.highscores?.daily || {})) if (e?.victory) days.add(String(e.day ?? day));
+  return days.size;
 }
 
 /** Kills banked at run end, plus the live run's kills while it is still in progress. */
 function lifetimeKills(run) {
   const banked = Save.data.stats?.kills || 0;
   return banked + (run && !run.over ? run.kills || 0 : 0);
+}
+
+/** Campaign-shaped runs, where a "stage" is a real stage (the Gauntlet's stages are single titans). */
+function isVoyage(run) {
+  return run.mode === 'campaign' || run.mode === 'daily';
 }
 
 function bossDefeated(id) {
@@ -234,7 +251,12 @@ export class AchievementTracker {
       if (run.mode === 'campaign') this.unlock('grandVoyage');
       if (run.mode === 'daily') {
         this.unlock('squallChaser');
-        if ((run.modifiers?.length || 0) >= GOAL.squallMods) this.unlock('doubleSquall');
+        const p = progress();
+        if (run.day != null && !p.dailyWins.includes(String(run.day))) {
+          p.dailyWins.push(String(run.day));
+          Save.save();
+        }
+        if (dailyWinDays() >= GOAL.squallDays) this.unlock('doubleSquall');
       }
       if (run.mode === 'bossRush') this.unlock('gauntlet');
       if (run.hull === 'tinker') this.unlock('folly');
@@ -254,10 +276,12 @@ export class AchievementTracker {
     const rs = this._state(run);
     if (!rs) return;
     rs.waveHit = false;
-    if (run.mode === 'endless') {
-      if ((run.wave || 0) >= GOAL.endlessWaves) this.unlock('gale');
-      if ((run.wave || 0) >= GOAL.endlessWavesLong) this.unlock('eyeOfGale');
-    }
+    if (run.mode === 'endless') this._checkEndlessWave(run.wave);
+  }
+
+  _checkEndlessWave(wave) {
+    if ((wave || 0) >= GOAL.endlessWaves) this.unlock('gale');
+    if ((wave || 0) >= GOAL.endlessWavesLong) this.unlock('eyeOfGale');
   }
 
   _onWaveClear({ run } = {}) {
@@ -269,18 +293,20 @@ export class AchievementTracker {
     const rs = this._state(run);
     if (!rs) return;
     if (index === 0) rs.stageHit = false;
-    if (run.mode !== 'endless' && (run.stageReached || 0) >= GOAL.stormStage) this.unlock('stormFront');
+    if (isVoyage(run) && (run.stageReached || 0) >= GOAL.stormStage) this.unlock('stormFront');
   }
 
   _onStageClear({ run, index } = {}) {
     const rs = this._state(run);
     if (!rs) return;
-    if (index === 0 && run.mode !== 'endless' && !rs.stageHit) this.unlock('flawlessDawn');
+    if (index === 0 && isVoyage(run) && !rs.stageHit) this.unlock('flawlessDawn');
   }
 
   _onBossSpawn({ boss } = {}) {
     const run = this._run();
     if (run && boss) this.bossBombs.set(boss, run.bombsUsed || 0);
+    // Every 5th Endless wave is a titan wave, which starts without a wave:start.
+    if (run?.mode === 'endless' && !boss?.parent) this._checkEndlessWave(run.endlessWave);
   }
 
   _onBossKilled({ boss, id } = {}) {
@@ -313,8 +339,9 @@ export class AchievementTracker {
     if (enemy.elite && (run.elitesKilled || 0) >= GOAL.elites) this.unlock('trophyHunter');
   }
 
-  _onEnemyHit({ crit } = {}) {
-    if (!crit) return;
+  _onEnemyHit({ crit, info } = {}) {
+    // Silent hits are a boss part's damage share forwarded to its parent: the same crit, twice.
+    if (!crit || info?.silent) return;
     const rs = this.rs;
     if (!rs || rs.run.over) return;
     if (++rs.crits >= GOAL.crits) this.unlock('deadeye');
@@ -372,11 +399,8 @@ export class AchievementTracker {
     }
     for (const e of hs.bossRush || []) if (e?.victory) this.unlock('gauntlet', { quiet });
     for (const e of hs.endless || []) if ((e?.level || 0) >= GOAL.level) this.unlock('ascendant', { quiet });
-    for (const e of daily) {
-      if (!e?.victory) continue;
-      this.unlock('squallChaser', { quiet });
-      if ((e.modifiers?.length || 0) >= GOAL.squallMods) this.unlock('doubleSquall', { quiet });
-    }
+    if (daily.some((e) => e?.victory) || progress().dailyWins.length) this.unlock('squallChaser', { quiet });
+    if (dailyWinDays() >= GOAL.squallDays) this.unlock('doubleSquall', { quiet });
   }
 
   /** Cogs, Workshop and hangar medals. Cheap, so it also runs on every screen change. */

@@ -2,6 +2,7 @@
 // rules of the sky. Shown automatically before the first voyage.
 
 import { h, frag, icon, frame, backBtn, btn, glyph, tabBar, sfx, kick } from '../dom.js';
+import { Sprites } from '../../gfx/sprites.js';
 
 const key = (k, wide = '') => h('kbd', { class: ['key', wide] }, k);
 
@@ -92,27 +93,68 @@ function gamepadDiagram() {
   );
 }
 
+/** Data URL of a sprite icon for use inside an inline SVG ('' when the sprite is missing). */
+function iconHref(name) {
+  try {
+    return Sprites.has(name) ? Sprites.iconURL(name, 64) : '';
+  } catch {
+    return '';
+  }
+}
+
+/** Compass-rose stick base like the touch HUD's: brass ring, four pointers and a knob. */
+function stickSVG(cx, cy, kx, ky, ring, knob) {
+  const tri = (a) => {
+    const c = Math.cos(a);
+    const sn = Math.sin(a);
+    const p = (r, o) => `${(cx + c * r - sn * o).toFixed(1)},${(cy + sn * r + c * o).toFixed(1)}`;
+    return `<path d="M${p(27, 0)} L${p(20, -4)} L${p(20, 4)}Z" fill="${ring}" opacity=".85"/>`;
+  };
+  return `<circle cx="${cx}" cy="${cy}" r="31" fill="rgba(20,14,8,.35)" stroke="${ring}" stroke-width="2.5"/>
+      <circle cx="${cx}" cy="${cy}" r="24" fill="none" stroke="${ring}" stroke-width="1" opacity=".5"/>
+      ${[0, 1, 2, 3].map((i) => tri((i * Math.PI) / 2 - Math.PI / 2)).join('')}
+      <circle cx="${kx}" cy="${ky}" r="13" fill="url(#td-knob)" stroke="#2b1a08" stroke-width="2"/>
+      <circle cx="${kx}" cy="${ky}" r="5" fill="none" stroke="${knob}" stroke-width="2"/>`;
+}
+
+/** Brass-rimmed porthole button with the touch HUD's icon (bomb on oxblood, steam on navy). */
+function portholeSVG(cx, cy, fill, ring, ic) {
+  const href = iconHref(ic);
+  return `<circle cx="${cx}" cy="${cy}" r="21" fill="none" stroke="${ring}" stroke-width="1.5" opacity=".8"/>
+      <circle cx="${cx}" cy="${cy}" r="17" fill="${fill}" stroke="url(#td-brass)" stroke-width="3.5"/>
+      ${href ? `<image href="${href}" x="${cx - 12}" y="${cy - 12}" width="24" height="24"/>` : ''}`;
+}
+
 function touchDiagram() {
   return h(
     'div',
     { class: 'diagram diag-touch' },
     frag(`<svg viewBox="0 0 400 220" role="img" aria-label="Touch controls">
-      <rect x="10" y="20" width="380" height="186" rx="26" fill="#1f2328" stroke="#c9973f" stroke-width="4"/>
-      <rect x="28" y="34" width="344" height="158" rx="12" fill="#3d5f86"/>
-      <path d="M200 34 V192" stroke="#f3e8c9" stroke-dasharray="6 6" opacity=".45"/>
-      <rect x="40" y="44" width="26" height="22" rx="5" fill="#c9973f" stroke="#1a120a" stroke-width="1.5"/>
-      <path d="M49 49v12M57 49v12" stroke="#1a120a" stroke-width="3"/>
-      <circle cx="100" cy="128" r="36" fill="rgba(243,232,201,.15)" stroke="#f3e8c9" stroke-width="2"/>
-      <circle cx="114" cy="118" r="16" fill="#ffcf4a" stroke="#4a3112" stroke-width="2"/>
-      <circle cx="270" cy="120" r="36" fill="rgba(127,243,255,.12)" stroke="#7ff3ff" stroke-width="2"/>
-      <circle cx="252" cy="108" r="16" fill="#7ff3ff" stroke="#1d5f5c" stroke-width="2"/>
-      <circle cx="344" cy="160" r="18" fill="#c9973f" stroke="#1a120a" stroke-width="2"/>
-      <circle cx="346" cy="112" r="15" fill="#8c2f2b" stroke="#1a120a" stroke-width="2"/>
-      <g font-family="Georgia, serif" font-size="12" fill="#f3e8c9" text-anchor="middle">
-        <text x="100" y="182">Move</text><text x="270" y="176">Aim &amp; fire</text>
-        <text x="344" y="190" font-size="10.5">Boost</text>
-        <text x="346" y="88" font-size="11">Bomb</text>
-        <text x="104" y="60" text-anchor="start" font-size="11">Pause</text>
+      <defs>
+        <linearGradient id="td-brass" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f2d48a"/>
+          <stop offset=".5" stop-color="#c9973f"/><stop offset="1" stop-color="#7a5420"/></linearGradient>
+        <radialGradient id="td-sky" cx=".5" cy=".35" r=".8"><stop offset="0" stop-color="#2f4a63"/>
+          <stop offset="1" stop-color="#16222e"/></radialGradient>
+        <radialGradient id="td-knob" cx=".4" cy=".35" r=".7"><stop offset="0" stop-color="#fbe7b0"/>
+          <stop offset=".6" stop-color="#c9973f"/><stop offset="1" stop-color="#6a4a20"/></radialGradient>
+      </defs>
+      <rect x="10" y="18" width="380" height="190" rx="28" fill="#2b1a08" stroke="url(#td-brass)" stroke-width="5"/>
+      <rect x="18" y="26" width="364" height="174" rx="22" fill="none" stroke="#1a120a" stroke-width="2"/>
+      ${[[24, 113], [376, 113]].map(([x, y]) => `<circle cx="${x}" cy="${y}" r="3" fill="url(#td-brass)" stroke="#1a120a"/>`).join('')}
+      <rect x="32" y="34" width="336" height="158" rx="12" fill="url(#td-sky)" stroke="#1a120a" stroke-width="2"/>
+      <path d="M200 40 V186" stroke="#f3e8c9" stroke-dasharray="5 6" opacity=".3"/>
+      <circle cx="54" cy="56" r="13" fill="#2b2620" stroke="url(#td-brass)" stroke-width="3"/>
+      <path d="M50 50v12M58 50v12" stroke="#f2d48a" stroke-width="3"/>
+      ${stickSVG(102, 132, 112, 124, '#c9973f', '#7a5420')}
+      ${stickSVG(268, 140, 254, 130, '#c9973f', '#1d5f5c')}
+      ${portholeSVG(310, 70, '#8c2f2b', '#c9973f', 'icon_bomb')}
+      ${portholeSVG(346, 112, '#2d4a6e', '#7ff3ff', 'icon_steam')}
+      <g font-family="Georgia, serif" font-size="12" font-weight="bold" fill="#f3e8c9" text-anchor="middle"
+        stroke="#16222e" stroke-width="3" paint-order="stroke" letter-spacing=".06em">
+        <text x="102" y="182">MOVE</text><text x="268" y="186">AIM · FIRE</text>
+        <text x="310" y="104" font-size="10.5">BOMB</text>
+        <text x="346" y="146" font-size="10.5">BOOST</text>
+        <text x="74" y="60" text-anchor="start" font-size="10.5">PAUSE</text>
       </g></svg>`),
     h('p', { class: 'diag-note' }, 'Touch anywhere on the left to sprout a stick; the right half aims and fires.'),
   );
@@ -134,7 +176,9 @@ export default function build(ui, params) {
   let inst = null;
   const dev = ui.nav?.device || 'kbm';
   const start = dev === 'pad' ? 1 : dev === 'touch' ? 2 : 0;
-  const tabs = tabBar(['Keyboard & Mouse', 'Gamepad', 'Touch'], (i) => {
+  // " & Mouse" drops on narrow phones so all three tabs fit the board.
+  const kbmLabel = ['Keyboard', h('span', { class: 'tab-more' }, ' & Mouse')];
+  const tabs = tabBar([kbmLabel, 'Gamepad', 'Touch'], (i) => {
     diag.replaceChildren(views[i]());
     if (inst) kick(diag, 'swap');
   }, start);

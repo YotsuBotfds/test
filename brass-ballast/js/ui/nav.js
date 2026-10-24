@@ -266,6 +266,11 @@ export class Nav {
     const sign = d === 'right' || d === 'down' ? 1 : -1;
     let best = null;
     let bestScore = Infinity;
+    // Left/right prefer targets on the source's own row: scored on distance alone, a button low
+    // in one column jumped *up* to whatever sat nearest in the next (settings: Fullscreen ->
+    // Effects slider). Off-row targets are used only when nothing on the row qualifies.
+    let bestInRow = null;
+    let bestInRowScore = Infinity;
     for (const el of list) {
       const r = el.getBoundingClientRect();
       // primary distance along the travel axis (edge to edge)
@@ -294,17 +299,26 @@ export class Nav {
         bestScore = score;
         best = el;
       }
+      const rowOverlap = Math.min(r.bottom, r0.bottom) - Math.max(r.top, r0.top);
+      if (horiz && rowOverlap > 4 && score < bestInRowScore - 0.5) {
+        bestInRowScore = score;
+        bestInRow = el;
+      }
     }
+    if (bestInRow) return bestInRow;
     if (best) return best;
     // Wrap vertically within lists (top <-> bottom) when the layer has no scroll box to move.
+    // Targets in the source's column (overlapping horizontally) score by position alone: a
+    // centre-offset penalty made the full-width Resume lose to the nearer Settings button.
     if (!horiz && !scrollParent(from, this.ui.scope)) {
       let pick = null;
       let ps = Infinity;
       for (const el of list) {
         const r = el.getBoundingClientRect();
         const along = sign > 0 ? r.top : -r.bottom;
+        const gap = Math.max(0, r.left - r0.right, r0.left - r.right);
         const off = Math.abs(r.left + r.width / 2 - (r0.left + r0.width / 2));
-        const s = along + off * 0.5;
+        const s = along + gap + off * 0.05;
         if (s < ps) {
           ps = s;
           pick = el;
@@ -333,6 +347,11 @@ function canScroll(box, d) {
 
 /** Scroll an element into view inside its scroll containers only (never the page). */
 function reveal(el) {
+  // A sticky element (e.g. the results action row on phones) is always in view: scrolling for it
+  // would only push the content above it (the results headline) out of sight.
+  for (let a = el; a && a !== document.body; a = a.parentElement) {
+    if (getComputedStyle(a).position === 'sticky') return;
+  }
   let n = el.parentElement;
   const r = el.getBoundingClientRect();
   while (n && n !== document.body) {
@@ -344,12 +363,18 @@ function reveal(el) {
       const pad = 14;
       let dy = 0;
       let dx = 0;
+      // An element too big to fit is only brought back when wholly out of view: chasing its far
+      // edge scrolled its near edge (and a focused voyage card's lift) out of the box.
       if (sy) {
-        if (r.top < b.top + pad) dy = r.top - b.top - pad;
+        if (r.height > b.height - 2 * pad) {
+          if (r.bottom < b.top || r.top > b.bottom) dy = r.top - b.top - pad;
+        } else if (r.top < b.top + pad) dy = r.top - b.top - pad;
         else if (r.bottom > b.bottom - pad) dy = r.bottom - b.bottom + pad;
       }
       if (sx) {
-        if (r.left < b.left + pad) dx = r.left - b.left - pad;
+        if (r.width > b.width - 2 * pad) {
+          if (r.right < b.left || r.left > b.right) dx = r.left - b.left - pad;
+        } else if (r.left < b.left + pad) dx = r.left - b.left - pad;
         else if (r.right > b.right - pad) dx = r.right - b.right + pad;
       }
       if (dx || dy) n.scrollBy({ left: dx, top: dy, behavior: 'smooth' });

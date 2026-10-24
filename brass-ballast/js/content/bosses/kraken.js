@@ -236,7 +236,7 @@ export default {
     const d = b.data;
     d.deathAt = w.time;
     b.state = 'dead';
-    releaseGrab(b, w, false);
+    releaseGrab(b, w, 'drop');
     clearHazards(b, w, true);
     taunt(b, w, 'death');
     b.vx = 0;
@@ -681,7 +681,7 @@ function startTransition(b, w, phase) {
   b.timer = 1.9;
   d.bag = [];
   d.frenzy = false;
-  releaseGrab(b, w, false);
+  releaseGrab(b, w, 'drop');
   w.hitstop(0.12);
   w.flash('#d8b0ff', 0.22);
   w.clearEnemyBullets(b.x, b.y, Infinity);
