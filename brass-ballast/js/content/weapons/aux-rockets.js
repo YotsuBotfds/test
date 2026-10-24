@@ -264,7 +264,7 @@ function drawPods(ctx, p, slot, sprite, fx, fy, scale) {
 
 const EVO_INTERVAL = 1.8;
 const EVO_COUNT = 8;
-const EVO_DMG = 30;
+const EVO_DMG = 24;
 const EVO_AOE = 82;
 
 export const Hellfire = {
@@ -299,7 +299,7 @@ export const Hellfire = {
     d.qT = 0;
     d.fired = 0;
     slot.kick = 1;
-    w.shake(0.12);
+    w.shake(0.12, true);
     tickVolley(p, slot, 0, w, true);
   },
 

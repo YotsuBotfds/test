@@ -10,7 +10,7 @@ const SRC = 'aux:flakTurret';
 const SRC_EVO = 'aux:flakStorm';
 
 const RATE = [3, 3, 4, 4, 5];
-const DMG = [6, 8, 8, 8, 11];
+const DMG = [6, 8, 8, 8, 9];
 const RANGE = [420, 420, 480, 480, 520];
 const BURST = [30, 30, 30, 40, 40];
 const SHARDS = [0, 0, 0, 4, 4];
@@ -20,7 +20,7 @@ const LEVELS = [
   'Burst damage 6 → 8.',
   'Rate 3 → 4 shells/s; range 420 → 480.',
   'Bursts grow 33% and scatter 4 shrapnel shards.',
-  'Rate 4 → 5 shells/s; damage 8 → 11; range 520.',
+  'Rate 4 → 5 shells/s; damage 8 → 9; range 520.',
 ];
 
 const FX_X = -0.3;
@@ -106,7 +106,7 @@ function updateTurrets(p, slot, dt, w, evo) {
   const sc = dmgScale(p, w);
   if (evo) {
     st.rate = 6.5;
-    st.dmg = 12 * sc;
+    st.dmg = 8.5 * sc;
     st.range = 580;
     st.burst = 56;
     st.shards = 6;

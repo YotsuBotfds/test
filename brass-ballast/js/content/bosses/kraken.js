@@ -334,9 +334,12 @@ function clearHazards(b, w, all) {
 function hoverTarget(b, w, out) {
   const d = b.data;
   const v = w.renderer.viewRect(0, d.vr);
-  const rx = Math.max(150, v.w / 2 - 300);
-  const up = Math.max(110, v.h / 2 - 250);
-  const down = Math.max(110, v.h / 2 - 150);
+  // Radii from the view at gameplay zoom (not the boss-framing zoom-out, which fed back into a
+  // ~900 u stand-off that short-range guns could never close; see ironMatriarch orbitTarget).
+  const zm = Math.min(1, w.renderer.camera.zoomMul || 1);
+  const rx = Math.max(150, (v.w * zm) / 2 - 300);
+  const up = Math.max(110, (v.h * zm) / 2 - 250);
+  const down = Math.max(110, (v.h * zm) / 2 - 150);
   const sn = Math.sin(d.orbitA);
   out.x = (v.x0 + v.x1) / 2 + Math.cos(d.orbitA) * rx + Math.sin(d.t * 0.7) * 18;
   out.y = (v.y0 + v.y1) / 2 + sn * (sn < 0 ? up : down) + Math.sin(d.t * 1.1) * 14;

@@ -11,17 +11,17 @@ import {
 const SRC = 'aux:steamVents';
 const SRC_EVO = 'aux:scaldingNimbus';
 
-const RADIUS = [90, 105, 105, 120, 120];
-const DPS = [10, 10, 14, 14, 20];
+const RADIUS = [130, 145, 145, 165, 165];
+const DPS = [14, 16, 20, 22, 28];
 const SLOW = [0.2, 0.2, 0.2, 0.3, 0.3];
 const BLOWOUT = [0, 0, 0, 0, 1];
 
 const LEVELS = [
-  'A swirling ring of scalding steam (radius 90) deals 10 damage/s and slows foes 20%.',
-  'Aura radius 90 → 105.',
-  'Damage 10 → 14/s.',
-  'Radius 105 → 120; slow 20% → 30%.',
-  'Boiler blowout: every 3 s the vents erupt for a triple tick with knockback; 20 damage/s.',
+  'A swirling ring of scalding steam (radius 130) deals 14 damage/s and slows foes 20%.',
+  'Aura radius 130 → 145; damage 14 → 16/s.',
+  'Damage 16 → 20/s.',
+  'Radius 145 → 165; slow 20% → 30%; damage 20 → 22/s.',
+  'Boiler blowout: every 3 s the vents erupt for a triple tick with knockback; 28 damage/s.',
 ];
 
 const TICK = 0.25;
@@ -153,7 +153,7 @@ export const SteamVents = {
 // ---- Scalding Nimbus -----------------------------------------------------------------------------
 
 const EVO_R = 195;
-const EVO_DPS = 28;
+const EVO_DPS = 45;
 const EVO_SLOW = 0.4;
 const SHRED = 1.25;
 const GEYSER_EVERY = 0.85;

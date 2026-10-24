@@ -29,7 +29,7 @@ const LUCK_TILT = 3;
 const PITY_STEP = 0.15;
 const PITY_MAX = 1.5;
 /** Kind biases so 18 common passives don't drown out the few armament cards. */
-const KIND_BIAS = { passive: 1, auxNew: 1.6, auxLevel: 2.2, primaryLevel: 4, evolution: 1 };
+const KIND_BIAS = { passive: 1, auxNew: 1.6, auxLevel: 2.2, primaryLevel: 6, evolution: 1 };
 /** Engine-side sanity caps we respect inside passive apply functions. */
 export const CAPS = Object.freeze({ crit: 0.75, cooldown: 0.35 });
 
@@ -119,7 +119,7 @@ export const PASSIVES = {
   twinBarrels: passive('twinBarrels', 'Twin Barrels', 'common', 3, ['offense'],
     'Why fire one when the rack holds two?',
     (s, l) => { s.projCount += l; },
-    (l) => `+1 projectile per volley${total(l, `+${l} projectiles`)}.`),
+    (l) => `+1 projectile per volley: +25% volley damage, shared across the shots${total(l, `+${l} projectiles`)}.`),
 
   ricochet: passive('ricochet', 'Ricochet Rounds', 'common', 3, ['offense'],
     'Hardened shot that skips off hulls toward the next victim.',
@@ -133,8 +133,8 @@ export const PASSIVES = {
 
   incendiary: passive('incendiary', 'Incendiary Shells', 'common', 5, ['offense', 'fire'],
     'Packed with whale-oil and spite.',
-    (s, l) => { s.burnChance += 0.1 * l; },
-    (l) => `+10% chance on hit to ignite: 6 dps × your damage for 3 s${total(l, `${10 * l}% chance`)}.`),
+    (s, l) => { s.burnChance += 0.12 * l; },
+    (l) => `+12% chance on hit to ignite: 6 dps × your damage for 3 s, plus half the hit again as stacking flame${total(l, `${12 * l}% chance`)}.`),
 
   explosiveTips: passive('explosiveTips', 'Explosive Tips', 'common', 5, ['offense', 'area'],
     'Every cannonball a tiny thunderclap.',
@@ -270,7 +270,7 @@ function primaryCard(id, player) {
   if (!desc) desc = `Recalibrate the ${d.name} to level ${level}.`;
   return {
     key: `prim:${id}`, kind: 'primaryLevel', id, name: `Calibrate: ${d.name}`, desc,
-    icon: d.icon || `icon_${id}`, rarity: level >= 5 ? 'epic' : 'rare', level, maxLevel: max,
+    icon: d.icon || `icon_${id}`, rarity: level >= 7 ? 'epic' : 'rare', level, maxLevel: max,
     tags: ['armament'],
   };
 }

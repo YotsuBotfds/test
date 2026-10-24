@@ -14,6 +14,7 @@ import {
   selfRecoil,
   muzzleAt,
   fan,
+  extraDmg,
   ejectCasing,
   throwWads,
   glowDot,
@@ -34,7 +35,7 @@ const cannonLv = levelTable(
     { desc: '+1 cannonball per volley', apply: add('count', 1) },
     { desc: '+15% fire rate', apply: mul('rate', 1.15) },
     { desc: '+20% damage, heavier shot (+20% size)', apply: all(mul('damage', 1.2), mul('size', 1.2), mul('r', 1.2)) },
-    { desc: '+1 cannonball per volley', apply: add('count', 1) },
+    { desc: '+25% damage', apply: mul('damage', 1.25) },
     { desc: '+15% fire rate, +1 pierce', apply: all(mul('rate', 1.15), add('pierce', 1)) },
     {
       desc: 'Grand Battery: every 4th volley adds an explosive 32-pounder (×2.5 dmg)',
@@ -55,7 +56,7 @@ function cannonVolley(player, wpn, world, aim, b, sc) {
   const d = wpn.data;
   d.volley = (d.volley || 0) + 1;
   const n = b.count + sc.extra;
-  const dmg = b.damage * sc.dmg;
+  const dmg = b.damage * sc.dmg * extraDmg(b.count, sc.extra);
   // Volleys: balls leave side-by-side from the barrel with a slight fan.
   const arc = b.spread * sc.spread * (n - 1);
   for (let i = 0; i < n; i++) {
@@ -125,9 +126,10 @@ function cannonVolley(player, wpn, world, aim, b, sc) {
   if (heavy) {
     fx.shockwave?.(M.x, M.y, 46, '#ffd9a0', 0.22);
     fx.embers?.(M.x, M.y, 4, { speed: 160 });
-    world.shake(0.16);
+    world.shake(0.16, true);
+    world.kick?.(aim, 4);
     world.zoomPunch?.(0.015);
-  } else world.shake(0.035);
+  } else world.kick?.(aim, 2);
   wpn.kick = 1;
   selfRecoil(player, aim, heavy ? 70 : 14);
   world.sfx('fire_cannon', M.x, M.y, { pitch: heavy ? 0.7 : 0.95 + world.rng.next() * 0.1, vol: heavy ? 1 : 0.85 });
@@ -138,16 +140,16 @@ function cannonVolley(player, wpn, world, aim, b, sc) {
 // =============================================================================================
 
 const gatlingLv = levelTable(
-  { damage: 5, rate: 14, speed: 920, count: 1, spread: 0.08, spinTime: 0.6, pierce: 0, knockback: 22 },
-  'Spins up to a hail of slugs: 5 dmg, 14 shots/s at full spin.',
+  { damage: 6.5, rate: 14, speed: 920, count: 1, spread: 0.08, spinTime: 0.6, pierce: 0, knockback: 22 },
+  'Spins up to a hail of slugs: 6.5 dmg, 14 shots/s at full spin.',
   [
-    { desc: '+20% damage', apply: mul('damage', 1.2) },
-    { desc: '+15% fire rate', apply: mul('rate', 1.15) },
-    { desc: 'Oiled bearings: spin-up 0.6 s → 0.35 s, −30% spread', apply: all(set('spinTime', 0.35), mul('spread', 0.7)) },
     { desc: '+25% damage', apply: mul('damage', 1.25) },
-    { desc: 'Armour-piercing slugs: +1 pierce', apply: add('pierce', 1) },
+    { desc: '+15% fire rate', apply: mul('rate', 1.15) },
+    { desc: 'Oiled bearings: +20% fire rate, spin-up 0.6 s → 0.35 s, −30% spread', apply: all(mul('rate', 1.2), set('spinTime', 0.35), mul('spread', 0.7)) },
+    { desc: '+25% damage', apply: mul('damage', 1.25) },
+    { desc: 'Armour-piercing slugs: +1 pierce, +15% damage', apply: all(add('pierce', 1), mul('damage', 1.15)) },
     { desc: '+20% fire rate', apply: mul('rate', 1.2) },
-    { desc: 'Twin Repeater: +1 slug per shot', apply: add('count', 1) },
+    { desc: 'Twin Repeater: +1 slug per shot (−30% slug damage)', apply: all(add('count', 1), mul('damage', 0.7)) },
   ],
 );
 
@@ -197,7 +199,7 @@ function gatlingShot(player, wpn, world, aim, b, sc) {
   d.barrel = ((d.barrel || 0) + 1) % 6;
   const side = Math.sin((d.barrel / 6) * TAU) * 3.2;
   const jit = b.spread * sc.spread * (1.25 - 0.35 * d.spin);
-  const dmg = b.damage * sc.dmg;
+  const dmg = b.damage * sc.dmg * extraDmg(b.count, sc.extra);
   for (let i = 0; i < n; i++) {
     const off = n > 1 ? (i / (n - 1) - 0.5) * 8 : 0;
     muzzleAt(player, 'gatling', M, 0, side + off);
@@ -232,7 +234,7 @@ function gatlingShot(player, wpn, world, aim, b, sc) {
   muzzleAt(player, 'gatling', M2, -18, 5);
   ejectCasing(world, M2.x, M2.y, aim);
   wpn.kick = Math.min(1, (wpn.kick || 0) + 0.32);
-  world.shake(0.012);
+  world.kick?.(aim, 0.7);
   selfRecoil(player, aim, 2.2);
   world.sfx('fire_gatling', M.x, M.y, { pitch: 0.85 + 0.3 * d.spin + (rng.next() - 0.5) * 0.06, vol: 0.55 + 0.25 * d.spin });
 }
@@ -242,8 +244,8 @@ function gatlingShot(player, wpn, world, aim, b, sc) {
 // =============================================================================================
 
 const blunderLv = levelTable(
-  { damage: 6, rate: 1.6, speed: 860, count: 6, spread: 0.55, life: 0.45, drag: 3.2, pierce: 0, knockback: 150, burn: false },
-  'Point-blank pellet storm: 6 pellets × 6 dmg, huge knockback.',
+  { damage: 10, rate: 1.9, speed: 860, count: 6, spread: 0.55, life: 0.55, drag: 3.2, pierce: 0, knockback: 150, burn: false },
+  'Point-blank pellet storm: 6 pellets × 10 dmg, huge knockback.',
   [
     { desc: '+2 pellets', apply: add('count', 2) },
     { desc: '+20% damage', apply: mul('damage', 1.2) },
@@ -251,7 +253,7 @@ const blunderLv = levelTable(
     { desc: '+2 pellets', apply: add('count', 2) },
     { desc: '+25% damage, +20% range', apply: all(mul('damage', 1.25), mul('life', 1.2)) },
     { desc: 'Chain-shot: pellets pierce +1 foe, +15% fire rate', apply: all(add('pierce', 1), mul('rate', 1.15)) },
-    { desc: "Dragon's Breath: pellets set foes ablaze", apply: set('burn', true) },
+    { desc: "Dragon's Breath: +15% damage, pellets set foes ablaze", apply: all(mul('damage', 1.15), set('burn', true)) },
   ],
 );
 
@@ -278,7 +280,7 @@ function blunderBlast(player, wpn, world, aim, b, sc) {
   const rng = world.rng;
   const n = b.count + sc.extra * 2;
   const arc = b.spread * sc.spread;
-  const dmg = b.damage * sc.dmg;
+  const dmg = b.damage * sc.dmg * extraDmg(b.count, sc.extra * 2);
   muzzleAt(player, 'blunderbuss', M);
   for (let i = 0; i < n; i++) {
     // Jittered fan: even coverage, never a perfect comb.
@@ -329,7 +331,8 @@ function blunderBlast(player, wpn, world, aim, b, sc) {
   wpn.data.hot = 0.6;
   wpn.kick = 1;
   selfRecoil(player, aim, 95);
-  world.shake(0.14);
+  world.shake(0.1, true);
+  world.kick?.(aim, 3.5);
   world.zoomPunch?.(0.012);
   world.sfx('fire_blunderbuss', M.x, M.y, { pitch: 0.92 + rng.next() * 0.12 });
 }

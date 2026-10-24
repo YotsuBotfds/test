@@ -68,6 +68,17 @@ const SC = {
   damage: 1,
 };
 
+/** Twin Barrels (stats.projCount): each extra projectile adds EXTRA_SHOT_DMG of the gun's base
+ *  volley damage, split over the whole volley (balance pass: whole extra slugs were worth +100%
+ *  per level on single-shot, high-rate guns like the Gatling). Never above a normal projectile. */
+export const EXTRA_SHOT_DMG = 0.25;
+
+/** Per-projectile damage factor for a volley of `base` + `extra` projectiles. */
+export function extraDmg(base, extra) {
+  if (!(extra > 0)) return 1;
+  return Math.min(1, ((1 + EXTRA_SHOT_DMG * extra) * base) / (base + extra));
+}
+
 /**
  * Player multipliers for this frame. NOTE: returns a shared object — read it immediately.
  * Crit, burnChance and explosive-on-hit are applied by the projectile engine (ENGINE.md §2).

@@ -10,6 +10,7 @@ import {
   set,
   all,
   statCtx,
+  extraDmg,
   triggerShots,
   decayKick,
   selfRecoil,
@@ -31,16 +32,16 @@ const MORTAR_MIN = 120;
 const MORTAR_MAX = 520;
 
 const mortarLv = levelTable(
-  { damage: 30, rate: 1.4, speed: 0, count: 1, radius: 70, flight: 1, burn: false, cluster: false, aoe: 70 },
-  'Lobbed shells burst on landing: 30 dmg in a 70 radius.',
+  { damage: 38, rate: 1.4, speed: 0, count: 1, radius: 70, flight: 1, burn: false, cluster: false, aoe: 70 },
+  'Lobbed shells burst on landing: 38 dmg in a 70 radius.',
   [
     { desc: '+20% damage', apply: mul('damage', 1.2) },
-    { desc: '+20% blast radius', apply: all(mul('radius', 1.2), mul('aoe', 1.2)) },
+    { desc: '+20% blast radius, +10% damage', apply: all(mul('radius', 1.2), mul('aoe', 1.2), mul('damage', 1.1)) },
     { desc: '+1 shell per salvo', apply: add('count', 1) },
     { desc: '+15% fire rate, −15% flight time', apply: all(mul('rate', 1.15), mul('flight', 0.85)) },
-    { desc: 'Incendiary shells: blasts set foes ablaze', apply: set('burn', true) },
+    { desc: 'Incendiary shells: blasts set foes ablaze, +15% blast radius', apply: all(set('burn', true), mul('radius', 1.15), mul('aoe', 1.15)) },
     { desc: '+25% damage, +15% blast radius', apply: all(mul('damage', 1.25), mul('radius', 1.15), mul('aoe', 1.15)) },
-    { desc: 'Cluster shells: each blast scatters 3 bomblets', apply: set('cluster', true) },
+    { desc: 'Cluster shells: each blast scatters 4 bomblets', apply: set('cluster', true) },
   ],
 );
 
@@ -84,7 +85,7 @@ function mortarSalvo(player, wpn, world, aim, b, sc) {
   muzzleAt(player, 'mortar', M);
   const tx0 = M.x + Math.cos(aim) * d.range;
   const ty0 = M.y + Math.sin(aim) * d.range;
-  const dmg = b.damage * sc.dmg;
+  const dmg = b.damage * sc.dmg * extraDmg(b.count, sc.extra);
   const burnRoll = sc.burnChance > 0 && rng.next() < sc.burnChance;
   for (let i = 0; i < n; i++) {
     // Extra shells walk a ring around the aim point (first one dead-centre).
@@ -148,7 +149,7 @@ function mortarSalvo(player, wpn, world, aim, b, sc) {
   fx.ring?.(M.x, M.y, 30, '#fff3c4', 0.22, { width: 2, r0: 8 });
   wpn.kick = 1;
   selfRecoil(player, aim, 30);
-  world.shake(0.07);
+  world.kick?.(aim, 2.5);
   world.sfx('fire_mortar', M.x, M.y, { pitch: 0.95 + rng.next() * 0.1 });
 }
 
@@ -201,7 +202,7 @@ function shellLand(p, w) {
   fx.shockwave?.(p.x, p.y, r * 1.1, p.data.burn ? '#ffb070' : '#ffd9a0', 0.32);
   fx.ring?.(p.x, p.y, r, '#fff3c4', 0.25, { width: 2, r0: r * 0.6 });
   w.sfx('mortar_land', p.x, p.y, { pitch: 0.9 + w.rng.next() * 0.2 });
-  w.shake(0.09 + Math.min(0.08, r / 1500));
+  w.shake(0.09 + Math.min(0.08, r / 1500), true);
   w.fx.smoke?.(p.x, p.y, r / 70, { count: 2, layer: 'low', dark: true, alpha: 0.4, life: 1.5, spread: 40 });
   w.fx.debris?.(p.x, p.y, 2, 'iron', { speed: 200, scale: 0.6 });
   if (p.data.burn) w.fx.embers?.(p.x, p.y, 8, { speed: 150 });
@@ -215,8 +216,8 @@ function shellLandCluster(p, w) {
   const owner = p.owner;
   if (!owner) return;
   const base = rng.next() * TAU;
-  for (let i = 0; i < 3; i++) {
-    const a = base + (i / 3) * TAU + (rng.next() - 0.5) * 0.6;
+  for (let i = 0; i < 4; i++) {
+    const a = base + (i / 4) * TAU + (rng.next() - 0.5) * 0.6;
     const d = r * (0.9 + rng.next() * 0.5);
     const br = r * 0.5;
     w.fire({
@@ -227,11 +228,11 @@ function shellLandCluster(p, w) {
       angle: a,
       r: 4,
       scale: 0.65 * (p.data.area || 1),
-      damage: p.data.dmg * 0.4,
+      damage: p.data.dmg * 0.45,
       lob: { tx: p.x + Math.cos(a) * d, ty: p.y + Math.sin(a) * d, time: 0.32 + rng.next() * 0.12, height: 50, marker: false },
       explode: {
         radius: br,
-        damage: p.data.dmg * 0.4,
+        damage: p.data.dmg * 0.45,
         visual: 'small',
         sound: 'explode_small',
         shake: 0.02,
@@ -358,11 +359,11 @@ const lanceLv = levelTable(
   [
     { desc: '+20% damage', apply: mul('damage', 1.2) },
     { desc: '+15% fire rate', apply: mul('rate', 1.15) },
-    { desc: 'Arc discharge: each hit jumps a spark to 1 nearby foe', apply: add('arcs', 1) },
+    { desc: 'Arc discharge: +10% damage, each hit jumps a spark (25% damage) to 1 nearby foe off the bolt’s line', apply: all(mul('damage', 1.1), add('arcs', 1)) },
     { desc: '+25% damage, thicker bolt', apply: all(mul('damage', 1.25), mul('width', 1.25)) },
     { desc: '+1 bolt (twin lance)', apply: add('count', 1) },
     { desc: '+20% fire rate, +15% bolt speed, +1 arc', apply: all(mul('rate', 1.2), mul('speed', 1.15), add('arcs', 1)) },
-    { desc: 'Overcharge: every 3rd shot is a massive beam (×2.5 dmg)', apply: set('overcharge', true) },
+    { desc: 'Overcharge: every 3rd shot is a massive beam (×2 dmg)', apply: set('overcharge', true) },
   ],
 );
 
@@ -401,7 +402,7 @@ function lanceShot(player, wpn, world, aim, b, sc) {
   d.shots = (d.shots || 0) + 1;
   const over = b.overcharge && d.shots % 3 === 0;
   const n = b.count + sc.extra;
-  const dmg = b.damage * sc.dmg * (over ? 2.5 : 1);
+  const dmg = b.damage * sc.dmg * (over ? 2 : 1) * extraDmg(b.count, sc.extra);
   const w = b.width * (over ? 2.1 : 1);
   const arcs = b.arcs + sc.bounce + (over ? 1 : 0);
   for (let i = 0; i < n; i++) {
@@ -454,9 +455,10 @@ function lanceShot(player, wpn, world, aim, b, sc) {
   }
   if (over) {
     fx.shockwave?.(M.x, M.y, 60, '#7ff3ff', 0.25);
-    world.shake(0.1);
+    world.shake(0.1, true);
+    world.kick?.(aim, 3.5);
     world.flash?.('#bff8ff', 0.06);
-  } else world.shake(0.03);
+  } else world.kick?.(aim, 1.8);
   wpn.kick = over ? 1 : 0.7;
   selfRecoil(player, aim, over ? 45 : 10);
   world.sfx('fire_lance', M.x, M.y, { pitch: over ? 0.75 : 0.95 + rng.next() * 0.12, vol: over ? 1 : 0.8 });
@@ -497,8 +499,14 @@ function lanceArc(p, target, w) {
   let from = target;
   let left = p.data.arcs;
   const owner = p.owner;
-  const dmg = p.data.dmg * 0.35;
+  const dmg = p.data.dmg * 0.25;
   const hit = p.hitSet;
+  // Bolt heading: foes still ahead on the bolt's own line are left to the bolt (an arc marks
+  // its target as hit, so arcing to the next foe in line used to cost it the full-damage hit).
+  const sp = Math.hypot(p.vx, p.vy) || 1;
+  const ux = p.vx / sp;
+  const uy = p.vy / sp;
+  const lane = (p.r || 5) * (p.scale || 1) + 4;
   while (left-- > 0) {
     NEAR.length = 0;
     w.queryEnemies(from.x, from.y, 170, NEAR);
@@ -507,6 +515,9 @@ function lanceArc(p, target, w) {
     for (let i = 0; i < NEAR.length; i++) {
       const e = NEAR[i];
       if (!e.alive || e === from || e === target || hit.includes(e.id)) continue;
+      const rx = e.x - target.x;
+      const ry = e.y - target.y;
+      if (rx * ux + ry * uy > 0 && Math.abs(rx * uy - ry * ux) < e.r + lane) continue;
       const dd = (e.x - from.x) ** 2 + (e.y - from.y) ** 2;
       if (dd < bd) {
         bd = dd;
@@ -531,16 +542,16 @@ function lanceArc(p, target, w) {
 // =============================================================================================
 
 const harpoonLv = levelTable(
-  { damage: 28, rate: 1.5, speed: 800, count: 1, pierce: 3, knockback: 320, spread: 0.14, tipBurst: false },
-  'Barbed harpoons pierce 3 foes: 28 dmg, heavy knockback.',
+  { damage: 40, rate: 1.5, speed: 800, count: 1, pierce: 2, knockback: 320, spread: 0.14, tipBurst: false },
+  'Barbed harpoons skewer 3 foes in a row: 40 dmg, heavy knockback.',
   [
     { desc: '+20% damage', apply: mul('damage', 1.2) },
-    { desc: '+1 pierce', apply: add('pierce', 1) },
+    { desc: '+1 pierce, +15% damage', apply: all(add('pierce', 1), mul('damage', 1.15)) },
     { desc: '+15% fire rate', apply: mul('rate', 1.15) },
     { desc: '+20% damage, +30% knockback', apply: all(mul('damage', 1.2), mul('knockback', 1.3)) },
     { desc: '+1 harpoon per shot', apply: add('count', 1) },
     { desc: '+1 pierce, +15% damage, +15% harpoon speed', apply: all(add('pierce', 1), mul('damage', 1.15), mul('speed', 1.15)) },
-    { desc: 'Detonating tips: harpoons burst at the end of their run', apply: set('tipBurst', true) },
+    { desc: 'Detonating tips: harpoons burst on their first hit and at the end of their run', apply: set('tipBurst', true) },
   ],
 );
 
@@ -555,7 +566,7 @@ function harpoonUpdate(player, wpn, dt, world, input) {
 function harpoonShot(player, wpn, world, aim, b, sc) {
   const rng = world.rng;
   const n = b.count + sc.extra;
-  const dmg = b.damage * sc.dmg;
+  const dmg = b.damage * sc.dmg * extraDmg(b.count, sc.extra);
   const arc = b.spread * sc.spread * (n - 1);
   for (let i = 0; i < n; i++) {
     muzzleAt(player, 'harpoon', M);
@@ -586,7 +597,7 @@ function harpoonShot(player, wpn, world, aim, b, sc) {
       update: harpoonFly,
       onHit: harpoonHit,
       explode: b.tipBurst
-        ? { radius: 64 * sc.area, damage: dmg * 0.7, falloff: 0.3, visual: 'medium', sound: 'explode_medium', shake: 0.08 }
+        ? { radius: 64 * sc.area, damage: dmg * 0.4, falloff: 0.3, visual: 'medium', sound: 'explode_medium', shake: 0.08 }
         : null,
       data: { anchor, tip, player, tether: 0.45 },
     });
@@ -601,7 +612,7 @@ function harpoonShot(player, wpn, world, aim, b, sc) {
   fx.steam?.(M.x, M.y, aim, 0.7, { count: 2, speed: 1.6 });
   wpn.kick = 1;
   selfRecoil(player, aim, 40);
-  world.shake(0.06);
+  world.kick?.(aim, 2.5);
   world.sfx('fire_harpoon', M.x, M.y, { pitch: 0.95 + rng.next() * 0.1 });
 }
 
@@ -621,8 +632,17 @@ function harpoonHit(p, target, w) {
   w.fx.sparks?.(target.x, target.y, p.angle + Math.PI, 6, '#ffe9a8', 1.2, { speed: 360 });
   w.fx.debris?.(target.x, target.y, 2, 'metal', { angle: p.angle, spread: 0.8, speed: 180, scale: 0.6 });
   w.hitstop?.(0.02);
-  w.shake(0.04);
+  w.shake(0.04, true);
   if (target.alive && !target.isBoss && !target.parent) target.flash = 1;
+  // L8 detonating tips also burst on the first foe skewered (not only at the end of the run).
+  const ex = p.explode;
+  if (ex && !p.data.burst) {
+    p.data.burst = true;
+    w.explode(target.x, target.y, ex.radius, ex.damage, {
+      team: 'player', owner: p.owner, source: p.source, falloff: ex.falloff,
+      visual: ex.visual, sound: ex.sound, shake: ex.shake,
+    });
+  }
 }
 
 // =============================================================================================

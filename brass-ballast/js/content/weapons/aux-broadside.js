@@ -111,7 +111,7 @@ function startVolley(p, slot, w, evo, n, passes) {
   slot.kick = 1;
   w.sfx('broadside_fire', p.x, p.y, { vol: evo ? 1 : 0.85, pitch: 0.95 + w.rng.next() * 0.1 });
   if (passes > 1) w.sfx('broadside_fire', p.x, p.y, { vol: 0.9, pitch: 0.8, delay: n * RIPPLE });
-  w.shake(evo ? (passes > 1 ? 0.2 : 0.12) : 0.06);
+  w.shake(evo ? (passes > 1 ? 0.2 : 0.12) : 0.06, true);
 }
 
 function stepVolley(p, slot, dt, w, evo) {

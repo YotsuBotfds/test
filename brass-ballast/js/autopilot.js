@@ -21,6 +21,9 @@ const RARITY_BONUS = { legendary: 40, epic: 15, rare: 5, common: 0 };
  * @param {any[]} cards
  * @param {{player:any}} [choice]
  */
+/** Effective reach (world units) of short-range primaries; others kite at the default range. */
+const PRIMARY_REACH = { blunderbuss: 210, mortar: 430 };
+
 export function autoPickCard(cards, choice) {
   const p = choice?.player;
   let best = cards[0];
@@ -206,7 +209,9 @@ export function createBrain(opts = {}) {
       }
     }
 
-    // --- 3. Enemies: keep-out, kiting, orbit.
+    // --- 3. Enemies: keep-out, kiting, orbit. Short-range guns fight closer (like a person
+    // would): the stand-off distance is capped by the primary's reach.
+    const reach = PRIMARY_REACH[p.primary?.id] ?? Infinity;
     const E = w.enemies;
     let near = 0;
     let cxSum = 0;
@@ -222,7 +227,7 @@ export function createBrain(opts = {}) {
       const dy = p.y - e.y;
       const d = Math.hypot(dx, dy) || 1;
       if (e.isBoss && !e.parent) boss = e;
-      const keep = e.r + p.r + (e.isBoss || e.parent ? 200 : 110 / aggression);
+      const keep = e.r + p.r + (e.isBoss ? Math.min(200, reach * 0.45) : e.parent ? Math.min(120, reach * 0.3) : 110 / aggression);
       if (d < keep * 1.6 && !e.def.noContact) {
         const k = (1 - d / (keep * 1.6)) * (e.isBoss || e.parent ? 3 : 2.2);
         mx += (dx / d) * k;
@@ -239,14 +244,16 @@ export function createBrain(opts = {}) {
         nearest = e;
       }
     }
-    if (cn) {
-      const ccx = cxSum / cn;
-      const ccy = cySum / cn;
+    if (cn || boss) {
+      // Boss fights orbit the boss itself (it may be beyond the 800 u crowd radius — the bot
+      // used to wander off and duel from out of range); otherwise the crowd's centroid.
+      const ccx = boss ? boss.x : cxSum / cn;
+      const ccy = boss ? boss.y : cySum / cn;
       const dx = ccx - p.x;
       const dy = ccy - p.y;
       const d = Math.hypot(dx, dy) || 1;
-      const want = boss ? 380 + boss.r : 300;
-      const radial = d > want + 120 ? 0.7 : d < want - 80 ? -0.9 : 0;
+      const want = boss ? Math.min(380 + boss.r, reach + boss.r * 0.6) : Math.min(300, reach);
+      const radial = d > want + 400 ? 1.2 : d > want + 120 ? 0.7 : d < want - 80 ? -0.9 : 0;
       mx += (dx / d) * radial + (-dy / d) * 0.75 * st.orbitDir;
       my += (dy / d) * radial + (dx / d) * 0.75 * st.orbitDir;
     } else {

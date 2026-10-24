@@ -2,7 +2,7 @@
 // Update order and render order follow DESIGN §4.2. See docs/ENGINE.md for the cheat-sheet.
 
 import { Save } from '../core/storage.js';
-import { SHADOW_OFFSET } from '../config.js';
+import { SHADOW_OFFSET, BURN_HEAT_TAU } from '../config.js';
 import { TAU, angleDiff, clamp } from '../core/math.js';
 import { RNG } from '../core/rng.js';
 import { SpatialHash } from '../core/spatial.js';
@@ -36,7 +36,7 @@ const SIZE_FX = { small: 0.05, medium: 0.15, large: 0.35, huge: 0.6 };
 /** Armory Crates are a treat, not a flood (balance pass): a set-piece (forced) elite drops one
  *  CRATE_FORCED of the time, a randomly rolled elite CRATE_RANDOM (Elite Hunt raises it), and a
  *  wave gives at most CRATE_CAP (run.waveCrates, reset by the director at wave start). */
-const CRATE_FORCED = 0.4;
+const CRATE_FORCED = 0.35;
 const CRATE_RANDOM = 0.1;
 const CRATE_CAP = 1;
 const CHAIN_CALLOUTS = {
@@ -495,13 +495,13 @@ export class World {
       fx.explosion?.(x, y, 0.55 + r / 32);
       fx.debris?.(x, y, 3, 'metal');
       this.sfx('explode_small', x, y);
-      this.shake(0.06);
+      this.shake(0.06, true);
     } else if (r < 36) {
       fx.explosion?.(x, y, r / 22);
       fx.debris?.(x, y, 6, 'metal');
       fx.cogs?.(x, y, 3);
       this.sfx('explode_medium', x, y);
-      this.shake(0.16);
+      this.shake(0.16, true);
       this.hitstop(0.03);
     } else {
       fx.bigExplosion?.(x, y, r / 42);
@@ -638,14 +638,17 @@ export class World {
   }
 
   /** Burn: {dps, t}; refreshes duration, keeps the stronger dps. */
-  applyBurn(e, dps, time = 3, owner = null) {
+  applyBurn(e, dps, time = 3, owner = null, heat = 0) {
     if (!e?.alive || e.def.immune?.burn) return;
-    if (!e.burn) e.burn = { dps, t: time, tick: 0.3, owner };
+    if (!e.burn) e.burn = { dps, t: time, tick: 0.3, owner, heat: 0 };
     else {
       e.burn.dps = Math.max(e.burn.dps, dps);
       e.burn.t = Math.max(e.burn.t, time);
       if (owner) e.burn.owner = owner;
     }
+    // Stacking part (Incendiary Shells): `heat` total damage, burned off with BURN_HEAT_TAU decay,
+    // so every ignition counts — the bonus scales with hit size and fire rate.
+    if (heat > 0) e.burn.heat = (e.burn.heat || 0) + heat / BURN_HEAT_TAU;
   }
 
   /** Slow: fraction of velocity removed (bosses take half). */
@@ -848,8 +851,8 @@ export class World {
       }
       const snd = opts.sound ?? `explode_${size}`;
       if (snd) this.sfx(snd, x, y);
-      this.shake(opts.shake ?? SIZE_FX[size] ?? 0.1);
-    } else if (opts.shake) this.shake(opts.shake);
+      this.shake(opts.shake ?? SIZE_FX[size] ?? 0.1, team === 'player');
+    } else if (opts.shake) this.shake(opts.shake, team === 'player');
     if (opts.clearBullets) this.clearEnemyBullets(x, y, radius, opts.clearBullets === 'xp');
     return hits;
   }
@@ -874,8 +877,14 @@ export class World {
 
   // ---- Feel & presentation -------------------------------------------------------------------
 
-  shake(trauma) {
-    this.game?.camera?.shake(trauma);
+  /** Camera shake. `own` = from the player's own guns/blasts/kills (scaled & capped). */
+  shake(trauma, own = false) {
+    this.game?.camera?.shake(trauma, own);
+  }
+
+  /** Directional recoil kick of the view, `px` screen pixels opposite `angle`. */
+  kick(angle, px) {
+    this.game?.camera?.kick?.(angle, px);
   }
 
   hitstop(seconds) {

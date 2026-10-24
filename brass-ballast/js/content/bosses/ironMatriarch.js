@@ -537,10 +537,14 @@ function integrate(b, dt) {
 function orbitTarget(b, w, out) {
   const d = b.data;
   const v = w.renderer.viewRect(0, d.vr || (d.vr = {}));
-  const rx = Math.max(170, v.w / 2 - 250);
+  // Orbit radii from the view at gameplay zoom: the boss-framing zoom-out widens the view, and
+  // a radius taken from that wider view pushed her further out, which zoomed out more — she
+  // ended up 550–850 u away, out of reach of the short-range guns (Blunderbuss, Mortar).
+  const zm = Math.min(1, w.renderer.camera.zoomMul || 1);
+  const rx = Math.max(170, (v.w * zm) / 2 - 250);
   // The HUD boss bar covers the top of the screen: sit lower there, closer to the edge below.
-  const up = Math.max(120, v.h / 2 - 260);
-  const down = Math.max(120, v.h / 2 - 150);
+  const up = Math.max(120, (v.h * zm) / 2 - 260);
+  const down = Math.max(120, (v.h * zm) / 2 - 150);
   const sn = Math.sin(d.orbitA);
   out.x = (v.x0 + v.x1) / 2 + Math.cos(d.orbitA) * rx;
   out.y = (v.y0 + v.y1) / 2 + sn * (sn < 0 ? up : down);

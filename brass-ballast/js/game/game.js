@@ -35,7 +35,7 @@ export function defaultMods() {
 /** XP needed to go from `level` to level + 1. */
 export function xpForLevel(level) {
   const l = level - 1;
-  return Math.round(6 + l * 7 + l * l * 0.9);
+  return Math.round(10 + l * 8 + l * l * 0.85);
 }
 
 /**

@@ -6,8 +6,9 @@
 // contact damage → recycle when > 2600 from every player.
 
 import { Sprites } from '../gfx/sprites.js';
-import { SHADOW_OFFSET } from '../config.js';
+import { SHADOW_OFFSET, BURN_HEAT_TAU } from '../config.js';
 import { TAU, clamp } from '../core/math.js';
+import { bossDamage } from '../content/bosses/tuning.js';
 
 let nextId = 1;
 
@@ -91,6 +92,7 @@ export function createEnemy(w, def, x, y, opts = {}) {
   e.maxHp = opts.rawHp ?? Math.max(1, Math.round(baseHp * hpMult));
   e.hp = e.maxHp;
   e.dmgMult = (stage.dmgMult ?? 1) * (mods.enemyDmg ?? 1) * (opts.dmgMult ?? 1);
+  if (bossy) e.dmgMult *= bossDamage(isBoss || !e.parent ? def.id : e.parent.def?.id);
   e.speedMult = (mods.enemySpeed ?? 1) * (opts.speedMult ?? 1);
   // Stage fire-rate pressure applies to the rank and file; boss patterns keep their tuning.
   e.fireRateMult = (opts.fireRateMult ?? 1) * (bossy ? 1 : run?.enemyFireRate ?? 1);
@@ -210,15 +212,18 @@ function stepEnemy(w, e, dt, players) {
       if (w.fx.burn) w.fx.burn(bx, by, 0.5 + e.r / 40);
       else w.fx.embers?.(bx, by, 1);
     }
+    if (b.t <= 0) b.dps = 0;
     if (b.tick <= 0) {
       b.tick += 0.3;
       const info = w._burnInfo;
       info.owner = b.owner;
-      w.damageEnemy(e, b.dps * 0.3, info);
+      w.damageEnemy(e, (b.dps + (b.heat || 0)) * 0.3, info);
       info.owner = null;
       if (!e.alive) return;
     }
-    if (b.t <= 0) e.burn = null;
+    // Stacking heat (Incendiary Shells) decays exponentially: ∫ = the heat each ignition added.
+    if (b.heat) b.heat *= Math.exp(-dt / BURN_HEAT_TAU);
+    if (b.t <= 0 && !(b.heat > 0.5)) e.burn = null;
   }
   if (e.slow) {
     e.slow.t -= dt;

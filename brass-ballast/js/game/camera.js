@@ -2,7 +2,8 @@
 // living player), boss framing (lean toward the nearest live boss and zoom out — within
 // limits — so player and boss share the screen; a dying boss stays framed through its death
 // show), trauma-based shake (scaled by
-// Save.settings.shake) and zoom punches. Writes renderer.camera {x, y, zoomMul, shakeX, shakeY}.
+// Save.settings.shake; the player's own fire is capped so hits stand out), a directional recoil
+// kick channel and zoom punches. Writes renderer.camera {x, y, zoomMul, shakeX, shakeY}.
 
 import { Save } from '../core/storage.js';
 import { clamp, damp, valueNoise } from '../core/math.js';
@@ -18,6 +19,13 @@ const MIN_ZOOM_MUL = 0.6;
 /** Keep players at least this far (screen px) inside the view edge while leaning to a boss. */
 const EDGE_X = 170;
 const EDGE_Y = 140;
+/** Shake from the player's own guns & blasts (`shake(x, true)`) is scaled by OWN_SCALE and can
+ *  only lift trauma to OWN_CAP (~3.5 px), so incoming hits (uncapped) still read as danger. */
+const OWN_SCALE = 0.6;
+const OWN_CAP = 0.4;
+/** Directional recoil kick: px offset opposite the shot, decaying in ~80 ms; |kick| ≤ KICK_MAX. */
+const KICK_DECAY = 30;
+const KICK_MAX = 4;
 
 export class CameraRig {
   /** @param {import('../gfx/renderer.js').Renderer} renderer */
@@ -43,6 +51,8 @@ export class CameraRig {
     this.bossK = 0;
     /** Boss-death hold {target, until (world seconds)}: see holdFocus(). */
     this.hold = null;
+    this.kickX = 0;
+    this.kickY = 0;
   }
 
   /**
@@ -53,9 +63,26 @@ export class CameraRig {
     this.hold = target && !target.def?.noFrame ? { target, until } : null;
   }
 
-  /** Add shake trauma (0..1, squared for falloff). */
-  shake(amount) {
-    this.trauma = Math.min(1, this.trauma + amount);
+  /**
+   * Add shake trauma (0..1, squared for falloff). `own` = the player's own fire/blasts/kills:
+   * scaled down and capped (OWN_CAP) so it never drowns out the shake of being hit.
+   */
+  shake(amount, own = false) {
+    if (!own) this.trauma = Math.min(1, this.trauma + amount);
+    else if (this.trauma < OWN_CAP) this.trauma = Math.min(OWN_CAP, this.trauma + amount * OWN_SCALE);
+  }
+
+  /** Recoil kick: shove the view `px` screen pixels away from `angle` (the shot direction). */
+  kick(angle, px) {
+    const s = Math.min(1, Save.settings.shake ?? 1);
+    if (!(s > 0)) return;
+    this.kickX -= Math.cos(angle) * px * s;
+    this.kickY -= Math.sin(angle) * px * s;
+    const m = Math.hypot(this.kickX, this.kickY);
+    if (m > KICK_MAX) {
+      this.kickX *= KICK_MAX / m;
+      this.kickY *= KICK_MAX / m;
+    }
   }
 
   /** Positive = zoom in briefly, negative = zoom out. Follows the shake setting (0 = none). */
@@ -200,6 +227,13 @@ export class CameraRig {
     } else {
       c.shakeX = 0;
       c.shakeY = 0;
+    }
+    const kd = Math.exp(-KICK_DECAY * dt);
+    this.kickX *= kd;
+    this.kickY *= kd;
+    if (Math.abs(this.kickX) + Math.abs(this.kickY) > 0.05) {
+      c.shakeX += this.kickX;
+      c.shakeY += this.kickY;
     }
   }
 }

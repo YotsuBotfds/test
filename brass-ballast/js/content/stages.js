@@ -198,11 +198,12 @@ const TEMPEST_WAVES = [
     G('gyroScout', 8, 5, 5, 4, 'edge'),
     G('ornithopter', 4, 12, 4, 2, 'flank'),
     G('clockWasp', 8, 17, 5, 4, 'cluster'),
-    G('ornithopter', 4, 26, 1, 4, 'ring'),
+    G('ornithopter', 3, 26, 1, 3, 'ring'),
+    G('ornithopter', 1, 27, 1, 1, 'front', true),
     G('flakIsland', 1, 30, 1, 1, 'edge'),
     G('gyroScout', 8, 33, 1, 8, 'ring'),
   ], { gyroScout: 3, clockWasp: 1, ornithopter: 0.3 }, 3,
-  D('Fast, cocky aces that sidestep your shots. Lead your aim.')),
+  D('Fast, cocky aces that sidestep your shots, led by a gold-rimmed squadron leader. Lead your aim.')),
 
   W('Tesla Gauntlet', 42, 65, [
     G('teslaBuoy', 6, 1.5, 1, 6, 'pair'),
@@ -263,7 +264,7 @@ const AURORA_WAVES = [
     G('steamWraith', 2, 27, 1, 2, 'cluster', true),
     G('gyroScout', 10, 33, 1, 10, 'ring'),
   ], { gyroScout: 3, clockWasp: 1 }, 3,
-  SET('The Admiral’s honour guard: gold-rimmed aces, each one carrying an Armory Crate.')),
+  SET('The Admiral’s honour guard: gold-rimmed aces, and one of them is carrying an Armory Crate.')),
 
   W('Wraith Fog', 42, 70, [
     G('steamWraith', 4, 1.5, 1, 4, 'ring'),

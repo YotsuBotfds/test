@@ -11,20 +11,20 @@ const SRC = 'aux:gyroSaws';
 const SRC_EVO = 'aux:buzzsawHalo';
 
 const COUNT = [2, 2, 3, 3, 4];
-const DMG = [10, 14, 14, 14, 18];
+const DMG = [10, 14, 14, 14, 22];
 const SPIN = [3.2, 3.2, 3.2, 4.2, 4.2];
 const SIZE = [1, 1, 1, 1.25, 1.25];
 
 const LEVELS = [
-  '2 gyro-saws orbit at radius 110, shredding foes for 10 per hit (0.4 s per-foe cooldown).',
+  '2 gyro-saws orbit at radius 135, shredding foes for 10 per hit (0.35 s per-foe cooldown).',
   'Damage 10 → 14.',
   '+1 saw (3).',
   'Saws orbit 30% faster and grow 25% larger.',
-  '+1 saw (4); damage 14 → 18.',
+  '+1 saw (4); damage 14 → 22.',
 ];
 
-const HIT_CD = 0.4;
-const ORBIT_R = 110;
+const HIT_CD = 0.35;
+const ORBIT_R = 135;
 const MAX_SAWS = 14;
 const Q = [];
 

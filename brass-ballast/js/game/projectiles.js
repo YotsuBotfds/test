@@ -5,11 +5,13 @@
 //
 // Engine-level player stats (applied here so weapons don't have to):
 //   • stats.burnChance — every player projectile hit rolls it → burn (stats.burnDps × damage, 3 s)
+//     plus stacking heat worth INCENDIARY_HEAT × the hit (world.applyBurn), so it scales with the gun
 //   • stats.explosive  — hits from source 'primary' burst for 35% damage, radius explosive × area
 // Enemy shots: damage × owner.dmgMult (or opts.dmgMult), speed × run.mods.enemyBulletSpeed.
 
 import { Sprites } from '../gfx/sprites.js';
 import { TAU, distToSegment2 } from '../core/math.js';
+import { INCENDIARY_HEAT } from '../config.js';
 
 let nextId = 1;
 const PI = Math.PI;
@@ -407,7 +409,7 @@ export class ProjectileSystem {
     info.owner = null;
     if (p.burn) w.applyBurn(e, p.burn.dps, p.burn.time ?? 3);
     if (st && !p.noBurnChance && st.burnChance > 0 && w.rng.next() < st.burnChance) {
-      w.applyBurn(e, st.burnDps * st.damage, 3);
+      w.applyBurn(e, st.burnDps * st.damage, 3, owner, dmg * INCENDIARY_HEAT);
     }
     if (p.slow) w.applySlow(e, p.slow.amt ?? 0.3, p.slow.time ?? 1.5);
     if (st && st.explosive > 0 && p.source === 'primary' && !p.noExplosive) {

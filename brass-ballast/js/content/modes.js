@@ -403,6 +403,8 @@ function endlessStage(i) {
     dmgMult: Math.min(3.2, 1 + 0.03 * k),
     xpMult: 1 + 0.05 * k,
     eliteChance: Math.min(0.35, 0.02 + 0.0065 * k),
+    // Keeps climbing with the waves instead of resetting with the biome cycle every 25 waves.
+    fireRate: Math.max(base.fireRate ?? 1, Math.min(1.45, 1 + 0.018 * k)),
     leg,
   };
 }

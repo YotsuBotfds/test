@@ -16,6 +16,11 @@ export const SPRITE_SCALE = 2;
 /** Shadow offset per unit of entity altitude (light from the top-left). */
 export const SHADOW_OFFSET = { x: 26, y: 34 };
 
+/** Stacking burn (Incendiary Shells): each ignition adds INCENDIARY_HEAT × the hit as "heat",
+ *  burned off with an exponential decay of time constant BURN_HEAT_TAU s (world.applyBurn). */
+export const INCENDIARY_HEAT = 0.5;
+export const BURN_HEAT_TAU = 2.5;
+
 export const STORAGE_KEY = 'brass-ballast.v1';
 
 export const FONT_DISPLAY =

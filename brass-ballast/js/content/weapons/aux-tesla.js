@@ -17,17 +17,19 @@ const INTERVAL = [1.6, 1.6, 1.6, 1.2, 1.2];
 const TARGETS = [3, 3, 4, 4, 5];
 const CHAIN = [2, 2, 3, 3, 4];
 const RANGE = [260, 260, 260, 300, 300];
-const DMG = [12, 16, 16, 16, 22];
+const DMG = [12, 16, 16, 16, 20];
+/** The nearest foe takes the main bolt at this multiple (chains & extra targets don't). */
+const MAIN_BOLT = 2.5;
 const OVERCHARGE = [0, 0, 0, 0, 1];
 const CHAIN_R = 170;
 const CHAIN_FALLOFF = 0.82;
 
 const LEVELS = [
-  'Every 1.6 s, zaps up to 3 foes within 260 for 12 shock damage; each arc chains to 2 more.',
+  'Every 1.6 s, zaps up to 3 foes within 260 for 12 shock damage (×2.5 on the nearest); each arc chains to 2 more.',
   'Damage 12 → 16.',
   '+1 target (4) and +1 chain jump (3).',
   'Recharge 1.6 s → 1.2 s; range 260 → 300.',
-  'Overcharge: 5 targets, 4 chain jumps, 22 damage — and shocked foes are slowed 50%.',
+  'Overcharge: 5 targets, 4 chain jumps, 20 damage — and shocked foes are slowed 50%.',
 ];
 
 const PRIMARY = [];
@@ -49,11 +51,12 @@ function bolt(w, x1, y1, x2, y2, from, to, width, life, branches, color = ARC) {
 
 /**
  * Arc from `src` to `e`, then hop `jumps` times to the nearest unhit foe within `hopR`.
+ * `main` multiplies the first strike only (the hops chain from the plain `dmg`).
  * Returns the number of enemies struck.
  */
-function chainZap(w, p, src, e, dmg, jumps, hopR, mark, source, slowAmt, slowT, width) {
+function chainZap(w, p, src, e, dmg, jumps, hopR, mark, source, slowAmt, slowT, width, main = 1) {
   e._auxMark = mark;
-  strike(w, p, e, dmg, source, 'shock', 40);
+  strike(w, p, e, dmg * main, source, 'shock', 40);
   bolt(w, src.x, src.y, e.x, e.y, src, e, width, 0.3, 2);
   w.fx.flare?.(e.x, e.y, 26, ARC, 0.12);
   if (slowAmt) w.applySlow(e, slowAmt, slowT);
@@ -116,7 +119,7 @@ export const TeslaCoil = {
     for (let k = 0; k < PRIMARY.length; k++) {
       const e = PRIMARY[k];
       if (!e.alive || e._auxMark === mark) continue;
-      chainZap(w, p, c, e, dmg, lv(CHAIN, i), CHAIN_R * area, mark, SRC, oc ? 0.5 : 0, 0.8 * durScale(p), 3.4);
+      chainZap(w, p, c, e, dmg, lv(CHAIN, i), CHAIN_R * area, mark, SRC, oc ? 0.5 : 0, 0.8 * durScale(p), 3.4, k === 0 ? MAIN_BOLT : 1);
     }
     PRIMARY.length = 0;
     d.flash = 1;
@@ -154,7 +157,8 @@ export const TeslaCoil = {
 
 const EVO_RANGE = 340;
 const EVO_TICK = 0.3;
-const EVO_DMG = 10;
+const EVO_DMG = 9;
+const EVO_MAIN = 2.5; // the nearest foe's arc each tick
 const EVO_CAP = 16; // arcs per tick (perf & readability)
 const STORM_EVERY = 3.6;
 const STORM_TARGETS = 8;
@@ -195,7 +199,7 @@ export const Thunderhead = {
         for (let k = 0; k < ALLQ.length; k++) {
           const e = ALLQ[k];
           if (!e.alive || e._auxMark === mark) continue;
-          chainZap(w, p, c, e, EVO_DMG * scale, 1, 150 * area, mark, SRC_EVO, 0.35, 0.4 * durScale(p), 3);
+          chainZap(w, p, c, e, EVO_DMG * scale, 1, 150 * area, mark, SRC_EVO, 0.35, 0.4 * durScale(p), 3, k === 0 ? EVO_MAIN : 1);
         }
         d.flash = 1;
         w.sfx('tesla_zap', c.x, c.y, { vol: 0.55, pitch: 0.75 + w.rng.next() * 0.2 });
@@ -229,7 +233,7 @@ export const Thunderhead = {
     w.fx.flare?.(c.x, c.y, 46, ARC, 0.2);
     w.sfx('thunder', c.x, c.y, { vol: 0.8 });
     w.sfx('tesla_zap', c.x, c.y, { vol: 1, pitch: 0.6 });
-    w.shake(0.22);
+    w.shake(0.22, true);
     d.storm = 1;
     slot.kick = 1;
   },
