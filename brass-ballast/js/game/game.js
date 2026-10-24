@@ -886,6 +886,13 @@ export class Game {
       this.attract.update(dt);
     }
 
+    // Boss fights zoom the camera out (camera.js): prefetch ground for that wider view while
+    // the WARNING plays (and during the fight), so the zoom-out never reveals flat fill.
+    if (this.background) {
+      const bossy = this.state !== 'title' && (this.world?.bosses?.length > 0 || this.director?.state === 'bossWarning');
+      const cam = this.renderer?.camera;
+      this.background.zoomHint = bossy && cam ? cam.baseZoom * 0.6 : 0;
+    }
     this._try('background.update', () => this.background.update?.(dt));
     this._try('weather.update', () => this.weather.update?.(dt, this.renderer, this.world));
     this._try('hud.update', () => this.hud?.update?.(dt));
@@ -1025,6 +1032,27 @@ export class Game {
     this._try('input.drawOverlay', () => this.input?.drawOverlay?.(ctx, r));
   }
 
+  /** Fog-modifier overlay (see _post), rebuilt only when the view size changes. */
+  _fogSprite(W, H) {
+    const f = this._fog;
+    if (f && f.W === W && f.H === H) return f.cv;
+    const cw = Math.max(8, Math.round(W / 2));
+    const ch = Math.max(8, Math.round(H / 2));
+    const cv = document.createElement('canvas');
+    cv.width = cw;
+    cv.height = ch;
+    const c = cv.getContext('2d');
+    const k = cw / (W * 2);
+    const g = c.createRadialGradient(cw / 2, ch / 2, Math.min(W, H) * 0.22 * k, cw / 2, ch / 2, Math.max(W, H) * 0.6 * k);
+    g.addColorStop(0, 'rgba(126,118,104,0.04)');
+    g.addColorStop(0.5, 'rgba(122,114,100,0.44)');
+    g.addColorStop(1, 'rgba(104,98,88,0.92)');
+    c.fillStyle = g;
+    c.fillRect(0, 0, cw, ch);
+    this._fog = { W, H, cv };
+    return cv;
+  }
+
   /** Post effects in screen space: fog modifier, low-hull vignette, screen flash. */
   _post(ctx, r, focus) {
     const W = r.cssW;
@@ -1035,12 +1063,11 @@ export class Game {
       const fy = focus?.y ?? H / 2;
       // Clear pocket around the ship, thickening with range: threats inside ~a third of the
       // screen stay readable, the far field (spawns, distant fire) is a guess.
-      const g = ctx.createRadialGradient(fx, fy, Math.min(W, H) * 0.22, fx, fy, Math.max(W, H) * 0.6);
-      g.addColorStop(0, 'rgba(126,118,104,0.04)');
-      g.addColorStop(0.5, 'rgba(122,114,100,0.44)');
-      g.addColorStop(1, 'rgba(104,98,88,0.92)');
-      ctx.fillStyle = g;
-      ctx.fillRect(0, 0, W, H);
+      // A quarter-res sprite centred on the focus (2W×2H, so it always covers the view): one
+      // scaled blit instead of a full-screen radial gradient every frame.
+      const cx = Math.min(W, Math.max(0, fx));
+      const cy = Math.min(H, Math.max(0, fy));
+      ctx.drawImage(this._fogSprite(W, H), cx - W, cy - H, W * 2, H * 2);
     }
     const p = this.world.players[0];
     if (p && p.alive && p.hp < p.stats.maxHp * 0.25) {

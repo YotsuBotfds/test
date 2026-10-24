@@ -1517,6 +1517,16 @@ input[type='range']:focus::-webkit-slider-thumb { transform: scale(1.18); box-sh
 }
 /* Above the card row: a focused card lifts (and glows) up into the subtitle's band. */
 .lv-head { position: relative; z-index: 2; text-align: center; margin-bottom: 8px; }
+/* Soft dark pool behind the title: on short screens it sits over the (dimmed) HUD plaque,
+   whose text otherwise showed through between the letters. */
+.lv-head::before {
+  content: '';
+  position: absolute;
+  inset: -14px -12%;
+  z-index: -1;
+  background: radial-gradient(ellipse closest-side at 50% 50%, rgba(12, 7, 3, 0.88), rgba(12, 7, 3, 0.6) 60%, rgba(12, 7, 3, 0));
+  pointer-events: none;
+}
 .lv-title {
   margin: 0;
   font-family: var(--font-display);
@@ -2123,3 +2133,26 @@ input[type='range']:focus::-webkit-slider-thumb { transform: scale(1.18); box-sh
   .sw-track { font-size: max(10px, 0.68rem); }
   .key .g-kbm, .g-kbm { font-size: max(10px, 0.7rem); }
 }
+
+/* Short landscape phones during play: 168 px down is mid-screen (over the bomb/boost buttons
+   and the ship), so toasts become a compact strip under the stage plaque, top-centre. */
+@media (max-height: 520px) and (min-width: 560px) {
+  .ui-root:not(.open) .toasts {
+    top: calc(var(--safe-t) + 54px);
+    left: auto;
+    right: 50%;
+    transform: translateX(50%);
+    width: min(300px, 40vw);
+    align-items: center;
+    gap: 4px;
+  }
+  .ui-root:not(.open) .toast { gap: 8px; padding: 5px 10px 7px 6px; border-radius: 10px; animation-name: toast-drop; }
+  .ui-root:not(.open) .toast.out { animation-name: toast-lift; }
+  .ui-root:not(.open) .toast-icon,
+  .ui-root:not(.open) .toast-achievement .toast-icon { width: 32px; height: 32px; }
+  .ui-root:not(.open) .toast-label { font-size: max(10px, 0.62rem); letter-spacing: 0.12em; }
+  .ui-root:not(.open) .toast-text { font-size: 0.88rem; line-height: 1.2; }
+  .ui-root:not(.open) .toast-desc { display: none; }
+}
+@keyframes toast-drop { from { transform: translateY(-80%); opacity: 0; } }
+@keyframes toast-lift { to { transform: translateY(-80%); opacity: 0; } }

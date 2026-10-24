@@ -30,6 +30,9 @@ const MAX_TILES = 40;
 const FALLBACK_BUDGET_MS = 10; // when visible tiles are missing
 const PREFETCH_BUDGET_MS = 3.5;
 const MAX_TILES_PER_FRAME = 2;
+/** Visible ground still missing: extra budget per missing tile (capped), flat fill shows meanwhile. */
+const FALLBACK_PER_TILE_MS = 3;
+const FALLBACK_MAX_MS = 22;
 
 const now = () => (typeof performance !== 'undefined' ? performance.now() : Date.now());
 
@@ -74,6 +77,11 @@ export class Background {
     this.stats = { generated: 0, lastGenMs: 0, avgGenMs: 0, maxStepMs: 0, pending: 0 };
     this._map = { s: 1, ox: 0, oy: 0, W: 1, H: 1, windX: 0, windY: 0 };
     this._want = [];
+    /**
+     * Zoom the view is about to reach (e.g. a boss fight's zoom-out), set by the game. The
+     * prefetch ring covers that wider view so the zoom-out never reveals unpainted ground.
+     */
+    this.zoomHint = 0;
     prewarmClouds(this.biome);
   }
 
@@ -202,14 +210,18 @@ export class Background {
     const gy = cam.y * GROUND_PARALLAX;
     const hw = r.cssW / 2 / cam.zoom;
     const hh = r.cssH / 2 / cam.zoom;
+    // Prefetch extent: the wider of the current view and the hinted one.
+    const zp = this.zoomHint > 0 && ring > 0 ? Math.min(cam.zoom, this.zoomHint) : cam.zoom;
+    const pw = r.cssW / 2 / zp;
+    const ph = r.cssH / 2 / zp;
     const out = this._want;
     const pool = this._wantPool || (this._wantPool = []);
     out.length = 0;
     const pad = TILE * ring;
-    const tx0 = Math.floor((gx - hw - pad) / TILE);
-    const tx1 = Math.floor((gx + hw + pad) / TILE);
-    const ty0 = Math.floor((gy - hh - pad) / TILE);
-    const ty1 = Math.floor((gy + hh + pad) / TILE);
+    const tx0 = Math.floor((gx - pw - pad) / TILE);
+    const tx1 = Math.floor((gx + pw + pad) / TILE);
+    const ty0 = Math.floor((gy - ph - pad) / TILE);
+    const ty1 = Math.floor((gy + ph + pad) / TILE);
     for (let ty = ty0; ty <= ty1; ty++) {
       for (let tx = tx0; tx <= tx1; tx++) {
         const x0 = tx * TILE;
@@ -225,6 +237,7 @@ export class Background {
       }
     }
     out.sort((a, b) => (a.visible === b.visible ? a.d - b.d : a.visible ? -1 : 1));
+    if (ring > 0 && id === this.id) this._wantN = out.length;
     return out;
   }
 
@@ -317,7 +330,7 @@ export class Background {
     // Zoomed far out (e.g. a boss intro) more tiles are on screen: grow the cap so the
     // prefetch ring doesn't thrash, but never below the ~40-tile budget.
     const view = this._viewCount();
-    const cap = Math.max(MAX_TILES, view * (this.prevBiome ? 2 : 1) + 12);
+    const cap = Math.max(MAX_TILES, view * (this.prevBiome ? 2 : 1) + 12, (this._wantN || 0) + 8);
     if (this.tiles.size <= cap) return;
     for (const [key, t] of this.tiles) {
       if (this.tiles.size <= cap) break;
@@ -334,6 +347,7 @@ export class Background {
     let budget = PREFETCH_BUDGET_MS;
     let target = null;
     let pending = 0;
+    let missing = 0;
     for (const id of ids) {
       for (const w of this._wanted(id, id === this.id ? 0.55 : 0)) {
         const t = this.tiles.get(this._key(id, w.tx, w.ty));
@@ -342,11 +356,14 @@ export class Background {
           continue;
         }
         pending++;
-        if (w.visible) budget = FALLBACK_BUDGET_MS;
+        if (w.visible) missing++;
         if (!target) target = { id, w };
       }
     }
-    if (this.prevBiome && this.fadeT === 0) budget = FALLBACK_BUDGET_MS;
+    // Visible holes (flat fill) cost more the more of them there are: a sudden zoom-out shows
+    // several at once, so the budget grows with their count to close them within a few frames.
+    if (missing) budget = Math.min(FALLBACK_MAX_MS, FALLBACK_BUDGET_MS + FALLBACK_PER_TILE_MS * (missing - 1));
+    if (this.prevBiome && this.fadeT === 0) budget = Math.max(budget, FALLBACK_BUDGET_MS);
     this.stats.pending = pending;
     // Everything wanted is painted at the current resolution: stand-ins are no longer needed.
     if (!pending && this.stale.size) this.stale.clear();
@@ -367,7 +384,8 @@ export class Background {
     }
     const t0 = now();
     let finished = 0;
-    while (now() - t0 < budget && finished < MAX_TILES_PER_FRAME) {
+    const maxTiles = missing > 2 ? MAX_TILES_PER_FRAME + 1 : MAX_TILES_PER_FRAME;
+    while (now() - t0 < budget && finished < maxTiles) {
       if (!this.job || this.job.ready || !this.tiles.has(this.job.key)) {
         const next = this._nextJob(ids);
         if (!next) break;

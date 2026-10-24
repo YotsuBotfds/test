@@ -27,6 +27,11 @@ import {
 const NO_INFO = Object.freeze({});
 const NO_FOCUS = Object.freeze([]);
 const RINGLESS = Object.freeze({ rings: false });
+/**
+ * Small blasts (explosive rounds, flak) fire many times a second with a big build: no debris
+ * or embers, which were most of their particles (and their overdraw) while adding little.
+ */
+const SMALL_BLAST = Object.freeze({ debris: false, embers: false, lowSmoke: false });
 const SIZE_FX = { small: 0.05, medium: 0.15, large: 0.35, huge: 0.6 };
 const CHAIN_CALLOUTS = {
   10: 'Hot Barrels!', 25: 'Brass Fury!', 50: 'Terror of the Skies!', 100: 'Legend of the Clouds!',
@@ -815,7 +820,7 @@ export class World {
     const size = opts.visual ?? (radius < 40 ? 'small' : radius < 90 ? 'medium' : radius < 150 ? 'large' : 'huge');
     if (size) {
       const fx = this.fx;
-      if (size === 'small') fx.explosion?.(x, y, clamp(radius / 40, 0.4, 1));
+      if (size === 'small') fx.explosion?.(x, y, clamp(radius / 40, 0.4, 1), SMALL_BLAST);
       else if (size === 'medium') {
         fx.explosion?.(x, y, radius / 40);
         fx.shockwave?.(x, y, radius * 1.1, '#ffcf8a', 0.3);
