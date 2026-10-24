@@ -337,6 +337,8 @@ export class Game {
 
   _teardown() {
     this._stopHum();
+    // Release co-op pads so their Start can drop in again next run (P0's binding is kept).
+    for (let i = 1; i < 4; i++) this.input?.bindPlayer?.(i, null);
     this.world?.destroy();
     this.world = null;
     this.director = null;
