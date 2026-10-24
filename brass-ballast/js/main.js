@@ -6,6 +6,7 @@ import './content/enemies/index.js';
 import './content/bosses/index.js';
 import './content/weapons/index.js';
 import { flag } from './config.js';
+import { Save } from './core/storage.js';
 import { Sprites } from './gfx/sprites.js';
 import { Renderer } from './gfx/renderer.js';
 import { Background } from './gfx/background.js';
@@ -75,6 +76,15 @@ async function boot() {
   setBoot(1, 'Cast off!');
   document.getElementById('boot')?.classList.add('done');
   game.boot();
+  if (Save.repaired) {
+    safe('repair toast', () =>
+      game.ui?.toast('Some saved progress was damaged and has been reset. A backup copy was kept.', {
+        kind: 'warning',
+        title: 'Logbook repaired',
+        time: 6,
+      }),
+    );
+  }
   if (flag('autostart')) autostartRun(game);
 }
 
