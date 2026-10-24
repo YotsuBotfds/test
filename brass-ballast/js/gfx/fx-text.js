@@ -155,6 +155,10 @@ export class FloatTexts {
           t.str = formatNum(t.value) + (crit ? '!' : '');
           t.t = 0.04;
           t.punch = 1;
+          // Follow the latest hit: a long-lived merged total (a kraken arm under sustained
+          // fire) must not stay behind as an orphan number where the target used to be.
+          t.x = x;
+          t.y0 = y - 4;
           t.bmp = null;
           return t;
         }
@@ -240,6 +244,8 @@ export class FloatTexts {
     ctx.globalCompositeOperation = 'source-over';
     const zoom = renderer?.camera?.zoom || 1;
     const zk = zoom < this.minScreenSize ? this.minScreenSize / zoom : 1;
+    const cw = ctx.canvas?.width || 1e9;
+    const chh = ctx.canvas?.height || 1e9;
     for (const t of L) {
       const u = t.t / t.life;
       const pop = 1 - Math.exp(-t.t * 32);
@@ -254,13 +260,21 @@ export class FloatTexts {
       const rot = t.crit ? Math.sin(t.t * 38) * 0.16 * Math.exp(-t.t * 7) : 0;
       const cs = Math.cos(rot) * sc;
       const sn = Math.sin(rot) * sc;
+      // Keep the whole label on screen: a hit on something poking past the view edge (a
+      // kraken tentacle tip) used to leave an orphan, half-cut number at the border.
+      let sx = m.a * t.x + m.c * y + m.e;
+      let sy = m.b * t.x + m.d * y + m.f;
+      const hw = (b.w / 2) * sc * Math.abs(m.a) + 3;
+      const hh = (b.h / 2) * sc * Math.abs(m.d) + 3;
+      if (cw > hw * 2) sx = Math.min(Math.max(sx, hw), cw - hw);
+      if (chh > hh * 2) sy = Math.min(Math.max(sy, hh), chh - hh);
       ctx.setTransform(
         m.a * cs + m.c * sn,
         m.b * cs + m.d * sn,
         -m.a * sn + m.c * cs,
         -m.b * sn + m.d * cs,
-        m.a * t.x + m.c * y + m.e,
-        m.b * t.x + m.d * y + m.f
+        sx,
+        sy
       );
       ctx.globalAlpha = prevAlpha * al;
       ctx.drawImage(b.img, -b.w / 2, -b.h / 2, b.w, b.h);
