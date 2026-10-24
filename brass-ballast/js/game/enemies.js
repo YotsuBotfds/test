@@ -347,6 +347,21 @@ export function drawEnemyShadows(w, ctx, renderer) {
   const v = w._drawView;
   const list = w.enemies;
   const shadow = Sprites.get('fx_shadow');
+  // Busy, high-frequency grounds (Smog rooftops) swallow small grey/tan craft: a soft dark
+  // halo right under each one separates its silhouette from the texture.
+  const halo = w.game?.background?.biome?.enemyHalo || 0;
+  if (halo > 0) {
+    for (let i = 0; i < list.length; i++) {
+      const e = list[i];
+      if (!e.alive || e.isBoss || e.parent || e.def.shadow === false) continue;
+      const rr = e.r * e.scale;
+      if (rr > 46) continue;
+      if (e.x < v.x0 - rr || e.x > v.x1 + rr || e.y < v.y0 - rr || e.y > v.y1 + rr) continue;
+      renderer.blit(ctx, shadow, e.x, e.y, 0, (rr * 3.6) / 32, halo * e.alpha);
+    }
+    renderer.applyWorld(ctx);
+    ctx.globalAlpha = 1;
+  }
   for (let i = 0; i < list.length; i++) {
     const e = list[i];
     if (!e.alive || e.alt <= 0 || e.def.shadow === false) continue;

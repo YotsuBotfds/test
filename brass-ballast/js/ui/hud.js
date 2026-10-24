@@ -298,7 +298,10 @@ export class HUD {
     const b = g.state === 'levelup' || g.state === 'refit' ? null : this.banners[0];
     if (b) {
       let y = L.bannerY;
-      if (bossBottom && b.variant !== 'warning') y = Math.max(y, bossBottom + 60 * s);
+      // Phase alerts dock right under the boss bar: mid-screen they covered the boss itself
+      // (the camera frames it there) during its phase change.
+      if (bossBottom && b.variant === 'alert') y = bossBottom + 36 * s;
+      else if (bossBottom && b.variant !== 'warning') y = Math.max(y, bossBottom + 60 * s);
       y = Math.min(y, this.H * 0.55);
       this.bannerY = y;
       drawBanner(this, ctx, b, this.W, this.H, y);

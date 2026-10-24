@@ -442,6 +442,11 @@ img { -webkit-user-drag: none; }
   padding: clamp(10px, 1.8vw, 22px);
   overscroll-behavior: contain;
 }
+/* dom.js scrollHint(): more content below the fold */
+.more-below {
+  -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 30px), rgba(0, 0, 0, 0.15));
+  mask-image: linear-gradient(to bottom, #000 calc(100% - 30px), rgba(0, 0, 0, 0.15));
+}
 .cab-foot {
   display: flex;
   align-items: center;
@@ -925,6 +930,8 @@ img { -webkit-user-drag: none; }
 .mode-best b { font-family: var(--font-display); font-style: normal; font-size: 1.1rem; color: var(--gold); }
 .mode-card.locked { filter: saturate(0.4); }
 .mode-card.locked > :not(.mode-lock) { opacity: 0.45; }
+/* The lock notice takes the description's place (drawn over it the two read as a jumble). */
+.mode-card.locked > :not(.mode-lock):not(.mode-medal):not(.mode-name) { visibility: hidden; }
 .mode-lock {
   position: absolute;
   inset: 0;
@@ -1413,11 +1420,11 @@ input[type='range']:focus::-webkit-slider-thumb { transform: scale(1.18); box-sh
 .klabel b { font-family: var(--font-display); font-size: 0.9rem; letter-spacing: 0.06em; color: var(--parch-ink); }
 .klabel b.alt { color: var(--copper-3); }
 .mouse { width: 38px; height: auto; flex: none; }
-.rules { display: grid; gap: 10px; }
-.rule { display: grid; grid-template-columns: 48px 1fr; gap: 12px; align-items: start; }
-.rule-icon { width: 48px; height: 48px; filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.35)); }
+.rules { display: grid; gap: 6px; }
+.rule { display: grid; grid-template-columns: 44px 1fr; gap: 12px; align-items: start; }
+.rule-icon { width: 44px; height: 44px; filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.35)); }
 .rule b { font-family: var(--font-display); letter-spacing: 0.06em; }
-.rule p { margin: 0.15em 0 0; font-size: 0.88rem; line-height: 1.38; color: #4a3418; }
+.rule p { margin: 0.1em 0 0; font-size: 0.86rem; line-height: 1.3; color: #4a3418; }
 
 /* ===================================================================== 13. pause */
 .screen-pause { background: radial-gradient(ellipse at center, rgba(16, 10, 4, 0.55), rgba(6, 4, 2, 0.88)); }
@@ -1508,7 +1515,8 @@ input[type='range']:focus::-webkit-slider-thumb { transform: scale(1.18); box-sh
   animation: spin 60s linear infinite;
   pointer-events: none;
 }
-.lv-head { position: relative; text-align: center; }
+/* Above the card row: a focused card lifts (and glows) up into the subtitle's band. */
+.lv-head { position: relative; z-index: 2; text-align: center; margin-bottom: 8px; }
 .lv-title {
   margin: 0;
   font-family: var(--font-display);
@@ -1524,7 +1532,7 @@ input[type='range']:focus::-webkit-slider-thumb { transform: scale(1.18); box-sh
   animation: lv-title 0.6s cubic-bezier(0.2, 1.6, 0.4, 1) both;
 }
 @keyframes lv-title { from { transform: scale(1.8); opacity: 0; letter-spacing: 0.4em; } }
-.lv-sub { display: flex; align-items: center; justify-content: center; gap: 10px; font-style: italic; color: #fbe7c0; text-shadow: 0 1px 3px #000; }
+.lv-sub { display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 0.45em; font-style: italic; color: #fbe7c0; text-shadow: 0 1px 3px #000, 0 0 6px rgba(0, 0, 0, 0.8); }
 .lv-who { font-style: normal; font-family: var(--font-display); letter-spacing: 0.1em; padding: 0.15em 0.6em; border-radius: 6px; background: var(--navy); box-shadow: 0 0 0 1.5px var(--aether-2); }
 .lv-row {
   position: relative;
@@ -1724,29 +1732,32 @@ input[type='range']:focus::-webkit-slider-thumb { transform: scale(1.18); box-sh
 .results-ledger .lrow dd:last-child { margin-left: 0; }
 .results-ledger .lrow.em dt { font-size: 0.9rem; color: var(--parch-ink); }
 .results-ledger .lrow.em dd:last-child { font-family: var(--font-display); font-size: 1.5rem; color: #3a2508; }
+.results-ledger .lrow .dots.has-stamp { position: relative; }
 .record-stamp {
   position: absolute;
-  top: 10px;
-  right: 12px;
+  left: 50%;
+  top: 0;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 0.3em 0.8em;
+  align-items: baseline;
+  gap: 0.35em;
+  padding: 0.22em 0.6em;
   border: 3px double var(--oxblood);
   border-radius: 8px;
+  background: rgba(244, 228, 192, 0.92);
   color: var(--oxblood);
   font-family: var(--font-display);
   text-transform: uppercase;
   letter-spacing: 0.12em;
   line-height: 1;
-  transform: rotate(-12deg) scale(3);
+  white-space: nowrap;
+  transform: translate(-50%, -50%) rotate(-7deg) scale(3);
   opacity: 0;
-  mix-blend-mode: multiply;
+  pointer-events: none;
 }
-.record-stamp span { font-size: 0.7rem; }
-.record-stamp b { font-size: 1.3rem; }
+.record-stamp span { font-size: 0.62rem; }
+.record-stamp b { font-size: 0.95rem; }
 .record-stamp.stamped { animation: stamp 0.35s cubic-bezier(0.5, 0, 0.7, 1.4) forwards; }
-@keyframes stamp { to { opacity: 0.9; transform: rotate(-12deg) scale(1); } }
+@keyframes stamp { to { opacity: 0.92; transform: translate(-50%, -50%) rotate(-7deg) scale(1); } }
 .res-side { display: flex; flex-direction: column; gap: 14px; }
 .bank {
   display: flex;
@@ -2094,7 +2105,21 @@ input[type='range']:focus::-webkit-slider-thumb { transform: scale(1.18); box-sh
 .ui-root[data-screen='hangar'] .toast.out { animation-name: toast-down; }
 @keyframes toast-up { from { transform: translateY(120%); opacity: 0; } }
 @keyframes toast-down { to { transform: translateY(120%); opacity: 0; } }
-/* Portrait phones: the HUD is two rows deep, so in-play toasts drop below it. */
+/* Portrait phones: the HUD is two rows deep (≈170 px), so in-play toasts drop just below it
+   (not mid-screen, where they covered the ship). */
 @media (max-aspect-ratio: 3/4) {
-  .ui-root:not(.open) .toasts { top: calc(var(--safe-t) + 340px); }
+  .ui-root:not(.open) .toasts { top: calc(var(--safe-t) + 178px); }
+}
+
+/* Phones (short landscape or narrow portrait): the 13.5px root pushes several labels under
+   10px; keep every label at a legible minimum. */
+@media (max-height: 520px), (max-width: 559px) {
+  .tm-sub { font-size: max(10px, 0.78rem); }
+  .mode-tags span { font-size: max(10px, 0.7rem); }
+  .lv-rarity { font-size: max(10px, 0.66rem); }
+  .lv-badge { font-size: max(10px, 0.7rem); }
+  .tag, .kit-h { font-size: max(10px, 0.72rem); }
+  .bslot-lv { font-size: max(10px, 0.65rem); }
+  .sw-track { font-size: max(10px, 0.68rem); }
+  .key .g-kbm, .g-kbm { font-size: max(10px, 0.7rem); }
 }

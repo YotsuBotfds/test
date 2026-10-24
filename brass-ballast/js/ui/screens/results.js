@@ -53,6 +53,13 @@ export default function build(ui, params) {
     ? h('div', { class: 'record-stamp' }, h('span', null, 'New'), h('b', null, 'Record!'))
     : null;
 
+  // Stamped on the Score row's dotted leader: it marks the score without covering any row.
+  if (record) {
+    const dots = rowEls[0].r.querySelector('.dots');
+    dots.classList.add('has-stamp');
+    dots.append(record);
+  }
+
   const achList = (s.achievements || [])
     .map((id) => (typeof id === 'object' ? id : ACHIEVEMENTS.find((a) => a.id === id)))
     .filter(Boolean);
@@ -118,7 +125,7 @@ export default function build(ui, params) {
     h(
       'div',
       { class: 'res-board' },
-      h('div', { class: 'res-ledger parchment' }, h('h2', { class: 'engraved' }, h('span', null, 'Ship’s Log')), ledger, record),
+      h('div', { class: 'res-ledger parchment' }, h('h2', { class: 'engraved' }, h('span', null, 'Ship’s Log')), ledger),
       h('div', { class: 'res-side' }, bank, achBox, unlockBox),
     ),
     h('div', { class: 'res-foot' }, bTitle, bHangar, bRetry),

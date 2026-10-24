@@ -227,12 +227,18 @@ export function drawBossBar(H, ctx, v, xCenter, y, w, small) {
   const mr = (bh + 10) / 2;
   const mp = 1 + v.hitT * 0.12;
   LayerCache.draw(ctx, med, -mr * mp - 4, by + bh / 2 - mr * mp, mp);
-  // percent readout on the right
+  // percent readout under the right end cap (inside the bar the fill edge, leading spark and
+  // cap cut through the digits near full health); this row is already reserved for part pips
   if (!small) {
     ctx.textAlign = 'right';
     ctx.textBaseline = 'middle';
-    ctx.font = font(9, 'm');
-    engraved(ctx, H.str(`bp${b.id}`, `${Math.ceil(v.shown * 100)}%`), w - 14, by + bh / 2 + 0.5, '#fff0e0');
+    ctx.font = font(10, 'm');
+    const pt = H.str(`bp${b.id}`, `${Math.ceil(v.shown * 100)}%`);
+    const pw = ctx.measureText(pt).width;
+    ctx.fillStyle = 'rgba(16,8,4,0.6)';
+    roundRect(ctx, w - 10 - pw, by + bh + 0.5, pw + 12, 13, 6.5);
+    ctx.fill();
+    engraved(ctx, pt, w - 4, by + bh + 7, '#fff0e0', 'rgba(10,2,0,0.95)', 1);
   }
   // destructible part pips
   const parts = b.parts;

@@ -78,14 +78,14 @@ function gamepadDiagram() {
       <text x="306" y="102" font-size="10" text-anchor="middle" fill="#fff" font-weight="bold">B</text>
       <rect x="216" y="92" width="16" height="9" rx="4" fill="#f2d48a" stroke="#1a120a"/>
       <g font-family="Georgia, serif" font-size="13" fill="#f3e8c9" stroke="none">
-        <text x="20" y="30">LB / LT · Boost</text><text x="380" y="30" text-anchor="end">RB · Bomb   RT · Fire</text>
+        <text x="20" y="30">LB / LT · Boost</text><text x="380" y="30" text-anchor="end">RB · Bomb  |  RT · Fire</text>
         <text x="8" y="100">Move</text><text x="14" y="140" font-size="11">(or D-pad)</text>
         <text x="235" y="215" text-anchor="middle">Aim &amp; fire</text>
-        <text x="392" y="140" text-anchor="end">A Boost · B Bomb</text>
+        <text x="394" y="168" text-anchor="end">A · Boost</text><text x="394" y="184" text-anchor="end">B · Bomb</text>
         <text x="224" y="78" text-anchor="middle" font-size="11">Start · Pause</text>
       </g>
       <g stroke="#f2d48a" stroke-width="1.2" fill="none" opacity=".75">
-        <path d="M46 96 H104"/><path d="M238 164 V202"/><path d="M318 104 L350 128"/><path d="M224 82 V90"/>
+        <path d="M46 96 H104"/><path d="M238 164 V202"/><path d="M314 106 L352 152"/><path d="M224 82 V90"/>
         <path d="M132 34 V44"/><path d="M268 34 V44"/>
       </g></svg>`),
     h('p', { class: 'diag-note' }, 'Second gamepad: press Start mid-voyage to bring a wingmate aboard.'),
@@ -110,8 +110,8 @@ function touchDiagram() {
       <circle cx="346" cy="112" r="15" fill="#8c2f2b" stroke="#1a120a" stroke-width="2"/>
       <g font-family="Georgia, serif" font-size="12" fill="#f3e8c9" text-anchor="middle">
         <text x="100" y="182">Move</text><text x="270" y="176">Aim &amp; fire</text>
-        <text x="344" y="164" font-size="8" fill="#1a120a" font-weight="bold">BOOST</text>
-        <text x="346" y="115" font-size="8" fill="#fff" font-weight="bold">BOMB</text>
+        <text x="344" y="190" font-size="10.5">Boost</text>
+        <text x="346" y="88" font-size="11">Bomb</text>
         <text x="104" y="60" text-anchor="start" font-size="11">Pause</text>
       </g></svg>`),
     h('p', { class: 'diag-note' }, 'Touch anywhere on the left to sprout a stick; the right half aims and fires.'),

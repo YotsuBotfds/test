@@ -971,7 +971,9 @@ export default {
       D.shieldHit = 1;
       if (D.shieldTxt <= 0) {
         D.shieldTxt = 1.8;
-        w.floatText(b.x, b.y - 70, 'SHIELDED — DOWN THE SPHERES', { color: COOL, size: 13, life: 0.9 });
+        // Under the tower, past the lower sphere: over the core it hid the sphere pods and
+        // collided with the damage numbers rising from them.
+        w.floatText(b.x, b.y + 200 * (b.scale || 1), 'SHIELDED — DOWN THE SPHERES', { color: COOL, size: 13, life: 0.9, callout: true });
       }
       return amt * 0.5;
     }

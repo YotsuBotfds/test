@@ -649,15 +649,19 @@ export class ProjectileSystem {
     }
     // Enemy fire: dark rim under every shot, then a biome-aware glow (DESIGN §1 readable chaos).
     const enemy = list === w.eBullets;
-    const tint = enemy ? w.game?.background?.biome?.enemyShotTint : null;
+    const biome = enemy ? w.game?.background?.biome : null;
+    const tint = biome?.enemyShotTint || null;
     if (enemy) {
       const rim = enemyRim();
+      // Bright grounds (Furnace lava) get a wider, fully opaque rim so shots never melt in.
+      const rk = biome?.enemyShotRim || 1;
+      const ra = Math.min(1, 0.9 * rk);
       for (let i = 0; i < list.length; i++) {
         const p = list[i];
         if (!p.alive || p.draw) continue;
         const py = p.y - p.z;
         if (p.x < x0 || p.x > x1 || py < y0 || py > y1) continue;
-        renderer.blit(ctx, rim, p.x, py, 0, (p.r * p.scale * 2.3) / 16, 0.9 * p.alpha);
+        renderer.blit(ctx, rim, p.x, py, 0, (p.r * p.scale * 2.3 * rk) / 16, ra * p.alpha);
       }
     }
     // Glow pass.

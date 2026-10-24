@@ -1033,10 +1033,12 @@ export class Game {
     if (run?.mods?.fog) {
       const fx = focus?.x ?? W / 2;
       const fy = focus?.y ?? H / 2;
-      const g = ctx.createRadialGradient(fx, fy, Math.min(W, H) * 0.14, fx, fy, Math.max(W, H) * 0.55);
-      g.addColorStop(0, 'rgba(126,118,104,0.08)');
-      g.addColorStop(0.45, 'rgba(122,114,100,0.62)');
-      g.addColorStop(1, 'rgba(104,98,88,0.97)');
+      // Clear pocket around the ship, thickening with range: threats inside ~a third of the
+      // screen stay readable, the far field (spawns, distant fire) is a guess.
+      const g = ctx.createRadialGradient(fx, fy, Math.min(W, H) * 0.22, fx, fy, Math.max(W, H) * 0.6);
+      g.addColorStop(0, 'rgba(126,118,104,0.04)');
+      g.addColorStop(0.5, 'rgba(122,114,100,0.44)');
+      g.addColorStop(1, 'rgba(104,98,88,0.92)');
       ctx.fillStyle = g;
       ctx.fillRect(0, 0, W, H);
     }

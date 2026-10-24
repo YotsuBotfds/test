@@ -970,9 +970,14 @@ export class World {
     if (opts.callout && this.renderer) {
       // Callouts (boss hints, taunts) are anchored above big bosses; keep them inside the view
       // and below the HUD's boss bar instead of half-hidden under the instruments.
+      // Clamp by the label's estimated half-width (not just its centre) so long lines never
+      // run off the screen edge or under the radar.
       const v = this.renderer.viewRect(0, this._vr);
-      x = clamp(x, v.x0 + v.w * 0.12, v.x1 - v.w * 0.12);
-      y = clamp(y, v.y0 + v.h * 0.24, v.y1 - v.h * 0.12);
+      const zk = Math.max(1, 1 / Math.max(0.1, this.renderer.camera?.zoom || 1));
+      const hw = Math.min(v.w * 0.46, String(text).length * (opts.size || 14) * 0.29 * zk);
+      const mx = Math.max(v.w * 0.06 + hw, v.w * 0.12);
+      x = mx * 2 < v.w ? clamp(x, v.x0 + mx, v.x1 - mx) : (v.x0 + v.x1) / 2;
+      y = clamp(y, v.y0 + v.h * 0.28, v.y1 - v.h * 0.14);
     }
     this.fx.text?.(x, y, text, opts);
   }

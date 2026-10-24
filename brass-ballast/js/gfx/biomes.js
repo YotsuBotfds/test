@@ -27,6 +27,8 @@
  * @property {number} seed                noise seed for this biome's ground
  * @property {string} [enemyShotTint]     replaces the default orange enemy-shot glow where the
  *                                        ground itself is orange/red (Furnace lava)
+ * @property {number} [enemyShotRim]      scale of the dark rim under enemy shots (default 1)
+ * @property {number} [enemyHalo]         alpha of a dark halo under small enemy craft (busy grounds)
  */
 
 /** @type {Record<string, Biome>} */
@@ -71,6 +73,7 @@ export const BIOMES = {
     sun: { color: '#e8d27a', alpha: 0.16, x: 0.15, y: 0.0 },
     weather: 'soot',
     music: 'smog',
+    enemyHalo: 0.42,
     seed: 2711,
   },
   tempest: {
@@ -143,7 +146,10 @@ export const BIOMES = {
     weather: 'embers',
     music: 'furnace',
     seed: 7919,
-    enemyShotTint: '#ff3d8b',
+    // Cool violet reads against lava (pink/red shots melted into the orange floor) and stays
+    // distinct from the teal aether pickups.
+    enemyShotTint: '#9a6bff',
+    enemyShotRim: 1.4,
   },
 };
 

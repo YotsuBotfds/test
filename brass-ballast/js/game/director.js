@@ -164,9 +164,11 @@ export class Director {
       case 'bossWarning': {
         const id = this._pendingBoss();
         const def = BOSSES[id];
+        // Same length as the warning phase (shorter in the Gauntlet): the band must be gone by
+        // the time the boss is actually on the field.
         w.announce('WARNING', def ? `${def.name || id} approaches` : 'Something huge approaches', {
           kind: 'warning',
-          time: WARNING_TIME,
+          time: this._warnTime(),
         });
         w.sfx('boss_warning');
         this.game.music?.(null, 2);
@@ -208,7 +210,7 @@ export class Director {
         if (this.t >= BREATHER_TIME) this._afterBreather();
         break;
       case 'bossWarning':
-        if (this.t >= (this.bossRush ? 2 : WARNING_TIME)) this._startBoss(this._pendingBoss());
+        if (this.t >= this._warnTime()) this._startBoss(this._pendingBoss());
         break;
       case 'boss':
         if (!this.world.bosses.length) this._enter('bossDown');
@@ -223,6 +225,11 @@ export class Director {
         break;
     }
     if (run) run.director = this.state;
+  }
+
+  /** Seconds of WARNING before the boss spawns. */
+  _warnTime() {
+    return this.bossRush ? 2 : WARNING_TIME;
   }
 
   _pendingBoss() {

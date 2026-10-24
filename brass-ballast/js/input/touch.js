@@ -529,7 +529,19 @@ export class TouchControls {
     const edgeX = (lh ? s.l : s.r) + br + 26;
     const bx1 = lh ? edgeX : W - edgeX;
     const bx2 = lh ? edgeX + br * 2.55 : W - edgeX - br * 2.55;
-    const baseY = H - s.b - this.R * 2 - 70;
+    // Resting (hint) positions of the two sticks. The caption under each ring must stay above
+    // the HUD's full-width aether bar along the bottom edge.
+    const R = this.R;
+    const restY = H - s.b - R - 46;
+    // Landscape: rest the aim stick far enough in that the buttons sit beside its ring.
+    const inset = clamp(W * (W > H ? 0.2 : 0.15), R + 30, 240);
+    const leftX = s.l + inset;
+    const rightX = W - s.r - inset;
+    const aimX = lh ? leftX : rightX;
+    let baseY = H - s.b - R * 2 - 70;
+    // Buttons stacked over the aim ring (portrait): lift them so the BOOST caption clears the
+    // ring and its "drag me" chevrons.
+    if (Math.abs(bx1 - aimX) < R + br + 12) baseY = Math.min(baseY, restY - R - 12 - br - 28);
     this.boost.r = br;
     this.bomb.r = br;
     this.boost.x = bx1;
@@ -539,11 +551,6 @@ export class TouchControls {
     this.pause.r = 22;
     this.pause.x = s.l + 16 + 22;
     this.pause.y = s.t + 16 + 22;
-    // Resting (hint) positions of the two sticks.
-    const restY = H - s.b - this.R - 34;
-    const inset = clamp(W * 0.15, this.R + 30, 220);
-    const leftX = s.l + inset;
-    const rightX = W - s.r - inset;
     this.restMove = { x: lh ? rightX : leftX, y: restY };
     this.restAim = { x: lh ? leftX : rightX, y: restY };
   }
@@ -827,11 +834,17 @@ export class TouchControls {
         ctx.lineTo(px - c * 5 + s * 6, py - s * 5 - c * 6);
         ctx.stroke();
       }
+      // Caption: outlined and steadier than the breathing ring, so it reads over pale water.
+      ctx.globalAlpha = Math.min(1, (1 - shown) * Math.max(0.8, op));
       ctx.font = `bold 11px ${FONT_DISPLAY}`;
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
+      ctx.lineWidth = 3;
+      ctx.lineJoin = 'round';
+      ctx.strokeStyle = 'rgba(20,12,6,0.85)';
+      ctx.strokeText(hint, rest.x, rest.y + R + 19);
       ctx.fillStyle = PAL.parchment[0];
-      ctx.fillText(hint, rest.x, rest.y + R + 22);
+      ctx.fillText(hint, rest.x, rest.y + R + 19);
     }
     if (shown < 0.02) return;
     const a = Math.min(1, op + 0.3) * shown;

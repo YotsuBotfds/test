@@ -310,6 +310,7 @@ export function safe(fn, fallback) {
  */
 export function frame(o) {
   const body = h('div', { class: ['board-body', o.bodyCls] }, o.body);
+  scrollHint(body);
   const el = h(
     'div',
     { class: ['cabinet', o.cls] },
@@ -324,6 +325,32 @@ export function frame(o) {
     o.footer ? h('footer', { class: 'cab-foot' }, o.footer) : null,
   );
   return { el, body };
+}
+
+/**
+ * Scroll affordance: while a scroll box has more content below its fold it gets `.more-below`
+ * (CSS fades its bottom edge), so a list cut mid-line reads as "scroll for more".
+ * @param {HTMLElement} box
+ */
+export function scrollHint(box) {
+  const upd = () => {
+    const more = box.scrollHeight - box.clientHeight - box.scrollTop > 4;
+    if (more !== box.classList.contains('more-below')) box.classList.toggle('more-below', more);
+  };
+  box.addEventListener('scroll', upd, { passive: true });
+  if (typeof ResizeObserver === 'undefined') return;
+  const ro = new ResizeObserver(upd);
+  ro.observe(box);
+  const watch = () => {
+    for (const c of box.children) ro.observe(c);
+  };
+  watch();
+  if (typeof MutationObserver !== 'undefined') {
+    new MutationObserver(() => {
+      watch();
+      upd();
+    }).observe(box, { childList: true });
+  }
 }
 
 /** Footer back button with device glyph. */

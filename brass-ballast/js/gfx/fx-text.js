@@ -164,9 +164,11 @@ export class FloatTexts {
     const callout = !!o.callout || (!numeric && o.callout !== false && s.length > 4);
     const size = Math.round(o.size || (crit ? 20 : 14));
     if (this.list.length >= MAX_TEXTS) this.list.shift();
+    const nx = x + (Math.random() - 0.5) * 8;
+    const ny = this._clearSpot(nx, y - 4, s, size);
     const t = {
-      x: x + (Math.random() - 0.5) * 8,
-      y: y - 4,
+      x: nx,
+      y: ny,
       vx: o.vx ?? (Math.random() - 0.5) * (crit ? 30 : 22),
       rise: o.rise ?? (callout ? 26 : crit ? 48 : 36),
       str: s,
@@ -185,6 +187,30 @@ export class FloatTexts {
     t.y0 = t.y;
     this.list.push(t);
     return t;
+  }
+
+  /**
+   * Several hits in one frame (spread shots on a big boss) used to stack into one illegible
+   * glyph soup ("1342!"): lift a new label above any fresh label it would overlap.
+   */
+  _clearSpot(x, y, str, size) {
+    const hw = str.length * size * 0.31;
+    for (let pass = 0; pass < 4; pass++) {
+      let moved = false;
+      for (const o of this.list) {
+        const u = o.t / o.life;
+        if (u > 0.7) continue; // fading out: overlap is brief and readable enough
+        const oy = o.y0 - o.rise * (1 - (1 - Math.min(1, u * 1.6)) ** 3);
+        const ow = o.str.length * o.size * 0.31;
+        const gap = (o.size + size) * 0.5;
+        if (Math.abs(o.x - x) < hw + ow && Math.abs(oy - y) < gap) {
+          y = oy - gap - 1;
+          moved = true;
+        }
+      }
+      if (!moved) break;
+    }
+    return y;
   }
 
   update(dt) {

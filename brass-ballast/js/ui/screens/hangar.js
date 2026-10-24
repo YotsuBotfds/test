@@ -11,7 +11,7 @@ import { WORKSHOP, workshopCost } from '../../content/workshop.js';
 import { MODES } from '../../content/modes.js';
 import { CODEX } from '../../content/codex.js';
 import {
-  h, frag, icon, frame, backBtn, btn, glyph, cogChip, cog, pips, tabBar, sfx, kick, fmtInt, safe, txt,
+  h, frag, icon, frame, backBtn, btn, glyph, cogChip, cog, pips, tabBar, sfx, kick, fmtInt, safe, txt, scrollHint,
 } from '../dom.js';
 import { gearSVG } from '../art.js';
 
@@ -297,6 +297,8 @@ export default function build(ui, params) {
     }
 
     const list = h('div', { class: 'roster', role: 'listbox' }, tiles);
+    scrollHint(list);
+    scrollHint(detail);
     const el = h('div', { class: 'split' }, list, detail);
     const selTile = tiles.find((t) => t.dataset.id === Save.meta[selKey]) || tiles[0];
     showDetail(selTile?.dataset.id);
