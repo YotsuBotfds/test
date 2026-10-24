@@ -128,6 +128,11 @@ export class HUD {
     this.banner = this.banners[0];
   }
 
+  /** True while an announcement banner is up (ui.js holds plain toasts so they don't cover it). */
+  get bannerActive() {
+    return this.banners.length > 0;
+  }
+
   /** @param {number} dt real seconds */
   update(dt) {
     const g = this.game;

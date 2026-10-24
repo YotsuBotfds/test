@@ -145,7 +145,8 @@ export default function build(ui, params) {
   const el = h(
     'div',
     { class: 'levelup-screen' },
-    h('div', { class: 'lv-burst' }),
+    // The rays are far larger than the screen: a clipping layer keeps them out of the scroll area.
+    h('div', { class: 'lv-burst-clip' }, h('div', { class: 'lv-burst' })),
     h(
       'div',
       { class: 'lv-head' },

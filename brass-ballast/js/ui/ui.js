@@ -54,6 +54,8 @@ export class UI {
     this.stack = [];
     /** Toasts deferred while a TOAST_HOLD screen is up: [text, opts][]. */
     this._heldToasts = [];
+    /** A service-worker update arrived mid-run: offer the reload once the run is over. */
+    this._updatePending = false;
     this.lastMode = 'campaign';
     this.installable = !!pwa?.canInstall;
     this._musicReq = null;
@@ -64,6 +66,8 @@ export class UI {
         this.refreshAll();
       }),
       events.on('pwa:update', () => this.updateToast()),
+      // A run can start with no screen open (autostart, retry), so _sync() alone may miss it.
+      events.on('run:start', () => this._gateUpdateToast()),
     ];
     const unlock = () => {
       try {
@@ -165,6 +169,7 @@ export class UI {
   }
 
   update(dt) {
+    this._gateToasts();
     if (!this.stack.length) return;
     this.nav.update(dt);
     try {
@@ -220,7 +225,7 @@ export class UI {
    */
   toast(text, opts = {}) {
     const kind = opts.kind || 'info';
-    if (TOAST_HOLD.has(this.current) && kind !== 'update' && !opts.action) {
+    if (this._holdToasts() && kind !== 'update' && !opts.action) {
       const held = [text, opts];
       this._heldToasts.push(held);
       return {
@@ -294,9 +299,19 @@ export class UI {
     return { el, close };
   }
 
-  /** "New rigging available" (service worker update) toast. */
+  /**
+   * "New rigging available" (service worker update) toast. Reloading mid-voyage would lose the
+   * run (its cogs are banked only by endRun), so while a run is live the toast waits until the
+   * results or the title are up.
+   */
   updateToast() {
-    if (this._updateToast?.el.isConnected) return;
+    if (this._liveRun()) {
+      this._updatePending = true;
+      return;
+    }
+    this._updatePending = false;
+    const cur = this._updateToast?.el;
+    if (cur?.isConnected && !cur.classList.contains('out')) return;
     this._updateToast = this.toast('A fresh set of rigging has arrived from the shipyard.', {
       kind: 'update',
       title: 'New rigging available',
@@ -304,6 +319,10 @@ export class UI {
       action: {
         label: 'Reload',
         fn: () => {
+          if (this._liveRun()) {
+            this._gateUpdateToast();
+            return;
+          }
           try {
             if (pwa?.applyUpdate) pwa.applyUpdate();
             else location.reload();
@@ -374,11 +393,38 @@ export class UI {
     this.root.classList.toggle('open', this.stack.length > 0);
     this.root.dataset.screen = this.current || '';
     this._gateToasts();
+    this._gateUpdateToast();
   }
 
-  /** Park visible plain toasts while a TOAST_HOLD screen is up; replay them once it closes. */
+  /** True while a voyage is under way (not yet ended): a reload now would lose it. */
+  _liveRun() {
+    const run = this.game?.run;
+    return !!run && !run.over;
+  }
+
+  /** Withdraw the update toast when a run starts; bring it back once no run is live. */
+  _gateUpdateToast() {
+    if (this._liveRun()) {
+      if (this._updateToast?.el.isConnected) {
+        this._updateToast.close();
+        this._updatePending = true;
+      }
+    } else if (this._updatePending) this.updateToast();
+  }
+
+  /**
+   * Plain toasts wait while a TOAST_HOLD screen is up, or, during play, while a HUD banner
+   * (stage title, boss reveal, wave plaque) is on screen: they shared its band and covered it.
+   */
+  _holdToasts() {
+    if (TOAST_HOLD.has(this.current)) return true;
+    return !this.isOpen && !!this.game?.hud?.bannerActive;
+  }
+
+  /** Park visible plain toasts while toasts are held; replay them once the hold ends. */
   _gateToasts() {
-    if (TOAST_HOLD.has(this.current)) {
+    if (this._holdToasts()) {
+      if (!this.toastBox.firstChild) return;
       for (const el of this.toastBox.querySelectorAll('.toast:not(.out):not(.has-action)')) {
         if (!el._toastArgs) continue;
         this._heldToasts.push(el._toastArgs);

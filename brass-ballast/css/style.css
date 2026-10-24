@@ -1502,6 +1502,7 @@ input[type='range']:focus::-webkit-slider-thumb { transform: scale(1.18); box-sh
     calc(var(--safe-l) + var(--gutter));
   overflow: auto;
 }
+.lv-burst-clip { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
 .lv-burst {
   position: absolute;
   left: 50%;
@@ -1953,6 +1954,15 @@ input[type='range']:focus::-webkit-slider-thumb { transform: scale(1.18); box-sh
   .ach-gauge { width: 54px; }
   .ach-count b { font-size: 1.2rem; }
   .ach-count small { display: none; }
+
+  .res-board { grid-template-columns: 1fr; }
+  .res-foot .btn { flex: 1 1 140px; }
+  .toasts { left: calc(var(--safe-l) + 12px); width: auto; }
+}
+
+/* Level-up cards stack into wide rows on portrait phones only; short landscape phones keep the
+   three-across row (compacted below), so all choices stay on screen side by side. */
+@media (max-width: 559px), (max-width: 720px) and (min-height: 521px) {
   .lv-row { flex-direction: column; align-items: center; gap: 10px; }
   .lv-card {
     flex: none;
@@ -1977,10 +1987,6 @@ input[type='range']:focus::-webkit-slider-thumb { transform: scale(1.18); box-sh
   .lv-pips { grid-area: pips; justify-content: flex-start; }
   .lv-rarity { left: auto; right: 16px; transform: none; }
   .lv-card:hover, .lv-card:focus { transform: scale(1.02); }
-
-  .res-board { grid-template-columns: 1fr; }
-  .res-foot .btn { flex: 1 1 140px; }
-  .toasts { left: calc(var(--safe-l) + 12px); width: auto; }
 }
 
 /* short landscape screens (phones held sideways) */
