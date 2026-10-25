@@ -20,6 +20,8 @@
 #waves .wv-marks .mark { font-size: var(--t-2xs); }
 #waves .wv-marks .layer { color: var(--ink-3); text-align: center; transform: translate(-50%, -50%); line-height: 1.25; }
 #waves .wv-marks .layer b { color: var(--ink-2); font-weight: 500; }
+#waves .wv-marks .layer { transition: opacity 0.25s; }
+#waves .wv-marks .layer.dim { opacity: 0.15; }
 #waves .wv-marks .deg { color: var(--ink-3); transform: translate(-50%, -50%); }
 #waves .wv-marks .city { color: var(--ink-3); transition: color 0.3s; }
 #waves .wv-marks .city.p { color: var(--ember); }

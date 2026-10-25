@@ -13,7 +13,7 @@
 
 use super::model::{layer_at, speed, Wave, R_CMB, R_EARTH, R_ICB};
 use super::rays::{shells, Kind};
-use super::solve::{grid, Info, Solution, F_CORE, F_OUTER, F_PKIKP, F_PKP, F_S, N_FIELDS};
+use super::solve::{grid, Info, Solution, F_CORE, F_OUTER, F_S, N_FIELDS};
 use crate::color::{hex, mix, to_srgb, Rgb};
 use crate::gfx::{hash, smoothstep, v3, Frame};
 
@@ -334,12 +334,9 @@ impl Section {
         let r_s = R_EARTH - depth;
         let mut pts = Vec::new();
         let mut fan = Vec::new();
-        let info = self.info;
         for (wave, side) in [(Wave::P, 1.0f32), (Wave::S, -1.0)] {
             let eta_s = sh.eta_at(wave, r_s);
             // Take-off angle of the ray that grazes the core.
-            let touch = if wave == Wave::P { info.p_touch } else { info.s_touch };
-            let _ = touch;
             let graze = R_CMB / speed(wave, R_EARTH - R_CMB, false);
             let phi_g = (graze / eta_s).min(1.0).asin().to_degrees();
             let mut phis: Vec<f64> = Vec::new();
@@ -382,7 +379,7 @@ impl Section {
     }
 
     fn paint_bg(&mut self) {
-        let (w, h) = (self.frame.w, self.frame.h);
+        let w = self.frame.w;
         let (cx, cy, rad) = (self.cx, self.cy, self.rad);
         let s = (rad / 380.0).max(0.6);
         // Lines first, into a light buffer we composite into the background.
@@ -498,7 +495,6 @@ impl Section {
         self.frame.light.fill(0.0);
         self.dirty = [0; 4];
         self.prev_dirty = [0; 4];
-        let _ = h;
     }
 
     fn build_tracks(&mut self) {
@@ -528,7 +524,7 @@ impl Section {
                     tr.p_path = to_px(self, &pts, l.side);
                 }
             } else if (l.delta as f64) < info.pkikp_min {
-                tr.p_path = to_px(self, &diffracted(Wave::P, depth, l.delta as f64, &info), l.side);
+                tr.p_path = to_px(self, &diffracted(Wave::P, depth, l.delta as f64), l.side);
             } else {
                 let eta_ic = R_ICB / speed(Wave::P, R_EARTH - R_ICB, true);
                 let eta_oc = R_ICB / speed(Wave::P, R_EARTH - R_ICB, false);
@@ -783,18 +779,11 @@ impl Section {
     pub fn debug_field(&self, f: usize) -> (&[u16], &[u8]) {
         (&self.t[f], &self.a[f])
     }
-
-    pub fn pkikp_field() -> usize {
-        F_PKIKP
-    }
-    pub fn pkp_field() -> usize {
-        F_PKP
-    }
 }
 
 /// The diffracted path to a listener in the shadow: the grazing ray down to the core,
 /// along the core's surface, and the grazing ray back up. Points are (r, theta, t).
-pub fn diffracted(w: Wave, depth: f64, delta_deg: f64, info: &Info) -> Vec<[f32; 3]> {
+pub fn diffracted(w: Wave, depth: f64, delta_deg: f64) -> Vec<[f32; 3]> {
     let sh = shells();
     let r_s = R_EARTH - depth;
     let graze = R_CMB / speed(w, R_EARTH - R_CMB, false) * (1.0 + 1e-7);
@@ -805,7 +794,8 @@ pub fn diffracted(w: Wave, depth: f64, delta_deg: f64, info: &Info) -> Vec<[f32;
     out.extend_from_slice(&down);
     // Along the core at the speed just above it.
     let v = speed(w, R_EARTH - R_CMB, false);
-    let shadow = info.p_shadow.to_radians();
+    // Where the grazing ray itself comes up: the edge of the shadow.
+    let shadow = 2.0 * d_touch + d_up;
     let creep = (delta_deg.to_radians() - shadow).max(0.0);
     let n = (creep.to_degrees().ceil() as usize).max(1);
     for k in 1..=n {

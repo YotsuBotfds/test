@@ -365,6 +365,7 @@
     for (const f of FRONTS) html.push(`<div class="mark front ${f.cls}" data-front="${f.name}" hidden>${f.name}</div>`);
     host.innerHTML = html.join("");
     for (const f of FRONTS) f.el = host.querySelector(`[data-front="${f.name}"]`);
+    st.layerEls = [...host.querySelectorAll(".layer")];
     st.geo = { cx, cy, rad };
     for (const l of st.listeners) { l.mark = host.querySelector(`.city[data-k="${l.k}"]`); l.state = -1; }
     markHot();
@@ -436,6 +437,12 @@
         }
       }
       f.el.hidden = !shown;
+    }
+    // A layer name fades while a wave's name passes over it.
+    const tags = FRONTS.filter((f) => f.el && !f.el.hidden).map((f) => f.el.getBoundingClientRect());
+    for (const el of st.layerEls || []) {
+      const b = el.getBoundingClientRect();
+      el.classList.toggle("dim", tags.some((o) => b.left < o.right && b.right > o.left && b.top < o.bottom && b.bottom > o.top));
     }
   }
 

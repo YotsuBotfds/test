@@ -227,7 +227,6 @@ impl Shells {
         out.push([r_s as f32, 0.0, 0.0]);
         let mut theta_turn = 0.0;
         let mut t_turn = 0.0;
-        let mut kind = Kind::Up;
         if down {
             let mut pts = Vec::new();
             let (_, d, t, k) = self.descend_with(w, p, r_s, 0.006, |r, d, t| pts.push([r as f32, d as f32, t as f32]));
@@ -236,7 +235,6 @@ impl Shells {
             }
             theta_turn = d;
             t_turn = t;
-            kind = k;
             if k == Kind::Blocked {
                 return;
             }
@@ -246,7 +244,6 @@ impl Shells {
             }
             out.push([r_s as f32, (2.0 * d) as f32, (2.0 * t) as f32]);
         }
-        let _ = kind;
         // From the source radius up to the surface.
         let (base_d, base_t) = if down { (2.0 * theta_turn, 2.0 * t_turn) } else { (0.0, 0.0) };
         let mut layers: Vec<(f64, f64, f64)> = Vec::new();
