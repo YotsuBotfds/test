@@ -26,7 +26,7 @@ fn main() {
     let mut enc = png::Encoder::new(BufWriter::new(File::create(out).unwrap()), size as u32, size as u32);
     enc.set_color(png::ColorType::Rgba);
     enc.set_depth(png::BitDepth::Eight);
-    let bytes: Vec<u8> = g.px.iter().flat_map(|p| p.to_le_bytes()).collect();
+    let bytes: Vec<u8> = g.frame.px.iter().flat_map(|p| p.to_le_bytes()).collect();
     enc.write_header().unwrap().write_image_data(&bytes).unwrap();
     println!("{} quakes -> {out} ({size}x{size}, rendered in {ms:.1} ms)", g.visible());
 }

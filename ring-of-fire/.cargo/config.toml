@@ -1,0 +1,3 @@
+[target.wasm32-unknown-unknown]
+# 128-bit SIMD lets LLVM vectorise the splat, blur and tonemap loops.
+rustflags = ["-C", "target-feature=+simd128"]

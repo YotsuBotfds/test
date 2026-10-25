@@ -1,6 +1,8 @@
 //! Decodes the blobs `prep` writes into `data/`. They are compiled into the
 //! binary, so the wasm module is the whole dataset: nothing is fetched at runtime.
 
+use std::sync::OnceLock;
+
 static QUAKES: &[u8] = include_bytes!("../../../data/quakes.bin");
 static PLACES: &str = include_str!("../../../data/places.txt");
 static COAST: &[u8] = include_bytes!("../../../data/coast.bin");
@@ -82,5 +84,36 @@ pub fn load() -> World {
         places: PLACES.split('\n').collect(),
         coast: lines(COAST),
         plates: lines(PLATES),
+    }
+}
+
+static WORLD: OnceLock<World> = OnceLock::new();
+
+/// The decoded catalogue, built once and shared by every instrument.
+pub fn world() -> &'static World {
+    WORLD.get_or_init(load)
+}
+
+impl World {
+    /// Indices of the `n` largest quakes, at least `gap_days` apart in time.
+    pub fn largest(&self, n: usize, gap_days: f32) -> Vec<usize> {
+        let q = &self.quakes;
+        let mut idx: Vec<usize> = (0..q.len()).collect();
+        idx.sort_by(|&a, &b| q[b].mag.total_cmp(&q[a].mag).then(q[a].t.cmp(&q[b].t)));
+        let mut out: Vec<usize> = Vec::new();
+        for i in idx {
+            if out.len() == n {
+                break;
+            }
+            if out.iter().all(|&j| (q[i].t as f32 - q[j].t as f32).abs() >= gap_days * 86400.0) {
+                out.push(i);
+            }
+        }
+        out
+    }
+
+    /// Radiated seismic energy in joules (Gutenberg–Richter energy relation, log E = 1.5 M + 4.8).
+    pub fn energy(mag: f32) -> f64 {
+        10f64.powf(1.5 * mag as f64 + 4.8)
     }
 }

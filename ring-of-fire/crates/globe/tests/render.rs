@@ -24,7 +24,7 @@ fn renders_every_view_without_panicking() {
 fn pick_finds_the_kamchatka_mainshock() {
     let mut g = Globe::new();
     g.resize(800, 800);
-    let i = g.largest(1, 0.0)[0];
+    let i = g.world.largest(1, 0.0)[0];
     let q = g.world.quakes[i];
     assert!(q.mag >= 8.8);
     g.yaw = q.lon;

@@ -1,0 +1,1050 @@
+<title>Ring of Fire</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800;900&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Martian+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a seismology observatory as one long scroll. A sticky instrument bar on top;
+   the surface globe opens full-bleed; each later instrument is a chapter with a large
+   Rust-rendered stage and a narrow notes column. One dark world throughout: everything
+   on screen is lit by the quakes themselves. */
+:root {
+  color-scheme: dark;
+  --void: #05070d;      /* space, page ground */
+  --rail: #090d18;      /* raised surfaces: hero rail, side panels */
+  --well: #070a13;      /* instrument stages */
+  --rule: #1a2236;      /* hairlines, control borders */
+  --rule-2: #2a3550;    /* hover / active borders */
+  --ink: #ece6d9;       /* primary text, warm paper-white */
+  --ink-2: #a5adbf;     /* secondary text */
+  --ink-3: #6b7489;     /* captions, axis labels */
+  --ember: #ffb35c;     /* accent: played time, active controls, P-waves */
+  --ember-ink: #1a1006; /* text on ember */
+  --teal: #3fb8b0;      /* reference layers: plate boundaries, S-waves */
+  --d0: #ffd27a; --d70: #ff8a4c; --d300: #e8467c; --d700: #8b6cff; /* depth ramp, same stops as Rust */
+  --f-display: "Big Shoulders Display", "Oswald", "Arial Narrow", sans-serif;
+  --f-body: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --f-data: "Martian Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --t-2xs: 0.625rem; --t-xs: 0.6875rem; --t-s: 0.8125rem; --t-m: 0.9375rem; --t-l: 1.25rem; --t-xl: 2rem; --t-hero: 3.5rem;
+  --nav-h: 46px;
+  --max: 1280px;
+}
+html { scroll-behavior: smooth; scroll-padding-top: var(--nav-h); }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body {
+  background: var(--void);
+  color: var(--ink);
+  font: 400 var(--t-m)/1.55 var(--f-body);
+  -webkit-font-smoothing: antialiased;
+}
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 30; background: var(--void); }
+button, input, select { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--ember); outline-offset: 2px; }
+a { color: var(--ink-2); }
+
+/* ---------- instrument bar ---------- */
+.topnav {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20;
+  height: var(--nav-h);
+  display: flex; align-items: center; gap: 22px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  background: color-mix(in srgb, var(--void) 88%, transparent);
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--rule);
+}
+.brand { font: 900 1.05rem/1 var(--f-display); letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink); text-decoration: none; white-space: nowrap; }
+.brand span { color: var(--ember); }
+.chapters { display: flex; gap: 2px; overflow-x: auto; scrollbar-width: none; min-width: 0; flex: 1; }
+.chapters::-webkit-scrollbar { display: none; }
+.chapters a {
+  display: inline-flex; align-items: baseline; gap: 6px; white-space: nowrap;
+  padding: 6px 10px; border-radius: 3px; text-decoration: none;
+  font: 400 var(--t-s)/1 var(--f-body); color: var(--ink-2);
+}
+.chapters a i { font: normal 400 var(--t-2xs)/1 var(--f-data); color: var(--ink-3); }
+.chapters a:hover { color: var(--ink); background: #0e1424; }
+.chapters a[aria-current="true"] { color: var(--ink); background: #121a2c; }
+.chapters a[aria-current="true"] i { color: var(--ember); }
+.selchip {
+  display: inline-flex; align-items: center; gap: 8px; max-width: 34ch; min-width: 0;
+  border: 1px solid var(--rule); border-radius: 999px; padding: 4px 6px 4px 12px; background: transparent;
+  font: 400 var(--t-xs)/1.2 var(--f-data); color: var(--ink-2); cursor: pointer; white-space: nowrap;
+}
+.selchip b { color: var(--ember); font-weight: 500; }
+.selchip span { overflow: hidden; text-overflow: ellipsis; }
+.selchip .x { display: grid; place-items: center; width: 18px; height: 18px; border-radius: 50%; background: #141b2d; color: var(--ink-2); flex: none; }
+.selchip:hover { border-color: var(--rule-2); color: var(--ink); }
+
+/* ---------- shared components (instruments use these) ---------- */
+.eyebrow {
+  font: 500 var(--t-xs)/1.4 var(--f-data); letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--ink-3); margin: 0 0 10px;
+}
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 9px;
+  border: 1px solid var(--rule-2); border-radius: 3px; background: transparent;
+  padding: 9px 14px; cursor: pointer; font: 500 var(--t-s)/1 var(--f-body); color: var(--ink);
+}
+.btn:hover { border-color: #3a4868; background: #0e1424; }
+.btn.primary { background: var(--ember); color: var(--ember-ink); border-color: var(--ember); font-weight: 600; }
+.btn.primary:hover { filter: brightness(1.08); background: var(--ember); }
+.btn svg { width: 12px; height: 12px; fill: currentColor; flex: none; }
+.btn:disabled { opacity: 0.45; cursor: default; }
+.seg { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; border: 1px solid var(--rule); border-radius: 3px; overflow: hidden; }
+.seg button {
+  background: transparent; border: 0; padding: 7px 6px; cursor: pointer;
+  font: 400 var(--t-xs)/1.2 var(--f-data); color: var(--ink-2); white-space: nowrap;
+}
+.seg button + button { border-left: 1px solid var(--rule); }
+.seg button[aria-pressed="true"] { background: #1a2133; color: var(--ink); }
+.seg button:hover { color: var(--ink); }
+.toggles { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip {
+  display: inline-flex; align-items: center; gap: 7px;
+  background: transparent; border: 1px solid var(--rule); border-radius: 999px;
+  padding: 5px 11px 5px 9px; cursor: pointer;
+  font: 400 var(--t-s)/1.2 var(--f-body); color: var(--ink-2);
+}
+.chip::before { content: ""; width: 7px; height: 7px; border-radius: 50%; border: 1px solid var(--ink-3); }
+.chip[aria-pressed="true"] { color: var(--ink); border-color: #2c3650; }
+.chip[aria-pressed="true"]::before { background: var(--chip, var(--ember)); border-color: var(--chip, var(--ember)); }
+.chip:hover { border-color: #33405e; }
+.field { display: grid; gap: 6px; }
+.field label, .field .lab { display: flex; justify-content: space-between; gap: 12px; font: 400 var(--t-xs)/1.3 var(--f-data); color: var(--ink-3); }
+.field output { color: var(--ink); font-variant-numeric: tabular-nums; }
+input[type="range"] { width: 100%; accent-color: var(--ember); height: 20px; margin: 0; background: transparent; }
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(90px, 1fr)); gap: 14px 12px; }
+.stat { display: grid; gap: 2px; min-width: 0; }
+.stat b { font: 600 var(--t-xl)/1 var(--f-display); letter-spacing: 0.02em; font-variant-numeric: tabular-nums; }
+.stat b.ember { color: var(--ember); }
+.stat span { font-size: var(--t-xs); color: var(--ink-3); line-height: 1.4; }
+.ramp { height: 10px; border-radius: 2px; background: linear-gradient(in oklab 90deg, var(--d0) 0%, var(--d70) 42%, var(--d300) 77.4%, var(--d700) 100%); }
+.ramp-ticks { position: relative; height: 18px; font: 400 var(--t-xs)/1 var(--f-data); color: var(--ink-3); font-variant-numeric: tabular-nums; }
+.ramp-ticks span { position: absolute; top: 6px; transform: translateX(-50%); white-space: nowrap; }
+.ramp-ticks span:first-child { transform: none; }
+.ramp-ticks span:last-child { transform: translateX(-100%); }
+.prose { color: var(--ink-2); font-size: var(--t-s); line-height: 1.6; margin: 0; }
+.prose strong { color: var(--ink); font-weight: 500; }
+.prose + .prose { margin-top: 10px; }
+.list { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
+.list button {
+  text-align: left; background: transparent; border: 0; border-radius: 3px;
+  padding: 9px 10px; margin: 0 -10px; width: calc(100% + 20px);
+  cursor: pointer; display: grid; gap: 3px;
+}
+.list button:hover, .list button[aria-current="true"] { background: #111829; }
+.list .t { font-weight: 500; color: var(--ink); display: flex; justify-content: space-between; gap: 12px; }
+.list .t em { font: normal 400 var(--t-xs)/1.6 var(--f-data); color: var(--ink-3); white-space: nowrap; }
+.list .d { font-size: var(--t-s); color: var(--ink-2); line-height: 1.45; }
+.tip {
+  position: absolute; z-index: 5; pointer-events: none;
+  min-width: 200px; max-width: 280px;
+  background: rgba(9, 13, 24, 0.94); border: 1px solid #27314a; border-radius: 4px;
+  padding: 10px 12px; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+  font-size: var(--t-s); line-height: 1.45;
+}
+.tip .mag { font: 600 var(--t-xl)/1 var(--f-display); letter-spacing: 0.02em; display: flex; align-items: baseline; gap: 10px; }
+.tip .mag small { font: 400 var(--t-xs)/1 var(--f-data); color: var(--ink-3); letter-spacing: 0; }
+.tip .place { color: var(--ink); margin: 6px 0 4px; }
+.tip .meta { font: 400 var(--t-xs)/1.6 var(--f-data); color: var(--ink-2); font-variant-numeric: tabular-nums; }
+.tip .sw { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; vertical-align: 0; }
+/* Text laid over a Rust canvas: positioned by script from exported coordinates. */
+.mark {
+  position: absolute; pointer-events: none; white-space: nowrap;
+  font: 400 var(--t-xs)/1.2 var(--f-data); color: var(--ink-2);
+  text-shadow: 0 0 4px var(--void), 0 0 2px var(--void);
+}
+.mark b { color: var(--ink); font-weight: 500; }
+.hint {
+  position: absolute; right: 12px; top: 10px; z-index: 2;
+  font: 400 var(--t-xs)/1.4 var(--f-data); color: var(--ink-3);
+  text-align: right; pointer-events: none;
+}
+.toast {
+  position: absolute; left: 50%; bottom: 14px; transform: translateX(-50%); z-index: 6;
+  background: rgba(9, 13, 24, 0.94); border: 1px solid var(--rule-2); border-radius: 3px;
+  padding: 6px 10px; font: 400 var(--t-xs)/1.2 var(--f-data); color: var(--ink-2); pointer-events: none;
+}
+
+/* ---------- chapter frame (instruments 02-06) ---------- */
+.chapter {
+  border-top: 1px solid var(--rule);
+  padding-block: clamp(56px, 8vw, 104px) clamp(32px, 4vw, 56px);
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.ch-head {
+  max-width: var(--max); margin: 0 auto 28px;
+  display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: 10px 56px; align-items: end;
+}
+.ch-num { font: 500 var(--t-xs)/1.3 var(--f-data); letter-spacing: 0.1em; text-transform: uppercase; color: var(--ember); margin: 0 0 6px; }
+.ch-title { font: 800 clamp(2.4rem, 5.2vw, 4.25rem)/0.88 var(--f-display); letter-spacing: 0.01em; text-transform: uppercase; margin: 0; text-wrap: balance; }
+.ch-lede { color: var(--ink-2); margin: 0; max-width: 62ch; text-wrap: pretty; }
+.ch-lede strong { color: var(--ink); font-weight: 500; }
+.ch-body {
+  max-width: var(--max); margin: 0 auto;
+  display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 24px;
+}
+.ch-stage {
+  position: relative; min-width: 0; min-height: min(74vh, 760px);
+  background: var(--well); border: 1px solid var(--rule); border-radius: 4px; overflow: hidden;
+}
+.ch-stage canvas.view { position: absolute; inset: 0; width: 100%; height: 100%; display: block; touch-action: none; }
+.ch-side { display: flex; flex-direction: column; gap: 26px; min-width: 0; }
+.ch-side > section { display: grid; gap: 10px; }
+.ch-foot { max-width: var(--max); margin: 18px auto 0; font-size: var(--t-xs); color: var(--ink-3); line-height: 1.6; }
+
+/* ---------- 01 surface (hero) ---------- */
+.hero { height: calc(100svh - var(--nav-h) - env(safe-area-inset-top, 0px)); min-height: 620px; }
+.app { height: 100%; display: grid; grid-template-columns: minmax(300px, 360px) minmax(0, 1fr); }
+.rail {
+  background: var(--rail); border-right: 1px solid var(--rule); overflow-y: auto;
+  padding-block: 26px 32px; padding-left: max(24px, env(safe-area-inset-left, 0px)); padding-right: 24px;
+  display: flex; flex-direction: column; gap: 28px; min-width: 0;
+}
+.kicker { font: 500 var(--t-xs)/1.4 var(--f-data); letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3); margin: 0; }
+.hero h1 { font: 800 var(--t-hero)/0.9 var(--f-display); letter-spacing: 0.01em; text-transform: uppercase; margin: 6px 0 14px; text-wrap: balance; }
+.hero h1 span { color: var(--ember); }
+.lede { margin: 0; color: var(--ink-2); max-width: 34em; }
+.lede strong { color: var(--ink); font-weight: 500; }
+.readout { display: grid; gap: 2px; }
+.readout .date { font: 600 var(--t-xl)/1.05 var(--f-display); letter-spacing: 0.02em; font-variant-numeric: tabular-nums; }
+.readout .count { font: 400 var(--t-s)/1.5 var(--f-data); color: var(--ink-2); font-variant-numeric: tabular-nums; }
+.readout .count b { color: var(--ink); font-weight: 500; }
+.controls { display: grid; gap: 12px; }
+.bands { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin-top: 12px; }
+.band { display: grid; gap: 1px; }
+.band b { font: 600 var(--t-l)/1 var(--f-display); letter-spacing: 0.02em; font-variant-numeric: tabular-nums; }
+.band span { font-size: var(--t-xs); color: var(--ink-3); line-height: 1.35; }
+.sizes { display: flex; align-items: flex-end; gap: 16px; margin-top: 16px; }
+.sizes figure { margin: 0; display: grid; justify-items: center; gap: 6px; }
+.sizes i { display: block; border-radius: 50%; background: radial-gradient(circle, #fff3dc 0%, var(--d0) 35%, rgba(255, 210, 122, 0) 72%); }
+.sizes figcaption { font: 400 var(--t-xs)/1 var(--f-data); color: var(--ink-3); }
+.legend-note { font-size: var(--t-xs); color: var(--ink-3); margin: 10px 0 0; line-height: 1.5; }
+.big button { grid-template-columns: 3.2em minmax(0, 1fr); align-items: baseline; gap: 2px 10px; }
+.big .m { font: 600 var(--t-l)/1 var(--f-display); color: var(--ember); font-variant-numeric: tabular-nums; grid-row: span 2; }
+.big .p { color: var(--ink); font-size: var(--t-s); overflow-wrap: anywhere; }
+.big .w { font: 400 var(--t-xs)/1.4 var(--f-data); color: var(--ink-3); }
+.stage {
+  min-width: 0; min-height: 0; display: grid; grid-template-rows: minmax(0, 1fr) auto;
+  padding-block: 8px 16px; padding-left: 24px; padding-right: max(24px, env(safe-area-inset-right, 0px));
+}
+.globe-wrap { position: relative; min-height: 0; }
+#sf-globe { display: block; touch-action: none; cursor: grab; position: absolute; inset: 0; width: 100%; height: 100%; }
+#sf-globe.dragging { cursor: grabbing; }
+.fallback { position: absolute; inset: 0; display: grid; gap: 10px; place-content: center; justify-items: center; text-align: center; color: var(--ink-2); font-size: var(--t-s); }
+.fallback img { border-radius: 50%; max-width: min(100%, 640px); }
+.scrollcue {
+  position: absolute; left: 50%; bottom: 6px; transform: translateX(-50%); z-index: 2;
+  font: 400 var(--t-xs)/1 var(--f-data); color: var(--ink-3); text-decoration: none; padding: 6px 10px;
+}
+.scrollcue:hover { color: var(--ink); }
+.tl { display: grid; gap: 4px; }
+.tl-head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 16px; font: 400 var(--t-xs)/1.4 var(--f-data); color: var(--ink-3); }
+.tl-head .read { color: var(--ink-2); font-variant-numeric: tabular-nums; }
+.tl-plot { position: relative; height: 88px; margin-top: 44px; }
+#sf-tl { position: absolute; inset: 0; width: 100%; height: 100%; cursor: ew-resize; touch-action: none; }
+.tl-y span { position: absolute; left: 0; font: 400 var(--t-2xs)/1 var(--f-data); color: var(--ink-2); pointer-events: none; padding: 2px 5px 2px 0; background: color-mix(in srgb, var(--void) 80%, transparent); }
+.tl-x { position: relative; height: 16px; border-top: 1px solid var(--rule); }
+.tl-x span { position: absolute; top: 4px; transform: translateX(-50%); font: 400 var(--t-xs)/1 var(--f-data); color: var(--ink-3); white-space: nowrap; }
+.tl-x span::before { content: ""; position: absolute; left: 50%; top: -5px; height: 4px; border-left: 1px solid var(--rule); }
+.note {
+  position: absolute; bottom: 100%; transform: translateX(-50%);
+  background: transparent; border: 0; padding: 0 0 3px; cursor: pointer;
+  font: 400 var(--t-xs)/1.2 var(--f-data); color: var(--ink-2); white-space: nowrap;
+  display: flex; flex-direction: column; align-items: center;
+}
+.note b { color: var(--ember); font-weight: 500; }
+#sf-notes.compact .nm { display: none; }
+.note::after { content: ""; width: 1px; height: var(--stem, 6px); background: #3a4560; margin-top: 3px; }
+.note:hover { color: var(--ink); }
+.note.left { transform: none; align-items: flex-start; }
+.note.right { transform: translateX(-100%); align-items: flex-end; }
+
+/* ---------- colophon ---------- */
+.colophon {
+  border-top: 1px solid var(--rule);
+  padding-block: 48px 64px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.colophon .in { max-width: var(--max); margin: 0 auto; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 32px 56px; }
+.colophon h2 { font: 800 var(--t-xl)/1 var(--f-display); text-transform: uppercase; letter-spacing: 0.02em; margin: 0 0 12px; }
+.colophon p { margin: 0 0 10px; color: var(--ink-2); font-size: var(--t-s); max-width: 62ch; }
+.budget { width: 100%; border-collapse: collapse; font: 400 var(--t-xs)/1.4 var(--f-data); font-variant-numeric: tabular-nums; }
+.budget th, .budget td { text-align: left; padding: 7px 0; border-bottom: 1px solid var(--rule); }
+.budget th { color: var(--ink-3); font-weight: 400; }
+.budget td { color: var(--ink-2); }
+.budget td:first-child { color: var(--ink); }
+.budget td.num, .budget th.num { text-align: right; }
+
+/* @VIEWS_CSS@ */
+
+/* ---------- narrow screens: one column, document scroll ---------- */
+@media (max-width: 900px) {
+  .hero { height: auto; min-height: 0; }
+  .app { display: flex; flex-direction: column; height: auto; }
+  .rail { display: contents; }
+  .rail > * { padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+  .intro { order: 1; padding-top: 20px; }
+  .stage { order: 2; padding-block: 8px 4px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+  .readout { order: 3; padding-top: 18px; }
+  .controls { order: 4; }
+  .legend { order: 5; }
+  .tours { order: 6; }
+  .biggest { order: 7; padding-bottom: 28px; }
+  .rail > * + * { margin-top: 24px; }
+  .globe-wrap { aspect-ratio: 1; width: 100%; max-width: 100%; }
+  .hero h1 { font-size: 2.75rem; }
+  .scrollcue { display: none; }
+  .ch-head, .ch-body, .colophon .in { grid-template-columns: minmax(0, 1fr); }
+  .ch-stage { min-height: 0; aspect-ratio: 1 / 1.05; }
+  .selchip { display: none; }
+  .brand { display: none; }
+}
+</style>
+
+<nav class="topnav" aria-label="Instruments">
+  <a class="brand" href="#surface">Ring of <span>Fire</span></a>
+  <div class="chapters" id="chapters">
+    <a href="#surface" data-ch="surface"><i>01</i>Surface</a>
+    <a href="#interior" data-ch="interior"><i>02</i>Interior</a>
+    <a href="#slabs" data-ch="slabs"><i>03</i>Slabs</a>
+    <a href="#waves" data-ch="waves"><i>04</i>Waves</a>
+    <a href="#records" data-ch="records"><i>05</i>Records</a>
+    <a href="#laws" data-ch="laws"><i>06</i>Laws</a>
+  </div>
+  <button type="button" class="selchip" id="selchip" hidden aria-label="Selected quake; click to clear"><span id="selchip-text"></span><i class="x" aria-hidden="true">×</i></button>
+</nav>
+
+<section class="hero" id="surface" data-view="surface" aria-label="01 Surface">
+  <div class="app">
+    <aside class="rail">
+      <header class="intro">
+        <p class="kicker">01 Surface · USGS catalogue · M4.5+ · <span id="sf-span">Oct 2023 – Oct 2026</span></p>
+        <h1>Ring of <span>Fire</span></h1>
+        <p class="lede">Every earthquake of magnitude 4.5 or larger recorded worldwide over three years. <strong>This globe has no map on it.</strong> The glowing lines are the quakes themselves, and they trace the edges of the tectonic plates. Below it, five more instruments look inside the planet.</p>
+      </header>
+
+      <section class="readout" aria-live="off">
+        <div class="date" id="sf-date">—</div>
+        <div class="count"><b id="sf-count">0</b> quakes plotted</div>
+      </section>
+
+      <section class="controls" aria-label="Playback and layers">
+        <button class="btn primary" id="sf-play" type="button"><svg viewBox="0 0 12 12" aria-hidden="true"><path id="sf-play-icon" d="M2 1l9 5-9 5z"/></svg><span id="sf-play-label">Replay three years</span></button>
+        <div class="seg" role="group" aria-label="Replay speed">
+          <button type="button" id="sf-sp-7" data-speed="7" aria-pressed="false">7 days/s</button>
+          <button type="button" id="sf-sp-30" data-speed="30" aria-pressed="true">30 days/s</button>
+          <button type="button" id="sf-sp-90" data-speed="90" aria-pressed="false">90 days/s</button>
+        </div>
+        <div class="toggles">
+          <button type="button" class="chip" id="sf-coast" data-flag="1" aria-pressed="false">Coastlines</button>
+          <button type="button" class="chip" id="sf-plates" data-flag="2" aria-pressed="false" style="--chip: var(--teal)">Plate boundaries</button>
+          <button type="button" class="chip" id="sf-xray" data-flag="4" aria-pressed="true">See-through</button>
+          <button type="button" class="chip" id="sf-spin" aria-pressed="true">Spin</button>
+        </div>
+      </section>
+
+      <section class="legend">
+        <p class="eyebrow">Colour is depth below the surface</p>
+        <div class="ramp" role="img" aria-label="Depth colour scale: gold at the surface, orange at 70 km, rose at 300 km, violet at 700 km"></div>
+        <div class="ramp-ticks"><span style="left:0">0 km</span><span style="left:42%">70</span><span style="left:77.4%">300</span><span style="left:100%">700 km</span></div>
+        <div class="bands">
+          <div class="band"><b id="sf-b-shallow">—</b><span>shallow, under 70 km</span></div>
+          <div class="band"><b id="sf-b-mid">—</b><span>intermediate, 70–300 km</span></div>
+          <div class="band"><b id="sf-b-deep">—</b><span>deep, 300 km and below</span></div>
+        </div>
+        <div class="sizes" id="sf-sizes" aria-label="Dot size grows with magnitude"></div>
+        <p class="legend-note">Depth is on a log scale because most quakes happen in the top 35 km. Where one plate dives under another, the colour shifts from gold to violet inland, tracing the sinking slab.</p>
+      </section>
+
+      <section class="tours">
+        <p class="eyebrow">Places to look</p>
+        <ul class="list" id="sf-tours"></ul>
+      </section>
+
+      <section class="biggest">
+        <p class="eyebrow">Largest quakes</p>
+        <ul class="list big" id="sf-biggest"></ul>
+      </section>
+    </aside>
+
+    <div class="stage">
+      <div class="globe-wrap" id="sf-wrap">
+        <canvas id="sf-globe" tabindex="0" aria-label="Globe of earthquakes. Drag to rotate, pinch or Ctrl+scroll to zoom, arrow keys to rotate."></canvas>
+        <div class="hint" id="sf-hint">drag to spin · ctrl + scroll to zoom · click a quake</div>
+        <div class="tip" id="sf-tip" hidden></div>
+        <a class="scrollcue" href="#interior">↓ look inside</a>
+      </div>
+      <div class="tl">
+        <div class="tl-head"><span>Quakes per day, square-root scale</span><span class="read" id="sf-tl-read"></span></div>
+        <div class="tl-plot" id="sf-tl-plot">
+          <canvas id="sf-tl" aria-label="Daily earthquake counts. Drag to move through time."></canvas>
+          <div class="tl-y" id="sf-tl-y"></div>
+          <div id="sf-notes"></div>
+        </div>
+        <div class="tl-x" id="sf-tl-x"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- @VIEWS_HTML@ -->
+
+<footer class="colophon" id="colophon">
+  <div class="in">
+    <div>
+      <h2>How this is made</h2>
+      <p>Every pixel on this page is computed by a Rust software rasteriser compiled to WebAssembly: projection, gaussian splats, anti-aliased lines, bloom and tone mapping, travel-time solvers and synthetic seismograms. There is no WebGL, no canvas drawing API beyond copying finished pixels, and no chart library. The whole catalogue is compiled into the module.</p>
+      <p>Earthquakes: <a href="https://earthquake.usgs.gov/fdsnws/event/1/" target="_blank" rel="noopener">USGS ANSS ComCat</a>, M4.5 and larger, fetched 25 Oct 2026. Coastlines: <a href="https://www.naturalearthdata.com/" target="_blank" rel="noopener">Natural Earth</a> 1:110m. Plate boundaries: Bird (2003), PB2002.</p>
+    </div>
+    <div>
+      <p class="eyebrow">Live render budget</p>
+      <table class="budget" aria-label="Time each instrument spent drawing its last frame">
+        <thead><tr><th>Instrument</th><th class="num">Pixels</th><th class="num">ms / frame</th></tr></thead>
+        <tbody id="budget"></tbody>
+      </table>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ===== Ring of Fire runtime: shared by every instrument ===================== */
+const ROF = (() => {
+  const DAY = 86400;
+  const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  const listeners = {};
+  const perf = new Map();
+  const R = {
+    DAY,
+    W: null,              // wasm exports
+    n: 0, epoch: 0, nDays: 0, tEnd: 0,
+    cat: null,            // Float32Array, 5 per quake: t, lat, lon, depth, mag
+    reduceMotion: matchMedia("(prefers-reduced-motion: reduce)").matches,
+    coarse: matchMedia("(pointer: coarse)").matches,
+    state: { cursor: 0, playing: false, speed: 30, selected: -1 },
+    views: [],
+    colors: { ember: 0xffb35c, teal: 0x3fb8b0, ink: 0xece6d9, ink2: 0xa5adbf, rose: 0xe8467c, violet: 0x8b6cff, gold: 0xffd27a },
+
+    /** Register an instrument. def: { id, init(), frame(dt, now) }. */
+    view(def) { R.views.push(def); },
+    on(evt, fn) { (listeners[evt] ||= []).push(fn); },
+    emit(evt, ...args) { (listeners[evt] || []).forEach((f) => f(...args)); },
+
+    /** Select a quake everywhere (-1 clears). `from` names the instrument that did it. */
+    select(i, from) {
+      if (i === R.state.selected) return;
+      R.state.selected = i;
+      R.emit("select", i, from);
+    },
+    setCursor(t, from) {
+      R.state.cursor = Math.max(0, Math.min(R.tEnd, t));
+      R.emit("cursor", R.state.cursor, from);
+    },
+    play(on) {
+      if (on && R.state.cursor >= R.tEnd) R.setCursor(0, "runtime");
+      R.state.playing = on;
+      R.emit("play", on);
+    },
+
+    // ----- catalogue -----
+    q(i) {
+      const c = R.cat, k = i * 5;
+      return { i, t: R.W.q_t(i), lat: c[k + 1], lon: c[k + 2], depth: c[k + 3], mag: c[k + 4] };
+    },
+    // Wasm calls can grow linear memory, which detaches old ArrayBuffers: always get the
+    // pointer first, then wrap R.W.memory.buffer.
+    place(i) {
+      const p = R.W.place_ptr(i), len = R.W.place_len(i);
+      return new TextDecoder().decode(new Uint8Array(R.W.memory.buffer, p, len));
+    },
+    /** "2025 Kamchatka Peninsula, Russia Earthquake" -> "Kamchatka Peninsula"; "25 km SW of Kablalan, Philippines" -> "Philippines". */
+    shortPlace(s) {
+      const named = s.match(/^\d{4} (.+?) Earthquake$/);
+      if (named) return named[1].split(",")[0];
+      const tail = s.includes(" of ") ? s.slice(s.lastIndexOf(" of ") + 4) : s;
+      return tail.split(",").pop().trim().replace(/^Burma \(Myanmar\)$/, "Myanmar");
+    },
+    largest(k, gapDays = 0) {
+      const p = R.W.largest(k, gapDays), len = R.W.largest_len();
+      return Array.from(new Uint32Array(R.W.memory.buffer, p, len));
+    },
+    /** Index of the first quake after time t (seconds since epoch). */
+    indexAt(t) {
+      let lo = 0, hi = R.n;
+      while (lo < hi) { const m = (lo + hi) >> 1; if (R.cat[m * 5] <= t) lo = m + 1; else hi = m; }
+      return lo;
+    },
+
+    // ----- formatting -----
+    fmtDate(t, withTime) {
+      const d = new Date((R.epoch + t) * 1000);
+      const s = `${d.getUTCDate()} ${MONTHS[d.getUTCMonth()]} ${d.getUTCFullYear()}`;
+      if (!withTime) return s;
+      const p = (v) => String(v).padStart(2, "0");
+      return `${s}, ${p(d.getUTCHours())}:${p(d.getUTCMinutes())} UTC`;
+    },
+    fmtDuration(sec) {
+      sec = Math.max(0, Math.round(sec));
+      const h = Math.floor(sec / 3600), m = Math.floor(sec % 3600 / 60), s = sec % 60;
+      return h ? `${h} h ${String(m).padStart(2, "0")} min` : m ? `${m} min ${String(s).padStart(2, "0")} s` : `${s} s`;
+    },
+    num(v, digits = 0) { return v.toLocaleString("en-US", { maximumFractionDigits: digits, minimumFractionDigits: digits }); },
+    coord(lat, lon) { return `${Math.abs(lat).toFixed(2)}°${lat >= 0 ? "N" : "S"} ${Math.abs(lon).toFixed(2)}°${lon >= 0 ? "E" : "W"}`; },
+    band(km) { return km < 70 ? "shallow" : km < 300 ? "intermediate" : "deep"; },
+    depthCss(km) {
+      const u = Math.min(1, Math.log(1 + Math.max(0, km) / 20) / Math.log(36));
+      return u < 0.21 ? "var(--d0)" : u < 0.6 ? "var(--d70)" : u < 0.89 ? "var(--d300)" : "var(--d700)";
+    },
+    esc(s) { return String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]); },
+    /** Standard quake tooltip body. */
+    tipHTML(i) {
+      const q = R.q(i);
+      return `<div class="mag">M ${q.mag.toFixed(1)}<small>${R.fmtDate(q.t, true)}</small></div>
+        <div class="place">${R.esc(R.place(i))}</div>
+        <div class="meta"><span class="sw" style="background:${R.depthCss(q.depth)}"></span>${q.depth.toFixed(q.depth < 10 ? 1 : 0)} km deep, ${R.band(q.depth)}<br>${R.coord(q.lat, q.lon)}</div>`;
+    },
+    /** Place a .tip element near (x, y) inside its positioned parent, flipping to stay inside. */
+    placeTip(tip, x, y, html) {
+      if (html != null && tip.dataset.html !== html) { tip.innerHTML = html; tip.dataset.html = html; }
+      tip.hidden = false;
+      const host = tip.offsetParent || tip.parentElement;
+      const W = host.clientWidth, H = host.clientHeight, tw = tip.offsetWidth, th = tip.offsetHeight;
+      let left = x + 16, top = y - th - 12;
+      if (left + tw > W) left = x - tw - 16;
+      if (top < 0) top = y + 16;
+      tip.style.left = Math.max(0, Math.min(left, W - tw)) + "px";
+      tip.style.top = Math.max(0, Math.min(top, H - th)) + "px";
+    },
+
+    // ----- canvases -----
+    /**
+     * Size a canvas to its box, capping the backing store at maxPx pixels and scaling by
+     * `scale` (adaptive quality). Returns { pw, ph, k (canvas px per CSS px), cw, ch, changed }.
+     */
+    fit(canvas, maxPx = 1.3e6, scale = 1) {
+      const b = canvas.getBoundingClientRect();
+      const cw = Math.max(1, b.width), ch = Math.max(1, b.height);
+      const dpr = window.devicePixelRatio || 1;
+      const k = Math.min(dpr, Math.sqrt(maxPx / (cw * ch))) * scale;
+      const pw = Math.max(16, Math.round(cw * k)), ph = Math.max(16, Math.round(ch * k));
+      const changed = canvas.width !== pw || canvas.height !== ph;
+      if (changed) { canvas.width = pw; canvas.height = ph; }
+      return { pw, ph, k: pw / cw, cw, ch, changed };
+    },
+    /** Copy an RGBA buffer from wasm memory into a 2D context. */
+    blit(ctx, ptr, w, h) {
+      ctx.putImageData(new ImageData(new Uint8ClampedArray(R.W.memory.buffer, ptr, w * h * 4), w, h), 0, 0);
+    },
+    sized(el, fn) { new ResizeObserver(() => fn()).observe(el); },
+    /** Canvas-local coordinates in canvas pixels. */
+    local(canvas, e) {
+      const b = canvas.getBoundingClientRect();
+      return [(e.clientX - b.left) * canvas.width / b.width, (e.clientY - b.top) * canvas.height / b.height];
+    },
+    /**
+     * Pointer handling: drag (1 finger / mouse), pinch (2 fingers), tap, hover.
+     * h: { drag(dx, dy, e), pinch(ratio, e), tap(e), hover(e), leave(), down(e), up(e) }; dx/dy in CSS px.
+     */
+    pointer(el, h) {
+      const ptrs = new Map();
+      let start = null, pinchD = 0;
+      el.addEventListener("pointerdown", (e) => {
+        el.setPointerCapture(e.pointerId);
+        ptrs.set(e.pointerId, [e.clientX, e.clientY]);
+        if (ptrs.size === 1) start = { x: e.clientX, y: e.clientY, moved: false };
+        if (ptrs.size === 2) { const [a, b] = [...ptrs.values()]; pinchD = Math.hypot(a[0] - b[0], a[1] - b[1]); }
+        h.down?.(e);
+      });
+      el.addEventListener("pointermove", (e) => {
+        if (!ptrs.has(e.pointerId)) { if (e.pointerType === "mouse") h.hover?.(e); return; }
+        const prev = ptrs.get(e.pointerId);
+        ptrs.set(e.pointerId, [e.clientX, e.clientY]);
+        if (start && Math.hypot(e.clientX - start.x, e.clientY - start.y) > 4) start.moved = true;
+        if (ptrs.size === 2) {
+          const [a, b] = [...ptrs.values()], d = Math.hypot(a[0] - b[0], a[1] - b[1]);
+          if (pinchD > 0) h.pinch?.(d / pinchD, e);
+          pinchD = d;
+        } else if (ptrs.size === 1 && start?.moved) h.drag?.(e.clientX - prev[0], e.clientY - prev[1], e);
+      });
+      const end = (e) => {
+        if (!ptrs.delete(e.pointerId)) return;
+        if (ptrs.size) return;
+        if (start && !start.moved && e.type === "pointerup") h.tap?.(e);
+        start = null;
+        h.up?.(e);
+      };
+      el.addEventListener("pointerup", end);
+      el.addEventListener("pointercancel", end);
+      el.addEventListener("pointerleave", (e) => { if (!ptrs.size) h.leave?.(e); });
+    },
+    /**
+     * Zoom with Ctrl/Cmd + wheel (and trackpad pinch, which sends ctrl+wheel). Plain wheel
+     * scrolls the page; the first one shows a short hint inside `hintHost`.
+     */
+    wheel(el, fn, hintHost = el.parentElement) {
+      let toast, timer;
+      el.addEventListener("wheel", (e) => {
+        if (e.ctrlKey || e.metaKey) {
+          e.preventDefault();
+          fn(Math.exp(-e.deltaY * (e.ctrlKey && !e.metaKey && Math.abs(e.deltaY) < 50 ? 0.01 : 0.0015)), e);
+          return;
+        }
+        if (!toast) { toast = document.createElement("div"); toast.className = "toast"; toast.textContent = "Hold Ctrl (⌘ on Mac) and scroll to zoom"; hintHost.appendChild(toast); }
+        toast.hidden = false;
+        clearTimeout(timer);
+        timer = setTimeout(() => (toast.hidden = true), 1400);
+      }, { passive: false });
+    },
+    /** Report a frame's render time for the colophon's budget table. */
+    perf(name, ms, w, h) {
+      const p = perf.get(name) || { ms, w, h };
+      p.ms = p.ms * 0.85 + ms * 0.15; p.w = w; p.h = h;
+      perf.set(name, p);
+    },
+    perfOf(name) { return perf.get(name)?.ms ?? 0; },
+
+    async boot() {
+      try {
+        if (typeof WebAssembly !== "object") throw new Error("no WebAssembly");
+        const res = await fetch("globe.wasm");
+        if (!res.ok) throw new Error(`globe.wasm: HTTP ${res.status}`);
+        const { instance } = await WebAssembly.instantiate(await res.arrayBuffer(), {});
+        R.W = instance.exports;
+      } catch (err) {
+        console.error(err);
+        R.emit("fail", err);
+        return;
+      }
+      const W = R.W;
+      R.n = W.count();
+      R.epoch = W.epoch();
+      R.nDays = W.n_days();
+      const catPtr = W.catalog();
+      R.cat = new Float32Array(W.memory.buffer, catPtr, R.n * 5).slice();
+      R.tEnd = W.q_t(R.n - 1);
+      R.state.cursor = R.tEnd;
+
+      // Instruments initialise lazily, the first time their chapter nears the viewport,
+      // and only draw while it is near.
+      const io = new IntersectionObserver((entries) => {
+        for (const en of entries) {
+          const v = R.views.find((d) => d.el === en.target);
+          if (!v) continue;
+          v.active = en.isIntersecting;
+          if (v.active && !v.ready) {
+            v.ready = true;
+            try { v.init?.(); } catch (err) { console.error(`${v.id}.init`, err); v.broken = true; }
+          }
+        }
+      }, { rootMargin: "300px 0px" });
+      for (const v of R.views) {
+        v.el = document.querySelector(`[data-view="${v.id}"]`);
+        if (v.el) io.observe(v.el); else console.warn(`no section for view ${v.id}`);
+      }
+
+      // Highlight the chapter in view.
+      const links = [...document.querySelectorAll("#chapters a")];
+      const cio = new IntersectionObserver((entries) => {
+        for (const en of entries) if (en.isIntersecting) {
+          links.forEach((a) => a.setAttribute("aria-current", String(a.dataset.ch === en.target.id)));
+          const cur = links.find((a) => a.dataset.ch === en.target.id);
+          cur?.scrollIntoView({ block: "nearest", inline: "nearest" });
+        }
+      }, { rootMargin: "-45% 0px -50% 0px" });
+      links.forEach((a) => { const s = document.getElementById(a.dataset.ch); if (s) cio.observe(s); });
+
+      // Selected-quake chip in the bar.
+      const chip = document.getElementById("selchip");
+      R.on("select", (i) => {
+        chip.hidden = i < 0;
+        if (i >= 0) {
+          const q = R.q(i);
+          document.getElementById("selchip-text").innerHTML = `<b>M${q.mag.toFixed(1)}</b> ${R.esc(R.shortPlace(R.place(i)))} · ${R.fmtDate(q.t)}`;
+        }
+      });
+      chip.addEventListener("click", () => R.select(-1, "nav"));
+
+      let last = performance.now(), budgetAt = 0;
+      const loop = (now) => {
+        const dt = Math.min(0.1, (now - last) / 1000);
+        last = now;
+        if (R.state.playing) {
+          const t = R.state.cursor + R.state.speed * DAY * dt;
+          R.setCursor(t, "runtime");
+          if (t >= R.tEnd) R.play(false);
+        }
+        for (const v of R.views) {
+          if (v.active && v.ready && !v.broken) {
+            try { v.frame?.(dt, now); } catch (err) { console.error(`${v.id}.frame`, err); v.broken = true; }
+          }
+        }
+        if (now - budgetAt > 1000) { budgetAt = now; R.renderBudget(); }
+        requestAnimationFrame(loop);
+      };
+      requestAnimationFrame(loop);
+    },
+
+    renderBudget() {
+      const rows = [...perf.entries()].map(([name, p]) =>
+        `<tr><td>${R.esc(name)}</td><td class="num">${p.w} × ${p.h}</td><td class="num">${p.ms.toFixed(1)}</td></tr>`);
+      const tb = document.getElementById("budget");
+      if (tb) tb.innerHTML = rows.join("") || `<tr><td colspan="3">Scroll through the instruments to see their timings.</td></tr>`;
+    },
+  };
+  return R;
+})();
+
+/* ===== 01 Surface ========================================================== */
+(() => {
+  const R = ROF, DAY = R.DAY;
+  const $ = (id) => document.getElementById(id);
+
+  // Places worth flying to. Figures were computed from this same catalogue.
+  const TOURS = [
+    { name: "Tonga and Fiji", tag: "deep slab", lat: -20, lon: -178, zoom: 1.9,
+      d: "The Pacific plate sinks steeply here. 561 of the 650 quakes deeper than 500 km in this catalogue happened under Tonga and Fiji." },
+    { name: "Kamchatka, July 2025", tag: "aftershocks", lat: 52.5, lon: 160.2, zoom: 2.1, at: "2025-07-29T23:24:52Z",
+      d: "An M8.8 quake on 29 July set off 425 more M4.5+ quakes within a day, and 1,032 within a month." },
+    { name: "The Andes", tag: "slab dip", lat: -22, lon: -68, zoom: 2.2,
+      d: "Quakes get deeper heading east: about 12 km at the coast, 200 km under the high Andes, 530 km under Argentina. The colour traces the Nazca plate diving." },
+    { name: "Mid-Atlantic Ridge", tag: "spreading", lat: 12, lon: -36, zoom: 1.6,
+      d: "Here plates pull apart instead of colliding. All 772 quakes along this stretch are within 20 km of the surface, so the line stays gold." },
+    { name: "Iran to the Himalaya", tag: "collision", lat: 33, lon: 68, zoom: 1.8,
+      d: "Continents colliding make a wide smear of shallow quakes, not a thin line. The violet knot is the Hindu Kush, where quakes reach 240 km." },
+  ];
+
+  const st = {
+    yaw: -170, pitch: 6, zoom: 1,
+    spin: !R.reduceMotion, flags: 4,
+    hover: -1, fly: null, dragging: false, lastInput: -1e9,
+    dirty: true, tlDirty: true, tlHover: -1, scale: 1, k: 1, css: 1,
+  };
+  let G, canvas, ctx, tl, tctx, busiest = 0;
+
+  R.on("fail", () => {
+    $("sf-wrap").insertAdjacentHTML("beforeend", `<div class="fallback"><img src="poster.png" width="720" height="720" alt="Still render of the earthquake globe centred on the Pacific"><p>This browser would not run the WebAssembly renderer, so this is a still frame drawn by the same Rust code.</p></div>`);
+    $("sf-globe").hidden = true;
+    document.querySelectorAll(".controls button").forEach((b) => (b.disabled = true));
+  });
+
+  R.view({
+    id: "surface",
+    init() {
+      const W = R.W;
+      G = W.globe_new();
+      canvas = $("sf-globe"); ctx = canvas.getContext("2d");
+      tl = $("sf-tl"); tctx = tl.getContext("2d");
+      $("sf-span").textContent = `${R.fmtDate(0).replace(/^\d+ /, "")} – ${R.fmtDate(R.tEnd).replace(/^\d+ /, "")}`;
+      buildRail();
+      buildTimelineAxes();
+      wireControls();
+      wireGlobe();
+      wireTimeline();
+      R.sized($("sf-wrap"), resize);
+      R.sized($("sf-tl-plot"), resizeTimeline);
+      resize();
+      resizeTimeline();
+      R.on("select", (i, from) => {
+        st.dirty = true;
+        if (i < 0) { $("sf-tip").hidden = true; setCurrent(null); return; }
+        setCurrent($(`sf-big-${i}`));
+        if (from !== "surface" && R.q(i).t > R.state.cursor) R.setCursor(R.tEnd, "surface");
+      });
+      R.on("cursor", () => { st.dirty = st.tlDirty = true; });
+      R.on("play", () => { syncPlay(); st.dirty = true; });
+    },
+    frame(dt, now) {
+      if (st.fly) {
+        const f = st.fly, k = Math.min(1, (now - f.t0) / f.dur);
+        const e = k < 0.5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2;
+        st.yaw = f.yaw0 + f.dyaw * e;
+        st.pitch = f.pitch0 + (f.pitch1 - f.pitch0) * e;
+        st.zoom = f.zoom0 + (f.zoom1 - f.zoom0) * e;
+        if (k >= 1) st.fly = null;
+        st.dirty = true;
+      } else if (st.spin && R.state.selected < 0 && !st.dragging && now - st.lastInput > 5000) {
+        st.yaw -= 4 * dt / Math.sqrt(st.zoom);
+        st.dirty = true;
+      }
+      if (st.dirty) draw();
+      if (st.tlDirty) drawTimeline();
+    },
+  });
+
+  function buildRail() {
+    let s = 0, m = 0, d = 0;
+    for (let i = 0; i < R.n; i++) {
+      const km = R.cat[i * 5 + 3];
+      if (km < 70) s++; else if (km < 300) m++; else d++;
+    }
+    $("sf-b-shallow").textContent = R.num(s);
+    $("sf-b-mid").textContent = R.num(m);
+    $("sf-b-deep").textContent = R.num(d);
+    $("sf-sizes").innerHTML = [5, 6, 7, 8].map((mag) => {
+      const px = Math.round(2 * 2.5 * 1.05 * Math.pow(1.33, mag - 4.5) * 1.6);
+      return `<figure><i style="width:${px}px;height:${px}px"></i><figcaption>M${mag}</figcaption></figure>`;
+    }).join("");
+
+    $("sf-tours").innerHTML = TOURS.map((t, k) =>
+      `<li><button type="button" id="sf-tour-${k}" data-tour="${k}"><span class="t">${t.name}<em>${t.tag}</em></span><span class="d">${t.d}</span></button></li>`).join("");
+    $("sf-tours").addEventListener("click", (e) => {
+      const b = e.target.closest("[data-tour]");
+      if (!b) return;
+      const t = TOURS[+b.dataset.tour];
+      R.select(-1, "surface");
+      setCurrent(b);
+      flyTo(t.lat, t.lon, t.zoom);
+      if (t.at) {
+        // Replay the sequence slowly from a few days before the mainshock.
+        R.setCursor(Date.parse(t.at) / 1000 - R.epoch - 4 * DAY, "surface");
+        setSpeed(7);
+        R.play(true);
+      }
+    });
+
+    $("sf-biggest").innerHTML = R.largest(8, 0).map((i) => {
+      const q = R.q(i);
+      return `<li><button type="button" id="sf-big-${i}" data-q="${i}"><span class="m">${q.mag.toFixed(1)}</span><span class="p">${R.esc(R.place(i))}</span><span class="w">${R.fmtDate(q.t)} · ${Math.round(q.depth)} km deep</span></button></li>`;
+    }).join("");
+    $("sf-biggest").addEventListener("click", (e) => {
+      const b = e.target.closest("[data-q]");
+      if (b) focusQuake(+b.dataset.q);
+    });
+  }
+  function setCurrent(btn) {
+    document.querySelectorAll(".rail .list [aria-current]").forEach((b) => b.removeAttribute("aria-current"));
+    if (btn) btn.setAttribute("aria-current", "true");
+  }
+  function focusQuake(i) {
+    const q = R.q(i);
+    if (q.t > R.state.cursor) { R.play(false); R.setCursor(R.tEnd, "surface"); }
+    R.select(i, "surface");
+    flyTo(q.lat, q.lon, Math.max(st.zoom, 1.9));
+  }
+
+  function resize() {
+    const f = R.fit(canvas, 1.3e6, st.scale);
+    if (f.changed) { R.W.globe_resize(G, f.pw, f.ph); st.skipPerf = true; }
+    st.k = f.k;
+    st.css = Math.min(f.cw, f.ch);
+    st.dirty = true;
+  }
+
+  function draw() {
+    const W = R.W;
+    st.dirty = false;
+    st.yaw = ((st.yaw + 540) % 360) - 180;
+    W.globe_view(G, st.yaw, st.pitch, st.zoom);
+    W.globe_cursor(G, R.state.cursor);
+    W.globe_flags(G, st.flags | (R.state.playing ? 8 : 0));
+    W.globe_highlight(G, R.state.selected >= 0 ? R.state.selected : st.hover);
+    const t0 = performance.now();
+    const shown = W.globe_render(G);
+    const ms = performance.now() - t0;
+    if (st.skipPerf) st.skipPerf = false;
+    else { st.perf = st.perf ? st.perf * 0.9 + ms * 0.1 : ms; R.perf("01 Surface globe", ms, canvas.width, canvas.height); }
+    R.blit(ctx, W.globe_pixels(G), canvas.width, canvas.height);
+    adapt();
+    $("sf-date").textContent = R.fmtDate(Math.min(R.state.cursor, R.tEnd));
+    $("sf-count").textContent = R.num(shown);
+    const sel = R.state.selected;
+    if (sel >= 0) placeTip(sel);
+  }
+
+  // Keep frames under ~16 ms: step resolution down on slow machines, back up with headroom.
+  let adaptAt = 0;
+  function adapt() {
+    const now = performance.now();
+    if (now - adaptAt < 1500 || !st.perf) return;
+    adaptAt = now;
+    const old = st.scale;
+    if (st.perf > 16 && st.scale > 0.45) st.scale = Math.max(0.45, st.scale * 0.85);
+    else if (st.perf < 7 && st.scale < 1) st.scale = Math.min(1, st.scale / 0.85);
+    if (st.scale !== old) resize();
+  }
+
+  function flyTo(lat, lon, zoom) {
+    let dyaw = lon - st.yaw;
+    dyaw = ((dyaw + 540) % 360) - 180;
+    const dist = Math.hypot(dyaw, lat - st.pitch);
+    st.fly = { t0: performance.now(), dur: R.reduceMotion ? 1 : 900 + dist * 6, yaw0: st.yaw, dyaw, pitch0: st.pitch, pitch1: lat, zoom0: st.zoom, zoom1: zoom };
+    st.lastInput = performance.now() + 4000;
+  }
+
+  function placeTip(i) {
+    const tip = $("sf-tip");
+    const z = R.W.globe_screen(G, i, 2);
+    if (i < 0 || z <= 0) { tip.hidden = true; return; }
+    const wrapBox = $("sf-wrap").getBoundingClientRect(), cBox = canvas.getBoundingClientRect();
+    R.placeTip(tip, cBox.left - wrapBox.left + R.W.globe_screen(G, i, 0) / st.k, cBox.top - wrapBox.top + R.W.globe_screen(G, i, 1) / st.k, R.tipHTML(i));
+  }
+
+  function wireGlobe() {
+    const clampZoom = (z) => Math.max(0.8, Math.min(8, z));
+    const touch = () => { st.fly = null; st.lastInput = performance.now(); st.dirty = true; };
+    R.pointer(canvas, {
+      down() { st.dragging = true; canvas.classList.add("dragging"); touch(); },
+      up() { st.dragging = false; canvas.classList.remove("dragging"); },
+      drag(dx, dy) {
+        const k = 180 / Math.PI / (st.css * 0.46 * st.zoom);
+        st.yaw -= dx * k;
+        st.pitch = Math.max(-85, Math.min(85, st.pitch + dy * k));
+        st.hover = -1;
+        touch();
+      },
+      pinch(ratio) { st.zoom = clampZoom(st.zoom * ratio); touch(); },
+      tap(e) {
+        const [x, y] = R.local(canvas, e);
+        const i = R.W.globe_pick(G, x, y, (e.pointerType === "mouse" ? 9 : 16) * st.k);
+        R.select(i >= 0 && i !== R.state.selected ? i : -1, "surface");
+        if (i >= 0) placeTip(i);
+      },
+      hover(e) {
+        if (R.state.selected >= 0) return;
+        const [x, y] = R.local(canvas, e);
+        const i = R.W.globe_pick(G, x, y, 9 * st.k);
+        if (i !== st.hover) { st.hover = i; st.dirty = true; }
+        if (i >= 0) placeTip(i); else $("sf-tip").hidden = true;
+      },
+      leave() {
+        if (st.hover >= 0) { st.hover = -1; st.dirty = true; if (R.state.selected < 0) $("sf-tip").hidden = true; }
+      },
+    });
+    R.wheel(canvas, (f) => { st.zoom = clampZoom(st.zoom * f); touch(); }, $("sf-wrap"));
+    canvas.addEventListener("keydown", (e) => {
+      const step = 8 / st.zoom;
+      const keys = { ArrowLeft: [step, 0], ArrowRight: [-step, 0], ArrowUp: [0, -step], ArrowDown: [0, step] };
+      if (keys[e.key]) { st.yaw -= keys[e.key][0]; st.pitch = Math.max(-85, Math.min(85, st.pitch - keys[e.key][1])); }
+      else if (e.key === "+" || e.key === "=") st.zoom = clampZoom(st.zoom * 1.2);
+      else if (e.key === "-") st.zoom = clampZoom(st.zoom / 1.2);
+      else if (e.key === "Escape") R.select(-1, "surface");
+      else return;
+      e.preventDefault();
+      touch();
+    });
+  }
+
+  function syncPlay() {
+    const atEnd = R.state.cursor >= R.tEnd;
+    $("sf-play-label").textContent = R.state.playing ? "Pause" : atEnd ? "Replay three years" : "Resume";
+    $("sf-play-icon").setAttribute("d", R.state.playing ? "M2 1h3v10H2zM7 1h3v10H7z" : "M2 1l9 5-9 5z");
+  }
+  function setSpeed(v) {
+    R.state.speed = v;
+    document.querySelectorAll(".controls .seg button").forEach((x) => x.setAttribute("aria-pressed", String(+x.dataset.speed === v)));
+  }
+  function wireControls() {
+    if (R.coarse) $("sf-hint").textContent = "drag to spin · pinch to zoom · tap a quake";
+    $("sf-play").addEventListener("click", () => {
+      if (!R.state.playing) R.select(-1, "surface");
+      R.play(!R.state.playing);
+    });
+    document.querySelector(".controls .seg").addEventListener("click", (e) => {
+      const b = e.target.closest("[data-speed]");
+      if (b) setSpeed(+b.dataset.speed);
+    });
+    document.querySelectorAll(".controls .chip[data-flag]").forEach((b) => b.addEventListener("click", () => {
+      st.flags ^= +b.dataset.flag;
+      b.setAttribute("aria-pressed", String(!!(st.flags & +b.dataset.flag)));
+      st.dirty = true;
+    }));
+    $("sf-spin").setAttribute("aria-pressed", String(st.spin));
+    $("sf-spin").addEventListener("click", () => {
+      st.spin = !st.spin;
+      $("sf-spin").setAttribute("aria-pressed", String(st.spin));
+      st.lastInput = -1e9;
+    });
+  }
+
+  // ----- timeline -----
+  function resizeTimeline() {
+    const f = R.fit(tl, 4e5);
+    if (f.changed) R.W.tl_resize(f.pw, f.ph);
+    layoutNotes();
+    st.tlDirty = true;
+  }
+  function drawTimeline() {
+    st.tlDirty = false;
+    R.W.tl_render(R.state.cursor, st.tlHover);
+    R.blit(tctx, R.W.tl_pixels(), tl.width, tl.height);
+    const d = st.tlHover >= 0 ? Math.floor(st.tlHover) : -1;
+    $("sf-tl-read").textContent = d >= 0
+      ? `${R.fmtDate(d * DAY)}: ${R.W.day_count(d)} quake${R.W.day_count(d) === 1 ? "" : "s"}`
+      : `busiest day: ${R.fmtDate(busiest * DAY)}, ${R.W.day_max()} quakes`;
+  }
+  function buildTimelineAxes() {
+    for (let d = 0; d < R.nDays; d++) if (R.W.day_count(d) > R.W.day_count(busiest)) busiest = d;
+    const x = [];
+    const start = new Date(R.epoch * 1000);
+    for (let y = start.getUTCFullYear(); y <= start.getUTCFullYear() + 4; y++) {
+      for (const m of [0, 6]) {
+        const day = (Date.UTC(y, m, 1) / 1000 - R.epoch) / DAY;
+        if (day > 15 && day < R.nDays - 15) x.push(`<span style="left:${(day / R.nDays * 100).toFixed(2)}%">${m === 0 ? y : "Jul"}</span>`);
+      }
+    }
+    $("sf-tl-x").innerHTML = x.join("");
+    $("sf-tl-y").innerHTML = [50, 200].filter((v) => v <= R.W.day_max())
+      .map((v) => `<span style="bottom:${(R.W.tl_level(v) * 100).toFixed(1)}%">${v}/day</span>`).join("");
+  }
+  // Label the biggest quakes above the strip in two staggered rows. Biggest
+  // first; if any label cannot fit, drop place names, then drop labels.
+  function layoutNotes() {
+    const host = $("sf-notes");
+    if (!host.childElementCount) {
+      host.innerHTML = R.largest(5, 120).map((i, rank) =>
+        `<button type="button" class="note" data-q="${i}" data-rank="${rank}" title="${R.esc(R.place(i))}" style="left:${(R.q(i).t / DAY / R.nDays * 100).toFixed(2)}%"><span><b>M${R.q(i).mag.toFixed(1)}</b><span class="nm"> ${R.esc(R.shortPlace(R.place(i)))}</span></span></button>`).join("");
+      host.addEventListener("click", (e) => {
+        const b = e.target.closest("[data-q]");
+        if (b) focusQuake(+b.dataset.q);
+      });
+    }
+    const width = $("sf-tl-plot").clientWidth;
+    for (const compact of [false, true]) {
+      host.classList.toggle("compact", compact);
+      const rows = [[], []], stems = [];
+      let ok = true;
+      for (const el of host.children) {
+        el.hidden = false;
+        el.classList.remove("left", "right");
+        const cx = parseFloat(el.style.left) / 100 * width, w = el.offsetWidth;
+        let x0 = cx - w / 2;
+        if (x0 < 0) { el.classList.add("left"); x0 = cx; }
+        else if (x0 + w > width) { el.classList.add("right"); x0 = cx - w; }
+        const clear = (r) => rows[r].every(([a, b]) => x0 + w + 10 <= a || x0 >= b + 10);
+        const row = clear(0) && stems.every((sx) => sx < x0 - 4 || sx > x0 + w + 4) ? 0
+          : clear(1) && rows[0].every(([a, b]) => cx < a - 4 || cx > b + 4) ? 1 : -1;
+        if (row < 0) { ok = false; el.hidden = true; continue; }
+        rows[row].push([x0, x0 + w]);
+        if (row) stems.push(cx);
+        el.style.setProperty("--stem", row ? "22px" : "6px");
+      }
+      if (ok) break;
+    }
+  }
+  function wireTimeline() {
+    let scrubbing = false;
+    const dayAt = (e) => {
+      const b = tl.getBoundingClientRect();
+      return Math.max(0, Math.min(R.nDays - 0.001, (e.clientX - b.left) / b.width * R.nDays));
+    };
+    const scrub = (e) => {
+      R.play(false);
+      R.setCursor(Math.min(R.tEnd, dayAt(e) * DAY), "surface");
+    };
+    tl.addEventListener("pointerdown", (e) => { scrubbing = true; tl.setPointerCapture(e.pointerId); R.select(-1, "surface"); scrub(e); });
+    tl.addEventListener("pointermove", (e) => {
+      st.tlHover = dayAt(e);
+      st.tlDirty = true;
+      if (scrubbing) scrub(e);
+    });
+    const end = () => { scrubbing = false; };
+    tl.addEventListener("pointerup", end);
+    tl.addEventListener("pointercancel", end);
+    tl.addEventListener("pointerleave", () => { st.tlHover = -1; st.tlDirty = true; });
+  }
+})();
+
+/* @VIEWS_JS@ */
+
+ROF.boot();
+</script>
