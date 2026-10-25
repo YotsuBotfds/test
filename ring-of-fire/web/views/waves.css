@@ -1,1 +1,195 @@
-/* 04 Waves: styles for this instrument only. Prefix every selector with #waves. */
+/* ===== 04 Waves: styles for this instrument only. Every selector starts with #waves. ===== */
+#waves .wv-body {
+  grid-template-columns: minmax(0, 1fr) 340px;
+  grid-template-areas: "stage side" "chart side" "story side";
+  grid-template-rows: auto auto 1fr;
+  align-items: start;
+  row-gap: 18px;
+}
+#waves .wv-stage {
+  grid-area: stage; display: flex; flex-direction: column;
+  min-height: min(82vh, 860px);
+}
+#waves .wv-view { position: relative; flex: 1 1 auto; min-height: 0; }
+#waves .wv-view canvas.view { cursor: crosshair; }
+#waves .wv-side { grid-area: side; gap: 22px; }
+#waves .wv-chart-panel { grid-area: chart; display: grid; gap: 6px; min-width: 0; }
+
+/* Text over the cross-section. */
+#waves .wv-marks { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+#waves .wv-marks .mark { font-size: var(--t-2xs); }
+#waves .wv-marks .layer { color: var(--ink-3); text-align: center; transform: translate(-50%, -50%); line-height: 1.25; }
+#waves .wv-marks .layer b { color: var(--ink-2); font-weight: 500; }
+#waves .wv-marks .layer { transition: opacity 0.25s; }
+#waves .wv-marks .layer.dim { opacity: 0.15; }
+#waves .wv-marks .deg { color: var(--ink-3); transform: translate(-50%, -50%); }
+#waves .wv-marks .city { color: var(--ink-3); transition: color 0.3s; }
+#waves .wv-marks .city.p { color: var(--ember); }
+#waves .wv-marks .city.s { color: var(--teal); }
+#waves .wv-marks .city.hot { color: var(--ink); }
+#waves .wv-marks .city.hot b { text-decoration: underline; text-underline-offset: 3px; }
+#waves .wv-marks .city b { font-weight: 500; color: inherit; }
+#waves .wv-marks .shadow { line-height: 1.3; }
+#waves .wv-marks .front {
+  font: 600 var(--t-xs)/1 var(--f-data); letter-spacing: 0.04em; transform: translate(-50%, -50%);
+  padding: 2px 4px; border-radius: 2px; background: color-mix(in srgb, var(--void) 70%, transparent);
+}
+#waves .wv-marks .front.p { color: var(--ember); }
+#waves .wv-marks .front.s { color: var(--teal); }
+#waves .wv-marks .shadow.p { color: var(--ember); }
+#waves .wv-marks .shadow.s { color: var(--teal); }
+#waves .wv-marks .shadow span { color: var(--ink-3); display: block; }
+
+#waves .wv-clock {
+  position: absolute; left: 16px; top: 12px; pointer-events: none;
+  display: grid; gap: 2px;
+}
+#waves .wv-clock b { font: 600 var(--t-xl)/1 var(--f-display); letter-spacing: 0.03em; font-variant-numeric: tabular-nums; color: var(--ink); }
+#waves .wv-clock span { font: 400 var(--t-xs)/1.3 var(--f-data); color: var(--ink-3); }
+#waves .wv-key {
+  position: absolute; left: 10px; bottom: 8px;
+  display: flex; flex-wrap: wrap; gap: 2px 4px;
+}
+#waves .wv-key button {
+  display: inline-flex; align-items: center; gap: 7px; cursor: pointer;
+  background: transparent; border: 1px solid transparent; border-radius: 3px; padding: 4px 6px;
+  font: 400 var(--t-xs)/1.3 var(--f-data); color: var(--ink-2);
+}
+#waves .wv-key button:hover { border-color: var(--rule-2); color: var(--ink); }
+#waves .wv-key button[aria-pressed="false"] { color: var(--ink-3); text-decoration: line-through; }
+#waves .wv-key i { width: 14px; height: 3px; border-radius: 2px; background: var(--k); box-shadow: 0 0 6px var(--k); }
+#waves .wv-key i.ln { height: 1px; background: linear-gradient(90deg, var(--teal), var(--ember)); box-shadow: none; }
+#waves .wv-key button[aria-pressed="false"] i { opacity: 0.35; box-shadow: none; }
+#waves .wv-key .wv-key-rays em { font-style: normal; color: var(--ink-3); }
+#waves .wv-busy {
+  position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+  display: inline-flex; align-items: center; gap: 10px;
+  background: color-mix(in srgb, var(--rail) 92%, transparent); border: 1px solid var(--rule-2); border-radius: 3px;
+  padding: 9px 14px; font: 400 var(--t-xs)/1.3 var(--f-data); color: var(--ink-2);
+}
+#waves .wv-spin { width: 10px; height: 10px; border-radius: 50%; border: 2px solid var(--rule-2); border-top-color: var(--ember); animation: wv-spin 0.8s linear infinite; }
+@keyframes wv-spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { #waves .wv-spin { animation: none; } }
+#waves .wv-tip { min-width: 0; max-width: 260px; }
+#waves .wv-tip .h { font: 600 var(--t-l)/1.1 var(--f-display); letter-spacing: 0.02em; }
+#waves .wv-tip .meta { font: 400 var(--t-xs)/1.6 var(--f-data); color: var(--ink-2); font-variant-numeric: tabular-nums; margin-top: 4px; }
+#waves .wv-tip .meta b { color: var(--ink); font-weight: 500; }
+#waves .wv-tip .ember { color: var(--ember); }
+#waves .wv-tip .teal { color: var(--teal); }
+
+/* Playback bar under the cross-section. */
+#waves .wv-bar {
+  display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 18px; align-items: end;
+  padding: 12px 16px 14px; border-top: 1px solid var(--rule); background: var(--rail);
+}
+#waves .wv-bar .btn { min-width: 104px; }
+#waves .wv-scrub { min-width: 0; }
+#waves .wv-bar .seg { min-width: 156px; }
+
+/* Side column. */
+#waves .wv-src { display: grid; gap: 4px; }
+#waves .wv-src .m { font: 600 var(--t-xl)/1 var(--f-display); color: var(--ember); letter-spacing: 0.02em; }
+#waves .wv-src .pl { color: var(--ink); font-size: var(--t-m); line-height: 1.35; }
+#waves .wv-src .meta { font: 400 var(--t-xs)/1.6 var(--f-data); color: var(--ink-2); font-variant-numeric: tabular-nums; }
+#waves .wv-src .note { font-size: var(--t-xs); color: var(--ink-3); }
+#waves .wv-picks { margin-top: 6px; }
+#waves .wv-picks button { grid-template-columns: 3.1em minmax(0, 1fr); align-items: baseline; gap: 0 8px; padding-block: 6px; }
+#waves .wv-picks .m { font: 600 var(--t-m)/1 var(--f-display); color: var(--ember); font-variant-numeric: tabular-nums; }
+#waves .wv-picks .p { color: var(--ink-2); font-size: var(--t-s); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+#waves .wv-picks .w { grid-column: 2; font: 400 var(--t-2xs)/1.4 var(--f-data); color: var(--ink-3); }
+
+#waves .wv-globe {
+  position: relative; aspect-ratio: 1; width: 100%;
+  background: var(--well); border: 1px solid var(--rule); border-radius: 4px; overflow: hidden;
+}
+#waves .wv-globe canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; touch-action: none; cursor: grab; }
+#waves .wv-globe canvas.dragging { cursor: grabbing; }
+#waves .wv-gmarks { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+#waves .wv-gmarks .mark { font-size: var(--t-2xs); transform: translate(6px, -50%); color: var(--ink-3); }
+#waves .wv-gmarks .mark.l { transform: translate(calc(-100% - 6px), -50%); }
+#waves .wv-gmarks .mark.p { color: var(--ember); }
+#waves .wv-gmarks .mark.s { color: var(--teal); }
+#waves .wv-gmarks .mark.hot { color: var(--ink); }
+#waves .wv-follow {
+  position: absolute; right: 8px; bottom: 8px; z-index: 2;
+  background: color-mix(in srgb, var(--rail) 90%, transparent); border: 1px solid var(--rule-2); border-radius: 3px;
+  padding: 5px 9px; font: 400 var(--t-xs)/1.2 var(--f-data); color: var(--ink-2); cursor: pointer;
+}
+#waves .wv-follow:hover { color: var(--ink); border-color: var(--ink-3); }
+#waves .wv-note { margin: 0; font-size: var(--t-xs); color: var(--ink-3); line-height: 1.5; }
+
+#waves .wv-table { width: 100%; border-collapse: collapse; font: 400 var(--t-xs)/1.35 var(--f-data); font-variant-numeric: tabular-nums; }
+#waves .wv-table th { text-align: left; font-weight: 400; color: var(--ink-3); padding: 0 0 6px; border-bottom: 1px solid var(--rule); }
+#waves .wv-table td { padding: 6px 0; border-bottom: 1px solid var(--rule); vertical-align: top; color: var(--ink-2); }
+#waves .wv-table .num { text-align: right; }
+#waves .wv-table td + td, #waves .wv-table th + th { padding-left: 8px; }
+#waves .wv-table td.name { font: 500 var(--t-s)/1.3 var(--f-body); color: var(--ink); white-space: nowrap; }
+#waves .wv-table td.name::before {
+  content: ""; display: inline-block; width: 6px; height: 6px; border-radius: 50%; margin-right: 7px; vertical-align: 1px;
+  background: var(--rule-2); transition: background 0.3s, box-shadow 0.3s;
+}
+#waves .wv-table tr.p td.name::before { background: var(--ember); box-shadow: 0 0 6px var(--ember); }
+#waves .wv-table tr.s td.name::before { background: var(--teal); box-shadow: 0 0 6px var(--teal); }
+#waves .wv-table small { display: block; font-size: var(--t-2xs); color: var(--ink-3); white-space: nowrap; }
+#waves .wv-table td.name small { font-family: var(--f-data); font-weight: 400; margin-left: 13px; }
+#waves .wv-table td { white-space: nowrap; }
+#waves .wv-table td.on-p { color: var(--ember); }
+#waves .wv-table td.on-s { color: var(--teal); }
+#waves .wv-table td.none { color: var(--ink-3); }
+#waves .wv-table tbody tr { cursor: default; }
+#waves .wv-table tbody tr:hover td, #waves .wv-table tbody tr.hot td { background: color-mix(in srgb, var(--rule) 55%, transparent); }
+#waves .wv-table tbody tr:focus-visible { outline: 2px solid var(--ember); outline-offset: -2px; }
+
+/* Travel-time chart. */
+#waves .wv-panel-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 4px 16px; }
+#waves .wv-panel-head .eyebrow { margin: 0; }
+#waves .wv-legend-s { margin: 0; font: 400 var(--t-xs)/1.4 var(--f-data); color: var(--ink-3); }
+#waves .wv-legend-s .ref { color: var(--ink-2); }
+#waves .wv-chart {
+  position: relative; height: clamp(220px, 30vh, 300px);
+  background: var(--well); border: 1px solid var(--rule); border-radius: 4px; overflow: hidden;
+}
+#waves .wv-chart canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; cursor: crosshair; touch-action: none; }
+#waves .wv-axes { position: absolute; inset: 0; pointer-events: none; }
+#waves .wv-axes span { position: absolute; font: 400 var(--t-2xs)/1 var(--f-data); color: var(--ink-3); white-space: nowrap; font-variant-numeric: tabular-nums; }
+#waves .wv-axes .x { transform: translate(-50%, 5px); }
+#waves .wv-axes .y { transform: translate(calc(-100% - 6px), -50%); }
+#waves .wv-axes .lab { color: var(--ink-2); }
+#waves .wv-axes .zone { transform: translate(-50%, 0); text-align: center; line-height: 1.3; }
+#waves .wv-axes .zone.p { color: var(--ember); }
+#waves .wv-axes .zone.s { color: var(--teal); }
+
+/* The story and computed facts. */
+#waves .wv-story {
+  grid-area: story; margin-top: 18px;
+  display: grid; grid-template-columns: minmax(0, 1fr) minmax(220px, 300px); gap: 24px 40px; align-items: start;
+}
+#waves .wv-story-text { max-width: 68ch; }
+#waves .wv-story-text .eyebrow { margin-bottom: 10px; }
+#waves .wv-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+#waves .wv-stats .stat b.teal { color: var(--teal); }
+
+@media (max-width: 560px) {
+  #waves .wv-clock { display: none; }
+  #waves .wv-scrub .lab span { display: none; }
+  #waves .wv-scrub .lab { justify-content: flex-end; }
+}
+@media (max-width: 900px) {
+  #waves .wv-body { grid-template-columns: minmax(0, 1fr); grid-template-areas: "stage" "side" "chart" "story"; grid-template-rows: none; }
+  #waves .wv-stage { aspect-ratio: auto; min-height: 0; }
+  #waves .wv-view { flex: none; aspect-ratio: 1 / 1.04; }
+  #waves .wv-bar { grid-template-columns: auto minmax(0, 1fr); gap: 12px 14px; padding: 10px 12px 12px; }
+  #waves .wv-bar .seg { grid-column: 1 / -1; }
+  #waves .wv-bar .btn { min-width: 0; }
+  #waves .wv-clock { left: 10px; top: 8px; }
+  #waves .wv-clock b { font-size: var(--t-l); }
+  #waves .wv-scrub output { white-space: nowrap; }
+  #waves .wv-key { left: 4px; bottom: 4px; }
+  #waves .wv-key button { font-size: var(--t-2xs); padding: 3px 5px; }
+  #waves .wv-key .wv-key-rays em { display: none; }
+  #waves .wv-marks .front { font-size: 9px; padding: 1px 3px; }
+  #waves .wv-marks .layer, #waves .wv-marks .deg { font-size: 9px; }
+  #waves .wv-marks .city { font-size: 9px; }
+  #waves .wv-story { grid-template-columns: minmax(0, 1fr); margin-top: 28px; }
+  #waves .wv-chart { height: 230px; }
+}

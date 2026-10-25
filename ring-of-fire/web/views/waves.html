@@ -1,10 +1,74 @@
 <section class="chapter" id="waves" data-view="waves" aria-label="04 Waves">
   <header class="ch-head">
     <div><p class="ch-num">04 Waves</p><h2 class="ch-title">Through the Planet</h2></div>
-    <p class="ch-lede">Coming soon.</p>
+    <p class="ch-lede">A large quake sends two kinds of waves through the body of the planet. <strong>P waves</strong> push and pull the rock and travel fastest. <strong>S waves</strong> shake it side to side at a little over half that speed, and cannot cross a liquid. Follow both from a real quake, through the mantle and the core, to cities around the world. The places they cannot reach reveal what lies inside.</p>
   </header>
-  <div class="ch-body">
-    <div class="ch-stage"><canvas class="view" id="waves-canvas"></canvas></div>
-    <aside class="ch-side"></aside>
+  <div class="ch-body wv-body">
+    <div class="ch-stage wv-stage">
+      <div class="wv-view" id="waves-view">
+        <canvas class="view" id="waves-canvas" tabindex="0" aria-label="Cross-section of the Earth through the quake and the centre. P wavefronts glow ember, S wavefronts teal. Hover for depth, speeds and arrival times."></canvas>
+        <div class="wv-marks" id="waves-marks" aria-hidden="true"></div>
+        <div class="wv-clock"><b id="waves-time">0:00</b><span>min after the quake</span></div>
+        <div class="wv-key" id="waves-key" role="group" aria-label="Show on the cross-section">
+          <button type="button" data-bit="2" aria-pressed="true"><i style="--k: var(--ember)"></i>P waves</button>
+          <button type="button" data-bit="4" aria-pressed="true"><i style="--k: var(--teal)"></i>S waves</button>
+          <button type="button" data-bit="1" aria-pressed="true" class="wv-key-rays"><i class="ln"></i><span>Ray paths<em>, P right and S left</em></span></button>
+        </div>
+        <div class="wv-busy" id="waves-busy" hidden><span class="wv-spin" aria-hidden="true"></span><span id="waves-busy-text">Solving travel times</span></div>
+        <div class="tip wv-tip" id="waves-tip" hidden></div>
+      </div>
+      <div class="wv-bar" role="group" aria-label="Playback">
+        <button class="btn primary" id="waves-play" type="button"><svg viewBox="0 0 12 12" aria-hidden="true"><path id="waves-play-icon" d="M2 1l9 5-9 5z"/></svg><span id="waves-play-label">Play</span></button>
+        <div class="wv-scrub field">
+          <label for="waves-scrub" class="lab"><span>Time after the quake</span><output id="waves-scrub-out" for="waves-scrub">0:00 of 25:00</output></label>
+          <input type="range" id="waves-scrub" min="0" max="1500" step="1" value="0">
+        </div>
+        <div class="seg" id="waves-speed" role="group" aria-label="Playback speed">
+          <button type="button" data-speed="30" aria-pressed="false">30×</button>
+          <button type="button" data-speed="60" aria-pressed="true">60×</button>
+          <button type="button" data-speed="120" aria-pressed="false">120×</button>
+        </div>
+      </div>
+    </div>
+    <aside class="ch-side wv-side">
+      <section aria-labelledby="waves-src-h">
+        <p class="eyebrow" id="waves-src-h">The quake</p>
+        <div class="wv-src" id="waves-src"></div>
+        <ul class="list wv-picks" id="waves-picks" aria-label="Other large quakes"></ul>
+      </section>
+      <section aria-labelledby="waves-globe-h">
+        <p class="eyebrow" id="waves-globe-h">At the surface</p>
+        <div class="wv-globe" id="waves-globe-wrap">
+          <canvas id="waves-globe" aria-label="Globe around the quake. Rings show where P and S waves are reaching the surface; cities light up as each wave arrives."></canvas>
+          <div class="wv-gmarks" id="waves-gmarks" aria-hidden="true"></div>
+          <button type="button" class="wv-follow" id="waves-follow" hidden>Follow the waves</button>
+        </div>
+        <p class="wv-note">Rings mark where each wave is reaching the ground now. The dim band is the P shadow.</p>
+      </section>
+      <section aria-labelledby="waves-tab-h">
+        <p class="eyebrow" id="waves-tab-h">Arrivals, min:s after the quake</p>
+        <table class="wv-table" id="waves-table">
+          <thead><tr><th scope="col">City and distance</th><th scope="col" class="num">P arrives</th><th scope="col" class="num">S arrives</th></tr></thead>
+          <tbody id="waves-rows"></tbody>
+        </table>
+      </section>
+    </aside>
+    <div class="wv-chart-panel">
+      <div class="wv-panel-head"><p class="eyebrow">When each wave reaches the surface</p><p class="wv-legend-s">brighter where the wave is stronger · <span class="ref">+</span> standard tables (iasp91, rounded)</p></div>
+      <div class="wv-chart" id="waves-chart-wrap">
+        <canvas id="waves-chart" aria-label="Travel-time chart: arrival time at the surface against distance from the quake, for P and S waves. Click to set the time."></canvas>
+        <div class="wv-axes" id="waves-axes" aria-hidden="true"></div>
+      </div>
+    </div>
+    <div class="wv-story">
+    <div class="wv-story-text">
+      <p class="eyebrow">What the shadows told us</p>
+      <p class="prose" id="waves-story"></p>
+      <p class="prose">In 1906 <strong>Richard Oldham</strong> noticed that waves crossing deep through the planet arrive later than they should, and argued for a central core that slows them. In 1914 <strong>Beno Gutenberg</strong> placed its edge 2,900 km down, from the shadow it casts on the far side.</p>
+      <p class="prose">S waves need rigid rock to travel. They never cross the core, and in 1926 <strong>Harold Jeffreys</strong> argued that the core is liquid. In 1936 <strong>Inge Lehmann</strong> explained faint P waves that arrive inside the shadow: an inner core where P waves travel faster bends them there. Press play and watch for them.</p>
+    </div>
+      <div class="stats wv-stats" id="waves-stats"></div>
+    </div>
   </div>
+  <p class="ch-foot" id="waves-foot"></p>
 </section>
