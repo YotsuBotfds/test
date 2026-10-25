@@ -1,10 +1,127 @@
 <section class="chapter" id="laws" data-view="laws" aria-label="06 Laws">
   <header class="ch-head">
-    <div><p class="ch-num">06 Laws</p><h2 class="ch-title">The Laws</h2></div>
-    <p class="ch-lede">Coming soon.</p>
+    <div><p class="ch-num">06 Laws</p><h2 class="ch-title">Three Laws</h2></div>
+    <p class="ch-lede">One earthquake is unpredictable. <strong>Twenty-three thousand of them follow rules.</strong> Small quakes outnumber big ones by a fixed ratio, aftershocks fade as a power of time, and nearly all the energy comes out in a few giants. Each law below is fitted live to this catalogue, and every number is computed from it.</p>
   </header>
-  <div class="ch-body">
-    <div class="ch-stage"><canvas class="view" id="laws-canvas"></canvas></div>
-    <aside class="ch-side"></aside>
+
+  <div class="lw-pair">
+    <article class="lw-fig" id="laws-gr" aria-labelledby="laws-gr-h">
+      <header class="lw-head">
+        <p class="eyebrow">A · Gutenberg–Richter law</p>
+        <h3 class="lw-h" id="laws-gr-h">Each step up in magnitude is <span id="laws-gr-ratio">…</span> times rarer</h3>
+      </header>
+      <div class="lw-key" aria-hidden="true">
+        <span><i class="k-dot" id="laws-gr-kdot"></i>quakes at least this large</span>
+        <span><i class="k-bar"></i>quakes in each 0.1 step</span>
+        <span><i class="k-line"></i>fit from Mc</span>
+      </div>
+      <p class="lw-read" id="laws-gr-read" aria-live="polite"></p>
+      <div class="lw-plot" id="laws-gr-plot">
+        <canvas class="lw-canvas" id="laws-gr-canvas" tabindex="0" aria-describedby="laws-gr-read" aria-label="Gutenberg–Richter plot: number of quakes at least as large as each magnitude, on a log scale, with the fitted line. Below it, the b-value each cutoff would give. Arrow keys step through magnitudes."></canvas>
+        <div class="lw-marks" id="laws-gr-marks"></div>
+      </div>
+      <div class="lw-controls">
+        <div class="seg lw-seg" role="group" aria-label="Depth band to fit" id="laws-gr-seg">
+          <button type="button" data-subset="0" aria-pressed="true">All depths</button>
+          <button type="button" data-subset="1" aria-pressed="false">Under 70 km</button>
+          <button type="button" data-subset="2" aria-pressed="false">70–300 km</button>
+          <button type="button" data-subset="3" aria-pressed="false">300 km +</button>
+        </div>
+        <div class="lw-mc">
+          <div class="field">
+            <label for="laws-mc">Cutoff Mc <output id="laws-mc-out" for="laws-mc">—</output></label>
+            <input type="range" id="laws-mc" min="45" max="65" step="1" value="47">
+          </div>
+          <button type="button" class="btn lw-auto" id="laws-mc-auto" disabled>Auto</button>
+        </div>
+      </div>
+      <div class="lw-notes">
+        <div class="stats">
+          <div class="stat"><b id="laws-gr-b">—</b><span>b-value ± 1σ</span></div>
+          <div class="stat"><b id="laws-gr-mc">—</b><span>completeness Mc</span></div>
+          <div class="stat"><b id="laws-gr-n">—</b><span>quakes fitted, M ≥ Mc</span></div>
+        </div>
+        <p class="prose" id="laws-gr-p1"></p>
+        <p class="prose" id="laws-gr-p2"></p>
+        <p class="prose" id="laws-gr-p3"></p>
+      </div>
+    </article>
+
+    <article class="lw-fig" id="laws-om" aria-labelledby="laws-om-h">
+      <header class="lw-head">
+        <p class="eyebrow">B · Omori–Utsu law · <span id="laws-om-name">aftershocks</span></p>
+        <h3 class="lw-h" id="laws-om-h">…</h3>
+      </header>
+      <div class="lw-key" aria-hidden="true">
+        <span><i class="k-dot"></i>aftershocks per day, ±1σ</span>
+        <span id="laws-om-kfit"><i class="k-line"></i>Omori–Utsu fit</span>
+        <span id="laws-om-ksingle"><i class="k-line k-thin"></i>one law, no restarts</span>
+        <span><i class="k-line k-teal"></i>background</span>
+      </div>
+      <p class="lw-read" id="laws-om-read" aria-live="polite"></p>
+      <div class="lw-plot" id="laws-om-plot">
+        <canvas class="lw-canvas" id="laws-om-canvas" tabindex="0" aria-describedby="laws-om-read" aria-label="Aftershock rate against time since the mainshock, both on log scales, with the fitted Omori–Utsu model. Below it, each aftershock's magnitude. Arrow keys step through the time bins."></canvas>
+        <div class="lw-marks" id="laws-om-marks"></div>
+        <div class="tip" id="laws-om-tip" hidden></div>
+        <div class="lw-empty" id="laws-om-empty" hidden></div>
+      </div>
+      <div class="lw-controls">
+        <div class="lw-seqs">
+          <p class="eyebrow">Fit another sequence</p>
+          <div class="toggles" id="laws-om-chips"></div>
+        </div>
+      </div>
+      <div class="lw-notes">
+        <div class="stats">
+          <div class="stat"><b id="laws-om-p">—</b><span>decay exponent p ± 1σ</span></div>
+          <div class="stat"><b id="laws-om-c">—</b><span>delay c ± 1σ</span></div>
+          <div class="stat"><b id="laws-om-n">—</b><span id="laws-om-n-lab">aftershocks fitted</span></div>
+          <div class="stat"><b id="laws-om-bath">—</b><span>Båth gap, mainshock minus largest aftershock</span></div>
+        </div>
+        <p class="prose" id="laws-om-p1"></p>
+        <p class="prose" id="laws-om-p2"></p>
+        <p class="prose" id="laws-om-p3"></p>
+      </div>
+    </article>
   </div>
+
+  <article class="lw-fig lw-wide" id="laws-en" aria-labelledby="laws-en-h">
+    <header class="lw-head">
+      <p class="eyebrow">C · The energy budget</p>
+      <h3 class="lw-h" id="laws-en-h">…</h3>
+    </header>
+    <div class="lw-en">
+      <div class="lw-en-main">
+        <p class="lw-read" id="laws-en-read" aria-live="polite"></p>
+        <div class="lw-plot lw-tm" id="laws-en-plot">
+          <canvas class="lw-canvas" id="laws-en-canvas" tabindex="0" aria-describedby="laws-en-read" aria-label="Energy map: every quake as a tile with area proportional to the energy it radiated, coloured by depth. Arrow keys step through the quakes from the largest, Enter selects."></canvas>
+          <div class="lw-marks" id="laws-en-marks"></div>
+          <div class="tip" id="laws-en-tip" hidden></div>
+        </div>
+        <div class="lw-en-legend">
+          <div class="lw-ramp-wrap">
+            <div class="ramp" role="img" aria-label="Tile colour is depth: gold at the surface, orange at 70 km, rose at 300 km, violet at 700 km"></div>
+            <div class="ramp-ticks"><span style="left:0">0 km</span><span style="left:42%">70</span><span style="left:77.4%">300</span><span style="left:100%">700 km</span></div>
+          </div>
+          <p class="lw-dust-key"><i aria-hidden="true"></i><span id="laws-en-dustkey">Quakes too small to draw merge into glowing dust, one speck each, shallow at the top.</span></p>
+        </div>
+      </div>
+      <aside class="lw-en-side">
+        <div class="stats lw-en-stats">
+          <div class="stat"><b class="ember" id="laws-en-top1">—</b><span id="laws-en-top1-lab">released by the largest quake alone</span></div>
+          <div class="stat"><b id="laws-en-top10">—</b><span>by the ten largest</span></div>
+          <div class="stat"><b id="laws-en-small">—</b><span id="laws-en-small-lab">by the smallest 90%</span></div>
+        </div>
+        <table class="lw-table">
+          <caption>Energy by magnitude class. Hover a row to outline the class on the map.</caption>
+          <thead><tr><th scope="col">Class</th><th scope="col" class="num">Quakes</th><th scope="col" class="num">of quakes</th><th scope="col" class="num">of energy</th></tr></thead>
+          <tbody id="laws-en-classes"></tbody>
+        </table>
+        <p class="prose" id="laws-en-p1"></p>
+        <p class="prose" id="laws-en-p2"></p>
+      </aside>
+    </div>
+  </article>
+
+  <p class="ch-foot" id="laws-foot"><strong>Method.</strong> Magnitudes are reported to 0.1. <em>b</em> is the maximum-likelihood estimate of Aki (1965) with Utsu's half-bin correction, <em>b</em> = log₁₀e / (M̄ − (Mc − 0.05)), and its error is from Shi &amp; Bolt (1982). Completeness is estimated three ways: maximum curvature plus 0.2 (Wiemer &amp; Wyss 2000; Woessner &amp; Wiemer 2005), goodness of fit at 95% or else 90% of cumulative counts explained (Wiemer &amp; Wyss 2000), and b-value stability over 0.5 magnitude units (Cao &amp; Gao 2002); the largest is used. Magnitude types were counted from the USGS <code>magType</code> field. Aftershocks are quakes of M ≥ Mc within one subsurface rupture length of the epicentre (log L = −2.44 + 0.59 M, Wells &amp; Coppersmith 1994; at least 50 km), for 180 days or until a quake as large strikes the same zone. The rate λ(t) = μ + K/(c+t)<sup>p</sup> + Σ K<sub>j</sub>/(c+t−t<sub>j</sub>)<sup>p</sup>, with a separate term for each aftershock of M ≥ max(M₀ − 1.5, 7) after the first day, is fitted by maximum likelihood (Ogata 1983) with the background μ fixed at the median 30-day count in the zone away from the sequence. Errors come from the observed information matrix; the residual check is a Kolmogorov–Smirnov test of the transformed times (Ogata 1988). Rates use four log bins per decade with Gehrels (1986) 1σ limits. Energy follows log E = 1.5 M + 4.8 in joules (Gutenberg &amp; Richter 1956), applied to the catalogue's own magnitudes. The map is a squarified treemap (Bruls, Huizing &amp; van Wijk 2000) with cushion shading (van Wijk &amp; van de Wetering 1999); the hairline gaps take a sliver of each tile, nothing else.</p>
 </section>
