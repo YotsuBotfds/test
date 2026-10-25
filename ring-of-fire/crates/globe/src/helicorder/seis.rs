@@ -395,6 +395,8 @@ pub struct Event {
     pub t_s: f32,
     pub t_r: f32,
     pub t_r2: f32,
+    /// The depth phase pP (deep quakes only).
+    pub t_dp: f32,
     pub p_branch: Branch,
     pub s_branch: Branch,
     /// Seconds the pen spends past its stops (at full magnification).
@@ -555,7 +557,8 @@ impl Seis {
             let fs = 0.2 * (1.0 + 2.5 * near) * soften;
             let body = GAIN_P * 10f32.powf(mb - 6.0);
             let a_p = body * body_law(&ap, d, 0.45);
-            let p_decay = 10.0 + 2.2 * dur + 0.08 * d;
+            // Deep sources sit below the scattering crust: their P codas are short.
+            let p_decay = (6.0 + 1.4 * dur + 0.05 * d) * if h > 300.0 { 0.6 } else { 1.0 };
             push(Kind::P, ap.t, a_p, 0.12 + 0.12 * dur, dur, p_decay, (fp, fp, 0.0), 1.0, 3.0);
             // Depth phase: the P wave that first went up and bounced off the surface.
             if h > 45.0 && ap.depth_delay > 1.0 {
@@ -633,6 +636,7 @@ impl Seis {
                 t_s: asw.t,
                 t_r,
                 t_r2,
+                t_dp: ps.iter().find(|p| p.kind == Kind::DepthP).map_or(f32::NAN, |p| (p.on - src.t0) as f32),
                 p_branch: ap.branch,
                 s_branch: asw.branch,
                 clip_s: union_len(&mut spans) as f32,

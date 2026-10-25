@@ -6,7 +6,7 @@
     { code: "ANMO", name: "Albuquerque, New Mexico, USA" },
     { code: "KONO", name: "Kongsberg, Norway" },
     { code: "CTAO", name: "Charters Towers, Queensland, Australia" },
-    { code: "COLA", name: "College, near Fairbanks, Alaska, USA" },
+    { code: "COLA", name: "College Outpost, Fairbanks, Alaska, USA" },
     { code: "HRV", name: "Harvard, Massachusetts, USA" },
   ];
   // Time on one line, and how much faster than real time the sound plays.
@@ -171,10 +171,15 @@
     if (z === st.zoom) return;
     stopAudio();
     // Keep the time under the pointer (or at the front) on the same line of the face.
-    let t, off = 0;
+    let t, off = 0, onFocus = false;
     if (anchor) {
       t = W.helicorder_time_at(anchor[0], anchor[1]);
       off = W.helicorder_line_at(anchor[1]) - st.center;
+    } else if (st.focus >= 0) {
+      // Zooming from the buttons keeps the selected quake in view if it is on the drum.
+      const qt = R.q(st.focus).t;
+      const a = W.helicorder_line_start(W.helicorder_face(0)), b = W.helicorder_line_end(W.helicorder_face(1));
+      if (qt >= a && qt <= b) { t = qt; onFocus = true; }
     }
     if (!Number.isFinite(t)) { t = W.helicorder_line_start(Math.round(st.center)); off = 0; }
     st.zoom = z;
@@ -182,7 +187,8 @@
     readLayout();
     document.querySelectorAll("#helicorder-zooms button").forEach((b) => b.setAttribute("aria-pressed", String(+b.dataset.z === z)));
     st.center = NaN;
-    setCenter(keep ? Math.floor(W.helicorder_pos_of(t)) + 0.5 - (Number.isFinite(off) ? off : 0) : W.helicorder_center());
+    if (onFocus) setCenter(centerFor(t));
+    else setCenter(keep ? Math.floor(W.helicorder_pos_of(t)) + 0.5 - (Number.isFinite(off) ? off : 0) : W.helicorder_center());
     buildAxis();
     syncListen();
   }
@@ -211,7 +217,7 @@
   function resize() {
     const f = R.fit(canvas, 1.3e6, st.scale);
     st.k = f.k; st.cw = f.cw; st.ch = f.ch;
-    if (f.changed) { W.helicorder_resize(f.pw, f.ph, f.k); st.skipPerf = 2; }
+    if (f.changed) W.helicorder_resize(f.pw, f.ph, f.k);
     readLayout();
     W.helicorder_set_center(st.center);
     buildAxis();
@@ -248,8 +254,8 @@
     if (pending > 0) st.dirty = true;
     R.blit(ctx, W.helicorder_pixels(), canvas.width, canvas.height);
     if (t1 - t0 > 0.5) R.perf("05 Records new lines", t1 - t0, canvas.width, canvas.height);
-    if (st.skipPerf) st.skipPerf--;
-    else { st.perf = st.perf ? st.perf * 0.9 + ms * 0.1 : ms; R.perf("05 Records drum", ms, canvas.width, canvas.height); }
+    st.perf = st.perf ? st.perf * 0.9 + ms * 0.1 : ms;
+    R.perf("05 Records drum", ms, canvas.width, canvas.height);
     layoutRows();
     layoutNotes();
     updateHead();
@@ -314,11 +320,11 @@
     const free = (x0, y0, x1, y1) => boxes.every((b) => x1 < b[0] || x0 > b[2] || y1 < b[1] || y0 > b[3]);
     let n = 0;
     // Arrival letters of the focused quake first: they matter most.
-    const names = ["P", "PP", "S", "R1", "R2"];
-    const cls = ["p", "p", "s", "r", "r"];
+    const names = ["P", "PP", "S", "R1", "R2", "", "pP"];
+    const cls = ["p", "p", "s", "r", "r", "", "p"];
     for (let j = 0; j + 2 < arr.length && st.zoom <= 2; j += 3) {
       const kind = arr[j + 2];
-      if (kind > 4) continue;
+      if (!names[kind]) continue;
       const x = arr[j] / st.k, y = arr[j + 1] / st.k;
       const w = names[kind].length * cw + pad;
       if (y < 4 || y > st.ch - 12 || !free(x - 3, y, x - 3 + w, y + 12)) continue;
@@ -470,16 +476,17 @@
     const box = $("helicorder-sel");
     if (i < 0) { box.hidden = true; return; }
     box.hidden = false;
+    $("helicorder-sel-title").textContent = i === R.state.selected ? "Selected quake at this station" : "Quake in focus";
     const q = R.q(i), f = (k) => W.helicorder_event(i, k);
     const code = STATIONS[st.station].code;
-    const dist = f(0), baz = f(1), tp = f(2), ts = f(3), tr = f(4), tr2 = f(5), tpp = f(6), snr = f(7), clip = f(11);
+    const dist = f(0), baz = f(1), tp = f(2), ts = f(3), tr = f(4), tr2 = f(5), tpp = f(6), snr = f(7), clip = f(11), tdp = f(12);
     const pn = PHASE.P[f(8)] || "P", sn = PHASE.S[f(9)] || "S";
     const line = (cls, name, t) => Number.isFinite(t) ? `<span class="${cls}">${name}</span> after ${R.fmtDuration(t)}<br>` : "";
     $("helicorder-sel-body").innerHTML =
       `<p class="name"><b>M${q.mag.toFixed(1)}</b>${R.esc(R.place(i))}</p>
       <p class="meta">${R.fmtDate(q.t, true)} · ${Math.round(q.depth)} km deep<br>
       <b>${dist.toFixed(1)}°</b> (${R.num(dist * 111.19)} km) from ${code}, to the ${compass(baz)}<br>
-      ${line("p", pn, tp)}${dist >= 30 ? line("p", "PP", tpp) : ""}${line("s", sn, ts)}${line("r", "Surface waves", tr)}${line("r", "R2, the long way round,", tr2)}
+      ${line("p", pn, tp)}${line("p", "pP, off the surface above it,", tdp)}${dist >= 30 ? line("p", "PP", tpp) : ""}${line("s", sn, ts)}${line("r", "Surface waves", tr)}${line("r", "R2, the long way round,", tr2)}
       Strongest signal <b>${R.num(snr, snr < 10 ? 1 : 0)}×</b> the background${clip > 30 ? `; the pen is on its stops for ${R.fmtDuration(clip)} in all` : ""}.</p>`;
   }
 

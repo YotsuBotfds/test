@@ -93,6 +93,7 @@
   #records .ch-side { order: 2; }
   #records .hc-below { order: 3; grid-template-columns: minmax(0, 1fr); }
   #records .hc-head .hint { display: none; }
+  #records .hc-head { font-size: var(--t-2xs); padding-inline: 10px; }
   #records .hc-ov { padding-left: 52px; }
   #records .hc-ov::before { width: 40px; }
 }

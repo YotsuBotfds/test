@@ -324,7 +324,7 @@ mod exports {
         put(m.iter().flat_map(|m| [m.q as f32, m.x, m.y, m.mag]))
     }
 
-    /// Arrival ticks of the selected quake: (x, y, kind) with kind 0 P, 1 PP, 2 S, 3 R1, 4 R2, 5 origin.
+    /// Arrival ticks of the selected quake: (x, y, kind) with kind 0 P, 1 PP, 2 S, 3 R1, 4 R2, 5 origin, 6 pP.
     #[no_mangle]
     pub extern "C" fn helicorder_arrivals() -> *const f32 {
         let a = with(|s| s.drum.arrivals.clone());
@@ -352,7 +352,7 @@ mod exports {
     /// Per-quake facts at the current station: 0 distance (deg), 1 back-azimuth, 2 P, 3 S,
     /// 4 R1, 5 R2, 6 PP (s after origin; NaN if absent), 7 peak over background,
     /// 8 P branch, 9 S branch (0 none, 1 direct, 2 core, 3 diffracted), 10 peak time after
-    /// origin, 11 seconds the pen spends past its stops.
+    /// origin, 11 seconds the pen spends past its stops, 12 pP (deep quakes only).
     #[no_mangle]
     pub extern "C" fn helicorder_event(q: u32, field: u32) -> f64 {
         with(|s| {
@@ -370,7 +370,8 @@ mod exports {
                 8 => br(e.p_branch),
                 9 => br(e.s_branch),
                 10 => e.peak_t - e.t0,
-                _ => e.clip_s as f64,
+                11 => e.clip_s as f64,
+                _ => e.t_dp as f64,
             }
         })
     }

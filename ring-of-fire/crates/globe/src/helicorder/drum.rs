@@ -338,12 +338,15 @@ pub struct Drum {
     luts: Vec<[u32; 256]>,
     cov: Vec<u8>,
     pub marks: Vec<Mark>,
-    /// Selected quake's arrivals: (x, y, kind) in device px; kind 0 P, 1 PP, 2 S, 3 R1, 4 R2, 5 origin.
+    /// Selected quake's arrivals: (x, y, kind) in device px; kind 0 P, 1 PP, 2 S, 3 R1, 4 R2, 5 origin, 6 pP.
     pub arrivals: Vec<[f32; 3]>,
     /// Stylus position (x, y) when it is on the drum.
     pub stylus: Option<[f32; 2]>,
     /// Seconds spent on traces, compositing and overlays in the last render (native only).
     pub timings: [f64; 3],
+    /// sRGB byte -> linear, and linear (4096 steps) -> sRGB byte.
+    lin: Vec<f32>,
+    enc: Vec<u8>,
 }
 
 #[cfg(not(target_arch = "wasm32"))]
@@ -394,10 +397,10 @@ const TH: usize = 512;
 const PAPER: u32 = 0xf3e8d4;
 
 fn soot_tile(frame: &Frame) -> Vec<u32> {
-    // Periodic value noise on a lattice of `cell` texels.
-    let vn2 = |x: usize, y: usize, cell: usize, seed: u32| -> f32 {
-        let (px, py) = (TW / cell, TH / cell);
-        let (fx, fy) = (x as f32 / cell as f32, y as f32 / cell as f32);
+    // Periodic value noise on a lattice of `cx` by `cy` texels.
+    let vn2a = |x: usize, y: usize, cx: usize, cy: usize, seed: u32| -> f32 {
+        let (px, py) = (TW / cx, TH / cy);
+        let (fx, fy) = (x as f32 / cx as f32, y as f32 / cy as f32);
         let (ix, iy) = (fx.floor() as usize, fy.floor() as usize);
         let (tx, ty) = (fx - ix as f32, fy - iy as f32);
         let (sx, sy) = (tx * tx * (3.0 - 2.0 * tx), ty * ty * (3.0 - 2.0 * ty));
@@ -406,19 +409,20 @@ fn soot_tile(frame: &Frame) -> Vec<u32> {
         let bot = g(ix, iy + 1) + (g(ix + 1, iy + 1) - g(ix, iy + 1)) * sx;
         top + (bot - top) * sy
     };
-    let base = hex(0x1d1916);
-    let thin = hex(0x3a2c22);
+    let vn2 = |x: usize, y: usize, cell: usize, seed: u32| vn2a(x, y, cell, cell, seed);
+    let base = hex(0x211c18);
+    let thin = hex(0x46342a);
     let mut out = vec![0u32; TW * TH];
     for y in 0..TH {
         for x in 0..TW {
             let blot = vn2(x, y, 128, 11) * 0.65 + vn2(x, y, 64, 12) * 0.35;
             let mid = vn2(x, y, 16, 13);
             // Streaks along the direction the paper turned through the smoke.
-            let streak = vn2(x, y / 32, 4, 14);
+            let streak = vn2a(x, y, 4, 128, 14);
             let grain = hash((x as u32).wrapping_mul(0x27d4_eb2f) ^ (y as u32).wrapping_mul(0x1656_67b1));
-            let f = (0.8 + 0.4 * blot) * (0.94 + 0.12 * mid) * (0.92 + 0.1 * streak + 0.22 * (grain - 0.5));
+            let f = (0.74 + 0.52 * blot) * (0.92 + 0.16 * mid) * (0.9 + 0.12 * streak + 0.26 * (grain - 0.5));
             // Where the soot lies thin the brown paper shows through a little.
-            let wisp = smoothstep(0.72, 0.95, blot) * 0.3;
+            let wisp = smoothstep(0.68, 0.95, blot) * 0.4;
             let c: Rgb = [0, 1, 2].map(|i| (base[i] + (thin[i] - base[i]) * wisp) * f);
             out[y * TW + x] = frame.pack(c);
         }
@@ -463,6 +467,8 @@ impl Drum {
             arrivals: Vec::new(),
             stylus: None,
             timings: [0.0; 3],
+            lin: (0..256).map(|i| crate::color::to_linear(i as f32 / 255.0)).collect(),
+            enc: (0..4096).map(|i| (to_srgb(i as f32 / 4095.0) * 255.0 + 0.5) as u8).collect(),
         }
     }
 
@@ -713,6 +719,7 @@ impl Drum {
     fn compose(&mut self) {
         let (w, h) = (self.frame.w, self.frame.h);
         let sheen = hex(0x4a4036);
+        let steel = hex(0x8d96a6);
         // Horizontal vignette towards the drum's ends.
         let sx: Vec<u32> = (0..w)
             .map(|x| {
@@ -753,6 +760,22 @@ impl Drum {
                 let ch = |sh: u32| (((((bg >> sh) & 0xff) * keep) >> 8) + ((p >> sh) & 0xff)).min(255) << sh;
                 *o = 0xff00_0000 | ch(0) | ch(8) | ch(16);
             }
+            // The drum's turned steel ends, lit like the paper, with a dark seam.
+            let rim = ((5.0 * self.k).round() as usize).clamp(3, w / 8);
+            let lam = sy / 1.1;
+            let spec = g / 0.065;
+            for (j, side) in [(0usize, false), (w - rim, true)] {
+                for i in 0..rim {
+                    let u = (i as f32 + 0.5) / rim as f32;
+                    let u = if side { 1.0 - u } else { u };
+                    // Rounded profile across the rim, brightest a third of the way in.
+                    let prof = 1.0 - ((u - 0.35) * 2.0).powi(2).min(1.0) * 0.7;
+                    let v = (0.05 + 0.5 * lam * lam + 0.9 * spec) * prof;
+                    let c = steel.map(|ch| ch * v);
+                    let seam = if u > 0.86 { 0.25 } else { 1.0 };
+                    out[j + i] = crate::color::pack(c.map(|ch| ch * seam), 1.0);
+                }
+            }
         }
     }
 
@@ -762,6 +785,8 @@ impl Drum {
         let r = (sigma * 2.6).ceil() as i32;
         let (ix, iy) = (cx as i32, cy as i32);
         let k = 1.0 / (2.0 * sigma * sigma);
+        // sRGB <-> linear through tables: a glow touches thousands of pixels.
+        let (lin, enc) = (&self.lin, &self.enc);
         for y in (iy - r).max(0)..(iy + r + 1).min(h) {
             for x in (ix - r).max(0)..(ix + r + 1).min(w) {
                 let d2 = (x as f32 + 0.5 - cx).powi(2) + (y as f32 + 0.5 - cy).powi(2);
@@ -771,9 +796,8 @@ impl Drum {
                 }
                 let p = &mut self.frame.px[(y * w + x) as usize];
                 let add = |v: u32, sh: u32, ch: f32| {
-                    let cur = ((v >> sh) & 0xff) as f32 / 255.0;
-                    let lin = crate::color::to_linear(cur) + ch * g;
-                    ((to_srgb(lin) * 255.0 + 0.5) as u32).min(255) << sh
+                    let l = lin[((v >> sh) & 0xff) as usize] + ch * g;
+                    (enc[((l * 4095.0) as usize).min(4095)] as u32) << sh
                 };
                 *p = 0xff00_0000 | add(*p, 0, c[0]) | add(*p, 8, c[1]) | add(*p, 16, c[2]);
             }
@@ -851,7 +875,7 @@ impl Drum {
             let Some(e) = seis.event_of(qi) else { continue };
             let e = *e;
             let alpha = if strong { 1.0 } else { 0.6 };
-            let list = [(e.t_p, 0, 0xffb35c), (e.t_pp, 1, 0xffb35c), (e.t_s, 2, 0x3fb8b0), (e.t_r, 3, 0xe8467c), (e.t_r2, 4, 0xe8467c)];
+            let list = [(e.t_p, 0, 0xffb35c), (e.t_pp, 1, 0xffb35c), (e.t_s, 2, 0x3fb8b0), (e.t_r, 3, 0xe8467c), (e.t_r2, 4, 0xe8467c), (e.t_dp, 6, 0xffb35c)];
             for (dt, kind, col) in list {
                 if !dt.is_finite() || (kind == 4 && e.peak < 0.0) {
                     continue;
@@ -897,11 +921,13 @@ impl Drum {
             let (row, f) = self.grid.locate(t);
             if f < 1.0 {
                 let x = self.x_of(f);
-                let ya = self.y_of(row, 0.8);
-                let yb = self.y_of(row, -0.8);
+                let ya = self.y_of(row, 1.3);
+                let yb = self.y_of(row, -1.3);
                 if self.on_face(0.5 * (ya + yb)) {
-                    self.bar(x, ya, yb, 0.8 * k, 0xffb35c, 0.9);
-                    self.glow(x, 0.5 * (ya + yb), 7.0 * k, ember, 0.22);
+                    // A dark halo keeps the ember line visible over bright scribble.
+                    self.bar(x, ya - 2.0 * k, yb + 2.0 * k, 2.6 * k, 0x0b0907, 0.8);
+                    self.bar(x, ya, yb, 1.0 * k, 0xffb35c, 1.0);
+                    self.glow(x, 0.5 * (ya + yb), 8.0 * k, ember, 0.25);
                 }
             }
         }
