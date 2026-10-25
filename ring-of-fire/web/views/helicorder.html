@@ -1,10 +1,87 @@
 <section class="chapter" id="records" data-view="helicorder" aria-label="05 Records">
   <header class="ch-head">
     <div><p class="ch-num">05 Records</p><h2 class="ch-title">The Drum</h2></div>
-    <p class="ch-lede">Coming soon.</p>
+    <p class="ch-lede"><strong>The whole catalogue, as one seismometer would have drawn it.</strong> A stylus scratches the ground's motion into soot on a turning drum. Each quake's waves reach the station when the Earth's interior says they should, as strong as distance allows. The biggest throw the pen across its neighbours. Press Listen to hear the drum.</p>
   </header>
   <div class="ch-body">
-    <div class="ch-stage"><canvas class="view" id="helicorder-canvas"></canvas></div>
-    <aside class="ch-side"></aside>
+    <div class="hc-main">
+      <div class="ch-stage hc-stage" id="helicorder-stage">
+        <div class="hc-head"><span><b id="helicorder-code">ANMO</b> <span id="helicorder-span"></span></span><span class="hint" id="helicorder-hint">drag to turn the drum · ctrl + scroll to zoom · click a burst</span></div>
+        <div class="hc-drum" id="helicorder-drum">
+          <canvas class="view" id="helicorder-canvas" tabindex="0" aria-label="Synthetic drum seismogram. Drag up or down to turn the drum, arrow keys to step a line, plus and minus to zoom, click a burst to select its quake."></canvas>
+          <div class="hc-rows" id="helicorder-rows" aria-hidden="true"></div>
+          <div class="hc-notes" id="helicorder-notes" aria-hidden="true"></div>
+          <div class="tip" id="helicorder-tip" hidden></div>
+        </div>
+        <div class="hc-axis" id="helicorder-axis" aria-hidden="true"></div>
+        <div class="hc-ov" id="helicorder-ov-wrap">
+          <canvas id="helicorder-ov" aria-label="Three-year overview: the loudest signal at the station each day. Click or drag to move the drum there."></canvas>
+          <div class="hc-ov-x" id="helicorder-ov-x" aria-hidden="true"></div>
+        </div>
+      </div>
+
+      <div class="hc-below">
+        <section>
+          <p class="eyebrow">Reading a record</p>
+          <div class="hc-ref" id="helicorder-ref-wrap">
+            <canvas id="helicorder-ref" aria-label="Reference record of one quake, labelled P, S and surface waves"></canvas>
+            <div id="helicorder-ref-marks" aria-hidden="true"></div>
+          </div>
+          <p class="prose" id="helicorder-ref-note"></p>
+        </section>
+        <section>
+          <p class="eyebrow">On the drum now</p>
+          <div class="stats">
+            <div class="stat"><b id="helicorder-n-cat">—</b><span>quakes began</span></div>
+            <div class="stat"><b id="helicorder-n-rec" class="ember">—</b><span>stood out from the background</span></div>
+            <div class="stat"><b id="helicorder-n-clip">—</b><span>hit the pen's stops</span></div>
+          </div>
+          <p class="prose" id="helicorder-loudest"></p>
+        </section>
+        <section>
+          <p class="eyebrow">Smoked paper</p>
+          <p class="prose">Drum seismographs often wrote on smoked paper, blackened over a sooty flame. A fine stylus on the seismometer's lever scratched the soot away. The drum turned once per line while the stylus crept sideways, so a day became one long spiral, later fixed with varnish.</p>
+          <p class="prose">A clock kicked the stylus every minute, leaving the small ticks along each line. Ember marks are the catalogue's origin times, so the gap to the first wiggle is the travel time.</p>
+        </section>
+      </div>
+    </div>
+
+    <aside class="ch-side">
+      <section>
+        <p class="eyebrow">Station</p>
+        <div class="seg" role="group" aria-label="Seismic station" id="helicorder-stations"></div>
+        <p class="hc-station" id="helicorder-station"></p>
+      </section>
+
+      <section>
+        <p class="eyebrow">Time on one line</p>
+        <div class="seg" role="group" aria-label="Time on one line of the drum" id="helicorder-zooms">
+          <button type="button" data-z="0" aria-pressed="false">Hour</button>
+          <button type="button" data-z="1" aria-pressed="true">Day</button>
+          <button type="button" data-z="2" aria-pressed="false">Week</button>
+          <button type="button" data-z="3" aria-pressed="false">Month</button>
+          <button type="button" data-z="4" aria-pressed="false">3 yr</button>
+        </div>
+        <p class="hc-read" id="helicorder-zoom-read"></p>
+        <div class="toggles"><button type="button" class="chip" id="helicorder-follow" aria-pressed="true">Follow the replay</button></div>
+        <ul class="list hc-jumps" id="helicorder-jumps"></ul>
+      </section>
+
+      <section>
+        <p class="eyebrow">Listen</p>
+        <button class="btn primary hc-listen" id="helicorder-listen" type="button"><svg viewBox="0 0 12 12" aria-hidden="true"><path id="helicorder-listen-icon" d="M2 1l9 5-9 5z"/></svg><span id="helicorder-listen-label">Listen to the drum</span></button>
+        <div class="field">
+          <label for="helicorder-vol">Volume <output id="helicorder-vol-out" for="helicorder-vol">70%</output></label>
+          <input type="range" id="helicorder-vol" min="0" max="100" value="70">
+        </div>
+        <p class="hc-read" id="helicorder-listen-read"></p>
+      </section>
+
+      <section class="hc-sel" id="helicorder-sel" hidden>
+        <p class="eyebrow">Selected quake at this station</p>
+        <div id="helicorder-sel-body"></div>
+      </section>
+    </aside>
   </div>
+  <p class="ch-foot" id="helicorder-foot">A synthetic record, not a recording. Arrival times are ray-traced through the iasp91 Earth model (Kennett and Engdahl, 1991): P and S out to the core's shadow, the diffracted waves inside it, and PKP or SKS beyond. Body waves weaken with distance roughly as Δ<sup>−1.5</sup>; surface waves follow the Prague formula used for surface-wave magnitude (Δ<sup>−1.66</sup>), fade for sources deeper than 30 km, and circle the planet up to four times. Rupture duration grows √10 times per magnitude unit. The ocean microseism, its storms and seasons are modelled. Station coordinates are from FDSN metadata for the IU network. Sound is the same seismogram sped up, band-limited and gently compressed.</p>
 </section>

@@ -1,1 +1,101 @@
 /* 05 Records: styles for this instrument only. Prefix every selector with #records. */
+#records .hc-main { display: grid; gap: 28px; min-width: 0; align-content: start; }
+#records .ch-stage.hc-stage {
+  display: flex; flex-direction: column;
+  height: min(calc(100svh - var(--nav-h) - 40px), 840px); min-height: 540px;
+}
+#records .hc-below { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; align-items: start; }
+#records .hc-below > section { display: grid; gap: 10px; min-width: 0; }
+#records .hc-drum { position: relative; flex: 1 1 auto; min-height: 0; overflow: hidden; }
+#records .hc-drum canvas.view { cursor: grab; }
+#records .hc-drum canvas.view.dragging { cursor: grabbing; }
+#records .hc-drum canvas.view.over { cursor: pointer; }
+#records .hc-rows, #records .hc-notes { position: absolute; inset: 0; pointer-events: none; }
+#records .hc-rows .mark {
+  left: 6px; top: 0; width: 50px; text-align: right;
+  font-size: var(--t-2xs); color: var(--ink-3); font-variant-numeric: tabular-nums;
+  transform-origin: 100% 50%;
+}
+#records .hc-rows .mark b { display: block; color: var(--ink-2); font-weight: 500; }
+#records .hc-rows .mark.day { color: var(--ink-2); }
+#records .hc-notes .mark {
+  top: 0; left: 0; font-size: var(--t-2xs); color: var(--ink-2); padding: 1px 4px; border-radius: 2px;
+  background: color-mix(in srgb, var(--void) 78%, transparent); text-shadow: none;
+}
+#records .hc-notes .mark b { color: var(--ember); }
+#records .hc-notes .mark.arr { font-weight: 500; letter-spacing: 0.04em; }
+#records .hc-notes .mark.arr.p { color: var(--ember); }
+#records .hc-notes .mark.arr.s { color: var(--teal); }
+#records .hc-notes .mark.arr.r { color: var(--d300); }
+#records .hc-notes .mark.now { color: var(--ink); }
+#records .hc-head {
+  position: relative; flex: none; z-index: 2;
+  display: flex; justify-content: space-between; align-items: baseline; gap: 4px 16px; flex-wrap: wrap;
+  padding: 7px 14px 7px 12px; min-height: 30px;
+  font: 400 var(--t-xs)/1.4 var(--f-data); color: var(--ink-2); font-variant-numeric: tabular-nums;
+  border-bottom: 1px solid var(--rule);
+}
+#records .hc-head b { color: var(--ink); font-weight: 500; letter-spacing: 0.06em; margin-right: 6px; }
+#records .hc-head .hint { position: static; color: var(--ink-3); font-size: var(--t-2xs); }
+#records .hc-axis {
+  position: relative; flex: none; height: 22px; border-top: 1px solid var(--rule);
+  font: 400 var(--t-2xs)/1 var(--f-data); color: var(--ink-3); font-variant-numeric: tabular-nums;
+}
+#records .hc-axis span { position: absolute; top: 6px; transform: translateX(-50%); white-space: nowrap; }
+#records .hc-axis span::before { content: ""; position: absolute; left: 50%; top: -6px; height: 4px; border-left: 1px solid var(--rule-2); }
+#records .hc-axis span.first { transform: none; }
+#records .hc-axis span.first::before { left: 0; }
+#records .hc-axis span.last { transform: translateX(-100%); }
+#records .hc-axis span.last::before { left: auto; right: 0; }
+#records .hc-axis em { position: absolute; left: 8px; top: 6px; font-style: normal; color: var(--ink-3); }
+#records .hc-ov { position: relative; flex: none; height: 56px; padding: 6px 14px 0 60px; border-top: 1px solid var(--rule); }
+#records .hc-ov canvas { display: block; width: 100%; height: 32px; cursor: ew-resize; touch-action: none; }
+#records .hc-ov-x { position: relative; height: 16px; font: 400 var(--t-2xs)/1 var(--f-data); color: var(--ink-3); }
+#records .hc-ov-x span { position: absolute; top: 4px; transform: translateX(-50%); white-space: nowrap; }
+#records .hc-ov::before {
+  content: "loudest each day"; position: absolute; left: 8px; top: 9px; width: 46px;
+  font: 400 var(--t-2xs)/1.25 var(--f-data); color: var(--ink-3);
+}
+
+#records .hc-station { margin: 0; font-size: var(--t-s); color: var(--ink-2); line-height: 1.5; }
+#records .hc-station b { color: var(--ink); font-weight: 500; }
+#records .hc-station span { font: 400 var(--t-xs)/1.5 var(--f-data); color: var(--ink-3); font-variant-numeric: tabular-nums; }
+#records .hc-read { margin: 0; font: 400 var(--t-xs)/1.55 var(--f-data); color: var(--ink-3); font-variant-numeric: tabular-nums; }
+#records .hc-read b { color: var(--ink-2); font-weight: 500; }
+#records .seg button[data-st] { letter-spacing: 0.04em; }
+#records .hc-listen { width: 100%; }
+#records .hc-listen.on { background: transparent; color: var(--ember); border-color: var(--ember); }
+#records .hc-jumps .t em { color: var(--ink-3); }
+#records .hc-ref { position: relative; height: 96px; border: 1px solid var(--rule); border-radius: 3px; overflow: hidden; background: var(--well); }
+#records .hc-ref canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+#records .hc-ref .mark { top: 4px; font-size: var(--t-2xs); font-weight: 500; }
+#records .hc-ref .mark.p { color: var(--ember); }
+#records .hc-ref .mark.s { color: var(--teal); }
+#records .hc-ref .mark.r { color: var(--d300); }
+#records .hc-ref .mark.o { color: var(--ink-3); bottom: 4px; top: auto; font-weight: 400; }
+#records .hc-ref .mark::before { content: ""; position: absolute; left: 0; top: 14px; height: 10px; border-left: 1px solid currentColor; opacity: 0.8; }
+#records .hc-sel .meta { font: 400 var(--t-xs)/1.7 var(--f-data); color: var(--ink-2); font-variant-numeric: tabular-nums; margin: 0; }
+#records .hc-sel .meta b { color: var(--ink); font-weight: 500; }
+#records .hc-sel .meta .p { color: var(--ember); }
+#records .hc-sel .meta .s { color: var(--teal); }
+#records .hc-sel .meta .r { color: var(--d300); }
+#records .hc-sel .name { margin: 0 0 4px; color: var(--ink); font-size: var(--t-s); }
+#records .hc-sel .name b { font: 600 var(--t-l)/1 var(--f-display); color: var(--ember); margin-right: 8px; letter-spacing: 0.02em; }
+#records #helicorder-loudest b { color: var(--ink); font-weight: 500; }
+
+@media (max-width: 1100px) {
+  #records .hc-below { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 900px) {
+  /* One column: drum, then its controls, then the notes. */
+  #records .hc-main { display: contents; }
+  #records .ch-stage.hc-stage { order: 1; aspect-ratio: auto; height: clamp(460px, 132vw, 640px); min-height: 0; }
+  #records .ch-side { order: 2; }
+  #records .hc-below { order: 3; grid-template-columns: minmax(0, 1fr); }
+  #records .hc-head .hint { display: none; }
+  #records .hc-ov { padding-left: 52px; }
+  #records .hc-ov::before { width: 40px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  #records .hc-listen svg { transition: none; }
+}
