@@ -31,7 +31,7 @@
 #records .hc-head {
   position: relative; flex: none; z-index: 2;
   display: flex; justify-content: space-between; align-items: baseline; gap: 4px 16px; flex-wrap: wrap;
-  padding: 7px 14px 7px 12px; min-height: 30px;
+  padding: 7px 14px 7px 12px; min-height: 30px; box-sizing: border-box;
   font: 400 var(--t-xs)/1.4 var(--f-data); color: var(--ink-2); font-variant-numeric: tabular-nums;
   border-bottom: 1px solid var(--rule);
 }

@@ -34,6 +34,7 @@
     hover: -1, focus: -1, fly: null, vel: 0, dragging: false, lastMove: 0,
     follow: true, wheelAcc: 1, pinchAcc: 1,
     audio: null, actx: null, vol: 0.7,
+    reveal: null,
   };
   let W, canvas, ctx, ov, octx, refc, rctx, view;
   const pools = { rows: [], notes: [] };
@@ -63,11 +64,30 @@
       if (sel >= 0) { st.focus = sel; W.helicorder_select(sel); updateSel(); jumpToQuake(sel, false); }
       else { st.focus = R.largest(1)[0]; W.helicorder_select(st.focus); updateSel(); jumpToQuake(st.focus, false); }
       R.on("select", onSelect);
-      R.on("cursor", (t) => { W.helicorder_cursor(t); st.dirty = st.ovDirty = st.statsDirty = true; });
+      R.on("cursor", () => { applyCursor(); st.dirty = st.ovDirty = st.statsDirty = true; });
+      // The first time the drum comes into view, the stylus writes the day on the face.
+      if (!R.reduceMotion && sel < 0) {
+        const io = new IntersectionObserver((en) => {
+          if (!en.some((e) => e.isIntersecting)) return;
+          io.disconnect();
+          const a = W.helicorder_line_start(W.helicorder_face(0)), b = W.helicorder_line_end(W.helicorder_face(1));
+          if (b > a && b <= R.state.cursor) st.reveal = { t: a, end: b, rate: (b - a) / 2.4 };
+        }, { threshold: 0.45 });
+        io.observe($("helicorder-stage"));
+        $("helicorder-stage").addEventListener("pointerdown", stopReveal, { capture: true });
+        $("helicorder-stage").addEventListener("wheel", stopReveal, { capture: true, passive: true });
+        document.querySelector("#records .ch-side").addEventListener("click", stopReveal, { capture: true });
+      }
       R.on("play", () => { st.dirty = true; });
       if (R.coarse) $("helicorder-hint").textContent = "drag to turn the drum · pinch to zoom · tap a burst";
     },
     frame(dt, now) {
+      if (st.reveal) {
+        st.reveal.t += st.reveal.rate * dt;
+        if (st.reveal.t >= st.reveal.end) st.reveal = null;
+        applyCursor();
+        st.dirty = st.statsDirty = true;
+      }
       if (st.fly) {
         const f = st.fly, k = Math.min(1, (now - f.t0) / f.dur);
         setCenter(f.c0 + (f.c1 - f.c0) * ease(k));
@@ -91,6 +111,17 @@
     },
   };
   R.view(view);
+
+  /** The drum records up to the page's replay cursor (or the opening reveal, if earlier). */
+  function applyCursor() {
+    W.helicorder_cursor(st.reveal ? Math.min(R.state.cursor, st.reveal.t) : R.state.cursor);
+  }
+  function stopReveal() {
+    if (!st.reveal) return;
+    st.reveal = null;
+    applyCursor();
+    st.dirty = st.statsDirty = true;
+  }
 
   // ---------------------------------------------------------------- stations
   function buildStations() {
@@ -352,7 +383,7 @@
     }
     // Where the record is being written, if the replay has not reached the end.
     const sx = W.helicorder_stylus(0), sy = W.helicorder_stylus(1);
-    if (Number.isFinite(sx) && R.state.cursor < R.tEnd - 60) {
+    if (Number.isFinite(sx) && R.state.cursor < R.tEnd - 60 && !st.reveal) {
       const x = sx / st.k, y = sy / st.k;
       const txt = `recording · ${R.fmtDate(R.state.cursor, true)}`;
       const left = Math.max(2, Math.min(x + 10, st.cw - cw * txt.length - pad - 4));
@@ -578,6 +609,7 @@
       else if (st.wheelAcc < 1 / 1.4) { st.wheelAcc = 1; setZoom(st.zoom + 1, at); }
     }, $("helicorder-drum"));
     canvas.addEventListener("keydown", (e) => {
+      stopReveal();
       const page = Math.max(1, Math.floor(st.half * 2 - 2));
       const moves = { ArrowUp: -1, ArrowDown: 1, PageUp: -page, PageDown: page };
       if (moves[e.key] != null) flyTo(Math.round(st.center - 0.5) + 0.5 + moves[e.key]);
