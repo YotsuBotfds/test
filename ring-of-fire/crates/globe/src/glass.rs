@@ -321,7 +321,7 @@ pub struct Glass {
     splats: Vec<Splat>,
     sorted: Vec<Splat>,
     buckets: Vec<u32>,
-    bg_key: Vec<u32>,
+    bg_key: BgKey,
     bg_time: f32,
     /// Label anchors on the cut faces (x, y, visible), in `LABELS` order.
     pub labels: [[f32; 3]; LABELS],
@@ -415,7 +415,7 @@ impl Glass {
             splats: Vec::new(),
             sorted: Vec::new(),
             buckets: Vec::new(),
-            bg_key: Vec::new(),
+            bg_key: [u32::MAX; 20],
             bg_time: 0.0,
             labels: [[0.0; 3]; LABELS],
             unit,
@@ -438,7 +438,7 @@ impl Glass {
         self.tw = w.div_ceil(TILE);
         self.th = h.div_ceil(TILE);
         self.tiles = vec![0; self.tw * self.th];
-        self.bg_key.clear();
+        self.bg_key = [u32::MAX; 20];
     }
 
     /// Focal length in px for the current canvas.
@@ -586,11 +586,15 @@ impl Glass {
         self.world.quakes.partition_point(|q| q.t as f32 <= self.cursor)
     }
 
-    fn key(&self, view: &View) -> Vec<u32> {
+    /// Everything the background depends on, as bits (the core's churn aside).
+    fn key(&self, view: &View) -> BgKey {
         let p = self.cam.pose;
-        let mut k: Vec<u32> = [p.target, p.axis, p.back].iter().flatten().map(|v| v.to_bits()).collect();
-        k.extend([p.dist.to_bits(), view.w as u32, view.h as u32, self.exag.to_bits(), view.np as u32]);
-        k.extend(view.planes.iter().flatten().map(|v| v.to_bits()));
+        let mut k = [0u32; 20];
+        let vals = [p.target, p.axis, p.back, view.planes[0], view.planes[1]];
+        for (o, v) in k.iter_mut().zip(vals.iter().flatten()) {
+            *o = v.to_bits();
+        }
+        k[15..].copy_from_slice(&[p.dist.to_bits(), view.w as u32, view.h as u32, self.exag.to_bits(), view.np as u32]);
         k
     }
 
@@ -653,85 +657,51 @@ impl Glass {
             }
             *o = pal.pack(c);
         }
-        // Adaptive sampling: shade every other texel, then fill the ones between
-        // by interpolation where their neighbours agree (same surface, similar
-        // colour), and shade them only where they do not.
-        let hx0 = hx0 & !1;
-        let hy0 = hy0 & !1;
+        // Adaptive sampling: shade every fourth texel, then halve the spacing
+        // twice; each new texel is interpolated from its shaded neighbours where
+        // they agree (same surface, similar colour) and shaded where they do not.
+        let hx0 = hx0 & !3;
+        let hy0 = hy0 & !3;
         let shade = |hx: usize, hy: usize| -> (u32, u8) {
             let d = view.ray(2.0 * hx as f32 + 1.0, 2.0 * hy as f32 + 1.0);
             let dn = v3::scale(d, 1.0 / v3::len(d));
             let nd = [v3::dot(view.planes[0], dn), v3::dot(view.planes[1], dn)];
             shade_pixel(view, pal, &ctx, dn, v3::dot(view.eye, dn), nd)
         };
-        let (nx, ny) = ((hx1 - hx0) / 2 + 1, (hy1 - hy0) / 2 + 1);
-        let px = |k: usize| (hx0 + 2 * k).min(hx1 - 1);
-        let py = |k: usize| (hy0 + 2 * k).min(hy1 - 1);
         let (half, cls) = (&mut self.half, &mut self.cls);
-        for ky in 0..ny {
-            let y = py(ky);
-            for kx in 0..nx {
-                let x = px(kx);
-                let (c, k) = shade(x, y);
-                half[y * hw + x] = c;
-                cls[y * hw + x] = k;
+        // Positions on a grid of spacing `step` from `a`, always including `b - 1`.
+        let grid = |a: usize, b: usize, step: usize| (a..b).step_by(step).chain((!(b - a - 1).is_multiple_of(step)).then_some(b - 1));
+        for y in grid(hy0, hy1, 4) {
+            for x in grid(hx0, hx1, 4) {
+                (half[y * hw + x], cls[y * hw + x]) = shade(x, y);
             }
         }
-        // In-between texels: interpolate where the shaded neighbours agree.
-        for ky in 0..ny {
-            let y = py(ky);
-            let row = y * hw;
-            for kx in 0..nx.saturating_sub(1) {
-                let (xa, xb) = (px(kx), px(kx + 1));
-                if xb - xa == 2 {
-                    let (ia, ib) = (row + xa, row + xb);
-                    let i = ia + 1;
-                    if half[ia] == half[ib] && cls[ia] == cls[ib] {
-                        half[i] = half[ia];
-                        cls[i] = cls[ia];
-                    } else if cls[ia] == cls[ib] && near(half[ia], half[ib]) {
-                        half[i] = avg2(half[ia], half[ib]);
-                        cls[i] = cls[ia];
-                    } else {
-                        (half[i], cls[i]) = shade(xa + 1, y);
+        for step in [2usize, 1] {
+            let coarse = 2 * step;
+            // Known texels sit on the coarse grid (or on the last row / column).
+            let old = |v: usize, v0: usize, v1: usize| (v - v0).is_multiple_of(coarse) || v == v1 - 1;
+            for y in grid(hy0, hy1, step) {
+                let y_old = old(y, hy0, hy1);
+                let (ya, yb) = if y_old { (y, y) } else { (y - step, (y + step).min(hy1 - 1)) };
+                for x in grid(hx0, hx1, step) {
+                    let x_old = old(x, hx0, hx1);
+                    if x_old && y_old {
+                        continue;
                     }
-                }
-            }
-        }
-        for ky in 0..ny.saturating_sub(1) {
-            let (ya, yb) = (py(ky), py(ky + 1));
-            if yb - ya != 2 {
-                continue;
-            }
-            let y = ya + 1;
-            for kx in 0..nx {
-                let xa = px(kx);
-                // Straight below a shaded texel: blend up and down.
-                let (iu, id, i) = (ya * hw + xa, yb * hw + xa, y * hw + xa);
-                if half[iu] == half[id] && cls[iu] == cls[id] {
-                    half[i] = half[iu];
-                    cls[i] = cls[iu];
-                } else if cls[iu] == cls[id] && near(half[iu], half[id]) {
-                    half[i] = avg2(half[iu], half[id]);
-                    cls[i] = cls[iu];
-                } else {
-                    (half[i], cls[i]) = shade(xa, y);
-                }
-                // Diagonal: blend the four corners.
-                if kx + 1 < nx && px(kx + 1) - xa == 2 {
-                    let (a, b, c, d) = (ya * hw + xa, ya * hw + xa + 2, yb * hw + xa, yb * hw + xa + 2);
-                    let i = y * hw + xa + 1;
+                    let (xa, xb) = if x_old { (x, x) } else { (x - step, (x + step).min(hx1 - 1)) };
+                    let i = y * hw + x;
+                    let (a, b, c, d) = (ya * hw + xa, ya * hw + xb, yb * hw + xa, yb * hw + xb);
                     let k = cls[a];
                     let (ca, cb, cc, cd) = (half[a], half[b], half[c], half[d]);
                     let same = k == cls[b] && k == cls[c] && k == cls[d];
                     if same && ca == cb && ca == cc && ca == cd {
                         half[i] = ca;
                         cls[i] = k;
-                    } else if same && near(ca, cd) && near(cb, cc) {
+                    } else if same && near(ca, cd) && near(cb, cc) && near(ca, cb) {
                         half[i] = avg4(ca, cb, cc, cd);
                         cls[i] = k;
                     } else {
-                        (half[i], cls[i]) = shade(xa + 1, y);
+                        (half[i], cls[i]) = shade(x, y);
                     }
                 }
             }
@@ -946,7 +916,7 @@ impl Glass {
             let s = fpow(view.f / z / 450.0, 0.35).min(1.7);
             let [rad, peak] = self.size[i];
             let rad = (rad * s).min(6.0);
-            let a = peak * flash * wgt * self.gain / s.max(1.0).sqrt();
+            let a = peak * flash * wgt * self.gain;
             let c = self.tint[i];
             self.splats.push(Splat { x: sx, y: sy, r: rad, a, c });
             // The same light at quarter resolution feeds the bloom. A splat's energy
@@ -1127,19 +1097,14 @@ fn near(a: u32, b: u32) -> bool {
 }
 
 #[inline]
-fn avg2(a: u32, b: u32) -> u32 {
-    let rb = ((a & 0x00ff_00ff) + (b & 0x00ff_00ff) + 0x0001_0001) >> 1;
-    let ga = (((a >> 8) & 0x00ff_00ff) + ((b >> 8) & 0x00ff_00ff) + 0x0001_0001) >> 1;
-    (rb & 0x00ff_00ff) | ((ga & 0x00ff_00ff) << 8) | 0xff00_0000
-}
-
-#[inline]
 fn avg4(a: u32, b: u32, c: u32, d: u32) -> u32 {
     let m = 0x00ff_00ff;
     let rb = ((a & m) + (b & m) + (c & m) + (d & m) + 0x0002_0002) >> 2;
     let ga = (((a >> 8) & m) + ((b >> 8) & m) + ((c >> 8) & m) + ((d >> 8) & m) + 0x0002_0002) >> 2;
     (rb & m) | ((ga & m) << 8) | 0xff00_0000
 }
+
+type BgKey = [u32; 20];
 
 /// One quake's splat for this frame.
 #[derive(Clone, Copy, Default)]
@@ -1308,7 +1273,7 @@ fn shade_pixel(view: &View, pal: &Palette, ctx: &Ctx, dn: V, b: f32, nd: [f32; 2
             let mu = (-v3::dot(n, dn)).clamp(0.0, 1.0);
             let tex = churn(n, ctx.time);
             // Limb darkening, like a star: the edge is cooler and dimmer.
-            let heat = mu.sqrt().sqrt() * (0.8 + 0.2 * tex) + 0.04 * tex;
+            let heat = fpow(mu, 0.45) * (0.7 + 0.3 * tex) + 0.05 * tex;
             let rim = 1.0 - mu;
             let rim2 = rim * rim;
             v3::add(pal.core.at(heat * 0.94), v3::scale(pal.glow, 0.08 * rim2 * rim2))

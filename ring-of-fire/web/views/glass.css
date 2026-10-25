@@ -43,5 +43,6 @@
 }
 @media (max-width: 900px) {
   #interior .glass-note b { font-size: var(--t-m); }
-  #interior .hint { max-width: 60%; }
+  /* The note owns the top edge on small screens; the hint moves to the bottom. */
+  #interior .hint { top: auto; bottom: 10px; max-width: calc(100% - 24px); }
 }

@@ -53,7 +53,7 @@
         st.flying = flying;
         st.dirty = true;
         st.statsAt = 0;
-        document.querySelectorAll("#glass-presets [aria-busy]").forEach((b) => b.removeAttribute("aria-busy"));
+        if (!flying) document.querySelectorAll("#glass-presets [aria-busy]").forEach((b) => b.removeAttribute("aria-busy"));
       }
       if (moved || animate || st.dirty) draw(now);
     },
@@ -216,16 +216,23 @@
     if (now - st.statsAt > 300) { st.statsAt = now; updateStats(); }
   }
 
-  // Keep frames under ~20 ms: step resolution down on slow machines, back up with headroom.
+  // Aim for ~16 ms frames. Part of the cost does not depend on resolution (every
+  // quake is projected and tested), so model ms = fixed + perPixel * pixels and
+  // pick the resolution that fits, moving only when it is clearly off.
   let adaptAt = 0;
+  const FIXED_MS = 3, TARGET_MS = 16;
   function adapt() {
     const now = performance.now();
-    if (now - adaptAt < 1500 || !st.perf) return;
+    if (now - adaptAt < 2500 || !st.perf) return;
     adaptAt = now;
-    const old = st.scale;
-    if (st.perf > 20 && st.scale > 0.45) st.scale = Math.max(0.45, st.scale * 0.85);
-    else if (st.perf < 11 && st.scale < 1) st.scale = Math.min(1, st.scale / 0.85);
-    if (st.scale !== old) resize();
+    const px = canvas.width * canvas.height;
+    const perPx = Math.max(1e-6, st.perf - FIXED_MS) / px;
+    const want = Math.min(1, Math.max(0.45, st.scale * Math.sqrt((TARGET_MS - FIXED_MS) / perPx / px)));
+    if (Math.abs(want - st.scale) / st.scale > 0.14) {
+      st.scale = want;
+      st.perf = 0;
+      resize();
+    }
   }
 
   // Depth labels, deepest first so the named layers win when labels crowd.

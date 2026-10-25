@@ -375,7 +375,7 @@ impl Palette {
             edge: hex(0xbcd6ff),
             // Core surface, dark limb -> hot centre.
             core: Ramp::new(
-                &[(0.0, 0x1a0402), (0.3, 0x5c1004), (0.55, 0xa82a06), (0.78, 0xe2571a), (0.92, 0xf78c3a), (1.0, 0xffc27a)],
+                &[(0.0, 0x220503), (0.25, 0x6a1405), (0.5, 0xb83508), (0.7, 0xec6a1e), (0.85, 0xfb9a42), (1.0, 0xffd08a)],
                 256,
             ),
             // Outer core cross-section: liquid iron, swirling.
