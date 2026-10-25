@@ -1,1 +1,102 @@
 /* 03 Slabs: styles for this instrument only. Prefix every selector with #slabs. */
+#slabs .ch-stage { cursor: crosshair; }
+#slabs .ch-stage canvas.view { touch-action: pan-y; }
+#slabs .ch-stage canvas.view:focus-visible { outline-offset: -2px; }
+#slabs .slicer-marks { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+#slabs .slicer-marks .mark { left: 0; top: 0; will-change: transform; }
+#slabs .mark.depth { color: var(--ink-3); }
+#slabs .mark.dist { color: var(--ink-3); }
+#slabs .mark.end { font: 600 var(--t-l)/1 var(--f-display); color: var(--ember); letter-spacing: 0.04em; }
+#slabs .mark.plate { color: var(--teal); }
+#slabs .mark.disc { color: var(--teal); opacity: 0.85; }
+#slabs .mark.cmb { color: var(--ember); opacity: 0.9; }
+#slabs .mark.dip { font: 600 var(--t-l)/1 var(--f-display); color: var(--ink); letter-spacing: 0.02em; background: color-mix(in srgb, var(--well) 55%, transparent); border-radius: 3px; padding: 2px 4px; margin: -2px -4px; }
+#slabs .mark.dip.r { text-align: right; }
+#slabs .mark.dip small { display: block; font: 400 var(--t-2xs)/1.3 var(--f-data); color: var(--ink-2); letter-spacing: 0; margin-top: 2px; }
+#slabs .mark.bottom { color: var(--ink-2); }
+#slabs .mark.hist { color: var(--ink-3); font-size: var(--t-2xs); }
+#slabs .mark.gend { font: 600 var(--t-m)/1 var(--f-display); color: var(--ember); }
+#slabs .slicer-empty {
+  position: absolute; left: 50%; top: 46%; transform: translate(-50%, -50%); z-index: 2; margin: 0;
+  max-width: min(42ch, 84%); text-align: center; pointer-events: none;
+  font: 400 var(--t-s)/1.5 var(--f-body); color: var(--ink-2);
+  background: color-mix(in srgb, var(--well) 86%, transparent); border: 1px solid var(--rule); border-radius: 4px; padding: 10px 14px;
+}
+#slabs .slicer-empty b { color: var(--ink); font-weight: 500; }
+#slabs .slicer-cap {
+  position: absolute; left: 12px; right: 12px; bottom: 8px; z-index: 1; pointer-events: none;
+  display: flex; justify-content: space-between; gap: 12px;
+  font: 400 var(--t-xs)/1.3 var(--f-data); color: var(--ink-3); font-variant-numeric: tabular-nums;
+}
+#slabs .slicer-cap span:last-child { text-align: right; }
+
+#slabs .slicer-loc { gap: 6px; }
+#slabs .slicer-gwrap {
+  position: relative; aspect-ratio: 1; width: 100%;
+  background: var(--well); border: 1px solid var(--rule); border-radius: 4px; overflow: hidden;
+}
+#slabs #slicer-globe { position: absolute; inset: 0; width: 100%; height: 100%; display: block; touch-action: none; cursor: grab; }
+#slabs #slicer-globe.dragging { cursor: grabbing; }
+#slabs #slicer-globe.handle { cursor: move; }
+#slabs #slicer-globe:focus-visible { outline-offset: -2px; }
+#slabs .slicer-ghint { margin: 0; font: 400 var(--t-xs)/1.4 var(--f-data); color: var(--ink-3); }
+
+#slabs .slicer-read .stats { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+#slabs .slicer-read .stat b small { font: 400 var(--t-xs)/1 var(--f-data); color: var(--ink-3); margin-left: 2px; letter-spacing: 0; }
+#slabs .slicer-fitnote, #slabs .slicer-sel { margin: 0; font: 400 var(--t-xs)/1.6 var(--f-data); color: var(--ink-2); font-variant-numeric: tabular-nums; }
+#slabs .slicer-fitnote b, #slabs .slicer-sel b { color: var(--ink); font-weight: 500; }
+#slabs .slicer-sel { color: var(--ink-3); }
+
+#slabs .slicer-left { display: grid; gap: 10px; align-content: start; min-width: 0; }
+#slabs .slicer-bar { gap: 6px; }
+#slabs .slicer-bar .chip { padding-block: 5px; }
+#slabs .slicer-bar .chip::before { background: var(--chip); border-color: var(--chip); opacity: 0.5; }
+#slabs .slicer-bar .chip[aria-pressed="true"]::before { opacity: 1; }
+#slabs .slicer-bar .chip em { font: normal 400 var(--t-xs)/1 var(--f-data); color: var(--ink-3); }
+#slabs .slicer-bar .chip[aria-pressed="true"] { border-color: var(--rule-2); background: #111829; }
+#slabs .slicer-bar .chip[aria-pressed="true"] em { color: var(--ember); }
+#slabs .slicer-pnote { font-size: var(--t-xs); }
+
+#slabs .slicer-controls { gap: 14px; }
+#slabs .slicer-controls .btn { justify-content: flex-start; text-align: left; line-height: 1.25; }
+#slabs .slicer-controls .btn span { overflow: hidden; text-overflow: ellipsis; }
+#slabs .slicer-lab { display: inline-flex; align-items: center; gap: 10px; }
+#slabs .slicer-play {
+  background: transparent; border: 1px solid var(--rule-2); border-radius: 999px; cursor: pointer;
+  padding: 2px 9px 2px 8px; font: 400 var(--t-2xs)/1.3 var(--f-data); color: var(--ink-2);
+  display: inline-flex; align-items: center; gap: 5px;
+}
+#slabs .slicer-play::before { content: ""; border-left: 6px solid currentColor; border-top: 4px solid transparent; border-bottom: 4px solid transparent; }
+#slabs .slicer-play[aria-pressed="true"]::before { border: 0; width: 6px; height: 7px; background: currentColor; }
+#slabs .slicer-play:hover, #slabs .slicer-play[aria-pressed="true"] { color: var(--ember); border-color: var(--ember); }
+#slabs .linkish {
+  background: none; border: 0; padding: 0; cursor: pointer; font: inherit; color: var(--ember);
+  text-decoration: underline; text-decoration-color: color-mix(in srgb, var(--ember) 45%, transparent); text-underline-offset: 2px;
+}
+#slabs .linkish:hover { text-decoration-color: var(--ember); }
+
+#slabs .slicer-notes { display: grid; gap: 10px; align-content: start; min-width: 0; }
+#slabs .slicer-notes .prose { margin: 0; }
+#slabs .slicer-notes .prose em { font-style: normal; color: var(--ink); }
+
+@media (min-width: 901px) {
+  /* Notes sit under the section; the side column spans both rows. */
+  #slabs .ch-body { grid-template-rows: auto 1fr; }
+  #slabs .slicer-left { grid-column: 1; grid-row: 1; }
+  #slabs .ch-stage { height: min(calc(100svh - var(--nav-h) - 84px), 760px); min-height: 500px; }
+  #slabs .ch-side { grid-column: 2; grid-row: 1 / span 2; }
+  #slabs .slicer-notes { grid-column: 1; grid-row: 2; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 40px; padding-top: 4px; }
+  #slabs .slicer-notes .eyebrow { grid-column: 1 / -1; margin: 0; }
+}
+@media (max-width: 900px) {
+  /* One scrolling row of chips, bleeding to the screen edges. */
+  #slabs .slicer-bar {
+    flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; overscroll-behavior-x: contain;
+    margin-inline: calc(-1 * max(16px, env(safe-area-inset-left, 0px))); padding-inline: max(16px, env(safe-area-inset-left, 0px));
+  }
+  #slabs .slicer-bar::-webkit-scrollbar { display: none; }
+  #slabs .slicer-bar .chip { flex: none; }
+  #slabs .slicer-gwrap { max-width: 420px; margin-inline: auto; }
+  #slabs .slicer-ghint { text-align: center; }
+  #slabs .slicer-cap { font-size: var(--t-2xs); left: 8px; right: 8px; bottom: 6px; }
+}

@@ -1,10 +1,64 @@
 <section class="chapter" id="slabs" data-view="slicer" aria-label="03 Slabs">
   <header class="ch-head">
     <div><p class="ch-num">03 Slabs</p><h2 class="ch-title">Slab Slicer</h2></div>
-    <p class="ch-lede">Coming soon.</p>
+    <p class="ch-lede">Cut the planet open along any line. Where ocean floor sinks into the mantle, its earthquakes line up along a sloping band called a Wadati–Benioff zone. <strong>Each slope here is fitted from the quakes themselves</strong>, and the slice is drawn at true scale on a curved Earth, so the angle you see is the real angle.</p>
   </header>
   <div class="ch-body">
-    <div class="ch-stage"><canvas class="view" id="slicer-canvas"></canvas></div>
-    <aside class="ch-side"></aside>
+    <div class="slicer-left">
+      <div class="slicer-bar toggles" id="slicer-presets" role="group" aria-label="Classic slabs"></div>
+      <div class="ch-stage" id="slicer-stage">
+        <canvas class="view" id="slicer-canvas" tabindex="0" aria-label="Cross-section through the Earth along the profile. Hover a quake for details, click to select it, arrow keys slide the profile sideways."></canvas>
+        <div class="slicer-marks" id="slicer-marks" aria-hidden="true"></div>
+        <p class="slicer-empty" id="slicer-empty" hidden></p>
+        <div class="slicer-cap" id="slicer-cap" aria-hidden="true"><span id="slicer-cap-l"></span><span id="slicer-cap-r"></span></div>
+        <div class="tip" id="slicer-tip" hidden></div>
+      </div>
+    </div>
+    <aside class="ch-side">
+      <section class="slicer-loc" aria-label="Profile line on the globe">
+        <div class="slicer-gwrap" id="slicer-gwrap">
+          <canvas id="slicer-globe" tabindex="0" aria-label="Globe with the profile line. Drag the A or B handle to move an end, the middle handle to move the whole line, or anywhere else to turn the globe."></canvas>
+          <div class="slicer-marks" id="slicer-gmarks" aria-hidden="true"></div>
+        </div>
+        <p class="slicer-ghint" id="slicer-ghint">drag A, B or the middle dot; drag elsewhere to turn<br>colour on the line: depth of the slab below</p>
+      </section>
+
+      <section class="slicer-read" aria-live="polite">
+        <p class="eyebrow" id="slicer-title">Fitted slab</p>
+        <div class="stats">
+          <div class="stat"><b class="ember" id="slicer-dip">—</b><span>dip</span></div>
+          <div class="stat"><b id="slicer-maxd">—</b><span>slab reaches</span></div>
+          <div class="stat"><b id="slicer-n">—</b><span>quakes in band</span></div>
+        </div>
+        <p class="slicer-fitnote" id="slicer-fitnote"></p>
+        <p class="prose slicer-pnote" id="slicer-pnote" hidden></p>
+        <p class="slicer-sel" id="slicer-sel" hidden></p>
+      </section>
+
+      <section class="slicer-controls" aria-label="Slice controls">
+        <button class="btn" id="slicer-through" type="button" disabled><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M5 0h2v12H5zM0 5h12v2H0z"/></svg><span id="slicer-through-label">Select a quake to slice through it</span></button>
+        <div class="field">
+          <label for="slicer-width">Band width <output id="slicer-width-out" for="slicer-width">±100 km</output></label>
+          <input type="range" id="slicer-width" min="50" max="300" step="10" value="100">
+        </div>
+        <div class="field">
+          <div class="lab"><span class="slicer-lab"><label for="slicer-sweep">Slide sideways</label><button type="button" class="slicer-play" id="slicer-sweep-play" aria-pressed="false" aria-label="Sweep the slice along the trench">sweep</button></span><output id="slicer-sweep-out" for="slicer-sweep">0 km</output></div>
+          <input type="range" id="slicer-sweep" min="-600" max="600" step="10" value="0">
+        </div>
+        <div class="seg" role="group" aria-label="Depth shown">
+          <button type="button" id="slicer-d-800" data-depth="800" aria-pressed="true">Upper mantle</button>
+          <button type="button" id="slicer-d-core" data-depth="3150" aria-pressed="false">Down to the core</button>
+        </div>
+      </section>
+    </aside>
+    <div class="slicer-notes">
+      <p class="eyebrow">Reading a slab</p>
+      <p class="prose">A sinking plate stays colder than the mantle around it for millions of years, so it can still break in earthquakes hundreds of kilometres down. Those quakes trace the slab. <strong>Dip</strong> is its angle below the horizontal.</p>
+      <p class="prose">Each dot is a quake within the band, sized by magnitude and coloured by depth. Dots fade the farther they lie from the line, and quakes shallower than 70 km are drawn a little dimmer. Where there is room, bars beside the section count quakes in each slice of depth.</p>
+      <p class="prose" id="slicer-contrast">Steep slabs like the Mariana sink under their own weight and pull the sea floor behind them apart. Shallow slabs like Japan's grind against the plate above, and that tight contact is where the largest megathrust earthquakes happen.</p>
+      <p class="prose" id="slicer-flat"></p>
+      <p class="prose">No quake in this catalogue is deeper than <strong id="slicer-deepest">—</strong>. Below about 700 km the slab still sinks, but it no longer breaks. Switch to <em>Down to the core</em> to see how much mantle lies below.</p>
+    </div>
   </div>
+  <p class="ch-foot">Quakes within the band are projected onto the plane of the great circle, keeping their true depth. The fit uses quakes 70 km deep or more. RANSAC over pairs of quakes finds the best-supported dipping line, then an orthogonal regression with Tukey biweights refines it. A quadratic replaces the line where the slab bends and that cuts the scatter by 12% or more. Dip is measured from the shallowest to the deepest fitting quake, against the local horizontal; the ± is the formal 1σ error. Scatter is the RMS distance of fitting quakes from the line. Teal marks are plate boundaries from Bird (2003). Wadati traced the sloping zone under Japan in 1935, Benioff around the Pacific in 1954; the steep and shallow slab types follow Uyeda and Kanamori (1979).</p>
 </section>
