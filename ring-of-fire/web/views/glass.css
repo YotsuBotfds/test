@@ -1,1 +1,46 @@
-/* 02 Interior: styles for this instrument only. Prefix every selector with #interior. */
+/* ---------- 02 Interior: Glass Earth ---------- */
+#interior .ch-stage { background: var(--void); }
+#interior #glass-canvas { cursor: grab; }
+#interior #glass-canvas.dragging { cursor: grabbing; }
+#interior .glass-rings .mark {
+  display: none; transform: translate(10px, -50%);
+  padding-left: 12px;
+  font-size: var(--t-2xs);
+}
+#interior .glass-rings .mark::before {
+  content: ""; position: absolute; left: 0; top: 50%; width: 8px; border-top: 1px solid var(--ink-3);
+}
+#interior .glass-rings .mark.on { display: block; }
+#interior .glass-note {
+  position: absolute; left: 14px; top: 10px; z-index: 2; pointer-events: none;
+  display: grid; gap: 2px;
+  font: 400 var(--t-xs)/1.35 var(--f-data); color: var(--ink-3);
+  text-shadow: 0 0 4px var(--void), 0 0 2px var(--void);
+}
+#interior .glass-note b { font: 600 var(--t-l)/1.05 var(--f-display); letter-spacing: 0.02em; color: var(--ink); }
+#interior .glass-presets button { grid-template-columns: minmax(0, 1fr); }
+#interior .glass-presets .t em { color: var(--ember); }
+#interior .glass-presets button[aria-current="true"] .t { color: var(--ember); }
+#interior .glass-presets button[aria-busy="true"] .t em::after { content: " ·"; }
+#interior .glass-small { margin: 0; font-size: var(--t-xs); color: var(--ink-3); line-height: 1.5; }
+#interior .glass-controls { gap: 16px; }
+#interior .glass-deepest {
+  display: grid; gap: 2px; text-align: left; width: 100%;
+  background: transparent; border: 1px solid var(--rule); border-radius: 3px;
+  padding: 9px 10px; cursor: pointer; margin-top: 4px;
+  font: 400 var(--t-xs)/1.45 var(--f-data); color: var(--ink-2);
+}
+#interior .glass-deepest b { font: 500 var(--t-s)/1.35 var(--f-body); color: var(--ink); }
+#interior .glass-deepest:hover { border-color: var(--rule-2); background: #0e1424; }
+#interior .stats .stat b { min-height: 1em; }
+@media (min-width: 901px) {
+  /* The stage stays put while the notes column scrolls past it. */
+  #interior .ch-stage {
+    align-self: start; position: sticky; top: calc(var(--nav-h) + 14px);
+    height: min(calc(100svh - var(--nav-h) - 28px), 800px); min-height: 520px;
+  }
+}
+@media (max-width: 900px) {
+  #interior .glass-note b { font-size: var(--t-m); }
+  #interior .hint { max-width: 60%; }
+}

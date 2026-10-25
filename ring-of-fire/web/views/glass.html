@@ -1,10 +1,76 @@
 <section class="chapter" id="interior" data-view="glass" aria-label="02 Interior">
   <header class="ch-head">
     <div><p class="ch-num">02 Interior</p><h2 class="ch-title">Glass Earth</h2></div>
-    <p class="ch-lede">Coming soon.</p>
+    <p class="ch-lede">Here the planet is made of glass and every quake hangs at its own depth. Where one plate dives under another, the quakes follow it down into the mantle as a glowing curtain <strong id="glass-lede-deep">hundreds of kilometres deep</strong>. Below them all sits the molten core.</p>
   </header>
   <div class="ch-body">
-    <div class="ch-stage"><canvas class="view" id="glass-canvas"></canvas></div>
-    <aside class="ch-side"></aside>
+    <div class="ch-stage" id="glass-stage">
+      <canvas class="view" id="glass-canvas" tabindex="0" aria-label="See-through Earth with every quake at its depth. Drag to turn, pinch or Ctrl+scroll to zoom, arrow keys to turn."></canvas>
+      <div class="hint" id="glass-hint">drag to turn · ctrl + scroll to zoom · click a quake</div>
+      <div class="glass-rings" id="glass-rings" aria-hidden="true">
+        <span class="mark" id="glass-ring-0">100 km</span>
+        <span class="mark" id="glass-ring-1">200 km</span>
+        <span class="mark" id="glass-ring-2">300 km</span>
+        <span class="mark" id="glass-ring-3"><b>410 km</b></span>
+        <span class="mark" id="glass-ring-4"><b>660 km</b></span>
+        <span class="mark" id="glass-ring-5"><b>core</b> 2,891 km</span>
+        <span class="mark" id="glass-ring-6"><b>inner core</b> 5,150 km</span>
+      </div>
+      <div class="glass-note" id="glass-note" aria-live="polite">
+        <b id="glass-where">Whole planet</b>
+        <span id="glass-scale">depths stretched ×4</span>
+      </div>
+      <div class="tip" id="glass-tip" hidden></div>
+    </div>
+
+    <aside class="ch-side">
+      <section>
+        <p class="eyebrow">Look along a slab</p>
+        <ul class="list glass-presets" id="glass-presets"></ul>
+      </section>
+
+      <section aria-live="off">
+        <p class="eyebrow">In view now</p>
+        <div class="stats">
+          <div class="stat"><b id="glass-shown">—</b><span>quakes drawn</span></div>
+          <div class="stat"><b id="glass-deep" class="ember">—</b><span>of them 300 km or deeper</span></div>
+          <div class="stat"><b id="glass-dip">—</b><span id="glass-dip-label">dip in this slice</span></div>
+        </div>
+        <button type="button" class="glass-deepest" id="glass-deepest" hidden></button>
+      </section>
+
+      <section class="glass-controls" aria-label="View controls">
+        <div class="field">
+          <label for="glass-exag"><span>Depth stretch</span><output id="glass-exag-out" for="glass-exag">×4</output></label>
+          <input type="range" id="glass-exag" min="1" max="10" step="0.5" value="4">
+          <p class="glass-small" id="glass-exag-note">×1 is true scale.</p>
+        </div>
+        <div class="field">
+          <label for="glass-sweep"><span id="glass-sweep-label">Turn the cut</span><output id="glass-sweep-out" for="glass-sweep">172°E</output></label>
+          <input type="range" id="glass-sweep" min="-180" max="180" step="1" value="0">
+        </div>
+        <div class="toggles">
+          <button type="button" class="chip" id="glass-cut" aria-pressed="true">Cutaway</button>
+          <button type="button" class="chip" id="glass-grid" data-flag="4" aria-pressed="true" style="--chip: var(--ink-2)">Grid</button>
+          <button type="button" class="chip" id="glass-coast" data-flag="1" aria-pressed="false" style="--chip: var(--ink-2)">Coastlines</button>
+          <button type="button" class="chip" id="glass-plates" data-flag="2" aria-pressed="false" style="--chip: var(--teal)">Plate boundaries</button>
+          <button type="button" class="chip" id="glass-auto" aria-pressed="true">Slow turn</button>
+        </div>
+      </section>
+
+      <section>
+        <p class="eyebrow">Why the quakes go deep</p>
+        <p class="prose" id="glass-why-1">Where an ocean plate sinks under another, it scrapes and bends on the way down, and the quakes trace its upper part as a sloping sheet. Seismologists call these sheets <strong>Wadati–Benioff zones</strong>, after Kiyoo Wadati and Hugo Benioff, who mapped them between the 1920s and 1950s.</p>
+        <p class="prose" id="glass-why-2">Below about 70 km the mantle is hot enough to flow, so deep quakes happen only inside the sinking slab, which stays cold for millions of years.</p>
+      </section>
+
+      <section>
+        <p class="eyebrow">Colour is depth below the surface</p>
+        <div class="ramp" role="img" aria-label="Depth colour scale: gold at the surface, orange at 70 km, rose at 300 km, violet at 700 km"></div>
+        <div class="ramp-ticks"><span style="left:0">0 km</span><span style="left:42%">70</span><span style="left:77.4%">300</span><span style="left:100%">700 km</span></div>
+        <p class="glass-small">Dot size grows with magnitude. Deeper quakes are drawn a little brighter, because their colours are darker.</p>
+      </section>
+    </aside>
   </div>
+  <p class="ch-foot" id="glass-foot">Hypocentres from the USGS catalogue, drawn at radius 6,371 km minus the stretched depth. The stretch k·d / (1 + (k − 1)·d / 2,891 km) is k times near the surface and eases off with depth, so the core keeps its true size. Layer radii from PREM (Dziewonski and Anderson, 1981): core-mantle boundary 3,480 km, inner core 1,221 km, with the mantle's 410 and 660 km discontinuities. Slab dip is the principal axis of depth against distance across the trench, for quakes below 70 km within 150 km of the slice. Glass, core and cut faces are ray-traced per pixel.</p>
 </section>
