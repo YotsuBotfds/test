@@ -1,0 +1,8 @@
+[package]
+name = "poster"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+globe = { path = "../globe" }
+png = "0.17"
