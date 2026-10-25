@@ -420,6 +420,40 @@ impl Solution {
         }
     }
 
+    /// Angle (degrees from the source) where field `f`'s front crosses the ring at
+    /// radius `r` km at time `t`, scanning from `from` towards `to` degrees; NaN if it
+    /// does not cross there, or is fainter than `a_min` (1/km).
+    pub fn front_on_ring(&self, f: usize, r: f64, t: f64, a_min: f64, from: f64, to: f64) -> f64 {
+        let g = grid();
+        let Some(field) = self.fields.get(f) else { return f64::NAN };
+        let j = (g.ring_at(r).round() as usize).clamp(field.j0, field.j1);
+        let idx = |d: f64| ((d.clamp(0.0, 180.0).to_radians() / g.dth).round() as usize).clamp(field.i0, field.i1);
+        let (i0, i1) = (idx(from), idx(to));
+        let step: i64 = if i1 >= i0 { 1 } else { -1 };
+        let mut i = i0 as i64;
+        let mut prev: Option<(i64, f64)> = None;
+        while (step > 0 && i <= i1 as i64) || (step < 0 && i >= i1 as i64) {
+            let ti = field.at(j, i as usize) as f64;
+            if ti.is_finite() {
+                if let Some((ip, tp)) = prev {
+                    if (tp - t) * (ti - t) <= 0.0 && tp != ti {
+                        let a = field.amp_at(j, ip as usize).min(field.amp_at(j, i as usize)) as f64;
+                        if a < a_min {
+                            return f64::NAN;
+                        }
+                        let u = (t - tp) / (ti - tp);
+                        return ((ip as f64 + (i - ip) as f64 * u) * g.dth).to_degrees();
+                    }
+                }
+                prev = Some((i, ti));
+            } else {
+                prev = None;
+            }
+            i += step;
+        }
+        f64::NAN
+    }
+
     /// Direct S arrival time, or infinity in the S shadow.
     pub fn first_s(&self, delta: f64) -> f64 {
         if delta <= self.info.s_shadow {

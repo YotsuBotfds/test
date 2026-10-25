@@ -292,6 +292,15 @@ mod exports {
         with(|s| if x < 0.0 || y < 0.0 { f32::NAN } else { s.sec.probe(f as usize, x as usize, y as usize) })
     }
 
+    /// Angle (degrees) where field `f`'s front crosses the ring at radius `r` km at time
+    /// `t`, scanning from `from` to `to` degrees; NaN where absent or fainter than `a_min`.
+    #[no_mangle]
+    pub extern "C" fn waves_front_th(f: u32, r: f32, t: f32, a_min: f32, from: f32, to: f32) -> f32 {
+        with(|s| {
+            s.sol().map_or(f32::NAN, |sol| sol.front_on_ring(f as usize, r as f64, t as f64, a_min as f64, from as f64, to as f64) as f32)
+        })
+    }
+
     /// Model speed, km/s: wave 0 P, 1 S, at `depth` km (the deeper side on a jump).
     #[no_mangle]
     pub extern "C" fn waves_speed(wave: u32, depth: f32) -> f32 {

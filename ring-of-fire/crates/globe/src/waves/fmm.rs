@@ -569,15 +569,16 @@ pub fn amplitude(g: &Grid, f: &mut Field, tau: f64) {
             amp[k] = a2.sqrt() * (-tk * inv_tau).exp() * fade;
         }
         // On the symmetry axis the advected take-off angle is an average of both
-        // sides, so the gradient there and one column in reads too small: take the
-        // value from the third column in.
-        if f.i0 == 0 && w > 3 {
-            amp[row] = amp[row + 2];
-            amp[row + 1] = amp[row + 2];
+        // sides, so within a few columns of it the gradient reads too small (or zero,
+        // where it turns over): take the value from just outside that zone.
+        const AXIS: usize = 4;
+        if f.i0 == 0 && w > AXIS + 1 {
+            let v = amp[row + AXIS];
+            amp[row..row + AXIS].fill(v);
         }
-        if f.i1 == g.nt - 1 && w > 3 {
-            amp[row + w - 1] = amp[row + w - 3];
-            amp[row + w - 2] = amp[row + w - 3];
+        if f.i1 == g.nt - 1 && w > AXIS + 1 {
+            let v = amp[row + w - 1 - AXIS];
+            amp[row + w - AXIS..row + w].fill(v);
         }
     }
     f.amp = amp;

@@ -9,6 +9,17 @@ fn main() {
     let t = std::time::Instant::now();
     let sol = solve(depth);
     println!("solve depth {depth}: {:.1} ms, {} pops; info {:?}", t.elapsed().as_secs_f64() * 1000.0, sol.pops, sol.info);
+    if std::env::var("AXIS").is_ok() {
+        // Times and amplitudes next to the antipode axis, below the inner core.
+        for r in [1000.0, 2000.0, 3000.0] {
+            let j = g.ring_at(r).round() as usize;
+            for f in [F_CORE, F_OUTER] {
+                let fl = &sol.fields[f];
+                let row: Vec<String> = (g.nt - 5..g.nt).map(|i| format!("{:.2}/{:.2e}", fl.at(j, i), fl.amp_at(j, i))).collect();
+                println!("r {r} field {f}: {}", row.join("  "));
+            }
+        }
+    }
     let c = Curves::new(depth);
     println!("  delta |   P fmm   ray    err  amp |   S fmm   ray    err  amp | PKIKP fmm ray amp | PKP fmm ray amp");
     for d in (0..=36).map(|k| k as f64 * 5.0) {

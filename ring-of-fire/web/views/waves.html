@@ -12,7 +12,7 @@
         <div class="wv-key" id="waves-key" role="group" aria-label="Show on the cross-section">
           <button type="button" data-bit="2" aria-pressed="true"><i style="--k: var(--ember)"></i>P waves</button>
           <button type="button" data-bit="4" aria-pressed="true"><i style="--k: var(--teal)"></i>S waves</button>
-          <button type="button" data-bit="1" aria-pressed="true" class="wv-key-rays"><i class="ln"></i>Ray paths<span>: P right, S left</span></button>
+          <button type="button" data-bit="1" aria-pressed="true" class="wv-key-rays"><i class="ln"></i><span>Ray paths<em>, P right and S left</em></span></button>
         </div>
         <div class="wv-busy" id="waves-busy" hidden><span class="wv-spin" aria-hidden="true"></span><span id="waves-busy-text">Solving travel times</span></div>
         <div class="tip wv-tip" id="waves-tip" hidden></div>
@@ -54,7 +54,7 @@
       </section>
     </aside>
     <div class="wv-chart-panel">
-      <div class="wv-panel-head"><p class="eyebrow">When each wave reaches the surface</p><p class="wv-legend-s">brighter where the wave is stronger · <span class="ref">+</span> iasp91 tables</p></div>
+      <div class="wv-panel-head"><p class="eyebrow">When each wave reaches the surface</p><p class="wv-legend-s">brighter where the wave is stronger · <span class="ref">+</span> standard tables (iasp91, rounded)</p></div>
       <div class="wv-chart" id="waves-chart-wrap">
         <canvas id="waves-chart" aria-label="Travel-time chart: arrival time at the surface against distance from the quake, for P and S waves. Click to set the time."></canvas>
         <div class="wv-axes" id="waves-axes" aria-hidden="true"></div>

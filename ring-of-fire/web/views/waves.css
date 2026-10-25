@@ -28,6 +28,12 @@
 #waves .wv-marks .city.hot b { text-decoration: underline; text-underline-offset: 3px; }
 #waves .wv-marks .city b { font-weight: 500; color: inherit; }
 #waves .wv-marks .shadow { line-height: 1.3; }
+#waves .wv-marks .front {
+  font: 600 var(--t-xs)/1 var(--f-data); letter-spacing: 0.04em; transform: translate(-50%, -50%);
+  padding: 2px 4px; border-radius: 2px; background: color-mix(in srgb, var(--void) 70%, transparent);
+}
+#waves .wv-marks .front.p { color: var(--ember); }
+#waves .wv-marks .front.s { color: var(--teal); }
 #waves .wv-marks .shadow.p { color: var(--ember); }
 #waves .wv-marks .shadow.s { color: var(--teal); }
 #waves .wv-marks .shadow span { color: var(--ink-3); display: block; }
@@ -52,7 +58,7 @@
 #waves .wv-key i { width: 14px; height: 3px; border-radius: 2px; background: var(--k); box-shadow: 0 0 6px var(--k); }
 #waves .wv-key i.ln { height: 1px; background: linear-gradient(90deg, var(--teal), var(--ember)); box-shadow: none; }
 #waves .wv-key button[aria-pressed="false"] i { opacity: 0.35; box-shadow: none; }
-#waves .wv-key .wv-key-rays span { color: var(--ink-3); }
+#waves .wv-key .wv-key-rays em { font-style: normal; color: var(--ink-3); }
 #waves .wv-busy {
   position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
   display: inline-flex; align-items: center; gap: 10px;
@@ -178,7 +184,8 @@
   #waves .wv-scrub output { white-space: nowrap; }
   #waves .wv-key { left: 4px; bottom: 4px; }
   #waves .wv-key button { font-size: var(--t-2xs); padding: 3px 5px; }
-  #waves .wv-key .wv-key-rays span { display: none; }
+  #waves .wv-key .wv-key-rays em { display: none; }
+  #waves .wv-marks .front { font-size: 9px; padding: 1px 3px; }
   #waves .wv-marks .layer, #waves .wv-marks .deg { font-size: 9px; }
   #waves .wv-marks .city { font-size: 9px; }
   #waves .wv-story { grid-template-columns: minmax(0, 1fr); margin-top: 28px; }

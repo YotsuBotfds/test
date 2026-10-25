@@ -71,7 +71,7 @@
       ccanvas = $("waves-chart"); cctx = ccanvas.getContext("2d");
       G = W.globe_new();
       W.globe_flags(G, 1);
-      W.globe_gain(G, 0.18);
+      W.globe_gain(G, 0.22);
       W.globe_bloom(G, 0.2);
       W.waves_opts(7);
       st.def = R.largest(1)[0];
@@ -232,7 +232,7 @@
   function play(on) {
     if (on && st.t >= T_MAX) st.t = 0;
     st.playing = on;
-    $("waves-play-label").textContent = on ? "Pause" : st.t >= T_MAX ? "Replay" : st.t > 0 ? "Play" : "Play";
+    $("waves-play-label").textContent = on ? "Pause" : st.t >= T_MAX ? "Replay" : "Play";
     $("waves-play-icon").setAttribute("d", on ? "M2 1h3v10H2zM7 1h3v10H7z" : "M2 1l9 5-9 5z");
     st.dirty = true;
   }
@@ -274,7 +274,7 @@
     if (st.resized) {
       st.resized = false;
       const f = R.fit(canvas, 1.15e6, st.scale);
-      const disc = f.cw < 520 ? 0.355 : 0.41;
+      const disc = f.cw < 520 ? 0.375 : 0.41;
       if (f.changed || !st.sized || disc !== st.disc) { W.waves_resize(f.pw, f.ph, disc); st.disc = disc; st.skipPerf = true; st.marksDirty = true; st.sized = true; }
       st.k = f.k;
     }
@@ -287,6 +287,7 @@
       adapt();
     }
     if (st.marksDirty) { st.marksDirty = false; layoutMarks(); }
+    placeFronts();
     if (st.hideBusy) { st.hideBusy = false; $("waves-busy").hidden = true; }
     drawGlobe();
     drawChart();
@@ -360,7 +361,11 @@
       const tx = -50 + 50 * l.side * Math.sin(th), ty = -50 - 50 * Math.cos(th);
       html.push(`<div class="mark city" data-k="${l.k}" style="left:${x.toFixed(1)}px;top:${y.toFixed(1)}px;transform:translate(${tx.toFixed(0)}%,${ty.toFixed(0)}%)"><b>${R.esc(l.name)}</b></div>`);
     }
+    // Phase names that ride on the fronts.
+    for (const f of FRONTS) html.push(`<div class="mark front ${f.cls}" data-front="${f.name}" hidden>${f.name}</div>`);
     host.innerHTML = html.join("");
+    for (const f of FRONTS) f.el = host.querySelector(`[data-front="${f.name}"]`);
+    st.geo = { cx, cy, rad };
     for (const l of st.listeners) { l.mark = host.querySelector(`.city[data-k="${l.k}"]`); l.state = -1; }
     markHot();
     // Keep city labels inside the view, then drop any that would sit on an earlier
@@ -404,6 +409,36 @@
     shadow(i.sShadow, 178, -1, "s", "S shadow", `beyond ${i.sShadow.toFixed(0)}°`);
   }
 
+  // Where to name each wave: (field, radius of the ring it is found on, scan from and
+  // to, side). The first that is present wins, so a name follows its wave from the
+  // core out into the mantle. Found a few seconds ahead of the crest, in the dark.
+  const FRONTS = [
+    { name: "P", cls: "p", at: [[0, 4970, 0, 180, 1]], amin: 2e-5 },
+    { name: "S", cls: "s", at: [[1, 4970, 0, 180, -1]], amin: 8e-6 },
+    { name: "PKP", cls: "p", at: [[5, 5600, 180, 95, 1], [3, 2700, 180, 0, 1]], amin: 4e-6 },
+    { name: "PKIKP", cls: "p", at: [[4, 5600, 180, 95, -1], [2, 800, 180, 0, -1]], amin: 4e-6 },
+  ];
+  function placeFronts() {
+    if (!st.geo) return;
+    const { cx, cy, rad } = st.geo;
+    for (const f of FRONTS) {
+      if (!f.el) continue;
+      let shown = false;
+      if (st.opts & (f.name === "S" ? 4 : 2)) {
+        for (const [field, r, from, to, side] of f.at) {
+          const deg = W.waves_front_th(field, r, st.t + (f.name === "S" ? 22 : 14), f.amin, from, to);
+          if (!isFinite(deg)) continue;
+          const th = toRad(deg), k = r / 6371;
+          f.el.style.left = (cx + side * rad * k * Math.sin(th)).toFixed(1) + "px";
+          f.el.style.top = (cy - rad * k * Math.cos(th)).toFixed(1) + "px";
+          shown = true;
+          break;
+        }
+      }
+      f.el.hidden = !shown;
+    }
+  }
+
   // ----- hover on the cross-section -----
   function wireSection() {
     const tip = $("waves-tip");
@@ -423,7 +458,7 @@
       const ts = W.waves_probe(1, x, y);
       const sLine = vs > 0
         ? `S speed <b>${vs.toFixed(1)} km/s</b>`
-        : `S speed <b>0</b>: liquid, so no S waves`;
+        : `S speed <b>0</b>, no S waves in liquid`;
       const arr = `<span class="ember">P</span> passes at <b>${isFinite(tp) ? fmt(tp) : "—"}</b> · <span class="teal">S</span> at <b>${isFinite(ts) ? fmt(ts) : vs > 0 ? "never (shadow)" : "never"}</b>`;
       const box = $("waves-view").getBoundingClientRect(), cb = canvas.getBoundingClientRect();
       R.placeTip(tip, cb.left - box.left + x / st.k, cb.top - box.top + y / st.k,
@@ -598,14 +633,15 @@
     html.push(`<span class="zone p" style="left:${X((i.pShadow + i.pkpMin) / 2).toFixed(1)}px;top:${(y0 + 4).toFixed(1)}px">P shadow</span>`);
     html.push(`<span class="zone s" style="left:${X(Math.min(170, (i.sShadow + 180) / 2)).toFixed(1)}px;top:${(Y(T_MAX * 0.18)).toFixed(1)}px">S shadow</span>`);
     // Curve names where they are clearly separated.
-    const lab = (name, cls, d, field) => {
+    const lab = (name, cls, d, field, dy = -18) => {
       const sf = st.surf[field], idx = Math.round(d / 180 * (sf.n - 1));
       const t = sf.t[idx];
-      if (isFinite(t) && t < T_MAX * 0.95) html.push(`<span class="zone ${cls}" style="left:${X(d).toFixed(1)}px;top:${(Y(t) - 18).toFixed(1)}px">${name}</span>`);
+      if (isFinite(t) && t < T_MAX * 0.95) html.push(`<span class="zone ${cls}" style="left:${X(d).toFixed(1)}px;top:${(Y(t) + dy).toFixed(1)}px">${name}</span>`);
     };
     lab("P", "p", 55, "P");
     lab("S", "s", 50, "S");
-    lab("PKP", "p", 165, "PKP");
+    lab("PKP", "p", 168, "PKP");
+    lab("PKIKP", "p", 127, "PKIKP", 6);
     $("waves-axes").innerHTML = html.join("");
   }
 
@@ -656,7 +692,7 @@
       <div class="stat"><b class="teal">${i.sShadow.toFixed(1)}°</b><span>direct S stops; beyond, S shadow</span></div>
       <div class="stat"><b>${solved}</b><span>to solve travel times for this ${Math.round(i.depth)} km source</span></div>
       <div class="stat"><b>${R.num(i.nt * i.rings)}</b><span>grid nodes in the half-plane</span></div>`;
-    $("waves-story").innerHTML = `For this quake, at ${Math.round(i.depth)} km deep, direct P waves reach only ${i.pShadow.toFixed(0)}° around the planet before the core blocks them. They return beyond ${i.pkpMin.toFixed(0)}°, after crossing the core. Direct S waves stop at ${i.sShadow.toFixed(0)}° and never return, because the outer core is liquid.`;
+    $("waves-story").innerHTML = `For this quake, ${Math.round(i.depth)} km deep, direct P waves reach only ${i.pShadow.toFixed(0)}° from the source before the core blocks them. They return beyond ${i.pkpMin.toFixed(0)}°, after crossing the core. Direct S waves stop at ${i.sShadow.toFixed(0)}° and never return, because the outer core is liquid.`;
     $("waves-foot").innerHTML = `Method: travel times solve the eikonal equation |∇T| = 1/v by fast marching (Sethian 1996) on a ${i.nt} × ${i.rings} polar grid in the plane through the quake and the centre, second order where the grid allows, in seven stages: P and S in the mantle, P in the whole core and in the liquid outer core, then the core waves back up (where they leave the core comes from ray theory). Brightness is the ray density carried with the solution, times attenuation. Speeds simplified from ak135 (Kennett, Engdahl &amp; Buland 1995), outer core from iasp91 (Kennett &amp; Engdahl 1991). For a surface source the solver matches ray theory through the same model to within 1 s, and the iasp91 tables to within 1.5%. Rays: P on the right, S on the left. Cities sit at their true distance, east of the quake on the right.`;
   }
 })();
