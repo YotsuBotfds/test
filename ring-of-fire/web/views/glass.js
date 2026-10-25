@@ -4,7 +4,7 @@
   const $ = (id) => document.getElementById(id);
   // Same order as REGIONS in crates/globe/src/glass.rs; preset k is SLABS[k - 1].
   const SLABS = ["Tonga–Kermadec", "Japan–Kuril–Kamchatka", "Central Andes", "Izu–Bonin–Mariana", "Hindu Kush"];
-  const HOME_LON = 172; // the whole-planet wedge faces this longitude (HOME_LON in glass.rs)
+  const HOME_LON = 172; // the whole-planet wedge is centred on this longitude (HOME_LON in glass.rs)
   const R_KM = 6371;
   const FLY_S = 2.4;
   const COMPASS_SHORT = ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"];
@@ -15,6 +15,11 @@
     dragging: false, lastInput: -1e9, lastMove: 0, vel: [0, 0], statsAt: 0, flying: false,
   };
   let canvas, ctx, stage, tip, slabs = [], maxDepth = 0;
+
+  R.on("fail", () => {
+    $("glass-stage").insertAdjacentHTML("beforeend", `<p class="glass-fail">This browser would not run the WebAssembly renderer, so the glass Earth cannot be drawn here.</p>`);
+    document.querySelectorAll("#interior .ch-side button, #interior .ch-side input").forEach((b) => (b.disabled = true));
+  });
 
   R.view({
     id: "glass",
@@ -44,7 +49,10 @@
       const animate = !R.reduceMotion && (auto || flying || st.dragging);
       const moved = W.glass_tick(dt, auto ? 1 : 0, animate ? 1 : 0) === 1;
       if (flying !== st.flying) {
+        // A flight just started or ended: redraw once more and refresh the numbers.
         st.flying = flying;
+        st.dirty = true;
+        st.statsAt = 0;
         document.querySelectorAll("#glass-presets [aria-busy]").forEach((b) => b.removeAttribute("aria-busy"));
       }
       if (moved || animate || st.dirty) draw(now);
@@ -81,7 +89,7 @@
     $("glass-presets").innerHTML = rows.map((r, k) =>
       `<li><button type="button" data-preset="${k}" id="glass-preset-${k}"${k === 0 ? ' aria-current="true"' : ""}><span class="t">${R.esc(r.name)}<em>${R.esc(r.tag)}</em></span><span class="d">${R.esc(r.d)}</span></button></li>`).join("");
     const top = slabs[0];
-    $("glass-why-2").textContent += ` ${top.name} alone holds ${R.num(top.deep)} of the ${R.num(deep)} quakes 300 km or deeper in this catalogue, and none anywhere is deeper than ${R.num(Math.round(maxDepth))} km.`;
+    $("glass-why-2").textContent += ` ${top.name} alone holds ${R.num(top.deep)} of the ${R.num(deep)} quakes 300 km or deeper in this catalogue. None anywhere is deeper than ${R.num(Math.round(maxDepth))} km, just past the 660 km boundary where the mantle's minerals change structure.`;
     if (R.coarse) $("glass-hint").textContent = "drag to turn · pinch to zoom · tap a quake";
     syncExag();
     syncSweep();
@@ -110,7 +118,7 @@
     $("glass-exag-out").textContent = txt;
     $("glass-scale").textContent = v === 1 ? "depths at true scale" : `depths stretched ${txt}`;
     $("glass-exag-note").textContent = v === 1
-      ? "True scale. Even the deepest quakes sit in the outer tenth of the radius."
+      ? `True scale. The deepest quake is ${R.num(Math.round(maxDepth))} km down, ${Math.round(100 * maxDepth / R_KM)}% of the way to the centre.`
       : `${txt} near the surface, less with depth, so the core keeps its true size. The deepest quake, ${R.num(Math.round(maxDepth))} km down, is drawn at ${R.num(Math.round(R.W.glass_stretch(maxDepth)))} km.`;
   }
 

@@ -33,6 +33,7 @@
 #interior .glass-deepest b { font: 500 var(--t-s)/1.35 var(--f-body); color: var(--ink); }
 #interior .glass-deepest:hover { border-color: var(--rule-2); background: #0e1424; }
 #interior .stats .stat b { min-height: 1em; }
+#interior .glass-fail { position: absolute; inset: 0; display: grid; place-content: center; margin: 0; padding: 24px; text-align: center; color: var(--ink-2); font-size: var(--t-s); }
 @media (min-width: 901px) {
   /* The stage stays put while the notes column scrolls past it. */
   #interior .ch-stage {

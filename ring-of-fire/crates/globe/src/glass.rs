@@ -220,14 +220,31 @@ impl Slab {
     }
 }
 
-/// How the cut is shaped.
-#[derive(Clone, Copy, Debug)]
-pub enum Cut {
-    /// A wedge of `2 * half` radians around `centre`, hinged on `hinge` (through the centre).
-    Wedge { hinge: V, centre: V, half: f32 },
-    /// Half the planet, on the `normal` side of a plane through the centre; the
-    /// sweep turns the plane about `hinge` (which lies in it).
-    Slice { hinge: V, normal: V },
+/// The cut: the wedge of `2 * half` radians around `centre` (a unit vector at
+/// right angles to `hinge`), hinged on the axis `hinge` through the centre of
+/// the Earth. With `half` = 90 degrees it is half the planet, the side of the
+/// plane through the hinge that `centre` points to: a single cross-section.
+/// Every cut being a wedge lets a flight turn and open it smoothly.
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub struct Cut {
+    pub hinge: V,
+    pub centre: V,
+    pub half: f32,
+}
+
+impl Cut {
+    pub fn lerp(a: &Cut, b: &Cut, t: f32) -> Cut {
+        let hinge = cam::slerp(a.hinge, b.hinge, t);
+        let c = cam::slerp(a.centre, b.centre, t);
+        let c = v3::sub(c, v3::scale(hinge, v3::dot(c, hinge)));
+        let centre = if v3::len(c) < 1e-4 { cam::perp(hinge) } else { v3::norm(c) };
+        Cut { hinge, centre, half: a.half + (b.half - a.half) * t }
+    }
+
+    /// Whether this cut is a single plane.
+    pub fn is_slice(&self) -> bool {
+        self.half > std::f32::consts::FRAC_PI_2 - 1e-3
+    }
 }
 
 #[derive(Clone, Copy, Default)]
@@ -260,6 +277,8 @@ pub struct Glass {
     pub time: f32,
     pub cut_on: bool,
     pub cut: Cut,
+    /// A cut changing shape during a flight: from, to.
+    cut_anim: Option<(Cut, Cut)>,
     /// Turns the cut about its hinge, radians.
     pub sweep: f32,
     pub flags: u32,
@@ -359,7 +378,8 @@ impl Glass {
             cursor: world.quakes.last().map_or(0.0, |q| q.t as f32),
             time: 0.0,
             cut_on: true,
-            cut: Cut::Wedge { hinge: [0.0, 0.0, 1.0], centre: [1.0, 0.0, 0.0], half: 0.25 * std::f32::consts::PI },
+            cut: Cut { hinge: [0.0, 0.0, 1.0], centre: [1.0, 0.0, 0.0], half: 0.25 * std::f32::consts::PI },
+            cut_anim: None,
             sweep: 0.0,
             flags: GRATICULE,
             selected: None,
@@ -445,15 +465,14 @@ impl Glass {
         if !self.cut_on {
             return ([[0.0; 3]; 2], 0);
         }
-        match self.cut {
-            Cut::Wedge { hinge, centre, half } => {
-                let c = cam::rotate(centre, hinge, self.sweep);
-                let f1 = cam::rotate(c, hinge, -half);
-                let f2 = cam::rotate(c, hinge, half);
-                ([v3::norm(v3::cross(hinge, f1)), v3::norm(v3::scale(v3::cross(hinge, f2), -1.0))], 2)
-            }
-            Cut::Slice { hinge, normal } => ([v3::norm(cam::rotate(normal, hinge, self.sweep)), [0.0; 3]], 1),
+        let Cut { hinge, centre, half } = self.cut;
+        let c = cam::rotate(centre, hinge, self.sweep);
+        if self.cut.is_slice() {
+            return ([c, [0.0; 3]], 1);
         }
+        let f1 = cam::rotate(c, hinge, -half);
+        let f2 = cam::rotate(c, hinge, half);
+        ([v3::norm(v3::cross(hinge, f1)), v3::norm(v3::scale(v3::cross(hinge, f2), -1.0))], 2)
     }
 
     pub fn view(&self) -> View {
@@ -467,9 +486,9 @@ impl Glass {
         if k == 0 || k > self.slabs.len() {
             // Look into the wedge from one side, so one face is a backdrop for the
             // western Pacific slabs and the other is seen edge-on.
-            let back = v3::from_latlon(12.0, HOME_LON + 24.0);
+            let back = v3::from_latlon(12.0, HOME_LON + 30.0);
             let pose = Pose { target: [0.0; 3], axis: [0.0, 0.0, 1.0], back, dist: Self::fit_dist() };
-            let cut = Cut::Wedge { hinge: [0.0, 0.0, 1.0], centre: v3::from_latlon(0.0, HOME_LON), half: 0.25 * std::f32::consts::PI };
+            let cut = Cut { hinge: [0.0, 0.0, 1.0], centre: v3::from_latlon(0.0, HOME_LON), half: 0.25 * std::f32::consts::PI };
             return (pose, cut);
         }
         let s = &self.slabs[k - 1];
@@ -514,7 +533,7 @@ impl Glass {
         ));
         let pose = Pose { target, axis: up, back, dist };
         // The slice is the slab's own section plane (through the centre, along the dip).
-        let cut = Cut::Slice { hinge: s.dip, normal: v3::scale(s.strike, look) };
+        let cut = Cut { hinge: s.dip, centre: v3::scale(s.strike, look), half: std::f32::consts::FRAC_PI_2 };
         (pose, cut)
     }
 
@@ -523,12 +542,14 @@ impl Glass {
         let k = if k > self.slabs.len() { 0 } else { k };
         let (pose, cut) = self.preset_pose(k);
         self.preset = k;
-        self.cut = cut;
+        // Fold the current sweep into the cut, so the animation starts from what is on screen.
+        let from = Cut { centre: cam::rotate(self.cut.centre, self.cut.hinge, self.sweep), ..self.cut };
         self.sweep = 0.0;
+        self.cut = if dur > 0.0 { from } else { cut };
+        self.cut_anim = (dur > 0.0).then_some((from, cut));
         self.cam.min_dist = if k == 0 { 1.5 } else { 0.35 };
-        // The idle sway first swings towards the middle of the cut, and never so
-        // far that the cut faces turn away.
-        self.cam.sway_amp = if k == 0 { 0.26 } else { 0.22 };
+        // The idle sway is small enough that the cut keeps facing the viewer.
+        self.cam.sway_amp = if k == 0 { 0.2 } else { 0.22 };
         if k == 0 {
             self.focus.fill(1.0);
         } else {
@@ -546,7 +567,18 @@ impl Glass {
         if animate {
             self.time += dt;
         }
-        self.cam.tick(dt, auto)
+        let moved = self.cam.tick(dt, auto);
+        if let Some((a, b)) = self.cut_anim {
+            match self.cam.progress() {
+                Some(t) => self.cut = Cut::lerp(&a, &b, t),
+                None => {
+                    self.cut = b;
+                    self.cut_anim = None;
+                }
+            }
+            return true;
+        }
+        moved
     }
 
     /// Number of quakes at or before the cursor.
@@ -821,10 +853,12 @@ impl Glass {
         }
         let k = self.exag;
         let pal = &self.pal;
+        // The fainter depth guides only in a slab's section, where they make an axis.
+        let guide = if self.preset > 0 { 0.06 } else { 0.0 };
         let rings = [
-            (radius_at(k, GUIDES_KM[0]), pal.ring, 0.06),
-            (radius_at(k, GUIDES_KM[1]), pal.ring, 0.06),
-            (radius_at(k, GUIDES_KM[2]), pal.ring, 0.06),
+            (radius_at(k, GUIDES_KM[0]), pal.ring, guide),
+            (radius_at(k, GUIDES_KM[1]), pal.ring, guide),
+            (radius_at(k, GUIDES_KM[2]), pal.ring, guide),
             (radius_at(k, RINGS_KM[0]), pal.ring, 0.14),
             (radius_at(k, RINGS_KM[1]), pal.ring, 0.18),
             (RC, pal.cmb, 0.5),
@@ -857,7 +891,7 @@ impl Glass {
             let fa = if v3::dot(n, view.eye) > 0.0 { 1.0 } else { 0.3 };
             let u = cam::perp(n);
             let v = v3::cross(n, u);
-            for &(r, c, alpha) in &rings {
+            for &(r, c, alpha) in rings.iter().filter(|r| r.2 > 0.0) {
                 let steps = 220;
                 let mut pts = (0..=steps).map(|j| {
                     let th = j as f32 / steps as f32 * std::f32::consts::TAU;
@@ -1071,9 +1105,11 @@ impl Glass {
     /// Dip of the quakes below 70 km within `half_km` of the current slice, degrees
     /// (NaN for the whole-planet cut or when fewer than 12 quakes qualify).
     pub fn slice_dip(&self, half_km: f32) -> f32 {
-        let (Cut::Slice { hinge, normal }, true) = (self.cut, self.preset > 0) else { return f32::NAN };
+        if self.preset == 0 || !self.cut.is_slice() {
+            return f32::NAN;
+        }
         let s = &self.slabs[self.preset - 1];
-        let n = v3::norm(cam::rotate(normal, hinge, self.sweep));
+        let n = cam::rotate(self.cut.centre, self.cut.hinge, self.sweep);
         section_dip(self.world, &s.idx, n, s.dip, half_km, self.cursor)
     }
 }

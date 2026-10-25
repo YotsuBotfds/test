@@ -119,10 +119,19 @@ fn slab_geometry_matches_the_known_subduction_zones() {
     let hk = &g.slabs[4];
     assert_eq!(hk.deep300, 0);
     assert!(hk.dip_deg > 55.0, "Hindu Kush dip {}", hk.dip_deg);
-    // The live slice reports the same dip as the list at the start.
+    // The live slice reports the same dip as the list at the start, also after a flight.
     let mut g = Glass::new();
+    for k in 1..=REGIONS.len() {
+        g.preset(k, 0.0);
+        assert!((g.slice_dip(150.0) - g.slabs[k - 1].dip_deg).abs() < 0.01, "{}: {} vs {}", g.slabs[k - 1].name, g.slice_dip(150.0), g.slabs[k - 1].dip_deg);
+    }
+    g.preset(0, 0.0);
+    g.preset(3, 1.0);
+    for _ in 0..40 {
+        g.tick(0.05, false, false);
+    }
+    assert!((g.slice_dip(150.0) - g.slabs[2].dip_deg).abs() < 0.01);
     g.preset(1, 0.0);
-    assert!((g.slice_dip(150.0) - g.slabs[0].dip_deg).abs() < 0.01);
     let s = &g.slabs[0];
     assert!(section_dip(g.world, &s.idx, s.strike, s.dip, 150.0, 0.0).is_nan());
 }

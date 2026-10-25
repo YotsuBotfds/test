@@ -78,6 +78,19 @@ fn main() {
         let name = if k == 0 { "Whole planet" } else { g.slabs[k - 1].name };
         println!("{path}: {name}, {} quakes drawn, {ms:.1} ms", g.stats.shown);
     }
+    // Mid-flight from the whole planet to Tonga: the cut turns and opens.
+    for (name, t) in [("flight-a", 0.7), ("flight-b", 1.2), ("flight-c", 1.7)] {
+        g.preset(0, 0.0);
+        g.render();
+        g.preset(1, 2.4);
+        let mut done = 0.0;
+        while done < t {
+            g.tick(1.0 / 30.0, false, true);
+            done += 1.0 / 30.0;
+        }
+        g.render();
+        png(&format!("{dir}/{name}.png"), w, h, &g.frame.px);
+    }
     g.preset(0, 0.0);
     g.cut_on = false;
     g.render();

@@ -287,11 +287,14 @@ pub fn fsin(x: f32) -> f32 {
 /// Slowly churning texture on (or inside) the core, roughly -1..1.
 #[inline]
 pub fn churn(p: V, t: f32) -> f32 {
-    let (x, y, z) = (p[0] * 4.2, p[1] * 4.2, p[2] * 4.2);
-    let w1 = fsin(x * 1.7 + z * 0.9 + t * 0.31 + 1.6 * fsin(y * 2.3 - t * 0.22));
-    let w2 = fsin(y * 1.9 - z * 1.1 - t * 0.27 + 1.6 * fsin(x * 2.1 + z * 0.7 + t * 0.17));
-    let fine = fsin((x + w2) * 3.1 + (y + w1) * 2.7 + z * 2.3 + t * 0.6);
-    (w1 + w2) * 0.34 + fine * 0.26
+    // Three warped waves along different directions; where they interfere they
+    // make drifting cells rather than stripes.
+    let d = |a: [f32; 3]| p[0] * a[0] + p[1] * a[1] + p[2] * a[2];
+    let (u, v, w) = (d([0.8, 0.5, -0.33]) * 4.6, d([-0.42, 0.85, 0.32]) * 4.6, d([0.3, -0.25, 0.92]) * 4.6);
+    let w1 = fsin(u + t * 0.31 + 1.5 * fsin(v * 1.3 - t * 0.21));
+    let w2 = fsin(v - t * 0.26 + 1.5 * fsin(w * 1.3 + t * 0.17));
+    let w3 = fsin(w + t * 0.22 + 1.5 * fsin(u * 1.3 - t * 0.13));
+    (w1 + w2 + w3) * 0.36
 }
 
 /// Colour lookup table over 0..1, interpolated in OKLab-free linear RGB from stops.

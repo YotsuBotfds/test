@@ -104,6 +104,11 @@ impl Pose {
     }
 }
 
+/// Cubic ease in and out.
+fn ease(k: f32) -> f32 {
+    if k < 0.5 { 4.0 * k * k * k } else { 1.0 - (-2.0 * k + 2.0).powi(3) / 2.0 }
+}
+
 pub struct Cam {
     pub pose: Pose,
     fly: Option<Fly>,
@@ -125,6 +130,8 @@ struct Fly {
     to: Pose,
     t: f32,
     dur: f32,
+    /// Pull back mid-flight by this fraction, so long moves keep the planet in view.
+    bump: f32,
 }
 
 impl Cam {
@@ -134,6 +141,11 @@ impl Cam {
 
     pub fn flying(&self) -> bool {
         self.fly.is_some()
+    }
+
+    /// Eased progress of a running flight, 0..1 (None when not flying).
+    pub fn progress(&self) -> Option<f32> {
+        self.fly.as_ref().map(|f| ease((f.t / f.dur).min(1.0)))
     }
 
     /// Where a running flight will end (or the current pose).
@@ -181,7 +193,10 @@ impl Cam {
             self.fly = None;
             return;
         }
-        self.fly = Some(Fly { from: self.pose, to, t: 0.0, dur });
+        let turn = v3::angle(self.pose.back, to.back) / std::f32::consts::PI;
+        let shift = v3::len(v3::sub(self.pose.target, to.target));
+        let bump = (0.5 * turn + 0.6 * shift).min(0.9);
+        self.fly = Some(Fly { from: self.pose, to, t: 0.0, dur, bump });
     }
 
     /// Advance by `dt` seconds. `auto` turns on the idle orbit. Returns whether the pose moved.
@@ -190,8 +205,9 @@ impl Cam {
         if let Some(f) = &mut self.fly {
             f.t += dt;
             let k = (f.t / f.dur).min(1.0);
-            let e = if k < 0.5 { 4.0 * k * k * k } else { 1.0 - (-2.0 * k + 2.0).powi(3) / 2.0 };
+            let e = ease(k);
             self.pose = Pose::lerp(&f.from, &f.to, e);
+            self.pose.dist *= 1.0 + f.bump * (std::f32::consts::PI * e).sin();
             if k >= 1.0 {
                 self.pose = f.to;
                 self.fly = None;
@@ -210,7 +226,7 @@ impl Cam {
                 // Back and forth over a 34 s period.
                 let om = std::f32::consts::TAU / 34.0;
                 self.phase += dt;
-                -self.sway_amp * om * (om * self.phase).cos()
+                self.sway_amp * om * (om * self.phase).cos()
             } else {
                 0.09
             };
