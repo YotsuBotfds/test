@@ -740,7 +740,7 @@ const ROF = (() => {
       wireControls();
       wireGlobe();
       wireTimeline();
-      R.sized($("sf-wrap"), resize);
+      R.sized($("sf-wrap"), () => { st.needResize = true; });
       R.sized($("sf-tl-plot"), resizeTimeline);
       resize();
       resizeTimeline();
@@ -766,6 +766,8 @@ const ROF = (() => {
         st.yaw -= 4 * dt / Math.sqrt(st.zoom);
         st.dirty = true;
       }
+      // Resize at the start of a frame and draw straight after: a resized canvas is blank.
+      if (st.needResize) { st.needResize = false; resize(); }
       if (st.dirty) draw();
       if (st.tlDirty) drawTimeline();
     },
@@ -860,7 +862,7 @@ const ROF = (() => {
     const old = st.scale;
     if (st.perf > 16 && st.scale > 0.45) st.scale = Math.max(0.45, st.scale * 0.85);
     else if (st.perf < 7 && st.scale < 1) st.scale = Math.min(1, st.scale / 0.85);
-    if (st.scale !== old) resize();
+    if (st.scale !== old) st.needResize = true;
   }
 
   function flyTo(lat, lon, zoom) {
