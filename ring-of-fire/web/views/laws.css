@@ -1,1 +1,134 @@
-/* 06 Laws: styles for this instrument only. Prefix every selector with #laws. */
+/* ---------- 06 Laws: a header, then A and B side by side, then the energy map full width ---------- */
+#laws .lw-pair {
+  max-width: var(--max); margin: 0 auto;
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 40px 28px;
+}
+#laws .lw-fig { display: flex; flex-direction: column; gap: 12px; min-width: 0; margin: 0; }
+#laws .lw-head .eyebrow { margin: 0 0 6px; }
+#laws .lw-h {
+  font: 700 var(--t-l)/1.2 var(--f-body); margin: 0; color: var(--ink); text-wrap: balance; min-height: 2.4em;
+}
+#laws .lw-h b { color: var(--ember); font-weight: 600; font-variant-numeric: normal; }
+#laws .lw-key { display: flex; flex-wrap: wrap; gap: 4px 16px; font: 400 var(--t-xs)/1.4 var(--f-body); color: var(--ink-2); }
+#laws .lw-key span { display: inline-flex; align-items: center; gap: 7px; }
+#laws .lw-key i { display: inline-block; flex: none; }
+#laws .k-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--ink); }
+#laws .k-bar { width: 5px; height: 11px; border-radius: 1px 1px 0 0; background: color-mix(in srgb, var(--teal) 55%, var(--well)); }
+#laws .k-line { width: 16px; height: 2px; border-radius: 1px; background: var(--ember); }
+#laws .k-line.k-thin { height: 1px; background: var(--ink-2); }
+#laws .k-line.k-teal { height: 1px; background: var(--teal); }
+#laws .lw-read {
+  margin: 0; min-height: 2.9em; font: 400 var(--t-xs)/1.45 var(--f-data); color: var(--ink-3);
+  font-variant-numeric: tabular-nums;
+}
+#laws .lw-read b { color: var(--ink); font-weight: 500; }
+#laws .lw-read em { font-style: normal; color: var(--ink-2); }
+
+#laws .lw-plot {
+  position: relative; height: clamp(380px, 33vw, 470px); min-width: 0;
+  background: var(--well); border: 1px solid var(--rule); border-radius: 4px; overflow: hidden;
+}
+#laws .lw-canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; touch-action: pan-y; cursor: crosshair; }
+#laws .lw-tm .lw-canvas { cursor: pointer; }
+#laws .lw-marks { position: absolute; inset: 0; pointer-events: none; }
+#laws .lw-marks .mark { font-size: var(--t-2xs); color: var(--ink-3); line-height: 1; }
+#laws .lw-marks .xt { transform: translateX(-50%); }
+#laws .lw-marks .xt.end { transform: translateX(-100%); }
+#laws .lw-marks .yt { transform: translate(-100%, -50%); }
+#laws .lw-marks .ttl { color: var(--ink-2); font-size: var(--t-2xs); letter-spacing: 0.02em; }
+#laws .lw-marks .ttl.r { transform: translateX(-100%); }
+#laws .lw-marks .lab { color: var(--ink-2); font-size: var(--t-2xs); }
+#laws .lw-marks .lab.em { color: var(--ink); }
+#laws .lw-marks .lab.up { transform: translateY(-100%); }
+#laws .lw-marks .lab.r { transform: translateX(-100%); }
+#laws .lw-marks .lab.ur { transform: translate(-100%, -100%); }
+#laws .lw-marks .lab.c { transform: translateX(-50%); }
+#laws .lw-marks .lab.cu { transform: translate(-50%, -100%); }
+#laws .lw-empty {
+  position: absolute; left: 50%; top: 34%; transform: translate(-50%, -50%); max-width: 80%;
+  text-align: center; font: 400 var(--t-s)/1.5 var(--f-body); color: var(--ink-2);
+  background: color-mix(in srgb, var(--well) 88%, transparent); border: 1px solid var(--rule); border-radius: 4px; padding: 10px 14px; pointer-events: none;
+}
+
+#laws .lw-controls { display: grid; gap: 12px; }
+#laws .lw-seg button { padding: 8px 6px; }
+#laws .lw-mc { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 14px; align-items: end; }
+#laws .lw-auto { padding: 6px 12px; font-size: var(--t-xs); }
+#laws .lw-seqs .eyebrow { margin-bottom: 8px; }
+#laws .lw-seqs .chip { font-size: var(--t-xs); padding: 4px 10px 4px 8px; }
+#laws .lw-seqs .chip b { font: 500 var(--t-xs)/1 var(--f-data); color: var(--ink); }
+#laws .lw-notes { display: grid; gap: 14px; margin-top: 6px; }
+#laws .lw-notes .stats { grid-template-columns: repeat(auto-fit, minmax(118px, 1fr)); }
+#laws .stat b { font-variant-numeric: normal; white-space: nowrap; }
+#laws .stat b small { font: 500 var(--t-m)/1 var(--f-display); color: var(--ink-2); margin-left: 2px; }
+#laws .prose + .prose { margin-top: 0; }
+#laws .prose em { font-style: normal; color: var(--ink); }
+
+/* Energy map */
+#laws .lw-wide { max-width: var(--max); margin: 64px auto 0; }
+#laws .lw-en { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 28px; align-items: start; }
+#laws .lw-en-main { display: grid; gap: 12px; min-width: 0; }
+#laws .lw-tm { height: clamp(420px, 44vw, 620px); background: var(--void); }
+#laws .lw-en-legend { display: flex; flex-wrap: wrap; gap: 12px 32px; align-items: flex-start; }
+#laws .lw-ramp-wrap { width: min(100%, 280px); }
+#laws .lw-dust-key { margin: 0; flex: 1 1 260px; display: flex; gap: 10px; align-items: flex-start; font-size: var(--t-xs); line-height: 1.5; color: var(--ink-3); }
+#laws .lw-dust-key i {
+  flex: none; width: 26px; height: 16px; border-radius: 2px; margin-top: 1px;
+  background:
+    radial-gradient(circle at 20% 30%, var(--d0) 0 0.7px, transparent 1.2px),
+    radial-gradient(circle at 60% 20%, var(--d0) 0 0.7px, transparent 1.2px),
+    radial-gradient(circle at 80% 55%, var(--d70) 0 0.7px, transparent 1.2px),
+    radial-gradient(circle at 35% 70%, var(--d70) 0 0.7px, transparent 1.2px),
+    radial-gradient(circle at 70% 85%, var(--d300) 0 0.7px, transparent 1.2px),
+    var(--void);
+}
+#laws .lw-en-side { display: grid; gap: 20px; min-width: 0; }
+#laws .lw-en-stats { grid-template-columns: minmax(0, 1fr); gap: 14px; }
+#laws .lw-en-stats .stat b { font-size: 2.5rem; }
+#laws .lw-en-stats .stat:first-child b { font-size: 3.5rem; }
+#laws [hidden] { display: none !important; }
+#laws .lw-table caption { caption-side: top; text-align: left; padding: 0 0 8px; font: 400 var(--t-xs)/1.5 var(--f-body); color: var(--ink-3); }
+#laws .lw-table { width: 100%; border-collapse: collapse; font: 400 var(--t-xs)/1.35 var(--f-data); font-variant-numeric: tabular-nums; }
+#laws .lw-table th, #laws .lw-table td { padding: 7px 0; border-bottom: 1px solid var(--rule); text-align: left; }
+#laws .lw-table th { color: var(--ink-3); font-weight: 400; }
+#laws .lw-table td { color: var(--ink-2); }
+#laws .lw-table td:first-child { color: var(--ink); }
+#laws .lw-table .num { text-align: right; }
+#laws .lw-table tbody tr { cursor: default; }
+#laws .lw-table tbody tr:hover, #laws .lw-table tbody tr:focus-visible { background: color-mix(in srgb, var(--rule) 60%, var(--void)); }
+#laws .lw-table tbody tr:focus-visible { outline: 2px solid var(--ember); outline-offset: -2px; }
+#laws .lw-table td.hot { color: var(--ember); }
+
+/* Labels laid over treemap tiles */
+#laws .lw-tl {
+  position: absolute; pointer-events: none; overflow: hidden; padding: 6px 8px;
+  font: 400 var(--t-2xs)/1.25 var(--f-data); color: var(--ink);
+  text-shadow: 0 0 3px color-mix(in srgb, var(--void) 90%, transparent), 0 0 1px var(--void);
+}
+#laws .lw-tl b { display: block; font: 600 var(--t-s)/1.1 var(--f-display); letter-spacing: 0.03em; }
+#laws .lw-tl span { display: block; color: color-mix(in srgb, var(--ink) 82%, transparent); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+#laws .lw-tl.hero { padding: clamp(12px, 2vw, 26px); }
+#laws .lw-tl.hero b { font: 800 clamp(3rem, 7.5vw, 6.5rem)/0.9 var(--f-display); letter-spacing: 0.01em; }
+#laws .lw-tl.hero span { font: 400 var(--t-s)/1.45 var(--f-body); white-space: normal; max-width: 46ch; margin-top: 8px; color: var(--ink); }
+#laws .lw-tl.dust {
+  padding: 3px 6px; margin: 5px; background: color-mix(in srgb, var(--void) 80%, transparent); border-radius: 2px; overflow: visible;
+  color: var(--ink-2); text-shadow: none;
+}
+#laws .lw-tl.dust b { font: 500 var(--t-2xs)/1.3 var(--f-data); letter-spacing: 0; color: var(--ink); }
+#laws .tip .lw-tip-e { margin-top: 6px; padding-top: 6px; border-top: 1px solid var(--rule-2); font: 400 var(--t-xs)/1.5 var(--f-data); color: var(--ink-2); }
+#laws .tip .lw-tip-e b { color: var(--ink); font-weight: 500; }
+
+@media (max-width: 900px) {
+  #laws .lw-pair { grid-template-columns: minmax(0, 1fr); gap: 56px; }
+  #laws .lw-plot { height: auto; aspect-ratio: 1 / 1.08; }
+  #laws .lw-tm { aspect-ratio: 1 / 1.15; }
+  #laws .lw-en { grid-template-columns: minmax(0, 1fr); }
+  #laws .lw-wide { margin-top: 56px; }
+  #laws .lw-h { min-height: 0; }
+  #laws .lw-seg button { font-size: var(--t-2xs); padding: 8px 2px; }
+  #laws .lw-en-stats { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+  #laws .lw-en-stats .stat b, #laws .lw-en-stats .stat:first-child b { font-size: var(--t-xl); }
+}
+@media (prefers-reduced-motion: reduce) {
+  #laws * { transition: none !important; }
+}
